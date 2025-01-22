@@ -47,6 +47,7 @@ From Stdlib Require Export micromega.Lqa.
 From Stdlib Require Export micromega.Lra.
 From Stdlib Require Export micromega.OrderedRing.
 From Stdlib Require Export micromega.Psatz.
+From Stdlib Require Export micromega.MMicromega.
 From Stdlib Require Export micromega.QMicromega.
 From Stdlib Require Export micromega.RMicromega.
 From Stdlib Require Export micromega.Refl.
@@ -57,8 +58,10 @@ From Stdlib Require Export micromega.ZArith_hints.
 From Stdlib Require Export micromega.ZCoeff.
 From Stdlib Require Export micromega.ZMicromega.
 From Stdlib Require Export micromega.Zify.
+From Stdlib Require Export micromega.Tify.
 From Stdlib Require Export micromega.ZifyBool.
 From Stdlib Require Export micromega.ZifyClasses.
+From Stdlib Require Export micromega.TifyClasses.
 From Stdlib Require Export micromega.ZifyComparison.
 From Stdlib Require Export micromega.ZifyInst.
 From Stdlib Require Export micromega.ZifyN.
@@ -67,6 +70,8 @@ From Stdlib Require Export micromega.ZifyPow.
 From Stdlib Require Export micromega.ZifySint63.
 From Stdlib Require Export micromega.ZifyUint63.
 From Stdlib Require Export micromega.Ztac.
+From Stdlib Require Export micromega.isZ.
+From Stdlib Require Export micromega.Rify.
 From Stdlib Require Export funind.FunInd.
 From Stdlib Require Export funind.Recdef.
 From Stdlib Require Export extraction.ExtrHaskellBasic.

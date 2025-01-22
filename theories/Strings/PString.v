@@ -12,9 +12,9 @@ From Stdlib Require Import ZArith.
 #[local] Open Scope list_scope.
 #[local] Arguments to_Z _/ : simpl nomatch.
 
-#[local] Instance Op_max_length : ZifyClasses.CstOp max_length :=
+#[local] Instance Op_max_length : TifyClasses.CstOp max_length :=
   { TCst := 16777211%Z ; TCstInj := eq_refl }.
-Add Zify CstOp Op_max_length.
+Add Tify CstOp Op_max_length.
 
 #[local] Ltac case_if :=
   lazymatch goal with
