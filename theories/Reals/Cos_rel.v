@@ -12,7 +12,7 @@ From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Rtrigo_def.
-From Stdlib Require Import Lia Lra.
+From Stdlib Require Import Lia.
 From Stdlib Require Import Arith.Factorial.
 Local Open Scope R_scope.
 
@@ -77,7 +77,7 @@ replace
              y ^ (2 * (S n - l)))) (pred (S n - k))) (
     pred (S n))) with (Reste1 x y (S n)).
 2:{ unfold Reste1; apply sum_eq; intros.
-    apply sum_eq; intros. nra. }
+    apply sum_eq; intros. ring.  }
 replace
  (sum_f_R0
     (fun k:nat =>
@@ -89,7 +89,7 @@ replace
              y ^ (2 * (n - l) + 1))) (pred (n - k))) (
     pred n)) with (Reste2 x y n).
 2:{ unfold Reste2; apply sum_eq; intros.
-    apply sum_eq; intros. nra. }
+    apply sum_eq; intros. ring. }
 replace
  (sum_f_R0
     (fun k:nat =>
@@ -153,7 +153,7 @@ replace
   unfold C1.
   apply sum_eq; intros.
   induction  i as [| i Hreci].
-  { unfold C; simpl. nra. }
+  { unfold C; simpl. field. }
   unfold sin_nnn.
   rewrite <- Rmult_plus_distr_l.
   apply Rmult_eq_compat_l.
