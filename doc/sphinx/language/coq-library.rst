@@ -29,8 +29,8 @@ These directories belong to the initial load path of the system, and
 the modules they provide are compiled at installation time. So they
 are directly accessible with the command ``Require``.
 
-The different modules of the Coq standard library are documented
-online at https://coq.inria.fr/stdlib/.
+The different modules of the Rocq standard library are documented
+online at https://rocq-prover.org/stdlib/.
 
 Peano’s arithmetic (nat)
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -250,7 +250,7 @@ Floats library
 ~~~~~~~~~~~~~~
 
 The standard library has a small ``Floats`` module for accessing
-processor floating-point operations through the Coq kernel.
+processor floating-point operations through the Rocq kernel.
 However, while this module supports computation and has a bit-level
 specification, it doesn't include elaborate theorems, such as a link
 to real arithmetic or various error bounds. To do proofs by
