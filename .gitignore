@@ -59,8 +59,6 @@ config/coq_config.py
 config/dune.c_flags
 ide/coqide/config.ml
 dev/ocamldebug-coq
-coqdoc.sty
-coqdoc.css
 time-of-build*.log
 time-of-build*.log2
 time-of-build*.log3
