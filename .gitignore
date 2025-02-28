@@ -166,3 +166,5 @@ user-contrib/Ltac2/dune
 
 .wrappers
 rocq-stdlib-doc.opam
+doc/stdlib/Library.fdb_latexmk
+doc/stdlib/Library.fls
