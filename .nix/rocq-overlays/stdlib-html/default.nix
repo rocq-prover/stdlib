@@ -1,6 +1,6 @@
-{ graphviz, stdlib, coqPackages }:
+{ graphviz, stdlib, rocqPackages }:
 
-coqPackages.lib.overrideCoqDerivation {
+rocqPackages.lib.overrideRocqDerivation {
   pname = "stdlib-html";
 
   overrideBuildInputs = stdlib.buildInputs ++ [ graphviz ];

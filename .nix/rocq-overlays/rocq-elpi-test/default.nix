@@ -1,20 +1,19 @@
-{ mkCoqDerivation, coq-elpi, version ? null }:
+{ mkRocqDerivation, rocq-elpi, version ? null }:
 
-mkCoqDerivation {
-  pname = "coq-elpi-test";
+mkRocqDerivation {
+  pname = "rocq-elpi-test";
   repo = "coq-elpi";
   owner = "LPCIC";
   inherit version;
 
-  propagatedBuildInputs = [ coq-elpi ];
+  propagatedBuildInputs = [ rocq-elpi ];
 
   useDune = true;
 
   buildPhase = ''
     export DUNE_build_FLAGS="--release"
-    make test-core
-    make examples
-    make test-apps
+    make -j1 all-tests
+    make -j1 all-examples
   '';
 
   installPhase = ''
