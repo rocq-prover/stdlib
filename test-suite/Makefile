@@ -41,7 +41,7 @@ coqtop := rocq repl -q -test-mode -R prerequisite TestSuite
 
 coqc_interactive := $(coqc) -test-mode
 
-COQLIB_NOT_FOUND := $(shell (echo "From Stdlib Require Reals." > tmp_test.v && coqc tmp_test.v > /dev/null 2>&1 && rm -f tmp_test.* && echo "false") || (rm -f tmp_test.* && echo "true"))
+COQLIB_NOT_FOUND := $(shell (echo "From Stdlib Require Reals." > tmp_test.v && rocq c tmp_test.v > /dev/null 2>&1 && rm -f tmp_test.* && echo "false") || (rm -f tmp_test.* && echo "true"))
 
 VERBOSE?=
 SHOW := $(if $(VERBOSE),@true,@echo)
