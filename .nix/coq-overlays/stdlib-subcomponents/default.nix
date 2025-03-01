@@ -1,11 +1,11 @@
 # CI job to test that we don't break the subcomponent structure of the stdlib,
-# as described in the graph doc/stdlib/depends
+# as described in the graph doc/stdlib/depends.dot
 
 { coq, stdlib, coqPackages }:
 
 let
   # stdlib subcomponents with their dependencies
-  # when editing this, ensure to keep doc/stdlib/depends in sync
+  # when editing this, ensure to keep doc/stdlib/depends.dot in sync
   components = {
     "corelib-wrapper" = [ ];
     "logic" = [ ];
