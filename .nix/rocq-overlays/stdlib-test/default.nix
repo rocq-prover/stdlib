@@ -1,18 +1,13 @@
-{ rsync, coq, stdlib, coqPackages }:
+{ rsync, rocq-core, stdlib, rocqPackages }:
 
-coqPackages.lib.overrideCoqDerivation {
+rocqPackages.lib.overrideRocqDerivation {
 
   pname = "stdlib-test";
 
   propagatedBuildInputs = [ rsync stdlib ]
-    ++ (with coq.ocamlPackages; [ ocaml findlib zarith ]);
+    ++ (with rocq-core.ocamlPackages; [ ocaml findlib zarith ]);
 
   useDune = false;
-
-  configurePhase = ''
-    export ROCQPATH=''${COQPATH}
-    unset COQPATH
-  '';
 
   buildPhase = ''
     cd test-suite

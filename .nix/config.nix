@@ -116,7 +116,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "coqprime"
       "coquelicot"
       "coqutil"
-      "coq-elpi-test"
+      "coq-elpi"
       "ExtLib"
       "coq-hammer"
       "coq-hammer-tactics"
@@ -143,10 +143,18 @@ with builtins; with (import <nixpkgs> {}).lib;
       "json"
       "kami"
       "mathcomp"
+      "mathcomp-algebra"
+      "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-bigenough"
+      "mathcomp-character"
       "mathcomp-classical"
+      "mathcomp-field"
+      "mathcomp-fingroup"
       "mathcomp-finmap"
+      "mathcomp-reals"
+      "mathcomp-solvable"
+      "mathcomp-ssreflect"
       "mathcomp-test"
       "mathcomp-zify"
       "math-classes"
@@ -188,32 +196,39 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metacoq"
       "metacoq-test"
     ];
-    common-bundles = listToAttrs (forEach master (p:
+    coq-common-bundles = listToAttrs (forEach master (p:
       { name = p; value.override.version = "master"; }))
     // listToAttrs (forEach coq-master (p:
       { name = p; value.override.version = "coq-master"; }))
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
+      coq-elpi.override.elpi-version = "2.0.7";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
-      stdlib-html.job = true;
       stdlib-refman-html.job = true;
+    };
+    common-bundles = {
+      bignums.override.version = "master";
+      rocq-elpi.override.version = "master";
+      rocq-elpi.override.elpi-version = "2.0.7";
+      rocq-elpi-test.override.version = "master";
+      stdlib-html.job = true;
       stdlib-test.job = true;
       stdlib-subcomponents.job = true;
     };
   in {
-    "rocq-master".coqPackages = common-bundles // {
+    "rocq-master" = { rocqPackages = common-bundles // {
+      rocq-core.override.version = "master";
+    }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
-      coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "2.0.7";
-    };
-    "rocq-9.0".coqPackages = common-bundles // {
-      coq.override.version = "V9.0+rc1";
-      coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "2.0.7";
+    }; };
+    "rocq-9.0" = { rocqPackages = common-bundles // {
+      rocq-core.override.version = "9.0";
+    }; coqPackages = coq-common-bundles // {
+      coq.override.version = "9.0";
       # plugin pins, from v9.0 branch of Coq
       aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
@@ -240,6 +255,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
-    };
+      compcert.job = false;  # broken
+    }; };
   };
 }

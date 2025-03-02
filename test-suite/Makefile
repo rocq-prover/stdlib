@@ -41,7 +41,7 @@ coqtop := rocq repl -q -test-mode -R prerequisite TestSuite
 
 coqc_interactive := $(coqc) -test-mode
 
-COQLIB_NOT_FOUND := $(shell (echo "From Stdlib Require Reals." > tmp_test.v && coqc tmp_test.v > /dev/null 2>&1 && rm -f tmp_test.* && echo "false") || (rm -f tmp_test.* && echo "true"))
+COQLIB_NOT_FOUND := $(shell (echo "From Stdlib Require Reals." > tmp_test.v && rocq c tmp_test.v > /dev/null 2>&1 && rm -f tmp_test.* && echo "false") || (rm -f tmp_test.* && echo "true"))
 
 VERBOSE?=
 SHOW := $(if $(VERBOSE),@true,@echo)
@@ -271,6 +271,15 @@ $(addsuffix .log,$(wildcard bugs/*.v success/*.v stm/*.v micromega/*.v modules/*
 	} > "$(shell dirname $<)/$(shell basename $< .v).chk.log"; fi
 	$(HIDE)$(call REPORT_TIMER,$(patsubst %.v.log,%.chk.log,$@))
 
+ROCQ_VERSION=$(shell rocq -print-version | cut -d+ -f1 | cut -d. -f1,2)
+
+output_for=`\
+	if [ -e $(1).out.$(ROCQ_VERSION) ]; then\
+		echo $(1).out.$(ROCQ_VERSION);\
+	else\
+		echo $(1).out;\
+	fi`
+
 $(addsuffix .log,$(wildcard output/*.v)): %.v.log: %.v %.out $(PREREQUISITELOG)
 	@echo "TEST      $< $(call get_coq_prog_args_in_parens,"$<")"
 	$(HIDE){ \
@@ -286,7 +295,7 @@ $(addsuffix .log,$(wildcard output/*.v)): %.v.log: %.v %.out $(PREREQUISITELOG)
 	    | grep -a -v "Skipping rcfile loading" \
 	    | grep -a -v "^<W>" \
 	    > $$output; \
-	  diff -a -u --strip-trailing-cr $*.out $$output 2>&1; R=$$?; times; \
+	  diff -a -u --strip-trailing-cr $(call output_for,$*) $$output 2>&1; R=$$?; times; \
 	  if [ $$R = 0 ]; then \
 	    echo $(log_success); \
 	    echo "    $<...Ok"; \

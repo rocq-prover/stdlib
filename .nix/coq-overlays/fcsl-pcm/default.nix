@@ -1,4 +1,4 @@
-{ lib, mkCoqDerivation, coq, mathcomp-algebra, version ? null }:
+{ lib, mkCoqDerivation, coq, mathcomp-algebra, stdlib, version ? null }:
 
 mkCoqDerivation {
   pname = "fcsl-pcm";
@@ -6,5 +6,5 @@ mkCoqDerivation {
   inherit version;
   defaultVersion = null;  # no released version
 
-  propagatedBuildInputs = [ mathcomp-algebra ];
+  propagatedBuildInputs = [ mathcomp-algebra stdlib ];
 }

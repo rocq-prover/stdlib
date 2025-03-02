@@ -1,11 +1,11 @@
 # CI job to test that we don't break the subcomponent structure of the stdlib,
-# as described in the graph doc/stdlib/depends
+# as described in the graph doc/stdlib/depends.dot
 
-{ coq, stdlib, coqPackages }:
+{ rocq-core, stdlib, rocqPackages }:
 
 let
   # stdlib subcomponents with their dependencies
-  # when editing this, ensure to keep doc/stdlib/depends in sync
+  # when editing this, ensure to keep doc/stdlib/depends.dot in sync
   components = {
     "corelib-wrapper" = [ ];
     "logic" = [ ];
@@ -54,7 +54,7 @@ let
   stdlib_ = component: let
     pname = "stdlib-${component}";
     stdlib-deps = map stdlib_ components.${component};
-    in coqPackages.lib.overrideCoqDerivation ({
+    in rocqPackages.lib.overrideRocqDerivation ({
       inherit pname;
       propagatedBuildInputs = stdlib-deps;
       useDune = false;
@@ -64,7 +64,7 @@ let
         make ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} build-${component}
       '';
       installPhase = ''
-        make COQLIBINSTALL=$out/lib/coq/${coq.coq-version}/user-contrib install-${component}
+        make COQLIBINSTALL=$out/lib/coq/${rocq-core.rocq-version}/user-contrib install-${component}
       '';
     }) stdlib;
 in stdlib_ "all"
