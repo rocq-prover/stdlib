@@ -117,6 +117,7 @@ Notation "'}'" := (Byte.x7d) (only printing).
 Notation "'~'" := (Byte.x7e) (only printing, at level 0).
 
 Global Set Printing Width 300.
+Set Printing Depth 100.
 
 Goal False.
   let cc := eval cbv in allBytes in idtac cc.
