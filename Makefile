@@ -1,5 +1,7 @@
 DUNE=dev/with-rocq-wrap.sh dune
 
+.PHONY: clean all install dune dune-install
+
 all install:
 	+$(MAKE) -C theories $@
 
@@ -21,3 +23,10 @@ refman-html:
 
 stdlib-html:
 	$(DUNE) build --root . @stdlib-html
+
+clean:
+	find . -name '*.vo' \
+		-o -name '*.vok' \
+		-o -name '*.vos' \
+		-o -name '*.glob' \
+		-exec rm -vf {} +
