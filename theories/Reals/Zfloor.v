@@ -5,7 +5,7 @@
 (*                                                                            *)
 (******************************************************************************)
 
-Require Import Rbase Rfunctions Lra Lia.
+From Stdlib Require Import Rbase Rfunctions Lra Lia.
 
 Local Open Scope R_scope.
 
