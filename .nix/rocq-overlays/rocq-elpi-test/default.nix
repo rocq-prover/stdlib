@@ -1,4 +1,4 @@
-{ mkRocqDerivation, rocq-elpi, version ? null }:
+{ mkRocqDerivation, rocq-elpi, stdlib, version ? null }:
 
 mkRocqDerivation {
   pname = "rocq-elpi-test";
@@ -6,9 +6,14 @@ mkRocqDerivation {
   owner = "LPCIC";
   inherit version;
 
-  propagatedBuildInputs = [ rocq-elpi ];
+  propagatedBuildInputs = [ rocq-elpi stdlib ];
 
   useDune = true;
+
+  configurePhase = ''
+    export COQPATH=''${ROCQPATH}
+    patchShebangs etc/with-rocq-wrap.sh
+  '';
 
   buildPhase = ''
     export DUNE_build_FLAGS="--release"
