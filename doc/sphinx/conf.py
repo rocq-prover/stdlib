@@ -100,7 +100,7 @@ def copy_formatspecific_files(app):
                 logger.info("Copying {} to {}".format(src, dst))
                 copyfile(src, dst)
 
-is_a_released_version = False
+is_a_released_version = True
 
 def setup(app):
     app.connect('builder-inited', copy_formatspecific_files)
