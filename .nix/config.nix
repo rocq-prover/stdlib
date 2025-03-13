@@ -226,9 +226,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq.override.version = "master";
     }; };
     "rocq-9.0" = { rocqPackages = common-bundles // {
-      rocq-core.override.version = "9.0";
+      rocq-core.override.version = "V9.0.0";
     }; coqPackages = coq-common-bundles // {
-      coq.override.version = "9.0";
+      coq.override.version = "V9.0.0";
       # plugin pins, from v9.0 branch of Coq
       aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";

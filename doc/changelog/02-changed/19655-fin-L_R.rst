@@ -1,5 +1,0 @@
-- in `Fin.v`
-
-  + `case_L_R'` and `case_L_R` made transparent definitions
-    (`#19655 <https://github.com/coq/coq/pull/19655>`_,
-    by Andrej Dudenhefner).
