@@ -31,6 +31,8 @@ Instance Inj_comparison_Z : InjTyp comparison Z :=
   { inj := Z_of_comparison ; pred :=(fun x => -1 <= x <= 1) ; cstr := Z_of_comparison_bound}.
 Add Tify InjTyp Inj_comparison_Z.
 
+
+
 Definition ZcompareZ (x y : Z) :=
   Z_of_comparison (Z.compare x y).
 
@@ -38,6 +40,12 @@ Definition ZcompareZ (x y : Z) :=
 Program Instance BinOp_Zcompare : BinOp Z.compare :=
   { TBOp := ZcompareZ }.
 Add Tify BinOp BinOp_Zcompare.
+
+#[global]
+Program Instance BinOp_Pcompare : BinOp Pos.compare :=
+  { TBOp := ZcompareZ }.
+Add Tify BinOp BinOp_Pcompare.
+
 
 #[global]
 Instance Op_eq_comparison : BinRel (@eq comparison) :=
