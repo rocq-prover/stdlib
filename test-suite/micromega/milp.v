@@ -1,26 +1,89 @@
 Require Import Rbase Rify isZ Lra Zfloor.
 Local Open Scope R_scope.
 
+Unset Lra Cache.
+
 Lemma up0 : up 0%R = 1%Z.
-Proof. intros. rify. lra. Qed.
+Proof. intros. lra. Qed.
 
 Lemma up_succ r : up (r + 1)%R = (up r + 1)%Z.
-Proof. intros. rify. lra. Qed.
+Proof. intros. lra. Qed.
 
 Lemma up_IZR z : up (IZR z) = (z + 1)%Z.
 Proof.
-  rify. lra.
+  lra.
 Qed.
 
 Lemma up_shiftz r z : up (r + IZR z)%R = (up r + z)%Z.
 Proof.
-  rify. lra.
+  lra.
+Qed.
+
+Lemma div_inv : forall y  x,
+   1 = 1 + (y - x) / x ->
+   (y - x) * / x = 0.
+Proof. intros. lra. Qed.
+
+Goal forall (x1 : R) (x2 : R) (x3 : R) (x4 : R) (x5 : R) (x6 : R)
+(H0 : -x2 + x6 = R0)
+(H1 : x6 + -x4 = R0)
+(H2 : x2*x3 + -x1*x3 = R0)
+(H3 : x4 + -x2*x5 = R0)
+(H5 : x2*x3 + -x1*x3 > R0)
+, False
+.
+Proof.
+  intros.
+  lra.
+Qed.
+
+Goal forall (x1 : R) (x2 : R) (x3 : R) (x4 : R)
+(H0 : x4 >= 0)
+(H1 : 1 + -x4 > 0)
+(H2 : -x4 + x1 > 0)
+(H3 : 1 + -x1 > 0)
+(H4 : x2 + -x3 = 0)
+(H5 : -x1 > 0)
+, False
+.
+Proof.
+  intros.
+  lra.
 Qed.
 
 
+Goal forall (x1 : R) (x2 : R) (x3 : R) (x4 : R)
+(H0 : x4 >= 0)
+(H1 : 1 + -x4 > 0)
+(H2 : -x4 + x1 > 0)
+(H3 : 1 + -x1 > 0)
+(H4 : x2 + -x3 = 0)
+(H5 : -x1 > 0)
+, False
+.
+Proof.
+  intros.
+  lra.
+Qed.
+
+
+
+
+Goal forall (x1 : R) (x2 : R) (x3 : R) (x4 : R) (x5 : R) (x6 : R)
+(H0 : -x2 + x6 = R0)
+(H1 : x6 + -x4 = R0)
+(H2 : x2*x3 + -x1*x3 = R0)
+(H3 : x4 + -x2*x5 = R0)
+(H5 : x2*x3 + -x1*x3 > R0)
+, False
+.
+Proof.
+  lra.
+Qed.
+
 Lemma up_succ2 r n : Zfloor (r + IZR n) = (Zfloor r + n)%Z.
 Proof.
-  rify. lra.
+  lra.
 Qed.
 
 Goal forall x1 x2 x3  x5 x6
@@ -175,7 +238,7 @@ Goal forall e x
             0 < ef.
 Proof.
   intros.
-  rify. nra.
+  nra.
 Qed.
 
 
@@ -185,6 +248,6 @@ Goal forall x v,
             v = 1 / (3 * x).
 Proof.
   intros.
-  rify. nra.
+  nra.
 Qed.
 

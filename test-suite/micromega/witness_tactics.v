@@ -1,6 +1,6 @@
 From Stdlib Require Import ZArith QArith.
 From Stdlib.micromega Require Import RingMicromega EnvRing Tauto.
-From Stdlib.micromega Require Import ZMicromega QMicromega.
+From Stdlib.micromega Require Import ZMicromega QMicromega MMicromega.
 
 Declare ML Module "rocq-runtime.plugins.micromega".
 

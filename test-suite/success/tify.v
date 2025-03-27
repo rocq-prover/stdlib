@@ -33,7 +33,7 @@ Definition isZ (r:R) := IZR (Zfloor r) = r.
 
 Instance Inj_nat_R : InjTyp nat R.
 Proof.
-  apply (mkinj _ _ INR (fun r => isZ r /\ 0 <= r)).
+  apply (mkinj _ _ INR (fun r => isZ r /\ 0 <= r)%R).
   - intros. split. unfold isZ.
     rewrite INR_IZR_INZ.
     rewrite ZfloorZ. reflexivity.
