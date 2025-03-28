@@ -1,4 +1,4 @@
-ROCQBIN?=$(dir $(shell which rocq))
+ROCQBIN?=$(dir $(shell command -v rocq))
 ROCQMAKEFILE?=$(ROCQBIN)rocq makefile
 ROCQMAKEOPTIONS?=
 ROCQMAKEFILEOPTIONS?=
