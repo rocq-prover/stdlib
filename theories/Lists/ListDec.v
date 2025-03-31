@@ -95,7 +95,7 @@ Proof using A dec.
    + destruct IH.
      * left. now constructor.
      * right. inversion_clear 1. tauto.
-Qed.
+Defined.
 
 End Dec_in_Type.
 
