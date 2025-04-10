@@ -24,8 +24,7 @@
 # Variables
 #######################################################################
 
-# An alternative is ifeq ($(OS),Windows_NT) using make's own variable.
-ifeq ($(ARCH),win32)
+ifeq ($(OS),Windows_NT)
   export FINDLIB_SEP=;
 else
   export FINDLIB_SEP=:
