@@ -81,8 +81,8 @@ The command has indeed failed with message:
 Recursive definition of foo' and bar' is ill-formed.
 As a mutual fixpoint decreasing on the 1st argument of foo' and
 1st argument of bar':
-Cannot define a fixpoint on SProp on a value living in
-Set: SProp does not eliminate in Set.
+Fixpoints on proof irrelevant inductive types should produce proof irrelevant
+values.
 As a mutual fixpoint decreasing on the 1st argument of foo' and
 2nd argument of bar':
 Recursive call to bar' has principal argument equal to 
