@@ -11,7 +11,7 @@ rocqPackages.lib.overrideRocqDerivation {
 
   buildPhase = ''
     cd test-suite
-    make -j $NIX_BUILD_CORES
+    make -j $NIX_BUILD_CORES PRINT_LOGS=1
   '';
 
   installPhase = ''
