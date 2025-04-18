@@ -2522,6 +2522,9 @@ Qed.
 Lemma succ_IZR : forall n:Z, IZR (Z.succ n) = IZR n + 1.
 Proof. now intros n; unfold Z.succ; apply plus_IZR. Qed.
 
+Lemma pred_IZR : forall n:Z, IZR (Z.pred n) = IZR n - 1.
+Proof. now intros n; unfold Z.pred; apply plus_IZR. Qed.
+
 Lemma opp_IZR : forall n:Z, IZR (- n) = - IZR n.
 Proof.
   intros [| p | p]; unfold IZR; simpl.

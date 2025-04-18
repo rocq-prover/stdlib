@@ -3,12 +3,12 @@ From Stdlib Require Import Zify ZifyClasses.
 Import Z.
 Open Scope Z_scope.
 
-#[global] Instance sat_mod_le : ZifyClasses.Saturate BinIntDef.Z.modulo :=
+#[global] Instance sat_mod_le : Saturate BinIntDef.Z.modulo :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a;
-    ZifyClasses.PArg2 := fun b => 0 < b;
-    ZifyClasses.PRes := fun a b ab => ab <= a;
-    ZifyClasses.SatOk := mod_le
+    PArg1 := fun a => 0 <= a;
+    PArg2 := fun b => 0 < b;
+    PRes := fun a b ab => ab <= a;
+    SatOk := mod_le
   |}.
 Add Zify Saturate sat_mod_le.
 
@@ -16,12 +16,12 @@ Lemma shiftr_lbound a n:
    0 <= a -> True -> 0 <= (Z.shiftr a n).
 Proof. now intros; apply Z.shiftr_nonneg. Qed.
 
-#[global] Instance sat_shiftr_lbound : ZifyClasses.Saturate BinIntDef.Z.shiftr :=
+#[global] Instance sat_shiftr_lbound : Saturate BinIntDef.Z.shiftr :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a;
-    ZifyClasses.PArg2 := fun b => True;
-    ZifyClasses.PRes := fun a b ab => 0 <= ab;
-    ZifyClasses.SatOk := shiftr_lbound
+    PArg1 := fun a => 0 <= a;
+    PArg2 := fun b => True;
+    PRes := fun a b ab => 0 <= ab;
+    SatOk := shiftr_lbound
   |}.
 Add Zify Saturate sat_shiftr_lbound.
 

@@ -8,10 +8,10 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-(* Instances of [ZifyClasses] for dealing with advanced [nat] operators. *)
+(* Instances of [TifyClasses] for dealing with advanced [nat] operators. *)
 
 From Stdlib Require Import BinInt Znat Zdiv.
-From Stdlib Require Import ZifyClasses ZifyInst Zify.
+From Stdlib Require Import TifyClasses ZifyInst Zify.
 
 Ltac zify_convert_to_euclidean_division_equations_flag ::= constr:(true).
 
@@ -23,17 +23,17 @@ Existing Instance Inj_nat_Z.
 #[global]
 Instance Op_mod : BinOp Nat.modulo :=
   {| TBOp := Z.modulo ; TBOpInj := Nat2Z.inj_mod |}.
-Add Zify BinOp Op_mod.
+Add Tify BinOp Op_mod.
 
 #[global]
 Instance Op_div : BinOp Nat.div :=
   {| TBOp := Z.div ; TBOpInj := Nat2Z.inj_div |}.
-Add Zify BinOp Op_div.
+Add Tify BinOp Op_div.
 
 #[global]
 Instance Op_pow : BinOp Nat.pow :=
   {| TBOp := Z.pow ; TBOpInj := Nat2Z.inj_pow |}.
-Add Zify BinOp Op_pow.
+Add Tify BinOp Op_pow.
 
 #[local] Open Scope Z_scope.
 
@@ -45,7 +45,7 @@ Instance SatDiv : Saturate Z.div :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_div_nonneg_nonneg
   |}.
-Add Zify Saturate SatDiv.
+Add Tify Saturate SatDiv.
 
 #[global]
 Instance SatMod : Saturate Z.modulo :=
@@ -55,4 +55,4 @@ Instance SatMod : Saturate Z.modulo :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_mod_nonneg_nonneg
   |}.
-Add Zify Saturate SatMod.
+Add Tify Saturate SatMod.

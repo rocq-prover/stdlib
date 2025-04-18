@@ -75,11 +75,12 @@ Proof.
   lra.
 Qed.
 
-Goal forall x, -x^2 >= 0 -> x - 1 >= 0 -> False.
+(*Goal forall x, -x^2 >= 0 -> x - 1 >= 0 -> False.
 Proof.
   intros.
   psatz R 3.
 Qed.
+ *)
 
 Goal forall x, -x^2 >= 0 -> x - 1 >= 0 -> False.
 Proof.

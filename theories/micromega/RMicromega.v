@@ -15,7 +15,7 @@
 (************************************************************************)
 
 From Stdlib Require Import OrderedRing.
-From Stdlib Require Import QMicromega RingMicromega.
+From Stdlib Require Import QMicromega RingMicromega MMicromega.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Sumbool Raxioms Rfunctions RIneq Rpow_def.
 From Stdlib Require Import BinNat.
@@ -24,8 +24,11 @@ From Stdlib Require Import Qfield.
 From Stdlib Require Import Qreals.
 From Stdlib Require Import DeclConstant.
 From Stdlib Require Import Znat.
-
+From Stdlib Require Import MSetPositive.
 From Stdlib Require Setoid.
+From Stdlib Require Import isZ.
+Set Implicit Arguments.
+
 
 Definition Rsrt : ring_theory R0 R1 Rplus Rmult Rminus Ropp (@eq R).
 Proof.
@@ -42,7 +45,6 @@ Proof.
   - exact Rplus_opp_r.
 Qed.
 
-Local Open Scope R_scope.
 
 Lemma Rsor : SOR R0 R1 Rplus Rmult Rminus Ropp (@eq R)  Rle Rlt.
 Proof.
@@ -58,6 +60,9 @@ Proof.
   - destruct (total_order_T n m) as [ [H1 | H1] | H1] ; auto.
   - now apply Rmult_lt_0_compat.
 Qed.
+
+Local Open Scope R_scope.
+
 
 Lemma Rinv_1 : forall x, x * / 1 = x.
 Proof.
@@ -133,6 +138,87 @@ Proof.
   - apply Qeq_false.
   - apply Qle_true.
 Qed.
+
+Lemma IPR_2_eq : forall p,
+    IPR_2 p = MMicromega.IPR R R1 Rplus p + MMicromega.IPR R R1 Rplus p.
+Proof.
+  induction p; simpl; auto.
+  - rewrite <- IHp.
+    ring.
+  - rewrite <- IHp.
+    ring.
+Qed.
+
+Lemma IPR_eq : forall p,
+    IPR p = MMicromega.IPR R R1 Rplus p.
+Proof.
+  unfold IPR; destruct p; simpl;
+    try rewrite IPR_2_eq; reflexivity.
+Qed.
+
+
+Lemma IZR_eq : forall x,
+    MMicromega.IZR R R0 R1 Rplus Ropp x = IZR x.
+Proof.
+  destruct x ; simpl.
+  - reflexivity.
+  - unfold IZR.
+    now rewrite  IPR_eq.
+  - unfold IZR.
+    f_equal.
+    now rewrite  IPR_eq.
+Qed.
+
+Lemma isZ_eq : forall r,
+    isZ.isZ r ->
+    MMicromega.isZ R R0 R1 Rplus Ropp eq r.
+Proof.
+  intros.
+  destruct H as (z & EQ).
+  exists z.
+  now rewrite IZR_eq.
+Qed.
+
+
+
+
+
+
+Lemma ZSORaddon :
+  @SORaddon R
+  R0 R1 Rplus Rmult Rminus Ropp  (@eq R)  Rle (* ring elements *)
+  Z 0%Z 1%Z Z.add Z.mul Z.sub Z.opp (* coefficients *)
+  Z.eqb Z.leb
+  (MMicromega.IZR R R0 R1 Rplus Ropp)
+  nat N.to_nat pow.
+Proof.
+  constructor.
+  - constructor ; intros.
+    + reflexivity.
+    + reflexivity.
+    +
+      rewrite! IZR_eq.
+      apply plus_IZR.
+    + rewrite! IZR_eq.
+      apply minus_IZR.
+    + rewrite! IZR_eq.
+      apply mult_IZR.
+    + rewrite! IZR_eq.
+      apply opp_IZR.
+    + rewrite! IZR_eq.
+      rewrite Z.eqb_eq in H. now f_equal.
+  - apply R_power_theory.
+  - intros.
+    rewrite! IZR_eq.
+    rewrite Z.eqb_neq in H.
+    intro. apply H.
+    apply eq_IZR; auto.
+  - intros.
+    rewrite! IZR_eq.
+    apply IZR_le.
+    now rewrite Z.leb_le in H.
+Qed.
+
 
 (* Syntactic ring coefficients. *)
 
@@ -372,12 +458,6 @@ Qed.
 
 From Stdlib Require Import EnvRing.
 
-Definition INZ (n:N) : R :=
-  match n with
-    | N0 => IZR 0%Z
-    | Npos p => IZR (Zpos p)
-  end.
-
 Definition Reval_expr := eval_pexpr  Rplus Rmult Rminus Ropp R_of_Rcst N.to_nat pow.
 
 
@@ -464,9 +544,8 @@ Definition QReval_expr := eval_pexpr Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
 Definition QReval_formula (e: PolEnv R) (k: Tauto.kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (QReval_expr e lhs) (QReval_expr e rhs).
 
-
 Definition QReval_formula' :=
-  eval_formula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
+  RingMicromega.eval_formula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
 
 Lemma QReval_formula_compat : forall env b f, Tauto.hold b (QReval_formula env b f) <-> QReval_formula' env f.
 Proof.
@@ -478,17 +557,19 @@ Proof.
   apply Reval_pop2_eval_op2.
 Qed.
 
-Definition Qeval_nformula :=
-  eval_nformula 0 Rplus Rmult  (@eq R) Rle Rlt Q2R.
 
+Definition Qeval_nformula :=
+  RingMicromega.eval_nformula 0 Rplus Rmult  (@eq R) Rle Rlt Q2R.
 
 Lemma Reval_nformula_dec : forall env d, (Qeval_nformula env d) \/ ~ (Qeval_nformula env d).
 Proof.
   exact (fun env d =>eval_nformula_dec Rsor Q2R env d).
 Qed.
 
-Definition RWitness := Psatz Q.
 
+Definition RWitness := ZArithProof.
+
+(*
 Definition RWeakChecker := check_normalised_formulas 0%Q 1%Q Qplus Qmult  Qeq_bool Qle_bool.
 
 From Stdlib Require Import List.
@@ -504,6 +585,7 @@ Proof.
   unfold RWeakChecker in H.
   exact H.
 Qed.
+ *)
 
 From Stdlib.micromega Require Import Tauto.
 
@@ -514,53 +596,499 @@ Definition runsat := check_inconsistent 0%Q Qeq_bool Qle_bool.
 
 Definition rdeduce := nformula_plus_nformula 0%Q Qplus Qeq_bool.
 
-Definition RTautoChecker (f : BFormula (Formula Rcst) Tauto.isProp) (w: list RWitness)  : bool :=
-  @tauto_checker (Formula Q) (NFormula Q)
-  unit runsat rdeduce
-  (Rnormalise unit) (Rnegate unit)
-  RWitness (fun cl => RWeakChecker (List.map fst cl)) (map_bformula (map_Formula Q_of_Rcst)  f) w.
+Inductive eFormula (Form :Type) :=
+| IsZ (b:bool) (x:positive)
+| IsF (f: Form).
 
-Lemma RTautoChecker_sound : forall f w, RTautoChecker f w = true -> forall env, eval_bf  (Reval_formula env)  f.
+Definition map_eFormula {S C :Type} (F: S -> C) (f: eFormula (Formula S)) : eFormula (Formula C) :=
+  match f with
+  | IsZ _ b x => IsZ _ b x
+  | IsF f => IsF (map_Formula F f)
+  end.
+
+Fixpoint lcm (p: Pol Q) : Z :=
+  match p with
+  | Pc q => Zpos (Qden q)
+  | Pinj x p => lcm p
+  | PX p _ q  => Z.lcm (lcm p) (lcm q)
+  end.
+
+Fixpoint polZ (lcm:Z) (p:Pol Q) : Pol Z  :=
+  match p with
+  | Pc q => Pc (Z.div (Z.mul (Qnum q) lcm) (Z.pos (Qden q)))
+  | Pinj x p => Pinj x (polZ lcm p)
+  | PX p i q => PX (polZ lcm p) i (polZ lcm q)
+  end.
+
+Lemma xpolZ_eq : forall (p:Pol Q) a env
+    (POS : (0 <= a)%Z)
+    (DIV : (lcm p | a)%Z),
+    Q2R (a # 1) *  (RingMicromega.eval_pol  Rplus Rmult Q2R env p) =
+                       (RingMicromega.eval_pol  Rplus Rmult (MMicromega.IZR R R0 R1 Rplus Ropp) env (polZ a p)).
+Proof.
+  induction p.
+  - simpl. intros.
+    unfold Z.divide in DIV.
+    destruct DIV as (z & EQ).
+    subst.
+    rewrite Z.mul_assoc.
+    rewrite Zdiv.Z_div_mult.
+    rewrite <- Q2R_mult.
+    destruct c. simpl.
+    destruct z.
+    + simpl.
+      rewrite Qmult_0_l.
+      rewrite Z.mul_0_r.
+      unfold Q2R. simpl.
+      rewrite Rinv_1. reflexivity.
+    +
+      (*rewrite <- (Pos2Z.inj_mul p).  *)
+      setoid_rewrite <- (Qmult_inject_Z_l (Z.pos Qden)).
+      setoid_rewrite <- Qmult_assoc.
+      setoid_rewrite Qreduce_den_l.
+      simpl. unfold Q2R.
+      rewrite IZR_eq.
+      rewrite Rinv_1.
+      rewrite Z.mul_comm.
+      reflexivity.
+    + simpl in POS.
+      exfalso.
+      revert POS. rewrite ZMicromega.le_neg.
+      simpl.
+      apply Pos2Z.pos_is_pos.
+    + apply Zorder.Zgt_pos_0.
+  - simpl.
+    intros.
+    rewrite IHp by auto. reflexivity.
+  - intros.
+    simpl.
+    rewrite <- IHp1; try easy.
+    rewrite <- IHp2; try easy.
+    ring.
+    + simpl in DIV.
+      generalize (Z.divide_lcm_r (lcm p1) (lcm p3)).
+      intros.
+      eapply Z.divide_trans;eauto.
+    + simpl in DIV.
+      generalize (Z.divide_lcm_l (lcm p1) (lcm p3)).
+      intros.
+      eapply Z.divide_trans;eauto.
+Qed.
+
+
+Lemma lt_0_lcm : forall p,
+    (0 < lcm p)%Z.
+Proof.
+  induction p.
+  - simpl.
+    destruct c ; simpl.
+    apply Pos2Z.is_pos.
+  - easy.
+  - simpl.
+    specialize (Z.lcm_nonneg (lcm p1) (lcm p3)).
+    destruct (Z.eq_dec (Z.lcm (lcm p1) (lcm p3)) 0).
+    apply Z.lcm_eq_0  in e.
+    destruct e as [e|e]; rewrite e in *.
+    apply Z.lt_irrefl  in IHp1; tauto.
+    apply Z.lt_irrefl  in IHp2; tauto.
+    intro H. apply Zorder.Zle_lt_or_eq in H.
+    destruct H as [H | H] ;congruence.
+Qed.
+
+
+
+Lemma polZ_eq : forall (p:Pol Q) env,
+    Q2R ((lcm p) # 1) *  (RingMicromega.eval_pol  Rplus Rmult Q2R env p) =
+                       (RingMicromega.eval_pol  Rplus Rmult (MMicromega.IZR R R0 R1 Rplus Ropp) env (polZ (lcm p) p)).
+Proof.
+  intros.
+  apply xpolZ_eq.
+  apply Z.lt_le_incl.
+  apply lt_0_lcm.
+  apply Z.divide_refl.
+Qed.
+
+
+Definition nformulaZ (f : NFormula Q) : NFormula Z :=
+  let (p,o) := f in
+  (polZ (lcm p) p, o).
+
+
+Lemma nformulaZ_sound : forall env f,
+    Qeval_nformula env f ->
+    eval_nformula R R0 R1 Rplus Rmult Ropp eq Rle Rlt env (nformulaZ f).
+Proof.
+  unfold Qeval_nformula.
+  destruct f as (f & o).
+  unfold nformulaZ.
+  simpl.
+  rewrite <- polZ_eq.
+  assert (LCMPOS := lt_0_lcm f).
+  destruct o ; simpl.
+  - intros H. rewrite H.
+    rewrite Rmult_0_r.
+    reflexivity.
+  - intro H. intro H'.
+    apply H.
+    apply Rmult_integral in H'.
+    destruct H' as [H' | H'];[|easy].
+    unfold Q2R in H'.
+    unfold Qnum,Qden in H'.
+    rewrite Rinv_1 in H'.
+    apply eq_IZR in H'. rewrite H' in LCMPOS.
+    apply Z.lt_irrefl in LCMPOS ; tauto.
+  - intro H.
+    replace R0 with (R0 * R0) by ring.
+    apply Rmult_ge_0_gt_0_lt_compat; try easy.
+    apply Rlt_gt.
+    unfold Q2R. simpl. rewrite Rinv_1.
+    now apply IZR_lt.
+    unfold Q2R. simpl. rewrite Rinv_1.
+    change R0 with (IZR 0).
+    now apply IZR_lt.
+  - intro H.
+    replace R0 with (R0 * R0) by ring.
+    apply Rmult_le_compat; try easy.
+    unfold Q2R. simpl.
+    rewrite Rinv_1.
+    change R0 with (IZR 0).
+    apply IZR_le.
+    now apply Z.lt_le_incl.
+Qed.
+
+
+Fixpoint xcollect_isZ (s:PositiveSet.t) (acc : list (NFormula Z)) (l:list (eFormula (NFormula Q) * unit)) : PositiveSet.t * list (NFormula Z) :=
+  match l with
+  | nil => (s,acc)
+  | cons (e,_) l => match e with
+            | IsZ _ b x => xcollect_isZ (if b then (PositiveSet.add x s) else s) acc l
+            | IsF f   => xcollect_isZ s (nformulaZ f :: acc) l
+            end
+  end.
+
+Definition QCheck (l : list (eFormula (NFormula Q) * unit)) :=
+  let (s,cl) := xcollect_isZ PositiveSet.empty nil l in
+  ZChecker (Some s) cl.
+  
+Definition erunsat (f : eFormula (NFormula Q)) :=
+  match f with
+  | IsZ _ _ _ => false
+  | IsF f  => runsat f
+  end.
+
+Definition erdeduce (f1 f2 : eFormula (NFormula Q)) :=
+  match f1,f2 with
+  | IsF f1, IsF f2  => match rdeduce f1 f2 with
+                       | None => None
+                       | Some f => Some (IsF f)
+                       end
+  | _  , _ => None
+  end.
+
+Definition map_cnf (T:Type) {A B:Type} (F : A -> B) (l : cnf A T) : cnf B T :=
+  List.map (List.map (fun '(a,t) => (F a , t))) l.
+
+Definition eRnormalise (T:Type) (f: eFormula (Formula Q)) (t:T) : cnf (eFormula (NFormula Q)) T :=
+  match f with
+  | IsZ _ b z => cons (cons (IsZ _ (negb b) z, t) nil)  nil
+  | IsF f => map_cnf (@IsF (NFormula Q)) (Rnormalise  f t)
+  end.
+
+Definition eRnegate (T:Type) (f: eFormula (Formula Q)) (t:T) : cnf (eFormula (NFormula Q)) T :=
+  match f with
+  | IsZ _ b z => cons (cons (IsZ _ b z, t) nil)  nil
+  | IsF f => map_cnf (@IsF (NFormula Q)) (Rnegate  f t)
+  end.
+
+
+Definition cnfR (Annot:Type) (TX : Tauto.kind -> Type) (AF:Type) (k:Tauto.kind)
+  (f: TFormula (eFormula (Formula Q)) Annot TX AF k) :=
+  rxcnf erunsat erdeduce (@eRnormalise Annot) (@eRnegate Annot) true f.
+
+Definition RTautoChecker (f : BFormula (eFormula (Formula Rcst)) Tauto.isProp) (w: list RWitness)  : bool :=
+  @tauto_checker (eFormula (Formula Q)) (eFormula (NFormula Q))
+  unit erunsat erdeduce
+  (@eRnormalise unit) (@eRnegate unit)
+  RWitness (QCheck) (map_bformula (map_eFormula Q_of_Rcst)  f) w.
+
+Definition Qeval_formula (e: PolEnv R) (k:kind) (ff : Formula Q) : rtyp k  :=
+  let (lhs, o, rhs) := ff in Reval_op2 k o (QReval_expr e lhs) (QReval_expr e rhs).
+
+
+Definition eval_eformula_k {F: Type} (eval : PolEnv R -> forall (k:kind),F -> rtyp k) (e:PolEnv R) (k:kind)  (f : eFormula F) :
+  rtyp k :=
+  match f with
+  | IsZ _ b x => match k with
+               | isProp => if b then isZ (e x) else ~ isZ (e x)
+               | isBool => if b then isZb (e x) else negb (isZb (e x))
+               end
+  | IsF f     => eval e k f
+  end.
+
+Definition eval_eformula {F: Type} (eval : PolEnv R -> F -> Prop) (e:PolEnv R)  (f : eFormula F) : Prop :=
+  match f with
+  | IsZ _ b x => if b then isZ (e x) else ~ isZ (e x)
+  | IsF f     => eval e f
+  end.
+
+
+Lemma  eval_eformula_morph : forall {F: Type} (eval1: PolEnv R -> forall (k:kind),F -> rtyp k)
+                                    (eval2 : PolEnv R -> F -> Prop),
+  (forall e k f, hold k (eval1 e k f ) <->  (eval2 e f)) ->
+  forall e k f,
+    hold k (eval_eformula_k eval1 e k f) <-> (eval_eformula eval2 e f).
+Proof.
+  destruct f; simpl.
+  - destruct k; simpl. tauto.
+    destruct b ;
+      rewrite isZ_isZb. unfold is_true.
+    tauto.
+    unfold is_true. rewrite eq_true_not_negb_iff.
+    tauto.
+  -  apply H.
+Qed.
+
+
+
+Definition eQeval_formula (e : PolEnv R) (k:kind) (ff:eFormula (Formula Q)) : rtyp k :=
+  eval_eformula_k  Qeval_formula e k ff.
+
+Definition eQeval_nformula (e : PolEnv R)  (ff:eFormula (NFormula Q)) : Prop :=
+  eval_eformula  Qeval_nformula e ff.
+
+
+Lemma eval_eformula_dec : forall (T: Type) eval env (ff: eFormula T),
+  (forall f, eval env f \/ ~ eval env f) ->
+    eval_eformula eval env ff \/  ~ eval_eformula eval env ff.
+Proof.
+  intros.  destruct ff; simpl; auto.
+  - destruct b;
+      rewrite isZ_isZb;destruct (isZb (env x)); intuition congruence.
+Qed.
+
+
+
+Definition eReval_formula (e : PolEnv R) (k:kind) (ff:eFormula (Formula Rcst)) : rtyp k :=
+  eval_eformula_k Reval_formula e k ff.
+
+
+(*Definition eZeval_nformula (e : PolEnv R) (k:kind) (ff:eFormula (NFormula Z)) : rtyp k :=
+  match ff with
+  | IsZ _ x => match k with
+               | isProp => isZ (e x)
+               | isBool => isZb (e x)
+               end
+  | IsF f     => Qeval_nformula e k f
+  end.
+*)
+
+Lemma eval_eformula_map_eFormula : forall env  a,
+  eval_eformula QReval_formula' env (map_eFormula Q_of_Rcst a) <-> eval_eformula Reval_formula' env a.
+Proof.
+  destruct a; simpl.
+  - tauto.
+  - unfold QReval_formula'.
+    rewrite <- eval_formulaSC with (phiS := R_of_Rcst).
+    + tauto.
+    + intro. now rewrite Q_of_RcstR.
+Qed.
+
+Lemma eval_cnf_map_cnf : forall (A:Type) eval env f,
+    eval_cnf (Annot:=A) (eval_eformula eval) env (map_cnf (IsF (Form:=NFormula Q)) f) <->
+      eval_cnf (Annot:=A) eval env f.
+Proof.
+  intros.
+  unfold map_cnf.
+  unfold eval_cnf.
+  induction f.
+  - simpl. tauto.
+  -
+    rewrite List.map_cons.
+    rewrite ! make_conj_cons.
+    rewrite IHf.
+    assert (eval_clause (eval_eformula eval) env (ListDef.map (fun '(a0, t) => (IsF a0, t)) a)
+            <-> eval_clause eval env a).
+    { clear IHf.
+      unfold eval_clause.
+      induction a.
+      - tauto.
+      - rewrite List.map_cons.
+        rewrite ! make_conj_cons.
+        tauto.
+    }
+    tauto.
+Qed.
+
+Lemma xcollect_isZ_nformulaZ : forall cl s cz s' cz',
+    xcollect_isZ s cz cl = (s', cz') ->
+    forall f, List.In f cz' -> List.In f cz \/ exists f', List.In (IsF f',tt) cl /\ f = nformulaZ f'.
+Proof.
+  induction cl.
+  - simpl. intros. inv H.
+    tauto.
+  - simpl. destruct a. destruct e.
+    + intros.
+      apply IHcl with (f:=f) in H;try easy.
+      destruct H; [tauto|].
+      destruct H as (f' & IN & EQ).
+      right. exists f'.
+      tauto.
+    + intros.
+      apply IHcl with (f:=f0) in H;try easy.
+      destruct H.
+      destruct H.
+      * right.
+        exists f.
+        destruct u.
+        split. tauto. congruence.
+      * tauto.
+      * destruct H as (f' & IN & EQ).
+        right. exists f'. split;auto.
+Qed.
+
+
+Lemma collect_isZ_nformulaZ : forall cl  s' cz',
+    xcollect_isZ PositiveSet.empty nil cl = (s', cz') ->
+    forall f, List.In f cz' -> exists f', List.In (IsF f',tt) cl /\ f = nformulaZ f'.
+Proof.
+  intros.
+  apply xcollect_isZ_nformulaZ with (f:=f) in H; try easy.
+  simpl in H. tauto.
+Qed.
+
+
+
+Lemma xcollect_isZ_sound : forall cl s cz s' cz',
+    xcollect_isZ s cz cl = (s', cz') ->
+    forall x, PositiveSet.mem x s' = true ->
+              PositiveSet.mem x s = true \/  List.In (IsZ _ true x,tt) cl.
+Proof.
+  induction cl.
+  - simpl. intros. inv H. tauto.
+  - simpl. destruct a. destruct e.
+    + intros.
+      apply IHcl with (x:= x0) in H;try easy.
+      destruct H.
+      destruct b.
+      rewrite PositiveSetAddon.mem_add in H.
+      destruct (Pos.eq_dec x0 x).
+      subst.
+      right. destruct u. tauto.
+      tauto.
+      tauto.
+      tauto.
+    + intros.
+      apply IHcl with (x:=x) in H; tauto.
+Qed.
+
+Lemma collect_isZ_sound : forall cl s' cz',
+    xcollect_isZ PositiveSet.empty nil cl = (s', cz') ->
+    forall x, PositiveSet.mem x s' = true -> List.In (IsZ _ true x,tt) cl.
+Proof.
+  intros.
+  eapply xcollect_isZ_sound with (x:=x) in H; try assumption.
+  destruct H; [discriminate| assumption].
+Qed.
+
+
+Lemma RTautoChecker_sound : forall f w, RTautoChecker f w = true -> forall env, eval_bf  (eReval_formula env)  f.
 Proof.
   intros f w.
   unfold RTautoChecker.
   intros TC env.
-  apply tauto_checker_sound with (eval:=QReval_formula) (eval':=    Qeval_nformula) (env := env) in TC.
-  - change (eval_f e_rtyp (QReval_formula env))
+  eapply tauto_checker_sound with (eval:=eQeval_formula) (eval':=    eQeval_nformula) (env := env) in TC.
+  - change (eval_f e_rtyp (eQeval_formula env))
       with
-      (eval_bf  (QReval_formula env)) in TC.
+      (eval_bf  (eQeval_formula env)) in TC.
     rewrite eval_bf_map in TC.
     unfold eval_bf in TC.
-    rewrite eval_f_morph with (ev':= Reval_formula env) in TC ; auto.
+    rewrite eval_f_morph with (ev':= eReval_formula env) in TC ; auto.
     intros.
     apply Tauto.hold_eiff.
-    rewrite QReval_formula_compat.
-    unfold QReval_formula'.
-    rewrite <- eval_formulaSC  with (phiS := R_of_Rcst).
-    + rewrite Reval_formula_compat.
-      tauto.
-    + intro. rewrite Q_of_RcstR. reflexivity.
-
-  - apply Reval_nformula_dec.
-  - destruct t.
+    unfold eQeval_formula.
+    rewrite eval_eformula_morph
+      with (eval2 := QReval_formula') by apply QReval_formula_compat.
+    unfold eReval_formula.
+    rewrite eval_eformula_morph
+      with (eval2 := Reval_formula') by apply Reval_formula_compat.
+    apply eval_eformula_map_eFormula.
+  -
+    intros.
+    apply eval_eformula_dec.
+    apply Reval_nformula_dec.
+  - destruct t as [|t]; try discriminate.
+    simpl. destruct t.
     apply (check_inconsistent_sound Rsor QSORaddon) ; auto.
-  - unfold rdeduce.
+  - destruct t as [|t]; try discriminate.
+    unfold erdeduce.
     intros. revert H.
+    destruct t' ; try discriminate.
+    simpl in H0,H1.
+    destruct (rdeduce t f0) eqn:EQ;try discriminate.
+    intro. inv H. revert EQ.
     eapply (nformula_plus_nformula_correct Rsor QSORaddon); eauto.
-
   - intros.
-    rewrite QReval_formula_compat.
-    eapply (cnf_normalise_correct Rsor QSORaddon) ; eauto.
-  - intros. rewrite Tauto.hold_eNOT. rewrite QReval_formula_compat.
-    now eapply (cnf_negate_correct Rsor QSORaddon); eauto.
+    unfold eQeval_formula.
+    rewrite eval_eformula_morph by apply QReval_formula_compat.
+    destruct t as [| t]; simpl in H; simpl.
+    + rewrite <- eval_cnf_cons_iff in H.
+      simpl in H.
+      unfold eval_tt in H. simpl in H.
+      destruct H.
+      destruct b0; simpl in H;
+      generalize (isZ_dec (env0 x)); tauto.
+    + unfold eQeval_nformula in H.
+      rewrite eval_cnf_map_cnf in H.
+      eapply (cnf_normalise_correct Rsor QSORaddon) ; eauto.
+  - intros. rewrite Tauto.hold_eNOT.
+    destruct t as [| t]; simpl in H; simpl.
+    + rewrite <- eval_cnf_cons_iff in H.
+      simpl in H.
+      unfold eval_tt in H. simpl in H.
+      destruct b,b0; simpl in H; simpl; try tauto;
+      rewrite isZ_isZb in H;unfold is_true.
+      tauto.
+      destruct (isZb (env0 x)); simpl; intuition congruence.
+    + unfold eQeval_nformula in H.
+      rewrite eval_cnf_map_cnf in H.
+      rewrite QReval_formula_compat.
+      now eapply (cnf_negate_correct Rsor QSORaddon); eauto.
   - intros t w0.
     unfold eval_tt.
     intros.
-    rewrite make_impl_map with (eval := Qeval_nformula env0).
-    + eapply RWeakChecker_sound; eauto.
+    rewrite make_impl_map with (eval := eQeval_nformula env0).
+    + unfold QCheck in H.
+      destruct (xcollect_isZ PositiveSet.empty nil t) as (s,cl) eqn:COLLECT.
+      rewrite <- make_conj_impl.
+      intro CONJ.
+      apply ZChecker_sound with (1:=Rsor) (2:= ZSORaddon) (env:=env0) in H.
+      rewrite <- make_conj_impl in H.
+      apply H;clear H.
+      * apply make_conj_in_rev.
+        intros p IN.
+        apply collect_isZ_nformulaZ with (f:=p) in COLLECT.
+        destruct COLLECT as (p' & IN' & EQ).
+        subst. apply make_conj_in with (p:= IsF p') in CONJ.
+        simpl in CONJ.
+        apply nformulaZ_sound;auto.
+        rewrite List.in_map_iff.
+        exists (IsF p',tt).
+        simpl. split;auto. auto.
+      * unfold isZenv.
+        intros. simpl in H0.
+        apply collect_isZ_sound with (x:=x) in COLLECT; auto.
+        apply make_conj_in with (p:= (IsZ _ true x)) in CONJ.
+        simpl in CONJ.
+        now apply isZ_eq.
+        rewrite List.in_map_iff.
+        exists (IsZ _  true x, tt).
+        split ;auto.
     + tauto.
 Qed.
 
+Register eFormula as micromega.eFormula.type.
+Register IsZ      as micromega.eFormula.IsZ.
+Register IsF      as micromega.eFormula.IsF.
 
 
 (* Local Variables: *)

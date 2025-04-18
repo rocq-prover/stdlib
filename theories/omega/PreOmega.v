@@ -228,7 +228,7 @@ Module Z.
     to_euclidean_division_equations_with euclidean_division_equations_flags.default.
 End Z.
 
-From Stdlib Require Import ZifyClasses ZifyInst.
+From Stdlib Require Import TifyClasses ZifyInst.
 From Stdlib Require Zify.
 
 Ltac Zify.zify_internal_to_euclidean_division_equations ::= Z.to_euclidean_division_equations.

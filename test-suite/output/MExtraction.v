@@ -57,11 +57,12 @@ Extract Constant Rinv   => "fun x -> 1 / x".
     extraction is only performed as a test in the test suite. *)
 Recursive Extraction
            Tauto.mapX Tauto.foldA Tauto.collect_annot Tauto.ids_of_formula Tauto.map_bformula
+           map_eFormula eFormula
            Tauto.abst_form
-           ZMicromega.cnfZ  ZMicromega.Zeval_const QMicromega.cnfQ
+           ZMicromega.cnfZ  ZMicromega.Zeval_const QMicromega.cnfQ RMicromega.cnfR
            List.map simpl_cone (*map_cone  indexes*)
            denorm QArith_base.Qpower vm_add
-   normZ normQ normQ Z.to_N N.of_nat ZTautoChecker ZWeakChecker QTautoChecker RTautoChecker find.
+           normZ normQ (*normQ*) Z.to_N N.of_nat ZTautoChecker ZWeakChecker QTautoChecker RTautoChecker find.
 
 (* Local Variables: *)
 (* coding: utf-8 *)

@@ -99,6 +99,20 @@ Proof.
       * apply IHl; auto.
 Qed.
 
+Lemma make_conj_in_rev : forall (A : Type) (eval : A -> Prop) (l : list A),
+    (forall p, In p l -> eval p) -> make_conj eval l.
+Proof.
+  intros A eval l; induction l as [|? l IHl].
+  - simpl.
+    tauto.
+  - rewrite make_conj_cons.
+    intros H.
+    split. apply H. simpl;tauto.
+    apply IHl. intros; apply H ; simpl;tauto.
+Qed.
+
+
+
 Lemma make_conj_app : forall  A eval l1 l2, @make_conj A eval (l1 ++ l2) <-> @make_conj A eval l1 /\ @make_conj A eval l2.
 Proof.
   intros A eval l1; induction l1 as [|a l1 IHl1].

@@ -1,6 +1,6 @@
 From Stdlib Require Import Lia.
 From Stdlib Require Import ZArith.
-Import ZifyClasses.
+Import TifyClasses.
 
 Module Test1.
 

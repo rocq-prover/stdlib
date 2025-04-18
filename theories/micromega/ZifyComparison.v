@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import Bool BinInt.
-From Stdlib Require Import Zify ZifyClasses.
+From Stdlib Require Import Zify TifyClasses.
 From Stdlib Require Import Lia.
 Local Open Scope Z_scope.
 
@@ -29,7 +29,9 @@ Qed.
 #[global]
 Instance Inj_comparison_Z : InjTyp comparison Z :=
   { inj := Z_of_comparison ; pred :=(fun x => -1 <= x <= 1) ; cstr := Z_of_comparison_bound}.
-Add Zify InjTyp Inj_comparison_Z.
+Add Tify InjTyp Inj_comparison_Z.
+
+
 
 Definition ZcompareZ (x y : Z) :=
   Z_of_comparison (Z.compare x y).
@@ -37,27 +39,33 @@ Definition ZcompareZ (x y : Z) :=
 #[global]
 Program Instance BinOp_Zcompare : BinOp Z.compare :=
   { TBOp := ZcompareZ }.
-Add Zify BinOp BinOp_Zcompare.
+Add Tify BinOp BinOp_Zcompare.
+
+#[global]
+Program Instance BinOp_Pcompare : BinOp Pos.compare :=
+  { TBOp := ZcompareZ }.
+Add Tify BinOp BinOp_Pcompare.
+
 
 #[global]
 Instance Op_eq_comparison : BinRel (@eq comparison) :=
   {TR := @eq Z ; TRInj := ltac:(intros [] []; simpl ; intuition congruence) }.
-Add Zify BinRel Op_eq_comparison.
+Add Tify BinRel Op_eq_comparison.
 
 #[global]
 Instance Op_Eq : CstOp Eq :=
   { TCst := 0 ; TCstInj := eq_refl }.
-Add Zify CstOp Op_Eq.
+Add Tify CstOp Op_Eq.
 
 #[global]
 Instance Op_Lt : CstOp Lt :=
   { TCst := -1 ; TCstInj := eq_refl }.
-Add Zify CstOp Op_Lt.
+Add Tify CstOp Op_Lt.
 
 #[global]
 Instance Op_Gt : CstOp Gt :=
   { TCst := 1 ; TCstInj := eq_refl }.
-Add Zify CstOp Op_Gt.
+Add Tify CstOp Op_Gt.
 
 
 Lemma Zcompare_spec : forall x y,
@@ -86,4 +94,4 @@ Instance ZcompareSpec : BinOpSpec ZcompareZ :=
                            /\
                            (x < y  -> r = -1)
               ; BSpec := Zcompare_spec|}.
-Add Zify BinOpSpec ZcompareSpec.
+Add Tify BinOpSpec ZcompareSpec.
