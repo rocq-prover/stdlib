@@ -12,6 +12,7 @@ ZArith/_All/Zdivisibility.v
 ZArith/_All/Zcong.v
 ZArith/_All/Znumtheory.v
 ZArith/_All/ZNsatz.v
+ZArith/_All/ZENsatz.v
 Numbers/Integer/Binary/ZBinary.v
 Numbers/Integer/NatPairs/ZNatPairs.v
 Numbers/_ZArith/DecimalN.v
