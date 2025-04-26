@@ -567,3 +567,11 @@ From Stdlib Require Export Arith.PeanoNat.
 From Stdlib Require Export Arith.Peano_dec.
 From Stdlib Require Export Arith.Wf_nat.
 From Stdlib Require Export Arith.Zerob.
+From Stdlib Require Export Zmod.Zmod.
+From Stdlib Require Export Zmod.ZmodDef.
+From Stdlib Require Export Zmod.ZmodBase.
+From Stdlib Require Export Zmod.ZmodInv.
+From Stdlib Require Export Zmod.Zstar.
+From Stdlib Require Export Zmod.ZstarDef.
+From Stdlib Require Export Zmod.ZstarBase.
+From Stdlib Require Export Zmod.Bits.
