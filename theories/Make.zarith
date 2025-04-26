@@ -9,6 +9,7 @@ ZArith/_All/ZArith.v
 ZArith/_All/Zbitwise.v
 ZArith/_All/ZModOffset.v
 ZArith/_All/Zdivisibility.v
+ZArith/_All/Zcong.v
 ZArith/_All/Znumtheory.v
 Numbers/Integer/Binary/ZBinary.v
 Numbers/Integer/NatPairs/ZNatPairs.v
