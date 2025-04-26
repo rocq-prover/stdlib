@@ -22,7 +22,6 @@ From Stdlib Require Import List.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import BinPos.
 From Stdlib Require Import BinList.
-From Stdlib Require Import Znumtheory.
 From Stdlib Require Export Morphisms Setoid Bool.
 From Stdlib Require Export Algebra_syntax.
 From Stdlib Require Export Ncring.

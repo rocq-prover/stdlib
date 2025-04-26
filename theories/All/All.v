@@ -107,6 +107,7 @@ From Stdlib Require Export ZArith.Zbitwise.
 From Stdlib Require Export ZArith.Zbool.
 From Stdlib Require Export ZArith.Zcompare.
 From Stdlib Require Export ZArith.Zcomplements.
+From Stdlib Require Export ZArith.Zdivisibility.
 From Stdlib Require Export ZArith.Zdiv.
 From Stdlib Require Export ZArith.Zdiv_facts.
 From Stdlib Require Export ZArith.ZModOffset.

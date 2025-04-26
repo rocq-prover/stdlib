@@ -1,6 +1,9 @@
 QArith/_All/Qcabs.v
+QArith/_All/Qround.v
 QArith/_All/Qabs.v
 QArith/_All/QArith.v
+QArith/_All/Qpower.v
+QArith/_All/Qcanon.v
 Numbers/_QArith/DecimalQ.v
 Numbers/_QArith/HexadecimalQ.v
 

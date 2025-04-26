@@ -1,5 +1,4 @@
 ZArith/_Ring/Zpow_def.v
-ZArith/_Ring/Znumtheory.v
 ZArith/_Ring/Zcomplements.v
 ZArith/_Ring/Zdiv.v
 setoid_ring/_Ring/Ncring_polynom.v

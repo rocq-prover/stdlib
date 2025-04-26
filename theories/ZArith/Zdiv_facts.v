@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import BinInt Zdiv Znumtheory PreOmega Lia.
+From Stdlib Require Import BinInt Zdiv PreOmega Lia.
 Local Open Scope Z_scope.
 
 Module Z.

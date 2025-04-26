@@ -1,4 +1,4 @@
-Require Import BinInt Zdiv Zdiv_facts Znumtheory PreOmega Lia Wf_Z ZArith_dec.
+Require Import BinInt Zdiv Zdiv_facts PreOmega Lia Wf_Z ZArith_dec.
 Local Open Scope Z_scope.
 
 Module Z.

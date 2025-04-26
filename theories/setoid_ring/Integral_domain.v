@@ -8,6 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Import BinNatDef.
 From Stdlib Require Export Cring.
 Import BinNat.
 

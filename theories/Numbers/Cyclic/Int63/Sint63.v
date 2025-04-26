@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import ZArith.
-Import Znumtheory.
+Local Open Scope Z_scope.
 From Stdlib Require Export Uint63 Sint63Axioms.
 From Stdlib Require Import Lia.
 
