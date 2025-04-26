@@ -263,6 +263,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/ZArith/Zdiv.v
     theories/ZArith/Znumtheory.v
     theories/ZArith/Zdivisibility.v
+    theories/ZArith/Zcong.v
   </dd>
 
   <dt> <a name="arith"></a><b>Arith</b>:
