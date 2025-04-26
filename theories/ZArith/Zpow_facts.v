@@ -188,21 +188,10 @@ Qed.
 
 Import Znumtheory.
 
+#[deprecated(use=Z.divide_prime_pp, since="9.1")]
 Theorem prime_power_prime p q n :
  0 <= n -> prime p -> prime q -> (p | q^n) -> p = q.
-Proof.
-  intros Hn Hp Hq; pattern n; apply natlike_ind; auto; clear n Hn.
-  - simpl; intros.
-    assert (2<=p) by (apply prime_ge_2; auto).
-    assert (p<=1) by (apply Z.divide_pos_le; auto with zarith).
-    lia.
-  - intros n Hn Rec.
-    rewrite Z.pow_succ_r by trivial. intros H.
-    assert (2<=p) by (apply prime_ge_2; auto).
-    assert (2<=q) by (apply prime_ge_2; auto).
-    destruct prime_mult with (2 := H); auto.
-    apply prime_div_prime; auto.
-Qed.
+Proof. rewrite <-!prime_alt; eauto using Z.divide_prime_pp. Qed.
 
 Theorem Zdivide_power_2 x p n :
  0 <= n -> 0 <= x -> prime p -> (x | p^n) -> exists m, x = p^m.
@@ -215,7 +204,7 @@ Proof.
     Z.le_elim Hx; subst.
     + (* x > 1 *)
       case (prime_dec x); intros Hpr.
-      * exists 1; rewrite Z.pow_1_r; apply prime_power_prime with n; auto.
+      * exists 1; rewrite Z.pow_1_r. eapply Z.divide_prime_pp; rewrite ?prime_alt; eauto.
       * case not_prime_divide with (2 := Hpr); auto.
         intros p1 ((Hp1, Hpq1),(q1,->)).
         assert (Hq1 : 0 < q1) by (apply Z.mul_lt_mono_pos_r with p1; lia).
