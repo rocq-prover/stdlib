@@ -592,163 +592,6 @@ Inductive prime (p:Z) : Prop :=
   prime_intro :
     1 < p -> (forall n:Z, 1 <= n < p -> rel_prime n p) -> prime p.
 
-(** The sole divisors of a prime number [p] are [-1], [1], [p] and [-p]. *)
-
-Lemma prime_divisors :
-  forall p:Z,
-    prime p -> forall a:Z, (a | p) -> a = -1 \/ a = 1 \/ a = p \/ a = - p.
-Proof.
-  intros p; destruct 1 as [H H0]; intros a ?.
-  assert
-    (a = - p \/ - p < a < -1 \/ a = -1 \/ a = 0 \/ a = 1 \/ 1 < a < p \/ a = p).
-  { assert (Z.abs a <= Z.abs p) as H2 by
-        (apply Zdivide_bounds; [ assumption | now intros -> ]).
-    revert H2.
-    pattern (Z.abs a); apply Zabs_ind; pattern (Z.abs p); apply Zabs_ind;
-    intros H2 H3 H4.
-    - destruct (Zle_lt_or_eq _ _ H4) as [H5 | H5]; try intuition.
-      destruct (Zle_lt_or_eq _ _ (Z.ge_le _ _ H3)) as [H6 | H6]; try intuition.
-      destruct (Zle_lt_or_eq _ _ (Zlt_le_succ _ _ H6)) as [H7 | H7]; intuition.
-    - contradict H2; apply Zlt_not_le; apply Z.lt_trans with (2 := H); red; auto.
-    - destruct (Zle_lt_or_eq _ _ H4) as [H5 | H5].
-      + destruct (Zle_lt_or_eq _ _  H3) as [H6 | H6]; try intuition.
-        assert (H7 : a <= Z.pred 0) by (apply Z.lt_le_pred; auto).
-        destruct (Zle_lt_or_eq _ _ H7) as [H8 | H8]; intuition.
-        assert (- p < a < -1); try intuition.
-        now apply Z.opp_lt_mono; rewrite Z.opp_involutive.
-      + now left; rewrite <- H5, Z.opp_involutive.
-    - contradict H2.
-      apply Zlt_not_le; apply Z.lt_trans with (2 := H); red; auto.
-    }
-  intuition idtac.
-  (* -p < a < -1 *)
-  - match goal with [hyp : a < -1 |- _] => rename hyp into H4 end.
-    absurd (rel_prime (- a) p).
-    + intros [H1p H2p H3p].
-      assert (- a | - a) by auto with zarith.
-      assert (- a | p) as H5 by auto with zarith.
-      apply H3p, Z.divide_1_r in H5; auto with zarith.
-      destruct H5 as [H5|H5].
-      * contradict H4; rewrite <- (Z.opp_involutive a), H5 .
-        apply Z.lt_irrefl.
-      * contradict H4; rewrite <- (Z.opp_involutive a), H5 .
-        discriminate.
-    + apply H0; split.
-      * now apply Z.opp_le_mono; rewrite Z.opp_involutive; apply Z.lt_le_incl.
-      * now apply Z.opp_lt_mono; rewrite Z.opp_involutive.
-  (* a = 0 *)
-  - match goal with [hyp : a = 0 |- _] => rename hyp into H2 end.
-    contradict H.
-    replace p with 0; try discriminate.
-    now apply sym_equal, Z.divide_0_l; rewrite <-H2.
-  (* 1 < a < p *)
-  - match goal with [hyp : 1 < a |- _] => rename hyp into H3 end.
-    absurd (rel_prime a p).
-    + intros [H1p H2p H3p].
-      assert (a | a) by auto with zarith.
-      assert (a | p) as H5 by auto with zarith.
-      apply H3p, Z.divide_1_r in H5; auto with zarith.
-      destruct H5 as [H5|H5].
-      * contradict H3; rewrite <- (Z.opp_involutive a), H5 .
-        apply Z.lt_irrefl.
-      * contradict H3; rewrite <- (Z.opp_involutive a), H5 .
-        discriminate.
-    + apply H0; split; auto.
-      now apply Z.lt_le_incl.
-Qed.
-
-(** A prime number is relatively prime with any number it does not divide *)
-
-Lemma prime_rel_prime :
-  forall p:Z, prime p -> forall a:Z, ~ (p | a) -> rel_prime p a.
-Proof.
-  intros p H a H0; constructor; auto with zarith; intros ? H1 H2.
-  apply prime_divisors in H1; intuition; subst; auto with zarith.
-  - absurd (p | a); auto with zarith.
-  - absurd (p | a); intuition.
-Qed.
-
-#[global]
-Hint Resolve prime_rel_prime: zarith.
-
-(** As a consequence, a prime number is relatively prime with smaller numbers *)
-
-Theorem rel_prime_le_prime:
- forall a p, prime p -> 1 <=  a < p -> rel_prime a p.
-Proof.
-  intros a p Hp [H1 H2].
-  apply rel_prime_sym; apply prime_rel_prime; auto.
-  intros [q Hq]; subst a.
-  destruct Hp as [H3 H4].
-  contradict H2; apply Zle_not_lt.
-  rewrite <- (Z.mul_1_l p) at 1.
-  apply Zmult_le_compat_r.
-  - apply (Zlt_le_succ 0).
-    apply Zmult_lt_0_reg_r with p.
-    + apply Z.le_succ_l, Z.lt_le_incl; auto.
-    + now apply Z.le_succ_l.
-  - apply Z.lt_le_incl, Z.le_succ_l, Z.lt_le_incl; auto.
-Qed.
-
-(** If a prime [p] divides [ab] then it divides either [a] or [b] *)
-
-Lemma prime_mult :
-  forall p:Z, prime p -> forall a b:Z, (p | a * b) -> (p | a) \/ (p | b).
-Proof.
-  intro p; simple induction 1; intros ? ? a b ?.
-  case (Zdivide_dec p a); intuition.
-  right; apply Gauss with a; auto with zarith.
-Qed.
-
-#[deprecated(use=Z.not_prime_0, since="9.1")]
-Lemma not_prime_0: ~ prime 0.
-Proof.
-  intros H1; case (prime_divisors _ H1 2); auto with zarith; intuition; discriminate.
-Qed.
-
-#[deprecated(use=Z.not_prime_1, since="9.1")]
-Lemma not_prime_1: ~ prime 1.
-Proof.
-  intros H1; absurd (1 < 1).
-  - discriminate.
-  - inversion H1; auto.
-Qed.
-
-Lemma prime_2: prime 2.
-Proof.
-  apply prime_intro.
-  - red; auto.
-  - intros n (H,H'); Z.le_elim H; auto with zarith.
-    + contradict H'; auto with zarith.
-      now apply Zle_not_lt, (Zlt_le_succ 1).
-    + subst n. constructor; auto with zarith.
-Qed.
-
-#[deprecated(use=Z.prime_3, since="9.1")]
-Theorem prime_3: prime 3.
-Proof.
-  apply prime_intro; auto with zarith.
-  - red; auto.
-  - intros n (H,H'); Z.le_elim H; auto with zarith.
-    + replace n with 2.
-      * constructor; auto with zarith.
-        intros x (q,Hq) (q',Hq').
-        exists (q' - q). ring_simplify. now rewrite <- Hq, <- Hq'.
-      * apply Z.le_antisymm.
-        ++ now apply (Zlt_le_succ 1).
-        ++ now apply (Z.lt_le_pred _ 3).
-     + replace n with 1 by trivial.
-       constructor; auto with zarith.
-Qed.
-
-Theorem prime_ge_2 p : prime p ->  2 <= p.
-Proof.
-  now intros (Hp,_); apply (Zlt_le_succ 1).
-Qed.
-
-#[deprecated(use=Z.prime, since="9.1")]
-Notation prime' := Z.prime (only parsing).
-
 #[deprecated(note="Use lia", since="9.1")]
 Lemma Z_0_1_more x : 0<=x -> x=0 \/ x=1 \/ 1<x.
 Proof.
@@ -786,34 +629,79 @@ Proof.
     + intros H1; intuition; subst n; discriminate.
 Qed.
 
-Theorem square_not_prime: forall a, ~ prime (a * a).
+(** The sole divisors of a prime number [p] are [-1], [1], [p] and [-p]. *)
+
+#[deprecated(use=Z.divide_prime_r, since="9.1")]
+Lemma prime_divisors :
+  forall p:Z,
+    prime p -> forall a:Z, (a | p) -> a = -1 \/ a = 1 \/ a = p \/ a = - p.
+Proof. intros p ?%prime_alt a ?. case (Z.divide_prime_r a p); trivial; lia. Qed.
+
+(** A prime number is relatively prime with any number it does not divide *)
+
+#[deprecated(use=Z.coprime_prime_l, since="9.1")]
+Lemma prime_rel_prime :
+  forall p:Z, prime p -> forall a:Z, ~ (p | a) -> rel_prime p a.
 Proof.
-  intros a Ha.
-  rewrite <- (Z.abs_square a) in Ha.
-  assert (H:=Z.abs_nonneg a).
-  set (b:=Z.abs a) in *; clearbody b; clear a; rename b into a.
-  rewrite <- prime_alt in Ha; destruct Ha as (Ha,Ha').
-  assert (H' : 1 < a) by now apply (Z.square_lt_simpl_nonneg 1).
-  apply (Ha' a).
-  + split; trivial.
-    rewrite <- (Z.mul_1_l a) at 1.
-    apply Z.mul_lt_mono_pos_r; auto.
-    apply Z.lt_trans with (2 := H'); red; auto.
-  + exists a; auto.
+  intros p ?%prime_alt **. apply rel_prime_iff_coprime, Z.coprime_prime_l; auto.
 Qed.
 
+#[global]
+Hint Resolve prime_rel_prime: zarith.
+
+(** As a consequence, a prime number is relatively prime with smaller numbers *)
+
+#[deprecated(use=Z.coprime_prime_small, since="9.1")]
+Theorem rel_prime_le_prime:
+ forall a p, prime p -> 1 <=  a < p -> rel_prime a p.
+Proof.
+  intros a p ?%prime_alt H.
+  apply rel_prime_iff_coprime, RelationClasses.symmetry, Z.coprime_prime_small; trivial.
+Qed.
+
+(** If a prime [p] divides [ab] then it divides either [a] or [b] *)
+
+#[deprecated(use=Z.divide_prime_mul, since="9.1")]
+Lemma prime_mult :
+  forall p:Z, prime p -> forall a b:Z, (p | a * b) -> (p | a) \/ (p | b).
+Proof.
+  intros p ?%prime_alt **; apply Z.divide_prime_mul; trivial.
+Qed.
+
+#[deprecated(use=Z.not_prime_0, since="9.1")]
+Lemma not_prime_0: ~ prime 0.
+Proof.
+  intros H1; case (prime_divisors _ H1 2); auto with zarith; intuition; discriminate.
+Qed.
+
+#[deprecated(use=Z.not_prime_1, since="9.1")]
+Lemma not_prime_1: ~ prime 1.
+Proof. rewrite <-prime_alt. apply Z.not_prime_1. Qed.
+
+#[deprecated(use=Z.prime_2, since="9.1")]
+Lemma prime_2: prime 2.
+Proof. apply prime_alt, Z.prime_2. Qed.
+
+#[deprecated(use=Z.prime_3, since="9.1")]
+Theorem prime_3: prime 3.
+Proof. apply prime_alt, Z.prime_3. Qed.
+
+#[deprecated(use=Z.prime_ge_2, since="9.1")]
+Theorem prime_ge_2 p : prime p ->  2 <= p.
+Proof. rewrite <-prime_alt. apply Z.prime_ge_2. Qed.
+
+#[deprecated(use=Z.prime, since="9.1")]
+Notation prime' := Z.prime (only parsing).
+
+#[deprecated(use=Z.not_prime_square, since="9.1")]
+Theorem square_not_prime: forall a, ~ prime (a * a).
+Proof. intros; rewrite <-prime_alt; apply Z.not_prime_square. Qed.
+
+#[deprecated(use=Z.divide_prime_prime, since="9.1")]
 Theorem prime_div_prime: forall p q,
  prime p -> prime q -> (p | q) -> p = q.
 Proof.
-  intros p q H H1 H2;
-  assert (Hp: 0 < p); try apply Z.lt_le_trans with 2; try apply prime_ge_2; auto with zarith.
-  assert (Hq: 0 < q); try apply Z.lt_le_trans with 2; try apply prime_ge_2; auto with zarith.
-  case prime_divisors with (2 := H2); auto.
-  - intros H4; contradict Hp; subst; discriminate.
-  - intros [H4| [H4 | H4]]; subst; auto.
-    + contradict H; auto; apply not_prime_1.
-    + contradict Hp; apply Zle_not_lt, (Z.opp_le_mono _ 0).
-      now rewrite Z.opp_involutive; apply Z.lt_le_incl.
+  intros *. rewrite <-!prime_alt. apply Z.divide_prime_prime.
 Qed.
 
 #[deprecated(use=Z.gcd_nonneg , since="9.1")]
@@ -949,6 +837,7 @@ Proof.
      + right; destruct E as (n,((H0,H2),H3)); exists n; auto with zarith.
   - apply Z.le_trans with (2 := Z.lt_le_incl _ _ H1); discriminate.
 Defined.
+
 
 Definition prime_dec: forall p, { prime p }+{ ~ prime p }.
 Proof.

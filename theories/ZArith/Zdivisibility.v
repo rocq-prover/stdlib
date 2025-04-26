@@ -26,6 +26,14 @@ Proof.
   apply BoolSpec_divide_nz; trivial.
 Qed.
 
+Lemma divide_m1_l a : ( -1 | a ).
+Proof. apply Z.divide_opp_l, Z.divide_1_l. Qed.
+
+Lemma divide_pow_same_r a n (Hn : 1 <= n) : ( a | a^n ).
+Proof.
+  rewrite <-(Z.succ_pred n), Z.pow_succ_r by lia.
+  apply Z.divide_factor_l.
+Qed.
 
 Definition coprime (a b:Z) : Prop := Z.gcd a b = 1.
 
@@ -99,6 +107,85 @@ Proof. split. lia. intros; intros []. assert (n = 2); nia. Qed.
 
 Lemma prime_ge_2 p : prime p ->  2 <= p.
 Proof. cbv [prime]. lia. Qed.
+
+Lemma divide_prime_r a p (Hp : prime p) (Hd : (a | p)) :
+  a = -p \/ a = -1 \/ a = 1 \/ a = p.
+Proof.
+  pose proof proj1 Hp; pose proof proj2 Hp a; pose proof proj2 Hp (-a).
+  pose proof Z.divide_opp_l a p.
+  pose proof Z.absle_divide _ _ Hd ltac:(lia).
+  case (Z.eqb_spec a 0) as [->|]. { rewrite (Z.divide_0_l p) in * by auto; auto. }
+  assert (a = -p \/ 1 < -a < p \/ a = -1 \/ a = 1 \/ 1 < a < p \/ a = p) by lia;
+    intuition idtac.
+Qed.
+
+Lemma divide_prime_r_iff a p (Hp : prime p) :
+  (a | p) <-> a = -p \/ a = -1 \/ a = 1 \/ a = p.
+Proof.
+  split; auto using divide_prime_r; []; intuition subst; rewrite ?Z.divide_opp_l;
+    auto using Z.divide_m1_l, Z.divide_1_l, Z.divide_refl.
+Qed.
+
+Lemma not_prime_square a : ~ prime (a * a).
+Proof.
+  rewrite <-Z.abs_square; intros [? Ha].
+  apply (Ha (Z.abs a)); [ nia | trivial using Z.divide_factor_l ].
+Qed.
+
+Lemma coprime_prime_l p a (Hp : prime p) (Ha : ~ (p | a)) : coprime p a.
+Proof.
+  apply Z.gcd_unique; trivial using Z.le_0_1, Z.divide_1_l; [].
+  intros d [->|[->|[->| ->] ] ]%divide_prime_r H; rewrite ?Z.divide_opp_l in *;
+     intuition trivial using Z.divide_1_l, Z.divide_m1_l.
+Qed.
+
+Lemma coprime_prime_l_iff p a (Hp : prime p) : coprime p a <-> ~ (p | a).
+Proof.
+  split; auto using coprime_prime_l.
+  pose proof prime_ge_2 _ Hp.
+  intros C; rewrite Z.divide_gcd_iff, C; lia.
+Qed.
+
+Lemma coprime_prime_small p a (Hp : prime p) (Ha : 1 <=  a < p) : coprime p a.
+Proof. apply Z.coprime_prime_l; trivial. intros ?%Z.divide_pos_le; lia. Qed.
+
+Lemma divide_prime_mul a b p (Hp : prime p) :
+  (p | a * b) <-> (p | a) \/ (p | b).
+Proof.
+  intuition auto using Z.divide_mul_l, Z.divide_mul_r.
+  case (BoolSpec_divide p a) as [?|D%coprime_prime_l]; auto.
+  eapply Z.gauss in D; eauto.
+Qed.
+
+Lemma divide_prime_prime p q (Hp : prime p) (Hq : prime q) :
+  ( p | q ) -> p = q.
+Proof.
+  intros H; pose proof proj1 Hp; pose proof proj1 Hq.
+  apply Z.divide_prime_r in H; trivial; lia.
+Qed.
+
+Lemma divide_prime_prime_iff p q (Hp : prime p) (Hq : prime q) :
+  ( p | q ) <-> p = q.
+Proof.
+  split; intros; subst; auto using Z.divide_refl, divide_prime_prime.
+Qed.
+
+Theorem divide_prime_pp p q n (Hp : prime p) (Hq : prime q) (Hn : 0 <= n) :
+  (p | q^n) -> p = q.
+Proof.
+  pose proof prime_ge_2 _ Hp; pose proof prime_ge_2 _ Hq.
+  pattern n; apply natlike_ind; trivial.
+  - rewrite Z.pow_0_r; intros [->| ->]%Z.divide_1_r; lia.
+  - intros ???.
+    rewrite Z.pow_succ_r, Z.divide_prime_mul, divide_prime_prime_iff; intuition idtac.
+Qed.
+
+Theorem divide_prime_pp_iff p q n (Hp : prime p) (Hq : prime q) (Hn : 1 <= n) :
+  (p | q^n) <-> p = q.
+Proof.
+  split. { apply divide_prime_pp; trivial; lia. }
+  intros ->. apply divide_pow_same_r; trivial.
+Qed.
 
 Section extended_euclid_algorithm.
 Variables a b : Z.
