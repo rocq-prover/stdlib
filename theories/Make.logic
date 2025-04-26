@@ -14,6 +14,7 @@ Logic/Decidable.v
 Logic/FunctionalExtensionality.v
 Logic/PropExtensionalityFacts.v
 Logic/Eqdep.v
+Logic/HLevelsBase.v
 Logic/HLevels.v
 Logic/PropFacts.v
 Logic/EqdepFacts.v
