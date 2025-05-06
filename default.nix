@@ -5,7 +5,7 @@
 }@args:
 let auto = fetchGit {
   url = "https://github.com/proux01/coq-nix-toolbox.git";
-  ref = "rocqderivation";
+  ref = "metarocq14";
   rev = import .nix/coq-nix-toolbox.nix;
 };
 in

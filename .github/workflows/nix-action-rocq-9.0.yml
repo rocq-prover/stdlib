@@ -29,11 +29,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -92,11 +92,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -155,11 +155,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -219,11 +219,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -286,11 +286,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -349,11 +349,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -385,7 +385,6 @@ jobs:
   QuickChick:
     needs:
     - coq
-    - mathcomp-ssreflect
     - ExtLib
     - simple-io
     runs-on: ubuntu-latest
@@ -414,11 +413,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -440,9 +439,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: ExtLib'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -485,11 +484,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -550,11 +549,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -621,11 +620,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -684,11 +683,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -747,11 +746,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -812,11 +811,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -883,11 +882,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -919,7 +918,6 @@ jobs:
   autosubst:
     needs:
     - coq
-    - mathcomp-ssreflect
     - stdlib
     runs-on: ubuntu-latest
     steps:
@@ -947,11 +945,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -973,9 +971,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: stdlib'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -1014,11 +1012,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1078,11 +1076,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1145,11 +1143,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1208,11 +1206,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1272,11 +1270,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1339,11 +1337,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1402,11 +1400,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1463,11 +1461,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1517,11 +1515,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1576,11 +1574,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1639,11 +1637,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1702,11 +1700,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1765,11 +1763,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1828,11 +1826,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1865,7 +1863,6 @@ jobs:
     needs:
     - coq
     - stdlib
-    - mathcomp-ssreflect
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -1892,11 +1889,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -1922,9 +1919,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -1959,11 +1956,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2024,11 +2021,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2095,11 +2092,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2159,11 +2156,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2226,11 +2223,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2289,11 +2286,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2352,11 +2349,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2385,69 +2382,6 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "equations"
-  equations-test:
-    needs:
-    - coq
-    - equations
-    runs-on: ubuntu-latest
-    steps:
-    - name: Determine which commit to initially checkout
-      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
-        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
-        }}\" >> $GITHUB_ENV\nfi\n"
-    - name: Git checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        ref: ${{ env.target_commit }}
-    - name: Determine which commit to test
-      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
-        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
-        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
-        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
-        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
-        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
-        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
-        \  fi\nfi\n"
-    - name: Git checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        ref: ${{ env.tested_commit }}
-    - name: Cachix install
-      uses: cachix/install-nix-action@v30
-      with:
-        nix_path: nixpkgs=channel:nixpkgs-unstable
-    - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
-      with:
-        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        extraPullNames: coq-community, math-comp
-        name: coq
-    - id: stepGetDerivation
-      name: Getting derivation for current job (equations-test)
-      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
-        \"rocq-9.0\" --argstr job \"equations-test\" \\\n   --dry-run 2> err > out
-        || (touch fail; true)\n"
-    - name: Error reporting
-      run: "echo \"out=\"; cat out\necho \"err=\"; cat err\n"
-    - name: Failure check
-      run: if [ -e fail ]; then exit 1; else exit 0; fi;
-    - id: stepCheck
-      name: Checking presence of CI target for current job
-      run: (echo -n status=; cat out err | grep "built:" | sed "s/.*/built/") >> $GITHUB_OUTPUT
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "coq"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: equations'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "equations"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "equations-test"
   fcsl-pcm:
     needs:
     - coq
@@ -2479,11 +2413,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2548,11 +2482,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2619,11 +2553,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2682,11 +2616,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2745,11 +2679,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2808,11 +2742,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2872,11 +2806,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -2939,11 +2873,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3003,11 +2937,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3070,11 +3004,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3134,11 +3068,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3202,11 +3136,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3270,11 +3204,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3337,11 +3271,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3400,11 +3334,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3436,11 +3370,6 @@ jobs:
   mathcomp:
     needs:
     - coq
-    - mathcomp-ssreflect
-    - mathcomp-fingroup
-    - mathcomp-algebra
-    - mathcomp-solvable
-    - mathcomp-field
     - mathcomp-character
     - hierarchy-builder
     runs-on: ubuntu-latest
@@ -3469,11 +3398,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3495,26 +3424,6 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-fingroup"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-algebra"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-solvable'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-solvable"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-field'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-field"
-    - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-character'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "mathcomp-character"
@@ -3529,7 +3438,6 @@ jobs:
   mathcomp-algebra:
     needs:
     - coq
-    - mathcomp-ssreflect
     - mathcomp-fingroup
     - hierarchy-builder
     runs-on: ubuntu-latest
@@ -3558,11 +3466,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3584,9 +3492,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-order'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-order"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-fingroup'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -3602,6 +3510,7 @@ jobs:
   mathcomp-algebra-tactics:
     needs:
     - coq
+    - mathcomp-ssreflect
     - mathcomp-algebra
     - coq-elpi
     - mathcomp-zify
@@ -3631,11 +3540,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3656,6 +3565,10 @@ jobs:
       name: 'Building/fetching previous CI target: coq'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -3705,11 +3618,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3783,11 +3696,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3831,7 +3744,6 @@ jobs:
   mathcomp-bigenough:
     needs:
     - coq
-    - mathcomp-ssreflect
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -3858,11 +3770,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3884,9 +3796,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -3894,10 +3806,6 @@ jobs:
   mathcomp-character:
     needs:
     - coq
-    - mathcomp-ssreflect
-    - mathcomp-fingroup
-    - mathcomp-algebra
-    - mathcomp-solvable
     - mathcomp-field
     - hierarchy-builder
     runs-on: ubuntu-latest
@@ -3926,11 +3834,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -3952,22 +3860,6 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-fingroup"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-algebra"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-solvable'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-solvable"
-    - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-field'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "mathcomp-field"
@@ -3982,6 +3874,7 @@ jobs:
   mathcomp-classical:
     needs:
     - coq
+    - mathcomp-ssreflect
     - mathcomp-algebra
     - mathcomp-finmap
     - hierarchy-builder
@@ -4011,11 +3904,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4037,6 +3930,10 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "mathcomp-ssreflect"
+    - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "mathcomp-algebra"
@@ -4055,9 +3952,6 @@ jobs:
   mathcomp-field:
     needs:
     - coq
-    - mathcomp-ssreflect
-    - mathcomp-fingroup
-    - mathcomp-algebra
     - mathcomp-solvable
     - hierarchy-builder
     runs-on: ubuntu-latest
@@ -4086,11 +3980,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4112,18 +4006,6 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-fingroup"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-algebra"
-    - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-solvable'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "mathcomp-solvable"
@@ -4138,7 +4020,6 @@ jobs:
   mathcomp-fingroup:
     needs:
     - coq
-    - mathcomp-ssreflect
     - hierarchy-builder
     runs-on: ubuntu-latest
     steps:
@@ -4166,11 +4047,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4192,9 +4073,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: hierarchy-builder'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -4206,7 +4087,6 @@ jobs:
   mathcomp-finmap:
     needs:
     - coq
-    - mathcomp-ssreflect
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -4233,11 +4113,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4259,9 +4139,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -4297,11 +4177,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4366,11 +4246,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4410,8 +4290,6 @@ jobs:
   mathcomp-solvable:
     needs:
     - coq
-    - mathcomp-ssreflect
-    - mathcomp-fingroup
     - mathcomp-algebra
     - hierarchy-builder
     runs-on: ubuntu-latest
@@ -4440,11 +4318,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4465,14 +4343,6 @@ jobs:
       name: 'Building/fetching previous CI target: coq'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-fingroup"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -4515,11 +4385,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4540,6 +4410,14 @@ jobs:
       name: 'Building/fetching previous CI target: coq'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "mathcomp-boot"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-order'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "mathcomp-order"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: hierarchy-builder'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -4581,11 +4459,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4630,7 +4508,6 @@ jobs:
     needs:
     - coq
     - mathcomp-algebra
-    - mathcomp-ssreflect
     - mathcomp-fingroup
     - stdlib
     runs-on: ubuntu-latest
@@ -4659,11 +4536,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4685,13 +4562,13 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "coq"
     - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "mathcomp-boot"
+    - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "mathcomp-algebra"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: mathcomp-fingroup'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -4738,11 +4615,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4818,11 +4695,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4887,11 +4764,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -4960,11 +4837,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5032,11 +4909,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5073,7 +4950,7 @@ jobs:
     needs:
     - coq
     - equations
-    - metacoq-template-coq
+    - metacoq-template-rocq
     - metacoq-pcuic
     - metacoq-template-pcuic
     runs-on: ubuntu-latest
@@ -5102,11 +4979,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5132,9 +5009,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "equations"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: metacoq-template-coq'
+      name: 'Building/fetching previous CI target: metacoq-template-rocq'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-template-coq"
+        --argstr job "metacoq-template-rocq"
     - if: steps.stepCheck.outputs.status == 'built'
       name: 'Building/fetching previous CI target: metacoq-pcuic'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -5178,11 +5055,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5247,11 +5124,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5288,7 +5165,80 @@ jobs:
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "metacoq-safechecker-plugin"
-  metacoq-template-coq:
+  metacoq-template-pcuic:
+    needs:
+    - coq
+    - equations
+    - metacoq-template-rocq
+    - metacoq-pcuic
+    runs-on: ubuntu-latest
+    steps:
+    - name: Determine which commit to initially checkout
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ env.target_commit }}
+    - name: Determine which commit to test
+      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
+        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
+        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
+        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
+        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
+        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
+        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
+        \  fi\nfi\n"
+    - name: Git checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ env.tested_commit }}
+    - name: Cachix install
+      uses: cachix/install-nix-action@v31
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-unstable
+    - name: Cachix setup coq
+      uses: cachix/cachix-action@v16
+      with:
+        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        extraPullNames: coq-community, math-comp
+        name: coq
+    - id: stepGetDerivation
+      name: Getting derivation for current job (metacoq-template-pcuic)
+      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
+        \"rocq-9.0\" --argstr job \"metacoq-template-pcuic\" \\\n   --dry-run 2> err
+        > out || (touch fail; true)\n"
+    - name: Error reporting
+      run: "echo \"out=\"; cat out\necho \"err=\"; cat err\n"
+    - name: Failure check
+      run: if [ -e fail ]; then exit 1; else exit 0; fi;
+    - id: stepCheck
+      name: Checking presence of CI target for current job
+      run: (echo -n status=; cat out err | grep "built:" | sed "s/.*/built/") >> $GITHUB_OUTPUT
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: coq'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "coq"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: equations'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "equations"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: metacoq-template-rocq'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "metacoq-template-rocq"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: 'Building/fetching previous CI target: metacoq-pcuic'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "metacoq-pcuic"
+    - if: steps.stepCheck.outputs.status == 'built'
+      name: Building/fetching current CI target
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
+        --argstr job "metacoq-template-pcuic"
+  metacoq-template-rocq:
     needs:
     - coq
     - equations
@@ -5319,19 +5269,19 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
         name: coq
     - id: stepGetDerivation
-      name: Getting derivation for current job (metacoq-template-coq)
+      name: Getting derivation for current job (metacoq-template-rocq)
       run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
-        \"rocq-9.0\" --argstr job \"metacoq-template-coq\" \\\n   --dry-run 2> err
+        \"rocq-9.0\" --argstr job \"metacoq-template-rocq\" \\\n   --dry-run 2> err
         > out || (touch fail; true)\n"
     - name: Error reporting
       run: "echo \"out=\"; cat out\necho \"err=\"; cat err\n"
@@ -5355,80 +5305,7 @@ jobs:
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-template-coq"
-  metacoq-template-pcuic:
-    needs:
-    - coq
-    - equations
-    - metacoq-template-coq
-    - metacoq-pcuic
-    runs-on: ubuntu-latest
-    steps:
-    - name: Determine which commit to initially checkout
-      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"target_commit=${{
-        github.sha }}\" >> $GITHUB_ENV\nelse\n  echo \"target_commit=${{ github.event.pull_request.head.sha
-        }}\" >> $GITHUB_ENV\nfi\n"
-    - name: Git checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        ref: ${{ env.target_commit }}
-    - name: Determine which commit to test
-      run: "if [ ${{ github.event_name }} = \"push\" ]; then\n  echo \"tested_commit=${{
-        github.sha }}\" >> $GITHUB_ENV\nelse\n  merge_commit=$(git ls-remote ${{ github.event.repository.html_url
-        }} refs/pull/${{ github.event.number }}/merge | cut -f1)\n  mergeable=$(git
-        merge --no-commit --no-ff ${{ github.event.pull_request.base.sha }} > /dev/null
-        2>&1; echo $?; git merge --abort > /dev/null 2>&1 || true)\n  if [ -z \"$merge_commit\"\
-        \ -o \"x$mergeable\" != \"x0\" ]; then\n    echo \"tested_commit=${{ github.event.pull_request.head.sha
-        }}\" >> $GITHUB_ENV\n  else\n    echo \"tested_commit=$merge_commit\" >> $GITHUB_ENV\n\
-        \  fi\nfi\n"
-    - name: Git checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        ref: ${{ env.tested_commit }}
-    - name: Cachix install
-      uses: cachix/install-nix-action@v30
-      with:
-        nix_path: nixpkgs=channel:nixpkgs-unstable
-    - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
-      with:
-        authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-        extraPullNames: coq-community, math-comp
-        name: coq
-    - id: stepGetDerivation
-      name: Getting derivation for current job (metacoq-template-pcuic)
-      run: "NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link \\\n   --argstr bundle
-        \"rocq-9.0\" --argstr job \"metacoq-template-pcuic\" \\\n   --dry-run 2> err
-        > out || (touch fail; true)\n"
-    - name: Error reporting
-      run: "echo \"out=\"; cat out\necho \"err=\"; cat err\n"
-    - name: Failure check
-      run: if [ -e fail ]; then exit 1; else exit 0; fi;
-    - id: stepCheck
-      name: Checking presence of CI target for current job
-      run: (echo -n status=; cat out err | grep "built:" | sed "s/.*/built/") >> $GITHUB_OUTPUT
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "coq"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: equations'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "equations"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: metacoq-template-coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-template-coq"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: metacoq-pcuic'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-pcuic"
-    - if: steps.stepCheck.outputs.status == 'built'
-      name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-template-pcuic"
+        --argstr job "metacoq-template-rocq"
   metacoq-test:
     needs:
     - coq
@@ -5459,11 +5336,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5496,7 +5373,7 @@ jobs:
     needs:
     - coq
     - equations
-    - metacoq-template-coq
+    - metacoq-template-rocq
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -5523,11 +5400,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5553,9 +5430,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "equations"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: metacoq-template-coq'
+      name: 'Building/fetching previous CI target: metacoq-template-rocq'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "metacoq-template-coq"
+        --argstr job "metacoq-template-rocq"
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -5590,11 +5467,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5654,11 +5531,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5721,11 +5598,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5784,11 +5661,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5847,11 +5724,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5911,11 +5788,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -5978,11 +5855,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6015,7 +5892,6 @@ jobs:
     needs:
     - coq
     - aac-tactics
-    - mathcomp-ssreflect
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -6042,11 +5918,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6072,9 +5948,9 @@ jobs:
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
         --argstr job "aac-tactics"
     - if: steps.stepCheck.outputs.status == 'built'
-      name: 'Building/fetching previous CI target: mathcomp-ssreflect'
+      name: 'Building/fetching previous CI target: mathcomp-boot'
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
-        --argstr job "mathcomp-ssreflect"
+        --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status == 'built'
       name: Building/fetching current CI target
       run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.0"
@@ -6109,11 +5985,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6172,11 +6048,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6233,11 +6109,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6286,11 +6162,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6339,11 +6215,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6395,11 +6271,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6462,11 +6338,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6525,11 +6401,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6588,11 +6464,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6652,11 +6528,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6719,11 +6595,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6782,11 +6658,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6844,11 +6720,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6901,11 +6777,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -6956,11 +6832,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7017,11 +6893,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7070,11 +6946,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7125,11 +7001,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7188,11 +7064,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7252,11 +7128,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7318,11 +7194,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7377,11 +7253,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
@@ -7440,11 +7316,11 @@ jobs:
         fetch-depth: 0
         ref: ${{ env.tested_commit }}
     - name: Cachix install
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
       with:
         nix_path: nixpkgs=channel:nixpkgs-unstable
     - name: Cachix setup coq
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         extraPullNames: coq-community, math-comp
