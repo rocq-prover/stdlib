@@ -207,6 +207,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       metacoq-template-coq.job = false;  # old thing, now renamed to metacoq-template-rocq
+      jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
     };
     common-bundles = {
       bignums.override.version = "master";
