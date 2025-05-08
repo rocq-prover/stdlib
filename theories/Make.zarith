@@ -7,6 +7,7 @@ ZArith/_All/Zgcd_alt.v
 ZArith/_All/Zwf.v
 ZArith/_All/ZArith.v
 ZArith/_All/Zbitwise.v
+ZArith/_All/ZModOffset.v
 Numbers/Integer/Binary/ZBinary.v
 Numbers/Integer/NatPairs/ZNatPairs.v
 Numbers/_ZArith/DecimalN.v
