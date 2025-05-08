@@ -455,6 +455,7 @@ From Stdlib Require Export Logic.Eqdep_dec.
 From Stdlib Require Export Logic.ExtensionalFunctionRepresentative.
 From Stdlib Require Export Logic.ExtensionalityFacts.
 From Stdlib Require Export Logic.FunctionalExtensionality.
+From Stdlib Require Export Logic.HLevelsBase.
 From Stdlib Require Export Logic.HLevels.
 From Stdlib Require Export Logic.Hurkens.
 From Stdlib Require Export Logic.IndefiniteDescription.

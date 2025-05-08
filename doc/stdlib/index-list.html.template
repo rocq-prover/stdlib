@@ -34,6 +34,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Logic/ExtensionalityFacts.v
     theories/Logic/WeakFan.v
     theories/Logic/PropFacts.v
+    theories/Logic/HLevelsBase.v
     theories/Logic/HLevels.v
     theories/Logic/Adjointification.v
   </dd>
