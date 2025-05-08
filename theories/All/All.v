@@ -109,6 +109,7 @@ From Stdlib Require Export ZArith.Zcompare.
 From Stdlib Require Export ZArith.Zcomplements.
 From Stdlib Require Export ZArith.Zdiv.
 From Stdlib Require Export ZArith.Zdiv_facts.
+From Stdlib Require Export ZArith.ZModOffset.
 From Stdlib Require Export ZArith.Zeuclid.
 From Stdlib Require Export ZArith.Zeven.
 From Stdlib Require Export ZArith.Zgcd_alt.
