@@ -208,6 +208,15 @@ with builtins; with (import <nixpkgs> {}).lib;
       stdlib-refman-html.job = true;
       metacoq-template-coq.job = false;  # old thing, now renamed to metacoq-template-rocq
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
+      # To add a simple overlay applying to all bundles,
+      # add below a line like
+      #<package>.override.version = "<github_login>:<branch>";
+      # where
+      # * <package> will typically be one of the strings above (without the quotes)
+      #   or look at https://github.com/NixOS/nixpkgs/tree/master/pkgs/development/coq-modules
+      #   for a complete list of Coq packages available in Nix
+      # * <github_login>:<branch> is such that this will use the branch <branch>
+      #   from https://github.com/<github_login>/<repository>
     };
     common-bundles = {
       bignums.override.version = "master";
