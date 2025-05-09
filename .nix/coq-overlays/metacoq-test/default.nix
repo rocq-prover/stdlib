@@ -2,8 +2,8 @@
 
 mkCoqDerivation {
   pname = "metacoq-test";
-  repo = "metacoq";
-  owner = "MetaCoq";
+  repo = "metarocq";
+  owner = "MetaRocq";
   inherit version;
 
   mlPlugin = true;

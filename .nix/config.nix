@@ -131,7 +131,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "fiat-crypto-ocaml"
       "fiat-parsers"
       "flocq"
-      "fourcolor"
       "hierarchy-builder"
       "http"
       "InfSeqExt"
@@ -155,13 +154,11 @@ with builtins; with (import <nixpkgs> {}).lib;
       "mathcomp-reals"
       "mathcomp-solvable"
       "mathcomp-ssreflect"
-      "mathcomp-test"
       "mathcomp-zify"
       "math-classes"
       "MenhirLib"
       "mtac2"
       "neural-net-coq-interp"
-      "odd-order"
       "paco"
       "paramcoq-test"
       "parsec"
@@ -209,6 +206,17 @@ with builtins; with (import <nixpkgs> {}).lib;
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
+      metacoq-template-coq.job = false;  # old thing, now renamed to metacoq-template-rocq
+      jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
+      # To add a simple overlay applying to all bundles,
+      # add below a line like
+      #<package>.override.version = "<github_login>:<branch>";
+      # where
+      # * <package> will typically be one of the strings above (without the quotes)
+      #   or look at https://github.com/NixOS/nixpkgs/tree/master/pkgs/development/coq-modules
+      #   for a complete list of Coq packages available in Nix
+      # * <github_login>:<branch> is such that this will use the branch <branch>
+      #   from https://github.com/<github_login>/<repository>
     };
     common-bundles = {
       bignums.override.version = "master";
@@ -226,9 +234,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq.override.version = "master";
     }; };
     "rocq-9.0" = { rocqPackages = common-bundles // {
-      rocq-core.override.version = "V9.0.0";
+      rocq-core.override.version = "9.0.0";
     }; coqPackages = coq-common-bundles // {
-      coq.override.version = "V9.0.0";
+      coq.override.version = "9.0.0";
       # plugin pins, from v9.0 branch of Coq
       aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
@@ -238,16 +246,14 @@ with builtins; with (import <nixpkgs> {}).lib;
       dpdgraph-test.override.version = "74ced1b11a8df8d4c04c3829fcf273aa63d2c493";
       coq-hammer.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
       coq-hammer-tactics.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
-      equations.override.version = "v1.3.1-9.0";
-      equations-test.override.version = "v1.3.1-9.0";
+      equations.override.version = "1.3.1+9.0";
+      equations-test.job = false;
       fiat-parsers.job = false;  # broken
-      metacoq.override.version = "17ba45ffc84d37e187ef87a55b840890f1d87f01";
-      metacoq-test.override.version = "17ba45ffc84d37e187ef87a55b840890f1d87f01";
+      metacoq.override.version = "1.4-9.0";
+      metacoq-test.override.version = "v1.4-9.0";
       mtac2.override.version = "1cdb2cb628444ffe9abc6535f6d2e11004de7fc1";
       paramcoq-test.override.version = "32609ca4a9bf4a0e456a855ea5118d8c00cda6be";
       perennial.job = false;  # broken
-      QuickChick.override.version = "7b33d19066aa762629cbbe210d41067f56dce000";
-      quickchick-test.override.version = "7b33d19066aa762629cbbe210d41067f56dce000";
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
       rewriter.override.version = "30c8507c1e30626b2aa1e15c0aa7c23913da033c";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";

@@ -57,7 +57,6 @@ let
     in rocqPackages.lib.overrideRocqDerivation ({
       inherit pname;
       propagatedBuildInputs = stdlib-deps;
-      useDune = false;
       mlPlugin = true;
     } // {
       buildPhase = ''

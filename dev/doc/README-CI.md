@@ -23,7 +23,7 @@ The list of bundles can be found in `.nix/config.nix`.
 ### Test CI Configurations with Overlays
 
 For simple overlays, it's enough to add a line in the .nix/config.nix
-file (look for "overlay" there).
+file (look for "simple overlay" there).
 
 For more elaborate overlays (for instance editing package dependencies
 or build process), a simple way to test modifications of the CI

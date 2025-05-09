@@ -13,6 +13,8 @@ coqPackages.lib.overrideCoqDerivation {
     antlr4_9
   ];
 
+  useDune = true;
+
   buildPhase = ''
     patchShebangs dev/with-rocq-wrap.sh
     dev/with-rocq-wrap.sh dune build --root . --no-buffer @refman-html ''${enableParallelBuilding:+-j $NIX_BUILD_CORES}
