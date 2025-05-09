@@ -683,30 +683,30 @@ Definition pmul := Pmul cO cI cplus ctimes ceqb.
 Definition popp := Popp copp.
 
 Definition normalise (f : Formula C) : NFormula :=
-let (lhs, op, rhs) := f in
+  let (lhs, op, rhs) := f in
   let lhs := norm lhs in
-    let rhs := norm rhs in
+  let rhs := norm rhs in
   match op with
-  | OpEq =>  (psub  lhs rhs, Equal)
+  | OpEq  => (psub lhs rhs, Equal)
   | OpNEq => (psub lhs rhs, NonEqual)
-  | OpLe =>  (psub rhs lhs, NonStrict)
-  | OpGe =>  (psub lhs rhs, NonStrict)
-  | OpGt => (psub  lhs rhs, Strict)
-  | OpLt => (psub  rhs lhs, Strict)
+  | OpLe  => (psub rhs lhs, NonStrict)
+  | OpGe  => (psub lhs rhs, NonStrict)
+  | OpGt  => (psub lhs rhs, Strict)
+  | OpLt  => (psub rhs lhs, Strict)
   end.
 
 Definition negate (f : Formula C) : NFormula :=
-let (lhs, op, rhs) := f in
+  let (lhs, op, rhs) := f in
   let lhs := norm lhs in
-    let rhs := norm rhs in
-      match op with
-        | OpEq => (psub rhs lhs, NonEqual)
-        | OpNEq => (psub rhs lhs, Equal)
-        | OpLe => (psub lhs rhs, Strict) (* e <= e' == ~ e > e' *)
-        | OpGe => (psub rhs lhs, Strict)
-        | OpGt => (psub rhs lhs, NonStrict)
-        | OpLt => (psub lhs rhs, NonStrict)
-      end.
+  let rhs := norm rhs in
+  match op with
+  | OpEq  => (psub rhs lhs, NonEqual)
+  | OpNEq => (psub rhs lhs, Equal)
+  | OpLe  => (psub lhs rhs, Strict) (* e <= e' == ~ e > e' *)
+  | OpGe  => (psub rhs lhs, Strict)
+  | OpGt  => (psub rhs lhs, NonStrict)
+  | OpLt  => (psub lhs rhs, NonStrict)
+  end.
 
 Lemma eval_pol_sub : forall env lhs rhs, eval_pol env (psub  lhs rhs) == eval_pol env lhs - eval_pol env rhs.
 Proof.

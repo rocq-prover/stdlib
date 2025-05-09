@@ -8,8 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import ZifyClasses ZifyInst.
-Declare ML Module "rocq-runtime.plugins.zify".
+From Stdlib Require Import Tify ZifyInst.
+From Stdlib Require Import BinInt.
 
 (** [zify_pre_hook] and [zify_post_hook] are there to be redefined. *)
 Ltac zify_pre_hook := idtac.
@@ -28,11 +28,6 @@ Ltac zify_to_euclidean_division_equations :=
   end.
 
 
-Ltac zify := intros;
-             zify_pre_hook ;
-             zify_elim_let ;
-             zify_op ;
-             (zify_iter_specs) ;
-             zify_saturate;
+Ltac zify := zify_pre_hook ;tify Z;
              zify_to_euclidean_division_equations ;
              zify_post_hook.

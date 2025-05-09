@@ -40,42 +40,42 @@ Proof.
   intros; apply shiftr_ubound; assumption.
 Qed.
 
-#[global] Instance sat_shiftr_lbound : ZifyClasses.Saturate BinIntDef.Z.shiftr :=
+#[global] Instance sat_shiftr_lbound : TifyClasses.Saturate BinIntDef.Z.shiftr :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a;
-    ZifyClasses.PArg2 := fun b => True;
-    ZifyClasses.PRes := fun a b ab => 0 <= ab;
-    ZifyClasses.SatOk := shiftr_lbound
+    TifyClasses.PArg1 := fun a => 0 <= a;
+    TifyClasses.PArg2 := fun b => True;
+    TifyClasses.PRes := fun a b ab => 0 <= ab;
+    TifyClasses.SatOk := shiftr_lbound
   |}.
-Add Zify Saturate sat_shiftr_lbound.
+Add Tify Saturate sat_shiftr_lbound.
 
-#[global] Instance sat_shiftr_contr_8 : ZifyClasses.Saturate BinIntDef.Z.shiftr :=
+#[global] Instance sat_shiftr_contr_8 : TifyClasses.Saturate BinIntDef.Z.shiftr :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 8;
-    ZifyClasses.PArg2 := fun b => 0 <= b;
-    ZifyClasses.PRes := fun a b ab => ab < 2 ^ 8;
-    ZifyClasses.SatOk := shiftrContractive8
+    TifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 8;
+    TifyClasses.PArg2 := fun b => 0 <= b;
+    TifyClasses.PRes := fun a b ab => ab < 2 ^ 8;
+    TifyClasses.SatOk := shiftrContractive8
   |}.
-Add Zify Saturate sat_shiftr_contr_8.
+Add Tify Saturate sat_shiftr_contr_8.
 
-#[global] Instance sat_shiftr_contr_16 : ZifyClasses.Saturate BinIntDef.Z.shiftr :=
+#[global] Instance sat_shiftr_contr_16 : TifyClasses.Saturate BinIntDef.Z.shiftr :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 16;
-    ZifyClasses.PArg2 := fun b => 0 <= b;
-    ZifyClasses.PRes := fun a b ab => ab < 2 ^ 16;
-    ZifyClasses.SatOk := shiftrContractive16
+    TifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 16;
+    TifyClasses.PArg2 := fun b => 0 <= b;
+    TifyClasses.PRes := fun a b ab => ab < 2 ^ 16;
+    TifyClasses.SatOk := shiftrContractive16
   |}.
-Add Zify Saturate sat_shiftr_contr_16.
+Add Tify Saturate sat_shiftr_contr_16.
 
 
-#[global] Instance sat_shiftr_contr_32 : ZifyClasses.Saturate BinIntDef.Z.shiftr :=
+#[global] Instance sat_shiftr_contr_32 : TifyClasses.Saturate BinIntDef.Z.shiftr :=
   {|
-    ZifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 32;
-    ZifyClasses.PArg2 := fun b => 0 <= b;
-    ZifyClasses.PRes := fun a b ab => ab < 2 ^ 32;
-    ZifyClasses.SatOk := shiftrContractive32
+    TifyClasses.PArg1 := fun a => 0 <= a < 2 ^ 32;
+    TifyClasses.PArg2 := fun b => 0 <= b;
+    TifyClasses.PRes := fun a b ab => ab < 2 ^ 32;
+    TifyClasses.SatOk := shiftrContractive32
   |}.
-Add Zify Saturate sat_shiftr_contr_32.
+Add Tify Saturate sat_shiftr_contr_32.
 
 
 Goal forall x y ,
@@ -85,7 +85,7 @@ Goal forall x y ,
     -> Z.le (Z.shiftr y 8) 255
     -> Z.le (Z.shiftr x 24) 255.
   intros.
-  Zify.zify_saturate.
+  Tify.tify_saturate.
   (* [xlia zchecker] used to raise a [Stack overflow] error. It is supposed to fail normally. *)
   assert_fails (xlia zchecker).
 Abort.
