@@ -53,3 +53,6 @@ From Stdlib Require Export Zbitwise.
 From Stdlib Require Export ZModOffset.
 
 Export ZArithRing.
+
+(* This compat Require is deprecated since 9.1 *)
+From Stdlib Require Znumtheory.
