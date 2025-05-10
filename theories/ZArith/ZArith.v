@@ -47,8 +47,12 @@ From Stdlib Require Export ZArith_hints.
 From Stdlib Require Export Zcomplements.
 From Stdlib Require Export Zpower.
 From Stdlib Require Export Zdiv.
+From Stdlib Require Export Zdivisibility.
 From Stdlib Require Export Zdiv_facts.
 From Stdlib Require Export Zbitwise.
 From Stdlib Require Export ZModOffset.
 
 Export ZArithRing.
+
+(* This compat Require is deprecated since 9.1 *)
+From Stdlib Require Znumtheory.

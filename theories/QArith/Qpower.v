@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import Zpow_facts Qfield Qreduction.
+From Stdlib Require Import Qfield Qreduction.
 
 (** * Properties of Qpower_positive *)
 
@@ -438,7 +438,7 @@ induction n using Pos.peano_ind.
   ring.
 - rewrite Pos2Z.inj_succ.
   unfold Z.succ.
-  rewrite Zpower_exp; auto with *; try discriminate.
+  rewrite Z.pow_add_r; auto with *; try discriminate.
   rewrite Qpower_plus' by discriminate.
   rewrite <- IHn by discriminate.
   replace (a^Zpos n*a^1)%Z with (a^Zpos n*a)%Z by ring.
@@ -468,8 +468,8 @@ Proof.
   intros q.
   destruct (Qarchimedean q) as [pexp Hpexp].
   exists (Pos.size pexp).
-  pose proof Pos.size_gt pexp as H1.
-  unfold Qlt in *. cbn in *; Zify.zify.
-  apply (Z.mul_lt_mono_pos_r (QDen q)) in H1; [|assumption].
-  apply (Z.lt_trans _ _ _ Hpexp H1).
+  cbv [Qlt] in *; cbn [Qnum Qden] in *.
+  etransitivity; [exact Hpexp|].
+  rewrite <-Z.mul_lt_mono_pos_r by reflexivity.
+  apply Pos.size_gt.
 Qed.

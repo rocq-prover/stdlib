@@ -12,7 +12,6 @@ From Stdlib Require Export List.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import BinPos.
 From Stdlib Require Import BinList.
-From Stdlib Require Import Znumtheory.
 From Stdlib Require Export Morphisms Setoid Bool.
 From Stdlib Require Import BinInt.
 From Stdlib Require Export Algebra_syntax.
@@ -188,7 +187,6 @@ Ltac cring_simplify_aux lterm fv lexpr hyp :=
             rewrite eq1;
             pattern (@Ring_polynom.Pphi_dev
             _ 0 1 _+_ _*_ _-_ -_
-
             Z 0%Z 1%Z Z.eqb
             Ncring_initial.gen_phiZ
             get_signZ fv t');
