@@ -142,25 +142,26 @@ Proof. rewrite to_Z_mul; trivial. Qed.
 Notation to_Z_mul := unsigned_mul (only parsing).
 Lemma signed_mul [n] (x y : bits n) : signed (mul x y) = Z.smodulo (signed x*signed y) (2^n).
 Proof. rewrite signed_mul; trivial. Qed.
-Lemma to_Z_slu [n] (x : bits n) y : to_Z (slu x y) = Z.shiftl x y mod 2^n.
+Lemma unsigned_slu [n] (x : bits n) y : to_Z (slu x y) = Z.shiftl x y mod 2^n.
 Proof. rewrite to_Z_slu; trivial. Qed.
-(* (* TODO *)
-Lemma to_Z_srs [n] (x : bits n) y : to_Z (srs x y) = Z.shiftr (signed x) y mod 2^n.
-Proof. rewrite to_Z_srs; trivial. Qed.
-Lemma signed_srs [n] (x : bits n) y : signed (srs x y) = Z.shiftr (signed x) y.
-Proof. apply signed_srs. Qed.
-*)
+Notation to_Z_slu := unsigned_slu (only parsing).
+Lemma unsigned_srs [n] (x : bits n) y (Hy : 0 <= y) : to_Z (srs x y) = Z.shiftr (signed x) y mod 2^n.
+Proof. rewrite unsigned_srs; trivial. Qed.
+Notation to_Z_srs := unsigned_srs (only parsing).
+Lemma signed_srs [n] (x : bits n) y (Hy : 0 <= y) : signed (srs x y) = Z.shiftr (signed x) y.
+Proof. apply signed_srs; trivial. Qed.
 Lemma of_Z_div [n] (x y : Z) (Hx : 0 <= x < 2^n) (Hy : 0 < y < 2^n) :
   bits.of_Z n (x / y) = udiv (of_Z _ x) (of_Z _ y).
 Proof. apply of_Z_div_small; trivial. Qed.
 Lemma of_Z_umod [n] (x y : Z) (Hx : 0 <= x < 2^n) (Hy : 0 <= y < 2^n) :
   bits.of_Z n (x mod y) = umod (of_Z _ x) (of_Z _ y).
 Proof. rewrite of_Z_umod_small; trivial. Qed.
-Lemma to_Z_mdiv [n] (x y : bits n) : to_Z (mdiv x y) = x * Z.invmod y (2^n) mod 2^n.
+Lemma unsigned_mdiv [n] (x y : bits n) : to_Z (mdiv x y) = x * Z.invmod y (2^n) mod 2^n.
 Proof. rewrite to_Z_mdiv; trivial. Qed.
-Lemma to_Z_pow_nonneg_r [n] (x : bits n) z (Hz : 0 <= z) : to_Z (pow x z) = x^z mod 2^n.
+Notation to_Z_mdiv := unsigned_mdiv (only parsing).
+Lemma unsigned_pow_nonneg_r [n] (x : bits n) z (Hz : 0 <= z) : to_Z (pow x z) = x^z mod 2^n.
 Proof. rewrite to_Z_pow_nonneg_r; trivial. Qed.
-Notation to_Z_pow_nonneg := to_Z_pow_nonneg_r (only parsing).
+Notation to_Z_pow_nonneg := unsigned_pow_nonneg_r (only parsing).
 Lemma signed_pow_nonneg_r [n] (x z : bits n) (Hz : 0 <= z) : signed (pow x z) = Z.smodulo (signed x ^ z) (2^n).
 Proof. rewrite signed_pow_nonneg_r; trivial. Qed.
 Notation signed_pow_nonneg := signed_pow_nonneg_r.
@@ -280,7 +281,7 @@ Lemma ones_neg n (Hn : n < 0) : Z.ones n = -1.
 Proof. rewrite Z.ones_equiv, Z.pow_neg_r; trivial. Qed.
 End Z.
 
-Lemma to_Z_not [n] (x : bits n) : to_Z (not x) = Z.ldiff (Z.ones n) x.
+Lemma unsigned_not [n] (x : bits n) : to_Z (not x) = Z.ldiff (Z.ones n) x.
 Proof.
   cbv [not]; rewrite to_Z_of_Z; apply Z.bits_inj'; intros i Hi.
   case (Z.leb_spec 0 n) as []; case (Z.ltb_spec i n) as [];
@@ -298,8 +299,9 @@ Proof.
     ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial; try lia.
 Qed.
+Local Notation to_Z_not := unsigned_not (only parsing).
 
-Lemma to_Z_not' [n] (x : bits n) : to_Z (not x) = Z.ones n - x.
+Lemma unsigned_not' [n] (x : bits n) : to_Z (not x) = Z.ones n - x.
 Proof.
   rewrite to_Z_not, Z.sub_nocarry_ldiff; trivial.
   apply Z.bits_inj'; intros i Hi;
@@ -309,6 +311,7 @@ Proof.
     ?(proj2 (Z.ltb_lt _ _)), ?(proj2 (Z.leb_le _ _)), ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial.
 Qed.
+Local Notation to_Z_not' := unsigned_not' (only parsing).
 
 Lemma of_Z_lnot [n] z : bits.of_Z n (Z.lnot z) = not (bits.of_Z n z).
 Proof.
@@ -341,7 +344,7 @@ Proof. rewrite <-not_0, not_not; trivial. Qed.
 
 (** ** Bitvector operations that vary the modulus *)
 
-Lemma to_Z_app [n m] a b (Hn : 0 <= n) (Hm : ~(-n <= m < 0)) :
+Lemma unsigned_app [n m] a b (Hn : 0 <= n) (Hm : ~(-n <= m < 0)) :
   to_Z (@app n m a b) = Z.lor a (Z.shiftl b n).
 Proof.
   cbv [app]. rewrite to_Z_of_Z, Z.shiftl_mul_pow2; trivial.
@@ -353,11 +356,13 @@ Proof.
   pose proof Z.lor_nonneg a (b * 2^n). pose proof Z.land_nonneg a (b * 2^n).
   pose proof Z.add_lor_land a (b * 2^n). nia.
 Qed.
+Notation to_Z_app := unsigned_app (only parsing).
 
-Lemma to_Z_firstn [n m] a : to_Z (@firstn n m a) = a mod 2^n.
+Lemma unsigned_firstn [n m] a : to_Z (@firstn n m a) = a mod 2^n.
 Proof. apply to_Z_of_Z. Qed.
+Notation to_Z_firstn := unsigned_firstn (only parsing).
 
-Lemma to_Z_skipn [n m] a (Hn : 0 <= n) : to_Z (@skipn n m a) = a/2^n.
+Lemma unsigned_skipn [n m] a (Hn : 0 <= n) : to_Z (@skipn n m a) = a/2^n.
 Proof.
   cbv [skipn]; rewrite to_Z_of_Z, Z.shiftr_div_pow2 by trivial.
   case (Z.ltb_spec m n) as []. { rewrite (Z.pow_neg_r 2 (_-_)), Zmod_0_r; lia. }
@@ -366,10 +371,12 @@ Proof.
   apply Zdiv_lt_upper_bound; [lia|].
   rewrite <-Z.pow_add_r, Z.sub_add; lia.
 Qed.
+Notation to_Z_skipn := unsigned_skipn (only parsing).
 
-Lemma to_Z_extract start pastend [w] (a : bits w) (H : 0 <= start <= pastend) :
+Lemma unsigned_extract start pastend [w] (a : bits w) (H : 0 <= start <= pastend) :
   to_Z (extract start pastend a) = a/2^start mod 2^(pastend-start).
 Proof. cbv [extract]. rewrite to_Z_firstn, to_Z_skipn; lia. Qed.
+Notation to_Z_extract := unsigned_extract (only parsing).
 
 Lemma firstn_app [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
   firstn n (@app n m a b) = a.
@@ -385,7 +392,7 @@ Proof.
   rewrite (Z.testbit_neg_r b) by lia; Btauto.btauto.
 Qed.
 
-Lemma skipn_app [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+Lemma skipn_app_dep [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
   existT _ _ (skipn n (@app n m a b)) = existT _ _ b.
 Proof.
   pose proof to_Z_range a. eapply to_Z_inj_dep. { f_equal. lia. }
@@ -393,30 +400,23 @@ Proof.
   erewrite Z.shiftr_div_pow2, Z.sub_diag, Z.shiftl_0_r, Z.div_small, Z.lor_0_l; lia.
 Qed.
 
-Lemma skipn_app' [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+Lemma skipn_app_ex [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
   exists pf, skipn n (@app n m a b) = eq_rect _ Zmod b _ pf.
 Proof.
-  pose proof skipn_app a b ltac:(lia) ltac:(lia) as E.
+  pose proof skipn_app_dep a b ltac:(lia) ltac:(lia) as E.
   symmetry in E; inversion_sigma. exists E1.
   apply to_Z_inj. rewrite to_Z_eq_rect, <-E2, to_Z_eq_rect; trivial.
 Qed.
 
-Lemma skipn_app'' [n m] a b pf (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
-  skipn n (@app n m a b) = eq_rect _ Zmod b _ pf.
-Proof.
-  case (skipn_app' a b) as [?->]; trivial.
-  apply to_Z_inj; rewrite !to_Z_eq_rect; trivial.
-Qed.
-
-Lemma skipn_app''' [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+Lemma skipn_app [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
   skipn n (@app n m a b) = of_Z _ (to_Z (skipn n (@app n m a b))).
 Proof.
-  case (skipn_app' a b) as [?->]; trivial.
+  case (skipn_app_ex a b) as [?->]; trivial.
   apply to_Z_inj; rewrite to_Z_eq_rect, to_Z_of_Z.
   rewrite Z.add_simpl_l, mod_to_Z; trivial.
 Qed.
 
-Lemma app_assoc [n m l] (a : bits n) (b : bits m) (c : bits l)
+Lemma app_assoc_dep [n m l] (a : bits n) (b : bits m) (c : bits l)
   (Hn : 0 <= n) (Hm : 0 <= m) (Hl : 0 <= l) :
   existT _ _ (app a (app b c)) = existT _ _ (app (app a b) c).
 Proof.
@@ -429,27 +429,19 @@ Proof.
     by lia; trivial.
 Qed.
 
-Lemma app_assoc' [n m l] (a : bits n) (b : bits m) (c : bits l)
+Lemma app_assoc_ex [n m l] (a : bits n) (b : bits m) (c : bits l)
   (Hn : 0 <= n) (Hm : 0 <= m) (Hl : 0 <= l) :
   exists pf, app a (app b c) = eq_rect _ _ (app (app a b) c) _ pf.
 Proof.
-  pose proof app_assoc a b c Hn Hm Hl as E; symmetry in E; inversion_sigma.
+  pose proof app_assoc_dep a b c Hn Hm Hl as E; symmetry in E; inversion_sigma.
   exists E1. apply to_Z_inj; rewrite <-E2, !to_Z_eq_rect; trivial.
 Qed.
 
-Lemma app_assoc'' [n m l] (a : bits n) (b : bits m) (c : bits l) pf
-  (Hn : 0 <= n) (Hm : 0 <= m) (Hl : 0 <= l) :
-  app a (app b c) = eq_rect _ _ (app (app a b) c) _ pf.
-Proof.
-  case (app_assoc' a b c) as [?->]; trivial.
-  apply to_Z_inj; rewrite !to_Z_eq_rect; trivial.
-Qed.
-
-Lemma app_assoc''' [n m l] (a : bits n) (b : bits m) (c : bits l)
+Lemma app_assoc [n m l] (a : bits n) (b : bits m) (c : bits l)
   (Hn : 0 <= n) (Hm : 0 <= m) (Hl : 0 <= l) :
   app a (app b c) = of_Z _ (to_Z (app (app a b) c)).
 Proof.
-  ecase (app_assoc' a b c) as [?->]; trivial. apply to_Z_inj;
+  ecase (app_assoc_ex a b c) as [?->]; trivial. apply to_Z_inj;
     rewrite !to_Z_eq_rect, !to_Z_of_Z, ?Z.add_assoc, mod_to_Z; trivial.
 Qed.
 

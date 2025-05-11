@@ -723,35 +723,40 @@ Notation to_Z_ndn_small := unsigned_ndn_small (only parsing).
 
 (** ** Shifts *)
 
-Lemma unsigned_sru [m] x n : @to_Z m (sru x n) = Z.shiftr x n mod m.
-Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_sru := unsigned_sru (only parsing).
-
-Lemma unsigned_sru_small [m] x n (Hm : 0 <= m) (Hn : 0 <= n) : @to_Z m (sru x n) = Z.shiftr x n.
-Proof.
-  rewrite to_Z_sru.
-  case (Z.eqb_spec m 0) as [->|]; auto using Zmod_0_r.
-  apply Z.mod_small; pose proof (to_Z_range x).
-  rewrite Z.shiftr_div_pow2; Z.to_euclidean_division_equations; nia.
-Qed.
-Notation to_Z_sru_small := unsigned_sru_small (only parsing).
-
-(* TODO
-Lemma signed_srs [m] x n : @signed m (srs x n) = Z.shiftr (signed x) n.
-Proof.
-  cbv [srs]; rewrite signed_of_Z; apply Z.smod_small.
-  rewrite Z.shiftr_div_pow2 by lia; pose proof signed_range x.
-  Z.to_euclidean_division_equations; nia.
-Qed.
-
-Lemma unsigned_srs [m] x n : @to_Z m (srs x n) = Z.shiftr (signed x) n mod m.
-Proof. rewrite <-mod_to_Z, <-Z.mod_smod, <-signed_srs, <-signed_of_Z, of_Z_to_Z; trivial. Qed.
-Notation to_Z_srs := unsigned_srs (only parsing).
-*)
-
 Lemma unsigned_slu [m] x n : @to_Z m (slu x n) = Z.shiftl x n mod m.
 Proof. cbv [slu]; rewrite to_Z_of_Z; trivial. Qed.
 Notation to_Z_slu := unsigned_slu (only parsing).
+
+Lemma unsigned_sru [m] x n (Hn : 0 <= n) : @to_Z m (sru x n) = Z.shiftr x n.
+Proof.
+  cbv [sru]; rewrite to_Z_of_Z.
+  case (Z.eqb_spec m 0) as [->|]; auto using Zmod_0_r.
+  apply Z.mod_id_iff; pose proof (to_Z_range x).
+  rewrite Z.shiftr_div_pow2; Z.to_euclidean_division_equations; nia.
+Qed.
+Notation to_Z_sru := unsigned_sru (only parsing).
+
+Lemma signed_srs [m] x n (Hn : 0 <= n) : @signed m (srs x n) = Z.shiftr (signed x) n.
+Proof.
+  cbv [srs]; rewrite signed_of_Z; apply Z.smod_small_iff.
+  rewrite Z.shiftr_div_pow2 by trivial; pose proof signed_range x.
+  assert (Z.rem m 2 = -1 \/ Z.rem m 2 = 0 \/ Z.rem m 2 = 1);
+  Z.to_euclidean_division_equations; nia.
+Qed.
+
+Lemma unsigned_srs [m] x n (Hn : 0 <= n) : @to_Z m (srs x n) = Z.shiftr (signed x) n mod m.
+Proof. rewrite <-mod_to_Z, <-Z.mod_smod, <-signed_srs, <-signed_of_Z, of_Z_to_Z; trivial. Qed.
+Notation to_Z_srs := unsigned_srs (only parsing).
+
+Lemma sru_neg_r [m] (x :Zmod m) n (Hn : n <= 0) : sru x n = slu x (-n).
+Proof. cbv [sru slu]; rewrite of_Z_inj, Z.shiftl_opp_r. trivial. Qed.
+
+Lemma srs_neg_r [m] (x :Zmod m) n (Hn : n <= 0) : srs x n = slu x (-n).
+Proof.
+  replace n with (--n) at 1 by lia; set (-n) as n' in *.
+  cbv [srs slu]; rewrite Z.shiftr_opp_r, !Z.shiftl_mul_pow2 by lia.
+  rewrite of_Z_inj, <-Zmult_mod_idemp_l, mod_signed; reflexivity.
+Qed.
 
 
 (** ** Lemmas for equalities with different moduli *)
@@ -787,6 +792,8 @@ Qed.
 Lemma signed_eq_rect [m] (a : Zmod m) n p : signed (eq_rect _ _ a n p) = signed a.
 Proof. case p; trivial. Qed.
 
+Lemma eq_rect_alt [m] (a : Zmod m) n p : eq_rect _ _ a n p = of_Z _ (to_Z a).
+Proof. rewrite <-unsigned_inj_iff, unsigned_eq_rect, <-p, of_Z_unsigned; auto. Qed.
 
 (** ** [pow] *)
 
