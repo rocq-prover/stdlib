@@ -307,6 +307,22 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Numbers/HexadecimalZ.v
   </dd>
 
+  <dt> <a name="zmod"></a><b>Zmod and Zstar</b>:
+    Modular arithmetic -- integers modulo another integer -- including machine
+    words (bitvectors) and the multiplicative group of integers modulo another
+    integer.
+  </dt>
+  <dd>
+    theories/Zmod/Zmod.v
+    theories/Zmod/Bits.v
+    theories/Zmod/Zstar.v
+    (theories/Zmod/ZmodDef.v)
+    (theories/Zmod/ZstarDef.v)
+    (theories/Zmod/ZmodBase.v)
+    (theories/Zmod/ZstarBase.v)
+    (theories/Zmod/ZmodInv.v)
+  </dd>
+
   <dt> <a name="unicode"></a><b>Unicode</b>:
     Unicode-based alternative notations
   </dt>

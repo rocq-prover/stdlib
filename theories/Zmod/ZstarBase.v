@@ -226,8 +226,6 @@ Proof.
   repeat rewrite ?to_Zmod_abs, ?to_Zmod_mul, ?abs_mul_abs_abs; trivial.
 Qed.
 
-Local Notation "∏ xs" := (List.fold_right mul one xs) (at level 40).
-
 (** ** [inv] and [div] *)
 
 Lemma to_Zmod_inv [m] x : to_Zmod (@inv m x) = Zmod.inv x.
@@ -326,28 +324,39 @@ Proof. apply eq_inv_iff; rewrite ?mul_opp_opp, ?mul_inv_same_r; trivial. Qed.
 
 (** ** [prod] *)
 
-Lemma prod_Permutation [m] one (xs ys : list (Zstar m)) (H : Permutation xs ys) :
-  List.fold_right mul one xs = List.fold_right mul one ys.
-Proof. induction H; cbn; repeat rewrite ?mul_assoc, ?(mul_comm x); try congruence.
+Lemma prod_nil m : prod [] = @one m.
+Proof. reflexivity. Qed.
+
+Lemma prod_cons [m] (x : Zstar m) xs : prod (x::xs) = mul x (prod xs).
+Proof. reflexivity. Qed.
+
+Lemma prod_singleton [m] (x : Zstar m) : prod [x] = x. Proof. apply mul_1_r. Qed.
+
+Lemma prod_Permutation [m] (xs ys : list (Zstar m)) (H : Permutation xs ys) :
+  prod xs = prod ys.
+Proof.
+  induction H; rewrite ?prod_nil, ?prod_cons, ?mul_assoc, ?(mul_comm x); congruence.
 Qed.
 
-Lemma prod_singleton [m] (x : Zstar m) : ∏ [x] = x. Proof. apply mul_1_r. Qed.
-
-Lemma prod_app [m] xs ys : ∏ (xs ++ ys) = mul (∏ xs) (∏ ys) :> Zstar m.
+Lemma prod_app [m] xs ys : prod (xs ++ ys) = mul (prod xs) (prod ys) :> Zstar m.
 Proof.
-  induction xs; cbn; cbn [List.fold_right List.app];
-    rewrite ?mul_1_l, ?IHxs, ?mul_assoc; trivial.
+  induction xs; rewrite ?app_nil_l, <-?app_comm_cons, ?prod_nil, ?prod_cons,
+    ?mul_1_l,?IHxs, ?mul_assoc; trivial.
 Qed.
 
 Lemma prod_flat_map [A] [m] (f : A -> _) (xs : list A) :
-  ∏ flat_map f xs = ∏ (map (fun x => ∏ f x) xs) :> Zstar m.
-Proof. induction xs; cbn; rewrite ?prod_app, ?IHxs; eauto. Qed.
+  prod (flat_map f xs) = prod (map (fun x => prod (f x)) xs) :> Zstar m.
+Proof. induction xs; cbn [flat_map]; rewrite ?prod_nil, ?prod_app, ?IHxs; eauto. Qed.
 
-Lemma prod_concat [m] xss : ∏ concat xss = ∏ (map (fun xs => ∏ xs)) xss :> Zstar m.
-Proof. induction xss; cbn; rewrite <-?IHxss; trivial using prod_app. Qed.
+Lemma prod_concat [m] (xss : list (list (Zstar m))) :
+  prod (concat xss) = prod ((map (fun xs => prod xs)) xss) :> Zstar m.
+Proof. induction xss; cbn [concat]; rewrite ?prod_app, ?IHxss; trivial. Qed.
 
-Lemma prod_rev [m] (xs : list (Zstar m)) : ∏ rev xs = ∏ xs.
-Proof. induction xs; cbn; rewrite ?prod_app, ?prod_singleton, ?IHxs, ?(mul_comm a); trivial. Qed.
+Lemma prod_rev [m] (xs : list (Zstar m)) : prod (rev xs) = prod xs.
+Proof.
+  induction xs; cbn [rev]; rewrite ?prod_app, ?prod_cons, ?prod_singleton,
+    ?prod_nil, ?IHxs, ?mul_1_r, ?(mul_comm a); trivial.
+Qed.
 
 (** ** [pow] *)
 
@@ -482,28 +491,28 @@ Proof.
     ?inv_mul, ?inv_opp, ?IHn by lia; trivial.
 Qed.
 
-Lemma prod_repeat [m] (a : Zstar m) n : ∏ repeat a n = pow a (Z.of_nat n).
+Lemma prod_repeat [m] (a : Zstar m) n : prod (repeat a n) = pow a (Z.of_nat n).
 Proof.
-  induction n as [|n]; cbn [List.fold_right List.repeat];
+  induction n as [|n]; cbn [List.fold_right List.repeat]; rewrite ?prod_cons;
     rewrite ?pow_0_r, ?mul_1_r, ?Nat2Z.inj_succ, ?pow_succ_r, ?IHn by lia; trivial.
 Qed.
 
 Lemma prod_map_mul [m] (a : Zstar m) xs :
-  ∏ List.map (mul a) xs = mul (pow a (Z.of_nat (length xs))) (∏ xs).
+  prod (List.map (mul a) xs) = mul (pow a (Z.of_nat (length xs))) (prod xs).
 Proof.
-  induction xs as [|x xs]; cbn [List.fold_right List.map length];
+  induction xs as [|x xs]; cbn [List.fold_right List.map length]; rewrite ?prod_cons;
     rewrite ?pow_0_r, ?mul_1_r, ?Nat2Z.inj_succ, ?pow_succ_r, ?IHxs by lia; trivial.
   repeat rewrite ?mul_assoc, ?(mul_comm _ x); trivial.
 Qed.
 
-Lemma prod_pow [m] z xs : ∏ map (fun x => pow x z) xs = pow (∏ xs) z :> Zstar m.
+Lemma prod_pow [m] z xs : prod (map (fun x => pow x z) xs) = pow (prod xs) z :> Zstar m.
 Proof.
-  induction xs; intros; cbn [fold_right map]; rewrite ?pow_1_l, ?IHxs, ?pow_mul_l; trivial.
+  induction xs; intros; cbn [fold_right map]; rewrite ?prod_cons, ?pow_1_l, ?IHxs, ?pow_mul_l; trivial.
 Qed.
 
-Lemma prod_opp [m] xs : ∏ map (@opp m) xs = mul (pow (opp one) (Z.of_nat (length xs))) (∏ xs).
+Lemma prod_opp [m] xs : prod (map (@opp m) xs) = mul (pow (opp one) (Z.of_nat (length xs))) (prod xs).
 Proof.
-  induction xs; cbn -[pow Z.of_nat];
+  induction xs; cbn [map length]; rewrite ?prod_nil, ?prod_cons;
     rewrite ?Nat2Z.inj_succ, ?pow_0_r, ?pow_succ_r, ?mul_1_l by lia; trivial.
   rewrite  ?mul_m1_l, ?IHxs, ?mul_opp_l, ?(mul_comm a), ?mul_assoc; trivial.
 Qed.

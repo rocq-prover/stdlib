@@ -19,6 +19,9 @@ digraph stdlib_deps {
 	reals -> nsatz;
 	"arith-base" -> structures;
 	zarith -> lia;
+	zmod -> zarith;
+	sorting -> zarith;
+	field -> zarith;
 	qarith -> lqa;
 	positive -> "arith-base";
 	narith -> ring;
@@ -62,6 +65,7 @@ digraph stdlib_deps {
 	funind -> "arith-base";
 	rtauto -> positive;
 	rtauto -> lists;
+	compat -> zmod;
 	compat -> reals;
 	compat -> "fmaps-fsets-msets";
 	compat -> wellfounded;

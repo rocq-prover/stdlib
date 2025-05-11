@@ -4,9 +4,21 @@ Local Open Scope Z_scope.
 
 Module Zmod.
 
+(** [small z m = true <-> z mod m = z], but [small] is efficiently computable
+   through a single arbitrary-precision comparison.  *)
 Local Definition small z m :=
   (0 =? m) || negb (Z.sgn z =? -Z.sgn m) && (Z.abs z <? Z.abs m).
 
+(** [Zmod m] is isomorphic to [{ z | z mod m = z}]. For efficiency, it is
+   constructed from scratch as
+  - a dedicated record type instead of [sig], to avoid repeating the
+    subset-membership predicate in constructor arguments
+  - with primitive projections, to avoid the modulus in projection arguments
+  - using [Is_true] instead of [_ = true] to avoid repeating modulus in values
+  - using [small] instead of [Z.modulo] to speed up type-checking of values.
+  This construction is [not] a part of the supported interface of [Zmod], so
+  the projections are named as [Private_] to exclude them from Search, instead
+  presenting wrappers with types that do not reveal these optimoizations are. *)
 #[projections(primitive)]
 Record Zmod (m : Z) := mk {
   Private_to_Z : Z ; Private_range : Bool.Is_true (small Private_to_Z m) }.
@@ -19,10 +31,10 @@ Definition of_small_Z (m : Z) (z : Z) : Zmod m.
   abstract (case (small z m) eqn:H; rewrite ?H; case m; trivial).
 Defined.
 
+Definition of_Z (m : Z) (z : Z) : Zmod m := of_small_Z m (z mod m).
+
 Coercion unsigned {m} (x : Zmod m) := Private_to_Z x.
 Notation to_Z := unsigned (only parsing).
-
-Definition of_Z (m : Z) (z : Z) : Zmod m := of_small_Z m (z mod m).
 
 Definition signed {m} (x : Zmod m) : Z :=
   if Z.ltb (Z.double (Z.abs x)) (Z.abs m) then x else x-m.
@@ -35,12 +47,12 @@ Definition one {m} := of_Z m 1.
 
 Definition eqb {m} (x y : Zmod m) := Z.eqb (to_Z x) (to_Z y).
 
-Definition add {m} (x y : Zmod m) : Zmod m :=
+Definition add {m} (x y : Zmod m) : Zmod m := (* (x+y) mod m *)
   let n := x + y in
   let n := if Z.ltb (Z.abs n) (Z.abs m) then n else n-m in
   of_small_Z m n.
 
-Definition sub {m} (x y : Zmod m) : Zmod m :=
+Definition sub {m} (x y : Zmod m) : Zmod m := (* (x-y) mod m *)
   let z := x - y in
   let z := if Z.sgn z =? -Z.sgn m then z+m else z in
   of_small_Z m z.
@@ -52,7 +64,7 @@ Definition mul {m} (x y : Zmod m) : Zmod m := of_Z m (x * y).
 (** ** Three notions of division *)
 
 Definition udiv {m} (x y : Zmod m) : Zmod m :=
-  if Z.eq_dec 0 y then opp one else 
+  if Z.eq_dec 0 y then opp one else
   let z := Z.div x y in
   let z := if Z.sgn z =? -Z.sgn m then z+m else z in
   of_small_Z m z.
@@ -105,7 +117,7 @@ Definition srs {m} x n := of_Z m (Z.shiftr (@signed m x) n).
    common-denominator modulus. See the four variants of [skipn_app] and
    [app_assoc], for a taste of the challenges. *)
 
-Local Notation bits n := (Zmod (2^n)). (* n : N *)
+Local Notation bits n := (Zmod (2^n)).
 
 Definition app {n m} (a : bits n) (b : bits m) : bits (n+m) :=
   of_Z _ (Z.lor a (Z.shiftl b n)).

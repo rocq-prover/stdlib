@@ -7,6 +7,7 @@ From Stdlib Require Import ZmodDef.
 Module Zstar.
 Import Zmod.
 
+(** See [ZStarDef.Zmod.Zmod] for notes on efficient construction *)
 #[projections(primitive)]
 Record Zstar (m : Z) := mk {
   Private_to_Z : Z ;
@@ -66,6 +67,8 @@ Definition div {m} (x y : Zstar m) : Zstar m := mul x (inv y).
 (**  Powers  *)
 
 Definition pow {m} (a : Zstar m) z := of_Zmod (Zmod.pow a z).
+
+Definition prod {m} xs : Zstar m := List.fold_right mul one xs.
 
 (** Enumerating elements *)
 
