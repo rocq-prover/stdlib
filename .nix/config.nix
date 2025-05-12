@@ -190,8 +190,8 @@ with builtins; with (import <nixpkgs> {}).lib;
       "equations-test"
       "jasmin"
       "mathcomp-word"
-      "metacoq"
-      "metacoq-test"
+      "metarocq"
+      "metarocq-test"
     ];
     coq-common-bundles = listToAttrs (forEach master (p:
       { name = p; value.override.version = "master"; }))
@@ -206,7 +206,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
-      metacoq-template-coq.job = false;  # old thing, now renamed to metacoq-template-rocq
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       # To add a simple overlay applying to all bundles,
       # add below a line like
@@ -249,8 +248,8 @@ with builtins; with (import <nixpkgs> {}).lib;
       equations.override.version = "1.3.1+9.0";
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
-      metacoq.override.version = "1.4-9.0";
-      metacoq-test.override.version = "v1.4-9.0";
+      metarocq.override.version = "1.4-9.0";
+      metarocq-test.override.version = "v1.4-9.0";
       mtac2.override.version = "1cdb2cb628444ffe9abc6535f6d2e11004de7fc1";
       paramcoq-test.override.version = "32609ca4a9bf4a0e456a855ea5118d8c00cda6be";
       perennial.job = false;  # broken

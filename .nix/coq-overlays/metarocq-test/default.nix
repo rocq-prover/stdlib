@@ -1,14 +1,14 @@
-{ mkCoqDerivation, metacoq, version ? null }:
+{ mkCoqDerivation, metarocq, version ? null }:
 
 mkCoqDerivation {
-  pname = "metacoq-test";
+  pname = "metarocq-test";
   repo = "metarocq";
   owner = "MetaRocq";
   inherit version;
 
   mlPlugin = true;
 
-  propagatedBuildInputs = [ metacoq ];
+  propagatedBuildInputs = [ metarocq ];
 
   configurePhase = ''
     patchShebangs ./configure.sh
