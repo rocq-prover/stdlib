@@ -152,13 +152,13 @@ Definition Zeven_odd_bool (x:Z) := bool_of_sumbool (Zeven_odd_dec x).
 (**********************************************************************)
 (** * Boolean comparisons of binary integers *)
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.leb, since="9.0")]
 Notation Zle_bool := Z.leb (only parsing).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.geb, since="9.0")]
 Notation Zge_bool := Z.geb (only parsing).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.ltb, since="9.0")]
 Notation Zlt_bool := Z.ltb (only parsing).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.gtb, since="9.0")]
 Notation Zgt_bool := Z.gtb (only parsing).
 
 (** We now provide a direct [Z.eqb] that doesn't refer to [Z.compare].
