@@ -25,6 +25,7 @@ let
     "strings" = [ "arith" ];
     "lia" = [ "arith" "narith" ];
     "zarith" = [ "lia" ];
+    "zmod" = [ "zarith" "sorting" "field" ];
     "qarith-base" = [ "ring" ];
     "field" = [ "zarith" ];
     "lqa" = [ "field" "qarith-base" ];
@@ -47,7 +48,7 @@ let
     "wellfounded" = [ "lists" ];
     "streams" = [ "logic" ];
     "rtauto" = [ "positive" "lists" ];
-    "compat" = [ "rtauto" "fmaps-fsets-msets" "funind" "extraction" "reals" "wellfounded" "streams" ];
+    "compat" = [ "rtauto" "fmaps-fsets-msets" "funind" "extraction" "reals" "zmod" "wellfounded" "streams" ];
     "all" = [ "compat" ];
   };
 
