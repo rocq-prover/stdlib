@@ -8,12 +8,12 @@ micromega/_Lia/ZifyPow.v
 micromega/_Lia/ZifyBool.v
 micromega/_Lia/Zify.v
 micromega/_Lia/ZifyInst.v
+micromega/_Lia/SatDivMod.v
 micromega/_Lia/DeclConstantZ.v
 micromega/_Lia/OrderedRing.v
 micromega/_Lia/Tauto.v
 micromega/_Lia/Env.v
 micromega/_Lia/Refl.v
-micromega/_Lia/ZArith_hints.v
 micromega/_Lia/ZMicromega.v
 micromega/_Lia/EnvRing.v
 micromega/_Lia/Lia.v

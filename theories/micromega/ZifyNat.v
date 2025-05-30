@@ -10,8 +10,8 @@
 
 (* Instances of [ZifyClasses] for dealing with advanced [nat] operators. *)
 
-From Stdlib Require Import BinInt Znat Zdiv.
-From Stdlib Require Import ZifyClasses ZifyInst Zify.
+From Stdlib Require Import BinInt Znat.
+From Stdlib.micromega Require Import ZifyClasses ZifyInst Zify SatDivMod.
 
 Ltac zify_convert_to_euclidean_division_equations_flag ::= constr:(true).
 
@@ -34,25 +34,3 @@ Add Zify BinOp Op_div.
 Instance Op_pow : BinOp Nat.pow :=
   {| TBOp := Z.pow ; TBOpInj := Nat2Z.inj_pow |}.
 Add Zify BinOp Op_pow.
-
-#[local] Open Scope Z_scope.
-
-#[global]
-Instance SatDiv : Saturate Z.div :=
-  {|
-    PArg1 := fun x => 0 <= x;
-    PArg2 := fun y => 0 <= y;
-    PRes  := fun _ _ r => 0 <= r;
-    SatOk := Z_div_nonneg_nonneg
-  |}.
-Add Zify Saturate SatDiv.
-
-#[global]
-Instance SatMod : Saturate Z.modulo :=
-  {|
-    PArg1 := fun x => 0 <= x;
-    PArg2 := fun y => 0 <= y;
-    PRes  := fun _ _ r => 0 <= r;
-    SatOk := Z_mod_nonneg_nonneg
-  |}.
-Add Zify Saturate SatMod.
