@@ -20,8 +20,8 @@ digraph stdlib_deps {
 	"arith-base" -> structures;
 	zarith -> lia;
 	zmod -> zarith;
-	sorting -> zarith;
-	field -> zarith;
+	zmod -> sorting;
+	zmod -> field;
 	qarith -> lqa;
 	positive -> "arith-base";
 	narith -> ring;

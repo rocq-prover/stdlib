@@ -344,7 +344,9 @@ Proof. rewrite <-not_0, not_not; trivial. Qed.
 
 (** ** Bitvector operations that vary the modulus *)
 
-Lemma unsigned_app [n m] a b (Hn : 0 <= n) (Hm : ~(-n <= m < 0)) :
+(** This lemma holds with [~(-n <= m < 0)] but no use case is known. *)
+
+Lemma unsigned_app [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   to_Z (@app n m a b) = Z.lor a (Z.shiftl b n).
 Proof.
   cbv [app]. rewrite to_Z_of_Z, Z.shiftl_mul_pow2; trivial.
@@ -373,12 +375,14 @@ Proof.
 Qed.
 Notation to_Z_skipn := unsigned_skipn (only parsing).
 
-Lemma unsigned_extract start pastend [w] (a : bits w) (H : 0 <= start <= pastend) :
-  to_Z (extract start pastend a) = a/2^start mod 2^(pastend-start).
-Proof. cbv [extract]. rewrite to_Z_firstn, to_Z_skipn; lia. Qed.
-Notation to_Z_extract := unsigned_extract (only parsing).
+Lemma unsigned_slice start pastend [w] (a : bits w) (H : 0 <= start <= pastend) :
+  to_Z (slice start pastend a) = a/2^start mod 2^(pastend-start).
+Proof. cbv [slice]. rewrite to_Z_firstn, to_Z_skipn; lia. Qed.
+Notation to_Z_slice := unsigned_slice (only parsing).
 
-Lemma firstn_app [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+(** This lemma holds with [~(-n <= m < 0)] but no use case is known. *)
+
+Lemma firstn_app [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   firstn n (@app n m a b) = a.
 Proof.
   apply to_Z_inj; rewrite to_Z_firstn, to_Z_app; try lia.
@@ -392,7 +396,9 @@ Proof.
   rewrite (Z.testbit_neg_r b) by lia; Btauto.btauto.
 Qed.
 
-Lemma skipn_app_dep [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+(** These lemmas hold with [~ (- n <= m < 0)] but no use case is known. *)
+
+Lemma skipn_app_dep [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   existT _ _ (skipn n (@app n m a b)) = existT _ _ b.
 Proof.
   pose proof to_Z_range a. eapply to_Z_inj_dep. { f_equal. lia. }
@@ -400,7 +406,7 @@ Proof.
   erewrite Z.shiftr_div_pow2, Z.sub_diag, Z.shiftl_0_r, Z.div_small, Z.lor_0_l; lia.
 Qed.
 
-Lemma skipn_app_ex [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+Lemma skipn_app_ex [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   exists pf, skipn n (@app n m a b) = eq_rect _ Zmod b _ pf.
 Proof.
   pose proof skipn_app_dep a b ltac:(lia) ltac:(lia) as E.
@@ -408,7 +414,7 @@ Proof.
   apply to_Z_inj. rewrite to_Z_eq_rect, <-E2, to_Z_eq_rect; trivial.
 Qed.
 
-Lemma skipn_app [n m] a b (Hn : 0 <= n) (Hm : ~ (- n <= m < 0)) :
+Lemma skipn_app [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   skipn n (@app n m a b) = of_Z _ (to_Z (skipn n (@app n m a b))).
 Proof.
   case (skipn_app_ex a b) as [?->]; trivial.

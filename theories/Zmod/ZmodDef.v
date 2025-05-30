@@ -111,7 +111,7 @@ Definition srs {m} x n := of_Z m (Z.shiftr (@signed m x) n).
 (** ** Bitvector operations that vary the modulus *)
 
 (** Effective use of the operations defined here with moduli that are not
-   converitble to values requires substantial understanding of dependent types,
+   convertible to values requires substantial understanding of dependent types,
    in particular the equality type, the sigma type, and their eliminators. Even
    so, many applications are better served by [Z] or by adopting one
    common-denominator modulus. See the four variants of [skipn_app] and
@@ -126,7 +126,7 @@ Definition firstn n {w} (a : bits w) : bits n := of_Z _ a.
 
 Definition skipn n {w} (a : bits w) : bits (w-n) := of_Z _ (Z.shiftr a n).
 
-Definition extract start pastend {w} (a : bits w) : bits (pastend-start) :=
+Definition slice start pastend {w} (a : bits w) : bits (pastend-start) :=
   firstn (pastend-start) (skipn start a).
 
 (** ** Enumerating elements *)
