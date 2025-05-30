@@ -1,6 +1,3 @@
-ZArith/_Ring/Zpow_def.v
-ZArith/_Ring/Zcomplements.v
-ZArith/_Ring/Zdiv.v
 setoid_ring/_Ring/Ncring_polynom.v
 setoid_ring/_Ring/Rings_Z.v
 setoid_ring/_Ring/Ncring_initial.v
@@ -21,6 +18,5 @@ setoid_ring/_Ring/NArithRing.v
 setoid_ring/_Ring/Ring_theory.v
 nsatz/NsatzTactic.v
 
--Q ZArith/_Ring Stdlib.ZArith
 -Q setoid_ring/_Ring Stdlib.setoid_ring
 -Q nsatz Stdlib.nsatz

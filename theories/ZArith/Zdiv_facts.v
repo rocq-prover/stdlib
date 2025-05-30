@@ -16,7 +16,7 @@ Module Z.
 Lemma diveq_iff c a b :
   (b = 0 /\ c = 0 \/ c*b <= a < c*b + b \/ c*b + b < a <= c*b) <-> a/b = c.
 Proof.
-  destruct (Z.eqb_spec b 0); [subst; rewrite Zdiv_0_r; intuition lia|].
+  destruct (Z.eqb_spec b 0); [subst; rewrite Z.div_0_r; intuition lia|].
   rewrite <-(Z.sub_move_0_r (_/_)),  <-(Z.add_opp_r (_/_)).
   rewrite <-Z.div_add, Z.div_small_iff; lia.
 Qed.
@@ -24,7 +24,7 @@ Qed.
 Lemma mod_diveq_iff c a b :
   (b = 0 \/ c*b <= a < c*b + b \/ c*b + b < a <= c*b) <-> a mod b = a-b*c.
 Proof.
-  destruct (Z.eqb_spec b 0); [subst; rewrite Zmod_0_r; intuition lia|].
+  destruct (Z.eqb_spec b 0); [subst; rewrite Z.mod_0_r; intuition lia|].
   rewrite Z.mod_eq by trivial; pose proof diveq_iff c a b; nia.
 Qed.
 

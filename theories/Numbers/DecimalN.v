@@ -13,7 +13,7 @@
     Proofs that conversions between decimal numbers and [N]
     are bijections *)
 
-From Stdlib Require Import Decimal DecimalFacts DecimalPos PArith NArith.
+From Stdlib Require Import Decimal DecimalFacts DecimalPos BinPos BinNat.
 
 Module Unsigned.
 

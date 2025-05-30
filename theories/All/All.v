@@ -63,6 +63,7 @@ From Stdlib Require Export micromega.ZifyComparison.
 From Stdlib Require Export micromega.ZifyInst.
 From Stdlib Require Export micromega.ZifyN.
 From Stdlib Require Export micromega.ZifyNat.
+From Stdlib Require Export micromega.SatDivMod.
 From Stdlib Require Export micromega.ZifyPow.
 From Stdlib Require Export micromega.ZifySint63.
 From Stdlib Require Export micromega.ZifyUint63.

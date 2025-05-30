@@ -946,8 +946,6 @@ Qed.
 (** * Choice => Dependent choice => Countable choice *)
 (* The implications below are standard *)
 
-From Stdlib Require Import Arith.
-
 Theorem functional_choice_imp_functional_dependent_choice :
    FunctionalChoice -> FunctionalDependentChoice.
 Proof.
