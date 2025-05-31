@@ -20,7 +20,7 @@
   The two notions are equivalent if the order is transitive.
 *)
 
-From Stdlib Require Import List Relations Relations_1.
+From Stdlib Require Import List Relations RelationClasses.
 
 (* Set Universe Polymorphism. *)
 
@@ -29,7 +29,7 @@ From Stdlib Require Import List Relations Relations_1.
 Set Implicit Arguments.
 Local Notation "[ ]" := nil (at level 0).
 Local Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..) (at level 0).
-Arguments Transitive [U] R.
+Local Arguments Transitive [_] R.
 
 Section defs.
 
