@@ -1,8 +1,5 @@
-Sorting/Heap.v
 Sorting/CPermutation.v
 Sorting/Mergesort.v
-Sorting/PermutSetoid.v
-Sorting/PermutEq.v
 Sorting/Sorting.v
 Sorting/Permutation.v
 Sorting/Sorted.v

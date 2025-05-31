@@ -176,10 +176,7 @@ From Stdlib Require Export Strings.String.
 From Stdlib Require Export Streams.StreamMemo.
 From Stdlib Require Export Streams.Streams.
 From Stdlib Require Export Sorting.CPermutation.
-From Stdlib Require Export Sorting.Heap.
 From Stdlib Require Export Sorting.Mergesort.
-From Stdlib Require Export Sorting.PermutEq.
-From Stdlib Require Export Sorting.PermutSetoid.
 From Stdlib Require Export Sorting.Permutation.
 From Stdlib Require Export Sorting.SetoidList.
 From Stdlib Require Export Sorting.SetoidPermutation.
