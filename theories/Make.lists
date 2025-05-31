@@ -2,6 +2,7 @@ Lists/_All/ListDec.v
 Lists/_All/List.v
 Lists/_All/ListSet.v
 Lists/_All/ListTactics.v
+Lists/_All/Finite.v
 Numbers/_Lists/NaryFunctions.v
 Logic/_Lists/WKL.v
 Classes/_Lists/EquivDec.v

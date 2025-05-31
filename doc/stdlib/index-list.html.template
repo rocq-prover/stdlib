@@ -161,6 +161,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Lists/ListDec.v
     theories/Lists/ListSet.v
     theories/Lists/ListTactics.v
+    theories/Lists/Finite.v
     theories/Numbers/NaryFunctions.v
     theories/Logic/WKL.v
     theories/Classes/EquivDec.v
