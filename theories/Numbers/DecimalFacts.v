@@ -10,7 +10,7 @@
 
 (** * DecimalFacts : some facts about Decimal numbers *)
 
-From Stdlib Require Import Decimal Arith ZArith.
+From Stdlib Require Import PeanoNat List Decimal.
 
 Variant digits := d0 | d1 | d2 | d3 | d4 | d5 | d6 | d7 | d8 | d9.
 
@@ -184,10 +184,7 @@ Lemma nb_digits_del_head_sub d n :
 Proof.
   rewrite !nb_digits_spec; intro Hn.
   rewrite del_head_spec_small; [|now apply Nat.le_sub_l].
-  rewrite List.length_skipn, <-(Nat2Z.id (_ - _)).
-  rewrite Nat2Z.inj_sub; [|now apply Nat.le_sub_l].
-  rewrite (Nat2Z.inj_sub _ _ Hn).
-  rewrite Z.sub_sub_distr, Z.sub_diag; apply Nat2Z.id.
+  rewrite List.length_skipn, Nat.sub_sub_distr, Nat.sub_diag; trivial.
 Qed.
 
 Lemma unorm_D0 u : unorm (D0 u) = unorm u.

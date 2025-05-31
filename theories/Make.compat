@@ -1,4 +1,6 @@
 Compat/_All/AdmitAxiom.v
 Compat/_All/Stdlib818.v
+Numbers/_positive/AltBinNotations.v
 
+-Q Numbers/_positive Stdlib.Numbers
 -Q Compat/_All Stdlib.Compat

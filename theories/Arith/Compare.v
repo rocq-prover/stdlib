@@ -16,9 +16,7 @@ Notation not_eq_sym := not_eq_sym (only parsing).
 
 Implicit Types m n p q : nat.
 
-From Stdlib Require Import Arith_base.
-From Stdlib Require Import Peano_dec.
-From Stdlib Require Import Compare_dec.
+From Stdlib Require Import PeanoNat Compare_dec.
 
 Definition le_or_le_S := le_le_S_dec.
 
