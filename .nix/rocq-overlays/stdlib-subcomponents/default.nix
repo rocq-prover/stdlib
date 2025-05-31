@@ -34,8 +34,8 @@ let
     "classical-logic" = [ "arith" ];
     "sets" = [ "classical-logic" ];
     "vectors" = [ "lists" ];
-    "sorting" = [ "lia" "sets" "vectors" ];
-    "orders-ex" = [ "strings" "sorting" ];
+    "sorting" = [ "lia" "sets" ];
+    "orders-ex" = [ "narith" "strings" "sorting" ];
     "unicode" = [ ];
     "primitive-int" = [ "unicode" "zarith" ];
     "primitive-floats" = [ "primitive-int" ];

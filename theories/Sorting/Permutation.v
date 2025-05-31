@@ -15,7 +15,7 @@
 (* Adapted in May 2006 by Jean-Marc Notin from initial contents by
    Laurent Théry (Huffmann contribution, October 2003) *)
 
-From Stdlib Require Import List Setoid Compare_dec Morphisms FinFun PeanoNat.
+From Stdlib Require Import List Setoid Compare_dec Morphisms Finite PeanoNat.
 Import ListNotations. (* For notations [] and [a;b;c] *)
 Set Implicit Arguments.
 (* Set Universe Polymorphism. *)
@@ -700,29 +700,10 @@ Proof.
   intros; eapply Permutation.NoDup_Permutation_bis; rewrite ?List.length_map; trivial.
 Qed.
 
-Lemma nat_bijection_Permutation n f :
- bFun n f ->
- Injective f ->
- let l := seq 0 n in Permutation (map f l) l.
-Proof.
- intros Hf BD.
- apply NoDup_Permutation_bis; auto using Injective_map_NoDup, seq_NoDup.
- * now rewrite length_map.
- * intros x. rewrite in_map_iff. intros (y & <- & Hy').
-   rewrite in_seq in *. simpl in *.
-   destruct Hy' as (_,Hy').
-   split; [ apply Nat.le_0_l | auto ].
-Qed.
-
-Section Permutation_alt.
-Variable A:Type.
-Implicit Type a : A.
-Implicit Type l : list A.
-
 (** Alternative characterization of permutation
     via [nth_error] and [nth] *)
 
-Let adapt f n :=
+Local Definition adapt f n :=
  let m := f (S n) in if le_lt_dec m (f 0) then m else pred m.
 
 Local Definition adapt_injective f : Injective f -> Injective (adapt f).
@@ -744,7 +725,7 @@ Proof.
    now rewrite <- (Nat.lt_succ_pred _ _ LT), <- (Nat.lt_succ_pred _ _ LT'), EQ.
 Defined.
 
-Local Definition adapt_ok a l1 l2 f : Injective f -> length l1 = f 0 ->
+Local Definition adapt_ok A (a : A) l1 l2 f : Injective f -> length l1 = f 0 ->
  forall n, nth_error (l1++a::l2) (f (S n)) = nth_error (l1++l2) (adapt f n).
 Proof.
  unfold adapt. intros Hf E n.
@@ -762,7 +743,7 @@ Proof.
    + apply Nat.lt_le_incl; assumption.
 Defined.
 
-Lemma Permutation_nth_error l l' :
+Lemma Permutation_nth_error A (l l' : list A) :
  Permutation l l' <->
   (length l = length l' /\
    exists f:nat->nat,
@@ -805,78 +786,19 @@ Proof.
        apply (Hf' (S n)). }
 Qed.
 
-Lemma Permutation_nth_error_bis l l' :
- Permutation l l' <->
-  exists f:nat->nat,
-    Injective f /\
-    bFun (length l) f /\
-    (forall n, nth_error l' n = nth_error l (f n)).
+Lemma nat_bijection_Permutation n f :
+ (forall x, x < n -> f x < n) ->
+ Injective f ->
+ let l := seq 0 n in Permutation (map f l) l.
 Proof.
- rewrite Permutation_nth_error; split.
- - intros (E & f & Hf & Hf').
-   exists f. do 2 (split; trivial).
-   intros n Hn.
-   destruct (Nat.le_gt_cases (length l) (f n)) as [LE|LT]; trivial.
-   rewrite <- nth_error_None, <- Hf', nth_error_None, <- E in LE.
-   elim (proj1 (Nat.lt_nge _ _) Hn LE).
- - intros (f & Hf & Hf2 & Hf3); split; [|exists f; auto].
-   assert (H : length l' <= length l') by auto.
-   rewrite <- nth_error_None, Hf3, nth_error_None in H.
-   destruct (Nat.le_gt_cases (length l) (length l')) as [LE|LT];
-    [|apply Hf2 in LT; elim (proj1 (Nat.lt_nge _ _) LT H)].
-   apply Nat.lt_eq_cases in LE. destruct LE as [LT|EQ]; trivial.
-   rewrite <- nth_error_Some, Hf3, nth_error_Some in LT.
-   assert (Hf' : bInjective (length l) f).
-   { intros x y _ _ E. now apply Hf. }
-   rewrite (bInjective_bSurjective Hf2) in Hf'.
-   destruct (Hf' _ LT) as (y & Hy & Hy').
-   apply Hf in Hy'. subst y. elim (Nat.lt_irrefl _ Hy).
+ intros Hf BD.
+ apply NoDup_Permutation_bis; auto using Injective_map_NoDup, seq_NoDup.
+ * now rewrite length_map.
+ * intros x. rewrite in_map_iff. intros (y & <- & Hy').
+   rewrite in_seq in *. simpl in *.
+   destruct Hy' as (_,Hy').
+   split; [ apply Nat.le_0_l | auto ].
 Qed.
-
-Lemma Permutation_nth l l' d :
- Permutation l l' <->
-  (let n := length l in
-   length l' = n /\
-   exists f:nat->nat,
-    bFun n f /\
-    bInjective n f /\
-    (forall x, x < n -> nth x l' d = nth (f x) l d)).
-Proof.
- split.
- - intros H.
-   assert (E := Permutation_length H).
-   split; auto.
-   apply Permutation_nth_error_bis in H.
-   destruct H as (f & Hf & Hf2 & Hf3).
-   exists f. split; [|split]; auto.
-   + intros x y _ _ Hxy. now apply Hf.
-   + intros n Hn. rewrite <- 2 nth_default_eq. unfold nth_default.
-     now rewrite Hf3.
- - intros (E & f & Hf1 & Hf2 & Hf3).
-   rewrite Permutation_nth_error.
-   split; auto.
-   exists (fun n => if le_lt_dec (length l) n then n else f n).
-   split.
-   * intros x y.
-     destruct le_lt_dec as [LE|LT];
-      destruct le_lt_dec as [LE'|LT']; auto.
-     + apply Hf1 in LT'. intros ->.
-       elim (Nat.lt_irrefl (f y)). eapply Nat.lt_le_trans; eauto.
-     + apply Hf1 in LT. intros <-.
-       elim (Nat.lt_irrefl (f x)). eapply Nat.lt_le_trans; eauto.
-   * intros n.
-     destruct le_lt_dec as [LE|LT].
-     + assert (LE' : length l' <= n) by (now rewrite E).
-       rewrite <- nth_error_None in LE, LE'. congruence.
-     + assert (LT' : n < length l') by (now rewrite E).
-       specialize (Hf3 n LT). rewrite <- 2 nth_default_eq in Hf3.
-       unfold nth_default in Hf3.
-       apply Hf1 in LT.
-       rewrite <- nth_error_Some in LT, LT'.
-       do 2 destruct nth_error; congruence.
-Qed.
-
-End Permutation_alt.
 
 #[global]
 Instance Permutation_list_sum : Proper (@Permutation nat ==> eq) list_sum | 10.
@@ -962,5 +884,6 @@ Qed.
 End Permutation_transp.
 
 (* begin hide *)
+#[deprecated(since="9.1", use=Permutation_app_comm )]
 Notation Permutation_app_swap := Permutation_app_comm (only parsing).
 (* end hide *)

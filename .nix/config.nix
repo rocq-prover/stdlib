@@ -216,12 +216,14 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      corn.override.version = "andres-erbsen:patch-1";
     };
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
       rocq-elpi.override.elpi-version = "2.0.7";
       rocq-elpi-test.override.version = "master";
+      fiat-crypto.override.version = "andres-erbsen:remove-PermutationCompat";
       stdlib-html.job = true;
       stdlib-test.job = true;
       stdlib-subcomponents.job = true;
