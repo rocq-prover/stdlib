@@ -479,6 +479,7 @@ From Stdlib Require Export Lists.ListDec.
 From Stdlib Require Export Lists.ListDef.
 From Stdlib Require Export Lists.ListSet.
 From Stdlib Require Export Lists.ListTactics.
+From Stdlib Require Export Lists.Finite.
 From Stdlib Require Export Init.Byte.
 From Stdlib Require Export Init.Datatypes.
 From Stdlib Require Export Init.Decimal.

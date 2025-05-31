@@ -15,7 +15,7 @@
 (* Adapted in May 2006 by Jean-Marc Notin from initial contents by
    Laurent Théry (Huffmann contribution, October 2003) *)
 
-From Stdlib Require Import List Setoid Compare_dec Morphisms FinFun PeanoNat.
+From Stdlib Require Import List Setoid Compare_dec Morphisms Finite PeanoNat.
 Import ListNotations. (* For notations [] and [a;b;c] *)
 Set Implicit Arguments.
 (* Set Universe Polymorphism. *)
@@ -700,6 +700,9 @@ Proof.
   intros; eapply Permutation.NoDup_Permutation_bis; rewrite ?List.length_map; trivial.
 Qed.
 
+Local Definition bFun n (f:nat->nat) := forall x, x < n -> f x < n.
+
+Require Import FinFun.
 Lemma nat_bijection_Permutation n f :
  bFun n f ->
  Injective f ->
