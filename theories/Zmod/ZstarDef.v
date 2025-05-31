@@ -1,4 +1,4 @@
-From Stdlib Require Import NArith ZArith Zdivisibility ZModOffset Lia.
+From Stdlib Require Import ZArith Zdivisibility ZModOffset Lia.
 From Stdlib Require Import Bool.Bool Lists.List.
 Import ListNotations.
 Local Open Scope Z_scope.

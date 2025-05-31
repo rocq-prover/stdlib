@@ -222,6 +222,8 @@ with builtins; with (import <nixpkgs> {}).lib;
       rocq-elpi.override.version = "master";
       rocq-elpi.override.elpi-version = "2.0.7";
       rocq-elpi-test.override.version = "master";
+      corn.override.version = "andres-erbsen:patch-1";
+      fiat-crypto.override.version = "andres-erbsen:remove-PermutationCompat";
       stdlib-html.job = true;
       stdlib-test.job = true;
       stdlib-subcomponents.job = true;

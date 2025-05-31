@@ -2,11 +2,14 @@ Lists/_All/ListDec.v
 Lists/_All/List.v
 Lists/_All/ListSet.v
 Lists/_All/ListTactics.v
+Lists/_All/Finite.v
+Sorting/_Lists/Permutation.v
 Numbers/_Lists/NaryFunctions.v
 Logic/_Lists/WKL.v
 Classes/_Lists/EquivDec.v
 
 -Q Lists/_All Stdlib.Lists
+-Q Sorting/_Lists Stdlib.Sorting
 -Q Numbers/_Lists Stdlib.Numbers
 -Q Logic/_Lists Stdlib.Logic
 -Q Classes/_Lists Stdlib.Classes

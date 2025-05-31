@@ -1,5 +1,5 @@
-From Stdlib Require Import NArith ZArith ZModOffset Zcong Lia Field_theory.
-From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
+From Stdlib Require Import ZArith ZModOffset Zcong Lia Field_theory.
+From Stdlib Require Import Bool.Bool Lists.List Lists.Finite Sorting.Permutation.
 Import ListNotations.
 
 From Stdlib Require Import Zmod.ZmodDef Zmod.ZstarDef Zmod.ZmodBase Zmod.ZstarBase.
@@ -28,8 +28,8 @@ Qed.
 Lemma NoDup_invertibles m : List.NoDup (invertibles m).
 Proof.
   rewrite <-Zstar.to_Zmod_elements.
-  eapply FinFun.Injective_map_NoDup, Zstar.NoDup_elements.
-  cbv [FinFun.Injective]; auto using Zstar.to_Zmod_inj.
+  eapply Injective_map_NoDup, Zstar.NoDup_elements.
+  cbv [Injective]; auto using Zstar.to_Zmod_inj.
 Qed.
 
 Lemma mdiv_same_coprime [m] (a : Zmod m) (H : Z.gcd a m = 1) : mdiv a a = one.
