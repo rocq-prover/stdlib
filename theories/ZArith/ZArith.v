@@ -53,6 +53,8 @@ From Stdlib Require Export Zdiv_facts.
 From Stdlib Require Export Zbitwise.
 From Stdlib Require Export ZModOffset.
 
+From Stdlib Require ZNsatz.
+
 Export ZArithRing.
 
 (* This compat Require is deprecated since 9.1 *)
