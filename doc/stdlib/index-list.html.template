@@ -323,6 +323,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     (theories/Zmod/ZmodBase.v)
     (theories/Zmod/ZstarBase.v)
     (theories/Zmod/ZmodInv.v)
+    (theories/Zmod/ZmodNsatz.v)
   </dd>
 
   <dt> <a name="unicode"></a><b>Unicode</b>:

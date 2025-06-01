@@ -160,6 +160,8 @@ End bits.
 Declare Scope Zmod_scope.
 Delimit Scope Zmod_scope with Zmod.
 Bind Scope Zmod_scope with Zmod.
+Notation "0" := Zmod.zero : Zmod_scope.
+Notation "1" := Zmod.one : Zmod_scope.
 Infix "+" := Zmod.add : Zmod_scope.
 Infix "-" := Zmod.sub : Zmod_scope.
 Notation "- x" := (Zmod.opp x) : Zmod_scope.

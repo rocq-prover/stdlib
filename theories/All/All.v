@@ -579,3 +579,4 @@ From Stdlib Require Export Zmod.Zstar.
 From Stdlib Require Export Zmod.ZstarDef.
 From Stdlib Require Export Zmod.ZstarBase.
 From Stdlib Require Export Zmod.Bits.
+From Stdlib Require Export Zmod.ZmodNsatz.
