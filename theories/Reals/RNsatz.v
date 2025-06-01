@@ -15,15 +15,13 @@ From Stdlib Require Import Raxioms RIneq DiscrR.
 
 Ltac nsatz_internal_discrR ::= discrR.
 
-Ltac Ncring_tac.extra_reify term ::=
-  lazymatch term with
-  | IZR ?z =>
-      lazymatch isZcst z with
-      | true => open_constr:(PEc z)
-      | false => open_constr:(tt)
-      end
-  | _ => open_constr:(tt)
+Local Ltac extra_reify :=
+  lazymatch goal with |- Ncring_tac.extra_reify _ (IZR ?z) =>
+    lazymatch isZcst z with
+    | true => exact (PEc z)
+    end
   end.
+#[export] Hint Extern 1 (Ncring_tac.extra_reify _ _) => extra_reify : typeclass_instances.
 
 #[export] Instance Rops: @Ring_ops R 0%R 1%R Rplus Rmult Rminus Ropp (@eq R) := {}.
 

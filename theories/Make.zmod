@@ -6,5 +6,6 @@ Zmod/ZmodInv.v
 Zmod/Zstar.v
 Zmod/ZstarBase.v
 Zmod/ZstarDef.v
+Zmod/ZmodNsatz.v
 
 -Q Zmod Stdlib.Zmod
