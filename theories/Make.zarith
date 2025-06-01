@@ -11,6 +11,7 @@ ZArith/_All/ZModOffset.v
 ZArith/_All/Zdivisibility.v
 ZArith/_All/Zcong.v
 ZArith/_All/Znumtheory.v
+ZArith/_All/ZNsatz.v
 Numbers/Integer/Binary/ZBinary.v
 Numbers/Integer/NatPairs/ZNatPairs.v
 Numbers/_ZArith/DecimalN.v

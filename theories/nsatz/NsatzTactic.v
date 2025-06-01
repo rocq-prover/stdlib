@@ -18,18 +18,10 @@ Reification is done using type classes, defined in Ncring_tac.v
 
 *)
 
-From Stdlib Require Import List.
-From Stdlib Require Import Setoid.
-From Stdlib Require Import BinPos.
-From Stdlib Require Import BinList.
-From Stdlib Require Export Morphisms Setoid Bool.
-From Stdlib Require Export Algebra_syntax.
-From Stdlib Require Export Ncring.
-From Stdlib Require Export Ncring_initial.
-From Stdlib Require Export Ncring_tac.
+From Stdlib Require Import List ListTactics.
+From Stdlib Require Import BinPos BinNat BinInt Nnat.
+From Stdlib Require Export Bool.
 From Stdlib Require Export Integral_domain.
-From Stdlib Require Import ZArith.
-From Stdlib Require Import Lia.
 
 Declare ML Module "rocq-runtime.plugins.nsatz_core".
 Declare ML Module "rocq-runtime.plugins.nsatz".
@@ -342,9 +334,15 @@ Ltac get_lpol g :=
   end.
 
 (** We only make use of [discrR] if [nsatz] support for reals is
-    loaded.  To do this, we redefine this tactic in Nsatz.v to make
+    loaded.  To do this, we redefine this tactic in RNsatz.v to make
     use of real discrimination. *)
 Ltac nsatz_internal_discrR := idtac.
+
+(** We only make use of [lia] if [nsatz] support for integers is
+   loaded.  To do this, we redefine this tactic in ZNsatz.v to make use of
+   linear-integer-arithmetic solving. *)
+Ltac nsatz_internal_lia := idtac.
+
 
 Ltac nsatz_generic di radicalmax info lparam lvar :=
  let ro := lazymatch type of di with Integral_domain(Ro:=?ro) => ro end in
@@ -419,7 +417,7 @@ Ltac nsatz_generic di radicalmax info lparam lvar :=
             try exact (integral_domain_minus_one_zero(Rid:=di))
           || (solve [simpl; unfold R2, equality, eq_notation, addition, add_notation,
                      one, one_notation, multiplication, mul_notation, zero, zero_notation;
-                     nsatz_internal_discrR || lia ])
+                     nsatz_internal_discrR || nsatz_internal_lia ])
           || ((*simpl*) idtac) || idtac "could not prove discrimination result"
         ]
       ]
@@ -456,59 +454,3 @@ Tactic Notation "nsatz" "with"
   try apply (@psos_r1b _ _ _ _ _ _ _ _ _ _ cr);
   repeat equalities_to_goal cr;
   nsatz_generic di radicalmax info lparam lvar.
-
-(* Rational numbers *)
-From Stdlib Require Import QArith_base.
-
-#[global]
-Instance Qops: (@Ring_ops Q 0%Q 1%Q Qplus Qmult Qminus Qopp Qeq).
-Defined.
-
-#[global]
-Instance Qri : (Ring (Ro:=Qops)).
-constructor.
-- apply Q_Setoid.
-- apply Qplus_comp.
-- apply Qmult_comp.
-- apply Qminus_comp.
-- apply Qopp_comp.
-- exact Qplus_0_l.
-- exact Qplus_comm.
-- apply Qplus_assoc.
-- exact Qmult_1_l.
-- exact Qmult_1_r.
-- apply Qmult_assoc.
-- apply Qmult_plus_distr_l.
-- intros. apply Qmult_plus_distr_r.
-- reflexivity.
-- exact Qplus_opp_r.
-Defined.
-
-Lemma Q_one_zero: not (Qeq 1%Q 0%Q).
-Proof. unfold Qeq. simpl. lia.  Qed.
-
-#[global]
-Instance Qcri: (Cring (Rr:=Qri)).
-red. exact Qmult_comm. Defined.
-
-#[global]
-Instance Qdi : (Integral_domain (Rcr:=Qcri)).
-constructor.
-- exact Qmult_integral.
-- exact Q_one_zero.
-Defined.
-
-(* Integers *)
-Lemma Z_one_zero: 1%Z <> 0%Z.
-Proof. lia. Qed.
-
-#[global]
-Instance Zcri: (Cring (Rr:=Zr)).
-red. exact Z.mul_comm. Defined.
-
-#[global]
-Instance Zdi : (Integral_domain (Rcr:=Zcri)).
-constructor.
-- exact Zmult_integral.
-- exact Z_one_zero.
-Defined.

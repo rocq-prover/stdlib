@@ -228,6 +228,9 @@ From Stdlib Require Export Reals.MVT.
 From Stdlib Require Export Reals.Machin.
 From Stdlib Require Export Reals.NewtonInt.
 From Stdlib Require Export Reals.Nsatz.
+From Stdlib Require Export Reals.RNsatz.
+From Stdlib Require Export QArith.QNsatz.
+From Stdlib Require Export ZArith.ZNsatz.
 From Stdlib Require Export Reals.PSeries_reg.
 From Stdlib Require Export Reals.PartSum.
 From Stdlib Require Export Reals.Qreals.
