@@ -9,6 +9,9 @@ Import List.ListNotations.
 
 Section test.
 
+Lemma nonconsecutive_equalities_to_goal (FR ep : Z) (IHp : FR = ep) a : (fst a * snd a + FR = fst a * snd a + ep)%Z.
+Proof. nsatz. Qed.
+
 Context {A:Type}`{Aid:Integral_domain A}.
 
 Lemma example3 : forall x y z,
