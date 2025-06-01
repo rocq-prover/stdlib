@@ -82,7 +82,7 @@ Reals/Rpow_def.v
 Reals/Rlogic.v
 Reals/SeqProp.v
 Reals/Qreals.v
-Reals/Nsatz.v
+Reals/RNsatz.v
 setoid_ring/_Reals/RealField.v
 setoid_ring/_Reals/Rings_R.v
 micromega/_Reals/Lra.v

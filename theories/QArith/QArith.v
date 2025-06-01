@@ -11,3 +11,5 @@
 From Stdlib Require Export QArith_base.
 From Stdlib Require Export Qring.
 From Stdlib Require Export Qreduction.
+
+From Stdlib Require QNsatz.
