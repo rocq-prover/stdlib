@@ -1,6 +1,5 @@
 (* This file takes 9 seconds to process on a 2023 gaming computer *)
-From Stdlib Require Import List BinNat BinInt QArith_base Rbase RNsatz ZNsatz QNsatz.
-Import List.ListNotations.
+From Stdlib Require Import List BinNat ZArith Zdivisibility Zmod QArith Rbase RNsatz.
 
 (* Example with a generic domain *)
 
@@ -15,6 +14,18 @@ Lemma example3_Z : forall (x y z : Z), (
   x*y*z=0 -> x*x*x=0)%Z.
 Proof. nsatz. Qed.
 
+Lemma example3_Zmod3 : forall (x y z : Zmod 3), (
+  x+y+z=0 ->
+  x*y+x*z+y*z=0->
+  x*y*z=0 -> x^3=0)%Zmod.
+Proof. nsatz. Qed.
+
+Lemma example3_Zmodp : forall p (x y z : Zmod p), Z.prime p -> (
+  x+y+z=0 ->
+  x*y+x*z+y*z=0->
+  x*y*z=0 -> x^3=0)%Zmod.
+Proof. nsatz. Qed.
+
 Lemma example3_Q : forall (x y z : Q), (
   x+y+z==0 ->
   x*y+x*z+y*z==0->
@@ -26,6 +37,23 @@ Lemma example3_R : forall (x y z : R), (
   x*y+x*z+y*z=0->
   x*y*z=0 -> x*x*x=0)%R.
 Proof. nsatz. Qed.
+
+Lemma example_contradiction_Zmod3 : forall (x : Zmod 3), (
+  x = Zmod.of_Z _ 2 ->
+  x = Zmod.of_Z _ 1 ->
+  0 = 1 :> Zmod 3)%Zmod.
+Proof. nsatz. Qed.
+
+Lemma example_contradiction_Zmodp : forall p (x : Zmod p), Z.prime p -> (
+  x = Zmod.of_Z _ 2 ->
+  x = Zmod.of_Z _ 1 ->
+  0 = 1 :> Zmod p)%Zmod.
+Proof.
+  intros.
+  assert_succeeds (nsatz; []). (* (1+1)%Zmod is not converitble with (Zmod.of_Z p 2) *)
+  pose proof @Zmod.of_Z_add p 1 1.
+  nsatz.
+Qed.
 
 Import Integral_domain Algebra_syntax.
 
@@ -64,7 +92,7 @@ Proof. nsatz. Qed.
 End test.
 
 Section Geometry.
-Import Algebra_syntax.
+Import Algebra_syntax List.ListNotations.
 Local Open Scope R_scope.
 Local Coercion IZR : Z >-> R.
 

@@ -92,6 +92,7 @@ Proof. symmetry. apply coprime_pow_r; try symmetry; trivial. Qed.
 
 
 Definition prime p := 1 < p /\ forall n, 1 < n < p -> ~ (n|p).
+Existing Class prime.
 
 Lemma not_prime_0 : not (prime 0).
 Proof. intros []. lia. Qed.
@@ -227,3 +228,6 @@ Proof. cbv [extgcd proj1_sig]. case extgcd_rec as (([],?),?). intuition congruen
 End extended_euclid_algorithm.
 
 End Z.
+
+#[export] Hint Extern 0 (Z.prime 2) => exact Z.prime_2 : typeclass_instances.
+#[export] Hint Extern 0 (Z.prime 3) => exact Z.prime_3 : typeclass_instances.
