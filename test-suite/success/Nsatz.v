@@ -1,8 +1,5 @@
-
-(* compile en user    3m39.915s sur cachalot *)
-From Stdlib Require Import BinNat.
-From Stdlib Require Import Nsatz.
-From Stdlib Require List.
+(* This file takes 9 seconds to process on a 2023 gaming computer *)
+From Stdlib Require Import List BinNat BinInt QArith_base Rbase RNsatz ZNsatz QNsatz.
 Import List.ListNotations.
 
 (* Example with a generic domain *)
@@ -12,24 +9,40 @@ Section test.
 Lemma nonconsecutive_equalities_to_goal (FR ep : Z) (IHp : FR = ep) a : (fst a * snd a + FR = fst a * snd a + ep)%Z.
 Proof. nsatz. Qed.
 
+Lemma example3_Z : forall (x y z : Z), (
+  x+y+z=0 ->
+  x*y+x*z+y*z=0->
+  x*y*z=0 -> x*x*x=0)%Z.
+Proof. nsatz. Qed.
+
+Lemma example3_Q : forall (x y z : Q), (
+  x+y+z==0 ->
+  x*y+x*z+y*z==0->
+  x*y*z==0 -> x*x*x==0)%Q.
+Proof. nsatz. Qed.
+
+Lemma example3_R : forall (x y z : R), (
+  x+y+z=0 ->
+  x*y+x*z+y*z=0->
+  x*y*z=0 -> x*x*x=0)%R.
+Proof. nsatz. Qed.
+
+Import Integral_domain Algebra_syntax.
+
 Context {A:Type}`{Aid:Integral_domain A}.
 
-Lemma example3 : forall x y z,
+Lemma example3_A : forall (x y z :A),
   x+y+z==0 ->
   x*y+x*z+y*z==0->
   x*y*z==0 -> x^3%Z==0.
-Proof.
-  Time nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 Lemma example4 : forall x y z u,
   x+y+z+u==0 ->
   x*y+x*z+x*u+y*z+y*u+z*u==0->
   x*y*z+x*y*u+x*z*u+y*z*u==0->
   x*y*z*u==0 -> x^4%Z==0.
-Proof.
-Time nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 Lemma example5 : forall x y z u v,
   x+y+z+u+v==0 ->
@@ -37,35 +50,29 @@ Lemma example5 : forall x y z u v,
   x*y*z+x*y*u+x*y*v+x*z*u+x*z*v+x*u*v+y*z*u+y*z*v+y*u*v+z*u*v==0->
   x*y*z*u+y*z*u*v+z*u*v*x+u*v*x*y+v*x*y*z==0 ->
   x*y*z*u*v==0 -> x^5%Z==0.
-Proof.
-Time nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 Goal forall x y:Z,  x = y -> (x+0)%Z = (y*1+0)%Z.
-nsatz.
-Qed.
-
-From Stdlib Require Import Rbase.
+Proof. nsatz. Qed.
 
 Goal forall x y:R,  x = y -> (x+0)%R = (y*1+0)%R.
-nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 Goal forall a b c x:R, a = b -> b = c -> (a*a)%R = (c*c)%R.
-nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 End test.
 
 Section Geometry.
+Import Algebra_syntax.
+Local Open Scope R_scope.
+Local Coercion IZR : Z >-> R.
+
 (* See the interactive pictures of Laurent Théry
    on http://www-sop.inria.fr/marelle/CertiGeo/
    and research paper on
    https://docs.google.com/fileview?id=0ByhB3nPmbnjTYzFiZmIyNGMtYTkwNC00NWFiLWJiNzEtODM4NmVkYTc2NTVk&hl=fr
 *)
-
-From Stdlib Require Import Rbase.
-From Stdlib Require Import List.
 
 Record point:Type:={
  X:R;
@@ -160,8 +167,7 @@ Ltac disj_to_pol f :=
   end.
 
 Lemma fastnsatz1:forall x y:R, x - y = 0 -> x = y.
-nsatz.
-Qed.
+Proof. nsatz. Qed.
 
 Ltac fastnsatz:=
   try trivial; try apply fastnsatz1; try trivial; nsatz.
@@ -232,19 +238,17 @@ Lemma medians: forall A B C A1 B1 C1 H:point,
   collinear C C1 H
   \/ collinear A B C.
 Proof. geo_begin.
-idtac "Medians".
- Time nsatz.
-(*Finished transaction in 2. secs (2.69359u,0.s)
-*) Qed.
+  idtac "Medians".
+  Time nsatz.
+Qed.
 
 Lemma Pythagore: forall A B C:point,
   orthogonal A B A C ->
   distance2 A C + distance2 A B = distance2 B C.
 Proof. geo_begin.
-idtac "Pythagore".
-Time nsatz.
-(*Finished transaction in 0. secs (0.354946u,0.s)
-*) Qed.
+  idtac "Pythagore".
+  Time nsatz.
+Qed.
 
 Lemma Thales: forall O A B C D:point,
   collinear O A C -> collinear O B D ->
@@ -253,9 +257,10 @@ Lemma Thales: forall O A B C D:point,
   /\ distance2 O B * distance2 C D = distance2 O D * distance2 A B)
  \/ collinear O A B.
 geo_begin.
-idtac "Thales".
-Time nsatz. (*Finished transaction in 2. secs (1.598757u,0.s)*)
-Time nsatz.
+Proof.
+  idtac "Thales 2 goals".
+  Time nsatz.
+  Time nsatz.
 Qed.
 
 Lemma segments_of_chords: forall A B C D M O:point,
@@ -266,20 +271,13 @@ Lemma segments_of_chords: forall A B C D M O:point,
   collinear C D M ->
   (distance2 M A) * (distance2 M B) = (distance2 M C) * (distance2 M D)
   \/ parallel A B C D.
-Proof.
-geo_begin.
-idtac "segments_of_chords".
-Time nsatz.
-(*Finished transaction in 3. secs (2.704589u,0.s)
-*) Qed.
-
+Proof. geo_begin. nsatz. Qed.
 
 Lemma isoceles: forall A B C:point,
   equaltangente A B C B C A ->
   distance2 A B = distance2 A C
   \/ collinear A B C.
-Proof. geo_begin.  Time nsatz.
-(*Finished transaction in 1. secs (1.140827u,0.s)*) Qed.
+Proof. geo_begin. nsatz. Qed.
 
 Lemma minh: forall A B C D O E H I:point,
   X A = 0 -> Y A = 0 -> Y O = 0 ->
@@ -298,12 +296,10 @@ Lemma minh: forall A B C D O E H I:point,
      * (X C - 2%Z * X O)^3%Z * (-2%Z * X O + X B)=0
   \/  parallel A C B D.
 Proof. geo_begin.
-idtac "minh".
-Time nsatz with radicalmax :=1%N strategy:=1%Z
-  parameters:=[X O; X B; X C]
-  variables:= (@nil R).
-(*Finished transaction in 13. secs (10.102464u,0.s)
-*)
+  idtac "minh".
+  Time nsatz with radicalmax :=1%N strategy:=1%Z
+    parameters:=[X O; X B; X C]
+    variables:= (@nil R).
 Qed.
 
 Lemma Pappus: forall A B C A1 B1 C1 P Q S:point,
@@ -329,8 +325,6 @@ Time nsatz with radicalmax :=1%N strategy:=0%Z
               X C;
                  Y C1;
                     X C1; Y P; X P; Y Q; X Q; Y S; X S].
-(*Finished transaction in 8. secs (7.795815u,0.000999999999999s)
-*)
 Qed.
 
 Lemma Simson: forall A B C O D E F G:point,
@@ -355,8 +349,6 @@ idtac "Simson".
 Time nsatz with radicalmax :=1%N strategy:=0%Z
   parameters:=[X B; Y B; X C; Y C; Y D]
   variables:= (@nil R). (* compute -[X Y]. *)
-(*Finished transaction in 8. secs (7.550852u,0.s)
-*)
 Qed.
 
 Lemma threepoints: forall A B C A1 B1 A2 B2 H1 H2 H3:point,
@@ -372,10 +364,9 @@ Lemma threepoints: forall A B C A1 B1 A2 B2 H1 H2 H3:point,
   collinear H1 H2 H3
   \/ collinear A B C.
 Proof. geo_begin.
-idtac "threepoints".
-Time nsatz.
-(*Finished transaction in 7. secs (6.282045u,0.s)
-*) Qed.
+  idtac "threepoints".
+  Time nsatz.
+Qed.
 
 Lemma Feuerbach:  forall A B C A1 B1 C1 O A2 B2 C2 O2:point,
   forall r r2:R,
@@ -394,13 +385,9 @@ Lemma Feuerbach:  forall A B C A1 B1 C1 O A2 B2 C2 O2:point,
   \/ distance2 O O2 = (r - r2)^2%Z
   \/ collinear A B C.
 Proof. geo_begin.
-idtac "Feuerbach".
-Time nsatz.
-(*Finished transaction in 21. secs (19.021109u,0.s)*)
+  idtac "Feuerbach".
+  Time nsatz.
 Qed.
-
-
-
 
 Lemma Euler_circle: forall A B C A1 B1 C1 A2 B2 C2 O:point,
   middle A B C1 -> middle B C A1 -> middle C A B1 ->
@@ -414,16 +401,11 @@ Lemma Euler_circle: forall A B C A1 B1 C1 A2 B2 C2 O:point,
    /\distance2 O C2 = distance2 O A1)
   \/ collinear A B C.
 Proof. geo_begin.
-idtac "Euler_circle 3 goals".
-Time nsatz.
-(*Finished transaction in 13. secs (11.208296u,0.124981s)*)
-Time nsatz.
-(*Finished transaction in 10. secs (8.846655u,0.s)*)
-Time nsatz.
-(*Finished transaction in 11. secs (9.186603u,0.s)*)
+  idtac "Euler_circle 3 goals".
+  Time nsatz.
+  Time nsatz.
+  Time nsatz.
 Qed.
-
-
 
 Lemma Desargues: forall A B C A1 B1 C1 P Q T S:point,
   X S = 0 -> Y S = 0 -> Y A = 0 ->
@@ -438,7 +420,7 @@ Proof.
 geo_begin.
 idtac "Desargues".
 Time
-let lv := rev [X A;
+let lv := NsatzTactic.rev [X A;
     X B;
       Y B;
          X C;
@@ -452,7 +434,7 @@ let lv := rev [X A;
                                  Y Q; X P; Y P; X C1; X B1] in
 nsatz with radicalmax :=1%N strategy:=0%Z
   parameters:=[X A; X B; Y B; X C; Y C; X A1; Y B1; Y C1]
-  variables:= lv. (*Finished transaction in 8. secs (8.02578u,0.001s)*)
+  variables:= lv.
 Qed.
 
 Lemma chords: forall O A B C D M:point,
@@ -465,7 +447,6 @@ Lemma chords: forall O A B C D M:point,
 Proof. geo_begin.
 idtac "chords".
  Time nsatz.
-(*Finished transaction in 4. secs (3.959398u,0.s)*)
 Qed.
 
 Lemma Ceva: forall A B C D E F M:point,
@@ -477,7 +458,6 @@ Lemma Ceva: forall A B C D E F M:point,
 Proof. geo_begin.
 idtac "Ceva".
 Time nsatz.
-(*Finished transaction in 105. secs (104.121171u,0.474928s)*)
 Qed.
 
 Lemma bissectrices: forall A B C M:point,
@@ -488,7 +468,6 @@ Lemma bissectrices: forall A B C M:point,
 Proof. geo_begin.
 idtac "bissectrices".
 Time nsatz.
-(*Finished transaction in 2. secs (1.937705u,0.s)*)
 Qed.
 
 Lemma bisections: forall A B C A1 B1 C1 H:point,
@@ -499,7 +478,7 @@ Lemma bisections: forall A B C A1 B1 C1 H:point,
   \/ collinear A B C.
 Proof. geo_begin.
 idtac "bisections".
-Time nsatz. (*Finished transaction in 2. secs (2.024692u,0.002s)*)
+Time nsatz.
 Qed.
 
 Lemma altitudes: forall A B C A1 B1 C1 H:point,
@@ -511,9 +490,9 @@ Lemma altitudes: forall A B C A1 B1 C1 H:point,
   \/ equal2 A B
   \/ collinear A B C.
 Proof. geo_begin.
-idtac "altitudes".
-Time nsatz. (*Finished transaction in 3. secs (3.001544u,0.s)*)
-Time nsatz. (*Finished transaction in 4. secs (3.113527u,0.s)*)
+  idtac "altitudes (2 goals)".
+  Time nsatz.
+  Time nsatz.
 Qed.
 
 Lemma hauteurs:forall A B C A1 B1 C1 H:point,
@@ -524,7 +503,7 @@ Lemma hauteurs:forall A B C A1 B1 C1 H:point,
 
   collinear C C1 H
   \/ collinear A B C.
-
+Proof.
 geo_begin.
 idtac "hauteurs".
 Time
@@ -533,7 +512,6 @@ Time
  Y C1; Y H; X C1; X C]) in
 nsatz with radicalmax := 2%N strategy := 1%Z parameters := (@Datatypes.nil R)
  variables := lv.
-(*Finished transaction in 5. secs (4.360337u,0.008999s)*)
 Qed.
 
 

@@ -295,6 +295,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/ZArith/Zdiv_facts.v
     theories/ZArith/Zbitwise.v
     theories/ZArith/ZModOffset.v
+    theories/ZArith/ZNsatz.v
     theories/Numbers/DecimalFacts.v
     theories/Numbers/DecimalNat.v
     theories/Numbers/DecimalPos.v
@@ -528,6 +529,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/QArith/Qabs.v
     (theories/QArith/QArith.v)
     theories/QArith/Qcabs.v
+    theories/QArith/QNsatz.v
     theories/Numbers/DecimalQ.v
     theories/Numbers/HexadecimalQ.v
   </dd>
@@ -609,6 +611,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Reals/SeqSeries.v
     theories/Reals/Sqrt_reg.v
     theories/Reals/Rlogic.v
+    theories/Reals/RNsatz.v
     theories/Reals/Rregisternames.v
     (theories/Reals/Reals.v)
     theories/Reals/Runcountable.v
