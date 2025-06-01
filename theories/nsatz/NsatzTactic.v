@@ -259,22 +259,12 @@ Fixpoint interpret3 t fv {struct t}: R :=
 End nsatz1.
 
 Ltac equality_to_goal H x y:=
-  (* eliminate trivial  hypotheses, but it takes time!:
-  let h := fresh "nH" in
-    (assert (h:equality x y);
-    [solve [cring] | clear H; clear h])
-  || *) try (generalize (@psos_r1 _ _ _ _ _ _ _ _ _ _ _ x y H); clear H)
-.
+  try (generalize (@psos_r1 _ _ _ _ _ _ _ _ _ _ _ x y H); clear H).
 
 Ltac equalities_to_goal :=
-  lazymatch goal with
-  |  H: (_ ?x ?y) |- _ => equality_to_goal H x y
-  |  H: (_ _ ?x ?y) |- _ => equality_to_goal H x y
-  |  H: (_ _ _ ?x ?y) |- _ => equality_to_goal H x y
-  |  H: (_ _ _ _ ?x ?y) |- _ => equality_to_goal H x y
-(* extension possible :-) *)
-  |  H: (?x == ?y) |- _ => equality_to_goal H x y
-   end.
+  match goal with
+  |  H: (_ ?x ?y) |- _ => progress equality_to_goal H x y
+  end.
 
 (* lp est incluse dans fv. La met en tete. *)
 
