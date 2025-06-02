@@ -26,7 +26,6 @@ theories/extraction/ExtrOcamlZInt.v
 theories/extraction/Extraction.v
 theories/funind/FunInd.v
 theories/funind/Recdef.v
-theories/ltac/Ltac.v
 theories/micromega/Ztac.v
 theories/micromega/DeclConstant.v
 theories/micromega/DeclConstantZ.v
@@ -50,7 +49,6 @@ theories/micromega/ZCoeff.v
 theories/micromega/ZMicromega.v
 theories/micromega/ZifyInst.v
 theories/micromega/ZifyBool.v
-theories/micromega/ZifyInt63.v
 theories/micromega/ZifyUint63.v
 theories/micromega/ZifySint63.v
 theories/micromega/ZifyNat.v
@@ -62,9 +60,6 @@ theories/micromega/Zify.v
 theories/nsatz/NsatzTactic.v
 theories/omega/OmegaLemmas.v
 theories/omega/PreOmega.v
-theories/quote/Quote.v
-theories/romega/ROmega.v
-theories/romega/ReflOmegaCore.v
 theories/rtauto/Bintree.v
 theories/rtauto/Rtauto.v
 theories/setoid_ring/Algebra_syntax.v
@@ -158,7 +153,6 @@ theories/Relations/Relation_Definitions.v
 theories/Setoids/Setoid.v
 theories/Strings/PrimString.v
 theories/Strings/PrimStringAxioms.v
-theories/derive/Derive.v
 theories/extraction/ExtrHaskellBasic.v
 theories/extraction/ExtrOcamlBasic.v
 theories/extraction/Extraction.v
