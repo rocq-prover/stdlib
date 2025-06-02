@@ -63,8 +63,6 @@ digraph stdlib_deps {
 	"primitive-array" -> "primitive-int";
 	streams -> logic;
 	funind -> "arith-base";
-	rtauto -> positive;
-	rtauto -> lists;
 	compat -> zmod;
 	compat -> reals;
 	compat -> "fmaps-fsets-msets";
@@ -73,6 +71,5 @@ digraph stdlib_deps {
 	compat -> extraction;
 	compat -> streams;
 	compat -> funind;
-	compat -> rtauto;
         all -> compat
 }
