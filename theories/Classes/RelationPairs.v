@@ -11,7 +11,8 @@
 (** * Relations over pairs *)
 
 
-From Stdlib Require Import Relations Morphisms.
+From Stdlib Require Import Relation_Definitions (relation).
+From Stdlib Require Import Morphisms.
 (* NB: This should be system-wide someday, but for that we need to
     fix the simpl tactic, since "simpl fst" would be refused for
     the moment.
