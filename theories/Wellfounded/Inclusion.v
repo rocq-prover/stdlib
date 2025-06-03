@@ -11,12 +11,13 @@
 (** Author: Bruno Barras *)
 
 From Stdlib Require Import Relation_Definitions.
+From Stdlib Require Import RelationClasses.
 
 Section WfInclusion.
   Variable A : Type.
   Variables R1 R2 : A -> A -> Prop.
 
-  Lemma Acc_incl : inclusion A R1 R2 -> forall z:A, Acc R2 z -> Acc R1 z.
+  Lemma Acc_incl : subrelation R1 R2 -> forall z:A, Acc R2 z -> Acc R1 z.
   Proof.
     induction 2.
     apply Acc_intro; auto with sets.
@@ -25,7 +26,7 @@ Section WfInclusion.
   #[local]
   Hint Resolve Acc_incl : core.
 
-  Theorem wf_incl : inclusion A R1 R2 -> well_founded R2 -> well_founded R1.
+  Theorem wf_incl : subrelation R1 R2 -> well_founded R2 -> well_founded R1.
   Proof.
     unfold well_founded; auto with sets.
   Qed.

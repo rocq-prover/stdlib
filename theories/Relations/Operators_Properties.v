@@ -29,8 +29,6 @@ Section Properties.
   Arguments clos_trans [A] R x _.
   Arguments clos_trans_1n [A] R x _.
   Arguments clos_trans_n1 [A] R x _.
-  Arguments inclusion [A] R1 R2.
-  Arguments preorder [A] R.
 
   Variable A : Type.
   Variable R : relation A.
@@ -43,8 +41,18 @@ Section Properties.
 
     (** Correctness of the reflexive-transitive closure operator *)
 
-    Lemma clos_rt_is_preorder : preorder R*.
+    #[export] Instance PreOrder_clos_rt : PreOrder R*.
     Proof.
+      split.
+      - exact (rt_refl A R).
+      - exact (rt_trans A R).
+    Qed.
+
+    #[deprecated(since="9.1", use=PreOrder_clos_rt)]
+    #[warning="-deprecated"]
+    Lemma clos_rt_is_preorder : preorder _ R*.
+    Proof.
+      #[warning="-deprecated"]
       apply Build_preorder.
       - exact (rt_refl A R).
       - exact (rt_trans A R).
@@ -52,12 +60,16 @@ Section Properties.
 
     (** Idempotency of the reflexive-transitive closure operator *)
 
-    Lemma clos_rt_idempotent : inclusion (R*)* R*.
+    #[export] Instance subrelation_clos_rt_idemp : subrelation (R*)* R*.
     Proof.
-      red.
       induction 1 as [x y H|x|x y z H IH H0 IH0]; auto with sets.
       apply rt_trans with y; auto with sets.
     Qed.
+
+    #[deprecated(since="9.1", use=subrelation_clos_rt_idemp)]
+    #[warning="-deprecated"]
+    Lemma clos_rt_idempotent : inclusion _ (R*)* R*.
+    Proof. apply subrelation_clos_rt_idemp. Qed.
 
   End Clos_Refl_Trans.
 
@@ -66,32 +78,50 @@ Section Properties.
     (** Reflexive-transitive closure is included in the
         reflexive-symmetric-transitive closure *)
 
-    Lemma clos_rt_clos_rst :
-      inclusion (clos_refl_trans R) (clos_refl_sym_trans R).
+    #[export] Instance subrelation_clos_rt_clos_rst :
+      subrelation (clos_refl_trans R) (clos_refl_sym_trans R).
     Proof.
       red.
       induction 1 as [x y H|x|x y z H IH H0 IH0]; auto with sets.
       apply rst_trans with y; auto with sets.
     Qed.
 
+    #[deprecated(since="9.1", use=subrelation_clos_rt_clos_rst)]
+    #[warning="-deprecated"]
+    Lemma clos_rt_clos_rst :
+      inclusion _ (clos_refl_trans R) (clos_refl_sym_trans R).
+    Proof. apply subrelation_clos_rt_clos_rst. Qed.
+
     (** Reflexive closure is included in the
         reflexive-transitive closure *)
 
-    Lemma clos_r_clos_rt :
-      inclusion (clos_refl R) (clos_refl_trans R).
+    #[export] Instance subrelation_clos_r_clos_rt :
+      subrelation (clos_refl R) (clos_refl_trans R).
     Proof.
       induction 1 as [? ?| ].
       - constructor; auto.
       - constructor 2.
     Qed.
 
-    Lemma clos_t_clos_rt :
-      inclusion (clos_trans R) (clos_refl_trans R).
+    #[deprecated(since="9.1", use=subrelation_clos_r_clos_rt)]
+    #[warning="-deprecated"]
+    Lemma clos_r_clos_rt :
+      inclusion _ (clos_refl R) (clos_refl_trans R).
+    Proof. apply subrelation_clos_r_clos_rt. Qed.
+
+    #[export] Instance subrelation_clos_t_clos_rt :
+      subrelation (clos_trans R) (clos_refl_trans R).
     Proof.
       induction 1 as [? ?| ].
       - constructor. auto.
       - econstructor 3; eassumption.
     Qed.
+
+    #[deprecated(since="9.1", use=subrelation_clos_t_clos_rt)]
+    #[warning="-deprecated"]
+    Lemma clos_t_clos_rt :
+      inclusion _ (clos_trans R) (clos_refl_trans R).
+    Proof. apply subrelation_clos_t_clos_rt. Qed.
 
     Lemma clos_rt_t : forall x y z,
       clos_refl_trans R x y -> clos_trans R y z ->
@@ -104,9 +134,19 @@ Section Properties.
 
     (** Correctness of the reflexive-symmetric-transitive closure *)
 
+    #[export] Instance Equivalence_clos_rst_is : Equivalence (clos_refl_sym_trans R).
+    Proof.
+      split.
+      - exact (rst_refl A R).
+      - exact (rst_sym A R).
+      - exact (rst_trans A R).
+    Qed.
+
+    #[deprecated(since="9.1", use=Equivalence_clos_rst_is)]
+    #[warning="-deprecated"]
     Lemma clos_rst_is_equiv : equivalence A (clos_refl_sym_trans R).
     Proof.
-      apply Build_equivalence.
+      split.
       - exact (rst_refl A R).
       - exact (rst_trans A R).
       - exact (rst_sym A R).
@@ -114,14 +154,21 @@ Section Properties.
 
     (** Idempotency of the reflexive-symmetric-transitive closure operator *)
 
-    Lemma clos_rst_idempotent :
-      inclusion (clos_refl_sym_trans (clos_refl_sym_trans R))
+    #[export] Instance subrelation_clos_rst_idemp :
+      subrelation (clos_refl_sym_trans (clos_refl_sym_trans R))
       (clos_refl_sym_trans R).
     Proof.
       red.
       induction 1 as [x y H|x|x y H IH|x y z H IH H0 IH0]; auto with sets.
       apply rst_trans with y; auto with sets.
     Qed.
+
+    #[deprecated(since="9.1", use=subrelation_clos_rst_idemp)]
+    #[warning="-deprecated"]
+    Lemma clos_rst_idempotent :
+      inclusion _ (clos_refl_sym_trans (clos_refl_sym_trans R))
+      (clos_refl_sym_trans R).
+    Proof. apply subrelation_clos_rst_idemp. Qed.
 
   End Clos_Refl_Sym_Trans.
 
@@ -424,33 +471,57 @@ End Properties.
 
 (* begin hide *)
 (* Compatibility *)
+#[deprecated(since="2009", use=clos_trans_tn1)]
 Notation trans_tn1 := clos_trans_tn1 (only parsing).
+#[deprecated(since="2009", use=clos_tn1_trans)]
 Notation tn1_trans := clos_tn1_trans (only parsing).
+#[deprecated(since="2009", use=clos_trans_tn1_iff)]
 Notation tn1_trans_equiv := clos_trans_tn1_iff (only parsing).
 
+#[deprecated(since="2009", use=clos_trans_t1n)]
 Notation trans_t1n := clos_trans_t1n (only parsing).
+#[deprecated(since="2009", use=clos_t1n_trans)]
 Notation t1n_trans := clos_t1n_trans (only parsing).
+#[deprecated(since="2009", use=clos_trans_t1n_iff)]
 Notation t1n_trans_equiv := clos_trans_t1n_iff (only parsing).
 
+#[deprecated(since="2009", use=clos_rtn1_step)]
 Notation R_rtn1 := clos_rtn1_step (only parsing).
+#[deprecated(since="2009", use=clos_rt_rt1n)]
 Notation trans_rt1n := clos_rt_rt1n (only parsing).
+#[deprecated(since="2009", use=clos_rt1n_rt)]
 Notation rt1n_trans := clos_rt1n_rt (only parsing).
+#[deprecated(since="2009", use=clos_rt_rt1n_iff)]
 Notation rt1n_trans_equiv := clos_rt_rt1n_iff (only parsing).
 
+#[deprecated(since="2009", use=clos_rt1n_step)]
 Notation R_rt1n := clos_rt1n_step (only parsing).
+#[deprecated(since="2009", use=clos_rt_rtn1)]
 Notation trans_rtn1 := clos_rt_rtn1 (only parsing).
+#[deprecated(since="2009", use=clos_rtn1_rt)]
 Notation rtn1_trans := clos_rtn1_rt (only parsing).
+#[deprecated(since="2009", use=clos_rt_rtn1_iff)]
 Notation rtn1_trans_equiv := clos_rt_rtn1_iff (only parsing).
 
+#[deprecated(since="2009", use=clos_rst1n_rst)]
 Notation rts1n_rts := clos_rst1n_rst (only parsing).
+#[deprecated(since="2009", use=clos_rst1n_trans)]
 Notation rts_1n_trans := clos_rst1n_trans (only parsing).
+#[deprecated(since="2009", use=clos_rst1n_sym)]
 Notation rts1n_sym := clos_rst1n_sym (only parsing).
+#[deprecated(since="2009", use=clos_rst_rst1n)]
 Notation rts_rts1n := clos_rst_rst1n (only parsing).
+#[deprecated(since="2009", use=clos_rst_rst1n_iff)]
 Notation rts_rts1n_equiv := clos_rst_rst1n_iff (only parsing).
 
+#[deprecated(since="2009", use=clos_rstn1_rst)]
 Notation rtsn1_rts := clos_rstn1_rst (only parsing).
+#[deprecated(since="2009", use=clos_rstn1_trans)]
 Notation rtsn1_trans := clos_rstn1_trans (only parsing).
+#[deprecated(since="2009", use=clos_rstn1_sym)]
 Notation rtsn1_sym := clos_rstn1_sym (only parsing).
+#[deprecated(since="2009", use=clos_rst_rstn1)]
 Notation rts_rtsn1 := clos_rst_rstn1 (only parsing).
+#[deprecated(since="2009", use=clos_rst_rstn1_iff)]
 Notation rts_rtsn1_equiv := clos_rst_rstn1_iff (only parsing).
 (* end hide *)

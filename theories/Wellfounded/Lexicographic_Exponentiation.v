@@ -94,7 +94,7 @@ Section Wf_Lexicographic_Exponentiation.
       apply Forall_app. split; [easy|].
       constructor; [|easy].
       eapply rt_trans.
-      + apply clos_r_clos_rt. eassumption.
+      + apply subrelation_clos_r_clos_rt. eassumption.
       + apply Forall_app in IH as [_ IH].
         destruct l as [|? l].
         * now apply rt_refl.
@@ -204,7 +204,7 @@ Section Wf_Lexicographic_Exponentiation.
           intros. eapply clos_rt_t; [|apply t_step]; eassumption. }
         rewrite <-(app_nil_r (a :: l1)).
         apply (clos_trans_list_ext_app_l _ _ _ _ [b]); [assumption|].
-        destruct l2; [apply rt_refl|apply clos_t_clos_rt].
+        destruct l2; [apply rt_refl|apply subrelation_clos_t_clos_rt].
         now apply clos_trans_list_ext_nil_l.
       + apply (dist_Desc_concat [a]) in Hl1 as [_ ?].
         apply (dist_Desc_concat [a]) in Hl2 as [_ ?].

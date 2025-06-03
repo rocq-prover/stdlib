@@ -20,13 +20,16 @@ Section WfUnion.
 
   Notation Union := (union A R1 R2).
 
+  Local Definition commut (R1 R2:relation A) : Prop :=
+    forall x y:A, R1 y x -> forall z:A, R2 z y ->  exists2 y' : A, R2 y' x & R1 z y'.
+  Context (H : commut R1 R2).
+
   Remark strip_commut :
-    commut A R1 R2 ->
     forall x y:A,
       clos_trans A R1 y x ->
       forall z:A, R2 z y ->  exists2 y' : A, R2 y' x & clos_trans A R1 z y'.
   Proof.
-    induction 2 as [x y| x y z H0 IH1 H1 IH2]; intros.
+    induction 1 as [x y| x y z H0 IH1 H1 IH2]; intros.
     - elim H with y x z; auto with sets; intros x0 H2 H3.
       exists x0; auto with sets.
 
@@ -38,10 +41,9 @@ Section WfUnion.
 
 
   Lemma Acc_union :
-    commut A R1 R2 ->
     (forall x:A, Acc R2 x -> Acc R1 x) -> forall a:A, Acc R2 a -> Acc Union a.
   Proof.
-    induction 3 as [x H1 H2].
+    induction 2 as [x H1 H2].
     apply Acc_intro; intros.
     elim H3; intros; auto with sets.
     cut (clos_trans A R1 y x); auto with sets.
@@ -65,7 +67,7 @@ Section WfUnion.
 
 
   Theorem wf_union :
-    commut A R1 R2 -> well_founded R1 -> well_founded R2 -> well_founded Union.
+    well_founded R1 -> well_founded R2 -> well_founded Union.
   Proof.
     unfold well_founded.
     intros.
