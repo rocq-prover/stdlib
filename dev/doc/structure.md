@@ -43,7 +43,7 @@ appropriate `_SubComponent` fake subdirectory. Look at
 
 To add or remove a subcomponent, just add or remove the corresponding
 `theories/Make.*` file and adapt `doc/stdlib/depends.dot` and
-`.nix/coq-overlays/stdlib-subcomponents/default.nix`. One can use the
+`.nix/rocq-overlays/stdlib-subcomponents/default.nix`. One can use the
 `dev/tools/make-depends.sh` script to help update the graph (the line
 below `File dependencies` can be uncommented to better understand
 which files are responsible for some subcomponent dependency).
