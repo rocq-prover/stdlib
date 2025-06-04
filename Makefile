@@ -3,7 +3,7 @@ DUNE=dev/with-rocq-wrap.sh dune
 .PHONY: clean all install dune dune-install
 
 all install:
-	+$(MAKE) -C theories $@
+	+$(MAKE) -j -C theories $@
 
 dune:
 	$(DUNE) build -p rocq-stdlib @install
@@ -25,8 +25,10 @@ stdlib-html:
 	$(DUNE) build --root . @stdlib-html
 
 clean:
-	find . -name '*.vo' \
-		-o -name '*.vok' \
-		-o -name '*.vos' \
-		-o -name '*.glob' \
-		-exec rm -vf {} +
+	rm -rf _build
+	find . \
+	\( -name '*.vo' \
+	-o -name '*.vok' \
+	-o -name '*.vos' \
+	-o -name '*.glob' \
+	\) -exec rm -vf {} +
