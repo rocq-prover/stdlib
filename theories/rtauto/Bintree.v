@@ -7,6 +7,7 @@
 (*         *     GNU Lesser General Public License Version 2.1          *)
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
+Attributes deprecated(since="9.1", note="If you would like to take over maintenance of rtauto, please open an issue.").
 
 From Stdlib Require Export List.
 From Stdlib Require Export BinPos.
