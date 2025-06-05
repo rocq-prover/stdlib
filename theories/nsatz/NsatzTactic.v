@@ -258,12 +258,10 @@ Fixpoint interpret3 t fv {struct t}: R :=
 
 End nsatz1.
 
-Ltac equality_to_goal H x y:=
-  try (generalize (@psos_r1 _ _ _ _ _ _ _ _ _ _ _ x y H); clear H).
-
-Ltac equalities_to_goal :=
+Ltac equalities_to_goal cr :=
   match goal with
-  |  H: (_ ?x ?y) |- _ => progress equality_to_goal H x y
+  |  H: ((*unification*)_ ?x ?y) |- _ =>
+      generalize (@psos_r1 _ _ _ _ _ _ _ _ _ _ cr x y H); clear H
   end.
 
 (* lp est incluse dans fv. La met en tete. *)
@@ -322,7 +320,7 @@ Ltac lterm_goal g :=
   | ?b1 == ?b2 -> ?g => let l := lterm_goal g in constr:(b1::b2::l)
   end.
 
-Ltac reify_goal l le lb:=
+Ltac reify_goal ro l le lb:=
   match le with
      nil => idtac
    | ?e::?le1 =>
@@ -330,9 +328,9 @@ Ltac reify_goal l le lb:=
          ?b::?lb1 => (* idtac "b="; idtac b;*)
            let x := fresh "B" in
            set (x:= b) at 1;
-           change x with (interpret3 e l);
+           change x with (interpret3(Ro:=ro) e l);
            clear x;
-           reify_goal l le1 lb1
+           reify_goal ro l le1 lb1
         end
   end.
 
@@ -348,7 +346,12 @@ Ltac get_lpol g :=
     use of real discrimination. *)
 Ltac nsatz_internal_discrR := idtac.
 
-Ltac nsatz_generic radicalmax info lparam lvar :=
+Ltac nsatz_generic di radicalmax info lparam lvar :=
+ let ro := lazymatch type of di with Integral_domain(Ro:=?ro) => ro end in
+ let rr := lazymatch type of di with Integral_domain(Rr:=?rr) => rr end in
+ let cr := lazymatch type of di with Integral_domain(Rcr:=?cr) => cr end in
+ let r0 := lazymatch type of di with Integral_domain(ring0:=?r0) => r0 end in
+ let req := lazymatch type of di with Integral_domain(ring_eq:=?req) => req end in
  let nparam := eval compute in (Z.of_nat (List.length lparam)) in
  match goal with
   |- ?g => let lb := lterm_goal g in
@@ -356,24 +359,24 @@ Ltac nsatz_generic radicalmax info lparam lvar :=
               |(@nil _) =>
                  lazymatch lparam with
                  |(@nil _) =>
-                    let r := list_reifyl0 lb in
+                    let r := list_reifyl0 rr lb in
                     r
                    |_ =>
-                     let reif := list_reifyl0 lb in
+                     let reif := list_reifyl0 rr lb in
                      match reif with
                        |(?fv, ?le) =>
                          let fv := parametres_en_tete fv lparam in
                            (* we reify a second time, with the good order
                               for variables *)
-                         list_reifyl fv lb
+                         list_reifyl rr fv lb
                      end
                   end
               |_ =>
                  let fv := parametres_en_tete lvar lparam in
-                list_reifyl fv lb
+                list_reifyl rr fv lb
             end) with
           |(?fv, ?le) =>
-            reify_goal fv le lb ;
+            reify_goal ro fv le lb ;
             match goal with
                    |- ?g =>
                        let lp := get_lpol g in
@@ -399,21 +402,21 @@ Ltac nsatz_generic radicalmax info lparam lvar :=
       assert (Hg:check lp21 q (lci,lq) = true);
       [ (vm_compute;reflexivity) || idtac "invalid nsatz certificate"
       | let Hg2 := fresh "Hg" in
-            assert (Hg2: (interpret3 q fv) == 0);
+            assert (Hg2: equality (Equality:=req) (interpret3 (Ro:=ro) q fv) r0);
         [ (*simpl*) idtac;
-          generalize (@check_correct _ _ _ _ _ _ _ _ _ _ _ fv lp21 q (lci,lq) Hg);
+          generalize (@check_correct _ _ _ _ _ _ _ _ _ _ cr fv lp21 q (lci,lq) Hg);
           let cc := fresh "H" in
              (*simpl*) idtac; intro cc; apply cc; clear cc;
           (*simpl*) idtac;
           repeat (split;[assumption|idtac]); exact I
         | (*simpl in Hg2;*) (*simpl*) idtac;
-          apply Rintegral_domain_pow with (interpret3 c fv) (N.to_nat r);
+          apply (@Rintegral_domain_pow _ _ _ _ _ _ _ _ _ _ _ di (interpret3 (Ro:=ro) c fv) _ (N.to_nat r));
           (*simpl*) idtac;
-            try apply integral_domain_one_zero;
-            try apply integral_domain_minus_one_zero;
+            try apply integral_domain_one_zero with (Integral_domain:=di);
+            try apply integral_domain_minus_one_zero with (Rid:=di);
             try trivial;
-            try exact integral_domain_one_zero;
-            try exact integral_domain_minus_one_zero
+            try exact (integral_domain_one_zero(Integral_domain:=di));
+            try exact (integral_domain_minus_one_zero(Rid:=di))
           || (solve [simpl; unfold R2, equality, eq_notation, addition, add_notation,
                      one, one_notation, multiplication, mul_notation, zero, zero_notation;
                      nsatz_internal_discrR || lia ])
@@ -424,13 +427,20 @@ Ltac nsatz_generic radicalmax info lparam lvar :=
 )
 end end end .
 
-Ltac nsatz_default:=
+Ltac nsatz_guess_domain :=
+  let eq := lazymatch goal with | |- ?eq _ _ => eq end in
+  let di := lazymatch open_constr:(ltac:(typeclasses eauto):Integral_domain (ring_eq:=eq)) with?di => di end in
+  let __ := match di with _ => assert_fails (is_evar di) end in
+  di.
+
+Ltac nsatz_default :=
   intros;
-  try apply (@psos_r1b _ _ _ _ _ _ _ _ _ _ _);
-  match goal with |- (@equality ?r _ _ _) =>
-    repeat equalities_to_goal;
-    nsatz_generic 6%N 1%Z (@nil r) (@nil r)
-  end.
+  let di := nsatz_guess_domain in
+  let r := lazymatch type of di with Integral_domain(R:=?r) => r end in
+  let cr := lazymatch type of di with Integral_domain(Rcr:=?cr) => cr end in
+  try apply (@psos_r1b _ _ _ _ _ _ _ _ _ _ cr);
+  repeat equalities_to_goal cr;
+  nsatz_generic di 6%N 1%Z (@nil r) (@nil r).
 
 Tactic Notation "nsatz" := nsatz_default.
 
@@ -440,11 +450,12 @@ Tactic Notation "nsatz" "with"
  "parameters" ":=" constr(lparam)
  "variables" ":=" constr(lvar):=
   intros;
-  try apply (@psos_r1b _ _ _ _ _ _ _ _ _ _ _);
-  match goal with |- (@equality ?r _ _ _) =>
-    repeat equalities_to_goal;
-    nsatz_generic radicalmax info lparam lvar
-  end.
+  let di := nsatz_guess_domain in
+  let r := lazymatch type of di with Integral_domain(R:=?r) => r end in
+  let cr := lazymatch type of di with Integral_domain(Rcr:=?cr) => cr end in
+  try apply (@psos_r1b _ _ _ _ _ _ _ _ _ _ cr);
+  repeat equalities_to_goal cr;
+  nsatz_generic di radicalmax info lparam lvar.
 
 (* Rational numbers *)
 From Stdlib Require Import QArith_base.

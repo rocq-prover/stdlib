@@ -94,7 +94,8 @@ Ltac cring_gen :=
   match goal with
     |- ?g =>
       let lterm := lterm_goal g in
-      let reif := list_reifyl0 lterm in
+      let R_ring := lazymatch type of lterm with @list ?T => constr:(_ :> Ring (T:=T)) end in
+      let reif := list_reifyl0 R_ring lterm in
         match reif with
           | (?fv, ?lexpr) =>
            (*idtac "variables:";idtac fv;
@@ -247,7 +248,8 @@ Ltac cring_simplify_gen a hyp :=
       | _::_ => a
       | _ => constr:(a::nil)
     end in
-   let reif := list_reifyl0 lterm in
+    let R_ring := lazymatch type of lterm with @list ?T => constr:(_ :> Ring (T:=T)) end in
+    let reif := list_reifyl0 R_ring lterm in
     match reif with
       | (?fv, ?lexpr) => idtac lterm; idtac fv; idtac lexpr;
       let n := eval compute in (length fv) in
