@@ -9,7 +9,8 @@ digraph stdlib_deps {
 	];
 	bool -> classes;
 	classes -> program;
-	classes -> relations;
+	wellfounded -> relations;
+	sorting -> relations;
 	program -> "corelib-wrapper";
 	program -> logic;
 	strings -> arith;

@@ -7,6 +7,7 @@
 (*         *     GNU Lesser General Public License Version 2.1          *)
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
+Local Set Warnings "-deprecated".
 
 From Stdlib Require Import Lia Relations Multiset SetoidList.
 
