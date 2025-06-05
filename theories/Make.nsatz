@@ -1,3 +1,4 @@
 nsatz/NsatzTactic.v
+nsatz/ENsatzTactic.v
 
 -Q nsatz Stdlib.nsatz

@@ -36,6 +36,7 @@ From Stdlib Require Export rtauto.Rtauto.
 From Stdlib Require Export omega.OmegaLemmas.
 From Stdlib Require Export omega.PreOmega.
 From Stdlib Require Export nsatz.NsatzTactic.
+From Stdlib Require Export nsatz.ENsatzTactic.
 From Stdlib Require Export micromega.DeclConstant.
 From Stdlib Require Export micromega.DeclConstantZ.
 From Stdlib Require Export micromega.Env.
