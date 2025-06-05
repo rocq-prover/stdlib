@@ -33,7 +33,6 @@ theories/micromega/Env.v
 theories/micromega/EnvRing.v
 theories/micromega/Fourier.v
 theories/micromega/Fourier_util.v
-theories/micromega/Lia.v
 theories/micromega/Lqa.v
 theories/micromega/Lra.v
 theories/micromega/OrderedRing.v
@@ -51,8 +50,7 @@ theories/micromega/ZifyInst.v
 theories/micromega/ZifyBool.v
 theories/micromega/ZifyUint63.v
 theories/micromega/ZifySint63.v
-theories/micromega/ZifyNat.v
-theories/micromega/ZifyN.v
+theories/micromega/SatDivMod.v
 theories/micromega/ZifyComparison.v
 theories/micromega/ZifyClasses.v
 theories/micromega/ZifyPow.v
@@ -66,7 +64,6 @@ theories/setoid_ring/Algebra_syntax.v
 theories/setoid_ring/ArithRing.v
 theories/setoid_ring/BinList.v
 theories/setoid_ring/Cring.v
-theories/setoid_ring/Field.v
 theories/setoid_ring/Field_tac.v
 theories/setoid_ring/Field_theory.v
 theories/setoid_ring/InitialRing.v
@@ -77,7 +74,6 @@ theories/setoid_ring/Ncring_initial.v
 theories/setoid_ring/Ncring_polynom.v
 theories/setoid_ring/Ncring_tac.v
 theories/setoid_ring/RealField.v
-theories/setoid_ring/Ring.v
 theories/setoid_ring/Ring_base.v
 theories/setoid_ring/Ring_polynom.v
 theories/setoid_ring/Ring_tac.v
@@ -163,3 +159,5 @@ theories/ssr/ssrfun.v
 theories/ssr/ssrsetoid.v
 theories/ssr/ssrunder.v
 theories/ssrmatching/ssrmatching.v
+theories/NArith/NArith_base.v
+theories/ZArith/ZArith_base.v

@@ -8,7 +8,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import Arith.
+From Stdlib Require Import PeanoNat Peano_dec Compare_dec.
 From Stdlib Require Import EqNat.
 
 Extract Inlined Constant Nat.add => "(Prelude.+)".

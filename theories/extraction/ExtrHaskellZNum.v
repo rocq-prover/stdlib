@@ -8,7 +8,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import ZArith.
+From Stdlib Require Import BinInt ZArith_dec.
 From Stdlib Require Import EqNat.
 
 Extract Inlined Constant Z.add => "(Prelude.+)".
