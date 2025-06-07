@@ -3,9 +3,4 @@ From subcomponents Require sorting.
 From subcomponents Require field.
 From Stdlib Require Zmod.Bits.
 From Stdlib Require Zmod.Zmod.
-From Stdlib Require Zmod.ZmodBase.
-From Stdlib Require Zmod.ZmodDef.
-From Stdlib Require Zmod.ZmodInv.
 From Stdlib Require Zmod.Zstar.
-From Stdlib Require Zmod.ZstarBase.
-From Stdlib Require Zmod.ZstarDef.
