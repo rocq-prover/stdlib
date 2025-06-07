@@ -30,7 +30,6 @@ let
     "field" = [ "zarith" ];
     "lqa" = [ "field" "qarith-base" ];
     "qarith" = [ "lqa" ];
-    "nsatz" = [ "zarith" "qarith-base" ];
     "classical-logic" = [ "arith" ];
     "sets" = [ "classical-logic" ];
     "vectors" = [ "lists" ];
@@ -41,7 +40,7 @@ let
     "primitive-floats" = [ "primitive-int" ];
     "primitive-array" = [ "primitive-int" ];
     "primitive-string" = [ "primitive-int" "orders-ex" ];
-    "reals" = [ "nsatz" "qarith" "classical-logic" "vectors" ];
+    "reals" = [ "qarith" "classical-logic" "vectors" ];
     "fmaps-fsets-msets" = [ "orders-ex" "zarith" ];
     "extraction" = [ "primitive-string" "primitive-array" "primitive-floats" ];
     "funind" = [ "arith-base" ];

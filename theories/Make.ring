@@ -19,6 +19,8 @@ setoid_ring/_Ring/Ring_tac.v
 setoid_ring/_Ring/ArithRing.v
 setoid_ring/_Ring/NArithRing.v
 setoid_ring/_Ring/Ring_theory.v
+nsatz/NsatzTactic.v
 
 -Q ZArith/_Ring Stdlib.ZArith
 -Q setoid_ring/_Ring Stdlib.setoid_ring
+-Q nsatz Stdlib.nsatz
