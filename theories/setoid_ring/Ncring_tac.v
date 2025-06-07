@@ -133,27 +133,30 @@ Ltac list_reifyl_core Tring lvar lterm :=
       end
   end.
 
-Ltac list_reifyl lvar lterm :=
+Ltac list_reifyl R_ring lvar lterm :=
   lazymatch lterm with
   | @cons ?R _ _ =>
-      let R_ring := constr:(_ :> Ring (T:=R)) in
       let Tring := type of R_ring in
       let lexpr := list_reifyl_core Tring lvar lterm in
       let _ := lazymatch goal with _ => close_varlist lvar end in
       constr:((lvar,lexpr))
   end.
 
-Ltac list_reifyl0 lterm :=
+Ltac list_reifyl0 R_ring lterm :=
   lazymatch lterm with
   | @cons ?R _ _ =>
       let lvar := open_constr:(_ :> list R) in
-      list_reifyl lvar lterm
+      list_reifyl R_ring lvar lterm
   end.
 
 Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
 Arguments list_reifyl {R lvar lterm _}.
 
-Global Hint Extern 0 (ReifyL ?lvar ?lterm) => let reif := list_reifyl lvar lterm in exact reif : typeclass_instances.
+Global Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
+  let rr := constr:(_ :> Ring (T:=T)) in
+  let reif := list_reifyl rr lvar lterm in
+  exact reif
+: typeclass_instances.
 
 Unset Implicit Arguments.
 
@@ -211,7 +214,8 @@ Ltac ring_gen :=
    match goal with
      |- ?g =>
        let lterm := lterm_goal g in
-       let reif := list_reifyl0 lterm in
+       let R_ring := lazymatch type of lterm with @list ?T => constr:(_ :> Ring (T:=T)) end in
+       let reif := list_reifyl0 R_ring lterm in
        match reif with
          | (?fv, ?lexpr) =>
            (*idtac "variables:";idtac fv;
@@ -318,7 +322,8 @@ Ltac ring_simplify_gen a hyp :=
       | _::_ => a
       | _ => constr:(a::nil)
     end in
-   let reif := list_reifyl0 lterm in
+   let R_ring := lazymatch a with @cons ?T _ _ => constr:(_ :> Ring (T:=T)) end in
+   let reif := list_reifyl0 R_ring lterm in
     match reif with
       | (?fv, ?lexpr) => idtac lterm; idtac fv; idtac lexpr;
       let n := eval compute in (length fv) in
