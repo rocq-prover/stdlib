@@ -48,10 +48,16 @@ Ltac close_varlist lvar :=
   | _ => let _ := constr:(eq_refl : lvar = @nil _) in idtac
   end.
 
-(* extensibility: override to add ways to reify a term.
-   Return [tt] for terms which aren't handled (tt doesn't have type PExpr so is unambiguous) *)
+(* extensibility: use Hint Extern to add ways to reify a term. *)
+Definition extra_reify {R zero one add mul sub opp} (lvar : list R) (term : R) :=
+  let '_ := Ring (T:=R) (ring0:=zero) (ring1:=one) (add:=add) (mul:=mul) (sub:=sub) (opp:=opp) in
+  PExpr Z.
+Existing Class extra_reify.
+
+#[deprecated(since="9.1")]
 Ltac extra_reify term := open_constr:(tt).
 
+Local Set Warnings "-deprecated".
 Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
   let reify_term x := reify_term R ring0 ring1 add mul sub opp lvar x in
   match term with
@@ -109,16 +115,25 @@ Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
     let et := reify_term t in
     open_constr:(PEpow et (ZN n))
 
-  (* extensibility and variable case *)
+  (* variables are reified as variables *)
   | _ =>
-    let extra := extra_reify term in
+    let __ := match term with ?term => is_var term end in
+    let n := reify_as_var lvar term in
+    open_constr:(PEX Z (Pos.of_succ_nat n))
+
+  (* non-variables use extensible reification and fall back to the variable case *)
+  | _ =>
+    lazymatch constr:(_:@extra_reify R ring0 ring1 add mul sub opp lvar term) with ?et => et end
+  | _ =>
+    let extra := (* compat 9.0 *) extra_reify term in
     lazymatch extra with
-    | tt =>
+    | tt => (* variable-case fallback *)
       let n := reify_as_var lvar term in
       open_constr:(PEX Z (Pos.of_succ_nat n))
     | ?v => v
     end
   end.
+Local Set Warnings "deprecated".
 
 Ltac list_reifyl_core Tring lvar lterm :=
   lazymatch lterm with
@@ -133,27 +148,21 @@ Ltac list_reifyl_core Tring lvar lterm :=
       end
   end.
 
-Ltac list_reifyl lvar lterm :=
+Ltac list_reifyl R_ring lvar lterm :=
   lazymatch lterm with
   | @cons ?R _ _ =>
-      let R_ring := constr:(_ :> Ring (T:=R)) in
       let Tring := type of R_ring in
       let lexpr := list_reifyl_core Tring lvar lterm in
       let _ := lazymatch goal with _ => close_varlist lvar end in
       constr:((lvar,lexpr))
   end.
 
-Ltac list_reifyl0 lterm :=
+Ltac list_reifyl0 R_ring lterm :=
   lazymatch lterm with
   | @cons ?R _ _ =>
       let lvar := open_constr:(_ :> list R) in
-      list_reifyl lvar lterm
+      list_reifyl R_ring lvar lterm
   end.
-
-Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
-Arguments list_reifyl {R lvar lterm _}.
-
-Global Hint Extern 0 (ReifyL ?lvar ?lterm) => let reif := list_reifyl lvar lterm in exact reif : typeclass_instances.
 
 Unset Implicit Arguments.
 
@@ -211,7 +220,8 @@ Ltac ring_gen :=
    match goal with
      |- ?g =>
        let lterm := lterm_goal g in
-       let reif := list_reifyl0 lterm in
+       let R_ring := lazymatch type of lterm with @list ?T => constr:(_ :> Ring (T:=T)) end in
+       let reif := list_reifyl0 R_ring lterm in
        match reif with
          | (?fv, ?lexpr) =>
            (*idtac "variables:";idtac fv;
@@ -318,7 +328,8 @@ Ltac ring_simplify_gen a hyp :=
       | _::_ => a
       | _ => constr:(a::nil)
     end in
-   let reif := list_reifyl0 lterm in
+   let R_ring := lazymatch a with @cons ?T _ _ => constr:(_ :> Ring (T:=T)) end in
+   let reif := list_reifyl0 R_ring lterm in
     match reif with
       | (?fv, ?lexpr) => idtac lterm; idtac fv; idtac lexpr;
       let n := eval compute in (length fv) in
@@ -345,3 +356,13 @@ Tactic Notation "non_commutative_ring_simplify" constr(lterm):=
 
 Tactic Notation "non_commutative_ring_simplify" constr(lterm) "in" ident(H):=
  ring_simplify_gen lterm H.
+
+(* deprecated *)
+Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
+Arguments list_reifyl {R lvar lterm _}.
+
+Global Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
+  let rr := constr:(_ :> Ring (T:=T)) in
+  let reif := list_reifyl rr lvar lterm in
+  exact reif
+: typeclass_instances.

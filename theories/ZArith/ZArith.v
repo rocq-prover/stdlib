@@ -52,6 +52,7 @@ From Stdlib Require Export Zcong.
 From Stdlib Require Export Zdiv_facts.
 From Stdlib Require Export Zbitwise.
 From Stdlib Require Export ZModOffset.
+From Stdlib Require Export ZNsatz.
 
 Export ZArithRing.
 

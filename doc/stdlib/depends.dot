@@ -16,7 +16,6 @@ digraph stdlib_deps {
 	reals -> qarith;
 	reals -> vectors;
 	reals -> "classical-logic";
-	reals -> nsatz;
 	"arith-base" -> structures;
 	zarith -> lia;
 	zmod -> zarith;
@@ -55,8 +54,6 @@ digraph stdlib_deps {
 	lqa -> "qarith-base";
 	"qarith-base" -> ring;
 	"classical-logic" -> arith;
-	nsatz -> zarith;
-	nsatz -> "qarith-base";
 	extraction -> "primitive-string";
 	extraction -> "primitive-floats";
 	extraction -> "primitive-array";
