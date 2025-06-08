@@ -1,0 +1,142 @@
+<style>
+dl { div {
+  padding-left: 2em;
+  text-indent:-2em;
+  dt {
+    display : inline;
+    margin-right: 0;
+    a { text-decoration: inherit; }
+  }
+  dd {
+    display: inline;
+    margin-left: 0;
+    margin-right: 0;
+    ul {
+      display: inline;
+      padding-left: 0;
+      li {
+        display: inline;
+      }
+    }
+  }
+}}
+</style>
+
+<h1>The Rocq Standard Library</h1>
+
+<p>These modules are available through the <code>From Stdlib Require Import</code> command.</p>
+
+<p>This table of components covers top-level modules intended for direct use.
+For an exhaustive listing of standard-library modules (public and internal) as well as the internal dependencies between them, see the <a href="index-subcomponents.html">subcomponent index</a>.
+There is also an <a href="genindex.html">alphabetical index</a> of all modules and objects.
+
+<p>To find specific lemmas and defintions in the standard library, do <code>From Stdlib Require All.</code> (no <code>Import</code>!) and use the <code><a href="../refman/proof-engine/vernacular-commands.html#coq:cmd.Search">Search</a></code> command, for example <code>Search (_ * (_ + _)).</code></p>
+
+<h2>Concrete Computable Objects</h2>
+
+<dl>
+  <div id="Bool"><dt><a href="Stdlib.Bool.Bool.html">Bool</a></dt>
+    <dd>Booleans <code><a href="../corelib/Corelib.Init.Datatypes.html#bool">bool</a></code> (<code>true</code> and <code>false</code>), boolean operators, and their properties.</dd>
+  </div>
+  <div id="Byte"><dt><a href="Stdlib.Strings.Byte.html">Byte</a></dt>
+    <dd>A variant type with 256 cases.</dd>
+  </div>
+  <div id="PeanoNat"><dt><a href="Stdlib.Arith.PeanoNat.html">PeanoNat</a></dt>
+    <dd>Unary natural numbers <code><a href="../corelib/Corelib.Init.Datatypes.html#nat">nat</a></code>. The first-principles construction in this module is intended for learning, use for structural recursion, and for type indices in advanced dependently typed programming. For code that treats natural numbers opaquely, consider <a href="#NArith">NArith</a>. </dd>
+  </div>
+  <div id="List"><dt><a href="Stdlib.Lists.List.html">List</a></dt>
+    <dd>Lists of any element type (e.g. <code><a href="../corelib/Corelib.Init.Datatypes.html#list">list</a> nat</code>).</dd>
+  </div>
+  <div id="NArith"><dt><a href="Stdlib.NArith.NArith.html">NArith</a></dt>
+    <dd>Natural numbers <code><a href="../corelib/Corelib.Numbers.BinNums.html#N">N</a></code>. For Peano induction, use <code><a href="Stdlib.NArith.BinNat.html#N.peano_ind">N.peano_ind</a></code>.</dd>
+  </div>
+  <div id="ZArith"><dt><a href="Stdlib.ZArith.ZArith.html">ZArith</a></dt>
+    <dd>Integers <code><a href="../corelib/Corelib.Numbers.BinNums.html#Z">Z</a></code>. Induction: <code><a href="Stdlib.ZArith.BinInt.html#Z.peano_ind">Z.peano_ind</a></code>, <code>Z.order_induction_0</code> or, for non-negative, <code><a href="Stdlib.ZArith.Wf_Z.html#natlike_ind">Wf_Z.natlike_ind</a></code>.</dd>
+  </div>
+  <div id="Zmod"><dt><a href="Stdlib.Zmod.Zmod.html">Zmod</a></dt>
+    <dd>Integers modulo another integer (<code><a href="Stdlib.Zmod.ZmodDef.html#Zmod.Zmod">Zmod</a> m</code>).</dd>
+  </div>
+  <div id="Bits"><dt><a href="Stdlib.Zmod.Bits.html">Bits</a></dt>
+    <dd>Machine integers, machine words, or bitvectors (<code><a href="Stdlib.Zmod.ZmodDef.html#bits">bits</a> n</code>).</dd>
+  </div>
+  <div id="Zstar"><dt><a href="Stdlib.Zmod.Zstar.html">Zstar</a></dt>
+    <dd>Multiplicative group of coprime integers modulo another integer (<code><a href="Stdlib.Zmod.ZstarDef.html#Zstar.Zstar">Zstar</a> m</code>).</dd>
+  </div>
+  <div id="QArith"><dt><a href="Stdlib.QArith.QArith.html">QArith</a></dt>
+    <dd>Rational numbers with canonical and non-canonical representations (<code><a href="https://rocq-prover.org/doc/master/stdlib/Stdlib.QArith.Qcanon.html#Qc">Qc</a></code> and <code><a href="https://rocq-prover.org/doc/master/stdlib/Stdlib.QArith.QArith_base.html#Q">Q</a></code>). Also consider <code>rat</code> from <a href="https://math-comp.github.io/">math-comp</a> or <code>bigQ</code> from <a href="https://github.com/rocq-community/bignums">coq-bignums</a>.</dd>
+  </div>
+  <div id="SpecFloat"><dt><a href="Stdlib.Floats.SpecFloat.html">SpecFloat</a></dt>
+    <dd>Floating-point numbers <code><a href="../corelib/Corelib.Floats.SpecFloat.html#spec_float">spec_float</a></code>, defined following the fully specified subset of IEEE-754 (without NaN payloads). Continued in <a href="http://flocq.gforge.inria.fr/">flocq</a>.</dd>
+  </div>
+</dl>
+
+<h2>Programming Aides</h2>
+<dl>
+  <div id="unicode"><dt><a href="Stdlib.Unicode.Utf8.html">Utf8</a></dt>
+    <dd>notations for quantifiers and operators.</dd>
+  </div>
+  <div id="Wf"><dt><a href="Stdlib.Init.Wf.html">Wf</a></dt>
+    <dd>well-founded recursion (<code><a href="../corelib/Corelib.Init.Wf.html#Fix">Fix</a></code>) for non-structural recursion based on a termination proof.</dd>
+  </div>
+  <div id="Wellfounded"><dt><a href="Stdlib.Wellfounded.Wellfounded.html">Wellfounded</a></dt>
+    <dd>Relations without infinite descending chains for termination proofs.</dd>
+  </div>
+  <div id="Program"><dt><a href="Stdlib.Program.Program.html">Program</a></dt>
+    <dd>More intensive elaboration; documented in the Rocq Prover manual: <a href="https://rocq-prover.org/doc/master/refman/addendum/program.html">Program</a>. Also consider <a href="https://mattam82.github.io/Coq-Equations/">rocq-equations</a>.
+  </div>
+</dl>
+
+<h2>Decision Procedures</h2>
+
+<p>Documented in the Rocq Prover manual: <a href="../refman/proofs/automatic-tactics/index.html">Automatic Solvers</a>.</p>
+
+<h2>Real Numbers</h2>
+<dl>
+  <div id="Reals"><dt><a href="Stdlib.Reals.Reals.html">Reals</a></dt>
+    <dd>Classical real numbers <code><a href="Stdlib.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></code> with excluded middle, total order and least upper bounds.</dd>
+  </div>
+  <div id="ConstructiveReals"><dt><a href="Stdlib.Reals.Abstract.ConstructiveReals.html">Reals</a></dt>
+    <dd>Axiomatization and uniqeness of constructive real numbers.</dd>
+  </div>
+  <div id="Cauchy.ConstructiveRcomplete"><dt><a href="Stdlib.Reals.Cauchy.ConstructiveRcomplete.html">Cauchy.ConstructiveRcomplete</a></dt>
+    <dd>Construction and completeness of Cauchy real numbers.</dd>
+  </div>
+</dl>
+
+<h2>Advanced Dependendly Typed Programming</h2>
+
+<dl>
+  <div id="EqDep_dec"><dt><a href="Stdlib.Logic.Eqdep_dec.html">EqDep_dec</a></dt><dd>Uniqueness of proofs of decidable equalities.</dd></div>
+  <div id="Vector"><dt><a href="Stdlib.Vector.Vector.html">Vector</a></dt>
+    <dd>Lists with length-dependent type, constructed as an inductive type indexed by a <code>nat</code> (the length). This construction is uniquely suitable for nesting with other inductive types, but direct proofs about it require skilled use of dependent pattern matching with an <code>in</code> clause. Indirect reasoning about vectors converted to lists is often preferred. If nesting is not needed, consider using <code>list</code>, potentially paired with a proof about its length.</dd>
+  </div>
+  <div id="Fin"><dt><a href="Stdlib.Vector.Fin.html">Fin</a></dt>
+    <dd>Bounded natural numbers, constructed as an inductive type indexed by a <code>nat</code> (the strict upper bound). This construction matches the index space of <a href="#Vector">Vector</a>, but again direct proofs about it require skilled use of dependent pattern matching with an <code>in</code> clause. Further, <code>Fin.t n</code> is inhabited only if <code>n</code> is nonzero, so a natural number cannot be a always converted to <code>Fin.t</code> (unlike <code>Zmod 0</code>, which is isomorphic to <code>Z</code>).</dd>
+  </div>
+</dl>
+
+<h2>Study of Rocq's Logic</h2>
+
+The standard library contains substantial study of near-paradoxes and edge cases in Rocq's logic. See the <a href="index-subcomponents.html#logic">logic</a> and <a href="index-subcomponents.html#classical_logic">classical-logic</a> subcomponents. However, if looking at the included <a href="index-subcomponents.html#sets">sets</a> library, also consider <a href="https://github.com/math-comp/analysis/tree/master/classical">math-comp/analysis/classical</a>.
+
+<h2>Axiomatized OCaml Primitives</h2>
+
+<p>Rocq Prover documentation: <a href="../refman/language/core/primitive.html">Primitive Objects</a>.</p>
+
+<dl>
+  <div id="Uint63"><dt><a href="Stdlib.Numbers.Cyclic.Int63.Uint63.html">Uint63</a></dt>
+    <dd>OCaml 63-bit unsigned integers and axioms relating them to <code><a href="../corelib/Corelib.Numbers.BinNums.html#Z">Z</a></code>.</dd>
+  </div>
+  <div id="Sint63"><dt><a href="Stdlib.Numbers.Cyclic.Int63.Uint63.html">Sint63</a></dt>
+    <dd>OCaml 63-bit signed integers and axioms relating them to <code><a href="../corelib/Corelib.Numbers.BinNums.html#Z">Z</a></code>.</dd>
+  </div>
+  <div id="Floats"><dt><a href="Stdlib.Floats.Floats.html">Floats</a></dt>
+    <dd>Hardware floating-point arithmetic and axioms relating them to <a href="Stdlib.Floats.SpecFloat.html">SpecFloat</a>.<dd>
+  </div>
+  <div id="PArray"><dt><a href="Stdlib.Array.PArray.html">PArray</a></dt>
+    <dd>Persistent arrays implemented in OCaml using internal mutability.</dd>
+  </div>
+  <div id="PString"><dt><a href="Stdlib.Strings.PString.html">PString</a></dt>
+    <dd></dd>
+  </div>
+</dl>
