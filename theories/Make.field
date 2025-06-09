@@ -1,5 +1,0 @@
-setoid_ring/_Field/Field_theory.v
-setoid_ring/_Field/Field_tac.v
-setoid_ring/_Field/Field.v
-
--Q setoid_ring/_Field Stdlib.setoid_ring

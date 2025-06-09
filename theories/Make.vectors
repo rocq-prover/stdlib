@@ -1,9 +1,0 @@
-Vectors/VectorEq.v
-Vectors/VectorDef.v
-Vectors/Vector.v
-Vectors/Fin.v
-Vectors/VectorSpec.v
-Vectors/Bvector.v
-Vectors/FinFun.v
-
--Q Vectors Stdlib.Vectors
