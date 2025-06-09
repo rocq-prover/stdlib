@@ -1,6 +1,6 @@
 DUNE=dev/with-rocq-wrap.sh dune
 
-.PHONY: clean all install dune dune-install
+.PHONY: clean all install dune dune-install test-suite
 
 all install:
 	+$(MAKE) -j -C theories $@
@@ -24,11 +24,11 @@ refman-html:
 stdlib-html:
 	$(DUNE) build --root . @stdlib-html
 
+test-suite:
+	test -d _build/default/theories/
+	+COQEXTRAFLAGS="-Q ../_build/default/theories/ Stdlib" \
+	COQCHKEXTRAFLAGS="$$COQEXTRAFLAGS" \
+	$(MAKE) -C test-suite
+
 clean:
-	rm -rf _build
-	find . \
-	\( -name '*.vo' \
-	-o -name '*.vok' \
-	-o -name '*.vos' \
-	-o -name '*.glob' \
-	\) -exec rm -vf {} +
+	+$(MAKE) -C theories clean

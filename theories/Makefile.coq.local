@@ -1,0 +1,9 @@
+./All.v: ./All.sh $(filter-out ./All.v,$(VFILES))
+	$(HIDE)bash ./$< > $@
+
+./All.vo: ./All.v $(patsubst %.v,%.vo,$(filter-out ./All.v,$(VFILES)))
+
+VFILES+=./All.v
+
+clean::
+	$(HIDE)rm -f ./All.v

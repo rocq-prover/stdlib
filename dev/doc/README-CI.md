@@ -72,20 +72,3 @@ token in the coq-community organization to authenticate and store the
 results. Any CI build is stored globally and can be used on one's own
 computer as described in
 https://github.com/math-comp/math-comp/wiki/Using-nix
-
-### Specific CI jobs
-
-#### stdlib-subcomponents
-
-Checks that the dependencies between stdlib subcomponents (as
-documented in [doc/stdlib/index.html](../../doc/stdlib/index.html)) is
-not broken.
-
-#### Other non-Nix jobs
-
-##### basic-checks
-
-Checks that the theories/Make.all and other theories/Make.* files are
-consistent. Also checks that no two sources files in the stdlib (+ Rocq
-prelude) have the same name (which could lead to conflict when doing
-`From Stdlib Require File.`). Some lint checks are also performed.
