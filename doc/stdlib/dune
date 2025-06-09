@@ -24,6 +24,7 @@
    (:header %{project_root}/doc/common/styles/html/coqremote/header.html)
    (:footer %{project_root}/doc/common/styles/html/coqremote/footer.html)
    ; For .glob files, should be gone when Coq Dune is smarter.
+   ; Please update .github/workflows/alpine.yml to still build rocq-stdlib when removing this dependency
    (package rocq-stdlib))
  (action
   (progn
