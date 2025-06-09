@@ -1,4 +1,0 @@
-funind/FunInd.v
-funind/Recdef.v
-
--Q funind Stdlib.funind
