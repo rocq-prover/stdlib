@@ -32,3 +32,13 @@ install-%: Makefile-%.coq
 
 %.vo: Makefile.coq %.v
 	+$(MAKE) -f $< $(ROCQMAKEOPTIONS) $@
+
+clean: Makefile.coq
+	+$(MAKE) -f $< clean
+	# for subcomponent builds:
+	find . \
+	\( -name '*.vo' \
+	-o -name '*.vok' \
+	-o -name '*.vos' \
+	-o -name '*.glob' \
+	\) -exec rm -vf {} +

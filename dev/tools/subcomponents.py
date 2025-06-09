@@ -103,8 +103,8 @@ with open(sys.argv[1] if 1 < len(sys.argv) else os.devnull, 'w') as html,\
   top = 'subcomponents/all.v'
   dfs(top, top, html, dot)
   for target in sorted(dependencies.keys()):
-      if target == top or target == 'theories/All/All.v':
-          assert component.get(target) == top
+      if target == top or target == 'theories/All.v':
+          assert component.get(target) == top, target
           continue
       assert component.get(target) not in [None, top],\
               f"{target} does not belong to any component"

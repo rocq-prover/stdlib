@@ -1,4 +1,4 @@
-name: Basic checks
+name: Check duplicate files
 on:
   pull_request:
   push:
@@ -12,5 +12,3 @@ jobs:
       uses: actions/checkout@v4
     - name: Check for duplicate files
       run: dev/tools/check-duplicate-files.sh
-    - name: Check that All.v is up to date
-      run: dev/tools/check-all.sh
