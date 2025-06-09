@@ -30,11 +30,15 @@ else
   export FINDLIB_SEP=:
 endif
 
+# these variables are meant to be overridden if you want to add *extra* flags
 COQEXTRAFLAGS?=
+COQCHKEXTRAFLAGS?=
+
 COQFLAGS?=$(COQEXTRAFLAGS)
+COQCHKFLAGS?=-silent -o $(COQCHKEXTRAFLAGS)
 
 coqc := rocq c -q -R prerequisite TestSuite $(COQFLAGS)
-coqchk := rocqchk -R prerequisite TestSuite
+coqchk := rocqchk -R prerequisite TestSuite $(COQCHKFLAGS)
 coqdoc := rocq doc
 coqtop := rocq repl -q -test-mode -R prerequisite TestSuite
 
