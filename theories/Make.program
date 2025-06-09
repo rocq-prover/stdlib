@@ -1,8 +1,0 @@
-Program/_All/Syntax.v
-Program/_All/Equality.v
-Program/_All/Subset.v
-Program/_All/WfExtensionality.v
-Program/_All/Program.v
-Program/_All/Combinators.v
-
--Q Program/_All Stdlib.Program

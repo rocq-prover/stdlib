@@ -224,7 +224,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       rocq-elpi-test.override.version = "master";
       stdlib-html.job = true;
       stdlib-test.job = true;
-      stdlib-subcomponents.job = true;
     };
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
