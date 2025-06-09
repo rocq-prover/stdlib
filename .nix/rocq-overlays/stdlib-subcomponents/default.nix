@@ -11,7 +11,7 @@ let
     "logic" = [ ];
     "relations" = [ "corelib-wrapper" ];
     "program" = [ "corelib-wrapper" "logic" ];
-    "classes" = [ "program" "relations" ];
+    "classes" = [ "program" ];
     "bool" = [ "classes" ];
     "structures" = [ "bool" ];
     "arith-base" = [ "structures" ];
@@ -33,7 +33,7 @@ let
     "classical-logic" = [ "arith" ];
     "sets" = [ "classical-logic" ];
     "vectors" = [ "lists" ];
-    "sorting" = [ "lia" "sets" "vectors" ];
+    "sorting" = [ "lia" "sets" "vectors" "relations" ];
     "orders-ex" = [ "strings" "sorting" ];
     "unicode" = [ ];
     "primitive-int" = [ "unicode" "zarith" ];
@@ -44,7 +44,7 @@ let
     "fmaps-fsets-msets" = [ "orders-ex" "zarith" ];
     "extraction" = [ "primitive-string" "primitive-array" "primitive-floats" ];
     "funind" = [ "arith-base" ];
-    "wellfounded" = [ "lists" ];
+    "wellfounded" = [ "relations" "lists" ];
     "streams" = [ "logic" ];
     "rtauto" = [ "positive" "lists" ];
     "compat" = [ "rtauto" "fmaps-fsets-msets" "funind" "extraction" "reals" "zmod" "wellfounded" "streams" ];

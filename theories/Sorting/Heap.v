@@ -7,6 +7,7 @@
 (*         *     GNU Lesser General Public License Version 2.1          *)
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
+Local Set Warnings "-deprecated".
 
 (** This file is deprecated, for a tree on list, use [Mergesort.v]. *)
 
