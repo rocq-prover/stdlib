@@ -25,10 +25,4 @@ stdlib-html:
 	$(DUNE) build --root . @stdlib-html
 
 clean:
-	rm -rf _build
-	find . \
-	\( -name '*.vo' \
-	-o -name '*.vok' \
-	-o -name '*.vos' \
-	-o -name '*.glob' \
-	\) -exec rm -vf {} +
+	+$(MAKE) -C theories clean
