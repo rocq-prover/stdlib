@@ -18,7 +18,9 @@ Attributes warn(cats="stdlib vector", note="Using Vector.t is known to be techni
    Institution: PPS, INRIA 07/2012
 *)
 
-#[local] Set Warnings "-stdlib-vector".
+From Stdlib Require Import PeanoNat.
+
+#[local] Set Warnings "-stdlib-vector,-deprecated".
 From Stdlib Require Import VectorDef.
 From Stdlib Require Import VectorSpec.
 Import VectorNotations.
@@ -28,14 +30,12 @@ Section BEQ.
  Variables (A: Type) (A_beq: A -> A -> bool).
  Hypothesis A_eqb_eq: forall x y, A_beq x y = true <-> x = y.
 
- Definition eqb:
-   forall {m n} (v1: t A m) (v2: t A n), bool :=
-   fix fix_beq {m n} v1 v2 :=
+ Fixpoint eqb {m n} (v1: t A m) (v2: t A n) : bool :=
    match v1, v2 with
-     |[], [] => true
-     |_ :: _, [] |[], _ :: _ => false
-     |h1 :: t1, h2 :: t2 => A_beq h1 h2 && fix_beq t1 t2
-   end%bool.
+   | [], [] => true
+   | h1::t1, h2::t2 => A_beq h1 h2 && eqb t1 t2
+   | _, _ => false
+   end.
 
  Lemma eqb_nat_eq: forall m n (v1: t A m) (v2: t A n)
   (Hbeq: eqb v1 v2 = true), m = n.
@@ -67,21 +67,5 @@ Section BEQ.
 
 End BEQ.
 
-Section CAST.
-
- Definition cast: forall {A m} (v: t A m) {n}, m = n -> t A n.
- Proof.
- refine (fix cast {A m} (v: t A m) {struct v} :=
-  match v in t _ m' return forall n, m' = n -> t A n with
-  |[] => fun n => match n with
-    | 0 => fun _ => []
-    | S _ => fun H => False_rect _ _
-  end
-  |h :: w => fun n => match n with
-    | 0 => fun H => False_rect _ _
-    | S n' => fun H => h :: (cast w n' (f_equal pred H))
-  end
- end); discriminate.
- Defined.
-
-End CAST.
+#[deprecated(since="9.1", use=Vector92.cast)]
+Notation cast := Vector92.cast (only parsing).
