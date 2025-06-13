@@ -216,7 +216,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
-      corn.override.version = "andres-erbsen:patch-1";
     };
     common-bundles = {
       bignums.override.version = "master";
