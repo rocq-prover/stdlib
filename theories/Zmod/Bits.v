@@ -1,4 +1,4 @@
-From Stdlib Require Import NArith ZArith ZModOffset Zcong Lia.
+From Stdlib Require Import ZArith ZModOffset Zcong Lia.
 From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
 Import ListNotations.
 

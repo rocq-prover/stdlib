@@ -1,12 +1,11 @@
-Sorting/Heap.v
-Sorting/CPermutation.v
-Sorting/Mergesort.v
-Sorting/PermutSetoid.v
-Sorting/PermutEq.v
-Sorting/Sorting.v
-Sorting/Permutation.v
-Sorting/Sorted.v
-Sorting/SetoidList.v
-Sorting/SetoidPermutation.v
+Sorting/_All/Heap.v
+Sorting/_All/CPermutation.v
+Sorting/_All/Mergesort.v
+Sorting/_All/PermutSetoid.v
+Sorting/_All/PermutEq.v
+Sorting/_All/Sorting.v
+Sorting/_All/Sorted.v
+Sorting/_All/SetoidList.v
+Sorting/_All/SetoidPermutation.v
 
--Q Sorting Stdlib.Sorting
+-Q Sorting/_All Stdlib.Sorting

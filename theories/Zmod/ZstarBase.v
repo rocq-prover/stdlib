@@ -1,5 +1,5 @@
-From Stdlib Require Import NArith ZArith ZModOffset Zcong Lia Zdivisibility.
-From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
+From Stdlib Require Import ZArith ZModOffset Zcong Lia Zdivisibility.
+From Stdlib Require Import Bool.Bool Lists.List Lists.Finite Sorting.Permutation.
 Import ListNotations.
 
 From Stdlib Require Import Zmod.ZmodDef Zmod.ZmodBase Zmod.ZstarDef.
@@ -544,7 +544,7 @@ Proof.
   case Z.eqb_spec; intros.
   { subst m. repeat constructor; cbv [In]; inversion_clear 1; trivial.
     eapply eqb_eq in H0; cbv in H0; discriminate. }
-  eapply FinFun.Injective_map_NoDup_in, List.NoDup_filter, NoDup_elements.
+  eapply Injective_map_NoDup_in, List.NoDup_filter, NoDup_elements.
   intros ?????%of_Zmod_inj; rewrite filter_In, ?Z.eqb_eq in *; intuition idtac.
 Qed.
 
@@ -586,21 +586,21 @@ Qed.
 
 Lemma NoDup_positives m : NoDup (positives m).
 Proof.
-  eapply FinFun.Injective_map_NoDup_in, List.NoDup_filter, NoDup_positives.
+  eapply Injective_map_NoDup_in, List.NoDup_filter, NoDup_positives.
   intros ?????%of_Zmod_inj; rewrite filter_In, ?Z.eqb_eq in *; intuition idtac.
 Qed.
 
 Lemma NoDup_negatives m : NoDup (negatives m).
 Proof.
-  eapply FinFun.Injective_map_NoDup_in, List.NoDup_filter, NoDup_negatives.
+  eapply Injective_map_NoDup_in, List.NoDup_filter, NoDup_negatives.
   intros ?????%of_Zmod_inj; rewrite filter_In, ?Z.eqb_eq in *; intuition idtac.
 Qed.
 
-Local Hint Unfold FinFun.Injective List.incl : core.
+Local Hint Unfold Injective List.incl : core.
 Lemma Permutation_mul_elements [m] (a : Zstar m) :
   Permutation (List.map (mul a) (elements m)) (elements m).
 Proof.
-  eauto 6 using Permutation.Permutation_map_same_l, FinFun.Injective_map_NoDup, NoDup_elements, mul_cancel_l, in_elements, of_Zmod_inj.
+  eauto 6 using Permutation.Permutation_map_same_l, Injective_map_NoDup, NoDup_elements, mul_cancel_l, in_elements, of_Zmod_inj.
 Qed.
 
 Theorem euler [m] (a : Zstar m) : pow a (Z.of_nat (length (elements m))) = one.

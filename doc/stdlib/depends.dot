@@ -42,7 +42,6 @@ digraph stdlib_deps {
 	sets -> "classical-logic";
 	sorting -> lia;
 	sorting -> sets;
-	sorting -> vectors;
 	"primitive-floats" -> "primitive-int";
 	wellfounded -> lists;
 	relations -> "corelib-wrapper";

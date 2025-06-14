@@ -11,7 +11,7 @@
 (************************************************************************)
 
 From Stdlib Require Import PeanoNat.
-From Stdlib Require Import NArith NArithRing.
+From Stdlib Require Import BinPos BinNat.
 From Stdlib Require Import Relation_Definitions.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import Ring.
