@@ -36,6 +36,7 @@ From Stdlib Require Export rtauto.Rtauto.
 From Stdlib Require Export omega.OmegaLemmas.
 From Stdlib Require Export omega.PreOmega.
 From Stdlib Require Export nsatz.NsatzTactic.
+From Stdlib Require Export nsatz.ENsatzTactic.
 From Stdlib Require Export micromega.DeclConstant.
 From Stdlib Require Export micromega.DeclConstantZ.
 From Stdlib Require Export micromega.Env.
@@ -231,6 +232,7 @@ From Stdlib Require Export Reals.Nsatz.
 From Stdlib Require Export Reals.RNsatz.
 From Stdlib Require Export QArith.QNsatz.
 From Stdlib Require Export ZArith.ZNsatz.
+From Stdlib Require Export ZArith.ZENsatz.
 From Stdlib Require Export Reals.PSeries_reg.
 From Stdlib Require Export Reals.PartSum.
 From Stdlib Require Export Reals.Qreals.

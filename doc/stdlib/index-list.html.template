@@ -297,6 +297,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/ZArith/Zbitwise.v
     theories/ZArith/ZModOffset.v
     theories/ZArith/ZNsatz.v
+    theories/ZArith/ZENsatz.v
     theories/Numbers/DecimalFacts.v
     theories/Numbers/DecimalNat.v
     theories/Numbers/DecimalPos.v
