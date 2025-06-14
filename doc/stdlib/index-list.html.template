@@ -96,11 +96,8 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Structures/GenericMinMax.v
   </dd>
 
-  <dt> <a name="arith-base"></a><b>Arith-base</b>:
-    Basic Peano Arithmetic.
-    Everything can be loaded with From Stdlib Require Import Arith_base.
-    To enjoy the ring and lia automatic tactic, you additionally need to load
-    arith below, using From Stdlib Require Import Arith Lia.
+  <dt> <a name="naturals"></a><b>Natural Numbers</b>:
+    Definitions and basic theory of Peano Arithmetic.
   </dt>
   <dd>
     theories/Arith/PeanoNat.v
@@ -175,27 +172,15 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Streams/StreamMemo.v
   </dd>
 
-  <dt> <a name="positive"></a><b>PArith</b>:
-    Binary representation of positive integers for effective computation.
-    You may also want narith and zarith below for N and Z
-    built on top of <a href="#positive">positive</a>.
+  <dt> <a name="integers"></a><b>Integers</b>:
+    Integers: binary constructions (including natural and positive numbers) and basic properties.
+    Look at <a href="#zarith">ZArith</a> below for more theory with the <a href="#ring">ring</a>
+    and <a href="#lia">lia</a> tactics.
   </dt>
   <dd>
-    theories/Numbers/AltBinNotations.v
-    theories/PArith/BinPosDef.v
-    theories/PArith/BinPos.v
-    theories/PArith/Pnat.v
-    theories/PArith/POrderedType.v
-    (theories/PArith/PArith.v)
-  </dd>
-
-  <dt> <a name="narith-base"></a><b>NArith-base</b>:
-    Binary natural numbers.
-    Everything can be loaded with From Stdlib Require Import NArith_base.
-    To enjoy the ring automatic tactic, you need to load
-    <a href="#narith">narith</a> below, using From Stdlib Require Import NArith.
-  </dt>
-  <dd>
+    theories/ZArith/BinIntDef.v
+    theories/ZArith/BinInt.v
+    theories/ZArith/Znat.v
     theories/NArith/BinNatDef.v
     theories/NArith/BinNat.v
     theories/NArith/Nnat.v
@@ -203,20 +188,11 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/NArith/Ndiv_def.v
     theories/NArith/Ngcd_def.v
     theories/NArith/Nsqrt_def.v
-    (theories/NArith/NArith_base.v)
-  </dd>
-
-  <dt> <a name="narith"></a><b>NArith</b>:
-    Binary natural numbers
-  </dt>
-  <dd>
-    (theories/NArith/NArith.v)
-  </dd>
-
-  <dt> <a name="zarith-base"></a><b>ZArith-base</b>:
-    Basic binary integers
-  </dt>
-  <dd>
+    theories/PArith/BinPosDef.v
+    theories/PArith/BinPos.v
+    theories/PArith/Pnat.v
+    theories/PArith/POrderedType.v
+    (theories/PArith/PArith.v)
     theories/Numbers/Integer/Abstract/ZAdd.v
     theories/Numbers/Integer/Abstract/ZAddOrder.v
     theories/Numbers/Integer/Abstract/ZAxioms.v
@@ -234,69 +210,61 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Numbers/Integer/Abstract/ZProperties.v
     theories/Numbers/Integer/Abstract/ZDivFloor.v
     theories/Numbers/Integer/Abstract/ZDivTrunc.v
-    theories/ZArith/BinIntDef.v
-    theories/ZArith/BinInt.v
-    theories/ZArith/Zorder.v
-    theories/ZArith/Zcompare.v
-    theories/ZArith/Znat.v
-    theories/ZArith/Zmin.v
-    theories/ZArith/Zmax.v
-    theories/ZArith/Zminmax.v
-    theories/ZArith/Zabs.v
-    theories/ZArith/Zeven.v
-    theories/ZArith/auxiliary.v
-    theories/ZArith/ZArith_dec.v
-    theories/ZArith/Zbool.v
-    theories/ZArith/Zmisc.v
-    theories/ZArith/Wf_Z.v
-    theories/ZArith/Zhints.v
-    (theories/ZArith/ZArith_base.v)
-    theories/ZArith/Zpow_alt.v
-    theories/ZArith/Int.v
   </dd>
 
   <dt> <a name="ring"></a><b>Ring</b>:
     Ring tactic.
   </dt>
   <dd>
-    theories/ZArith/Zcomplements.v
-    theories/ZArith/Zpow_def.v
-    theories/ZArith/Zdiv.v
-    theories/ZArith/Znumtheory.v
-    theories/ZArith/Zdivisibility.v
-    theories/ZArith/Zcong.v
+    theories/setoid_ring/Ring.v
   </dd>
 
-  <dt> <a name="arith"></a><b>Arith</b>:
-    Basic Peano arithmetic
-  </dt>
-  <dd>
-    (theories/Arith/Arith.v)
-  </dd>
-
-  <dt> <a name="zarith"></a><b>ZArith</b>:
-    Binary encoding of integers.
-    This binary encoding was initially developped to enable effective
-    computations, compared to the unary encoding of nat. Proofs were then added
-    making the types usable for mathematical proofs, although this was not
-    the initial intent. If even-more efficient computations are needed, look
-    at the <a href="#primitive-int">primitive-int</a> package below for 63 bits machine arithmetic
-    or the coq-bignums package for arbitrary precision machine arithmetic.
-    Everything can be imported with From Stdlib Require Import ZArith.
-    Also contains the migromega tactic that can be loaded with
+  <dt> <a name="lia"></a><b>Linear Integer Arithmetic</b>:
+    Decision procedure and reductons to it:
     From Stdlib Require Import Lia.
   </dt>
   <dd>
-    theories/ZArith/Zpower.v
-    theories/ZArith/Zquot.v
+    theories/micromega/Lia.v
+    theories/micromega/ZifyNat.v
+    theories/micromega/ZifyN.v
+  </dd>
+
+  <dt> <a name="zarith"></a><b>ZArith</b>:
+    Proofs about integers, including arithmetic and basic number-theoretic properties.
+    Commonly used modules can be imported with From Stdlib Require Import ZArith.
+  </dt>
+  <dd>
     (theories/ZArith/ZArith.v)
+    theories/ZArith/Int.v
+    theories/ZArith/Wf_Z.v
+    theories/ZArith/ZArith_dec.v
+    theories/ZArith/ZModOffset.v
+    theories/ZArith/Zabs.v
+    theories/ZArith/Zbitwise.v
+    theories/ZArith/Zbool.v
+    theories/ZArith/Zcompare.v
+    theories/ZArith/Zcomplements.v
+    theories/ZArith/Zcong.v
+    theories/ZArith/Zdiv.v
+    theories/ZArith/Zdiv_facts.v
+    theories/ZArith/Zdivisibility.v
+    theories/ZArith/Zeven.v
     theories/ZArith/Zgcd_alt.v
     theories/ZArith/Zwf.v
+    theories/ZArith/Zhints.v
+    theories/ZArith/Zmax.v
+    theories/ZArith/Zmin.v
+    theories/ZArith/Zminmax.v
+    theories/ZArith/Zmisc.v
+    theories/ZArith/Znumtheory.v
+    theories/ZArith/Zorder.v
+    theories/ZArith/Zpow_alt.v
+    theories/ZArith/Zpow_def.v
     theories/ZArith/Zpow_facts.v
-    theories/ZArith/Zdiv_facts.v
-    theories/ZArith/Zbitwise.v
-    theories/ZArith/ZModOffset.v
+    theories/ZArith/Zpower.v
+    theories/ZArith/Zquot.v
     theories/ZArith/ZNsatz.v
+    theories/ZArith/auxiliary.v
     theories/Numbers/DecimalFacts.v
     theories/Numbers/DecimalNat.v
     theories/Numbers/DecimalPos.v
@@ -307,6 +275,13 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Numbers/HexadecimalPos.v
     theories/Numbers/HexadecimalN.v
     theories/Numbers/HexadecimalZ.v
+  </dd>
+
+  <dt> <a name="field"></a><b>Field</b>:
+    Field tactic.
+  </dt>
+    theories/setoid_ring/Field.v
+  <dd>
   </dd>
 
   <dt> <a name="zmod"></a><b>Zmod and Zstar</b>:
@@ -326,6 +301,46 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     (theories/Zmod/ZmodNsatz.v)
   </dd>
 
+  <dt> <a name="qarith-base"></a><b>QArith-base</b>:
+    Early development of binary rational numbers leading up to <a href="#lqa">lqa</a>.
+    Look at <a href="#qarith">QArith</a> below for more functionalities with the <a href="#field">field</a>
+    and <a href="#lqa">lqa</a> tactics.
+  </dt>
+  <dd>
+    theories/QArith/QArith_base.v
+    theories/QArith/Qreduction.v
+    theories/QArith/QOrderedType.v
+    theories/QArith/Qminmax.v
+  </dd>
+
+  <dt> <a name="lqa"></a><b>Linear Rational Arithmetic</b>:
+    Decision procedure
+  </dt>
+    theories/micromega/Lqa.v
+  <dd>
+  </dd>
+
+  <dt> <a name="qarith"></a><b>QArith</b>:
+    Rational numbers, including canonical (Qc) and non-canonical (Q)
+    constructions on top of binary <a href="#integers">Integers</a> as well as
+    basic theory. Alternative definitions are available in coq-mathcomp-algebra
+    (unary rat and theory) or coq-bignums (machine-integer construction) and
+    coq-coqeal (refinements linking both).
+  </dt>
+  <dd>
+    theories/QArith/QArith.v
+    theories/QArith/Qabs.v
+    theories/QArith/Qcabs.v
+    theories/QArith/Qcanon.v
+    theories/QArith/Qfield.v
+    theories/QArith/Qpower.v
+    theories/QArith/Qring.v
+    theories/QArith/Qround.v
+    theories/QArith/QNsatz.v
+    theories/Numbers/DecimalQ.v
+    theories/Numbers/HexadecimalQ.v
+  </dd>
+
   <dt> <a name="unicode"></a><b>Unicode</b>:
     Unicode-based alternative notations
   </dt>
@@ -335,9 +350,10 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
   </dd>
 
   <dt> <a name="primitive-int"></a><b>Primitive Integers</b>:
-    Interface for hardware integers (63 rather than 64 bits due to OCaml
-    garbage collector). This enables very efficient arithmetic, for developing
-    tactics for proofs by reflection for instance.
+    Interface and axioms for OCaml integers (63 rather than 64 bits due to
+    OCaml garbage collector). This enables more efficient arithmetic, for
+    developing tactics for proofs by reflection for instance. The coq-bignums
+    package implements arbitrary-precision machine arithmetic on top of Uint63.
   </dt>
   <dd>
     theories/Numbers/Cyclic/Abstract/CyclicAxioms.v
@@ -492,48 +508,18 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
     theories/Strings/PString.v
   </dd>
 
-  <dt> <a name="qarith-base"></a><b>QArith-base</b>:
-    Basic binary rational numbers.
-    Look at <a href="#qarith">qarith</a> below for more functionalities with the field
-    and Lqa tactics.
+  <dt> <a name="narith"></a><b>NArith</b>:
+    Wrapper for binary natural numbers (from <a href="#integers">Integers</a>) and the associated (semi)ring tactc.
   </dt>
   <dd>
-    theories/QArith/QArith_base.v
-    theories/QArith/Qreduction.v
-    theories/QArith/QOrderedType.v
-    theories/QArith/Qminmax.v
+    (theories/NArith/NArith.v)
   </dd>
 
-  <dt> <a name="field"></a><b>Field</b>:
-    Field tactic.
+  <dt> <a name="arith"></a><b>Arith</b>:
+    Wrapper for Peano natural numbers (from <a href="#naturals">Naturals</a>) and the associated (semi)ring tactc.
   </dt>
   <dd>
-    theories/QArith/Qpower.v
-    theories/QArith/Qring.v
-    theories/QArith/Qfield.v
-    theories/QArith/Qcanon.v
-    theories/QArith/Qround.v
-  </dd>
-
-  <dt> <a name="qarith"></a><b>QArith</b>:
-    Binary rational numbers, made on top of <a href="#zarith">zarith</a>.
-    Those enable effective computations in arbitrary precision exact rational
-    arithmetic. Those rationals are known to be difficult to use for
-    mathematical proofs because there is no canonical representation
-    (2/3 and 4/6 are not equal for instance). For even more efficient
-    computation, look at the coq-bignums package which uses machine integers.
-    For mathematical proofs, the rat type of the coq-mathcomp-algebra package
-    are much more comfortable, although they don't enjoy efficient computation
-    (coq-coqeal offers a refinement with coq-bignums that enables to enjoy
-    both aspects).
-  </dt>
-  <dd>
-    theories/QArith/Qabs.v
-    (theories/QArith/QArith.v)
-    theories/QArith/Qcabs.v
-    theories/QArith/QNsatz.v
-    theories/Numbers/DecimalQ.v
-    theories/Numbers/HexadecimalQ.v
+    (theories/Arith/Arith.v)
   </dd>
 
   <dt> <a name="reals"></a><b>Reals</b>:
@@ -717,6 +703,7 @@ through the <tt>From Stdlib Require Import</tt> command.</p>
   </dt>
   <dd>
     theories/Compat/AdmitAxiom.v
+    theories/Numbers/AltBinNotations.v
     theories/Compat/Stdlib818.v
   </dd>
 

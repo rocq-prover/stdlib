@@ -23,6 +23,7 @@ Notation Zpower_succ_r := Z.pow_succ_r (only parsing).
 Notation Zpower_neg_r := Z.pow_neg_r (only parsing).
 Notation Zpower_Ppow := Pos2Z.inj_pow (only parsing).
 
+#[deprecated(since="9.1", note="Use setoid_ring.ZArithRing.Zpower_theory")]
 Lemma Zpower_theory : power_theory 1 Z.mul (@eq Z) Z.of_N Z.pow.
 Proof.
  constructor. intros z n.
