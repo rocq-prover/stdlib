@@ -168,6 +168,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "relation-algebra"
       "rewriter"
       "riscvcoq"
+      "rocq-lean-import"
       "rupicola"
       "sf"
       "simple-io"
@@ -255,6 +256,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       perennial.job = false;  # broken
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
       rewriter.override.version = "30c8507c1e30626b2aa1e15c0aa7c23913da033c";
+      rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
       smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
