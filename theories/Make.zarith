@@ -12,6 +12,9 @@ ZArith/_All/Zdivisibility.v
 ZArith/_All/Zcong.v
 ZArith/_All/Znumtheory.v
 ZArith/_All/ZNsatz.v
+ZArith/_All/Zpow_def.v
+ZArith/_All/Zcomplements.v
+ZArith/_All/Zdiv.v
 Numbers/Integer/Binary/ZBinary.v
 Numbers/Integer/NatPairs/ZNatPairs.v
 Numbers/_ZArith/DecimalN.v
@@ -27,8 +30,27 @@ Numbers/_ZArith/HexadecimalPos.v
 btauto/Algebra.v
 btauto/Reflect.v
 btauto/Btauto.v
+ZArith/_All/Zcompare.v
+ZArith/_All/Zorder.v
+ZArith/_All/Zminmax.v
+ZArith/_All/Zmin.v
+ZArith/_All/Zmax.v
+ZArith/_All/ZArith_dec.v
+ZArith/_All/Zabs.v
+ZArith/_All/auxiliary.v
+ZArith/_All/Zbool.v
+ZArith/_All/Zmisc.v
+ZArith/_All/Wf_Z.v
+ZArith/_All/Zhints.v
+ZArith/_All/ZArith_base.v
+ZArith/_All/Zeven.v
+ZArith/_All/Zpow_alt.v
+ZArith/_All/Zeuclid.v
+ZArith/_All/Int.v
+micromega/_ZArith/ZArith_hints.v
 
 -Q ZArith/_All Stdlib.ZArith
+-Q micromega/_ZArith Stdlib.micromega
 -Q Numbers/Natural/Binary Stdlib.Numbers.Natural.Binary
 -Q Numbers/Integer/Binary Stdlib.Numbers.Integer.Binary
 -Q Numbers/Integer/NatPairs Stdlib.Numbers.Integer.NatPairs

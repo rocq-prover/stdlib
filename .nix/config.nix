@@ -217,6 +217,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      vst.override.version = "andres-erbsen:use-RelationClasses";
     };
     common-bundles = {
       bignums.override.version = "master";

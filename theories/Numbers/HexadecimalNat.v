@@ -13,7 +13,7 @@
     Proofs that conversions between hexadecimal numbers and [nat]
     are bijections. *)
 
-From Stdlib Require Import Hexadecimal HexadecimalFacts Arith.
+From Stdlib Require Import Hexadecimal HexadecimalFacts PeanoNat.
 
 Module Unsigned.
 
@@ -161,7 +161,7 @@ Proof.
   [ simpl; now rewrite Nat.mul_1_r | .. ];
   unfold rev; simpl revapp; rewrite 2 IHd;
   rewrite <- Nat.add_assoc; f_equal; simpl_of_lu; simpl of_lu;
-  rewrite Nat.pow_succ_r'; ring.
+  rewrite ?Nat.pow_succ_r', ?Nat.mul_assoc, ?Nat.mul_add_distr_r, ?(Nat.mul_comm 16); trivial.
 Qed.
 
 Lemma of_uint_acc_spec n d :
@@ -171,8 +171,8 @@ Proof.
   simpl Nat.of_hex_uint_acc; rewrite ?Nat.tail_mul_spec, ?IHd;
   simpl rev; simpl usize; rewrite ?Nat.pow_succ_r';
   [ simpl; now rewrite Nat.mul_1_r | .. ];
-  unfold rev at 2; simpl revapp; rewrite of_lu_revapp;
-  simpl of_lu; ring.
+  unfold rev at 2; simpl revapp; rewrite of_lu_revapp; simpl of_lu;
+  rewrite ?Nat.mul_assoc, <-?Nat.add_assoc, <-?Nat.mul_add_distr_r, ?(Nat.mul_comm _ 16); trivial.
 Qed.
 
 Lemma of_uint_alt d : Nat.of_hex_uint d = of_lu (rev d).

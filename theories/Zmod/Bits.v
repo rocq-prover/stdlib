@@ -87,7 +87,7 @@ Proof. rewrite of_Z_inj. trivial. Qed.
 
 Lemma mod_to_Z [n] (x : bits n) : to_Z x mod 2^n = to_Z x.
 Proof.
-  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 2 by trivial. apply Zmod_0_r. }
+  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 2 by trivial. apply Z.mod_0_r. }
   rewrite Z.mod_small; auto using to_Z_range.
 Qed.
 
@@ -250,7 +250,7 @@ Proof. apply unsigned_and_small. lia. Qed.
 Lemma unsigned_or [n] (x y : bits n) : to_Z (or x y) = Z.lor x y.
 Proof.
   cbv [or]; rewrite to_Z_of_Z.
-  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 3 by trivial; apply Zmod_0_r. }
+  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 3 by trivial; apply Z.mod_0_r. }
   apply Z.bits_inj; intros i; destruct (Z.ltb_spec i n);
   repeat rewrite ?Z.lor_spec, ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?testbit_high by lia; trivial.
 Qed.
@@ -259,7 +259,7 @@ Notation to_Z_or := unsigned_or (only parsing).
 Lemma unsigned_xor [n] (x y : bits n) : to_Z (xor x y) = Z.lxor x y.
 Proof.
   cbv [xor]; rewrite to_Z_of_Z.
-  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 3 by trivial; apply Zmod_0_r. }
+  case (Z.ltb_spec n 0) as []. { rewrite Z.pow_neg_r at 3 by trivial; apply Z.mod_0_r. }
   apply Z.bits_inj; intros i; destruct (Z.ltb_spec i n);
   repeat rewrite ?Z.lxor_spec, ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?testbit_high by lia; trivial.
 Qed.
@@ -291,7 +291,7 @@ Proof.
     ?Z.ones_spec_high, ?Z.ones_spec_low, ?testbit_high,
     ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial; try lia.
-  rewrite (Z.pow_neg_r 2 n) at 2 by lia; rewrite Zmod_0_r.
+  rewrite (Z.pow_neg_r 2 n) at 2 by lia; rewrite Z.mod_0_r.
   repeat rewrite ?Z.pow_neg_r (* does not work...*) ,
     ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?Z.lnot_spec,
     ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?Z.ldiff_spec,
@@ -323,8 +323,8 @@ Proof.
     ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?Z.testbit_ones,
     ?(proj2 (Z.ltb_lt _ _)), (proj2 (Z.leb_le _ _)), ?(proj2 (Z.ltb_nlt _ _))
     by lia; trivial.
-  rewrite (Z.pow_neg_r 2 n) at 2 by lia; rewrite Zmod_0_r.
-  rewrite (Z.pow_neg_r 2 n) at 1 by lia; rewrite Zmod_0_r.
+  rewrite (Z.pow_neg_r 2 n) at 2 by lia; rewrite Z.mod_0_r.
+  rewrite (Z.pow_neg_r 2 n) at 1 by lia; rewrite Z.mod_0_r.
   repeat rewrite ?Z.pow_neg_r (* does not work...*) ,
     ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?Z.lnot_spec,
     ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?Z.ldiff_spec,
@@ -350,7 +350,7 @@ Lemma unsigned_app [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
   to_Z (@app n m a b) = Z.lor a (Z.shiftl b n).
 Proof.
   cbv [app]. rewrite to_Z_of_Z, Z.shiftl_mul_pow2; trivial.
-  case (Z.ltb_spec (n+m) 0) as []. { rewrite (Z.pow_neg_r 2 (_+_)), Zmod_0_r; lia. }
+  case (Z.ltb_spec (n+m) 0) as []. { rewrite (Z.pow_neg_r 2 (_+_)), Z.mod_0_r; lia. }
   apply Z.mod_small.
   rewrite Z.pow_add_r by lia.
   (* lor <= add *)
@@ -367,7 +367,7 @@ Notation to_Z_firstn := unsigned_firstn (only parsing).
 Lemma unsigned_skipn [n m] a (Hn : 0 <= n) : to_Z (@skipn n m a) = a/2^n.
 Proof.
   cbv [skipn]; rewrite to_Z_of_Z, Z.shiftr_div_pow2 by trivial.
-  case (Z.ltb_spec m n) as []. { rewrite (Z.pow_neg_r 2 (_-_)), Zmod_0_r; lia. }
+  case (Z.ltb_spec m n) as []. { rewrite (Z.pow_neg_r 2 (_-_)), Z.mod_0_r; lia. }
   pose proof to_Z_range a ltac:(lia).
   apply Z.mod_small; split. { Z.div_mod_to_equations; nia. }
   apply Zdiv_lt_upper_bound; [lia|].

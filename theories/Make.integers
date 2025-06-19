@@ -16,26 +16,25 @@ Numbers/Integer/Abstract/ZLt.v
 Numbers/Integer/Abstract/ZLcm.v
 Numbers/Integer/Abstract/ZBase.v
 Numbers/Integer/Abstract/ZBits.v
-ZArith/_Base/BinIntDef.v
-ZArith/_Base/BinInt.v
-ZArith/_Base/Zcompare.v
-ZArith/_Base/Zorder.v
-ZArith/_Base/Zminmax.v
-ZArith/_Base/Zmin.v
-ZArith/_Base/Zmax.v
-ZArith/_Base/Znat.v
-ZArith/_Base/ZArith_dec.v
-ZArith/_Base/Zabs.v
-ZArith/_Base/auxiliary.v
-ZArith/_Base/Zbool.v
-ZArith/_Base/Zmisc.v
-ZArith/_Base/Wf_Z.v
-ZArith/_Base/Zhints.v
-ZArith/_Base/ZArith_base.v
-ZArith/_Base/Zeven.v
-ZArith/_Base/Zpow_alt.v
-ZArith/_Base/Zeuclid.v
-ZArith/_Base/Int.v
+PArith/Pnat.v
+PArith/POrderedType.v
+PArith/BinPos.v
+PArith/PArith.v
+PArith/BinPosDef.v
+NArith/_integers/BinNatDef.v
+NArith/_integers/BinNat.v
+NArith/_integers/Nnat.v
+NArith/_integers/Ndiv_def.v
+NArith/_integers/Ndec.v
+NArith/_integers/Ngcd_def.v
+NArith/_integers/Nsqrt_def.v
+NArith/_integers/NArith_base.v
+ZArith/_integers/BinIntDef.v
+ZArith/_integers/BinInt.v
+ZArith/_integers/Znat.v
 
 -Q Numbers/Integer/Abstract Stdlib.Numbers.Integer.Abstract
--Q ZArith/_Base Stdlib.ZArith
+-Q PArith Stdlib.PArith
+-Q ZArith/_integers Stdlib.ZArith
+-Q NArith/_integers Stdlib.NArith
+-Q Numbers/_integers Stdlib.Numbers
