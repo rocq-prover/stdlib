@@ -263,11 +263,11 @@ Lemma DRealAbstr_aux :
 Proof.
   repeat split.
   - intros.
-    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= q + (2^-Z.of_nat n))%Q)
+    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= q + (2^(-Z.of_nat n)))%Q)
                              (H q)).
     + reflexivity.
     + exfalso.
-      destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= r + (2^-Z.of_nat n))%Q)
+      destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= r + (2^(-Z.of_nat n)))%Q)
                                (H r)).
       * destruct s. apply n.
         apply (Qle_trans _ _ _ (q0 x0)).
@@ -275,7 +275,7 @@ Proof.
       * discriminate.
   - intro abs. destruct (Rfloor x) as [z [_ zmaj]].
     specialize (abs (z+3 # 1)%Q).
-    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= (z+3 # 1) + (2^-Z.of_nat n))%Q)
+    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= (z+3 # 1) + (2^(-Z.of_nat n)))%Q)
                              (H (z+3 # 1)%Q)).
     2: exfalso; discriminate. clear abs. destruct s as [n nmaj]. apply nmaj.
     rewrite <- (inject_Q_plus (z#1) 2) in zmaj.
@@ -285,12 +285,12 @@ Proof.
     destruct x as [xn xcau]; rewrite CReal_red_seq in H, nmaj, zmaj |- *.
     rewrite Qinv_plus_distr in zmaj.
     apply (Qplus_le_l _ _ (-(z + 2 # 1))). apply (Qle_trans _ _ _ zmaj).
-    apply (Qplus_le_l _ _ (-(2^-Z.of_nat n))). apply (Qle_trans _ 1).
+    apply (Qplus_le_l _ _ (-(2^(-Z.of_nat n)))). apply (Qle_trans _ 1).
     + ring_simplify. apply Qpower_2_neg_le_one.
     + ring_simplify. rewrite <- (Qinv_plus_distr z 3 1), <- (Qinv_plus_distr z 2 1). lra.
   - intro abs. destruct (Rfloor x) as [z [zmaj _]].
     specialize (abs (z-4 # 1)%Q).
-    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= (z-4 # 1) + (2^-Z.of_nat n))%Q)
+    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= (z-4 # 1) + (2^(-Z.of_nat n)))%Q)
                              (H (z-4 # 1)%Q)).
     + exfalso; discriminate.
     + clear abs.
@@ -305,22 +305,22 @@ Proof.
       change (2^0)%Q with 1%Q.
       lra.
   - intros q H0 abs.
-    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= q + (2^-Z.of_nat n))%Q) (H q)).
+    destruct (sig_forall_dec (fun n : nat => (seq x (-Z.of_nat n) <= q + (2^(-Z.of_nat n)))%Q) (H q)).
     2: exfalso; discriminate. clear H0.
     destruct s as [n nmaj].
     (* We have that q < x as real numbers. The middle
        (q + xSn - 1/Sn)/2 is also lower than x, witnessed by the same index n. *)
-    specialize (abs ((q + seq x (-Z.of_nat n) - (2^-Z.of_nat n)%Q)/2)%Q).
+    specialize (abs ((q + seq x (-Z.of_nat n) - (2^(-Z.of_nat n))%Q)/2)%Q).
     destruct abs.
     + apply (Qmult_le_r _ _ 2) in H0.
       * field_simplify in H0.
-        apply (Qplus_le_r _ _ ((2^-Z.of_nat n) - q)) in H0.
+        apply (Qplus_le_r _ _ ((2^(-Z.of_nat n)) - q)) in H0.
         ring_simplify in H0. apply nmaj. rewrite Qplus_comm. exact H0.
       * reflexivity.
     + destruct (sig_forall_dec
                   (fun n0 : nat =>
-                     (seq x (-Z.of_nat n0) <= (q + seq x (-Z.of_nat n) - (2^-Z.of_nat n)) / 2 + (2^-Z.of_nat n0))%Q)
-                  (H ((q + seq x (-Z.of_nat n) - (2^-Z.of_nat n)) / 2)%Q)).
+                     (seq x (-Z.of_nat n0) <= (q + seq x (-Z.of_nat n) - (2^(-Z.of_nat n))) / 2 + (2^(-Z.of_nat n0)))%Q)
+                  (H ((q + seq x (-Z.of_nat n) - (2^(-Z.of_nat n))) / 2)%Q)).
       * discriminate.
       * clear H0. specialize (q0 n).
         apply (Qmult_le_l _ _ 2) in q0.
@@ -334,13 +334,13 @@ Definition DRealAbstr : CReal -> DReal.
 Proof.
   intro x.
   assert (forall (q : Q) (n : nat),
-   {(fun n0 : nat => (seq x (-Z.of_nat n0) <= q + (2^-Z.of_nat n0))%Q) n} +
-   {~ (fun n0 : nat => (seq x (-Z.of_nat n0) <= q + (2^-Z.of_nat n0))%Q) n}).
-  { intros. destruct (Qlt_le_dec (q + (2^-Z.of_nat n)) (seq x (-Z.of_nat n))).
+   {(fun n0 : nat => (seq x (-Z.of_nat n0) <= q + (2^(-Z.of_nat n0)))%Q) n} +
+   {~ (fun n0 : nat => (seq x (-Z.of_nat n0) <= q + (2^(-Z.of_nat n0)))%Q) n}).
+  { intros. destruct (Qlt_le_dec (q + (2^(-Z.of_nat n))) (seq x (-Z.of_nat n))).
     - right. apply (Qlt_not_le _ _ q0).
     - left. exact q0. }
 
-  exists (fun q:Q => if sig_forall_dec (fun n:nat => Qle (seq x (-Z.of_nat n)) (q + (2^-Z.of_nat n))) (H q)
+  exists (fun q:Q => if sig_forall_dec (fun n:nat => Qle (seq x (-Z.of_nat n)) (q + (2^(-Z.of_nat n)))) (H q)
              then true else false).
   apply DRealAbstr_aux.
 Defined.

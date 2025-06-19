@@ -116,7 +116,7 @@ Proof.
     + apply Qmult_le_compat_r.
         2: apply Qabs_nonneg.
       apply Qlt_le_weak. apply (cauchy x); lia.
-    + apply (Qmult_lt_l _ _ (2 ^ -(n - scale y - 1))%Q).
+    + apply (Qmult_lt_l _ _ (2 ^ (-(n - scale y - 1)))%Q).
       { apply Qpower_0_lt; lra. }
       rewrite Qmult_assoc, <- Qpower_plus by lra.
       rewrite <- Qpower_plus by lra.
@@ -128,7 +128,7 @@ Proof.
     + rewrite Qmult_comm; apply Qmult_le_compat_r.
         2: apply Qabs_nonneg.
       apply Qlt_le_weak; apply (cauchy y); lia.
-    + apply (Qmult_lt_l _ _ (2 ^ -(n - scale x - 1))%Q).
+    + apply (Qmult_lt_l _ _ (2 ^ (-(n - scale x - 1)))%Q).
       { apply Qpower_0_lt; lra. }
       rewrite Qmult_assoc, <- Qpower_plus by lra.
       rewrite <- Qpower_plus by lra.
