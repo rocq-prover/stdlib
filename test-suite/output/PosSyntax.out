@@ -4,13 +4,13 @@ eq_refl : 42%positive = 42%positive
      : 42%positive = 42%positive
 fun f : nat -> positive => (f 0%nat + 1)%positive
      : (nat -> positive) -> positive
-fun x : positive => (x~0)%positive
+fun x : positive => x~0%positive
      : positive -> positive
 fun x : positive => (x + 1)%positive
      : positive -> positive
 fun x : positive => x
      : positive -> positive
-fun x : positive => (x~1)%positive
+fun x : positive => x~1%positive
      : positive -> positive
 fun x : positive => (x~0 + 1)%positive
      : positive -> positive
