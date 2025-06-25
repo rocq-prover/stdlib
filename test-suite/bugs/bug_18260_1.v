@@ -27,7 +27,7 @@ Module map.
   Global Coercion rep : map >-> Sortclass.
 
 End map.
-Local Notation map := map.map.
+#[local] Notation map := map.map.
 Global Coercion map.rep : map >-> Sortclass.
 
 Definition SuchThat(R: Type)(P: R -> Prop) := R.
@@ -99,7 +99,7 @@ Class PointsToPredicate{width}{word: word.word width}{mem: Type}
 
 Section TestNotations.
   Context {width: Z} {word: word.word width} {mem: map.map word Byte.byte}.
-  Local Open Scope oo_scope.
+  #[local] Open Scope oo_scope.
   Set Printing All.
   Typeclasses eauto := debug.
   Goal forall (a1 a2 ofs sz v1 v2: word) (R: mem -> Prop) (m: mem),

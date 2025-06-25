@@ -145,7 +145,7 @@ Module Export StringLike.
   Arguments StringLike : clear implicits.
   Infix "=s" := (@beq _ _) (at level 70, no associativity) : type_scope.
   Notation "s ~= [ ch ]" := (is_char s ch) (at level 70, no associativity) : string_like_scope.
-  Local Open Scope string_like_scope.
+  #[local] Open Scope string_like_scope.
 
   Definition str_le `{StringLike Char} (s1 s2 : String)
     := length s1 < length s2 \/ s1 =s s2.
@@ -193,7 +193,7 @@ From Stdlib Require Import List.
 Export ADTSynthesis.Parsers.StringLike.Core.
 Import ADTSynthesis.Common.
 
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section cfg.
   Context {Char : Type}.
@@ -278,7 +278,7 @@ End BaseTypes.
 Import Stdlib.Lists.List.
 Import ADTSynthesis.Parsers.ContextFreeGrammar.
 
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section cfg.
   Context {Char} {HSL : StringLike Char} {G : grammar Char}.
@@ -681,7 +681,7 @@ Section implementation.
   Context {Char} {G : grammar Char}.
   Context (splitter : Splitter G).
 
-  Local Instance parser_data : @boolean_parser_dataT Char _ :=
+  #[local] Instance parser_data : @boolean_parser_dataT Char _ :=
     { predata := rdp_list_predata (G := G);
       split_string_for_production it its str
       := splits_for splitter str it its }.
@@ -699,10 +699,10 @@ End ParserImplementation.
 
 Section implementation.
   Context {Char} {ls : list (String.string * productions Char)}.
-  Local Notation G := (list_to_grammar (nil::nil) ls) (only parsing).
+  #[local] Notation G := (list_to_grammar (nil::nil) ls) (only parsing).
   Context (splitter : Splitter G).
 
-  Local Instance parser_data : @boolean_parser_dataT Char _ := parser_data splitter.
+  #[local] Instance parser_data : @boolean_parser_dataT Char _ := parser_data splitter.
 
   Goal forall str : @String Char splitter,
          let G' :=

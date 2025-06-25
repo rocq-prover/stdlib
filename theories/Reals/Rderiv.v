@@ -18,7 +18,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rlimit.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Lia.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (*********)
 Definition D_x (D:R -> Prop) (y x:R) : Prop := D x /\ y <> x.

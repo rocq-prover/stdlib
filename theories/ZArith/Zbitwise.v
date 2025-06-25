@@ -1,17 +1,17 @@
-From Stdlib Require Import BinInt Lia Btauto. Local Open Scope Z_scope.
+From Stdlib Require Import BinInt Lia Btauto. #[local] Open Scope Z_scope.
 Import (ltac.notations) BinInt.Z.
 
 Module Z.
 
-Local Infix ".|" := Z.lor (at level 40).
-Local Infix ".&" := Z.land (at level 40).
-Local Infix ".^" := Z.lxor (at level 40).
-Local Notation ".~ x" := (Z.lnot x) (at level 35).
-Local Notation "x .[ i ]" := (Z.testbit x i) (at level 9, format "x .[ i ]").
+#[local] Infix ".|" := Z.lor (at level 40).
+#[local] Infix ".&" := Z.land (at level 40).
+#[local] Infix ".^" := Z.lxor (at level 40).
+#[local] Notation ".~ x" := (Z.lnot x) (at level 35).
+#[local] Notation "x .[ i ]" := (Z.testbit x i) (at level 9, format "x .[ i ]").
 
-Local Infix "^^" := xorb (at level 40).
+#[local] Infix "^^" := xorb (at level 40).
 
-Local Hint Rewrite
+#[local] Hint Rewrite
   Z.b2z_bit0
   Z.bits_opp
   Z.lnot_spec
@@ -22,19 +22,19 @@ Local Hint Rewrite
   Z.shiftr_spec
   using solve [trivial] : bitwise.
 
-Local Ltac to_bitwise :=
+#[local] Ltac to_bitwise :=
   let i := fresh "i" in
   bitwise as i ?Hi;
   repeat match goal with H : ?a = ?b :> Z |- _ =>
     apply (f_equal (fun x => Z.testbit x i)) in H end.
-Local Ltac prove_bitwise :=
+#[local] Ltac prove_bitwise :=
   apply Bool.eqb_true_iff;
   repeat match goal with H : _ = _ :> bool |- _ =>
     apply Bool.eqb_true_iff in H; revert H end;
   rewrite <-?Bool.negb_xorb, <-?Bool.implb_true_iff, ?Bool.implb_orb;
   autorewrite with bitwise;
   btauto.
-Local Ltac p := to_bitwise; prove_bitwise.
+#[local] Ltac p := to_bitwise; prove_bitwise.
 
 (** Bitwise operations alone *)
 
@@ -129,7 +129,7 @@ Lemma testbit_addcarries_pos x y i (Hi : 0 < i) : Z.testbit (addcarries x y) i =
   (x.[i-1] && y.[i-1] || (x.[i-1]^^y.[i-1]) && (addcarries x y).[i-1])%bool.
 Proof. rewrite addcarries_ok; apply testbit_adccarries_pos, Hi. Qed.
 
-Local Hint Rewrite testbit_adccarries_0 testbit_addcarries_0 : bitwise.
+#[local] Hint Rewrite testbit_adccarries_0 testbit_addcarries_0 : bitwise.
 
 Lemma addcarries_lor_land x y : addcarries (x .| y) (x .& y) = addcarries x y.
 Proof.

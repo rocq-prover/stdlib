@@ -27,8 +27,8 @@ From Stdlib Require Import Lia Relations Multiset SetoidList.
 
 Set Implicit Arguments.
 
-Local Notation "[ ]" := nil.
-Local Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
+#[local] Notation "[ ]" := nil.
+#[local] Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
 
 Section Permut.
 

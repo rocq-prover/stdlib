@@ -6,7 +6,7 @@ Class word_interface (width : Z) : Type := Build_word
     of_Z : Z -> rep;
     sub : rep -> rep -> rep }.
 Coercion rep : word_interface >-> Sortclass.
-Axiom word : word_interface 64. Local Existing Instance word.
+Axiom word : word_interface 64. #[local] Existing Instance word.
 Goal
   forall (x : list word) (x1 x2 : word),
   (unsigned (sub x2 x1) / 2 ^ 4 * 2 ^ 3 <

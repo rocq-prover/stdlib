@@ -26,7 +26,7 @@ From Stdlib Require Import Arith_base.
 #[local] Set Warnings "-stdlib-vector".
 From Stdlib Require Vectors.Fin.
 Import EqNotations.
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 (* Set Universe Polymorphism. *)
 
@@ -38,8 +38,8 @@ Inductive t A : nat -> Type :=
   |nil : t A 0
   |cons : forall (h:A) (n:nat), t A n -> t A (S n).
 
-Local Notation "[ ]" := (nil _) (format "[ ]").
-Local Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
+#[local] Notation "[ ]" := (nil _) (format "[ ]").
+#[local] Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
 
 Section SCHEMES.
 
@@ -230,7 +230,7 @@ Definition rev {A n} (v : t A n) : t A n :=
  rew <- (plus_n_O _) in (rev_append v []).
 
 End BASES.
-Local Notation "v [@ p ]" := (nth v p) (at level 1).
+#[local] Notation "v [@ p ]" := (nth v p) (at level 1).
 
 Section ITERATORS.
 (** * Here are special non dependent useful instantiation of induction schemes *)

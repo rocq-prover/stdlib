@@ -22,7 +22,7 @@ From Stdlib Require Import Znumtheory.
 From Stdlib Require Import Zpow_facts.
 From Stdlib Require Import DoubleType.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** First, a description via an operator record and a spec record. *)
 
@@ -336,18 +336,18 @@ End CyclicType.
 
 Module CyclicRing (Import Cyclic : CyclicType).
 
-Local Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
+#[local] Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
 
 Definition eq (n m : t) := [| n |] = [| m |].
 
-Local Infix "=="  := eq (at level 70).
-Local Notation "0" := ZnZ.zero.
-Local Notation "1" := ZnZ.one.
-Local Infix "+" := ZnZ.add.
-Local Infix "-" := ZnZ.sub.
-Local Notation "- x" := (ZnZ.opp x).
-Local Infix "*" := ZnZ.mul.
-Local Notation wB := (base ZnZ.digits).
+#[local] Infix "=="  := eq (at level 70).
+#[local] Notation "0" := ZnZ.zero.
+#[local] Notation "1" := ZnZ.one.
+#[local] Infix "+" := ZnZ.add.
+#[local] Infix "-" := ZnZ.sub.
+#[local] Notation "- x" := (ZnZ.opp x).
+#[local] Infix "*" := ZnZ.mul.
+#[local] Notation wB := (base ZnZ.digits).
 
 Global Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_add ZnZ.spec_mul
  ZnZ.spec_opp ZnZ.spec_sub

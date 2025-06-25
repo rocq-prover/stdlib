@@ -15,7 +15,7 @@
 From Stdlib Require Import Arith BinInt BinNat Zeven Znat Nnat.
 From Stdlib Require Import ZifyClasses.
 Declare ML Module "rocq-runtime.plugins.zify".
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Ltac refl :=
   abstract (intros ; match goal with

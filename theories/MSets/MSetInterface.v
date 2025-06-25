@@ -449,7 +449,7 @@ End WRawSets.
 Module WRaw2SetsOn (E:DecidableType)(M:WRawSets E) <: WSetsOn E.
 
  (** We avoid creating induction principles for the Record *)
- Local Unset Elimination Schemes.
+ #[local] Unset Elimination Schemes.
 
  Definition elt := E.t.
 
@@ -903,8 +903,8 @@ End MakeSetOrdering.
 Module MakeListOrdering (O:OrderedType).
  Module MO:=OrderedTypeFacts O.
 
- Local Notation t := (list O.t).
- Local Notation In := (InA O.eq).
+ #[local] Notation t := (list O.t).
+ #[local] Notation In := (InA O.eq).
 
  Definition eq s s' := forall x, In x s <-> In x s'.
 

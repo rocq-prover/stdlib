@@ -45,7 +45,7 @@ Proof.
   decide equality; apply bool_dec.
 Defined.
 
-Local Open Scope lazy_bool_scope.
+#[local] Open Scope lazy_bool_scope.
 
 Definition eqb (a b : ascii) : bool :=
  match a, b with
@@ -64,7 +64,7 @@ Proof.
  now constructor.
 Qed.
 
-Local Ltac t_eqb :=
+#[local] Ltac t_eqb :=
   repeat first [ congruence
                | progress subst
                | apply conj
@@ -111,7 +111,7 @@ Definition ascii_of_nat (a : nat) := ascii_of_N (N.of_nat a).
 
 (** The opposite functions *)
 
-Local Open Scope list_scope.
+#[local] Open Scope list_scope.
 
 Fixpoint N_of_digits (l:list bool) : N :=
  match l with
@@ -285,7 +285,7 @@ Module Export AsciiSyntax.
   String Notation ascii ascii_of_byte byte_of_ascii : char_scope.
 End AsciiSyntax.
 
-Local Open Scope char_scope.
+#[local] Open Scope char_scope.
 
 Example Space := " ".
 Example DoubleQuote := """".

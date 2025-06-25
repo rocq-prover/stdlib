@@ -61,7 +61,7 @@ Class ageable (A:Type) := mkAgeable
 Definition age {A} `{ageable A} (x y:A) := age1 x = Some y.
 Definition necR   {A} `{ageable A} : relation A := clos_refl_trans A age.
 Delimit Scope pred with pred.
-Local Open Scope pred.
+#[local] Open Scope pred.
 
 Definition hereditary {A} (R:A->A->Prop) (p:A->Prop) :=
   forall a a':A, R a a' -> p a -> p a'.
@@ -220,7 +220,7 @@ intros; simpl; apply functional_extensionality.
   induction x; [auto|simpl]. rewrite IHx. reflexivity.
 Defined.
 
-Local Notation "[ a , .. , b ]" := (a :: .. (b :: nil) ..) : list_scope.
+#[local] Notation "[ a , .. , b ]" := (a :: .. (b :: nil) ..) : list_scope.
 Definition setFmap {Fim} {F:Functor set_cat set_cat Fim} `(f:A~>B) (xs:Fim A) := fmap F f xs.
 
 (* We want to infer the [Functor] instance based on the value's

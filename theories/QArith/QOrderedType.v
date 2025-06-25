@@ -10,7 +10,7 @@
 
 From Stdlib Require Import QArith_base Equalities Orders OrdersTac.
 
-Local Open Scope Q_scope.
+#[local] Open Scope Q_scope.
 
 (** * DecidableType structure for rational numbers *)
 

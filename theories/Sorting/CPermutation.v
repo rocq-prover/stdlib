@@ -21,7 +21,7 @@ From Stdlib Require Import List Permutation Morphisms PeanoNat.
 Import ListNotations. (* For notations [] and [a;b;c] *)
 Set Implicit Arguments.
 
-Local Ltac Tauto.intuition_solver ::= auto with datatypes.
+#[local] Ltac Tauto.intuition_solver ::= auto with datatypes.
 
 Section CPermutation.
 
@@ -104,7 +104,7 @@ Hint Resolve CPermutation_refl : core.
 (* These hints do not reduce the size of the problem to solve and they
    must be used with care to avoid combinatoric explosions *)
 
-Local Hint Resolve cperm CPermutation_sym CPermutation_trans : core.
+#[local] Hint Resolve cperm CPermutation_sym CPermutation_trans : core.
 
 #[global]
 Instance CPermutation_Equivalence A : Equivalence (@CPermutation A) | 10 := {

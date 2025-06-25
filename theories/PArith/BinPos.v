@@ -24,7 +24,7 @@ From Stdlib Require Export BinPosDef.
 (** The type [positive] and its constructors [xI] and [xO] and [xH]
     are now defined in [BinNums.v] *)
 
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 
 (** Every definitions and early properties about positive numbers
     are placed in a module [Pos] for qualification purpose. *)

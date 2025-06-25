@@ -23,7 +23,7 @@ From Stdlib Require Export Ngcd_def.
 (** Note that [N.order] is domain-agnostic: it will not prove
     [1<=2] or [x<=x+x], but rather things like [x<=y -> y<=x -> x=y]. *)
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 Section TestOrder.
  Let test : forall x y, x<=y -> y<=x -> x=y.

@@ -22,8 +22,8 @@ Arguments pair {A B}.
 
 /NB *)
 
-Local Notation Fst := (@fst _ _).
-Local Notation Snd := (@snd _ _).
+#[local] Notation Fst := (@fst _ _).
+#[local] Notation Snd := (@snd _ _).
 
 Arguments relation_conjunction A%_type (R R')%_signature _ _.
 Arguments relation_equivalence A%_type (_ _)%_signature.

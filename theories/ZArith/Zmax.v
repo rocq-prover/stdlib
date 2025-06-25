@@ -12,7 +12,7 @@
 
 From Stdlib Require Export BinInt Zcompare Zorder.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Definition [Z.max] is now [BinInt.Z.max]. *)
 

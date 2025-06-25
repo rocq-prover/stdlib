@@ -318,7 +318,7 @@ of our searching algorithm. *)
 
 Let R (x y : nat) : Prop := x = S y /\ ~ P y.
 
-Local Notation acc x := (Acc R x).
+#[local] Notation acc x := (Acc R x).
 
 Lemma P_implies_acc : forall x : nat, P x -> acc x.
 Proof.

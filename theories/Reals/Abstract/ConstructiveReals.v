@@ -227,7 +227,7 @@ Notation "x - y" := (CRminus _ x y) : ConstructiveReals.
 Notation "x * y" := (CRmult _ x y) : ConstructiveReals.
 Notation "/ x" := (CRinv _ x)  : ConstructiveReals.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 Lemma CRlt_asym : forall {R : ConstructiveReals} (x y : CRcarrier R),
     x < y -> x <= y.

@@ -70,7 +70,7 @@ End Nat_as_OT.
 
 (** [Z] is an ordered type with respect to the usual order on integers. *)
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z_as_OT <: UsualOrderedType.
 
@@ -102,7 +102,7 @@ End Z_as_OT.
 
 (** [positive] is an ordered type with respect to the usual order on natural numbers. *)
 
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 
 Module Positive_as_OT <: UsualOrderedType.
   Definition t:=positive.
@@ -369,13 +369,13 @@ Module Ascii_as_OT <: UsualOrderedType.
     exact (N.lt_irrefl _ L).
   Qed.
 
-  Local Lemma compare_helper_eq {a b : ascii} (E : cmp a b = Eq):
+  #[local] Lemma compare_helper_eq {a b : ascii} (E : cmp a b = Eq):
     a = b.
   Proof.
     now apply cmp_eq.
   Qed.
 
-  Local Lemma compare_helper_gt {a b : ascii} (G : cmp a b = Gt):
+  #[local] Lemma compare_helper_gt {a b : ascii} (G : cmp a b = Gt):
     lt b a.
   Proof.
     now apply N.compare_gt_iff.
@@ -517,13 +517,13 @@ Module String_as_OT <: UsualOrderedType.
     }
   Qed.
 
-  Local Lemma compare_helper_lt {a b : string} (L : cmp a b = Lt):
+  #[local] Lemma compare_helper_lt {a b : string} (L : cmp a b = Lt):
     lt a b.
   Proof.
     now apply cmp_lt.
   Qed.
 
-  Local Lemma compare_helper_gt {a b : string} (G : cmp a b = Gt):
+  #[local] Lemma compare_helper_gt {a b : string} (G : cmp a b = Gt):
     lt b a.
   Proof.
     rewrite cmp_antisym in G.
@@ -531,7 +531,7 @@ Module String_as_OT <: UsualOrderedType.
     now apply cmp_lt.
   Qed.
 
-  Local Lemma compare_helper_eq {a b : string} (E : cmp a b = Eq):
+  #[local] Lemma compare_helper_eq {a b : string} (E : cmp a b = Eq):
     a = b.
   Proof.
     now apply cmp_eq.

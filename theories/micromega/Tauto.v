@@ -340,14 +340,14 @@ Section S.
   Variable Term' : Type.
   Variable Annot : Type.
 
-  Local Notation Trace := (Trace Annot).
+  #[local] Notation Trace := (Trace Annot).
 
   Variable unsat : Term'  -> bool. (* see [unsat_prop] *)
   Variable deduce : Term' -> Term' -> option Term'. (* see [deduce_prop] *)
 
-  Local Notation null := (@null Annot).
-  Local Notation push := (@push Annot).
-  Local Notation merge := (@merge Annot).
+  #[local] Notation null := (@null Annot).
+  #[local] Notation push := (@push Annot).
+  #[local] Notation merge := (@merge Annot).
 
   Definition clause := list  (Term' * Annot).
   Definition cnf := list clause.

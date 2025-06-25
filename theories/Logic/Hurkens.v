@@ -173,14 +173,14 @@ Variable appU0 : forall U F (f:El0(∀₀¹ A:U,F A)) (A:El1 U), El0 (F A).
   Notation "f '·₀' [ A ]" := (appU0 _ _ f A).
 
 (** ** Automating the rewrite rules of our encoding. *)
-Local Ltac simplify :=
+#[local] Ltac simplify :=
   (* spiwack: ideally we could use [rewrite_strategy] here, but I am a tad
      scared of the idea of depending on setoid rewrite in such a simple
      file. *)
   (repeat rewrite ?beta1, ?betaU1);
   lazy beta.
 
-Local Ltac simplify_in h :=
+#[local] Ltac simplify_in h :=
   (repeat rewrite ?beta1, ?betaU1 in h);
   lazy beta in h.
 

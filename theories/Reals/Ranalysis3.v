@@ -13,7 +13,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import Ranalysis2.
 From Stdlib Require Import Lra.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** Division *)
 Theorem derivable_pt_lim_div :

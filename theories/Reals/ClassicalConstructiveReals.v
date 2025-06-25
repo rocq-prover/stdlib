@@ -32,7 +32,7 @@ From Stdlib Require Import ConstructiveRcomplete.
 From Stdlib Require Import ConstructiveCauchyAbs.
 From Stdlib Require Import ConstructiveRealsMorphisms.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (* Rlt is the transport of CRealLt via Rasbt, Rrepr,
    so it is linear as CRealLt. *)

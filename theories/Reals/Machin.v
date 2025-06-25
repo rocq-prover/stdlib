@@ -20,7 +20,7 @@ From Stdlib Require Import SeqProp.
 From Stdlib Require Import PartSum.
 From Stdlib Require Import Ratan.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (* Proving a few formulas in the style of John Machin to compute Pi *)
 

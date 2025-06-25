@@ -17,12 +17,12 @@ From Stdlib Require Import List Setoid Permutation Sorted Orders.
 
 (** Notations and conventions *)
 
-Local Notation "[ ]" := nil.
-Local Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
+#[local] Notation "[ ]" := nil.
+#[local] Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
 
 Open Scope bool_scope.
 
-Local Coercion is_true : bool >-> Sortclass.
+#[local] Coercion is_true : bool >-> Sortclass.
 
 (** The main module defining [mergesort] on a given boolean
     order [<=?]. We require minimal hypotheses : this boolean
@@ -111,7 +111,7 @@ Definition sort := iter_merge [].
 
 (** The proof of correctness *)
 
-Local Notation Sorted := (LocallySorted leb) (only parsing).
+#[local] Notation Sorted := (LocallySorted leb) (only parsing).
 
 Fixpoint SortedStack stack :=
   match stack with
@@ -120,7 +120,7 @@ Fixpoint SortedStack stack :=
   | Some l :: stack' => Sorted l /\ SortedStack stack'
   end.
 
-Local Ltac invert H := inversion H; subst; clear H.
+#[local] Ltac invert H := inversion H; subst; clear H.
 
 Fixpoint flatten_stack (stack : list (option (list t))) :=
   match stack with

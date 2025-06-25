@@ -596,13 +596,13 @@ Section Bool.
 Variable f:elt->bool.
 Variable Comp: Proper (E.eq==>Logic.eq) f.
 
-Local Definition Comp' : Proper (E.eq==>Logic.eq) (fun x =>negb (f x)).
+#[local] Definition Comp' : Proper (E.eq==>Logic.eq) (fun x =>negb (f x)).
 Proof.
 repeat red; intros; f_equal; auto.
 Defined.
 
-Local Hint Resolve Comp' : core.
-Local Hint Unfold compat_bool : core.
+#[local] Hint Resolve Comp' : core.
+#[local] Hint Unfold compat_bool : core.
 
 Lemma filter_mem: forall s x, mem x (filter f s)=mem x s && f x.
 Proof.

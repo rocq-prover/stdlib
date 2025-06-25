@@ -39,14 +39,14 @@ Proof.
   { apply Zmod.one_neq_zero. pose proof Z.prime_ge_2 _ H. lia. }
 Qed.
 
-Local Ltac extra_reify_of_Z :=
+#[local] Ltac extra_reify_of_Z :=
   lazymatch goal with |- Ncring_tac.extra_reify _ (@Zmod.of_Z ?m ?z) =>
   constr_eq true ltac:(isZcst m);
   constr_eq true ltac:(isZcst z);
   exact (PEc z)
   end.
 
-Local Ltac extra_reify_pow_pos :=
+#[local] Ltac extra_reify_pow_pos :=
   lazymatch goal with |- @Ncring_tac.extra_reify ?R ?ring0 ?ring1 ?add ?mul ?sub ?opp ?lvar (Zmod.pow ?t (Z.pos ?p)) =>
   constr_eq true ltac:(isPcst p);
   let et := Ncring_tac.reify_term R ring0 ring1 add mul sub opp lvar t in

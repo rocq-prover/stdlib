@@ -576,7 +576,7 @@ Qed.
 
 
 
-Local Hint Resolve Zmult_pos_pos Zmult_neg_neg Zmult_neg_pos Zmult_pos_neg: zarith.
+#[local] Hint Resolve Zmult_pos_pos Zmult_neg_neg Zmult_neg_pos Zmult_pos_neg: zarith.
 
 
 Lemma Zle_reg_mult_l :
@@ -1161,7 +1161,7 @@ Proof.
  intros [| p| p]; intros; [ Falsum | constructor | constructor ].
 Qed.
 
-Local Hint Resolve square_pos: zarith.
+#[local] Hint Resolve square_pos: zarith.
 
 (*###########################################################################*)
 (** Properties of positive numbers, mapping between Z and nat                *)
@@ -1988,7 +1988,7 @@ Proof.
  intros [| p| p] Hp; trivial.
 Qed.
 
-Local Hint Resolve Zsgn_1 Zsgn_2 Zsgn_3 Zsgn_4 Zsgn_5 Zsgn_6 Zsgn_7 Zsgn_7' Zsgn_8
+#[local] Hint Resolve Zsgn_1 Zsgn_2 Zsgn_3 Zsgn_4 Zsgn_5 Zsgn_6 Zsgn_7 Zsgn_7' Zsgn_8
   Zsgn_9 Zsgn_10 Zsgn_11 Zsgn_12 Zsgn_13 Zsgn_14 Zsgn_15 Zsgn_16 Zsgn_17
   Zsgn_18 Zsgn_19 Zsgn_20 Zsgn_21 Zsgn_22 Zsgn_23 Zsgn_24 Zsgn_25 Zsgn_26
   Zsgn_27: zarith.
@@ -2391,7 +2391,7 @@ Proof.
  intros [|z|z]; simpl; auto with zarith; apply Zle_neg_pos.
 Qed.
 
-Local Hint Resolve Zabs_1 Zabs_2 Zabs_3 Zabs_4 Zabs_5 Zabs_6 Zabs_7 Zabs_8 Zabs_9
+#[local] Hint Resolve Zabs_1 Zabs_2 Zabs_3 Zabs_4 Zabs_5 Zabs_6 Zabs_7 Zabs_8 Zabs_9
   Zabs_10 Zabs_11 Zabs_12 Zabs_min Zabs_neg Zabs_mult Zabs_plus Zle_Zabs: zarith.
 
 
@@ -2952,7 +2952,7 @@ Proof.
  ring.
 Qed.
 
-Local Hint Resolve ZmaxSS Zle_max_r Zle_max_l Zmax_n_n: zarith.
+#[local] Hint Resolve ZmaxSS Zle_max_r Zle_max_l Zmax_n_n: zarith.
 
 (*###########################################################################*)
 (** Properties of Arity                                                      *)
@@ -3021,7 +3021,7 @@ Proof.
  Flip.
 Qed.
 
-Local Hint Resolve Z_div_mod_eq_2 Z_div_le Z_div_nonneg Z_div_neg: zarith.
+#[local] Hint Resolve Z_div_mod_eq_2 Z_div_le Z_div_nonneg Z_div_neg: zarith.
 
 (*###########################################################################*)
 (** Properties of Zpower                                                       *)
@@ -3039,4 +3039,4 @@ Proof.
   ring.
 Qed.
 
-Local Hint Resolve Zpower_1 Zpower_2: zarith.
+#[local] Hint Resolve Zpower_1 Zpower_2: zarith.

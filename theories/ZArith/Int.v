@@ -19,9 +19,9 @@
 From Stdlib Require Import BinInt.
 Declare Scope Int_scope.
 Delimit Scope Int_scope with I.
-Local Open Scope Int_scope.
+#[local] Open Scope Int_scope.
 
-Local Ltac Tauto.intuition_solver ::= auto with bool.
+#[local] Ltac Tauto.intuition_solver ::= auto with bool.
 
 (** * A specification of integers *)
 
@@ -113,7 +113,7 @@ End Int.
 (** * Facts and  tactics using [Int] *)
 
 Module MoreInt (Import I:Int).
-  Local Notation int := I.t.
+  #[local] Notation int := I.t.
 
   Lemma eqb_eq n p : (n =? p) = true <-> n == p.
   Proof.
@@ -404,7 +404,7 @@ End MoreInt.
 (** It's always nice to know that our [Int] interface is realizable :-) *)
 
 Module Z_as_Int <: Int.
-  Local Open Scope Z_scope.
+  #[local] Open Scope Z_scope.
   Definition t := Z.
   Definition _0 := 0.
   Definition _1 := 1.

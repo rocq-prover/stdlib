@@ -182,7 +182,7 @@ Module OTF_to_TotalOrder (O:OrderedTypeFull) <: TotalOrder
 (** For stating properties like transitivity  of [leb],
     we coerce [bool] into [Prop]. *)
 
-Local Coercion is_true : bool >-> Sortclass.
+#[local] Coercion is_true : bool >-> Sortclass.
 #[global]
 Hint Unfold is_true : core.
 
@@ -290,7 +290,7 @@ End OTF_to_TTLB.
     [lt] is [le /\ ~swap le].
 *)
 
-Local Open Scope bool_scope.
+#[local] Open Scope bool_scope.
 
 Module TTLB_to_OTF (Import O : TotalTransitiveLeBool') <: OrderedTypeFull.
 

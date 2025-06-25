@@ -9,7 +9,7 @@
 (************************************************************************)
 
 Attributes deprecated(since="9.0", note="use lia instead").
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated".
 
 (** Tactics for doing arithmetic proofs.
     Useful to bootstrap lia.
@@ -17,7 +17,7 @@ Local Set Warnings "-deprecated".
 
 From Stdlib Require Import BinInt.
 From Stdlib Require Import (ltac.notations) Ring_tac.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 #[deprecated(use=Z.eq_le_incl, since="9.0")]
 Lemma eq_incl :
@@ -44,7 +44,7 @@ Lemma Zlt_le_add_1 : forall n m : Z, n < m -> n + 1 <= m.
 Proof. apply Z.le_succ_l. Qed.
 
 #[deprecated(since="9.0")]
-Local Lemma Private_Zle_minus_le_0 n m : m <= n -> 0 <= n - m.
+#[local] Lemma Private_Zle_minus_le_0 n m : m <= n -> 0 <= n - m.
 Proof.
  apply Z.le_0_sub.
 Qed.
@@ -95,7 +95,7 @@ Lemma mul_le : forall e1 e2, 0 <= e1 -> 0 <= e2 -> 0 <= e1*e2.
 Proof. apply Z.mul_nonneg_nonneg. Qed.
 
 #[deprecated(since="9.0")]
-Local Definition Private_Z_le_dec x y : {x <= y} + {~ x <= y}.
+#[local] Definition Private_Z_le_dec x y : {x <= y} + {~ x <= y}.
 Proof.
   unfold Z.le; case Z.compare; (now left) || (right; tauto).
 Defined.

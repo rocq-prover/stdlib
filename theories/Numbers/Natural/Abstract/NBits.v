@@ -48,7 +48,7 @@ Qed.
     We declare it as a (local) coercion for shorter statements. *)
 
 Definition b2n (b:bool) := if b then 1 else 0.
-Local Coercion b2n : bool >-> t.
+#[local] Coercion b2n : bool >-> t.
 
 #[global]
 Instance b2n_proper : Proper (Logic.eq ==> eq) b2n.
@@ -370,7 +370,7 @@ Proof.
  split; congruence.
 Qed.
 
-Local Infix "===" := eqf (at level 70, no associativity).
+#[local] Infix "===" := eqf (at level 70, no associativity).
 
 #[global]
 Instance testbit_eqf : Proper (eq==>eqf) testbit.
@@ -1548,11 +1548,11 @@ Qed.
 
 (** Bitwise operations and arithmetical operations *)
 
-Local Notation xor3 a b c := (xorb (xorb a b) c).
-Local Notation lxor3 a b c := (lxor (lxor a b) c).
+#[local] Notation xor3 a b c := (xorb (xorb a b) c).
+#[local] Notation lxor3 a b c := (lxor (lxor a b) c).
 
-Local Notation nextcarry a b c := ((a&&b) || (c && (a||b))).
-Local Notation lnextcarry a b c := (lor (land a b) (land c (lor a b))).
+#[local] Notation nextcarry a b c := ((a&&b) || (c && (a||b))).
+#[local] Notation lnextcarry a b c := (lor (land a b) (land c (lor a b))).
 
 Lemma add_bit0 : forall a b, (a+b).[0] = xorb a.[0] b.[0].
 Proof.

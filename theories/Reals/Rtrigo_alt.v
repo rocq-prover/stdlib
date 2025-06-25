@@ -14,7 +14,7 @@ From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Rtrigo_def.
 From Stdlib Require Import Lia Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (***************************************************************)
 (** Using series definitions of cos and sin                    *)

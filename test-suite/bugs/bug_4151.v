@@ -121,7 +121,7 @@ End ContextFreeGrammar.
 Module Export BaseTypes.
   Import Stdlib.Strings.String.
 
-  Local Open Scope string_like_scope.
+  #[local] Open Scope string_like_scope.
 
   Inductive any_grammar CharType :=
   | include_item (_ : item CharType)
@@ -234,9 +234,9 @@ Section cfg.
         -> @minimal_parse_of_name str valid str name.
 End cfg.
 
-Local Coercion is_true : bool >-> Sortclass.
+#[local] Coercion is_true : bool >-> Sortclass.
 
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section general.
   Context {CharType} {String : string_like CharType} {G : grammar CharType}.

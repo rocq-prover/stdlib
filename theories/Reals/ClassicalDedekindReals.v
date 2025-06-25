@@ -34,7 +34,7 @@ Fixpoint PosPow2_nat (n : nat) : positive :=
   | S n' => 2 * (PosPow2_nat n')
   end.
 
-Local Lemma Qpower_2_neg_eq_pospow_inv : forall n : nat,
+#[local] Lemma Qpower_2_neg_eq_pospow_inv : forall n : nat,
     (2 ^ (- Z.of_nat n) == 1#(PosPow2_nat n)%positive)%Q.
 Proof.
   intros n; induction n.
@@ -48,7 +48,7 @@ Proof.
 Qed.
 *)
 
-Local Lemma Qpower_2_neg_eq_natpow_inv : forall n : nat,
+#[local] Lemma Qpower_2_neg_eq_natpow_inv : forall n : nat,
     (2 ^ (- Z.of_nat n) == 1#(Pos.of_nat (2^n)%nat))%Q.
 Proof.
   intros n; induction n.
@@ -66,7 +66,7 @@ Proof.
 Qed.
 
 
-Local Lemma Qpower_2_invneg_le_pow : forall n : Z,
+#[local] Lemma Qpower_2_invneg_le_pow : forall n : Z,
     (1 # Pos.of_nat (2 ^ Z.to_nat (- n)) <= 2 ^ n)%Q.
 Proof.
   intros n; destruct n.
@@ -79,7 +79,7 @@ Proof.
     apply Qle_refl.
 Qed.
 
-Local Lemma Qpower_2_neg_le_one : forall n : nat,
+#[local] Lemma Qpower_2_neg_le_one : forall n : nat,
     (2 ^ (- Z.of_nat n) <= 1)%Q.
 Proof.
   intros n; induction n.

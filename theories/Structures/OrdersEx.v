@@ -96,7 +96,7 @@ End PairOrderedType.
   (lower bits are considered first). This is more natural when using
   [positive] as indexes for sets or maps (see MSetPositive). *)
 
-Local Open Scope positive.
+#[local] Open Scope positive.
 
 Module PositiveOrderedTypeBits <: UsualOrderedType.
   Definition t:=positive.

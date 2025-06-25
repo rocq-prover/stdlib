@@ -12,7 +12,7 @@ From Stdlib Require Import PeanoNat.
 From Stdlib Require Import Compare_dec.
 From Stdlib Require Import Wf_nat.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types a b n q r : nat.
 

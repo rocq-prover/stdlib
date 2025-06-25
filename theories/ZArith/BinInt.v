@@ -23,7 +23,7 @@ From Stdlib Require BinIntDef.
 (** The type [Z] and its constructors [Z0] and [Zpos] and [Zneg]
     are now defined in [BinNums.v] *)
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Every definitions and early properties about binary integers
     are placed in a module [Z] for qualification purpose. *)
@@ -88,7 +88,7 @@ Defined.
 
 (** * Proofs of morphisms, obvious since eq is Leibniz *)
 
-Local Obligation Tactic := simpl_relation.
+#[local] Obligation Tactic := simpl_relation.
 Program Definition succ_wd : Proper (eq==>eq) succ := _.
 Program Definition pred_wd : Proper (eq==>eq) pred := _.
 Program Definition opp_wd : Proper (eq==>eq) opp := _.
@@ -234,7 +234,7 @@ Proof.
    symmetry. now apply Pos.add_sub_assoc.
 Qed.
 
-Local Arguments add !x !y.
+#[local] Arguments add !x !y.
 
 Lemma add_assoc_pos p n m : pos p + (n + m) = pos p + n + m.
 Proof.
@@ -334,7 +334,7 @@ Qed.
 
 (** ** Specification of successor and predecessor *)
 
-Local Arguments pos_sub : simpl nomatch.
+#[local] Arguments pos_sub : simpl nomatch.
 
 Lemma succ_pred n : succ (pred n) = n.
 Proof.

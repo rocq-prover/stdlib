@@ -13,8 +13,8 @@
 From Stdlib Require Import Bool OrderedType ZArith OrderedType OrderedTypeEx FMapInterface.
 
 Set Implicit Arguments.
-Local Open Scope positive_scope.
-Local Unset Elimination Schemes.
+#[local] Open Scope positive_scope.
+#[local] Unset Elimination Schemes.
 
 (** This file is an adaptation to the [FMap] framework of a work by
   Xavier Leroy and Sandrine Blazy (used for building certified compilers).

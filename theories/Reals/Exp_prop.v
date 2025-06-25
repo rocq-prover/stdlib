@@ -16,8 +16,8 @@ From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import PSeries_reg.
 From Stdlib Require Import Lia Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope nat_scope.
-Local Open Scope R_scope.
+#[local] Open Scope nat_scope.
+#[local] Open Scope R_scope.
 
 Definition E1 (x:R) (N:nat) : R :=
   sum_f_R0 (fun k:nat => / INR (fact k) * x ^ k) N.

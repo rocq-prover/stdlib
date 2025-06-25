@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated".
 From Stdlib Require Import ZArith_base.
 From Stdlib Require Import ZArithRing.
 From Stdlib Require Import Zcomplements.
@@ -21,7 +21,7 @@ From Stdlib Require Import Lia Cring Ncring_tac.
 
 Open Scope Z_scope.
 
-Local Ltac Tauto.intuition_solver ::= auto with zarith.
+#[local] Ltac Tauto.intuition_solver ::= auto with zarith.
 
 (** This file contains some notions of number theory upon Z numbers:
      - a divisibility predicate [Z.divide]

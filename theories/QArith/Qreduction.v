@@ -15,7 +15,7 @@ From Stdlib Require Export QArith_base.
 Notation Z2P := Z.to_pos (only parsing).
 Notation Z2P_correct := Z2Pos.id (only parsing).
 
-Local Coercion Z.pos : positive >-> Z.
+#[local] Coercion Z.pos : positive >-> Z.
 
 (** Simplification of fractions using [Z.gcd].
   This version can compute within Coq. *)

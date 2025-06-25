@@ -31,7 +31,7 @@ intentional type theory, Journal of Symbolic Logic 70(2):488-514, 2005.
 From Stdlib Require Import RelationClasses Logic.
 
 Set Implicit Arguments.
-Local Unset Intuition Negation Unfolding.
+#[local] Unset Intuition Negation Unfolding.
 
 (**********************************************************************)
 (** * Definitions *)
@@ -321,19 +321,19 @@ Definition ExcludedMiddle :=
 (** Extensional schemes *)
 
 (** Ext_prop_repr = choice of a representative among extensional propositions *)
-Local Notation ExtensionalPropositionRepresentative :=
+#[local] Notation ExtensionalPropositionRepresentative :=
   (forall (A:Type),
    exists h : Prop -> Prop,
    forall P : Prop, (P <-> h P) /\ forall Q, (P <-> Q) -> h P = h Q).
 
 (** Ext_pred_repr = choice of a representative among extensional predicates *)
-Local Notation ExtensionalPredicateRepresentative :=
+#[local] Notation ExtensionalPredicateRepresentative :=
   (forall (A:Type),
    exists h : (A->Prop) -> (A->Prop),
    forall (P : A -> Prop), (forall x, P x <-> h P x) /\ forall Q, (forall x, P x <-> Q x) -> h P = h Q).
 
 (** Ext_fun_repr = choice of a representative among extensional functions *)
-Local Notation ExtensionalFunctionRepresentative :=
+#[local] Notation ExtensionalFunctionRepresentative :=
   (forall (A B:Type),
    exists h : (A->B) -> (A->B),
    forall (f : A -> B), (forall x, f x = h f x) /\ forall g, (forall x, f x = g x) -> h f = h g).

@@ -20,7 +20,7 @@ Definition StateAbortFail(S A: Type) := S -> (option (option A) * S).
 
 #[global] Instance StateAbortFail_Monad(S: Type): Monad (StateAbortFail S).
 Admitted.
-Local Set Universe Polymorphism.
+#[local] Set Universe Polymorphism.
   Inductive list {A : Type} : Type := nil | cons (_:A) (_:list).
   Arguments list : clear implicits.
 
@@ -42,7 +42,7 @@ Fixpoint hlist@{i j k} (argts : list@{j} Type@{i}) : Type@{k} :=
 Definition tuple A n := hlist (repeat A n).
   Notation byte := (Corelib.Init.Byte.byte: Type).
 Import BinInt.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Export word.
   Class word {width : Z} := {
@@ -89,7 +89,7 @@ Module Export word.
   }.
   Arguments word : clear implicits.
   Global Hint Mode word + : typeclass_instances.
-  Local Hint Mode word - : typeclass_instances.
+  #[local] Hint Mode word - : typeclass_instances.
 
   Class ok {width} {word : word width}: Prop := {
     wrap z := z mod 2^width;

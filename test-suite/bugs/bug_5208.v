@@ -9,7 +9,7 @@ Set Strict Implicit.
 Set Universe Polymorphism.
 Set Printing Universes.
 
-Local Open Scope positive.
+#[local] Open Scope positive.
 
 Definition field : Type := positive.
 

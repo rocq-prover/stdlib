@@ -10,11 +10,11 @@
 
 From Stdlib Require Import Orders Rbase Rbasic_fun ROrderedType GenericMinMax.
 
-Local Ltac Tauto.intuition_solver ::= auto with real.
+#[local] Ltac Tauto.intuition_solver ::= auto with real.
 
 (** * Maximum and Minimum of two real numbers *)
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** The functions [Rmax] and [Rmin] implement indeed
     a maximum and a minimum *)

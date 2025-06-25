@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import BinInt Zdiv PreOmega Lia.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z.
 

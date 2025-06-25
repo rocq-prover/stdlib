@@ -15,7 +15,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Ranalysis_reg.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (*********************************************************)
 (** * Bounds of expressions with trigonometric functions *)

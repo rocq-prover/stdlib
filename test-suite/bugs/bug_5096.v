@@ -82,8 +82,8 @@ Global Arguments register_reassign {_ _ _ _} ctxi ctxr e _.
 Section language5.
   Context (Name : Type).
 
-  Local Notation expr := (@bug_5096.expr Name).
-  Local Notation nexpr := (@Named.expr Name).
+  #[local] Notation expr := (@bug_5096.expr Name).
+  #[local] Notation nexpr := (@Named.expr Name).
 
   Fixpoint ocompile (e : expr) (ls : list (option Name)) {struct e}
     : option (nexpr)
@@ -151,7 +151,7 @@ Definition Let_In {A P} (x : A) (f : forall a : A, P a) : P x := let y := x in f
 Section language7.
   Context {Context : Context unit (positive)}.
 
-  Local Notation nexpr := (@Named.expr unit).
+  #[local] Notation nexpr := (@Named.expr unit).
 
   Definition CompileAndEliminateDeadCode (e : Expr) (ls : list unit)
     : option (nexpr)

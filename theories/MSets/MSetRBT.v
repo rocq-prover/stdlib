@@ -34,11 +34,11 @@ Additional suggested reading:
 
 From Stdlib Require MSetGenTree.
 From Stdlib Require Import Bool List BinPos Pnat Setoid SetoidList PeanoNat.
-Local Open Scope list_scope.
+#[local] Open Scope list_scope.
 
 (* For nicer extraction, we create induction principles
    only when needed *)
-Local Unset Elimination Schemes.
+#[local] Unset Elimination Schemes.
 
 (** An extra function not (yet?) in MSetInterface.S *)
 
@@ -75,8 +75,8 @@ Module Ops (X:Orders.OrderedType) <: MSetInterface.Ops X.
 Include MSetGenTree.Ops X Color.
 
 Definition t := tree.
-Local Notation Rd := (Node Red).
-Local Notation Bk := (Node Black).
+#[local] Notation Rd := (Node Red).
+#[local] Notation Bk := (Node Black).
 
 (** ** Basic tree *)
 
@@ -447,16 +447,16 @@ Include Ops X.
 
 Include MSetGenTree.Props X Color.
 
-Local Notation Rd := (Node Red).
-Local Notation Bk := (Node Black).
+#[local] Notation Rd := (Node Red).
+#[local] Notation Bk := (Node Black).
 
-Local Hint Immediate MX.eq_sym : core.
-Local Hint Unfold In lt_tree gt_tree Ok : core.
-Local Hint Constructors InT bst : core.
-Local Hint Resolve MX.eq_refl MX.eq_trans MX.lt_trans ok : core.
-Local Hint Resolve lt_leaf gt_leaf lt_tree_node gt_tree_node : core.
-Local Hint Resolve lt_tree_not_in lt_tree_trans gt_tree_not_in gt_tree_trans : core.
-Local Hint Resolve elements_spec2 : core.
+#[local] Hint Immediate MX.eq_sym : core.
+#[local] Hint Unfold In lt_tree gt_tree Ok : core.
+#[local] Hint Constructors InT bst : core.
+#[local] Hint Resolve MX.eq_refl MX.eq_trans MX.lt_trans ok : core.
+#[local] Hint Resolve lt_leaf gt_leaf lt_tree_node gt_tree_node : core.
+#[local] Hint Resolve lt_tree_not_in lt_tree_trans gt_tree_not_in gt_tree_trans : core.
+#[local] Hint Resolve elements_spec2 : core.
 
 (** ** Singleton set *)
 
@@ -1145,7 +1145,7 @@ Record INV l1 l2 acc : Prop := {
  acc_sorted : sort X.lt acc;
  l1_lt_acc x y : InA X.eq x l1 -> InA X.eq y acc -> X.lt x y;
  l2_lt_acc x y : InA X.eq x l2 -> InA X.eq y acc -> X.lt x y}.
-Local Hint Resolve l1_sorted l2_sorted acc_sorted : core.
+#[local] Hint Resolve l1_sorted l2_sorted acc_sorted : core.
 
 Lemma INV_init s1 s2 `(Ok s1, Ok s2) :
  INV (rev_elements s1) (rev_elements s2) nil.
@@ -1359,7 +1359,7 @@ Proof.
  rewrite !InA_rev, InA_nil, !elements_spec1 by auto_tc. tauto.
 Qed.
 
-Local Instance mem_proper s `(Ok s) :
+#[local] Instance mem_proper s `(Ok s) :
  Proper (X.eq ==> Logic.eq) (fun k => mem k s).
 Proof.
  intros x y EQ. apply Bool.eq_iff_eq_true; rewrite !mem_spec; auto.
@@ -1483,8 +1483,8 @@ End MakeRaw.
 
 Module BalanceProps(X:Orders.OrderedType)(Import M : MakeRaw X).
 
-Local Notation Rd := (Node Red).
-Local Notation Bk := (Node Black).
+#[local] Notation Rd := (Node Red).
+#[local] Notation Bk := (Node Black).
 Import M.MX.
 
 (** ** Red-Black invariants *)
@@ -1525,8 +1525,8 @@ Class Rbt (t:tree) :=  RBT : exists d, rbt d t.
 (** ** Basic tactics and results about red-black *)
 
 Scheme rbt_ind := Induction for rbt Sort Prop.
-Local Hint Constructors rbt rrt arbt : core.
-Local Hint Extern 0 (notred _) => (exact I) : core.
+#[local] Hint Constructors rbt rrt arbt : core.
+#[local] Hint Extern 0 (notred _) => (exact I) : core.
 Ltac invrb := intros; invtree rrt; invtree rbt; try contradiction.
 Ltac desarb := match goal with H:arbt _ _ |- _ => destruct H end.
 Ltac nonzero n := destruct n as [|n]; [try split; invrb|].
@@ -1538,7 +1538,7 @@ Proof.
  destruct l, r; descolor; invrb; auto.
 Qed.
 
-Local Hint Resolve rr_nrr_rb : core.
+#[local] Hint Resolve rr_nrr_rb : core.
 
 Lemma arb_nrr_rb n t :
  arbt n t -> notredred t -> rbt n t.
@@ -1552,7 +1552,7 @@ Proof.
  destruct 1; destruct t; descolor; invrb; auto.
 Qed.
 
-Local Hint Resolve arb_nrr_rb arb_nr_rb : core.
+#[local] Hint Resolve arb_nrr_rb arb_nr_rb : core.
 
 (** ** A Red-Black tree has indeed a logarithmic depth *)
 

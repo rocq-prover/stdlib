@@ -19,7 +19,7 @@
 From Stdlib Require Import BinPos BinInt Decidable Zcompare.
 From Stdlib Require Import Arith_base. (* Useless now, for compatibility only *)
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (*********************************************************)
 (** Properties of the order relations on binary integers *)

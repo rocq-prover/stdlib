@@ -17,7 +17,7 @@ From Stdlib Require Import MSetInterface.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with typeclass_instances.
+#[local] Ltac Tauto.intuition_solver ::= auto with typeclass_instances.
 
 (** * Functions over lists
 
