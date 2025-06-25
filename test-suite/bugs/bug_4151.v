@@ -11,8 +11,8 @@ Tactic Notation "admit" := case proof_admitted.
 From Stdlib Require Import SetoidList.
 Import ListNotations.
 
-Global Set Implicit Arguments.
-Global Set Asymmetric Patterns.
+#[global] Set Implicit Arguments.
+#[global] Set Asymmetric Patterns.
 
 Fixpoint combine_sig_helper {T} {P : T -> Prop} (ls : list T) : (forall x, In x ls -> P x) -> list (sig P).
   admit.
@@ -128,8 +128,8 @@ Module Export BaseTypes.
   | include_production (_ : production CharType)
   | include_productions (_ : productions CharType)
   | include_nonterminal (_ : string).
-  Global Coercion include_item : item >-> any_grammar.
-  Global Coercion include_production : production >-> any_grammar.
+  #[global] Coercion include_item : item >-> any_grammar.
+  #[global] Coercion include_production : production >-> any_grammar.
 
   Section recursive_descent_parser.
     Context {CharType : Type}

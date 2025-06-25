@@ -74,7 +74,7 @@ Bind Scope pred with pred.
 Definition app_pred {A} `{ageable A} (p:pred A) : A -> Prop := proj1_sig p.
 Definition pred_hereditary `{ageable} (p:pred A) := proj2_sig p.
 Coercion app_pred : pred >-> Funclass.
-Global Opaque pred.
+#[global] Opaque pred.
 
 Definition derives {A} `{ageable A} (P Q:pred A) := forall a:A, P a -> Q a.
 Arguments derives : default implicits.

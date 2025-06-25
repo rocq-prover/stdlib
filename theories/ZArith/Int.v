@@ -148,7 +148,7 @@ Module MoreInt (Import I:Int).
   (** A magic (but costly) tactic that goes from [int] back to the [Z]
       friendly world ... *)
 
-  Global Hint Rewrite ->
+  #[global] Hint Rewrite ->
     i2z_0 i2z_1 i2z_2 i2z_3 i2z_add i2z_opp i2z_sub i2z_mul i2z_max
     i2z_eqb i2z_ltb i2z_leb : i2z.
 

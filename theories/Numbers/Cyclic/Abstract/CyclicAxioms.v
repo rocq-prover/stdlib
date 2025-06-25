@@ -349,7 +349,7 @@ Definition eq (n m : t) := [| n |] = [| m |].
 #[local] Infix "*" := ZnZ.mul.
 #[local] Notation wB := (base ZnZ.digits).
 
-Global Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_add ZnZ.spec_mul
+#[global] Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_add ZnZ.spec_mul
  ZnZ.spec_opp ZnZ.spec_sub
  : cyclic.
 

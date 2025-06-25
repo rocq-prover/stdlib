@@ -193,7 +193,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
       rewrite <- mem_spec; auto; congruence.
   Qed.
 
-  Global Instance isok_Ok l : isok l = true -> Ok l | 10.
+  #[global] Instance isok_Ok l : isok l = true -> Ok l | 10.
   Proof.
   intros. apply <- isok_iff; auto.
   Qed.
@@ -209,7 +209,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
     + inv; auto.
   Qed.
 
-  Global Instance add_ok s x `(Ok s) : Ok (add x s).
+  #[global] Instance add_ok s x `(Ok s) : Ok (add x s).
   Proof.
   induction s.
   - simpl; intuition.
@@ -232,7 +232,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
     + elim Hnot. eauto.
   Qed.
 
-  Global Instance remove_ok s x `(Ok s) : Ok (remove x s).
+  #[global] Instance remove_ok s x `(Ok s) : Ok (remove x s).
   Proof.
   induction s; simpl; intros.
   - auto.
@@ -288,7 +288,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
   reflexivity.
   Qed.
 
-  Global Instance union_ok : forall s s' `(Ok s, Ok s'), Ok (union s s').
+  #[global] Instance union_ok : forall s s' `(Ok s, Ok s'), Ok (union s s').
   Proof.
   induction s; simpl; auto; intros; inv; unfold flip; auto with *.
   Qed.
@@ -302,7 +302,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
   - rewrite IHs, add_spec, InA_cons; intuition.
   Qed.
 
-  Global Instance inter_ok s s' `(Ok s, Ok s') : Ok (inter s s').
+  #[global] Instance inter_ok s s' `(Ok s, Ok s') : Ok (inter s s').
   Proof.
   unfold inter, fold, flip.
   set (acc := nil (A:=elt)).
@@ -336,7 +336,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
         rewrite H2, <- mem_spec in H3; auto. congruence.
   Qed.
 
-  Global Instance diff_ok : forall s s' `(Ok s, Ok s'), Ok (diff s s').
+  #[global] Instance diff_ok : forall s s' `(Ok s, Ok s'), Ok (diff s s').
   Proof.
   unfold diff; intros s s'; revert s.
   induction s'; simpl; unfold flip; auto; intros. inv; auto with *.
@@ -417,7 +417,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
     + setoid_replace a with x in E; auto. congruence.
   Qed.
 
-  Global Instance filter_ok s f `(Ok s) : Ok (filter f s).
+  #[global] Instance filter_ok s f `(Ok s) : Ok (filter f s).
   Proof.
   induction s; simpl.
   - auto.
@@ -507,7 +507,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
   inversion_clear H; auto.
   Qed.
 
-  Global Instance partition_ok1 : forall s f `(Ok s), Ok (fst (partition f s)).
+  #[global] Instance partition_ok1 : forall s f `(Ok s), Ok (fst (partition f s)).
   Proof.
   simple induction s; simpl.
   - auto.
@@ -517,7 +517,7 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
     case (f x); case (partition f l); simpl; constructors; auto.
   Qed.
 
-  Global Instance partition_ok2 : forall s f `(Ok s), Ok (snd (partition f s)).
+  #[global] Instance partition_ok2 : forall s f `(Ok s), Ok (snd (partition f s)).
   Proof.
   simple induction s; simpl.
   - auto.

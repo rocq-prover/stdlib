@@ -1376,7 +1376,7 @@ Proof.
   intros; apply map_ext_in; auto.
 Qed.
 
-Global Instance Proper_map {A B} :
+#[global] Instance Proper_map {A B} :
   Proper (pointwise_relation _ eq ==> eq ==> eq) (@map A B).
 Proof. repeat intro; subst; auto using map_ext. Qed.
 
@@ -3973,7 +3973,7 @@ Ltac invlist f :=
 (** * Exporting hints and tactics *)
 
 
-Global Hint Rewrite
+#[global] Hint Rewrite
   rev_involutive (* rev (rev l) = l *)
   rev_unit (* rev (l ++ a :: nil) = a :: rev l *)
   map_nth (* nth n (map f l) (f d) = f (nth n l d) *)

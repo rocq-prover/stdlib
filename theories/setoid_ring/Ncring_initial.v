@@ -198,7 +198,7 @@ Lemma gen_phiZ_opp : forall x, [- x] == - [x].
 
 Declare Equivalent Keys bracket gen_phiZ.
 (*proof that [.] satisfies morphism specifications*)
-Global Instance gen_phiZ_morph :
+#[global] Instance gen_phiZ_morph :
 (@Ring_morphism (Z:Type) R _ _ _ _ _ _ _ Zops Zr _ _ _ _ _ _ _ _ _ gen_phiZ) . (* beurk!*)
  apply Build_Ring_morphism; simpl;try reflexivity.
 - apply gen_phiZ_add.

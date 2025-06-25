@@ -2,8 +2,8 @@ Require Import TestSuite.admit.
 (* File reduced by coq-bug-finder from original input, then from 716 lines to 197 lines, then from 206 lines to 162 lines, then from 163 lines to 73 lines *)
 From Stdlib Require Import Ensembles.
 From Stdlib Require Import String.
-Global Set Implicit Arguments.
-Global Set Asymmetric Patterns.
+#[global] Set Implicit Arguments.
+#[global] Set Asymmetric Patterns.
 Ltac clearbodies := repeat match goal with | [ H := _ |- _ ] => clearbody H end.
 
 Inductive Comp : Type -> Type :=

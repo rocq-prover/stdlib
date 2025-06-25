@@ -266,7 +266,7 @@ Proof.
 Qed.
 
 (** {2 Specification and proof} **)
-Global Instance int_specs : ZnZ.Specs int_ops := {
+#[global] Instance int_specs : ZnZ.Specs int_ops := {
     spec_to_Z   := to_Z_bounded;
     spec_of_pos := positive_to_int_spec;
     spec_zdigits := refl_equal _;

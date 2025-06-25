@@ -361,7 +361,7 @@ Tactic Notation "non_commutative_ring_simplify" constr(lterm) "in" ident(H):=
 Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
 Arguments list_reifyl {R lvar lterm _}.
 
-Global Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
+#[global] Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
   let rr := constr:(_ :> Ring (T:=T)) in
   let reif := list_reifyl rr lvar lterm in
   exact reif

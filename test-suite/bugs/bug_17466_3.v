@@ -88,7 +88,7 @@ Module Export word.
     sextend: Z -> rep -> rep;
   }.
   Arguments word : clear implicits.
-  Global Hint Mode word + : typeclass_instances.
+  #[global] Hint Mode word + : typeclass_instances.
   #[local] Hint Mode word - : typeclass_instances.
 
   Class ok {width} {word : word width}: Prop := {
@@ -130,7 +130,7 @@ Module Export word.
   }.
   Arguments ok {_} _.
 End word.
-Global Coercion word.rep : word >-> Sortclass.
+#[global] Coercion word.rep : word >-> Sortclass.
 
 Class Bitwidth(width: Z): Prop := {
   width_cases: width = 32%Z \/ width = 64%Z
@@ -237,7 +237,7 @@ Module Export map.
   }.
   Arguments map : clear implicits.
 
-  Global Coercion map.rep : map >-> Sortclass.
+  #[global] Coercion map.rep : map >-> Sortclass.
 Import Stdlib.Strings.String.
 
 Section Machine.

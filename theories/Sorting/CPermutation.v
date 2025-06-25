@@ -204,7 +204,7 @@ End CPermutation_properties.
 
 (** [rev], [in], [map], [Forall], [Exists], etc. *)
 
-Global Instance CPermutation_rev A :
+#[global] Instance CPermutation_rev A :
   Proper (@CPermutation A ==> @CPermutation A) (@rev A) | 10.
 Proof.
 intro l; induction l; intros l' HC.
@@ -215,18 +215,18 @@ intro l; induction l; intros l' HC.
   now rewrite <- app_assoc.
 Qed.
 
-Global Instance CPermutation_in A a :
+#[global] Instance CPermutation_in A a :
   Proper (@CPermutation A ==> Basics.impl) (In a).
 Proof.
 intros l l' HC Hin.
 now apply Permutation_in with l; [ apply CPermutation_Permutation | ].
 Qed.
 
-Global Instance CPermutation_in' A :
+#[global] Instance CPermutation_in' A :
   Proper (Logic.eq ==> @CPermutation A ==> iff) (@In A) | 10.
 Proof. intros a a' <- l l' HC; split; now apply CPermutation_in. Qed.
 
-Global Instance CPermutation_map A B (f : A -> B) :
+#[global] Instance CPermutation_map A B (f : A -> B) :
    Proper (@CPermutation A ==> @CPermutation B) (map f) | 10.
 Proof. now intros ? ? [l1 l2]; rewrite 2 map_app. Qed.
 

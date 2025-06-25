@@ -17,9 +17,9 @@ Module Common.
 Import Stdlib.Lists.List.
 Export Program.
 
-Global Set Implicit Arguments.
+#[global] Set Implicit Arguments.
 
-Global Coercion is_true : bool >-> Sortclass.
+#[global] Coercion is_true : bool >-> Sortclass.
 Coercion bool_of_sum {A B} (b : sum A B) : bool := if b then true else false.
 
 Fixpoint ForallT {T} (P : T -> Type) (ls : list T) : Type
@@ -92,7 +92,7 @@ Module Export StringLike.
       take_drop : forall str n m, take n (drop m str) =s drop m (take (n + m) str);
       bool_eq_from_get : forall str str', (forall n, get n str = get n str') -> str =s str'
     }.
-Global Arguments StringLikeProperties _ {_}.
+#[global] Arguments StringLikeProperties _ {_}.
 End StringLike.
 
 End Core.

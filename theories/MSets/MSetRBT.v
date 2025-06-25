@@ -657,7 +657,7 @@ Proof.
  destruct (rbal'_match l x r); ok.
 Qed.
 
-Global Hint Rewrite In_node_iff In_leaf_iff
+#[global] Hint Rewrite In_node_iff In_leaf_iff
  makeRed_spec makeBlack_spec lbal_spec rbal_spec rbal'_spec : rb.
 
 Ltac descolor := destruct_all Color.t.
@@ -676,7 +676,7 @@ Proof.
  - descolor; autorew; rewrite IHl; intuition_in.
  - descolor; autorew; rewrite IHr; intuition_in.
 Qed.
-Global Hint Rewrite ins_spec : rb.
+#[global] Hint Rewrite ins_spec : rb.
 
 #[global]
 Instance ins_ok s x `{Ok s} : Ok (ins x s).
@@ -692,7 +692,7 @@ Proof.
  unfold add. now autorew.
 Qed.
 
-Global Hint Rewrite add_spec' : rb.
+#[global] Hint Rewrite add_spec' : rb.
 
 Lemma add_spec s x y `{Ok s} :
  InT y (add x s) <-> X.eq y x \/ InT y s.
@@ -764,7 +764,7 @@ Proof.
    * ok. apply lbal_ok; ok.
 Qed.
 
-Global Hint Rewrite lbalS_spec rbalS_spec : rb.
+#[global] Hint Rewrite lbalS_spec rbalS_spec : rb.
 
 (** ** Append for deletion *)
 
@@ -817,7 +817,7 @@ Proof.
     [intros a y b | intros t Ht]; autorew; tauto.
 Qed.
 
-Global Hint Rewrite append_spec : rb.
+#[global] Hint Rewrite append_spec : rb.
 
 Lemma append_ok : forall x l r `{Ok l, Ok r},
  lt_tree x l -> gt_tree x r -> Ok (append l r).
@@ -871,7 +871,7 @@ induct s x.
   rewrite ?IHr by trivial; intuition_in; order.
 Qed.
 
-Global Hint Rewrite del_spec : rb.
+#[global] Hint Rewrite del_spec : rb.
 
 #[global]
 Instance del_ok s x `{Ok s} : Ok (del x s).
@@ -893,7 +893,7 @@ Proof.
 unfold remove. now autorew.
 Qed.
 
-Global Hint Rewrite remove_spec : rb.
+#[global] Hint Rewrite remove_spec : rb.
 
 #[global]
 Instance remove_ok s x `{Ok s} : Ok (remove x s).

@@ -34,8 +34,8 @@ Inductive expr Name : Type :=
 | LetIn : Name -> expr Name -> expr Name -> expr Name.
 End Named.
 
-Global Arguments Const {_}.
-Global Arguments LetIn {_} _ _ _.
+#[global] Arguments Const {_}.
+#[global] Arguments LetIn {_} _ _ _.
 
 Definition split_onames {Name : Type} (ls : list (option Name))
   : option (Name) * list (option Name)
@@ -72,12 +72,12 @@ Section internal.
 
 End internal.
 
-Global Instance pos_context (var : Type) : Context positive var
+#[global] Instance pos_context (var : Type) : Context positive var
   := { ContextT := PositiveMap.t var;
        extendb ctx key v := PositiveMap.add key v ctx;
        empty := PositiveMap.empty _ }.
 
-Global Arguments register_reassign {_ _ _ _} ctxi ctxr e _.
+#[global] Arguments register_reassign {_ _ _ _} ctxi ctxr e _.
 
 Section language5.
   Context (Name : Type).
@@ -100,7 +100,7 @@ Section language5.
   Definition compile (e : expr) (ls : list Name) := @ocompile e (List.map (@Some _) ls).
 End language5.
 
-Global Arguments compile {_} e ls.
+#[global] Arguments compile {_} e ls.
 
 Fixpoint merge_liveness (ls1 ls2 : list unit) :=
   match ls1, ls2 with
@@ -144,7 +144,7 @@ Section internal1.
     := insert_dead_names_gen def (compute_liveness empty e nil).
 End internal1.
 
-Global Arguments insert_dead_names {_ _ _} def e lsn.
+#[global] Arguments insert_dead_names {_ _ _} def e lsn.
 
 Definition Let_In {A P} (x : A) (f : forall a : A, P a) : P x := let y := x in f y.
 
@@ -163,7 +163,7 @@ Section language7.
        end.
 End language7.
 
-Global Arguments CompileAndEliminateDeadCode {_} e ls.
+#[global] Arguments CompileAndEliminateDeadCode {_} e ls.
 
 Definition ContextOn {Name1 Name2} f {var} (Ctx : Context Name1 var) : Context Name2 var
   := {| ContextT := Ctx;
@@ -172,7 +172,7 @@ Definition ContextOn {Name1 Name2} f {var} (Ctx : Context Name1 var) : Context N
 
 Definition Register := Datatypes.unit.
 
-Global Instance RegisterContext {var : Type} : Context Register var
+#[global] Instance RegisterContext {var : Type} : Context Register var
   := ContextOn (fun _ => 1%positive) (pos_context var).
 
 Definition syntax := Named.expr Register.

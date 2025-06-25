@@ -311,7 +311,7 @@ End Completeness.
 
 (* For reflexivity purposes, that would better be transparent *)
 
-Global Transparent decide poly_add.
+#[global] Transparent decide poly_add.
 
 (* Ltac append_var x l k :=
 match l with

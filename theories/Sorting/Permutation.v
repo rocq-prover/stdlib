@@ -129,7 +129,7 @@ Proof.
   intros l l' x Hperm; induction Hperm; simpl; tauto.
 Qed.
 
-Global Instance Permutation_in' :
+#[global] Instance Permutation_in' :
  Proper (Logic.eq ==> @Permutation A ==> iff) (@In A).
 Proof.
   repeat red; intros; subst; eauto using Permutation_in.
@@ -259,7 +259,7 @@ Proof.
   induction l as [| x l]; simpl; trivial. now rewrite IHl at 1.
 Qed.
 
-Global Instance Permutation_rev' :
+#[global] Instance Permutation_rev' :
  Proper (@Permutation A ==> @Permutation A) (@rev A).
 Proof.
   repeat intro; now rewrite <- 2 Permutation_rev.
@@ -271,13 +271,13 @@ Proof.
   intros l l' Hperm; induction Hperm; simpl; auto. now transitivity (length l').
 Qed.
 
-Global Instance Permutation_length' :
+#[global] Instance Permutation_length' :
  Proper (@Permutation A ==> Logic.eq) (@length A) | 10.
 Proof.
   exact Permutation_length.
 Qed.
 
-Global Instance Permutation_Forall (P : A -> Prop) :
+#[global] Instance Permutation_Forall (P : A -> Prop) :
  Proper ((@Permutation A) ==> Basics.impl) (Forall P).
 Proof.
   intros l1 l2 HP.
@@ -287,7 +287,7 @@ Proof.
     inversion_clear HF2; auto.
 Qed.
 
-Global Instance Permutation_Exists (P : A -> Prop) :
+#[global] Instance Permutation_Exists (P : A -> Prop) :
  Proper ((@Permutation A) ==> Basics.impl) (Exists P).
 Proof.
   intros l1 l2 HP.
@@ -522,7 +522,7 @@ Proof.
    + constructor; intuition.
 Qed.
 
-Global Instance Permutation_NoDup' :
+#[global] Instance Permutation_NoDup' :
  Proper (@Permutation A ==> iff) (@NoDup A).
 Proof.
   repeat red; eauto using Permutation_NoDup.
@@ -630,7 +630,7 @@ Proof.
  induction 1; simpl; eauto.
 Qed.
 
-Global Instance Permutation_map' :
+#[global] Instance Permutation_map' :
   Proper (@Permutation A ==> @Permutation B) (map f).
 Proof.
   exact Permutation_map.
@@ -676,7 +676,7 @@ Proof.
   now contradiction (Hf x).
 Qed.
 
-Global Instance Permutation_flat_map (g : A -> list B) :
+#[global] Instance Permutation_flat_map (g : A -> list B) :
  Proper ((@Permutation A) ==> (@Permutation B)) (flat_map g).
 Proof.
   intros l1; induction l1; intros l2 HP.
@@ -835,7 +835,7 @@ Proof.
   now apply (perm_t_trans IHHP2).
 Qed.
 
-Global Instance Permutation_transp_equiv : Equivalence Permutation_transp | 100.
+#[global] Instance Permutation_transp_equiv : Equivalence Permutation_transp | 100.
 Proof.
   split.
   - intros l; apply perm_t_refl.

@@ -96,7 +96,7 @@ Module Import Z.
   Lemma sum_concat l : sum (concat l) = sum (map Z.sum l).
   Proof. induction l; cbn [map sum fold_right concat]; rewrite ?sum_app; lia. Qed.
 
-  Global Instance Proper_sum_Permutation : Proper (@Permutation Z ==> eq) sum.
+  #[global] Instance Proper_sum_Permutation : Proper (@Permutation Z ==> eq) sum.
   Proof. induction 1; cbn [sum fold_right]; lia. Qed.
 
   Lemma sum_map_swap_indep {A B} (f : A -> B -> Z) l l' :

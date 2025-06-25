@@ -2,7 +2,7 @@ From Stdlib Require Export Morphisms RelationClasses List Bool Utf8 Setoid.
 Set Default Proof Using "Type".
 Export ListNotations.
 From Stdlib.Program Require Export Basics Syntax.
-Global Generalizable All Variables.
+#[global] Generalizable All Variables.
 
 (** * Type classes *)
 (** ** Decidable propositions *)

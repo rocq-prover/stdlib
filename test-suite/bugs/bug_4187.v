@@ -9,8 +9,8 @@ From Stdlib Require Import List.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import BinNat.
 From Stdlib Require Import Sumbool.
-Global Set Implicit Arguments.
-Global Generalizable All Variables.
+#[global] Set Implicit Arguments.
+#[global] Generalizable All Variables.
 Coercion is_true : bool >-> Sortclass.
 Coercion bool_of_sumbool {A B} (x : {A} + {B}) : bool := if x then true else false.
 Fixpoint ForallT {T} (P : T -> Type) (ls : list T) : Type
@@ -346,7 +346,7 @@ Section general.
       split_string_for_production
       : item Char -> production Char -> String -> list nat }.
 
-  Global Coercion predata : boolean_parser_dataT >-> parser_computational_predataT.
+  #[global] Coercion predata : boolean_parser_dataT >-> parser_computational_predataT.
 
   Definition split_list_completeT `{data : @parser_computational_predataT}
              {str0 valid}
@@ -580,7 +580,7 @@ Defined.
     apply well_founded_ltof.
   Defined.
 
-  Global Instance rdp_list_predata : parser_computational_predataT
+  #[global] Instance rdp_list_predata : parser_computational_predataT
     := { nonterminals_listT := rdp_list_nonterminals_listT;
          initial_nonterminals_data := Valid_nonterminals G;
          is_valid_nonterminal := rdp_list_is_valid_nonterminal;
@@ -657,7 +657,7 @@ Defined.
                               split_list_is_complete str it its (splits_for str it its)
 
     }.
-  Global Existing Instance string_type_properties.
+  #[global] Existing Instance string_type_properties.
 
   Record Parser (HSL : StringLike Char) :=
     {

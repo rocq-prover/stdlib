@@ -45,7 +45,7 @@ Definition RelCompFun {A} {B : Type}(R:relation B)(f:A->B) : relation A :=
  fun a a' => R (f a) (f a').
 
 (** Instances on RelCompFun must match syntactically *)
-Global Typeclasses Opaque RelCompFun.
+#[global] Typeclasses Opaque RelCompFun.
 
 Infix "@@" := RelCompFun (at level 30, right associativity) : signature_scope.
 
@@ -72,33 +72,33 @@ Instance snd_measure {A B} : @Measure (A * B) B Snd := {}.
 Definition RelProd {A : Type} {B : Type} (RA:relation A)(RB:relation B) : relation (A*B) :=
  relation_conjunction (@RelCompFun (A * B) A RA fst) (RB @@2).
 
-Global Typeclasses Opaque RelProd.
+#[global] Typeclasses Opaque RelProd.
 
 Infix "*" := RelProd : signature_scope.
 
 Section RelCompFun_Instances.
   Context {A : Type} {B : Type} (R : relation B).
 
-  Global Instance RelCompFun_Reflexive
+  #[global] Instance RelCompFun_Reflexive
     `(Measure A B f, Reflexive _ R) : Reflexive (R@@f).
   Proof. firstorder. Qed.
 
-  Global Instance RelCompFun_Symmetric
+  #[global] Instance RelCompFun_Symmetric
     `(Measure A B f, Symmetric _ R) : Symmetric (R@@f).
   Proof. firstorder. Qed.
 
-  Global Instance RelCompFun_Transitive
+  #[global] Instance RelCompFun_Transitive
     `(Measure A B f, Transitive _ R) : Transitive (R@@f).
   Proof. firstorder. Qed.
 
-  Global Instance RelCompFun_Irreflexive
+  #[global] Instance RelCompFun_Irreflexive
     `(Measure A B f, Irreflexive _ R) : Irreflexive (R@@f).
   Proof. firstorder. Qed.
 
-  Global Instance RelCompFun_Equivalence
+  #[global] Instance RelCompFun_Equivalence
     `(Measure A B f, Equivalence _ R) : Equivalence (R@@f) := {}.
 
-  Global Instance RelCompFun_StrictOrder
+  #[global] Instance RelCompFun_StrictOrder
     `(Measure A B f, StrictOrder _ R) : StrictOrder (R@@f) := {}.
 
 End RelCompFun_Instances.
@@ -107,18 +107,18 @@ Section RelProd_Instances.
 
   Context {A : Type} {B : Type} (RA : relation A) (RB : relation B).
 
-  Global Instance RelProd_Reflexive `(Reflexive _ RA, Reflexive _ RB) : Reflexive (RA*RB).
+  #[global] Instance RelProd_Reflexive `(Reflexive _ RA, Reflexive _ RB) : Reflexive (RA*RB).
   Proof. firstorder. Qed.
 
-  Global Instance RelProd_Symmetric `(Symmetric _ RA, Symmetric _ RB)
+  #[global] Instance RelProd_Symmetric `(Symmetric _ RA, Symmetric _ RB)
   : Symmetric (RA*RB).
   Proof. firstorder. Qed.
 
-  Global Instance RelProd_Transitive
+  #[global] Instance RelProd_Transitive
            `(Transitive _ RA, Transitive _ RB) : Transitive (RA*RB).
   Proof. firstorder. Qed.
 
-  Global Program Instance RelProd_Equivalence
+  #[global] Program Instance RelProd_Equivalence
           `(Equivalence _ RA, Equivalence _ RB) : Equivalence (RA*RB).
 
   Lemma FstRel_ProdRel :
@@ -129,31 +129,31 @@ Section RelProd_Instances.
     relation_equivalence (RB @@2) ((fun _ _ : A =>True) * RB).
   Proof. firstorder. Qed.
 
-  Global Instance FstRel_sub :
+  #[global] Instance FstRel_sub :
     subrelation (RA*RB) (RA @@1).
   Proof. firstorder. Qed.
 
-  Global Instance SndRel_sub :
+  #[global] Instance SndRel_sub :
     subrelation (RA*RB) (RB @@2).
   Proof. firstorder. Qed.
 
-  Global Instance pair_compat :
+  #[global] Instance pair_compat :
     Proper (RA==>RB==> RA*RB) (@pair _ _).
   Proof. firstorder. Qed.
 
-  Global Instance fst_compat :
+  #[global] Instance fst_compat :
     Proper (RA*RB ==> RA) Fst.
   Proof.
     intros (x,y) (x',y') (Hx,Hy); compute in *; auto.
   Qed.
 
-  Global Instance snd_compat :
+  #[global] Instance snd_compat :
     Proper (RA*RB ==> RB) Snd.
   Proof.
     intros (x,y) (x',y') (Hx,Hy); compute in *; auto.
   Qed.
 
-  Global Instance RelCompFun_compat (f:A->B)
+  #[global] Instance RelCompFun_compat (f:A->B)
            `(Proper _ (Ri==>Ri==>Ro) RB) :
     Proper (Ri@@f==>Ri@@f==>Ro) (RB@@f)%signature.
   Proof. unfold RelCompFun; firstorder. Qed.

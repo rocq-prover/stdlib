@@ -1,7 +1,7 @@
 Require Import TestSuite.admit.
 From Stdlib Require Import Morphisms RelationClasses Program Setoid.
 
-Global Set Implicit Arguments.
+#[global] Set Implicit Arguments.
 
 #[export] Hint Extern 0 => apply reflexivity : typeclass_instances.
 
@@ -12,7 +12,7 @@ Axiom computes_to : forall A, Comp A -> A -> Prop.
 
 Axiom refine : forall {A} (old : Comp A) (new : Comp A), Prop.
 
-Global Instance refine_PreOrder A : PreOrder (@refine A).
+#[global] Instance refine_PreOrder A : PreOrder (@refine A).
 Admitted.
 Add Parametric Morphism A
 : (@Pick A)
