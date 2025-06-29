@@ -46,7 +46,7 @@ Module Type NZPowProp
  (Import B : NZPow' A)
  (Import C : NZMulOrderProp A).
 
-Global Hint Rewrite pow_0_r pow_succ_r : nz.
+#[global] Hint Rewrite pow_0_r pow_succ_r : nz.
 
 (** Power and basic constants *)
 
@@ -77,14 +77,14 @@ Proof.
   - now nzsimpl.
 Qed.
 
-Global Hint Rewrite pow_1_r pow_1_l : nz.
+#[global] Hint Rewrite pow_1_r pow_1_l : nz.
 
 Lemma pow_2_r : forall a, a^2 == a*a.
 Proof.
  intros. rewrite two_succ. nzsimpl; order'.
 Qed.
 
-Global Hint Rewrite pow_2_r : nz.
+#[global] Hint Rewrite pow_2_r : nz.
 
 (** Power and nullity *)
 

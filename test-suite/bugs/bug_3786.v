@@ -2,7 +2,7 @@ Require Import TestSuite.admit.
 From Stdlib Require List.
 From Stdlib Require Ensembles.
 Import Stdlib.Sets.Ensembles.
-Global Set Implicit Arguments.
+#[global] Set Implicit Arguments.
 Delimit Scope comp_scope with comp.
 Inductive Comp : Type -> Type :=
 | Return : forall A, A -> Comp A

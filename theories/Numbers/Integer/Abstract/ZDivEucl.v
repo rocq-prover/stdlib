@@ -52,7 +52,7 @@ Module ZEuclidProp
  Declare Scope euclid.
  Infix "/" := D.div : euclid.
  Infix "mod" := D.modulo : euclid.
- Local Open Scope euclid.
+ #[local] Open Scope euclid.
 
  Module Import Private_NZDiv := Nop <+ NZDivProp A D B.
 

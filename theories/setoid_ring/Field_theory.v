@@ -22,7 +22,7 @@ Variable R:Type.
 Declare Scope R_scope.
 Bind Scope R_scope with R.
 Delimit Scope R_scope with ring.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R->R).
 Variable (rdiv : R->R->R) (rinv : R->R).
@@ -554,7 +554,7 @@ Qed.
 
   ***************************************************************************)
 
-Local Notation "a &&& b" := (if a then b else false)
+#[local] Notation "a &&& b" := (if a then b else false)
  (at level 40, left associativity).
 
 (* equality test *)

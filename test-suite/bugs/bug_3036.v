@@ -42,7 +42,7 @@ Definition heap := ptr -> option hval.
 
 Bind Scope heap_scope with heap.
 Delimit Scope heap_scope with heap.
-Local Open Scope heap_scope.
+#[local] Open Scope heap_scope.
 
 Definition read (h : heap) (p : ptr) : option hval := h p.
 
@@ -99,7 +99,7 @@ Definition hprop_ex T (p : T -> hprop) : hprop := fun h => exists v, p v h.
 Notation "'Exists' v :@ T , p" := (hprop_ex (fun v : T => p%hprop))
   (at level 90, T at next level) : hprop_scope.
 
-Local Open Scope hprop_scope.
+#[local] Open Scope hprop_scope.
 Definition disjoint (h1 h2 : heap) : Prop :=
   forall p,
     match h1#p with

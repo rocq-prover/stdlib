@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import BinInt Ring_theory.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** * Power functions over [Z] *)
 

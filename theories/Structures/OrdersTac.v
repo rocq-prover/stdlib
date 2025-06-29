@@ -39,7 +39,7 @@ Definition trans_ord o o' :=
  | OLE, OLE => OLE
  | _, _ => OLT
  end.
-Local Infix "+" := trans_ord.
+#[local] Infix "+" := trans_ord.
 
 
 (** ** The tactic requirements : a total order
@@ -98,7 +98,7 @@ Ltac subst_eqns :=
 
 Definition interp_ord o :=
  match o with OEQ => O.eq | OLT => O.lt | OLE => O.le end.
-Local Notation "#" := interp_ord.
+#[local] Notation "#" := interp_ord.
 
 Lemma trans o o' x y z : #o x y -> #o' y z -> #(o+o') x z.
 Proof.

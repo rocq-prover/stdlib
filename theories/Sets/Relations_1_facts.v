@@ -28,7 +28,7 @@
 
 From Stdlib Require Export Relations_1.
 
-Local Ltac Tauto.intuition_solver ::= auto with sets.
+#[local] Ltac Tauto.intuition_solver ::= auto with sets.
 
 Definition Complement (U:Type) (R:Relation U) : Relation U :=
   fun x y:U => ~ R x y.

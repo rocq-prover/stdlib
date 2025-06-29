@@ -1,5 +1,5 @@
 Require Import BinInt Zdiv Zdiv_facts PreOmega Lia Wf_Z ZArith_dec.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z.
 
@@ -40,7 +40,7 @@ Proof. intros; apply omod_small_iff; auto 3. Qed.
 Lemma omod_0_r d a : Z.omodulo d a 0 = a.
 Proof. intros; apply omod_small_iff; auto 3. Qed.
 
-Local Ltac t := cbv [Z.omodulo]; repeat rewrite
+#[local] Ltac t := cbv [Z.omodulo]; repeat rewrite
   ?Zplus_mod_idemp_l, ?Zplus_mod_idemp_r, ?Zminus_mod_idemp_l, ?Zminus_mod_idemp_r, ?Z.add_simpl_r, ?Zmod_mod;
   try solve [trivial | lia | f_equal; lia].
 

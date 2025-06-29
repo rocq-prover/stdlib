@@ -18,7 +18,7 @@ From Stdlib Require Import Decidable.
 From Stdlib Require Import Peano_dec.
 From Stdlib Require Export Compare_dec.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (***************************************************************)
 (** * Moving terms from one side to the other of an inequality *)

@@ -11,7 +11,7 @@
 (** * Type [Z] viewed modulo [2^d] implements CyclicAxioms. *)
 
 (** This library has been deprecated since Coq version 8.17. *)
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated".
 
 (** Even if the construction provided here is not reused for building
   the efficient arbitrary precision numbers, it provides a simple
@@ -27,7 +27,7 @@ From Stdlib Require Import DoubleType.
 From Stdlib Require Import CyclicAxioms.
 From Stdlib Require Import Lia.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Section ZModulo.
 

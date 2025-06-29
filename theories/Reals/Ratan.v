@@ -24,8 +24,8 @@ From Stdlib Require Import PartSum.
 From Stdlib Require Import Lia.
 From Stdlib Require Import Znat.
 
-Local Open Scope R_scope.
-Local Ltac Tauto.intuition_solver ::= auto with rorders real arith.
+#[local] Open Scope R_scope.
+#[local] Ltac Tauto.intuition_solver ::= auto with rorders real arith.
 
 (*********************************************************)
 (** * Preliminaries                                      *)

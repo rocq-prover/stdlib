@@ -396,7 +396,7 @@ Hint Resolve app_eq_unit app_inj_tail: datatypes.
 Hint Resolve in_eq in_cons in_inv in_nil in_app_or in_or_app: datatypes.
 
 (* XXX declare datatypes db and move to top of file *)
-Local Ltac Tauto.intuition_solver ::= auto with datatypes.
+#[local] Ltac Tauto.intuition_solver ::= auto with datatypes.
 
 
 
@@ -412,7 +412,7 @@ Section Elts.
   (** ** Nth element of a list *)
   (*****************************)
 
-  Local Notation nth := (@nth A).
+  #[local] Notation nth := (@nth A).
 
   Fixpoint nth_ok (n:nat) (l:list A) (default:A) {struct l} : bool :=
     match n, l with
@@ -1167,7 +1167,7 @@ Section Map.
   Variables (A : Type) (B : Type).
   Variable f : A -> B.
 
-  Local Notation map := (@map A B f).
+  #[local] Notation map := (@map A B f).
 
   Lemma map_cons (x:A)(l:list A) : map (x::l) = (f x) :: (map l).
   Proof.
@@ -1376,7 +1376,7 @@ Proof.
   intros; apply map_ext_in; auto.
 Qed.
 
-Global Instance Proper_map {A B} :
+#[global] Instance Proper_map {A B} :
   Proper (pointwise_relation _ eq ==> eq ==> eq) (@map A B).
 Proof. repeat intro; subst; auto using map_ext. Qed.
 
@@ -2182,8 +2182,8 @@ Section Cutting.
 
   Variable A : Type.
 
-  Local Notation firstn := (@firstn A).
-  Local Notation skipn := (@skipn A).
+  #[local] Notation firstn := (@firstn A).
+  #[local] Notation skipn := (@skipn A).
 
   Lemma firstn_nil n: firstn n [] = [].
   Proof. induction n; now simpl. Qed.
@@ -2925,7 +2925,7 @@ Section Compare.
   Variable A : Type.
   Variable cmp : A -> A -> comparison.
 
-  Local Notation list_compare := (@list_compare A cmp).
+  #[local] Notation list_compare := (@list_compare A cmp).
 
   Section Lemmas.
 
@@ -3195,7 +3195,7 @@ Section Exists_Forall.
     #[local]
     Hint Constructors Forall : core.
 
-    Local Notation Forall := (@Forall A P).
+    #[local] Notation Forall := (@Forall A P).
 
     Lemma Forall_inv : forall (a:A) l, Forall (a :: l) -> P a.
     Proof.
@@ -3291,7 +3291,7 @@ Section Exists_Forall.
     Qed.
 
   End One_predicate.
-  Local Notation Forall := (@Forall A).
+  #[local] Notation Forall := (@Forall A).
 
   Lemma map_ext_Forall B : forall (f g : A -> B) l,
     Forall (fun x => f x = g x) l -> map f l = map g l.
@@ -3684,7 +3684,7 @@ Section Repeat.
 
   Variable A : Type.
 
-  Local Notation repeat := (@repeat A).
+  #[local] Notation repeat := (@repeat A).
 
   Theorem repeat_length x n:
     length (repeat x n) = n.
@@ -3973,7 +3973,7 @@ Ltac invlist f :=
 (** * Exporting hints and tactics *)
 
 
-Global Hint Rewrite
+#[global] Hint Rewrite
   rev_involutive (* rev (rev l) = l *)
   rev_unit (* rev (l ++ a :: nil) = a :: rev l *)
   map_nth (* nth n (map f l) (f d) = f (nth n l d) *)

@@ -11,7 +11,7 @@
 From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rsqrt_def.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** * Continuous extension of Rsqrt on R *)
 Definition sqrt (x:R) : R :=

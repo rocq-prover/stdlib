@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import BinPos BinNat.
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 (** Obsolete file, see [BinNat] now,
     only compatibility notations remain here. *)

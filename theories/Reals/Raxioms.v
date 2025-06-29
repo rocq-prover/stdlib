@@ -27,7 +27,7 @@ From Stdlib Require Import ConstructiveCauchyRealsMult.
 From Stdlib Require Import ConstructiveRcomplete.
 From Stdlib Require Import ConstructiveLUB.
 From Stdlib Require Export Rdefinitions.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (*********************************************************)
 (** *            Field operations                        *)

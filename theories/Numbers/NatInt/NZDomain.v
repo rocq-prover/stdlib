@@ -18,7 +18,7 @@ From Stdlib Require Import NZBase NZOrder NZAddOrder PeanoNat.
     translation from Peano numbers [nat] into NZ.
 *)
 
-Local Notation "f ^ n" := (fun x => nat_rect _ x (fun _ => f) n).
+#[local] Notation "f ^ n" := (fun x => nat_rect _ x (fun _ => f) n).
 
 #[global]
 Instance nat_rect_wd n {A} (R:relation A) :
@@ -232,7 +232,7 @@ Module NZOfNat (Import NZ:NZDomainSig').
 Definition ofnat (n : nat) : t := (S^n) 0.
 
 Declare Scope ofnat.
-Local Open Scope ofnat.
+#[local] Open Scope ofnat.
 Notation "[ n ]" := (ofnat n) (at level 7) : ofnat.
 
 Lemma ofnat_zero : [O] == 0.
@@ -265,7 +265,7 @@ End NZOfNat.
 Module NZOfNatOrd (Import NZ:NZOrdSig').
 Include NZOfNat NZ.
 Include NZBaseProp NZ <+ NZOrderProp NZ.
-Local Open Scope ofnat.
+#[local] Open Scope ofnat.
 
 Theorem ofnat_S_gt_0 :
   forall n : nat, 0 < [Datatypes.S n].
@@ -331,7 +331,7 @@ End NZOfNatOrd.
 
 Module NZOfNatOps (Import NZ:NZAxiomsSig').
 Include NZOfNat NZ.
-Local Open Scope ofnat.
+#[local] Open Scope ofnat.
 
 Lemma ofnat_add_l : forall n m, [n]+m == (S^n) m.
 Proof.

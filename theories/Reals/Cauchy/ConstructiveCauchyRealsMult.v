@@ -24,7 +24,7 @@ From Stdlib Require Import Lia.
 From Stdlib Require Import Lqa.
 From Stdlib Require Import QExtra.
 
-Local Open Scope CReal_scope.
+#[local] Open Scope CReal_scope.
 
 Definition CReal_mult_seq (x y : CReal) :=
   (fun n : Z => seq x (n - scale y - 1)%Z
@@ -33,37 +33,37 @@ Definition CReal_mult_seq (x y : CReal) :=
 Definition CReal_mult_scale (x y : CReal) : Z :=
   x.(scale) + y.(scale).
 
-Local Ltac simplify_Qpower_exponent :=
+#[local] Ltac simplify_Qpower_exponent :=
   match goal with |- context [(_ ^ ?a)%Q] => ring_simplify a end.
 
-Local Ltac simplify_Qabs :=
+#[local] Ltac simplify_Qabs :=
   match goal with |- context [(Qabs ?a)%Q] => ring_simplify a end.
 
-Local Ltac simplify_Qabs_in H :=
+#[local] Ltac simplify_Qabs_in H :=
   match type of H with context [(Qabs ?a)%Q] => ring_simplify a in H end.
 
-Local Ltac field_simplify_Qabs :=
+#[local] Ltac field_simplify_Qabs :=
   match goal with |- context [(Qabs ?a)%Q] => field_simplify a end.
 
-Local Ltac pose_Qabs_pos :=
+#[local] Ltac pose_Qabs_pos :=
   match goal with |- context [(Qabs ?a)%Q] => pose proof Qabs_nonneg a end.
 
-Local Ltac simplify_Qle :=
+#[local] Ltac simplify_Qle :=
   match goal with |- (?l <= ?r)%Q => ring_simplify l; ring_simplify r end.
 
-Local Ltac simplify_Qle_in H :=
+#[local] Ltac simplify_Qle_in H :=
   match type of H with (?l <= ?r)%Q => ring_simplify l in H; ring_simplify r in H end.
 
-Local Ltac simplify_Qlt :=
+#[local] Ltac simplify_Qlt :=
   match goal with |- (?l < ?r)%Q => ring_simplify l; ring_simplify r end.
 
-Local Ltac simplify_Qlt_in H :=
+#[local] Ltac simplify_Qlt_in H :=
   match type of H with (?l < ?r)%Q => ring_simplify l in H; ring_simplify r in H end.
 
-Local Ltac simplify_seq_idx :=
+#[local] Ltac simplify_seq_idx :=
   match goal with |- context [seq ?x ?n] => progress ring_simplify n end.
 
-Local Lemma Weaken_Qle_QpowerAddExp: forall (q : Q) (n m : Z),
+#[local] Lemma Weaken_Qle_QpowerAddExp: forall (q : Q) (n m : Z),
     (m >= 0)%Z
  -> (q <= 2^n)%Q
  -> (q <= 2^(n+m))%Q.
@@ -73,7 +73,7 @@ Proof.
   lra.
 Qed.
 
-Local Lemma Weaken_Qle_QpowerRemSubExp: forall (q : Q) (n m : Z),
+#[local] Lemma Weaken_Qle_QpowerRemSubExp: forall (q : Q) (n m : Z),
     (m >= 0)%Z
  -> (q <= 2^(n-m))%Q
  -> (q <= 2^n)%Q.
@@ -83,7 +83,7 @@ Proof.
   lra.
 Qed.
 
-Local Lemma Weaken_Qle_QpowerFac: forall (q r : Q) (n : Z),
+#[local] Lemma Weaken_Qle_QpowerFac: forall (q r : Q) (n : Z),
     (r >= 1)%Q
  -> (q <= 2^n)%Q
  -> (q <= r * 2^n)%Q.

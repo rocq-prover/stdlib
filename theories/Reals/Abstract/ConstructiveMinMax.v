@@ -15,7 +15,7 @@ From Stdlib Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveAbs.
 From Stdlib Require Import ConstructiveRealsMorphisms.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 (** Definition and properties of minimum and maximum.
 

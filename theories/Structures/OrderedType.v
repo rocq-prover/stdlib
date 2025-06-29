@@ -340,22 +340,22 @@ Module KeyOrderedType(O:OrderedType).
   #[local]
   Hint Immediate eqk_sym eqke_sym : ordered_type.
 
-  Global Instance eqk_equiv : Equivalence eqk.
+  #[global] Instance eqk_equiv : Equivalence eqk.
   Proof. constructor; eauto with ordered_type. Qed.
 
-  Global Instance eqke_equiv : Equivalence eqke.
+  #[global] Instance eqke_equiv : Equivalence eqke.
   Proof. split; eauto with ordered_type. Qed.
 
-  Global Instance ltk_strorder : StrictOrder ltk.
+  #[global] Instance ltk_strorder : StrictOrder ltk.
   Proof. constructor; eauto with ordered_type. intros x; apply (irreflexivity (x:=fst x)). Qed.
 
-  Global Instance ltk_compat : Proper (eqk==>eqk==>iff) ltk.
+  #[global] Instance ltk_compat : Proper (eqk==>eqk==>iff) ltk.
   Proof.
   intros (x,e) (x',e') Hxx' (y,f) (y',f') Hyy'; compute.
    compute in Hxx'; compute in Hyy'. rewrite Hxx', Hyy'; auto.
   Qed.
 
-  Global Instance ltk_compat' : Proper (eqke==>eqke==>iff) ltk.
+  #[global] Instance ltk_compat' : Proper (eqke==>eqke==>iff) ltk.
   Proof.
   intros (x,e) (x',e') (Hxx',_) (y,f) (y',f') (Hyy',_); compute.
    compute in Hxx'; compute in Hyy'. rewrite Hxx', Hyy'; auto.

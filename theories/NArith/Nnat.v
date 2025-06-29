@@ -161,7 +161,7 @@ Qed.
 
 End N2Nat.
 
-Global Hint Rewrite N2Nat.inj_div N2Nat.inj_mod N2Nat.inj_pow
+#[global] Hint Rewrite N2Nat.inj_div N2Nat.inj_mod N2Nat.inj_pow
  N2Nat.inj_double N2Nat.inj_succ_double
  N2Nat.inj_succ N2Nat.inj_add N2Nat.inj_mul N2Nat.inj_sub
  N2Nat.inj_pred N2Nat.inj_div2 N2Nat.inj_max N2Nat.inj_min
@@ -182,7 +182,7 @@ Proof.
  induction n; simpl; trivial. apply SuccNat2Pos.id_succ.
 Qed.
 
-Global Hint Rewrite id : Nnat.
+#[global] Hint Rewrite id : Nnat.
 Ltac nat2N := apply N2Nat.inj; now autorewrite with Nnat.
 
 (** [N.of_nat] is hence injective *)
@@ -255,7 +255,7 @@ Proof. now rewrite N2Nat.inj_iter, !id. Qed.
 
 End Nat2N.
 
-Global Hint Rewrite Nat2N.id : Nnat.
+#[global] Hint Rewrite Nat2N.id : Nnat.
 
 (** Compatibility notations *)
 

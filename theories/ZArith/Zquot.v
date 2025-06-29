@@ -11,7 +11,7 @@
 From Stdlib Require Import BinNat BinInt Nnat Znat Lia ZArithRing Zdiv Morphisms.
 From Stdlib Require Zeven.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** This file provides results about the Round-Toward-Zero Euclidean
   division [Z.quotrem], whose projections are [Z.quot] (noted ÷)

@@ -10,7 +10,7 @@
 
 (** Equality is decidable on [nat] *)
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Notation not_eq_sym := not_eq_sym (only parsing).
 

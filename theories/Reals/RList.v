@@ -12,7 +12,7 @@ From Stdlib Require Import List.
 From Stdlib Require Import Compare_dec.
 From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Fixpoint MaxRlist (l:list R) : R :=
   match l with

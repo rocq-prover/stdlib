@@ -16,7 +16,7 @@ From Stdlib Require Import NBase.
 
 Module Homomorphism (N1 N2 : NAxiomsRecSig).
 
-Local Notation "n == m" := (N2.eq n m) (at level 70, no associativity).
+#[local] Notation "n == m" := (N2.eq n m) (at level 70, no associativity).
 
 Definition homomorphism (f : N1.t -> N2.t) : Prop :=
   f N1.zero == N2.zero /\ forall n, f (N1.succ n) == N2.succ (f n).
@@ -62,9 +62,9 @@ Module Import NBasePropMod1 := NBaseProp N1.
 Module Hom12 := Homomorphism N1 N2.
 Module Hom21 := Homomorphism N2 N1.
 
-Local Notation h12 := Hom12.natural_isomorphism.
-Local Notation h21 := Hom21.natural_isomorphism.
-Local Notation "n == m" := (N1.eq n m) (at level 70, no associativity).
+#[local] Notation h12 := Hom12.natural_isomorphism.
+#[local] Notation h21 := Hom21.natural_isomorphism.
+#[local] Notation "n == m" := (N1.eq n m) (at level 70, no associativity).
 
 Lemma inverse_nat_iso : forall n : N1.t, h21 (h12 n) == n.
 Proof.
@@ -83,8 +83,8 @@ Module Hom21 := Homomorphism N2 N1.
 Module Inverse12 := Inverse N1 N2.
 Module Inverse21 := Inverse N2 N1.
 
-Local Notation h12 := Hom12.natural_isomorphism.
-Local Notation h21 := Hom21.natural_isomorphism.
+#[local] Notation h12 := Hom12.natural_isomorphism.
+#[local] Notation h21 := Hom21.natural_isomorphism.
 
 Definition isomorphism (f1 : N1.t -> N2.t) (f2 : N2.t -> N1.t) : Prop :=
   Hom12.homomorphism f1 /\ Hom21.homomorphism f2 /\

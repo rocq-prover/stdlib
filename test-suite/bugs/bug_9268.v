@@ -1,7 +1,7 @@
 From Stdlib Require Import ZArith.
 From Stdlib Require Import Lia.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Definition Register := Z%type.
 

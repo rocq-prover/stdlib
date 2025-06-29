@@ -20,7 +20,7 @@ Import Zpow_facts.
 Import Utf8.
 Import Lia.
 
-Local Open Scope uint63_scope.
+#[local] Open Scope uint63_scope.
 (** {2 Operators } **)
 
 Definition Pdigits := Eval compute in P_of_succ_nat (size - 1).
@@ -108,7 +108,7 @@ Instance int_ops : ZnZ.Ops int :=
  ZnZ.lxor    := Uint63.lxor
 |}.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Lemma is_zero_spec_aux : forall x : int, is_zero x = true -> φ x = 0%Z.
 Proof.
@@ -266,7 +266,7 @@ Proof.
 Qed.
 
 (** {2 Specification and proof} **)
-Global Instance int_specs : ZnZ.Specs int_ops := {
+#[global] Instance int_specs : ZnZ.Specs int_ops := {
     spec_to_Z   := to_Z_bounded;
     spec_of_pos := positive_to_int_spec;
     spec_zdigits := refl_equal _;

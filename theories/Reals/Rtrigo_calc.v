@@ -13,7 +13,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Rtrigo1.
 From Stdlib Require Import R_sqrt.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Lemma tan_PI : tan PI = 0.
 Proof.

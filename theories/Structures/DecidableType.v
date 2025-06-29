@@ -77,10 +77,10 @@ Module KeyDecidableType(D:DecidableType).
   #[local]
   Hint Immediate eqk_sym eqke_sym : core.
 
-  Global Instance eqk_equiv : Equivalence eqk.
+  #[global] Instance eqk_equiv : Equivalence eqk.
   Proof. split; eauto. Qed.
 
-  Global Instance eqke_equiv : Equivalence eqke.
+  #[global] Instance eqke_equiv : Equivalence eqke.
   Proof. split; eauto. Qed.
 
   Lemma InA_eqke_eqk :

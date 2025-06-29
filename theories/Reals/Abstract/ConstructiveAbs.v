@@ -13,7 +13,7 @@ From Stdlib Require Import QArith.
 From Stdlib Require Import Qabs.
 From Stdlib Require Import ConstructiveReals.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 (** Properties of constructive absolute value (defined in
     ConstructiveReals.CRabs).

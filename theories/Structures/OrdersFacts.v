@@ -18,7 +18,7 @@ Unset Strict Implicit.
 
 Module Type CompareFacts (Import O:DecStrOrder').
 
- Local Infix "?=" := compare (at level 70, no associativity).
+ #[local] Infix "?=" := compare (at level 70, no associativity).
 
  Lemma compare_eq_iff x y : (x ?= y) = Eq <-> x==y.
  Proof.
@@ -53,7 +53,7 @@ Module Type CompareFacts (Import O:DecStrOrder').
  rewrite compare_gt_iff; intuition.
  Qed.
 
- Global Hint Rewrite compare_eq_iff compare_lt_iff compare_gt_iff : order.
+ #[global] Hint Rewrite compare_eq_iff compare_lt_iff compare_gt_iff : order.
 
 #[global]
  Instance compare_compat : Proper (eq==>eq==>Logic.eq) compare.
@@ -141,7 +141,7 @@ Module OrderedTypeFacts (Import O: OrderedType').
   Notation "x <= y" := (~lt y x) : order.
   Infix "?=" := compare (at level 70, no associativity) : order.
 
-  Local Open Scope order.
+  #[local] Open Scope order.
 
   Tactic Notation "elim_compare" constr(x) constr(y) :=
    destruct (compare_spec x y).
@@ -209,7 +209,7 @@ End OrderedTypeFacts.
 
 Module OrderedTypeTest (Import O:OrderedType').
   Module Import MO := OrderedTypeFacts O.
-  Local Open Scope order.
+  #[local] Open Scope order.
   Lemma lt_not_eq x y : x<y -> ~x==y.  Proof. order. Qed.
   Lemma lt_eq x y z : x<y -> y==z -> x<z. Proof. order. Qed.
   Lemma eq_lt x y z : x==y -> y<z -> x<z. Proof. order. Qed.

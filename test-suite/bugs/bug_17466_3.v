@@ -20,7 +20,7 @@ Definition StateAbortFail(S A: Type) := S -> (option (option A) * S).
 
 #[global] Instance StateAbortFail_Monad(S: Type): Monad (StateAbortFail S).
 Admitted.
-Local Set Universe Polymorphism.
+#[local] Set Universe Polymorphism.
   Inductive list {A : Type} : Type := nil | cons (_:A) (_:list).
   Arguments list : clear implicits.
 
@@ -42,7 +42,7 @@ Fixpoint hlist@{i j k} (argts : list@{j} Type@{i}) : Type@{k} :=
 Definition tuple A n := hlist (repeat A n).
   Notation byte := (Corelib.Init.Byte.byte: Type).
 Import BinInt.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Export word.
   Class word {width : Z} := {
@@ -88,8 +88,8 @@ Module Export word.
     sextend: Z -> rep -> rep;
   }.
   Arguments word : clear implicits.
-  Global Hint Mode word + : typeclass_instances.
-  Local Hint Mode word - : typeclass_instances.
+  #[global] Hint Mode word + : typeclass_instances.
+  #[local] Hint Mode word - : typeclass_instances.
 
   Class ok {width} {word : word width}: Prop := {
     wrap z := z mod 2^width;
@@ -130,7 +130,7 @@ Module Export word.
   }.
   Arguments ok {_} _.
 End word.
-Global Coercion word.rep : word >-> Sortclass.
+#[global] Coercion word.rep : word >-> Sortclass.
 
 Class Bitwidth(width: Z): Prop := {
   width_cases: width = 32%Z \/ width = 64%Z
@@ -237,7 +237,7 @@ Module Export map.
   }.
   Arguments map : clear implicits.
 
-  Global Coercion map.rep : map >-> Sortclass.
+  #[global] Coercion map.rep : map >-> Sortclass.
 Import Stdlib.Strings.String.
 
 Section Machine.

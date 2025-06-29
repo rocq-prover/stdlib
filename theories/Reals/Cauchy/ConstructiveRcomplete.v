@@ -28,7 +28,7 @@ From Stdlib Require Import ConstructiveExtra.
     WARNING: this file is experimental and likely to change in future releases.
  *)
 
-Local Open Scope CReal_scope.
+#[local] Open Scope CReal_scope.
 
 (* We use <= in sort Prop rather than < in sort Set,
    it is equivalent for the definition of limits and it

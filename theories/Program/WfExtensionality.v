@@ -14,7 +14,7 @@ From Stdlib.Init Require Import Wf.
 From Stdlib.Program Require Import Utils.
 From Stdlib.Program Require Import Wf.
 
-Local Open Scope program_scope.
+#[local] Open Scope program_scope.
 
 (** This module provides the fixpoint equation provided one assumes
    functional extensionality. *)

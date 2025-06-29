@@ -17,7 +17,7 @@ From Stdlib Require Import Ranalysis3.
 From Stdlib Require Import Exp_prop.
 From Stdlib Require Import MVT.
 From Stdlib Require Import Lra Lia.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (**********)
 Lemma derivable_pt_inv :

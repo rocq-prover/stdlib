@@ -31,7 +31,7 @@ Declare Scope R_scope.
 Delimit Scope hex_R_scope with xR.
 Delimit Scope R_scope with R.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 
 (* Those symbols must be kept opaque, for backward compatibility. *)

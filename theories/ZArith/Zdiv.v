@@ -15,7 +15,7 @@
 
 From Stdlib Require Export BinInt.
 From Stdlib Require Import Wf_Z Zbool ZArithRing Zcomplements Setoid Morphisms.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** The definition of the division is now in [BinIntDef], the initial
     specifications and properties are in [BinInt]. *)

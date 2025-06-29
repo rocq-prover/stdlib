@@ -37,8 +37,8 @@ Module AvlProofs (Import I:Int)(X: OrderedType).
 Module Import Raw := Raw I X.
 Module Import II:=MoreInt(I).
 Import Raw.Proofs.
-Local Open Scope pair_scope.
-Local Open Scope Int_scope.
+#[local] Open Scope pair_scope.
+#[local] Open Scope Int_scope.
 
 Ltac omega_max := i2z_refl; lia.
 
@@ -686,7 +686,7 @@ Module IntMake_ord (I:Int)(X: OrderedType)(D : OrderedType) <:
   Definition cardinal_e_2 ee :=
    (cardinal_e (fst ee) + cardinal_e (snd ee))%nat.
 
-  Local Unset Keyed Unification.
+  #[local] Unset Keyed Unification.
 
   Program Fixpoint compare_aux (ee:Raw.enumeration D.t * Raw.enumeration D.t)
    { measure (cardinal_e_2 ee) } : comparison :=

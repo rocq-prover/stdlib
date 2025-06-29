@@ -25,7 +25,7 @@ From Stdlib Require Import Refl.
 From Stdlib Require Import BinInt.
 From Stdlib Require InitialRing.
 From Stdlib.micromega Require Import Tauto.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Ltac flatten_bool :=
   repeat match goal with
@@ -507,7 +507,7 @@ Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) Tauto.
 (* To get a complete checker, the proof format has to be enriched *)
 
 From Stdlib Require Import Zdiv.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Definition ceiling (a b:Z) : Z :=
   let (q,r) := Z.div_eucl a b in

@@ -21,9 +21,9 @@
 From Stdlib Require Import Bool PeanoNat BinPos Orders OrdersEx MSetInterface.
 
 Set Implicit Arguments.
-Local Open Scope lazy_bool_scope.
-Local Open Scope positive_scope.
-Local Unset Elimination Schemes.
+#[local] Open Scope lazy_bool_scope.
+#[local] Open Scope positive_scope.
+#[local] Unset Elimination Schemes.
 
 Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
@@ -314,7 +314,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   (** Specification of [eq] *)
 
-  Local Instance eq_equiv : Equivalence eq.
+  #[local] Instance eq_equiv : Equivalence eq.
   Proof. firstorder. Qed.
 
   (** Specification of [mem] *)
@@ -342,7 +342,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
     destruct r; trivial.
     destruct x; reflexivity.
   Qed.
-  Local Opaque node.
+  #[local] Opaque node.
 
   (** Specification of [is_empty] *)
 
@@ -536,8 +536,8 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
   Lemma ct_xgg: forall x, ct x Gt Gt.
   Proof. destruct x; constructor. Qed.
 
-  Local Hint Constructors ct: ct.
-  Local Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
+  #[local] Hint Constructors ct: ct.
+  #[local] Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
   Ltac ct := trivial with ct.
 
   Lemma ct_lex: forall u v w u' v' w',
@@ -627,7 +627,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
      inversion_clear H; trivial; intros; discriminate.
   Qed.
 
-  Local Instance compare_compat_1 : Proper (eq==>Logic.eq==>Logic.eq) compare.
+  #[local] Instance compare_compat_1 : Proper (eq==>Logic.eq==>Logic.eq) compare.
   Proof.
    intros x x' Hx y y' Hy. subst y'.
    unfold eq in *. rewrite <- equal_spec, <- compare_equal in *.
@@ -641,7 +641,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
    rewrite compare_inv, Hy, <- compare_inv. reflexivity.
   Qed.
 
-  Local Instance lt_compat : Proper (eq==>eq==>iff) lt.
+  #[local] Instance lt_compat : Proper (eq==>eq==>iff) lt.
   Proof.
    intros x x' Hx y y' Hy. unfold lt. rewrite Hx, Hy. intuition.
   Qed.

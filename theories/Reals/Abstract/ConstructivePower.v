@@ -16,7 +16,7 @@ From Stdlib Require Import ConstructiveAbs.
 From Stdlib Require Import ConstructiveLimits.
 From Stdlib Require Import ConstructiveSum.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 
 (**

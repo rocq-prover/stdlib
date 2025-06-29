@@ -27,7 +27,7 @@ From Stdlib Require Export Rgeom.
 From Stdlib Require Export Sqrt_reg.
 From Stdlib Require Export Ranalysis4.
 From Stdlib Require Export Rpower.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Definition AppVar : R.
 Proof.

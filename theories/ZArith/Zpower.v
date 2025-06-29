@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Wf_nat BinInt Zcomplements Znat.
 From Stdlib Require Export Zpow_def.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** * Power functions over [Z] *)
 

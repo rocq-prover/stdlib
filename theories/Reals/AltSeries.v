@@ -15,7 +15,7 @@ From Stdlib Require Import SeqProp.
 From Stdlib Require Import PartSum.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Compare_dec.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (**********)
 (** * Formalization of alternated series *)

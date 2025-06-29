@@ -16,7 +16,7 @@ From Stdlib Require Import PartSum.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Compare_dec.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (***************************************************)
 (* Various versions of the criterion of D'Alembert *)

@@ -16,9 +16,9 @@ From Stdlib Require Import RiemannInt.
 From Stdlib Require Import SeqProp.
 From Stdlib Require Import Lia.
 From Stdlib Require Import Lra.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
-Local Ltac Tauto.intuition_solver ::= auto with rorders real.
+#[local] Ltac Tauto.intuition_solver ::= auto with rorders real.
 
 (** * Preliminaries lemmas *)
 

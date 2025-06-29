@@ -24,7 +24,7 @@ From Stdlib Require Import Zorder.
 From Stdlib Require Import Znat.
 From Stdlib Require Import ZArith_dec.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (**********************************************************************)
 (** * Properties of absolute value *)

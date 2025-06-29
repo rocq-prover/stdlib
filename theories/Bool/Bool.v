@@ -18,7 +18,7 @@ Inductive bool : Set := true : bool | false : bool
 
 (** Most of the lemmas in this file are trivial by case analysis *)
 
-Local Ltac Tauto.intuition_solver ::= auto with bool.
+#[local] Ltac Tauto.intuition_solver ::= auto with bool.
 
 Ltac destr_bool :=
  intros; destruct_all bool; simpl in *; trivial; try discriminate.
@@ -995,7 +995,7 @@ Notation "a &&& b" := (if a then b else false)
 Notation "a ||| b" := (if a then true else b)
  (at level 50, left associativity) : lazy_bool_scope.
 
-Local Open Scope lazy_bool_scope.
+#[local] Open Scope lazy_bool_scope.
 
 Lemma andb_lazy_alt : forall a b : bool, a && b = a &&& b.
 Proof.

@@ -10,7 +10,7 @@
 From Stdlib Require Import Bool BinNat BinInt Znat.
 From Stdlib Require Import Zify ZifyClasses.
 From Stdlib Require Import ZifyInst.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 (* Instances of [ZifyClasses] for dealing with boolean operators. *)
 
 #[global]

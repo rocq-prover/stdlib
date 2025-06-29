@@ -2,7 +2,7 @@ Require Import TestSuite.admit.
 From Stdlib Require Fin.
 From Stdlib Require Vector.
 
-Local Generalizable All Variables.
+#[local] Generalizable All Variables.
 Set Implicit Arguments.
 
 Arguments Fin.F1 : clear implicits.

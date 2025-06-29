@@ -13,7 +13,7 @@ From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rseries.
 From Stdlib Require Import Lia.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (*****************************************************************)
 (**           Convergence properties of sequences                *)

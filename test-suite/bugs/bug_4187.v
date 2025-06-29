@@ -9,8 +9,8 @@ From Stdlib Require Import List.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import BinNat.
 From Stdlib Require Import Sumbool.
-Global Set Implicit Arguments.
-Global Generalizable All Variables.
+#[global] Set Implicit Arguments.
+#[global] Generalizable All Variables.
 Coercion is_true : bool >-> Sortclass.
 Coercion bool_of_sumbool {A B} (x : {A} + {B}) : bool := if x then true else false.
 Fixpoint ForallT {T} (P : T -> Type) (ls : list T) : Type
@@ -145,7 +145,7 @@ Module Export StringLike.
   Arguments StringLike : clear implicits.
   Infix "=s" := (@beq _ _) (at level 70, no associativity) : type_scope.
   Notation "s ~= [ ch ]" := (is_char s ch) (at level 70, no associativity) : string_like_scope.
-  Local Open Scope string_like_scope.
+  #[local] Open Scope string_like_scope.
 
   Definition str_le `{StringLike Char} (s1 s2 : String)
     := length s1 < length s2 \/ s1 =s s2.
@@ -193,7 +193,7 @@ From Stdlib Require Import List.
 Export ADTSynthesis.Parsers.StringLike.Core.
 Import ADTSynthesis.Common.
 
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section cfg.
   Context {Char : Type}.
@@ -278,7 +278,7 @@ End BaseTypes.
 Import Stdlib.Lists.List.
 Import ADTSynthesis.Parsers.ContextFreeGrammar.
 
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section cfg.
   Context {Char} {HSL : StringLike Char} {G : grammar Char}.
@@ -346,7 +346,7 @@ Section general.
       split_string_for_production
       : item Char -> production Char -> String -> list nat }.
 
-  Global Coercion predata : boolean_parser_dataT >-> parser_computational_predataT.
+  #[global] Coercion predata : boolean_parser_dataT >-> parser_computational_predataT.
 
   Definition split_list_completeT `{data : @parser_computational_predataT}
              {str0 valid}
@@ -580,7 +580,7 @@ Defined.
     apply well_founded_ltof.
   Defined.
 
-  Global Instance rdp_list_predata : parser_computational_predataT
+  #[global] Instance rdp_list_predata : parser_computational_predataT
     := { nonterminals_listT := rdp_list_nonterminals_listT;
          initial_nonterminals_data := Valid_nonterminals G;
          is_valid_nonterminal := rdp_list_is_valid_nonterminal;
@@ -657,7 +657,7 @@ Defined.
                               split_list_is_complete str it its (splits_for str it its)
 
     }.
-  Global Existing Instance string_type_properties.
+  #[global] Existing Instance string_type_properties.
 
   Record Parser (HSL : StringLike Char) :=
     {
@@ -681,7 +681,7 @@ Section implementation.
   Context {Char} {G : grammar Char}.
   Context (splitter : Splitter G).
 
-  Local Instance parser_data : @boolean_parser_dataT Char _ :=
+  #[local] Instance parser_data : @boolean_parser_dataT Char _ :=
     { predata := rdp_list_predata (G := G);
       split_string_for_production it its str
       := splits_for splitter str it its }.
@@ -699,10 +699,10 @@ End ParserImplementation.
 
 Section implementation.
   Context {Char} {ls : list (String.string * productions Char)}.
-  Local Notation G := (list_to_grammar (nil::nil) ls) (only parsing).
+  #[local] Notation G := (list_to_grammar (nil::nil) ls) (only parsing).
   Context (splitter : Splitter G).
 
-  Local Instance parser_data : @boolean_parser_dataT Char _ := parser_data splitter.
+  #[local] Instance parser_data : @boolean_parser_dataT Char _ := parser_data splitter.
 
   Goal forall str : @String Char splitter,
          let G' :=

@@ -22,7 +22,7 @@ From Stdlib Require Import ConstructiveAbs.
 From Stdlib Require Import ConstructiveLimits.
 From Stdlib Require Import ConstructiveEpsilon.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 Definition sig_forall_dec_T : Type
   := forall (P : nat -> Prop), (forall n, {P n} + {~P n})

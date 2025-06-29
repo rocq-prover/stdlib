@@ -13,7 +13,7 @@
 
 From Stdlib Require Import Cyclic63 CyclicAxioms.
 
-Local Open Scope uint63_scope.
+#[local] Open Scope uint63_scope.
 
 (** Detection of constants *)
 

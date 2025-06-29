@@ -22,7 +22,7 @@ From Stdlib Require Export Cauchy_prod.
 From Stdlib Require Export Alembert.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Compare_dec.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (**********)
 Lemma sum_maj1 :

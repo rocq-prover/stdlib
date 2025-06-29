@@ -78,7 +78,7 @@ Delimit Scope CReal_scope with CReal.
 (* Automatically open scope R_scope for arguments of type R *)
 Bind Scope CReal_scope with CReal.
 
-Local Open Scope CReal_scope.
+#[local] Open Scope CReal_scope.
 
 Definition CRealLt (x y : CReal) : Set
   := { n : Z |  Qlt (2 * 2 ^ n) (seq y n - seq x n) }.

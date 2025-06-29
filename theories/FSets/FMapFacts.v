@@ -20,7 +20,7 @@ From Stdlib Require Export FMapInterface.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with bool map.
+#[local] Ltac Tauto.intuition_solver ::= auto with bool map.
 
 #[global]
 Hint Extern 1 (Equivalence _) => constructor; congruence : core.

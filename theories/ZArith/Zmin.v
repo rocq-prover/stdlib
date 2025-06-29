@@ -12,7 +12,7 @@
 
 From Stdlib Require Import BinInt Zcompare Zorder.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Definition [Z.min] is now [BinInt.Z.min]. *)
 

@@ -35,7 +35,7 @@ From Stdlib Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveLimits.
 From Stdlib Require Import ConstructiveAbs.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 Record ConstructiveRealsMorphism {R1 R2 : ConstructiveReals} : Set :=
   {

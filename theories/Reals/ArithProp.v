@@ -13,8 +13,8 @@ From Stdlib Require Import Rbasic_fun.
 From Stdlib Require Import ArithRing.
 From Stdlib Require Import PeanoNat.
 
-Local Open Scope Z_scope.
-Local Open Scope R_scope.
+#[local] Open Scope Z_scope.
+#[local] Open Scope R_scope.
 
 Lemma minus_neq_O : forall n i:nat, (i < n)%nat -> (n - i)%nat <> 0%nat.
 Proof.

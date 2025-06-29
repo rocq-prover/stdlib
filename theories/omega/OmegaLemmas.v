@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import BinInt Znat.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Factorization lemmas *)
 

@@ -13,7 +13,7 @@ From Stdlib.Program Require Import Utils.
 From Stdlib.Program Require Import Equality.
 From Stdlib Require Export ProofIrrelevance.
 
-Local Open Scope program_scope.
+#[local] Open Scope program_scope.
 
 (** The following tactics implement a poor-man's solution for proof-irrelevance: it tries to
    factorize every proof of the same proposition in a goal so that equality of such proofs becomes trivial. *)

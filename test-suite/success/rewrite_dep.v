@@ -12,7 +12,7 @@ Class Setoid A `{Equiv A} := setoid_equiv :: Equivalence (equiv).
 admit.
 Qed.
 
-Global Instance vcons_proper A `{Equiv A} `{!Setoid A} :
+#[global] Instance vcons_proper A `{Equiv A} `{!Setoid A} :
  Proper (equiv ==> forall_relation (fun k => equiv ==> equiv))
         (@Vector.cons A).
 Proof. Admitted.

@@ -21,7 +21,7 @@ From Stdlib Require Import PeanoNat DecidableTypeEx OrdersLists MSetFacts MSetDe
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with relations.
+#[local] Ltac Tauto.intuition_solver ::= auto with relations.
 
 #[global]
 Hint Unfold transpose : core.

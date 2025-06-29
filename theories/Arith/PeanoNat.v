@@ -31,7 +31,7 @@ Set Inline Level 50.
 (** All operations are well-defined (trivial here since eq is Leibniz) *)
 
 Definition eq_equiv : Equivalence (@eq nat) := eq_equivalence.
-Local Obligation Tactic := simpl_relation.
+#[local] Obligation Tactic := simpl_relation.
 #[global] Program Instance succ_wd : Proper (eq==>eq) S.
 #[global] Program Instance pred_wd : Proper (eq==>eq) pred.
 #[global] Program Instance add_wd : Proper (eq==>eq==>eq) plus.

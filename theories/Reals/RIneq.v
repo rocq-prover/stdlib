@@ -50,8 +50,8 @@ From Stdlib Require Import ZArith.
 From Stdlib Require Export ZArithRing.
 From Stdlib Require Export RealField.
 
-Local Open Scope Z_scope.
-Local Open Scope R_scope.
+#[local] Open Scope Z_scope.
+#[local] Open Scope R_scope.
 
 (*********************************************************)
 (** ** Relation between orders and equality              *)
@@ -2689,7 +2689,7 @@ Qed.
 Lemma Zeq_bool_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
 Proof. now intros n m H; apply Z.eqb_eq, eq_IZR. Qed.
 
-Local Lemma Private_Zeqb_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
+#[local] Lemma Private_Zeqb_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
 Proof. intros. apply Z.eqb_eq, eq_IZR; trivial. Qed.
 
 Add Field RField : Rfield

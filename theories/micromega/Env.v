@@ -16,7 +16,7 @@
 
 From Stdlib Require Import BinInt List.
 Set Implicit Arguments.
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 
 Section S.
 

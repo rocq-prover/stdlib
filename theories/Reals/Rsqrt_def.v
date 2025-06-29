@@ -14,7 +14,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import Lra.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Fixpoint Dichotomy_lb (x y:R) (P:R -> bool) (N:nat) {struct N} : R :=
   match N with

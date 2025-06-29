@@ -73,7 +73,7 @@ Open Scope Z_scope.
 
  (** 1) We prove a weaker & easier bound. *)
 
- Local Lemma Private_Zis_gcd_for_euclid2 :
+ #[local] Lemma Private_Zis_gcd_for_euclid2 :
   forall b d q r:Z, Zis_gcd r b d -> Zis_gcd b (b * q + r) d.
  Proof.
    intros b d q r; destruct 1 as [? ? H]; constructor;

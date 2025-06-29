@@ -13,7 +13,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import Rtopology.
 From Stdlib Require Import Lra.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (* The Mean Value Theorem *)
 Theorem MVT :

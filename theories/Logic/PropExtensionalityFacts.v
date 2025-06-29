@@ -40,27 +40,27 @@ Set Implicit Arguments.
 
 (** Propositional extensionality *)
 
-Local Notation PropositionalExtensionality :=
+#[local] Notation PropositionalExtensionality :=
   (forall A B : Prop, (A <-> B) -> A = B).
 
 (** Provable-proposition extensionality *)
 
-Local Notation ProvablePropositionExtensionality :=
+#[local] Notation ProvablePropositionExtensionality :=
   (forall A:Prop, A -> A = True).
 
 (** Refutable-proposition extensionality *)
 
-Local Notation RefutablePropositionExtensionality :=
+#[local] Notation RefutablePropositionExtensionality :=
   (forall A:Prop, ~A -> A = False).
 
 (** Predicate extensionality *)
 
-Local Notation PredicateExtensionality :=
+#[local] Notation PredicateExtensionality :=
   (forall (A:Type) (P Q : A -> Prop), (forall x, P x <-> Q x) -> P = Q).
 
 (** Propositional functional extensionality *)
 
-Local Notation PropositionalFunctionalExtensionality :=
+#[local] Notation PropositionalFunctionalExtensionality :=
   (forall (A:Type) (P Q : A -> Prop), (forall x, P x = Q x) -> P = Q).
 
 (**********************************************************************)

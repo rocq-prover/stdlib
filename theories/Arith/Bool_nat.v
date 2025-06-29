@@ -15,7 +15,7 @@ From Stdlib Require Import Sumbool.
 
 #[local]
 Set Warnings "-deprecated".
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types m n x y : nat.
 (** The decidability of equality and order relations over

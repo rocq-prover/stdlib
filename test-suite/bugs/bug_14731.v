@@ -89,7 +89,7 @@ Import List. Import ListNotations.
 Monomorphic Universe i o.
 Class FMap (M : Type@{i} -> Type@{o}) :=
   fmap : forall {A:Type@{i}} {B:Type@{o}}, (A -> B) -> M A -> M B.
-Global Arguments fmap {_ _ _ _} _ !_ / : assert.
+#[global] Arguments fmap {_ _ _ _} _ !_ / : assert.
 #[local]
 Monomorphic Instance fmap_list@{a b} : FMap (fun T => list T) :=
   fun (A : Type@{a}) (B : Type@{b}) f => @map A B f.

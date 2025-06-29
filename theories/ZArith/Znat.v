@@ -14,7 +14,7 @@
 From Stdlib Require Export Arith_base.
 From Stdlib Require Import BinPos BinInt BinNat Pnat Nnat.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Conversions between integers and natural numbers
 

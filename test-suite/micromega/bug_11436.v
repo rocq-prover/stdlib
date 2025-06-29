@@ -1,5 +1,5 @@
 From Stdlib Require Import ZArith Lia.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Unset Lia Cache.
 

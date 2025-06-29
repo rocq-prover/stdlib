@@ -1,8 +1,8 @@
 From Stdlib Require Import Uint63.
 From Stdlib Require Export PrimArray ArrayAxioms.
 
-Local Open Scope uint63_scope.
-Local Open Scope array_scope.
+#[local] Open Scope uint63_scope.
+#[local] Open Scope array_scope.
 
 Notation array := PrimArray.array (only parsing).
 Notation make := PrimArray.make (only parsing).

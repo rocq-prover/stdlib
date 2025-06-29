@@ -14,7 +14,7 @@ From Stdlib Require Import Zorder.
 From Stdlib Require Import Znat.
 From Stdlib Require Import Zmisc.
 From Stdlib Require Import Wf_nat.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Our purpose is to write an induction shema for {0,1,2,...}
   similar to the [nat] schema (Theorem [Natlike_rec]). For that the
@@ -91,7 +91,7 @@ Section Efficient_Rec.
 
   Let R (a b:Z) := 0 <= a /\ a < b.
 
-  Local Definition R_wf : well_founded R.
+  #[local] Definition R_wf : well_founded R.
   Proof.
    apply well_founded_lt_compat with Z.to_nat.
    intros x y (Hx,H). apply Z2Nat.inj_lt; Z.order.

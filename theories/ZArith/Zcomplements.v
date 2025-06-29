@@ -15,7 +15,7 @@ From Stdlib Require Import Wf_nat.
 From Stdlib Require Zabs Wf_Z.
 From Stdlib Require Zeven.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (**********************************************************************)
 (** About parity *)

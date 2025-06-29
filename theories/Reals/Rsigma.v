@@ -13,7 +13,7 @@ From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rseries.
 From Stdlib Require Import PartSum.
 From Stdlib Require Import Lia.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Set Implicit Arguments.
 

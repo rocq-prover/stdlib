@@ -17,7 +17,7 @@ From Stdlib Require Import RiemannInt_SF.
 From Stdlib Require Import RList.
 From Stdlib Require Import Lra.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Set Implicit Arguments.
 

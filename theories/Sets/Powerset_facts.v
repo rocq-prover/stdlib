@@ -34,7 +34,7 @@ From Stdlib Require Export Partial_Order.
 From Stdlib Require Export Cpo.
 From Stdlib Require Export Powerset.
 
-Local Ltac Tauto.intuition_solver ::= auto with sets.
+#[local] Ltac Tauto.intuition_solver ::= auto with sets.
 
 Section Sets_as_an_algebra.
   Variable U : Type.

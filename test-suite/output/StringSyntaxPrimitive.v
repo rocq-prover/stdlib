@@ -46,9 +46,9 @@ Module Test2.
   match Byte.of_N (BinInt.Z.to_N (Uint63Axioms.to_Z i)) with Some x => x | None => x00%byte end.
 
   Definition i63_to_nat x := BinInt.Z.to_nat (Uint63Axioms.to_Z x).
-  Local Definition nat_length {X} (x : array X) :nat := i63_to_nat (length x).
+  #[local] Definition nat_length {X} (x : array X) :nat := i63_to_nat (length x).
 
-  Local Fixpoint list_length_i63 {A} (xs : list A) :int :=
+  #[local] Fixpoint list_length_i63 {A} (xs : list A) :int :=
             match xs with
             | nil => 0
             | cons _ xs => 1 + list_length_i63 xs

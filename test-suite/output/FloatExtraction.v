@@ -15,7 +15,7 @@ From Stdlib Require Import List. Import ListNotations.
 (* from Require Import ExtrOcamlBasic. *)
 Extract Inductive list => list [ "[]" "( :: )" ].
 
-Local Open Scope float_scope.
+#[local] Open Scope float_scope.
 
 (* Avoid exponents with less than three digits as they are usually
    displayed with two digits (1e7 is displayed 1e+07) except on

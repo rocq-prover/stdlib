@@ -15,7 +15,7 @@ From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rseries.
 From Stdlib Require Import Rcomplete.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Lemma tech1 :
   forall (An:nat -> R) (N:nat),

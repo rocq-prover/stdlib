@@ -15,8 +15,8 @@ From Stdlib Require Import Rtrigo_def.
 From Stdlib Require Import Cos_rel.
 From Stdlib Require Import Lia Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope nat_scope.
-Local Open Scope R_scope.
+#[local] Open Scope nat_scope.
+#[local] Open Scope R_scope.
 
 Definition Majxy (x y:R) (n:nat) : R :=
   Rmax 1 (Rmax (Rabs x) (Rabs y)) ^ (4 * S n) / INR (fact n).

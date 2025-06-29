@@ -47,7 +47,7 @@ Ltac Zpower_neg :=
     end
   end.
 
-Local Lemma Private_proj1_eqb_eq x y : Z.eqb x y = true -> x = y.
+#[local] Lemma Private_proj1_eqb_eq x y : Z.eqb x y = true -> x = y.
 Proof. apply Z.eqb_eq. Qed.
 
 Add Ring Zr : Zth

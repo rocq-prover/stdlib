@@ -13,7 +13,7 @@ Set Implicit Arguments.
 From Stdlib Require Import Setoid Morphisms.
 From Stdlib Require Import BinList BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 Import RingSyntax.
 (* Set Universe Polymorphism. *)
 
@@ -500,7 +500,7 @@ Section MakeRingPol.
 
  (** Evaluation of a polynomial towards R *)
 
- Local Notation hd := (List.hd 0).
+ #[local] Notation hd := (List.hd 0).
 
  Fixpoint Pphi(l:list R) (P:Pol) : R :=
   match P with

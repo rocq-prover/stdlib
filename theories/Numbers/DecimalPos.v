@@ -17,7 +17,7 @@ From Stdlib Require Import Decimal DecimalFacts PArith NArith NArithRing.
 
 Module Unsigned.
 
-Local Open Scope N.
+#[local] Open Scope N.
 
 (** A direct version of [of_little_uint] *)
 Fixpoint of_lu (d:uint) : N :=

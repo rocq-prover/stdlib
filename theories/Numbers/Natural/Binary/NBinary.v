@@ -16,7 +16,7 @@ From Stdlib Require Import BinPos.
 From Stdlib Require Export BinNat.
 From Stdlib Require Import NAxioms NProperties.
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 (** * [BinNat.N] already implements [NAxiomSig] *)
 

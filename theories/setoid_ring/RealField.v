@@ -17,7 +17,7 @@ From Stdlib Require Import Rdefinitions.
 From Stdlib Require Import Rpow_def.
 From Stdlib Require Import Raxioms.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Lemma RTheory : ring_theory 0 1 Rplus Rmult Rminus Ropp (eq (A:=R)).
 Proof.

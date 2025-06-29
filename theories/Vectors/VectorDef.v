@@ -26,7 +26,7 @@ From Stdlib Require Import Arith_base.
 #[local] Set Warnings "-stdlib-vector".
 From Stdlib Require Vectors.Fin.
 Import EqNotations.
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 (* Set Universe Polymorphism. *)
 
@@ -38,8 +38,8 @@ Inductive t A : nat -> Type :=
   |nil : t A 0
   |cons : forall (h:A) (n:nat), t A n -> t A (S n).
 
-Local Notation "[ ]" := (nil _) (format "[ ]").
-Local Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
+#[local] Notation "[ ]" := (nil _) (format "[ ]").
+#[local] Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
 
 Section SCHEMES.
 
@@ -97,11 +97,11 @@ End SCHEMES.
 Section BASES.
 (** The first element of a non empty vector *)
 Definition hd {A} := @caseS _ (fun n v => A) (fun h n t => h).
-Global Arguments hd {A} {n} v.
+#[global] Arguments hd {A} {n} v.
 
 (** The last element of an non empty vector *)
 Definition last {A} := @rectS _ (fun _ _ => A) (fun a => a) (fun _ _ _ H => H).
-Global Arguments last {A} {n} v.
+#[global] Arguments last {A} {n} v.
 
 (** Build a vector of n{^ th} [a] *)
 Definition const {A} (a:A) := nat_rect _ [] (fun n x => cons _ a n x).
@@ -139,7 +139,7 @@ replace v (Fin.of_nat_lt H).
 
 (** Remove the first element of a non empty vector *)
 Definition tl {A} := @caseS _ (fun n v => t A n) (fun h n t => t).
-Global Arguments tl {A} {n} v.
+#[global] Arguments tl {A} {n} v.
 
 (** Destruct a non empty vector *)
 Definition uncons {A} {n : nat} (v : t A (S n)) : A * t A n := (hd v, tl v).
@@ -147,7 +147,7 @@ Definition uncons {A} {n : nat} (v : t A (S n)) : A * t A n := (hd v, tl v).
 (** Remove last element of a non-empty vector *)
 Definition shiftout {A} := @rectS _ (fun n _ => t A n) (fun a => [])
   (fun h _ _ H => h :: H).
-Global Arguments shiftout {A} {n} v.
+#[global] Arguments shiftout {A} {n} v.
 
 (** Add an element at the end of a vector *)
 Fixpoint shiftin {A} {n:nat} (a : A) (v:t A n) : t A (S n) :=
@@ -159,7 +159,7 @@ end.
 (** Copy last element of a vector *)
 Definition shiftrepeat {A} := @rectS _ (fun n _ => t A (S (S n)))
   (fun h =>  h :: h :: []) (fun h _ _ H => h :: H).
-Global Arguments shiftrepeat {A} {n} v.
+#[global] Arguments shiftrepeat {A} {n} v.
 
 (** Take first [p] elements of a vector *)
 Fixpoint take {A} {n} (p:nat) (le:p <= n) (v:t A n) : t A p :=
@@ -230,7 +230,7 @@ Definition rev {A n} (v : t A n) : t A n :=
  rew <- (plus_n_O _) in (rev_append v []).
 
 End BASES.
-Local Notation "v [@ p ]" := (nth v p) (at level 1).
+#[local] Notation "v [@ p ]" := (nth v p) (at level 1).
 
 Section ITERATORS.
 (** * Here are special non dependent useful instantiation of induction schemes *)
@@ -246,7 +246,7 @@ Definition map {A} {B} (f : A -> B) : forall {n} (v:t A n), t B n :=
 Definition map2 {A B C} (g:A -> B -> C) :
   forall (n : nat), t A n -> t B n -> t C n :=
 @rect2 _ _ (fun n _ _ => t C n) (nil C) (fun _ _ _ H a b => (g a b) :: H).
-Global Arguments map2 {A B C} g {n} v1 v2.
+#[global] Arguments map2 {A B C} g {n} v1 v2.
 
 (** fold_left f b [x1 .. xn] = f .. (f (f b x1) x2) .. xn *)
 Definition fold_left {A B:Type} (f:B->A->B): forall (b:B) {n} (v:t A n), B :=

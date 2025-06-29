@@ -14,7 +14,7 @@ Attributes deprecated(since="8.20", note="Use Coq.ZArith.BinInt instead.").
 
 From Stdlib Require Import ZAxioms ZProperties BinInt.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** BinInt.Z is already implementing [ZAxiomsMiniSig] *)
 

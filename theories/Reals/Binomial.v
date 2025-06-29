@@ -12,7 +12,7 @@ From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import PartSum.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Definition C (n p:nat) : R :=
   INR (fact n) / (INR (fact p) * INR (fact (n - p))).

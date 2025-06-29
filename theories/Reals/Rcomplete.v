@@ -12,7 +12,7 @@ From Stdlib Require Import Rbase.
 From Stdlib Require Import Rfunctions.
 From Stdlib Require Import Rseries.
 From Stdlib Require Import SeqProp.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (****************************************************)
 (*              R is complete :                     *)

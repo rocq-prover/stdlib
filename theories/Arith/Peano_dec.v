@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Decidable PeanoNat.
 From Stdlib Require Eqdep_dec.
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types m n x y : nat.
 

@@ -13,7 +13,7 @@ From Stdlib Require Import BinInt.
 From Stdlib Require Import Zcompare.
 From Stdlib Require Import Zorder.
 From Stdlib Require Import Bool.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (**********************************************************************)
 (** Iterators *)

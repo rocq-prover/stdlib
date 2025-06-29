@@ -1,6 +1,6 @@
 From Stdlib Require Import Arith Morphisms RelationClasses.
 Coercion is_true : bool >-> Sortclass.
-Global Instance: Transitive leb.
+#[global] Instance: Transitive leb.
 Admitted.
 
 Goal forall x y z, leb x y -> leb y z -> True.

@@ -11,7 +11,7 @@
 From Stdlib Require Import Rbase Rfunctions SeqSeries Rtrigo_fun.
 From Stdlib Require Import Arith.Factorial.
 From Stdlib Require Import Lra Lia.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (********************************)
 (** * Definition of exponential *)
