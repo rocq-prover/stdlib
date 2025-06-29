@@ -1,6 +1,0 @@
-Compat/_All/AdmitAxiom.v
-Compat/_All/Stdlib818.v
-Reals/_Compat/Nsatz.v
-
--Q Reals/_Compat Stdlib.Reals
--Q Compat/_All Stdlib.Compat

@@ -1,6 +1,0 @@
-Bool/IfProp.v
-Bool/Bool.v
-Bool/DecBool.v
-Bool/BoolEq.v
-
--Q Bool Stdlib.Bool
