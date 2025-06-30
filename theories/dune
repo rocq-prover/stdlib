@@ -11,4 +11,4 @@
 (rule
  (targets All.v)
  (deps All.sh (source_tree .))
- (action (with-stdout-to %{targets} (run env sh ./All.sh))))
+ (action (with-stdout-to %{targets} (run env bash ./All.sh))))
