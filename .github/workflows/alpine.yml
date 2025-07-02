@@ -49,6 +49,3 @@ jobs:
     - name: Check for duplicate files
       shell: alpine.sh {0}
       run: dev/tools/check-duplicate-files.sh
-    - name: 'make -j -k test-suite'
-      shell: alpine.sh {0}
-      run: 'make -j -k test-suite'

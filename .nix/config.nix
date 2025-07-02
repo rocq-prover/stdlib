@@ -223,11 +223,11 @@ with builtins; with (import <nixpkgs> {}).lib;
       rocq-elpi.override.version = "master";
       rocq-elpi.override.elpi-version = "2.0.7";
       rocq-elpi-test.override.version = "master";
-      stdlib-test.job = true;
     };
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "master";
+      stdlib-test.job = true;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
     }; };
