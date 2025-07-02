@@ -22,7 +22,7 @@ From Stdlib Require Import Hexadecimal Ascii String.
     Hexadecimal digits are lower case ('a'..'f'). We ignore upper case
     digits ('A'..'F') for the sake of simplicity. *)
 
-Local Open Scope string_scope.
+#[local] Open Scope string_scope.
 
 (** Parsing one char *)
 

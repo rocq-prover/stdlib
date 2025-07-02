@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Rdefinitions Raxioms RIneq.
 From Stdlib Require Import Rbasic_fun.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (****************************************************)
 (** Rsqr : some results                             *)

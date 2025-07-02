@@ -15,7 +15,7 @@ From Stdlib Require Import RList.
 From Stdlib Require Import List.
 From Stdlib Require Import Classical_Prop.
 From Stdlib Require Import Classical_Pred_Type.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** * General definitions and propositions *)
 

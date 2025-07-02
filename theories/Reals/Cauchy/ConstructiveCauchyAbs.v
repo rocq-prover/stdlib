@@ -17,21 +17,21 @@ From Stdlib Require Import Lia.
 From Stdlib Require Import Lqa.
 From Stdlib Require Import QExtra.
 
-Local Open Scope CReal_scope.
+#[local] Open Scope CReal_scope.
 
-Local Ltac simplify_Qabs :=
+#[local] Ltac simplify_Qabs :=
   match goal with |- context [(Qabs ?a)%Q] => ring_simplify a end.
 
-Local Ltac simplify_Qlt :=
+#[local] Ltac simplify_Qlt :=
   match goal with |- (?l < ?r)%Q => ring_simplify l; ring_simplify r end.
 
-Local Lemma Qopp_mult_mone : forall q : Q,
+#[local] Lemma Qopp_mult_mone : forall q : Q,
   (-1 * q == -q)%Q.
 Proof.
   intros; ring.
 Qed.
 
-Local Lemma Qabs_involutive: forall q : Q,
+#[local] Lemma Qabs_involutive: forall q : Q,
   (Qabs (Qabs q) == Qabs q)%Q.
 Proof.
   intros q; apply Qabs_case; intros Hcase.

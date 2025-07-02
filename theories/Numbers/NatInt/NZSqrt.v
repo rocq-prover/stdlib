@@ -39,7 +39,7 @@ Module Type NZSqrtProp
  (Import B : NZSqrt' A)
  (Import C : NZMulOrderProp A).
 
-Local Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
+#[local] Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
 
 (** First, sqrt is non-negative *)
 
@@ -393,7 +393,7 @@ Module Type NZSqrtUpProp
 
 (** * [sqrt_up] : a square root that rounds up instead of down *)
 
-Local Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
+#[local] Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
 
 (** For once, we define instead of axiomatizing, thanks to sqrt *)
 
@@ -403,7 +403,7 @@ Definition sqrt_up a :=
   | _ => 0
  end.
 
-Local Notation "√° a" := (sqrt_up a) (at level 6, no associativity).
+#[local] Notation "√° a" := (sqrt_up a) (at level 6, no associativity).
 
 Lemma sqrt_up_eqn0 : forall a, a<=0 -> √°a == 0.
 Proof.

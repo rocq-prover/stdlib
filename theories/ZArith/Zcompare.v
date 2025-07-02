@@ -18,7 +18,7 @@
 
 From Stdlib Require Export BinPos BinInt.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (***************************)
 (** * Comparison on integers *)

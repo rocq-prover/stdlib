@@ -7,7 +7,7 @@
 
 From Stdlib Require Import Rbase Rfunctions Lra Lia.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Definition Zfloor (x : R) := (up x - 1)%Z.
 

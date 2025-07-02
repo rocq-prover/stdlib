@@ -28,8 +28,8 @@ From Stdlib Require Export ArithProp.
 From Stdlib Require Import Zpower.
 From Stdlib Require Import Znat.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope nat_scope.
-Local Open Scope R_scope.
+#[local] Open Scope nat_scope.
+#[local] Open Scope R_scope.
 
 (*******************************)
 (** * Lemmas about factorial   *)
@@ -535,12 +535,12 @@ Qed.
 
 Section PowerRZ.
 
-Local Coercion Z_of_nat : nat >-> Z.
+#[local] Coercion Z_of_nat : nat >-> Z.
 
 (* the following section should probably be somewhere else, but not sure where *)
 Section Z_compl.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (* Provides a way to reason directly on Z in terms of nats instead of positive *)
 Inductive Z_spec (x : Z) : Z -> Type :=
@@ -570,7 +570,7 @@ Definition powerRZ (x:R) (n:Z) :=
     | Zneg p => / x ^ Pos.to_nat p
   end.
 
-Local Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
+#[local] Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
 
 Lemma Zpower_NR0 :
   forall (x:Z) (n:nat), (0 <= x)%Z -> (0 <= Zpower_nat x n)%Z.
@@ -691,7 +691,7 @@ Proof.
         auto with real.
 Qed.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Lemma pow_powerRZ (r : R) (n : nat) :
   (r ^ n)%R = powerRZ r (Z_of_nat n).
@@ -777,7 +777,7 @@ Notation powerRZ_neg := powerRZ_neg_depr.
 #[deprecated(since="8.16",note="Use powerRZ_mult.")]
 Notation powerRZ_mult_distr := powerRZ_mult_distr_depr.
 
-Local Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
+#[local] Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
 
 (*******************************)
 (* For easy interface          *)

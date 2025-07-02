@@ -18,7 +18,7 @@ From Stdlib.ZArith Require Import BinInt.
 Set Warnings "-deprecated-library-file".
 From Stdlib.Numbers.Integer.Abstract Require Import ZDivEucl.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** * Definitions of division for binary integers, Euclid convention. *)
 

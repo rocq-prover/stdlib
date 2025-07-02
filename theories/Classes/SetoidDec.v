@@ -52,7 +52,7 @@ Definition swap_sumbool {A B} (x : { A } + { B }) : { B } + { A } :=
 
 From Stdlib.Program Require Import Program.
 
-Local Open Scope program_scope.
+#[local] Open Scope program_scope.
 
 (** Invert the branches. *)
 

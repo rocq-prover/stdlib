@@ -13,7 +13,7 @@ From Stdlib.NArith Require Import BinNat.
 From Stdlib.NArith Require Import Nnat.
 From Stdlib.Init Require Export Byte.
 
-Local Set Implicit Arguments.
+#[local] Set Implicit Arguments.
 
 Definition eqb (a b : byte) : bool
   := let '(a0, (a1, (a2, (a3, (a4, (a5, (a6, a7))))))) := to_bits a in
@@ -616,7 +616,7 @@ Section nat.
 End nat.
 
 Section N.
-  Local Open Scope N_scope.
+  #[local] Open Scope N_scope.
 
   Definition to_N (x : byte) : N
     := match x with

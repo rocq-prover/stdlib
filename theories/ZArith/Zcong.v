@@ -2,7 +2,7 @@ From Stdlib Require Import BinInt.
 From Stdlib Require Import ZArithRing.
 From Stdlib Require Import Zdiv.
 From Stdlib Require Import Zdivisibility.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z.
 

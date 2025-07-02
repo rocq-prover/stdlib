@@ -35,10 +35,10 @@ Notation "s #2" := (snd s) (at level 9, format "s '#2'") : pair_scope.
    preservation *)
 
 Module Raw (Import I:Int)(X: OrderedType).
-Local Open Scope pair_scope.
-Local Open Scope lazy_bool_scope.
-Local Open Scope Int_scope.
-Local Notation int := I.t.
+#[local] Open Scope pair_scope.
+#[local] Open Scope lazy_bool_scope.
+#[local] Open Scope Int_scope.
+#[local] Notation int := I.t.
 
 Definition key := X.t.
 #[global]

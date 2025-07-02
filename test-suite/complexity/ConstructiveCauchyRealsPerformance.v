@@ -7,7 +7,7 @@ From Stdlib Require Import ConstructiveCauchyRealsMult.
 From Stdlib Require Import Lqa.
 From Stdlib Require Import Lia.
 
-Local Open Scope CReal_scope.
+#[local] Open Scope CReal_scope.
 
 (* We would need a shift instruction on positives to do this properly *)
 
@@ -23,7 +23,7 @@ Definition CReal_sqrt_Q_seq (q : Q) (n : Z) : Q
      | Z.neg i => 0 (* unused *)
      end.
 
-Local Lemma Pos_pow_twice_r a b : (a^(2*b) = a^b * a^b)%positive.
+#[local] Lemma Pos_pow_twice_r a b : (a^(2*b) = a^b * a^b)%positive.
 Proof.
   apply Pos2Z.inj.
   rewrite Pos2Z.inj_mul.

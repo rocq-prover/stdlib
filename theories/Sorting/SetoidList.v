@@ -120,12 +120,12 @@ Ltac inv := invlist InA; invlist sort; invlist lelistA; invlist NoDupA.
 
 (** First, the two notions [equivlistA] and [eqlistA] are indeed equivlances *)
 
-Global Instance equivlist_equiv : Equivalence equivlistA.
+#[global] Instance equivlist_equiv : Equivalence equivlistA.
 Proof.
  firstorder.
 Qed.
 
-Global Instance eqlistA_equiv : Equivalence eqlistA.
+#[global] Instance eqlistA_equiv : Equivalence eqlistA.
 Proof.
  constructor; red.
  - intros x; induction x; auto.
@@ -136,7 +136,7 @@ Qed.
 (** Moreover, [eqlistA] implies [equivlistA]. A reverse result
     will be proved later for sorted list without duplicates. *)
 
-Global Instance eqlistA_equivlistA : subrelation eqlistA equivlistA.
+#[global] Instance eqlistA_equivlistA : subrelation eqlistA equivlistA.
 Proof.
   intros x x' H. induction H as [|? ? ? ? H ? IHeqlistA].
   - intuition auto with relations.
@@ -148,7 +148,7 @@ Qed.
 (** InA is compatible with eqA (for its first arg) and with
     equivlistA (and hence eqlistA) for its second arg *)
 
-Global Instance InA_compat : Proper (eqA==>equivlistA==>iff) InA.
+#[global] Instance InA_compat : Proper (eqA==>equivlistA==>iff) InA.
 Proof.
  intros x x' Hxx' l l' Hll'. rewrite (Hll' x).
  rewrite 2 InA_alt; firstorder.
@@ -315,13 +315,13 @@ End NoDupA.
 
 Section EquivlistA.
 
-Global Instance equivlistA_cons_proper:
+#[global] Instance equivlistA_cons_proper:
  Proper (eqA ==> equivlistA ==> equivlistA) (@cons A).
 Proof.
  intros ? ? E1 ? ? E2 ?; now rewrite !InA_cons, E1, E2.
 Qed.
 
-Global Instance equivlistA_app_proper:
+#[global] Instance equivlistA_app_proper:
  Proper (equivlistA ==> equivlistA ==> equivlistA) (@app A).
 Proof.
  intros ? ? E1 ? ? E2 ?. now rewrite !InA_app_iff, E1, E2.
@@ -821,7 +821,7 @@ Proof.
  intros l; destruct l; constructor. inv; eauto.
 Qed.
 
-Global Instance InfA_compat : Proper (eqA==>eqlistA==>iff) InfA.
+#[global] Instance InfA_compat : Proper (eqA==>eqlistA==>iff) InfA.
 Proof using eqA_equiv ltA_compat. (* and not ltA_strorder *)
  intros x x' Hxx' l l' Hll'.
  inversion_clear Hll'.
@@ -910,7 +910,7 @@ Proof.
 induction 1; auto; simpl; congruence.
 Qed.
 
-Global Instance app_eqlistA_compat :
+#[global] Instance app_eqlistA_compat :
  Proper (eqlistA==>eqlistA==>eqlistA) (@app A).
 Proof.
  repeat red; induction 1; simpl; auto.
@@ -932,7 +932,7 @@ simpl; intros.
 do 2 rewrite <- app_assoc; simpl; auto.
 Qed.
 
-Global Instance rev_eqlistA_compat : Proper (eqlistA==>eqlistA) (@rev A).
+#[global] Instance rev_eqlistA_compat : Proper (eqlistA==>eqlistA) (@rev A).
 Proof.
 repeat red. intros x y ?.
 rewrite <- (app_nil_r (rev x)), <- (app_nil_r (rev y)).

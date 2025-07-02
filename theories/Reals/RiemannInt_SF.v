@@ -16,7 +16,7 @@ From Stdlib Require Import List.
 From Stdlib Require Import RList.
 From Stdlib Require Import Lia Lra.
 From Stdlib Require Import Wf_Z.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Set Implicit Arguments.
 

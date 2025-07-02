@@ -93,8 +93,8 @@ End test.
 
 Section Geometry.
 Import Algebra_syntax List.ListNotations.
-Local Open Scope R_scope.
-Local Coercion IZR : Z >-> R.
+#[local] Open Scope R_scope.
+#[local] Coercion IZR : Z >-> R.
 
 (* See the interactive pictures of Laurent Théry
    on http://www-sop.inria.fr/marelle/CertiGeo/

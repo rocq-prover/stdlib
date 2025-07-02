@@ -21,7 +21,7 @@ From Stdlib Require Export MSetInterface.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with relations.
+#[local] Ltac Tauto.intuition_solver ::= auto with relations.
 
 (** First, a functor for Weak Sets in functorial version. *)
 

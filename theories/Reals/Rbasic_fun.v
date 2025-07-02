@@ -15,7 +15,7 @@
 
 From Stdlib Require Import Rdefinitions Raxioms RIneq.
 From Stdlib Require Import R_Ifp.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Implicit Type r : R.
 

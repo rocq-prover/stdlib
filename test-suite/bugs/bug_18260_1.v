@@ -15,7 +15,7 @@ Module Export word.
 
 End word.
 Notation word := word.word.
-Global Coercion word.rep : word >-> Sortclass.
+#[global] Coercion word.rep : word >-> Sortclass.
 
 
 
@@ -24,11 +24,11 @@ Module map.
                                     rep : Type;
                                   }.
   Arguments map : clear implicits.
-  Global Coercion rep : map >-> Sortclass.
+  #[global] Coercion rep : map >-> Sortclass.
 
 End map.
-Local Notation map := map.map.
-Global Coercion map.rep : map >-> Sortclass.
+#[local] Notation map := map.map.
+#[global] Coercion map.rep : map >-> Sortclass.
 
 Definition SuchThat(R: Type)(P: R -> Prop) := R.
 Existing Class SuchThat.
@@ -45,7 +45,7 @@ Notation "'infer!' P" :=
    end)
     (at level 0, P at level 100, only parsing).
 
-Global Hint Extern 1 (SuchThat ?RRef ?FRef) =>
+#[global] Hint Extern 1 (SuchThat ?RRef ?FRef) =>
          let R := eval cbv delta [RRef] in RRef in
            let r := open_constr:(_ : R) in
            let G := eval cbv beta delta [RRef FRef] in (FRef r) in
@@ -83,7 +83,7 @@ End Scalars.
 
 Class PointsTo{width: Z}{word: word.word width}{mem: map.map word Byte.byte}{V: Type}
   (addr: word)(val: V)(pred: mem -> Prop) := {}.
-Global Hint Mode PointsTo + + + + + + - : typeclass_instances.
+#[global] Hint Mode PointsTo + + + + + + - : typeclass_instances.
 
 Class PointsToPredicate{width}{word: word.word width}{mem: Type}
   (V: Type)(pred: word -> V -> mem -> Prop) := {}.
@@ -99,7 +99,7 @@ Class PointsToPredicate{width}{word: word.word width}{mem: Type}
 
 Section TestNotations.
   Context {width: Z} {word: word.word width} {mem: map.map word Byte.byte}.
-  Local Open Scope oo_scope.
+  #[local] Open Scope oo_scope.
   Set Printing All.
   Typeclasses eauto := debug.
   Goal forall (a1 a2 ofs sz v1 v2: word) (R: mem -> Prop) (m: mem),

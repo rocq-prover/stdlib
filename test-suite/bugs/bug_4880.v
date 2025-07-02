@@ -1,5 +1,5 @@
 From Stdlib Require Import Reals Nsatz.
-Local Open Scope R.
+#[local] Open Scope R.
 
 Goal forall x y : R,
   x*x =  y *  y ->

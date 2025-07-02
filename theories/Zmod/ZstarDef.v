@@ -1,7 +1,7 @@
 From Stdlib Require Import ZArith Zdivisibility ZModOffset Lia.
 From Stdlib Require Import Bool.Bool Lists.List.
 Import ListNotations.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 From Stdlib Require Import ZmodDef.
 
 Module Zstar.

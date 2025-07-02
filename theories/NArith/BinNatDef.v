@@ -12,11 +12,11 @@ From Stdlib Require Export BinNums.
 From Stdlib Require Import BinPos.
 From Stdlib Require Export BinNums.NatDef.
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
-Local Notation "0" := N0.
-Local Notation "1" := (Npos 1).
-Local Notation "2" := (Npos 2).
+#[local] Notation "0" := N0.
+#[local] Notation "1" := (Npos 1).
+#[local] Notation "2" := (Npos 2).
 
 (**********************************************************************)
 (** * Binary natural numbers, definitions of operations *)

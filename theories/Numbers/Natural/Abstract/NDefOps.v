@@ -54,7 +54,7 @@ Qed.
 
 Definition def_add (x y : N.t) := recursion y (fun _ => S) x.
 
-Local Infix "+++" := def_add (at level 50, left associativity).
+#[local] Infix "+++" := def_add (at level 50, left associativity).
 
 #[global]
 Instance def_add_wd : Proper (N.eq ==> N.eq ==> N.eq) def_add.
@@ -85,7 +85,7 @@ Qed.
 
 Definition def_mul (x y : N.t) := recursion 0 (fun _ p => p +++ x) y.
 
-Local Infix "**" := def_mul (at level 40, left associativity).
+#[local] Infix "**" := def_mul (at level 40, left associativity).
 
 #[global]
 Instance def_mul_wd : Proper (N.eq ==> N.eq ==> N.eq) def_mul.
@@ -122,7 +122,7 @@ recursion
   (fun _ f n => recursion false (fun n' _ => f n') n)
   m.
 
-Local Infix "<<" := ltb (at level 70, no associativity).
+#[local] Infix "<<" := ltb (at level 70, no associativity).
 
 #[global]
 Instance ltb_wd : Proper (N.eq ==> N.eq ==> Logic.eq) ltb.
@@ -336,7 +336,7 @@ Qed.
 
 Definition pow (n m : N.t) := recursion 1 (fun _ r => n*r) m.
 
-Local Infix "^^" := pow (at level 30, right associativity).
+#[local] Infix "^^" := pow (at level 30, right associativity).
 
 #[global]
 Instance pow_wd : Proper (N.eq==>N.eq==>N.eq) pow.

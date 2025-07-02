@@ -1,7 +1,7 @@
 From Stdlib Require Import BinInt Wf_Z ZArithRing Zdiv Lia.
 
 Module Z.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Lemma mod0_divide : forall a b, (b | a) -> a mod b = 0.
 Proof. intros a b (c,->); apply Z_mod_mult. Qed.
@@ -191,7 +191,7 @@ Qed.
 Section extended_euclid_algorithm.
 Variables a b : Z.
 
-Local Lemma extgcd_rec_helper r1 r2 q :
+#[local] Lemma extgcd_rec_helper r1 r2 q :
   Z.gcd r1 r2 = Z.gcd a b -> Z.gcd (r2 - q * r1) r1 = Z.gcd a b.
 Proof.
   intros H; rewrite <-H, Z.gcd_comm.
@@ -200,7 +200,7 @@ Qed.
 
 Let f := S(S(Z.to_nat(Z.log2_up(Z.log2_up(Z.abs(a*b)))))). (* log2(fuel) *)
 
-Local Definition extgcd_rec : forall r1 u1 v1 r2 u2 v2,
+#[local] Definition extgcd_rec : forall r1 u1 v1 r2 u2 v2,
   (True -> 0 <= r1 /\ 0 <= r2 /\ r1 = u1 * a + v1 * b /\ r2 = u2 * a + v2 * b /\
       Z.gcd r1 r2 = Z.gcd a b)
    -> { '(u, v, d) | True -> u * a + v * b = d /\ d = Z.gcd a b}.

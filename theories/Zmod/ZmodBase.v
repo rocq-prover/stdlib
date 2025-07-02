@@ -4,17 +4,17 @@ From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
 From Stdlib Require Import Zmod.ZmodDef.
 Import ListNotations.
 
-Local Open Scope Zmod_scope.
-Local Open Scope Z_scope.
+#[local] Open Scope Zmod_scope.
+#[local] Open Scope Z_scope.
 
-Local Hint Extern 0 (?x <-> ?x) => reflexivity : core.
+#[local] Hint Extern 0 (?x <-> ?x) => reflexivity : core.
 
 Module Zmod.
 Export ZmodDef.Zmod.
 
 (** ** Unsigned conversions to [Z] *)
 
-Local Lemma small_iff z m :
+#[local] Lemma small_iff z m :
   Bool.Is_true (ZmodDef.Zmod.small z m) <-> z mod m = z.
 Proof.
   rewrite Z.mod_id_iff.
@@ -512,7 +512,7 @@ Proof.
   rewrite to_Z_mul, ?to_Z_of_Z, ?Zmult_mod_idemp_r, ?Zmult_mod_idemp_l; auto.
 Qed.
 
-Local Ltac r := try apply to_Z_inj; cbv [one];
+#[local] Ltac r := try apply to_Z_inj; cbv [one];
   (* Note: rewrite is slow, and autorewrite isn't faster *)
   repeat rewrite ?to_Z_of_Z, ?to_Z_add, ?to_Z_mul, ?to_Z_sub, ?to_Z_opp,
     ?mod_to_Z, ?Zmod_0_l, ?Z.mul_1_l, ?Z.add_0_l, ?Zplus_mod_idemp_l,
@@ -566,7 +566,7 @@ Section WithRing.
   Lemma mul_opp_l a b : mul (opp a) b = opp (mul a b). Proof. ring. Qed.
   Lemma mul_opp_r a b : mul a (opp b) = opp (mul a b). Proof. ring. Qed.
   Lemma mul_opp_opp a b : mul (opp a) (opp b) = mul a b. Proof. ring. Qed.
-  Local Lemma square_roots_opp_prime_subproof a b :
+  #[local] Lemma square_roots_opp_prime_subproof a b :
     sub (mul a a) (mul b b) = mul (sub a (opp b)) (sub a b). Proof. ring. Qed.
 End WithRing.
 
@@ -806,7 +806,7 @@ Proof. trivial. Qed.
 Lemma pow_2_r [m] x : @pow m x 2 = mul x x.
 Proof. trivial. Qed.
 
-Local Notation pow_N := ZmodDef.Zmod.Private_pow_N.
+#[local] Notation pow_N := ZmodDef.Zmod.Private_pow_N.
 
 Lemma Private_pow_nonneg [m] (x : Zmod m) z (Hz : 0 <= z) : pow x z = pow_N x (Z.to_N z).
 Proof. cbv [pow]; case (Z.ltb_spec z 0) as []; trivial; lia. Qed.
@@ -853,7 +853,7 @@ Proof.
   rewrite ?mul_assoc; f_equal; rewrite <-?mul_assoc; f_equal; auto using mul_comm.
 Qed.
 
-Local Coercion Z.of_N : N >-> Z.
+#[local] Coercion Z.of_N : N >-> Z.
 Lemma Private_to_Z_pow_N [m] x n : @to_Z m (pow_N x n) = to_Z x ^ n mod m.
 Proof.
   revert x; induction n using N.peano_ind; intros;

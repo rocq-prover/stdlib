@@ -15,7 +15,7 @@ From Stdlib Require Import Zcompare.
 From Stdlib Require Import ZArith_dec.
 From Stdlib Require Import Sumbool.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Properties in term of [if ... then ... else ...] *)
 
@@ -123,7 +123,7 @@ Proof.
  Z.swap_greater. rewrite Z.leb_le. apply Z.lt_le_pred.
 Qed.
 
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated".
 
 (** Properties of the deprecated [Zeq_bool] *)
 

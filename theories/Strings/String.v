@@ -29,7 +29,7 @@ Inductive string : Set :=
 Declare Scope string_scope.
 Delimit Scope string_scope with string.
 Bind Scope string_scope with string.
-Local Open Scope string_scope.
+#[local] Open Scope string_scope.
 
 Register string as core.string.type.
 Register EmptyString as core.string.empty.
@@ -42,7 +42,7 @@ Proof.
  decide equality; apply ascii_dec.
 Defined.
 
-Local Open Scope lazy_bool_scope.
+#[local] Open Scope lazy_bool_scope.
 
 Fixpoint eqb s1 s2 : bool :=
  match s1, s2 with
@@ -61,7 +61,7 @@ Proof.
  case IHs1; [intros ->; now constructor | constructor; now intros [= ]].
 Qed.
 
-Local Ltac t_eqb :=
+#[local] Ltac t_eqb :=
   repeat first [ congruence
                | progress subst
                | apply conj

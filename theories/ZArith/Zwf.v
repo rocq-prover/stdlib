@@ -11,7 +11,7 @@
 From Stdlib Require Import PeanoNat BinInt.
 From Stdlib Require Export Wf_nat.
 From Stdlib Require Import Lia.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Well-founded relations on Z. *)
 

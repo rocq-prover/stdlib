@@ -13,11 +13,11 @@ From Stdlib Require Export BinNums.
 From Stdlib Require Import BinPos BinNat.
 From Stdlib Require Export BinNums.IntDef.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
-Local Notation "0" := Z0.
-Local Notation "1" := (Zpos 1).
-Local Notation "2" := (Zpos 2).
+#[local] Notation "0" := Z0.
+#[local] Notation "1" := (Zpos 1).
+#[local] Notation "2" := (Zpos 2).
 
 (***********************************************************)
 (** * Binary Integers, Definitions of Operations *)

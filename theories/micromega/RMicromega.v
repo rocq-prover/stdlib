@@ -42,7 +42,7 @@ Proof.
   - exact Rplus_opp_r.
 Qed.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Lemma Rsor : SOR R0 R1 Rplus Rmult Rminus Ropp (@eq R)  Rle Rlt.
 Proof.

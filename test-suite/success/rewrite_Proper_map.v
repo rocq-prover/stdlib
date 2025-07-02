@@ -61,7 +61,7 @@ Qed.
 End Permutation.
 
 Module Import Nat.
-  Local Open Scope nat_scope.
+  #[local] Open Scope nat_scope.
   Definition sum := (fold_right Nat.add 0%nat).
   Lemma sum_app l l' : sum (l ++ l') = sum l + sum l'.
   Proof.
@@ -73,7 +73,7 @@ Module Import Nat.
 End Nat.
 
 Module Import Z.
-  Local Open Scope Z_scope.
+  #[local] Open Scope Z_scope.
   Definition sum := (fold_right Z.add 0).
   Lemma sum_repeat x n : sum (repeat x n) = x * Z.of_nat n.
   Proof. induction n; cbn [sum fold_right repeat]; lia. Qed.
@@ -96,7 +96,7 @@ Module Import Z.
   Lemma sum_concat l : sum (concat l) = sum (map Z.sum l).
   Proof. induction l; cbn [map sum fold_right concat]; rewrite ?sum_app; lia. Qed.
 
-  Global Instance Proper_sum_Permutation : Proper (@Permutation Z ==> eq) sum.
+  #[global] Instance Proper_sum_Permutation : Proper (@Permutation Z ==> eq) sum.
   Proof. induction 1; cbn [sum fold_right]; lia. Qed.
 
   Lemma sum_map_swap_indep {A B} (f : A -> B -> Z) l l' :
@@ -112,19 +112,19 @@ Module Import Z.
   Qed.
 End Z.
 
-Local Notation "[ e | x <- 'rev' ( s ..+ l ) ]" :=
+#[local] Notation "[ e | x <- 'rev' ( s ..+ l ) ]" :=
   (map (fun x : nat => e) (List.rev (seq s%nat l%nat)))
   (format "[  e  '[hv' |  x  <-  'rev' ( s  ..+  l ) ']'  ]", x name).
-Local Notation "[ e | x <- s ..+ l ]" :=
+#[local] Notation "[ e | x <- s ..+ l ]" :=
   (map (fun x : nat => e) (seq s%nat l%nat))
   (format "[  e  '[hv' |  x  <-  s  ..+  l ']'  ]", x name).
-Local Notation "∑ l" := (Z.sum l%Z) (format "∑ l", at level 10) : Z_scope.
-Local Notation "∑ l" := (Nat.sum l%nat) (format "∑ l", at level 10) : nat_scope.
+#[local] Notation "∑ l" := (Z.sum l%Z) (format "∑ l", at level 10) : Z_scope.
+#[local] Notation "∑ l" := (Nat.sum l%nat) (format "∑ l", at level 10) : nat_scope.
 
 Section __. (* https://www.shiftleft.org/papers/fff/fff.pdf section 3.3 *)
 Context (n : nat) (s t : nat -> nat) (d : nat -> Z) s_max (Hs_max : forall j, s j <= s_max).
 Implicit Types i j k : nat.
-Local Coercion Z.of_nat : nat >-> Z.
+#[local] Coercion Z.of_nat : nat >-> Z.
 Definition o j : nat := ∑ [s j * t j | j<-0..+j]. Definition D := o n.
 Definition spec : Z := ∑ [ 2^i * d i  | i<-0..+D].
 Definition C j k : Z := ∑ [d (o j + s j * i + k) * 2^(o j + s j * i) | i<-0..+t j].

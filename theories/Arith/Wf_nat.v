@@ -12,7 +12,7 @@
 
 From Stdlib Require Import PeanoNat.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types m n p : nat.
 

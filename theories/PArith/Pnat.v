@@ -16,8 +16,8 @@ From Stdlib Require Import BinPos PeanoNat.
 
 (** Original development by Pierre Crégut, CNET, Lannion, France *)
 
-Local Open Scope positive_scope.
-Local Open Scope nat_scope.
+#[local] Open Scope positive_scope.
+#[local] Open Scope nat_scope.
 
 Module Pos2Nat.
  Import Pos.

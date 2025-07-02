@@ -11,7 +11,7 @@
 From Stdlib Require Import BinPos.
 From Stdlib Require Export List.
 Set Implicit Arguments.
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 
 Section MakeBinList.
  Variable A : Type.

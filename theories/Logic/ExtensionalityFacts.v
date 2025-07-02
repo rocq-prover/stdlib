@@ -65,22 +65,22 @@ Qed.
 
 (** Functional extensionality *)
 
-Local Notation FunctionalExtensionality :=
+#[local] Notation FunctionalExtensionality :=
   (forall A B (f g : A -> B), (forall x, f x = g x) -> f = g).
 
 (** Equality of projections from diagonal *)
 
-Local Notation EqDeltaProjs := (forall A, pi1 = pi2 :> (Delta A -> A)).
+#[local] Notation EqDeltaProjs := (forall A, pi1 = pi2 :> (Delta A -> A)).
 
 (** Unicity of bijection inverse *)
 
-Local Notation UniqueInverse := (forall A B (f:A->B) g1 g2, is_inverse f g1 -> is_inverse f g2 -> g1 = g2).
+#[local] Notation UniqueInverse := (forall A B (f:A->B) g1 g2, is_inverse f g1 -> is_inverse f g2 -> g1 = g2).
 
 (** Bijectivity of bijective composition *)
 
 Definition action A B C (f:A->B) := (fun h:B->C => fun x => h (f x)).
 
-Local Notation BijectivityBijectiveComp := (forall A B C (f:A->B) g,
+#[local] Notation BijectivityBijectiveComp := (forall A B C (f:A->B) g,
   is_inverse f g -> is_inverse (A:=B->C) (action f) (action g)).
 
 (**********************************************************************)

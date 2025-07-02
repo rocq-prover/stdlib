@@ -3,9 +3,9 @@ Set Warnings "-deprecated".
 
 Module Backtrack.
   Class A (T : Type).
-  (* Global Hint Mode A + : typeclass_instances. *)
+  (* #[global] Hint Mode A + : typeclass_instances. *)
   Class B (T T' : Type) := b : T'.
-  (* Global Hint Mode B - + : typeclass_instances. *)
+  (* #[global] Hint Mode B - + : typeclass_instances. *)
 
   Instance anat : A nat := {}.
   Instance abool : A bool := {}.
@@ -22,7 +22,7 @@ Module Backtrack.
   (* This forces a different resolution path, where A ? is stuck at first,
     then we solve B's constraint, and we come back to A nat which is solvable.
   *)
-  Global Hint Mode A + : typeclass_instances.
+  #[global] Hint Mode A + : typeclass_instances.
 
   Definition test' := (foo : nat).
 
@@ -31,12 +31,12 @@ End Backtrack.
 
 Module Minimized.
   Class Insert (K V M : Type) : Prop.
-  Global Hint Mode Insert - - + : typeclass_instances.
+  #[global] Hint Mode Insert - - + : typeclass_instances.
   Class Lookup (K A M : Type) : Prop.
-  Global Hint Mode Lookup - - ! : typeclass_instances.
+  #[global] Hint Mode Lookup - - ! : typeclass_instances.
 
   Class Union (A : Type) : Prop.
-  Global Hint Mode Union ! : typeclass_instances.
+  #[global] Hint Mode Union ! : typeclass_instances.
   Class FMap (K : Type) (M : Type -> Type) : Prop.
 
   Section Foo.
@@ -75,12 +75,12 @@ End Minimized.
 
 Module Minimized'.
   Class Insert (K V M : Type) : Prop.
-  Global Hint Mode Insert - - + : typeclass_instances.
+  #[global] Hint Mode Insert - - + : typeclass_instances.
   Class Lookup (K A M : Type) : Prop.
-  Global Hint Mode Lookup - - + : typeclass_instances.
+  #[global] Hint Mode Lookup - - + : typeclass_instances.
 
   Class Union (A : Type) : Prop.
-  Global Hint Mode Union + : typeclass_instances.
+  #[global] Hint Mode Union + : typeclass_instances.
   Class FMap (K : Type) (M : Type -> Type) : Prop.
 
   Section Foo.
@@ -162,27 +162,27 @@ Export ListNotations.
 From Stdlib.Program Require Export Basics Syntax.
 
 Module Import base.
-Global Generalizable All Variables.
+#[global] Generalizable All Variables.
 Obligation Tactic := idtac.
 
 (** Throughout this development we use [stdpp_scope] for all general purpose
 notations that do not belong to a more specific scope. *)
 Declare Scope stdpp_scope.
 Delimit Scope stdpp_scope with stdpp.
-Global Open Scope stdpp_scope.
+#[global] Open Scope stdpp_scope.
 
 Class Union A := union: A → A → A.
-Global Hint Mode Union ! : typeclass_instances.
+#[global] Hint Mode Union ! : typeclass_instances.
 Instance: Params (@union) 2 := {}.
 Infix "∪" := union (at level 50, left associativity) : stdpp_scope.
 
 Class ElemOf A B := elem_of: A → B → Prop.
-Global Hint Mode ElemOf - ! : typeclass_instances.
+#[global] Hint Mode ElemOf - ! : typeclass_instances.
 Instance: Params (@elem_of) 3 := {}.
 Infix "∈" := elem_of (at level 70) : stdpp_scope.
 
 Class FMap (M : Type → Type) := fmap : ∀ {A B}, (A → B) → M A → M B.
-Global Arguments fmap {_ _ _ _} _ !_ / : assert.
+#[global] Arguments fmap {_ _ _ _} _ !_ / : assert.
 Instance: Params (@fmap) 4 := {}.
 Infix "<$>" := fmap (at level 61, left associativity) : stdpp_scope.
 
@@ -191,27 +191,27 @@ Infix "<$>" := fmap (at level 61, left associativity) : stdpp_scope.
 on maps. In the file [fin_maps] we will axiomatize finite maps.
 The function look up [m !! k] should yield the element at key [k] in [m]. *)
 Class Lookup (K A M : Type) := lookup: K → M → option A.
-Global Hint Mode Lookup - - ! : typeclass_instances.
+#[global] Hint Mode Lookup - - ! : typeclass_instances.
 Instance: Params (@lookup) 4 := {}.
 Notation "m !! i" := (lookup i m) (at level 20) : stdpp_scope.
-Global Arguments lookup _ _ _ _ !_ !_ / : simpl nomatch, assert.
+#[global] Arguments lookup _ _ _ _ !_ !_ / : simpl nomatch, assert.
 
 (** The function insert [<[k:=a]>m] should update the element at key [k] with
 value [a] in [m]. *)
 Class Insert (K A M : Type) := insert: K → A → M → M.
-Global Hint Mode Insert - - ! : typeclass_instances.
+#[global] Hint Mode Insert - - ! : typeclass_instances.
 Instance: Params (@insert) 5 := {}.
 Notation "<[ k := a ]>" := (insert k a)
   (at level 5, right associativity, format "<[ k := a ]>") : stdpp_scope.
-Global Arguments insert _ _ _ _ !_ _ !_ / : simpl nomatch, assert.
+#[global] Arguments insert _ _ _ _ !_ _ !_ / : simpl nomatch, assert.
 
 (** The function delete [delete k m] should delete the value at key [k] in
 [m]. If the key [k] is not a member of [m], the original map should be
 returned. *)
 Class Delete (K M : Type) := delete: K → M → M.
-Global Hint Mode Delete - ! : typeclass_instances.
+#[global] Hint Mode Delete - ! : typeclass_instances.
 Instance: Params (@delete) 4 := {}.
-Global Arguments delete _ _ _ !_ !_ / : simpl nomatch, assert.
+#[global] Arguments delete _ _ _ !_ !_ / : simpl nomatch, assert.
 
 (** The function [partial_alter f k m] should update the value at key [k] using the
 function [f], which is called with the original value at key [k] or [None]
@@ -219,26 +219,26 @@ if [k] is not a member of [m]. The value at [k] should be deleted if [f]
 yields [None]. *)
 Class PartialAlter (K A M : Type) :=
   partial_alter: (option A → option A) → K → M → M.
-Global Hint Mode PartialAlter - - ! : typeclass_instances.
+#[global] Hint Mode PartialAlter - - ! : typeclass_instances.
 Instance: Params (@partial_alter) 4 := {}.
-Global Arguments partial_alter _ _ _ _ _ !_ !_ / : simpl nomatch, assert.
+#[global] Arguments partial_alter _ _ _ _ _ !_ !_ / : simpl nomatch, assert.
 
 (** The function [merge f m1 m2] should merge the maps [m1] and [m2] by
 constructing a new map whose value at key [k] is [f (m1 !! k) (m2 !! k)].*)
 Class Merge (M : Type → Type) :=
   merge: ∀ {A B C}, (option A → option B → option C) → M A → M B → M C.
-Global Hint Mode Merge ! : typeclass_instances.
+#[global] Hint Mode Merge ! : typeclass_instances.
 Instance: Params (@merge) 4 := {}.
-Global Arguments merge _ _ _ _ _ _ !_ !_ / : simpl nomatch, assert.
+#[global] Arguments merge _ _ _ _ _ _ !_ !_ / : simpl nomatch, assert.
 
 (** The function [union_with f m1 m2] is supposed to yield the union of [m1]
 and [m2] using the function [f] to combine values of members that are in
 both [m1] and [m2]. *)
 Class UnionWith (A M : Type) :=
   union_with: (A → A → option A) → M → M → M.
-Global Hint Mode UnionWith - ! : typeclass_instances.
+#[global] Hint Mode UnionWith - ! : typeclass_instances.
 Instance: Params (@union_with) 3 := {}.
-Global Arguments union_with {_ _ _} _ !_ !_ / : simpl nomatch, assert.
+#[global] Arguments union_with {_ _ _} _ !_ !_ / : simpl nomatch, assert.
 
 (** We redefine the standard library's [In] and [NoDup] using type classes. *)
 Inductive elem_of_list {A} : ElemOf A (list A) :=
@@ -249,22 +249,22 @@ Existing Instance elem_of_list.
 End base.
 
 (** * Monadic operations *)
-Global Instance option_fmap: FMap option := @option_map.
+#[global] Instance option_fmap: FMap option := @option_map.
 
-Global Instance option_union_with {A} : UnionWith A (option A) := λ f mx my,
+#[global] Instance option_union_with {A} : UnionWith A (option A) := λ f mx my,
   match mx, my with
   | Some x, Some y => f x y
   | Some x, None => Some x
   | None, Some y => Some y
   | None, None => None
   end.
-Global Instance option_union {A} : Union (option A) := union_with (λ x _, Some x).
+#[global] Instance option_union {A} : Union (option A) := union_with (λ x _, Some x).
 
 Unset Default Proof Using.
 
 Class FinMapToList K A M := map_to_list: M → list (K * A).
-Global Hint Mode FinMapToList ! - - : typeclass_instances.
-Global Hint Mode FinMapToList - - ! : typeclass_instances.
+#[global] Hint Mode FinMapToList ! - - : typeclass_instances.
+#[global] Hint Mode FinMapToList - - ! : typeclass_instances.
 
 Class FinMap K M `{FMap M, ∀ A, Lookup K A (M A), ∀ A, Empty (M A), ∀ A,
     PartialAlter K A (M A), OMap M, Merge M, ∀ A, FinMapToList K A (M A),
@@ -288,14 +288,14 @@ Class FinMap K M `{FMap M, ∀ A, Lookup K A (M A), ∀ A, Empty (M A), ∀ A,
 finite map implementations. These generic implementations do not cause a
 significant performance loss, which justifies including them in the finite map
 interface as primitive operations. *)
-Global Instance map_insert `{PartialAlter K A M} : Insert K A M :=
+#[global] Instance map_insert `{PartialAlter K A M} : Insert K A M :=
   λ i x, partial_alter (λ _, Some x) i.
-Global Instance map_delete `{PartialAlter K A M} : Delete K M :=
+#[global] Instance map_delete `{PartialAlter K A M} : Delete K M :=
   partial_alter (λ _, None).
 
-Global Instance map_union_with `{Merge M} {A} : UnionWith A (M A) :=
+#[global] Instance map_union_with `{Merge M} {A} : UnionWith A (M A) :=
   λ f, merge (union_with f).
-Global Instance map_union `{Merge M} {A} : Union (M A) := union_with (λ x _, Some x).
+#[global] Instance map_union `{Merge M} {A} : Union (M A) := union_with (λ x _, Some x).
 
 (** * Theorems *)
 Section theorems.

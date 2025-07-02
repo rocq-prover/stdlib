@@ -11,7 +11,7 @@
 From Stdlib Require Import BinInt Znat ZArithRing Lia Wf_Z Zcomplements Zdiv Zdivisibility.
 From Stdlib Require Export Zpower.
 From Stdlib Require Znumtheory.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Properties of the power function over [Z] *)
 

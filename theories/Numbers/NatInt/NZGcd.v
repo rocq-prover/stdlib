@@ -21,7 +21,7 @@ End Gcd.
 Module Type NZGcdSpec (A : NZOrdAxiomsSig')(B : Gcd A).
  Import A B.
  Definition divide n m := exists p, m == p*n.
- Local Notation "( n | m )" := (divide n m) (at level 0).
+ #[local] Notation "( n | m )" := (divide n m) (at level 0).
  Axiom gcd_divide_l : forall n m, (gcd n m | n).
  Axiom gcd_divide_r : forall n m, (gcd n m | m).
  Axiom gcd_greatest : forall n m p, (p | n) -> (p | m) -> (p | gcd n m).

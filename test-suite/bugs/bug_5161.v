@@ -4,7 +4,7 @@
 From Stdlib Require Import Utf8.
 
 Delimit Scope C_scope with C.
-Global Open Scope C_scope.
+#[global] Open Scope C_scope.
 
 Delimit Scope uPred_scope with I.
 

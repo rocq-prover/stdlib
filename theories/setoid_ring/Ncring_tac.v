@@ -57,7 +57,7 @@ Existing Class extra_reify.
 #[deprecated(since="9.1")]
 Ltac extra_reify term := open_constr:(tt).
 
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated".
 Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
   let reify_term x := reify_term R ring0 ring1 add mul sub opp lvar x in
   match term with
@@ -133,7 +133,7 @@ Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
     | ?v => v
     end
   end.
-Local Set Warnings "deprecated".
+#[local] Set Warnings "deprecated".
 
 Ltac list_reifyl_core Tring lvar lterm :=
   lazymatch lterm with
@@ -361,7 +361,7 @@ Tactic Notation "non_commutative_ring_simplify" constr(lterm) "in" ident(H):=
 Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
 Arguments list_reifyl {R lvar lterm _}.
 
-Global Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
+#[global] Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
   let rr := constr:(_ :> Ring (T:=T)) in
   let reif := list_reifyl rr lvar lterm in
   exact reif

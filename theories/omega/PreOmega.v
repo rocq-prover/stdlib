@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Arith BinInt BinNat Znat Nnat.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** * [Z.div_mod_to_equations], [Z.quot_rem_to_equations], [Z.to_euclidean_division_equations]:
      the tactics for preprocessing [Z.div] and [Z.modulo], [Z.quot] and [Z.rem] *)
@@ -49,7 +49,7 @@ Module Z.
   Proof. rewrite <- (Z.opp_involutive x), <- (Z.opp_involutive y), Z.rem_opp_l', <- Z.opp_lt_mono, and_comm, !Z.opp_nonpos_nonneg, Z.opp_involutive; apply rem_bound_neg_pos. Qed.
 
   (* Make the direction of [Z.divide] line up with the rest of the Euclidean equation facts *)
-  Local Lemma divide_alt x y : Z.divide x y -> exists z, y = x * z.
+  #[local] Lemma divide_alt x y : Z.divide x y -> exists z, y = x * z.
   Proof. intros [z H]; exists z; subst; apply Z.mul_comm. Qed.
 
   Ltac div_mod_to_equations_generalize x y :=

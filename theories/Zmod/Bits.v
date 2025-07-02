@@ -3,10 +3,10 @@ From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
 Import ListNotations.
 
 From Stdlib Require Export Zmod.ZmodDef Zmod.ZmodBase.
-Local Open Scope Z_scope.
-Local Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
+#[local] Open Scope Z_scope.
+#[local] Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
 
-Local Hint Extern 0 (?x <-> ?x) => reflexivity : core.
+#[local] Hint Extern 0 (?x <-> ?x) => reflexivity : core.
 
 Module bits.
 Import ZmodDef.Zmod ZmodBase.Zmod ZmodDef.bits.
@@ -299,7 +299,7 @@ Proof.
     ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial; try lia.
 Qed.
-Local Notation to_Z_not := unsigned_not (only parsing).
+#[local] Notation to_Z_not := unsigned_not (only parsing).
 
 Lemma unsigned_not' [n] (x : bits n) : to_Z (not x) = Z.ones n - x.
 Proof.
@@ -311,7 +311,7 @@ Proof.
     ?(proj2 (Z.ltb_lt _ _)), ?(proj2 (Z.leb_le _ _)), ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial.
 Qed.
-Local Notation to_Z_not' := unsigned_not' (only parsing).
+#[local] Notation to_Z_not' := unsigned_not' (only parsing).
 
 Lemma of_Z_lnot [n] z : bits.of_Z n (Z.lnot z) = not (bits.of_Z n z).
 Proof.

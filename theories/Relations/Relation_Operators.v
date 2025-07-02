@@ -232,7 +232,7 @@ Section Swap.
     | sp_swap x y (p:A * A) : symprod A A R R (x, y) p -> swapprod (y, x) p.
 End Swap.
 
-Local Open Scope list_scope.
+#[local] Open Scope list_scope.
 
 Section Lexicographic_Exponentiation.
 

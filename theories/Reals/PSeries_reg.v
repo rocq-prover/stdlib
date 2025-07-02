@@ -14,7 +14,7 @@ From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import MVT.
 From Stdlib Require Import Lra.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (* Boule is French for Ball *)
 

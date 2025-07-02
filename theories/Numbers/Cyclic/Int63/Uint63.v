@@ -75,7 +75,7 @@ Notation diveucl_def_spec := Uint63Axioms.diveucl_def_spec (only parsing).
 Notation diveucl_21_spec := Uint63Axioms.diveucl_21_spec (only parsing).
 Notation addmuldiv_def_spec := Uint63Axioms.addmuldiv_def_spec (only parsing).
 
-Local Open Scope uint63_scope.
+#[local] Open Scope uint63_scope.
 
 Module Import Uint63NotationsInternalB.
 Infix "<<" := lsl (at level 30, no associativity) : uint63_scope.
@@ -172,7 +172,7 @@ Proof. apply to_Z_rec_bounded. Qed.
 
 
 (* =================================================== *)
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 (* General arithmetic results *)
 
 Theorem Zmod_distr: forall a b r t, 0 <= a <= b -> 0 <= r -> 0 <= t < 2 ^a ->
@@ -211,12 +211,12 @@ Lemma to_Z_1 : φ 1 = 1.
 Proof. reflexivity. Qed.
 
 (* Notations *)
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
-Local Notation "[+| c |]" :=
+#[local] Notation "[+| c |]" :=
    (interp_carry 1 wB to_Z c)  (at level 0, c at level 99) : uint63_scope.
 
-Local Notation "[-| c |]" :=
+#[local] Notation "[-| c |]" :=
    (interp_carry (-1) wB to_Z c)  (at level 0, c at level 99) : uint63_scope.
 
 Lemma can_inj {rT aT} {f: aT -> rT} {g: rT -> aT} (K: forall a, g (f a) = a) {a a'} (e: f a = f a') : a = a'.
@@ -230,7 +230,7 @@ Notation head0 := head0 (only parsing).
 Notation tail0 := tail0 (only parsing).
 
 (** Square root functions using newton iteration **)
-Local Open Scope uint63_scope.
+#[local] Open Scope uint63_scope.
 
 Definition sqrt_step (rec: int -> int -> int) (i j: int) :=
   let quo := i / j in
@@ -413,7 +413,7 @@ Proof.
  destruct (Z.div_eucl φ  x  φ  y ); trivial.
 Qed.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 (** Addition *)
 Lemma addc_spec x y : [+| x +c y |] = φ  x  + φ  y .
 Proof.
@@ -746,7 +746,7 @@ Proof.
  case (_ =? _)%uint63; simpl; auto.
 Qed.
 
-Local Hint Resolve Z.lt_gt Z.div_pos : zarith.
+#[local] Hint Resolve Z.lt_gt Z.div_pos : zarith.
 
 Lemma to_Z_split x : φ x = φ (x  >> 1) * 2 + φ (bit x 0).
 Proof.
@@ -1847,7 +1847,7 @@ Proof.
 Qed.
 
 Module Export Uint63Notations.
-  Local Open Scope uint63_scope.
+  #[local] Open Scope uint63_scope.
   Export Uint63NotationsInternalB.
   Export Uint63NotationsInternalC.
   Export Uint63NotationsInternalD.
