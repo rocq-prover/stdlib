@@ -233,6 +233,8 @@ with builtins; with (import <nixpkgs> {}).lib;
     }; };
     "rocq-9.0" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.0.0";
+      # check that we compile without warnings on last release of Coq
+      stdlib-warnings.job = true;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.0.0";
       # plugin pins, from v9.0 branch of Coq

@@ -6,7 +6,7 @@
 (env
  (dev
   (coq
-   (flags :standard -w +default))))
+   (flags :standard))))
 
 (rule
  (targets All.v)
