@@ -263,6 +263,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
       compcert.job = false;  # broken
+      vst.job = false;  # depends on compcert
     }; };
   };
 }
