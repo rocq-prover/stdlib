@@ -178,7 +178,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "unicoq"
       "Verdi"
       "VerdiRaft"
-      "vst"
+      "VST"
     ];
     coq-master = [
       "dpdgraph-test"
@@ -208,6 +208,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
+      ElmExtraction.job = false;  # not in Rocq CI
+      RustExtraction.job = false;  # not in Rocq CI
+      interval.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add below a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -223,6 +226,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       rocq-elpi.override.version = "master";
       rocq-elpi.override.elpi-version = "2.0.7";
       rocq-elpi-test.override.version = "master";
+      hierarchy-builder.override.version = "master";
     };
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
@@ -263,7 +267,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
       compcert.job = false;  # broken
-      vst.job = false;  # depends on compcert
+      VST.job = false;  # depends on compcert
     }; };
   };
 }
