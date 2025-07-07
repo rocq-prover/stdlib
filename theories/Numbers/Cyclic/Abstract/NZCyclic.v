@@ -25,7 +25,7 @@ From Stdlib Require Import Lia.
     a power of 2.
 *)
 
-Module NZCyclicAxiomsMod (Import Cyclic : CyclicType) <: NZAxiomsSig.
+Module NZCyclicAxiomsMod (Import Cyclic : CyclicType) <: NZBasicFunsSig.
 
 #[local] Open Scope Z_scope.
 
