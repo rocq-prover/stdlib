@@ -1,3 +1,5 @@
+Require Import Compat.Fin92.
+Local Set Warnings "-deprecated".
 (************************************************************************)
 (*         *      The Rocq Prover / The Rocq Development Team           *)
 (*  v      *         Copyright INRIA, CNRS and contributors             *)
@@ -34,14 +36,30 @@ the n-uplet. If [f] is the k-th element of the (n-1)-uplet, [FS f] is the
    Institution: PPS, INRIA 12/2010-01/2012-07/2012
 *)
 
-Inductive t : nat -> Set :=
-|F1 : forall {n}, t (S n)
-|FS : forall {n}, t n -> t (S n).
+#[deprecated(since="9.1", use=Fin92.fin)]
+Notation t := Fin92.fin (only parsing).
+#[deprecated(since="9.1", use=Fin92.finO)]
+Notation F1 := finO (only parsing).
+#[deprecated(since="9.1", use=Fin92.finS)]
+Notation FS := finS (only parsing).
+#[deprecated(since="9.1", use=Fin92.fin_ind)]
+Notation t_ind := Fin92.fin_ind (only parsing).
+#[deprecated(since="9.1", use=Fin92.fin_rect)]
+Notation t_rect := Fin92.fin_ind (only parsing).
+#[deprecated(since="9.1", use=Fin92.fin_rec)]
+Notation t_rec := Fin92.fin_ind (only parsing).
+#[deprecated(since="9.1", use=Fin92.fin_sind)]
+Notation t_sind := Fin92.fin_sind (only parsing).
+
+Arguments F1 {n}.
+Arguments FS {n} _.
 
 Section SCHEMES.
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition case0 P (p: t 0): P p :=
   match p with | F1 | FS  _ => fun devil => False_rect (@ID) devil (* subterm !!! *) end.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition caseS' {n : nat} (p : t (S n)) : forall (P : t (S n) -> Type)
   (P1 : P F1) (PS : forall (p : t n), P (FS p)), P p :=
   match p with
@@ -49,10 +67,12 @@ Definition caseS' {n : nat} (p : t (S n)) : forall (P : t (S n) -> Type)
   | FS pp => fun P P1 PS => PS pp
   end.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition caseS (P: forall {n}, t (S n) -> Type)
   (P1: forall n, @P n F1) (PS : forall {n} (p: t n), P (FS p))
   {n} (p: t (S n)) : P p := caseS' p P (P1 n) PS.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition rectS (P: forall {n}, t (S n) -> Type)
   (P1: forall n, @P n F1) (PS : forall {n} (p: t (S n)), P p -> P (FS p)):
   forall {n} (p: t (S n)), P p :=
@@ -63,6 +83,7 @@ fix rectS_fix {n} (p: t (S n)): P p:=
   | @FS (S k) pp => PS pp (rectS_fix pp)
   end.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition rect2 (P : forall {n} (a b : t n), Type)
   (H0 : forall n, @P (S n) F1 F1)
   (H1 : forall {n} (f : t n), P F1 (FS f))
@@ -150,6 +171,7 @@ Qed.
 (** [weak p f] answers a function witch is the identity for the p{^  th} first
 element of [fin (p + m)] and [FS (FS .. (FS (f k)))] for [FS (FS .. (FS k))]
 with p FSs *)
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Fixpoint weak {m}{n} p (f : t m -> t n) :
   t (p + m) -> t (p + n) :=
 match p as p' return t (p' + m) -> t (p' + n) with
@@ -162,9 +184,10 @@ end.
 
 (** The p{^ th} element of [fin m] viewed as the p{^ th} element of
 [fin (m + n)] *)
-Fixpoint L {m} n (p : t m) : t (m + n) :=
-  match p with |F1 => F1 |FS p' => FS (L n p') end.
+#[deprecated(since="9.1", use=Fin92.relax)]
+Notation L n := (relax n) (only parsing).
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma L_sanity {m} n (p : t m) : proj1_sig (to_nat (L n p)) = proj1_sig (to_nat p).
 Proof.
 induction p as [|? p IHp].
@@ -172,6 +195,7 @@ induction p as [|? p IHp].
 - simpl; destruct (to_nat (L n p)); simpl in *; rewrite IHp. now destruct (to_nat p).
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma L_inj {m} n (p q : t m) : L n p = L n q -> p = q.
 Proof.
 induction p as [m|m p IH]; apply (caseS' q); [easy..|].
@@ -181,6 +205,7 @@ Qed.
 (** The p{^ th} element of [fin m] viewed as the p{^ th} element of
 [fin (n + m)]
 Really really inefficient !!! *)
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition L_R {m} n (p : t m) : t (n + m).
 Proof.
 induction n as [|n IHn].
@@ -194,9 +219,10 @@ Defined.
 
 (** The p{^ th} element of [fin m] viewed as the (n + p){^ th} element of
 [fin (n + m)] *)
-Fixpoint R {m} n (p : t m) : t (n + m) :=
-  match n with |0 => p |S n' => FS (R n' p) end.
+#[deprecated(since="9.1", use=Fin92.add_nat)]
+Notation R n := (add_nat n) (only parsing).
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma R_sanity {m} n (p : t m) : proj1_sig (to_nat (R n p)) = n + proj1_sig (to_nat p).
 Proof.
 induction n as [|n IHn].
@@ -204,6 +230,7 @@ induction n as [|n IHn].
 - simpl; destruct (to_nat (R n p)); simpl in *; rewrite IHn. now destruct (to_nat p).
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma R_inj {m} n (p q : t m) : R n p = R n q -> p = q.
 Proof.
 induction n as [|n IH].
@@ -211,6 +238,7 @@ induction n as [|n IH].
 - intros ?. now apply IH, FS_inj.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma L_R_neq n m (p : t n) (q : t m) : L m p <> R n q.
 Proof.
 induction p as [n|n p IH].
@@ -218,6 +246,7 @@ induction p as [n|n p IH].
 - intros ?. now apply IH, FS_inj.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Fixpoint case_L_R' {n m} : forall (P : t (n + m) -> Type) (p : t (n + m)),
   (forall q, P (L m q)) -> (forall q, P (R n q)) -> P p :=
 match n with
@@ -227,10 +256,12 @@ match n with
     (fun p' => case_L_R' (fun q => P (Fin.FS q)) p' (fun q => HL (Fin.FS q)) HR)
 end.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Definition case_L_R (P : forall n m, t (n + m) -> Type) {n m} (p : t (n + m)) :
   (forall n m (q : t n), P n m (L m q)) -> (forall n m (q : t m), P n m (R n q)) -> P n m p :=
 fun HL HR => case_L_R' _ p (HL _ _) (HR _ _).
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma case_L_R'_L {n m : nat} (P : Fin.t (n + m) -> Type) (p : Fin.t n) HL HR :
   case_L_R' P (Fin.L m p) HL HR = HL p.
 Proof.
@@ -239,6 +270,7 @@ Proof.
   - now rewrite IH.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma case_L_R'_R {n m : nat} (P : Fin.t (n + m) -> Type) (p : Fin.t m) HL HR :
   case_L_R' P (Fin.R n p) HL HR = HR p.
 Proof.
@@ -247,24 +279,28 @@ Proof.
   - now rewrite IH.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma case_L_R_L (P : forall n m, t (n + m) -> Type) {n m} (p : Fin.t n) HL HR :
   case_L_R P (Fin.L m p) HL HR = HL _ _ p.
 Proof.
   apply case_L_R'_L.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma case_L_R_R (P : forall n m, t (n + m) -> Type) {n m} (p : Fin.t m) HL HR :
   case_L_R P (Fin.R n p) HL HR = HR _ _ p.
 Proof.
   apply case_L_R'_R.
 Qed.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Fixpoint depair {m n} (o : t m) (p : t n) : t (m * n) :=
 match o with
   |@F1 m' => L (m' * n) p
   |FS o' => R n (depair o' p)
 end.
 
+#[deprecated(since="9.1", note="Please open an issue if you would like stdlib to keep this definition.")]
 Lemma depair_sanity {m n} (o : t m) (p : t n) :
   proj1_sig (to_nat (depair o p)) = n * (proj1_sig (to_nat o)) + (proj1_sig (to_nat p)).
 Proof.
