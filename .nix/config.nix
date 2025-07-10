@@ -257,7 +257,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
-      # add below a line like
+      # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
       # where
       # * <package> will typically be one of the strings above (without the quotes)
@@ -265,6 +265,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      sf.job = false;  # temporarily disactivated in Rocq CI
+      trakt.job = false;  # temporarily disactivated in Rocq CI
+      smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = {
       bignums.override.version = "master";
@@ -309,7 +312,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
       waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
@@ -345,7 +348,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
       rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
