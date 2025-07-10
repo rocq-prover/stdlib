@@ -35,7 +35,7 @@ with builtins; with (import <nixpkgs> {}).lib;
   # cachix.coq = {};
   cachix.math-comp = {};
   cachix.coq-community = {};
-  
+
   ## If you have write access to one of these caches you can
   ## provide the auth token or signing key through a secret
   ## variable on GitHub. Then, you should give the variable
@@ -43,10 +43,10 @@ with builtins; with (import <nixpkgs> {}).lib;
   ## the following line instead of the one above:
   # cachix.coq-community.authToken = "CACHIX_AUTH_TOKEN";
   cachix.coq.authToken = "CACHIX_AUTH_TOKEN";
-  
+
   ## Or if you have a signing key for a given Cachix cache:
   # cachix.my-cache.signingKey = "CACHIX_SIGNING_KEY"
-  
+
   ## Note that here, CACHIX_AUTH_TOKEN and CACHIX_SIGNING_KEY
   ## are the names of secret variables. They are set in
   ## GitHub's web interface.
@@ -116,7 +116,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "coqprime"
       "coquelicot"
       "coqutil"
-      "coq-elpi"
       "ExtLib"
       "coq-hammer"
       "coq-hammer-tactics"
@@ -131,7 +130,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "fiat-crypto-ocaml"
       "fiat-parsers"
       "flocq"
-      "hierarchy-builder"
       "http"
       "InfSeqExt"
       "iris"
@@ -194,14 +192,13 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metarocq"
       "metarocq-test"
     ];
-    coq-common-bundles = listToAttrs (forEach master (p:
+    common-bundles = listToAttrs (forEach master (p:
       { name = p; value.override.version = "master"; }))
     // listToAttrs (forEach coq-master (p:
       { name = p; value.override.version = "coq-master"; }))
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      coq-elpi.override.elpi-version = "2.0.7";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
@@ -221,26 +218,59 @@ with builtins; with (import <nixpkgs> {}).lib;
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
     };
-    common-bundles = {
+  in {
+    "rocq-master" = { rocqPackages = {
+      rocq-core.override.version = "master";
+      stdlib-test.job = true;
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
       rocq-elpi.override.elpi-version = "2.0.7";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
-    };
-  in {
-    "rocq-master" = { rocqPackages = common-bundles // {
-      rocq-core.override.version = "master";
-      stdlib-test.job = true;
-    }; coqPackages = coq-common-bundles // {
+    }; coqPackages = common-bundles // {
       coq.override.version = "master";
+      coq-elpi.override.version = "master";
+      coq-elpi.override.elpi-version = "2.0.7";
+      hierarchy-builder.override.version = "master";
     }; };
-    "rocq-9.0" = { rocqPackages = common-bundles // {
-      rocq-core.override.version = "9.0.0";
+    "rocq-9.1".coqPackages = common-bundles // {
+      coq.override.version = "9.1";
+      coq-elpi.job = true;
+      hierarchy-builder.job = true;
       # check that we compile without warnings on last release of Coq
       stdlib-warnings.job = true;
-    }; coqPackages = coq-common-bundles // {
-      coq.override.version = "9.0.0";
+      # plugin pins, from v9.1 branch of Coq
+      aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
+      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
+      itauto.override.version = "ff11a568d000b94965a33de428c6e6700b920198";
+      bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+      coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
+      dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
+      coq-hammer.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
+      coq-hammer-tactics.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
+      equations.override.version = "2137c8e7081f2d47ab903de0cc09fd6a05bfab01";
+      equations-test.job = false;
+      fiat-parsers.job = false;  # broken
+      metarocq.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
+      metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
+      mtac2.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
+      paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
+      perennial.job = false;  # broken
+      relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
+      rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
+      rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
+      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
+      unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
+      waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
+      compcert.job = false;  # broken
+      VST.job = false;  # depends on compcert
+    };
+    "rocq-9.0".coqPackages = common-bundles // {
+      coq.override.version = "9.0";
+      coq-elpi.job = true;
+      hierarchy-builder.job = true;
       # plugin pins, from v9.0 branch of Coq
       aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
@@ -268,6 +298,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
-    }; };
+    };
   };
 }
