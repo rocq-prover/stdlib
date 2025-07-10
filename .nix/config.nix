@@ -232,6 +232,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq-elpi.override.version = "master";
       coq-elpi.override.elpi-version = "2.0.7";
       hierarchy-builder.override.version = "master";
+      bedrock2.job = false;  # temporarily disactivated in Rocq CI
+      fiat-crypto.job = false;  # temporarily disactivated in Rocq CI
+      fiat-crypto-ocaml.job = false;  # temporarily disactivated in Rocq CI
+      kami.job = false;  # temporarily disactivated in Rocq CI
+      rupicola.job = false;  # temporarily disactivated in Rocq CI
+      sf.job = false;  # temporarily disactivated in Rocq CI
     }; };
     "rocq-9.1".coqPackages = common-bundles // {
       coq.override.version = "9.1";
