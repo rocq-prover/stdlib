@@ -201,7 +201,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      coq-elpi.override.elpi-version = "2.0.7";
+      coq-elpi.override.elpi-version = "v3.0.0";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
@@ -224,7 +224,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "2.0.7";
+      rocq-elpi.override.elpi-version = "v3.0.0";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
     };
