@@ -35,7 +35,7 @@ with builtins; with (import <nixpkgs> {}).lib;
   # cachix.coq = {};
   cachix.math-comp = {};
   cachix.coq-community = {};
-  
+
   ## If you have write access to one of these caches you can
   ## provide the auth token or signing key through a secret
   ## variable on GitHub. Then, you should give the variable
@@ -43,10 +43,10 @@ with builtins; with (import <nixpkgs> {}).lib;
   ## the following line instead of the one above:
   # cachix.coq-community.authToken = "CACHIX_AUTH_TOKEN";
   cachix.coq.authToken = "CACHIX_AUTH_TOKEN";
-  
+
   ## Or if you have a signing key for a given Cachix cache:
   # cachix.my-cache.signingKey = "CACHIX_SIGNING_KEY"
-  
+
   ## Note that here, CACHIX_AUTH_TOKEN and CACHIX_SIGNING_KEY
   ## are the names of secret variables. They are set in
   ## GitHub's web interface.
@@ -145,12 +145,14 @@ with builtins; with (import <nixpkgs> {}).lib;
       "mathcomp-algebra"
       "mathcomp-algebra-tactics"
       "mathcomp-analysis"
+      "mathcomp-boot"
       "mathcomp-bigenough"
       "mathcomp-character"
       "mathcomp-classical"
       "mathcomp-field"
       "mathcomp-fingroup"
       "mathcomp-finmap"
+      "mathcomp-order"
       "mathcomp-reals"
       "mathcomp-solvable"
       "mathcomp-ssreflect"
@@ -201,7 +203,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      coq-elpi.override.elpi-version = "2.0.7";
+      coq-elpi.override.elpi-version = "v3.0.0";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
@@ -211,6 +213,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       ElmExtraction.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
+      parseque.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add below a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -224,7 +227,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "2.0.7";
+      rocq-elpi.override.elpi-version = "v3.0.0";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
     };
@@ -239,13 +242,16 @@ with builtins; with (import <nixpkgs> {}).lib;
       rocq-core.override.version = "9.0.0";
       # check that we compile without warnings on last release of Coq
       stdlib-warnings.job = true;
+      # plugin pins, from v9.0 branch of Coq
+      bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.0.0";
       # plugin pins, from v9.0 branch of Coq
       aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
-      itauto.override.version = "c13c6b4a0070ecc3ae8ea9755a1d6a163d123127";
       bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
+      bignums-test.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
+      itauto.override.version = "c13c6b4a0070ecc3ae8ea9755a1d6a163d123127";
       coinduction.override.version = "09caaf1f809e3e91ebba05bc38cef6de83ede3b3";
       dpdgraph-test.override.version = "74ced1b11a8df8d4c04c3829fcf273aa63d2c493";
       coq-hammer.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
