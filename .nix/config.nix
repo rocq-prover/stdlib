@@ -196,6 +196,48 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metarocq"
       "metarocq-test"
     ];
+    # To lighten the CI on released version, don't test reverse dependencies
+    # of Stdlib that take >= 5 min of CI (and their reverse dependencies)
+    lighten-released = [
+      "bedrock2"
+      "category-theory"
+      "CoLoR"
+      "coq-performance-tests"
+      "coq-tools"
+      "corn"
+      "cross-crypto"
+      "engine-bench"
+      "fiat-crypto"
+      "fiat-crypto-ocaml"
+      "fiat-crypto-legacy"
+      "iris"
+      "iris-examples"
+      "metacoq"
+      "metacoq-common"
+      "metacoq-erasure"
+      "metacoq-erasure-plugin"
+      "metacoq-pcuic"
+      "metacoq-quotation"
+      "metacoq-safechecker"
+      "metacoq-safechecker-plugin"
+      "metacoq-template-coq"
+      "metacoq-template-pcuic"
+      "metacoq-translations"
+      "metacoq-utils"
+      "metarocq"
+      "metarocq-erasure"
+      "metarocq-erasure-plugin"
+      "metarocq-pcuic"
+      "metarocq-quotation"
+      "metarocq-safechecker"
+      "metarocq-safechecker-plugin"
+      "metarocq-template-pcuic"
+      "metarocq-test"
+      "rewriter"
+      "riscvcoq"
+      "rupicola"
+      "VerdiRaft"
+    ];
     coq-common-bundles = listToAttrs (forEach master (p:
       { name = p; value.override.version = "master"; }))
     // listToAttrs (forEach coq-master (p:
@@ -260,12 +302,10 @@ with builtins; with (import <nixpkgs> {}).lib;
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
       metarocq.override.version = "1.4-9.0";
-      metarocq-test.override.version = "v1.4-9.0";
       mtac2.override.version = "1cdb2cb628444ffe9abc6535f6d2e11004de7fc1";
       paramcoq-test.override.version = "32609ca4a9bf4a0e456a855ea5118d8c00cda6be";
       perennial.job = false;  # broken
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
-      rewriter.override.version = "30c8507c1e30626b2aa1e15c0aa7c23913da033c";
       rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
       smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
@@ -274,6 +314,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
-    }; };
+    } // listToAttrs (forEach lighten-released (p:
+      { name = p; value.job = false; })); };
   };
 }
