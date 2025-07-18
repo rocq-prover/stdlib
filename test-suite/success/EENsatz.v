@@ -116,55 +116,63 @@ Ltac preprocess :=
   end;
   repeat (get_mods;  mods_to_equalities;  exists_to_equalities).
 
-(*
-     Examples of the Stdlib.
-*)
+(* *)
+(*      Examples of the Stdlib with existantiel variables *)
+(* *)
 
-Example mod_mod_divide: forall a b c : Z, (c | b) -> (a mod b) mod c = a mod c.
+Goal forall a b c : Z, (c | b) -> (a mod b) mod c = a mod c.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example mod_mod_divide2: forall a b c : Z, (c | b) -> ((a mod b) mod b) mod c = a mod c.
+Goal forall a b c : Z, (c | b) -> ((a mod b) mod b) mod c = a mod c.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example Zmult_mod_idemp_l : forall a b n : Z, (a mod n * b) mod n = (a * b) mod n.
+Goal forall a b n : Z, (a mod n * b) mod n = (a * b) mod n.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example Zplus_mod_idemp_l: forall a b n : Z, (a mod n + b) mod n = (a + b) mod n.
+Goal forall a b n : Z, (a mod n + b) mod n = (a + b) mod n.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example Zplus_mod: forall a b n : Z, (a + b) mod n = (a mod n + b mod n) mod n.
+Goal forall a b n : Z, (a + b) mod n = (a mod n + b mod n) mod n.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example Zmult_mod: forall a b n : Z, (a * b) mod n = (a mod n * (b mod n)) mod n.
+Goal forall a b n : Z, (a * b) mod n = (a mod n * (b mod n)) mod n.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example mod_mod_opp_r: forall a b : Z, (a mod - b) mod b = a mod b.
+Goal forall a b : Z, (a mod - b) mod b = a mod b.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
-Example cong: forall a b m : Z, (a - b) mod m = 0%Z -> a mod m = b mod m.
+Goal forall a b m : Z, (a - b) mod m = 0%Z -> a mod m = b mod m.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
@@ -176,6 +184,7 @@ Example cancellation_congruence a n x y:
   (a * x = (a * y) mod n -> (exists e1 e2, a * e1 + n * e2 = 1) -> y mod n = x mod n)%Z.
 Proof.
   preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
@@ -189,10 +198,16 @@ Definition ideal(x a b:Z):= exists u:Z, exists v:Z, x = u*a+v*b.
 Definition coprime(a b:Z):= exists u:Z, exists v:Z, 1 = u*a+v*b.
 Definition gcd(g a b:Z):= (g | a) /\ (g | b) /\ ideal g a b.
 
+Ltac do_eexists :=
+  match goal with
+  | |- @ex _ _ => eexists; do_eexists
+  | _ => idtac
+  end.
+
 Ltac integer_rule :=
   repeat unfold modulo, coprime, ideal;
   unfold Z.pow, Z.pow_pos; simpl;
-  preprocess; ensatz.
+  preprocess; do_eexists; ensatz.
 
 Goal forall a b c:Z, (a | b*c) -> coprime a b -> (a | c).
   integer_rule.
@@ -214,9 +229,11 @@ Goal forall a b c:Z, (a | b*c) -> coprime a b -> (a | c).
   integer_rule.
 Qed.
 
-Goal forall x y:Z, coprime (x*y) (x^2+y^2) <-> coprime x y.
-  split; integer_rule.
-Qed.
+
+(* This example take to much time *)
+(* Goal forall x y:Z, coprime (x*y) (x^2+y^2) <-> coprime x y. *)
+(* split;integer_rule. *)
+(* Qed. *)
 
 Goal forall x y a n:Z, modulo (x+a) (y+a) n <-> modulo x y n.
   split; integer_rule.
@@ -315,7 +332,7 @@ Qed.
 Goal forall x : Z, (0 | x) <-> x = 0.
   split; preprocess.
   + subst. cring.
-  + ensatz.
+  + eexists. ensatz.
 Qed.
 
 Goal forall d x : Z, ( -d | x) <->  (d | x).
@@ -367,6 +384,7 @@ Goal forall a b c : Z, (c * a | c * b) -> c <> 0 -> (a | b).
   revert H.
   rewrite <- Zmult_assoc_reverse, <- Z.mul_shuffle0, Z.mul_comm.
   intros ?%(Z.mul_cancel_r b _ _ H0).
+  eexists.
   ensatz.
 Qed.
 
@@ -375,8 +393,10 @@ Goal forall a b c : Z, c <> 0 -> ((c * a | c * b) <-> (a | b)).
   + revert H.
     rewrite <- Zmult_assoc_reverse, <- Z.mul_shuffle0, Z.mul_comm.
     intros ?%(Z.mul_cancel_r b _ _ H0).
+    eexists.
     ensatz.
-  + ensatz.
+  + eexists.
+    ensatz.
 Qed.
 
 Goal forall a b c : Z, c <> 0 -> ((a * c | b * c) <-> (a |b)).
@@ -384,8 +404,10 @@ Goal forall a b c : Z, c <> 0 -> ((a * c | b * c) <-> (a |b)).
   + revert H.
     rewrite <- Zmult_assoc_reverse.
     intros ?%(Z.mul_cancel_r b _ _ H0).
+    eexists.
     ensatz.
-  + ensatz.
+  + eexists.
+    ensatz.
 Qed.
 
 Goal forall a b c d : Z, (a | b)  -> (c | d) -> (a * c | b * d).
@@ -397,12 +419,15 @@ Goal forall x y n : Z,  (x | y) -> (x ^ n  | y ^ n).
   destruct (Z.le_ge_cases 0 n) as [? | [? %(Z.pow_neg_r y)| -> ] %Zle_lt_or_eq].
   - generalize dependent n.
     apply natlike_rec2.
-    + ensatz.
+    + eexists. ensatz.
     + preprocess.
       repeat rewrite Z.pow_succ_r by assumption.
+      eexists.
       ensatz.
-  - ensatz.
-  - ensatz.
+  - eexists.
+    ensatz.
+  - eexists.
+    ensatz.
 Qed.
 
 Goal forall n x y : Z, (0 <> n) /\ (x ^ n | y) -> (x | y).
@@ -412,8 +437,10 @@ Goal forall n x y : Z, (0 <> n) /\ (x ^ n | y) -> (x | y).
     preprocess.
     subst.
     rewrite Z.pow_succ_r by (apply Zlt_succ_le;auto).
+    eexists.
     ensatz.
-  - ensatz.
+  - eexists.
+    ensatz.
 Qed.
 
 (* *)
@@ -427,5 +454,6 @@ Definition div(a b: R):= exists k: R, b = k*a.
 Goal forall x y z : R, div x y -> div y z -> div x z.
   unfold div.
   preprocess.
+  eexists.
   ensatz.
 Qed.

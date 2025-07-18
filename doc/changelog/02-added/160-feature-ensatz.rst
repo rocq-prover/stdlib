@@ -1,7 +1,7 @@
 - in `ENsatzTactic`
 
   + Add new tactic `ensatz` for proving polynomial equalities
-    with existential quantifier
+    with existential quantifiers or existential variables
     (`#160 <https://github.com/coq/stdlib/pull/160>`_,
     by Lionel Blatter).
 
