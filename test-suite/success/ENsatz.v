@@ -1,7 +1,6 @@
 From Stdlib Require Import Znumtheory.
 From Stdlib Require Import ZArith.
 From Stdlib Require Import ZNsatz.
-From Stdlib Require Import ENsatzTactic.
 From Stdlib Require Import Cring.
 From Stdlib Require Import Lia.
 
@@ -46,7 +45,7 @@ Proof.
       exists 0%Z.
       apply Z.divide_0_l in H.
       subst. reflexivity.
-    - apply Zdivide_mod in H.
+    - apply Z.mod0_divide in H.
       apply (Zmod_divides _ _ H1 ) in H.
       destruct H.
       rewrite Z.mul_comm in H.
@@ -127,6 +126,7 @@ Proof.
 Qed.
 
 Example mod_mod_divide2: forall a b c : Z, (c | b) -> ((a mod b) mod b) mod c = a mod c.
+Proof.
   preprocess.
   Time ensatz.
 Qed.
@@ -164,6 +164,66 @@ Qed.
 Example cong: forall a b m : Z, (a - b) mod m = 0%Z -> a mod m = b mod m.
 Proof.
   preprocess.
+  Time ensatz.
+Qed.
+
+(* *)
+(*      Examples of the Stdlib with existantiel variables *)
+(* *)
+
+Goal forall a b c : Z, (c | b) -> (a mod b) mod c = a mod c.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b c : Z, (c | b) -> ((a mod b) mod b) mod c = a mod c.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b n : Z, (a mod n * b) mod n = (a * b) mod n.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b n : Z, (a mod n + b) mod n = (a + b) mod n.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b n : Z, (a + b) mod n = (a mod n + b mod n) mod n.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b n : Z, (a * b) mod n = (a mod n * (b mod n)) mod n.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b : Z, (a mod - b) mod b = a mod b.
+Proof.
+  preprocess.
+  eexists.
+  Time ensatz.
+Qed.
+
+Goal forall a b m : Z, (a - b) mod m = 0%Z -> a mod m = b mod m.
+Proof.
+  preprocess.
+  eexists.
   Time ensatz.
 Qed.
 
@@ -415,7 +475,11 @@ Goal forall n x y : Z, (0 <> n) /\ (x ^ n | y) -> (x | y).
   - ensatz.
 Qed.
 
-Require Import Reals RNsatz.
+(* *)
+(*      Examples with Reals *)
+(* *)
+
+From Stdlib Require Import Reals RNsatz.
 
 Definition div(a b: R):= exists k: R, b = k*a.
 
