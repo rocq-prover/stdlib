@@ -12,7 +12,7 @@ Inductive expr :=
   | Lam : string -> expr -> expr
   | App : expr -> expr -> expr.
 
-Notation Let x e1 e2 := (App (Lam x e2) e1).
+Abbreviation Let x e1 e2 := (App (Lam x e2) e1).
 Parameter e1 e2 : expr.
 Check (Let "x" e1 e2). (* always printed the same *)
 Coercion App : expr >-> Funclass.
