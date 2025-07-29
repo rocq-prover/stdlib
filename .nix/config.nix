@@ -116,7 +116,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "coqprime"
       "coquelicot"
       "coqutil"
-      "coq-elpi"
       "ExtLib"
       "coq-hammer"
       "coq-hammer-tactics"
@@ -245,6 +244,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
+      coq-elpi.override.version = "master";
       coq-elpi.override.elpi-version = "v3.0.1";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
@@ -257,7 +257,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
-      # add below a line like
+      # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
       # where
       # * <package> will typically be one of the strings above (without the quotes)
@@ -265,6 +265,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      sf.job = false;  # temporarily disactivated in Rocq CI
+      trakt.job = false;  # temporarily disactivated in Rocq CI
+      smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = {
       bignums.override.version = "master";
@@ -280,6 +283,43 @@ with builtins; with (import <nixpkgs> {}).lib;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
     }; };
+    "rocq-9.1" = { rocqPackages = common-bundles // {
+      rocq-core.override.version = "9.1";
+      # check that we compile without warnings on last release of Rocq
+      stdlib-warnings.job = true;
+      # plugin pins, from v9.1 branch of Rocq
+      bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+    }; coqPackages = coq-common-bundles // {
+      coq.override.version = "9.1";
+      # plugin pins, from v9.1 branch of Rocq
+      aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
+      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
+      itauto.override.version = "ff11a568d000b94965a33de428c6e6700b920198";
+      bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+      coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
+      dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
+      coq-hammer.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
+      coq-hammer-tactics.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
+      equations.override.version = "2137c8e7081f2d47ab903de0cc09fd6a05bfab01";
+      equations-test.job = false;
+      fiat-parsers.job = false;  # broken
+      metarocq.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
+      metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
+      mtac2.override.version = "bcbefa79406fc113f878eb5f89758de241d81433";
+      paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
+      perennial.job = false;  # broken
+      relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
+      rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
+      rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
+      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
+      unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
+      waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
+      compcert.job = false;  # broken
+      VST.job = false;  # depends on compcert
+    } // listToAttrs (forEach lighten-released (p:
+      { name = p; value.job = false; })); };
     "rocq-9.0" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.0.0";
       # check that we compile without warnings on last release of Coq
@@ -308,7 +348,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
       rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
       waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
