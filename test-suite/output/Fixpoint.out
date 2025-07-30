@@ -69,7 +69,7 @@ The 1st recursive definition is:
 "fun n m : nat =>
  match n with
  | 0 => bar 0 0
- | S n0 => (fun n1 : nat => ?Goal0@{n:=n1}) n0
+ | S n0 => (fun n1 : nat => ?S@{n:=n1}) n0
  end".
 The 2nd recursive definition is: "fun n m : nat => ?Goal".
 The condition holds up to here.
@@ -92,6 +92,6 @@ The 1st recursive definition is:
 "fun (n : nat) (m : Prop) =>
  match n with
  | 0 => bar' SI 0
- | S n0 => (fun n1 : nat => ?Goal0@{n:=n1}) n0
+ | S n0 => (fun n1 : nat => ?S@{n:=n1}) n0
  end".
 The 2nd recursive definition is: "fun (n : STrue) (m : nat) => ?Goal".
