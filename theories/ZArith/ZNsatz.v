@@ -1,5 +1,6 @@
-From Stdlib Require Import BinInt Lia NsatzTactic.
+From Stdlib Require Import BinInt Lia NsatzTactic ENsatzTactic.
 Export (ltac.notations) NsatzTactic.
+Export (ltac.notations) ENsatzTactic.
 
 (** Make use of [lia] in [nsatz] *)
 Ltac nsatz_internal_lia ::= lia.
