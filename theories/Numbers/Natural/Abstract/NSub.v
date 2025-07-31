@@ -66,6 +66,21 @@ intros n m. rewrite <- add_sub_assoc by (apply le_refl).
 rewrite sub_diag; now rewrite add_0_r.
 Qed.
 
+Definition add_simpl_r := add_sub.
+
+Theorem add_simpl_l : forall n m, (n + m) - n == m.
+Proof.
+intros n m. rewrite add_comm. apply add_sub.
+Qed.
+
+Theorem add_add_simpl_l_l n m p : (n + m) - (n + p) == m - p.
+Proof.
+induct n.
+  now rewrite 2!add_0_l.
+intros n Ih. 
+rewrite 2!add_succ_l. now rewrite sub_succ.
+Qed.
+
 Theorem sub_add : forall n m, n <= m -> (m - n) + n == m.
 Proof.
 intros n m H. rewrite add_comm. rewrite add_sub_assoc by assumption.
