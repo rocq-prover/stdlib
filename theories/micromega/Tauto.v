@@ -14,20 +14,13 @@
 (*                                                                      *)
 (************************************************************************)
 
+From Stdlib Require Export micromega_formula.
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Bool.
 From Stdlib Require Import Relation_Definitions Setoid.
 
 Set Implicit Arguments.
-
-(** Formulae are either interpreted over Prop or bool. *)
-Inductive kind : Type :=
-|isProp
-|isBool.
-
-Register isProp as micromega.kind.isProp.
-Register isBool as micromega.kind.isBool.
 
 Inductive Trace (A : Type) :=
 | null : Trace A
@@ -41,29 +34,7 @@ Section S.
   Context {AA  : Type}. (* type of annotations for atoms *)
   Context {AF  : Type}. (* type of formulae identifiers *)
 
-  Inductive GFormula  : kind -> Type :=
-  | TT   : forall (k: kind), GFormula k
-  | FF   : forall (k: kind), GFormula k
-  | X    : forall (k: kind), TX k -> GFormula k
-  | A    : forall (k: kind), TA -> AA -> GFormula k
-  | AND  : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | OR   : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | NOT  : forall (k: kind), GFormula k -> GFormula k
-  | IMPL : forall (k: kind), GFormula k -> option AF -> GFormula k -> GFormula k
-  | IFF  : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | EQ   : GFormula isBool -> GFormula isBool -> GFormula isProp.
-
-  Register TT as micromega.GFormula.TT.
-  Register FF as micromega.GFormula.FF.
-  Register X  as micromega.GFormula.X.
-  Register A  as micromega.GFormula.A.
-  Register AND as micromega.GFormula.AND.
-  Register OR  as micromega.GFormula.OR.
-  Register NOT  as micromega.GFormula.NOT.
-  Register IMPL  as micromega.GFormula.IMPL.
-  Register IFF  as micromega.GFormula.IFF.
-  Register EQ  as micromega.GFormula.EQ.
-
+  Local Notation GFormula := (@GFormula TA TX AA AF).
 
   Section MAPX.
     Variable F : forall k, TX k -> TX k.
@@ -72,7 +43,7 @@ Section S.
       match f with
       | TT k => TT k
       | FF k => FF k
-      | X x => X (F  x)
+      | X k x => X k (F  x)
       | A k a an => A k a an
       | AND f1 f2 => AND (mapX f1) (mapX f2)
       | OR f1 f2  => OR (mapX f1) (mapX f2)
@@ -92,7 +63,7 @@ Section S.
       match f with
       | TT _ => acc
       | FF _ => acc
-      | X x => acc
+      | X k x => acc
       | A _ a an => F acc an
       | AND f1 f2
       | OR f1 f2
@@ -118,7 +89,7 @@ Section S.
 
   Fixpoint collect_annot (k: kind) (f : GFormula k) : list AA :=
     match f with
-    | TT _ | FF _ | X _ => nil
+    | TT _ | FF _ | X _ _ => nil
     | A _ _ a => a ::nil
     | AND f1 f2
     | OR  f1 f2
@@ -162,31 +133,31 @@ Section S.
       then not else negb.
 
     Fixpoint eval_f (k: kind) (f:GFormula k) {struct f}: rtyp k :=
-      match f in GFormula k' return rtyp k' with
+      match f in micromega_formula.GFormula k' return rtyp k' with
       | TT tk => eTT tk
       | FF tk => eFF tk
       | A k a _ =>  ea k a
-      | X p => ex  p
-      | @AND k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
-      | @OR k e1 e2  => eOR k (eval_f e1) (eval_f e2)
-      | @NOT k e     => eNOT k (eval_f e)
-      | @IMPL k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
-      | @IFF k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
+      | X k p => ex  p
+      | @AND _ _ _ _ k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
+      | @OR _ _ _ _ k e1 e2  => eOR k (eval_f e1) (eval_f e2)
+      | @NOT _ _ _ _ k e     => eNOT k (eval_f e)
+      | @IMPL _ _ _ _ k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
+      | @IFF _ _ _ _ k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
       | EQ f1 f2    => (eval_f f1) = (eval_f f2)
       end.
 
     Lemma eval_f_rew : forall k (f:GFormula k),
         eval_f f =
-        match f in GFormula k' return rtyp k' with
+        match f in micromega_formula.GFormula k' return rtyp k' with
         | TT tk => eTT tk
         | FF tk => eFF tk
         | A k a _ =>  ea k a
-        | X p => ex  p
-        | @AND k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
-        | @OR k e1 e2  => eOR k (eval_f e1) (eval_f e2)
-        | @NOT k e     => eNOT k (eval_f e)
-        | @IMPL k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
-        | @IFF k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
+        | X k p => ex  p
+        | @AND _ _ _ _ k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
+        | @OR _ _ _ _ k e1 e2  => eOR k (eval_f e1) (eval_f e2)
+        | @NOT _ _ _ _ k e     => eNOT k (eval_f e)
+        | @IMPL _ _ _ _ k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
+        | @IFF _ _ _ _ k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
         | EQ f1 f2    => (eval_f f1) = (eval_f f2)
         end.
     Proof.
@@ -289,22 +260,11 @@ Section S.
 
 End S.
 
-
-
-(** Typical boolean formulae *)
-Definition eKind (k: kind) := if k then Prop else bool.
-Register eKind as micromega.eKind.
-
-Definition BFormula (A : Type) := @GFormula A eKind unit unit.
-
-Register BFormula as micromega.BFormula.type.
-
 Section MAPATOMS.
   Context {TA TA':Type}.
   Context {TX  : kind -> Type}.
   Context {AA  : Type}.
   Context {AF  : Type}.
-
 
   Fixpoint map_bformula (k: kind)(fct : TA -> TA') (f : @GFormula TA TX AA AF k) : @GFormula TA' TX AA AF k:=
     match f with

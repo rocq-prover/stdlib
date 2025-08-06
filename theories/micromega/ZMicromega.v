@@ -185,7 +185,7 @@ Proof.
   - rewrite <- Z.gtb_gt; tauto.
 Qed.
 
-Definition Zeval_op2 (k: Tauto.kind) :  Op2 ->  Z -> Z -> Tauto.rtyp k:=
+Definition Zeval_op2 (k: kind) :  Op2 ->  Z -> Z -> Tauto.rtyp k:=
   if k as k0 return (Op2 -> Z -> Z -> Tauto.rtyp k0)
   then Zeval_pop2 else Zeval_bop2.
 
@@ -199,23 +199,23 @@ Proof.
 Qed.
 
 
-Definition Zeval_formula (env : PolEnv Z) (k: Tauto.kind) (f : Formula Z):=
+Definition Zeval_formula (env : PolEnv Z) (k: kind) (f : Formula Z):=
   let (lhs, op, rhs) := f in
     (Zeval_op2 k op) (Zeval_expr env lhs) (Zeval_expr env rhs).
 
 Definition Zeval_formula' :=
   eval_formula  Z.add Z.mul Z.sub Z.opp (@eq Z) Z.le Z.lt (fun x => x) (fun x => x) (pow_N 1 Z.mul).
 
-Lemma Zeval_formula_compat : forall env k f, Tauto.hold k (Zeval_formula env k f) <-> Zeval_formula env Tauto.isProp f.
+Lemma Zeval_formula_compat : forall env k f, Tauto.hold k (Zeval_formula env k f) <-> Zeval_formula env isProp f.
 Proof.
   intros env k; destruct k ; simpl.
   - tauto.
   - intros f; destruct f ; simpl.
-    rewrite <- (Zeval_op2_hold Tauto.isBool).
+    rewrite <- (Zeval_op2_hold isBool).
     simpl. tauto.
 Qed.
 
-Lemma Zeval_formula_compat' : forall env f,  Zeval_formula env Tauto.isProp f <-> Zeval_formula' env f.
+Lemma Zeval_formula_compat' : forall env f,  Zeval_formula env isProp f <-> Zeval_formula' env f.
 Proof.
   intros env f.
   unfold Zeval_formula.
@@ -336,7 +336,7 @@ Definition xnnormalise (t : Formula Z) : NFormula Z :=
 
 Lemma xnnormalise_correct :
   forall env f,
-    eval_nformula env (xnnormalise f) <-> Zeval_formula env Tauto.isProp f.
+    eval_nformula env (xnnormalise f) <-> Zeval_formula env isProp f.
 Proof.
   intros env f.
   rewrite Zeval_formula_compat'.
@@ -440,7 +440,7 @@ Definition normalise {T : Type} (t:Formula Z) (tg:T) : cnf (NFormula Z) T :=
   if Zunsat f then cnf_ff _ _
   else cnf_of_list tg (xnormalise f).
 
-Lemma normalise_correct : forall (T: Type) env t (tg:T), eval_cnf eval_nformula env (normalise t tg) <-> Zeval_formula env Tauto.isProp t.
+Lemma normalise_correct : forall (T: Type) env t (tg:T), eval_cnf eval_nformula env (normalise t tg) <-> Zeval_formula env isProp t.
 Proof.
   intros T env t tg.
   rewrite <- xnnormalise_correct.
@@ -484,7 +484,7 @@ Proof.
   - tauto.
 Qed.
 
-Lemma negate_correct : forall T env t (tg:T), eval_cnf eval_nformula env (negate t tg) <-> ~ Zeval_formula env Tauto.isProp t.
+Lemma negate_correct : forall T env t (tg:T), eval_cnf eval_nformula env (negate t tg) <-> ~ Zeval_formula env isProp t.
 Proof.
   intros T env t tg.
   rewrite <- xnnormalise_correct.
@@ -498,10 +498,10 @@ Proof.
     apply xnegate_correct.
 Qed.
 
-Definition cnfZ (Annot: Type) (TX : Tauto.kind -> Type)  (AF : Type) (k: Tauto.kind) (f : TFormula (Formula Z) Annot TX AF k) :=
+Definition cnfZ (Annot: Type) (TX : kind -> Type)  (AF : Type) (k: kind) (f : TFormula (Formula Z) Annot TX AF k) :=
   rxcnf Zunsat Zdeduce normalise negate true f.
 
-Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) Tauto.isProp) : bool :=
+Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) isProp) : bool :=
   @tauto_checker (Formula Z)  (NFormula Z) unit Zunsat Zdeduce normalise negate  ZWitness (fun cl => ZWeakChecker (List.map fst cl)) f w.
 
 (* To get a complete checker, the proof format has to be enriched *)
@@ -1731,7 +1731,7 @@ Proof.
       apply Nat.lt_succ_diag_r.
 Qed.
 
-Definition ZTautoChecker  (f : BFormula (Formula Z) Tauto.isProp) (w: list ZArithProof): bool :=
+Definition ZTautoChecker  (f : BFormula (Formula Z) isProp) (w: list ZArithProof): bool :=
   @tauto_checker (Formula Z) (NFormula Z) unit Zunsat Zdeduce normalise negate  ZArithProof (fun cl => ZChecker (List.map fst cl)) f w.
 
 Lemma ZTautoChecker_sound : forall f w, ZTautoChecker f w = true -> forall env, eval_bf  (Zeval_formula env)  f.

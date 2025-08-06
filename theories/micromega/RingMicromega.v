@@ -627,21 +627,6 @@ Qed.
 
 (** Normalisation of formulae **)
 
-Inductive Op2 : Set := (* binary relations *)
-| OpEq
-| OpNEq
-| OpLe
-| OpGe
-| OpLt
-| OpGt.
-
-Register OpEq  as micromega.Op2.OpEq.
-Register OpNEq as micromega.Op2.OpNEq.
-Register OpLe  as micromega.Op2.OpLe.
-Register OpGe  as micromega.Op2.OpGe.
-Register OpLt  as micromega.Op2.OpLt.
-Register OpGt  as micromega.Op2.OpGt.
-
 Definition eval_op2 (o : Op2) : R -> R -> Prop :=
 match o with
 | OpEq => req
@@ -655,20 +640,9 @@ end.
 Definition  eval_pexpr : PolEnv -> PExpr C -> R :=
  PEeval rplus rtimes rminus ropp phi pow_phi rpow.
 
-#[universes(template)]
-Record Formula (T:Type) : Type := Build_Formula{
-  Flhs : PExpr T;
-  Fop : Op2;
-  Frhs : PExpr T
-}.
-
-Register Formula as micromega.Formula.type.
-Register Build_Formula as micromega.Formula.Build_Formula.
-
 Definition eval_formula (env : PolEnv) (f : Formula C) : Prop :=
   let (lhs, op, rhs) := f in
     (eval_op2 op) (eval_pexpr env lhs) (eval_pexpr env rhs).
-
 
 (* We normalize Formulas by moving terms to one side *)
 

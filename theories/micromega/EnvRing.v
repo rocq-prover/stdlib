@@ -11,33 +11,14 @@
    For big polynomials, this is inefficient -- linear access.
    I have modified the code to use binary trees -- logarithmic access.  *)
 
-
-Set Implicit Arguments.
+From Stdlib Require Export micromega_formula.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
 
+Set Implicit Arguments.
+
 #[local] Open Scope positive_scope.
 Import RingSyntax.
-
-(** Definition of polynomial expressions *)
-#[universes(template)]
-Inductive PExpr {C} : Type :=
-| PEc : C -> PExpr
-| PEX : positive -> PExpr
-| PEadd : PExpr -> PExpr -> PExpr
-| PEsub : PExpr -> PExpr -> PExpr
-| PEmul : PExpr -> PExpr -> PExpr
-| PEopp : PExpr -> PExpr
-| PEpow : PExpr -> N -> PExpr.
-Arguments PExpr : clear implicits.
-
-Register PEc as micromega.PExpr.PEc.
-Register PEX as micromega.PExpr.PEX.
-Register PEadd as micromega.PExpr.PEadd.
-Register PEsub as micromega.PExpr.PEsub.
-Register PEmul as micromega.PExpr.PEmul.
-Register PEopp as micromega.PExpr.PEopp.
-Register PEpow as micromega.PExpr.PEpow.
 
  (* Definition of multivariable polynomials with coefficients in C :
     Type [Pol] represents [X1 ... Xn].

@@ -419,7 +419,7 @@ Proof.
   - apply Rlt_not_le in H. tauto.
 Qed.
 
-Definition Reval_op2 (k: Tauto.kind) :  Op2 ->  R -> R -> Tauto.rtyp k:=
+Definition Reval_op2 (k: kind) :  Op2 ->  R -> R -> Tauto.rtyp k:=
   if k as k0 return (Op2 -> R -> R -> Tauto.rtyp k0)
   then Reval_pop2 else Reval_bop2.
 
@@ -431,7 +431,7 @@ Proof.
   - simpl. apply pop2_bop2.
 Qed.
 
-Definition Reval_formula (e: PolEnv R) (k: Tauto.kind) (ff : Formula Rcst) :=
+Definition Reval_formula (e: PolEnv R) (k: kind) (ff : Formula Rcst) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (Reval_expr e lhs) (Reval_expr e rhs).
 
 
@@ -461,7 +461,7 @@ Qed.
 
 Definition QReval_expr := eval_pexpr Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
 
-Definition QReval_formula (e: PolEnv R) (k: Tauto.kind) (ff : Formula Q) :=
+Definition QReval_formula (e: PolEnv R) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (QReval_expr e lhs) (QReval_expr e rhs).
 
 
@@ -514,7 +514,7 @@ Definition runsat := check_inconsistent 0%Q Qeq_bool Qle_bool.
 
 Definition rdeduce := nformula_plus_nformula 0%Q Qplus Qeq_bool.
 
-Definition RTautoChecker (f : BFormula (Formula Rcst) Tauto.isProp) (w: list RWitness)  : bool :=
+Definition RTautoChecker (f : BFormula (Formula Rcst) isProp) (w: list RWitness)  : bool :=
   @tauto_checker (Formula Q) (NFormula Q)
   unit runsat rdeduce
   (Rnormalise unit) (Rnegate unit)

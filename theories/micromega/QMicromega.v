@@ -153,7 +153,7 @@ Proof.
   - apply Qlt_bool_iff.
 Qed.
 
-Definition Qeval_op2 (k:Tauto.kind) :  Op2 ->  Q -> Q -> Tauto.rtyp k:=
+Definition Qeval_op2 (k:kind) :  Op2 ->  Q -> Q -> Tauto.rtyp k:=
   if k as k0 return (Op2 -> Q -> Q -> Tauto.rtyp k0)
   then Qeval_pop2 else Qeval_bop2.
 
@@ -166,7 +166,7 @@ Proof.
   - simpl. apply pop2_bop2.
 Qed.
 
-Definition Qeval_formula (e:PolEnv Q) (k: Tauto.kind) (ff : Formula Q) :=
+Definition Qeval_formula (e:PolEnv Q) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Qeval_op2 k o (Qeval_expr e lhs) (Qeval_expr e rhs).
 
 Definition Qeval_formula' :=
@@ -237,10 +237,10 @@ Definition qdeduce := nformula_plus_nformula 0 Qplus Qeq_bool.
 Definition normQ  := norm 0 1 Qplus Qmult Qminus Qopp Qeq_bool.
 Declare Equivalent Keys normQ RingMicromega.norm.
 
-Definition cnfQ (Annot:Type) (TX: Tauto.kind -> Type)  (AF: Type) (k: Tauto.kind) (f: TFormula (Formula Q) Annot TX AF k) :=
+Definition cnfQ (Annot:Type) (TX: kind -> Type)  (AF: Type) (k: kind) (f: TFormula (Formula Q) Annot TX AF k) :=
   rxcnf qunsat qdeduce (Qnormalise Annot) (Qnegate Annot) true f.
 
-Definition QTautoChecker  (f : BFormula (Formula Q) Tauto.isProp) (w: list QWitness)  : bool :=
+Definition QTautoChecker  (f : BFormula (Formula Q) isProp) (w: list QWitness)  : bool :=
   @tauto_checker (Formula Q) (NFormula Q) unit
   qunsat qdeduce
   (Qnormalise unit)
