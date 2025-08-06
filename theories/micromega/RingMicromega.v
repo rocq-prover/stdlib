@@ -291,25 +291,7 @@ unfold eval_op1; intros o; destruct o; simpl; intros o' oa e e' H1 H2 Hoa.
     now apply (Rplus_nonneg_nonneg sor).
 Qed.
 
-Inductive Psatz : Type :=
-| PsatzLet: Psatz -> Psatz -> Psatz
-| PsatzIn : nat -> Psatz
-| PsatzSquare : PolC -> Psatz
-| PsatzMulC : PolC -> Psatz -> Psatz
-| PsatzMulE : Psatz -> Psatz -> Psatz
-| PsatzAdd  : Psatz -> Psatz -> Psatz
-| PsatzC    : C -> Psatz
-| PsatzZ    : Psatz.
-
-Register PsatzLet    as micromega.Psatz.PsatzLet.
-Register PsatzIn     as micromega.Psatz.PsatzIn.
-Register PsatzSquare as micromega.Psatz.PsatzSquare.
-Register PsatzMulC   as micromega.Psatz.PsatzMulC.
-Register PsatzMulE   as micromega.Psatz.PsatzMulE.
-Register PsatzAdd    as micromega.Psatz.PsatzAdd.
-Register PsatzC      as micromega.Psatz.PsatzC.
-Register PsatzZ      as micromega.Psatz.PsatzZ.
-
+#[local] Notation Psatz := (Psatz C).
 
 (** Given a list [l] of NFormula and an extended polynomial expression
    [e], if [eval_Psatz l e] succeeds (= Some f) then [f] is a
@@ -365,14 +347,14 @@ Fixpoint eval_Psatz (l : list NFormula) (e : Psatz) {struct e} : option NFormula
                         | None => None
                         | Some f => eval_Psatz (f::l) p2
                         end
-    | PsatzIn n => Some (nth n l (Pc cO, Equal))
+    | PsatzIn _ n => Some (nth n l (Pc cO, Equal))
     | PsatzSquare e => Some (Psquare cO cI cplus ctimes ceqb e  , NonStrict)
     | PsatzMulC re e => map_option (pexpr_times_nformula re) (eval_Psatz l e)
     | PsatzMulE f1 f2 => map_option2 nformula_times_nformula  (eval_Psatz l f1) (eval_Psatz l f2)
     | PsatzAdd f1 f2  => map_option2 nformula_plus_nformula  (eval_Psatz l f1) (eval_Psatz l f2)
     | PsatzC  c  => if cltb cO c then Some (Pc c, Strict) else None
 (* This could be 0, or <> 0 -- but these cases are useless *)
-    | PsatzZ     => Some (Pc cO, Equal) (* Just to make life easier *)
+    | PsatzZ _     => Some (Pc cO, Equal) (* Just to make life easier *)
   end.
 
 
@@ -508,19 +490,19 @@ Qed.
 
 Fixpoint xhyps_of_psatz (base:nat) (acc : list nat) (prf : Psatz)  : list nat :=
   match prf with
-    | PsatzC _ | PsatzZ | PsatzSquare _ => acc
+    | PsatzC _ | PsatzZ _ | PsatzSquare _ => acc
     | PsatzMulC _ prf => xhyps_of_psatz base acc prf
     | PsatzAdd e1 e2 | PsatzMulE e1 e2 => xhyps_of_psatz base (xhyps_of_psatz base acc e2) e1
-    | PsatzIn n => if ge_bool n base then (n::acc) else acc
+    | PsatzIn _ n => if ge_bool n base then (n::acc) else acc
     | PsatzLet e1 e2 => xhyps_of_psatz base (xhyps_of_psatz (S base) acc e2) e1
   end.
 
 Fixpoint nhyps_of_psatz (base:nat) (prf : Psatz) : list nat :=
   match prf with
-    | PsatzC _ | PsatzZ | PsatzSquare _ => nil
+    | PsatzC _ | PsatzZ _ | PsatzSquare _ => nil
     | PsatzMulC _ prf => nhyps_of_psatz base prf
     | PsatzAdd e1 e2 | PsatzMulE e1 e2 => nhyps_of_psatz base e1 ++ nhyps_of_psatz base e2
-    | PsatzIn n => if ge_bool n base then (n::nil) else nil
+    | PsatzIn _ n => if ge_bool n base then (n::nil) else nil
     | PsatzLet e1 e2 => nhyps_of_psatz base e1 ++ nhyps_of_psatz (S base) e2
   end.
 
@@ -1043,17 +1025,17 @@ Qed.
 (** Some syntactic simplifications of expressions  *)
 
 
-Definition simpl_cone (e:Psatz) : Psatz :=
+Definition simpl_cone (e:Psatz C) : Psatz C :=
   match e with
     | PsatzSquare t =>
                     match t with
-                      | Pc c   => if ceqb cO c then PsatzZ else PsatzC (ctimes c c)
+                      | Pc c   => if ceqb cO c then PsatzZ _ else PsatzC (ctimes c c)
                       | _ => PsatzSquare t
                     end
     | PsatzMulE t1 t2 =>
       match t1 , t2 with
-        | PsatzZ      , _        => PsatzZ
-        |    _     , PsatzZ      => PsatzZ
+        | PsatzZ _    , _        => PsatzZ C
+        |    _     , PsatzZ _    => PsatzZ C
         | PsatzC c ,  PsatzC c' => PsatzC (ctimes c c')
         | PsatzC p1 , PsatzMulE (PsatzC p2)  x => PsatzMulE (PsatzC (ctimes p1 p2)) x
         | PsatzC p1 , PsatzMulE x (PsatzC p2)  => PsatzMulE (PsatzC (ctimes p1 p2)) x
@@ -1066,8 +1048,8 @@ Definition simpl_cone (e:Psatz) : Psatz :=
       end
     | PsatzAdd t1 t2 =>
       match t1 ,  t2 with
-        | PsatzZ     , x => x
-        |   x     , PsatzZ => x
+        | PsatzZ _   , x => x
+        |   x     , PsatzZ _ => x
         |   x     , y   => PsatzAdd x y
       end
     |   _     => e

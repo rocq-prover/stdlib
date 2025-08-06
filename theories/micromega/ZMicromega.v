@@ -250,7 +250,7 @@ Proof.
   apply (eval_nformula_dec Zsor).
 Qed.
 
-Definition ZWitness := Psatz Z.
+Notation ZWitness := ZWitness.
 
 Definition ZWeakChecker := check_normalised_formulas 0 1 Z.add Z.mul Z.eqb Z.leb.
 
@@ -558,26 +558,7 @@ Qed.
 
 (** NB: narrow_interval_upper_bound is Zdiv.Zdiv_le_lower_bound *)
 
-Inductive ZArithProof :=
-| DoneProof
-| RatProof : ZWitness -> ZArithProof -> ZArithProof
-| CutProof : ZWitness -> ZArithProof -> ZArithProof
-| SplitProof : PolC Z -> ZArithProof -> ZArithProof -> ZArithProof
-| EnumProof : ZWitness -> ZWitness -> list ZArithProof -> ZArithProof
-| ExProof   : positive -> ZArithProof -> ZArithProof
-(*ExProof x : exists z t, x = z - t /\ z >= 0 /\ t >= 0 *)
-.
-
-
-Register ZArithProof as micromega.ZArithProof.type.
-Register DoneProof   as micromega.ZArithProof.DoneProof.
-Register RatProof    as micromega.ZArithProof.RatProof.
-Register CutProof    as micromega.ZArithProof.CutProof.
-Register SplitProof  as micromega.ZArithProof.SplitProof.
-Register EnumProof   as micromega.ZArithProof.EnumProof.
-Register ExProof     as micromega.ZArithProof.ExProof.
-
-
+Notation ZArithProof := ZArithProof.
 
 (* In order to compute the 'cut', we need to express a polynomial P as a * Q + b.
    - b is the constant

@@ -11,7 +11,7 @@
    For big polynomials, this is inefficient -- linear access.
    I have modified the code to use binary trees -- logarithmic access.  *)
 
-From Stdlib Require Export micromega_formula.
+From Stdlib Require Export micromega_formula micromega_witness.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
 
@@ -19,39 +19,6 @@ Set Implicit Arguments.
 
 #[local] Open Scope positive_scope.
 Import RingSyntax.
-
- (* Definition of multivariable polynomials with coefficients in C :
-    Type [Pol] represents [X1 ... Xn].
-    The representation is Horner's where a [n] variable polynomial
-    (C[X1..Xn]) is seen as a polynomial on [X1] which coefficients
-    are polynomials with [n-1] variables (C[X2..Xn]).
-    There are several optimisations to make the repr compacter:
-    - [Pc c] is the constant polynomial of value c
-       == c*X1^0*..*Xn^0
-    - [Pinj j Q] is a polynomial constant w.r.t the [j] first variables.
-        variable indices are shifted of j in Q.
-       == X1^0 *..* Xj^0 * Q{X1 <- Xj+1;..; Xn-j <- Xn}
-    - [PX P i Q] is an optimised Horner form of P*X^i + Q
-        with P not the null polynomial
-       == P * X1^i + Q{X1 <- X2; ..; Xn-1 <- Xn}
-
-    In addition:
-    - polynomials of the form (PX (PX P i (Pc 0)) j Q) are forbidden
-      since they can be represented by the simpler form (PX P (i+j) Q)
-    - (Pinj i (Pinj j P)) is (Pinj (i+j) P)
-    - (Pinj i (Pc c)) is (Pc c)
- *)
-
-#[universes(template)]
-Inductive Pol {C} : Type :=
-| Pc : C -> Pol
-| Pinj : positive -> Pol -> Pol
-| PX : Pol -> positive -> Pol -> Pol.
-Arguments Pol : clear implicits.
-
-Register Pc as micromega.Pol.Pc.
-Register Pinj as micromega.Pol.Pinj.
-Register PX   as micromega.Pol.PX.
 
 Section MakeRingPol.
 

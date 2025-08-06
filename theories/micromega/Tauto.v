@@ -14,7 +14,7 @@
 (*                                                                      *)
 (************************************************************************)
 
-From Stdlib Require Export micromega_formula.
+From Stdlib Require Export micromega_formula micromega_witness.
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Bool.
