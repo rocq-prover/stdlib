@@ -8,6 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Export RatDef.
 From Stdlib Require Export BinInt.
 From Stdlib Require Export ZArithRing.
 From Stdlib Require Export ZArith.BinInt.
@@ -20,7 +21,10 @@ From Stdlib Require ZArith_dec.
 
 (** Rationals are pairs of [Z] and [positive] numbers. *)
 
-Record Q : Set := Qmake {Qnum : Z; Qden : positive}.
+Notation Q := Q.
+Notation Qmake := Qmake.
+Notation Qnum := Qnum.
+Notation Qden := Qden.
 
 Declare Scope hex_Q_scope.
 Delimit Scope hex_Q_scope with xQ.
@@ -29,9 +33,6 @@ Declare Scope Q_scope.
 Delimit Scope Q_scope with Q.
 Bind Scope Q_scope with Q.
 Arguments Qmake _%_Z _%_positive.
-
-Register Q as rat.Q.type.
-Register Qmake as rat.Q.Qmake.
 
 Open Scope Q_scope.
 Ltac simpl_mult := rewrite ?Pos2Z.inj_mul.
@@ -177,11 +178,8 @@ Proof.
  apply Z.eq_dec.
 Defined.
 
-Definition Qeq_bool x y :=
-  (Z.eqb (Qnum x * QDen y) (Qnum y * QDen x))%Z.
-
-Definition Qle_bool x y :=
-  (Z.leb (Qnum x * QDen y) (Qnum y * QDen x))%Z.
+Notation Qeq_bool := Qeq_bool.
+Notation Qle_bool := Qle_bool.
 
 Lemma Qeq_bool_iff x y : Qeq_bool x y = true <-> x == y.
 Proof. apply Z.eqb_eq. Qed.
@@ -242,21 +240,11 @@ Hint Resolve Qnot_eq_sym : qarith.
 (** The addition, multiplication and opposite are defined
    in the straightforward way: *)
 
-Definition Qplus (x y : Q) :=
-  (Qnum x * QDen y + Qnum y * QDen x) # (Qden x * Qden y).
-
-Definition Qmult (x y : Q) := (Qnum x * Qnum y) # (Qden x * Qden y).
-
-Definition Qopp (x : Q) := (- Qnum x) # (Qden x).
-
-Definition Qminus (x y : Q) := Qplus x (Qopp y).
-
-Definition Qinv (x : Q) :=
-  match Qnum x with
-  | Z0 => 0#1
-  | Zpos p => (QDen x)#p
-  | Zneg p => (Zneg (Qden x))#p
-  end.
+Notation Qplus := Qplus.
+Notation Qmult := Qmult.
+Notation Qopp := Qopp.
+Notation Qminus := Qminus.
+Notation Qinv := Qinv.
 
 Definition Qdiv (x y : Q) := Qmult x (Qinv y).
 
@@ -1288,7 +1276,8 @@ Qed.
 Lemma Qmult_lt_0_compat : forall a b : Q, 0 < a -> 0 < b -> 0 < a * b.
 Proof.
   intros a b Ha Hb.
-  destruct a,b. unfold Qlt, Qmult, QArith_base.Qnum, QArith_base.Qden in *.
+  destruct a as [na da]; destruct b as  [nb db].
+  unfold Qlt, Qmult, Qnum, Qden in *.
   rewrite Pos2Z.inj_mul.
   rewrite Z.mul_0_l, Z.mul_1_r in *.
   apply Z.mul_pos_pos; assumption.
@@ -1297,7 +1286,8 @@ Qed.
 Lemma Qmult_le_1_compat: forall a b : Q, 1 <= a -> 1 <= b -> 1 <= a * b.
 Proof.
   intros a b Ha Hb.
-  destruct a,b. unfold Qle, Qmult, QArith_base.Qnum, QArith_base.Qden in *.
+  destruct a as [na da]; destruct b as  [nb db].
+  unfold Qle, Qmult, Qnum, Qden in *.
   rewrite Pos2Z.inj_mul.
   rewrite Z.mul_1_l, Z.mul_1_r in *.
   apply Z.mul_le_mono_nonneg.
@@ -1308,7 +1298,8 @@ Qed.
 Lemma Qmult_lt_1_compat: forall a b : Q, 1 < a -> 1 < b -> 1 < a * b.
 Proof.
   intros a b Ha Hb.
-  destruct a,b. unfold Qlt, Qmult, QArith_base.Qnum, QArith_base.Qden in *.
+  destruct a as [na da]; destruct b as  [nb db].
+  unfold Qlt, Qmult, Qnum, Qden in *.
   rewrite Pos2Z.inj_mul.
   rewrite Z.mul_1_l, Z.mul_1_r in *.
   apply Z.mul_lt_mono_nonneg.
