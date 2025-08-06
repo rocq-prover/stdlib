@@ -489,7 +489,8 @@ Qed.
 
 Definition RWitness := Psatz Q.
 
-Definition RWeakChecker := check_normalised_formulas 0%Q 1%Q Qplus Qmult  Qeq_bool Qle_bool.
+#[local] Notation RWeakChecker := (CWeakChecker
+  Q0 Q1 Qplus Qmult Qeq_bool Qle_bool).
 
 From Stdlib Require Import List.
 
@@ -507,18 +508,11 @@ Qed.
 
 From Stdlib.micromega Require Import Tauto.
 
-Definition Rnormalise := @cnf_normalise Q 0%Q 1%Q Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-Definition Rnegate := @cnf_negate Q 0%Q 1%Q Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-
-Definition runsat := check_inconsistent 0%Q Qeq_bool Qle_bool.
-
-Definition rdeduce := nformula_plus_nformula 0%Q Qplus Qeq_bool.
+#[local] Notation Qcnf_of_GFormula := (Ccnf_of_GFormula
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
 
 Definition RTautoChecker (f : BFormula (Formula Rcst) isProp) (w: list RWitness)  : bool :=
-  @tauto_checker (Formula Q) (NFormula Q)
-  unit runsat rdeduce
-  (Rnormalise unit) (Rnegate unit)
-  RWitness (fun cl => RWeakChecker (List.map fst cl)) (map_bformula (map_Formula Q_of_Rcst)  f) w.
+  micromega_checker.tauto_checker (fun cl => RWeakChecker (List.map fst cl)) (Qcnf_of_GFormula (map_bformula (map_Formula Q_of_Rcst) f)) w.
 
 Lemma RTautoChecker_sound : forall f w, RTautoChecker f w = true -> forall env, eval_bf  (Reval_formula env)  f.
 Proof.
@@ -544,8 +538,7 @@ Proof.
   - apply Reval_nformula_dec.
   - destruct t.
     apply (check_inconsistent_sound Rsor QSORaddon) ; auto.
-  - unfold rdeduce.
-    intros. revert H.
+  - intros. revert H.
     eapply (nformula_plus_nformula_correct Rsor QSORaddon); eauto.
 
   - intros.

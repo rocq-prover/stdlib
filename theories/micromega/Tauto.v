@@ -15,6 +15,7 @@
 (************************************************************************)
 
 From Stdlib Require Export micromega_formula micromega_witness.
+From Stdlib Require Export micromega_checker.
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Bool.
@@ -307,136 +308,34 @@ Section S.
   #[local] Notation push := (@push Annot).
   #[local] Notation merge := (@merge Annot).
 
-  Definition clause := list  (Term' * Annot).
-  Definition cnf := list clause.
+  #[local] Notation clause := (clause Term' Annot).
+  #[local] Notation cnf := (cnf Term' Annot).
 
   Variable normalise : Term -> Annot -> cnf.
   Variable negate : Term -> Annot -> cnf.
 
+  #[local] Notation cnf_tt := (cnf_tt Term' Annot).
+  #[local] Notation cnf_ff := (cnf_ff Term' Annot).
+  #[local] Notation is_cnf_tt := (@is_cnf_tt Term' Annot).
+  #[local] Notation is_cnf_ff := (@is_cnf_ff Term' Annot).
+  #[local] Notation is_tauto :=
+    (fun x y => match deduce x y with None => false | Some u => unsat u end).
+  #[local] Notation add_term := (add_term is_tauto).
+  #[local] Notation or_clause := (or_clause is_tauto).
+  #[local] Notation or_clause_cnf := (or_clause_cnf is_tauto).
+  #[local] Notation or_cnf_opt := (@or_cnf Term' Annot is_tauto).
+  #[local] Notation or_cnf := (@or_cnf_aux Term' Annot is_tauto).
+  #[local] Notation and_cnf_opt := (@and_cnf Term' Annot).
 
-  Definition cnf_tt : cnf := @nil clause.
-  Definition cnf_ff : cnf :=  cons (@nil (Term' * Annot)) nil.
+  #[local] Notation TFormula TX AF := (@GFormula Term TX Annot AF).
 
-  (** Our cnf is optimised and detects contradictions on the fly. *)
-
-  Fixpoint add_term (t: Term' * Annot) (cl : clause) : option clause :=
-    match cl with
-    | nil =>
-      match deduce (fst t) (fst t) with
-      | None =>  Some (t ::nil)
-      | Some u => if unsat u then None else Some (t::nil)
-      end
-    | t'::cl =>
-      match deduce (fst t) (fst t') with
-      | None =>
-        match add_term t cl with
-        | None => None
-        | Some cl' => Some (t' :: cl')
-        end
-      | Some u =>
-        if unsat u then None else
-          match add_term t cl with
-          | None => None
-          | Some cl' => Some (t' :: cl')
-          end
-      end
-    end.
-
-  Fixpoint or_clause (cl1 cl2 : clause) : option clause :=
-    match cl1 with
-    | nil => Some cl2
-    | t::cl => match add_term t cl2 with
-               | None => None
-               | Some cl' => or_clause cl cl'
-               end
-    end.
-
-  Definition xor_clause_cnf (t:clause) (f:cnf) : cnf :=
-    List.fold_left (fun acc e =>
-                      match or_clause t e with
-                      | None => acc
-                      | Some cl => cl :: acc
-                      end) f nil .
-
-  Definition or_clause_cnf (t: clause) (f:cnf) : cnf :=
-    match t with
-    | nil => f
-    | _   => xor_clause_cnf t f
-    end.
-
-
-  Fixpoint or_cnf (f : cnf) (f' : cnf) {struct f}: cnf :=
-    match f with
-    | nil => cnf_tt
-    | e :: rst => (or_cnf rst f') +++ (or_clause_cnf e f')
-    end.
-
-
-  Definition and_cnf (f1 : cnf) (f2 : cnf) : cnf :=
-    f1 +++ f2.
-
-  (** TX is Prop in Coq and EConstr.constr in Ocaml.
-      AF is unit in Coq and Names.Id.t in Ocaml
-   *)
-  Definition TFormula (TX: kind -> Type) (AF: Type) := @GFormula Term TX Annot AF.
-
-
-  Definition is_cnf_tt (c : cnf) : bool :=
-    match c with
-    | nil => true
-    | _  => false
-    end.
-
-  Definition is_cnf_ff (c : cnf) : bool :=
-    match c with
-    | nil::nil => true
-    | _        => false
-    end.
-
-  Definition and_cnf_opt (f1 : cnf) (f2 : cnf) : cnf :=
-    if is_cnf_ff f1 || is_cnf_ff f2
-    then cnf_ff
-    else
-      if is_cnf_tt f2
-      then f1
-      else and_cnf f1 f2.
-
-
-  Definition or_cnf_opt (f1 : cnf) (f2 : cnf) : cnf :=
-    if is_cnf_tt f1 || is_cnf_tt f2
-    then cnf_tt
-    else if is_cnf_ff f2
-         then f1 else or_cnf f1 f2.
-
-  Section REC.
-    Context {TX : kind -> Type}.
-    Context {AF : Type}.
-
-    Variable REC : forall (pol : bool) (k: kind) (f : TFormula TX AF k), cnf.
-
-    Definition mk_and (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then and_cnf_opt else or_cnf_opt) (REC pol f1) (REC pol f2).
-
-    Definition mk_or (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then or_cnf_opt else and_cnf_opt) (REC pol f1) (REC pol f2).
-
-    Definition mk_impl (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then or_cnf_opt else and_cnf_opt) (REC (negb pol) f1) (REC pol f2).
-
-
-    Definition mk_iff (k: kind) (pol:bool) (f1 f2: TFormula TX AF k):=
-      or_cnf_opt (and_cnf_opt (REC (negb pol) f1) (REC false f2))
-                 (and_cnf_opt (REC pol f1) (REC true f2)).
-
-
-  End REC.
-
-  Definition is_bool {TX : kind -> Type} {AF: Type} (k: kind) (f : TFormula TX AF k) :=
-    match f with
-    | TT _ => Some true
-    | FF _ => Some false
-    | _    => None
-    end.
+  #[local] Notation mk_and := (mk_and or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_or := (mk_or or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_impl := (mk_impl or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_iff := (mk_iff or_cnf_opt and_cnf_opt).
+  #[local] Notation is_bool := (@is_bool Term Annot).
+  #[local] Notation xcnf :=
+    (cnf_of_GFormula cnf_tt cnf_ff or_cnf_opt and_cnf_opt normalise negate).
 
   Lemma is_bool_inv : forall {TX : kind -> Type} {AF: Type} (k: kind) (f : TFormula  TX AF k) res,
       is_bool f = Some res -> f = if res then TT _ else FF _.
@@ -444,28 +343,6 @@ Section S.
     intros TX AF k f res H.
     destruct f ; inversion H; reflexivity.
   Qed.
-
-
-  Fixpoint xcnf {TX : kind -> Type} {AF: Type} (pol : bool) (k: kind) (f : TFormula TX AF k)  {struct f}: cnf :=
-    match f with
-    | TT _ => if pol then cnf_tt else cnf_ff
-    | FF _ => if pol then cnf_ff else cnf_tt
-    | X _ p => if pol then cnf_ff else cnf_ff (* This is not complete - cannot negate any proposition *)
-    | A _ x t => if pol then normalise x  t else negate x  t
-    | NOT e  => xcnf (negb pol) e
-    | AND e1 e2 => mk_and xcnf pol e1 e2
-    | OR e1 e2  => mk_or xcnf pol e1 e2
-    | IMPL e1 _ e2 => mk_impl xcnf pol e1 e2
-    | IFF e1 e2 => match is_bool e2 with
-                   | Some isb => xcnf (if isb then pol else negb pol) e1
-                   | None  => mk_iff xcnf pol e1 e2
-                   end
-    | EQ e1 e2 =>
-      match is_bool e2 with
-      | Some isb => xcnf (if isb then pol else negb pol) e1
-      | None  => mk_iff xcnf pol e1 e2
-      end
-    end.
 
   Section CNFAnnot.
 
@@ -1206,13 +1083,14 @@ Section S.
         reflexivity.
   Qed.
 
-  Lemma xror_clause_clause : forall a f,
-      fst (xror_clause_cnf a f) = xor_clause_cnf a f.
+  Lemma xror_clause_clause : forall a a' f,
+      fst (xror_clause_cnf (a :: a') f) = or_clause_cnf (a :: a') f.
   Proof.
     unfold xror_clause_cnf.
-    unfold xor_clause_cnf.
+    unfold or_clause_cnf.
     assert (ACC: fst (@nil clause, null) = nil) by reflexivity.
-    intros a f.
+    intros a' a'' f.
+    set (a := a' :: a''); clearbody a.
     set (F1:= (fun '(acc, tg) (e : clause) =>
                  match ror_clause a e with
                  | inl cl => (cl :: acc, tg)
@@ -1353,6 +1231,7 @@ Section S.
       rewrite H by auto.
       unfold or_cnf_opt.
       simpl.
+      fold or_cnf_opt.
       destruct (is_cnf_tt (xcnf true f2)) eqn:EQ;auto.
       -- apply is_cnf_tt_inv in EQ; auto.
       -- destruct (is_cnf_ff (xcnf true f2)) eqn:EQ1.
@@ -1449,14 +1328,13 @@ Section S.
     simpl. tauto.
   Qed.
 
-  Lemma eval_cnf_and_opt : forall env x y, eval_cnf env (and_cnf_opt x y) <-> eval_cnf env (and_cnf x y).
+  Lemma eval_cnf_and_opt : forall env x y, eval_cnf env (and_cnf_opt x y) <-> eval_cnf env (rev_append x y).
   Proof.
     unfold and_cnf_opt.
     intros env x y.
     destruct (is_cnf_ff x) eqn:F1.
     { apply is_cnf_ff_inv in F1.
       simpl. subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_ff.
       tauto.
@@ -1465,7 +1343,6 @@ Section S.
     destruct (is_cnf_ff y) eqn:F2.
     { apply is_cnf_ff_inv in F2.
       simpl. subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_ff.
       tauto.
@@ -1474,7 +1351,6 @@ Section S.
     {
       apply is_cnf_tt_inv in F3.
       subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_tt.
       tauto.
@@ -1596,9 +1472,7 @@ Section S.
     }
     destruct t ; auto.
     - unfold eval_clause ; simpl. tauto.
-    - unfold xor_clause_cnf.
-      unfold F in H.
-      rewrite H.
+    - rewrite H.
       unfold make_conj at 2. tauto.
   Qed.
 
@@ -1776,7 +1650,6 @@ Section S.
         auto.
     + (* pol = false *)
       rewrite eval_cnf_and_opt in H.
-      unfold and_cnf in H.
       simpl in H.
       rewrite eval_cnf_app in H.
       destruct H as [H0 H1].
@@ -1827,7 +1700,6 @@ Section S.
       rewrite or_cnf_opt_correct in H;
       rewrite or_cnf_correct in H;
       rewrite! eval_cnf_and_opt in H;
-      unfold and_cnf in H;
       rewrite! eval_cnf_app in H;
       generalize (IHf1 false env);
       generalize (IHf1 true env);
@@ -1880,7 +1752,6 @@ Section S.
       + (* pol = true *)
         intros.
         rewrite eval_cnf_and_opt in H.
-        unfold and_cnf in H.
         rewrite eval_cnf_app  in H.
         destruct H as [H H0].
         apply hold_eAND; split.
@@ -1920,7 +1791,6 @@ Section S.
       + (* pol = true *)
         intros. unfold mk_or in H.
         rewrite eval_cnf_and_opt in H.
-        unfold and_cnf.
         rewrite eval_cnf_app in H.
         destruct H as [H0 H1].
         simpl.
@@ -1976,17 +1846,8 @@ Section S.
 
   Variable checker_sound : forall t  w, checker t w = true -> forall env, make_impl (eval_tt env)  t False.
 
-  Fixpoint cnf_checker (f : cnf) (l : list Witness)  {struct f}: bool :=
-    match f with
-    | nil => true
-    | e::f => match l with
-              | nil => false
-              | c::l => match checker e c with
-                        | true => cnf_checker f l
-                        |   _  => false
-                        end
-              end
-    end.
+  #[local] Notation cnf_checker := (cnf_checker checker).
+  #[local] Notation tauto_checker := (tauto_checker checker).
 
   Lemma cnf_checker_sound : forall t  w, cnf_checker t w = true -> forall env, eval_cnf  env  t.
   Proof.
@@ -2010,10 +1871,7 @@ Section S.
           tauto.
   Qed.
 
-  Definition tauto_checker (f:@GFormula Term eKind Annot unit isProp) (w:list Witness) : bool :=
-    cnf_checker (xcnf true f) w.
-
-  Lemma tauto_checker_sound : forall t  w, tauto_checker t w = true -> forall env, eval_f e_eKind (eval env)  t.
+  Lemma tauto_checker_sound : forall t w, tauto_checker (@xcnf true isProp t) w = true -> forall env, @eval_f _ _ _ unit e_eKind (eval env) _ t.
   Proof.
     unfold tauto_checker.
     intros t w H env.
@@ -2037,6 +1895,14 @@ Section S.
 
 End S.
 
+Notation tauto_checker :=
+  (fun term term' annot unsat deduce normalise negate witness check f =>
+     @tauto_checker (clause term' annot) witness check
+       (@cnf_of_GFormula term annot (cnf term' annot) (cnf_tt _ _) (cnf_ff _ _)
+          (or_cnf (fun f1 f2 => match deduce f1 f2 : option term' with
+                                | None => false
+                                | Some u => unsat u end))
+          (@and_cnf  _ _) normalise negate eKind annot true isProp f)).
 
 (* Local Variables: *)
 (* coding: utf-8 *)

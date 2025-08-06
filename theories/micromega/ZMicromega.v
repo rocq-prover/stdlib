@@ -119,15 +119,11 @@ Fixpoint Zeval_const  (e: PExpr Z) : option Z :=
   match e with
   | PEc c => Some c
   | PEX x => None
-  | PEadd e1 e2 => map_option2 (fun x y => Some (x + y))
-                               (Zeval_const e1) (Zeval_const e2)
-  | PEmul e1 e2 => map_option2 (fun x y => Some (x * y))
-                               (Zeval_const e1) (Zeval_const e2)
-  | PEpow e1 n  => map_option (fun x => Some (Z.pow x (Z.of_N n)))
-                                 (Zeval_const e1)
-  | PEsub e1 e2 => map_option2 (fun x y => Some (x - y))
-                               (Zeval_const e1)  (Zeval_const e2)
-  | PEopp e   => map_option (fun x => Some (Z.opp x)) (Zeval_const e)
+  | PEadd e1 e2 => map_option2 Z.add (Zeval_const e1) (Zeval_const e2)
+  | PEmul e1 e2 => map_option2 Z.mul (Zeval_const e1) (Zeval_const e2)
+  | PEpow e1 n => map_option (fun x => Z.pow x (Z.of_N n)) (Zeval_const e1)
+  | PEsub e1 e2 => map_option2 Z.sub (Zeval_const e1)  (Zeval_const e2)
+  | PEopp e => map_option Z.opp (Zeval_const e)
   end.
 
 Lemma ZNpower : forall r n, r ^ Z.of_N n = pow_N 1 Z.mul r n.
@@ -498,11 +494,23 @@ Proof.
     apply xnegate_correct.
 Qed.
 
-Definition cnfZ (Annot: Type) (TX : kind -> Type)  (AF : Type) (k: kind) (f : TFormula (Formula Z) Annot TX AF k) :=
+Definition cnfZ (Annot: Type) (TX : kind -> Type)  (AF : Type) (k: kind) (f : @GFormula (Formula Z) TX Annot AF k) :=
   rxcnf Zunsat Zdeduce normalise negate true f.
 
+Definition Zis_tauto x y :=
+  match Zdeduce x y with None => false | Some u => Zunsat u end.
+
+Definition Zcnf_tt := @cnf_tt (NFormula Z) unit.
+Definition Zcnf_ff := @cnf_ff (NFormula Z) unit.
+Definition Zor_cnf := @or_cnf (NFormula Z) unit Zis_tauto.
+Definition Zand_cnf := @and_cnf (NFormula Z) unit.
+
+Definition ZGFormula_to_cnf := @cnf_of_GFormula _ _ _
+  Zcnf_tt Zcnf_ff Zor_cnf Zand_cnf (@normalise unit) (@negate unit)
+  eKind unit true isProp.
+
 Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) isProp) : bool :=
-  @tauto_checker (Formula Z)  (NFormula Z) unit Zunsat Zdeduce normalise negate  ZWitness (fun cl => ZWeakChecker (List.map fst cl)) f w.
+  tauto_checker (fun cl => ZWeakChecker (List.map fst cl)) (ZGFormula_to_cnf f) w.
 
 (* To get a complete checker, the proof format has to be enriched *)
 
@@ -1713,7 +1721,7 @@ Proof.
 Qed.
 
 Definition ZTautoChecker  (f : BFormula (Formula Z) isProp) (w: list ZArithProof): bool :=
-  @tauto_checker (Formula Z) (NFormula Z) unit Zunsat Zdeduce normalise negate  ZArithProof (fun cl => ZChecker (List.map fst cl)) f w.
+  tauto_checker (fun cl => ZChecker (List.map fst cl)) (ZGFormula_to_cnf f) w.
 
 Lemma ZTautoChecker_sound : forall f w, ZTautoChecker f w = true -> forall env, eval_bf  (Zeval_formula env)  f.
 Proof.

@@ -18,6 +18,7 @@
    Don't forget to update it in Rocq core when editing this MExtraction.v file
    or MExtraction.out *)
 
+From Stdlib Require Import micromega_checker.
 From Stdlib Require Extraction.
 From Stdlib Require Import ZMicromega.
 From Stdlib Require Import QMicromega.

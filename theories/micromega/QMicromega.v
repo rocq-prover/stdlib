@@ -203,7 +203,8 @@ Proof.
   exact (fun env d =>eval_nformula_dec Qsor (fun x => x)  env d).
 Qed.
 
-Definition QWeakChecker := check_normalised_formulas 0 1 Qplus Qmult Qeq_bool Qle_bool.
+#[local] Notation QWeakChecker := (CWeakChecker
+  Q0 Q1 Qplus Qmult Qeq_bool Qle_bool).
 
 From Stdlib Require Import List.
 
@@ -221,27 +222,18 @@ Qed.
 
 From Stdlib.micromega Require Import Tauto.
 
-Definition Qnormalise := @cnf_normalise Q 0 1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-
-Definition Qnegate := @cnf_negate Q 0 1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-
-Definition qunsat := check_inconsistent 0 Qeq_bool Qle_bool.
-
-Definition qdeduce := nformula_plus_nformula 0 Qplus Qeq_bool.
+#[local] Notation Qnormalise := (Cnormalise
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
+#[local] Notation Qnegate := (Cnegate
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
+#[local] Notation qunsat := (check_inconsistent Q0 Qeq_bool Qle_bool).
+#[local] Notation qdeduce := (nformula_plus_nformula Q0 Qplus Qeq_bool).
 
 Definition normQ  := norm 0 1 Qplus Qmult Qminus Qopp Qeq_bool.
 Declare Equivalent Keys normQ RingMicromega.norm.
 
-Definition cnfQ (Annot:Type) (TX: kind -> Type)  (AF: Type) (k: kind) (f: TFormula (Formula Q) Annot TX AF k) :=
-  rxcnf qunsat qdeduce (Qnormalise Annot) (Qnegate Annot) true f.
-
-Definition QTautoChecker  (f : BFormula (Formula Q) isProp) (w: list QWitness)  : bool :=
-  @tauto_checker (Formula Q) (NFormula Q) unit
-  qunsat qdeduce
-  (Qnormalise unit)
-  (Qnegate unit) QWitness (fun cl => QWeakChecker (List.map fst cl)) f w.
-
-
+Definition cnfQ (Annot:Type) (TX: kind -> Type)  (AF: Type) (k: kind) (f: @GFormula (Formula Q) TX Annot AF k) :=
+  rxcnf qunsat qdeduce (@Qnormalise Annot) (@Qnegate Annot) true f.
 
 Lemma QTautoChecker_sound : forall f w, QTautoChecker f w = true -> forall env, eval_bf  (Qeval_formula env)  f.
 Proof.
