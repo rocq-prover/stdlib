@@ -3,6 +3,7 @@ From Stdlib Require Array.PrimArray.
 From Stdlib Require BinNums.IntDef.
 From Stdlib Require BinNums.NatDef.
 From Stdlib Require BinNums.PosDef.
+From Stdlib Require BinNums.RatDef.
 From Stdlib Require Classes.CMorphisms.
 From Stdlib Require Classes.CRelationClasses.
 From Stdlib Require Classes.Equivalence.
