@@ -14,7 +14,7 @@
 
 From Stdlib Require Import BinInt BinNat Znat Nnat.
 From Stdlib Require Import ZifyClasses.
-Declare ML Module "rocq-runtime.plugins.zify".
+From micromega_plugin Require Zify.
 #[local] Open Scope Z_scope.
 
 Ltac refl :=
