@@ -97,8 +97,10 @@ Qed.
 
 Fixpoint Zeval_expr (env : PolEnv Z) (e: PExpr Z) : Z :=
   match e with
+    | PEO => Z0
+    | PEI => Zpos xH
     | PEc c => c
-    | PEX x => env x
+    | PEX _ x => env x
     | PEadd e1 e2 => Zeval_expr env e1 + Zeval_expr env e2
     | PEmul e1 e2 => Zeval_expr env e1 * Zeval_expr env e2
     | PEpow e1 n  => Z.pow (Zeval_expr env e1) (Z.of_N n)
@@ -108,21 +110,19 @@ Fixpoint Zeval_expr (env : PolEnv Z) (e: PExpr Z) : Z :=
 
 Strategy expand [ Zeval_expr ].
 
-Definition eval_expr := eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x => x) (fun x => x) (pow_N 1 Z.mul).
+Definition eval_expr := eval_pexpr Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x) (fun x => x) (pow_N 1 Z.mul).
 
 Fixpoint Zeval_const  (e: PExpr Z) : option Z :=
   match e with
+  | PEO => Some Z0
+  | PEI => Some (Zpos xH)
   | PEc c => Some c
-  | PEX x => None
-  | PEadd e1 e2 => map_option2 (fun x y => Some (x + y))
-                               (Zeval_const e1) (Zeval_const e2)
-  | PEmul e1 e2 => map_option2 (fun x y => Some (x * y))
-                               (Zeval_const e1) (Zeval_const e2)
-  | PEpow e1 n  => map_option (fun x => Some (Z.pow x (Z.of_N n)))
-                                 (Zeval_const e1)
-  | PEsub e1 e2 => map_option2 (fun x y => Some (x - y))
-                               (Zeval_const e1)  (Zeval_const e2)
-  | PEopp e   => map_option (fun x => Some (Z.opp x)) (Zeval_const e)
+  | PEX _ x => None
+  | PEadd e1 e2 => map_option2 Z.add (Zeval_const e1) (Zeval_const e2)
+  | PEmul e1 e2 => map_option2 Z.mul (Zeval_const e1) (Zeval_const e2)
+  | PEpow e1 n => map_option (fun x => Z.pow x (Z.of_N n)) (Zeval_const e1)
+  | PEsub e1 e2 => map_option2 Z.sub (Zeval_const e1)  (Zeval_const e2)
+  | PEopp e => map_option Z.opp (Zeval_const e)
   end.
 
 Lemma ZNpower : forall r n, r ^ Z.of_N n = pow_N 1 Z.mul r n.
@@ -194,34 +194,34 @@ Proof.
 Qed.
 
 
-Definition Zeval_formula (env : PolEnv Z) (k: Tauto.kind) (f : Formula Z):=
+Definition Zeval_formula (env : PolEnv Z) (k: kind) (f : Formula Z):=
   let (lhs, op, rhs) := f in
     (Zeval_op2 k op) (Zeval_expr env lhs) (Zeval_expr env rhs).
 
 Definition Zeval_formula' :=
-  eval_formula  Z.add Z.mul Z.sub Z.opp (@eq Z) Z.le Z.lt (fun x => x) (fun x => x) (pow_N 1 Z.mul).
+  eval_formula Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (@eq Z) Z.le Z.lt (fun x => x) (fun x => x) (pow_N 1 Z.mul).
 
-Lemma Zeval_formula_compat : forall env k f, Tauto.hold k (Zeval_formula env k f) <-> Zeval_formula env Tauto.isProp f.
+Lemma Zeval_formula_compat : forall env k f, Tauto.hold k (Zeval_formula env k f) <-> Zeval_formula env isProp f.
 Proof.
   intros env k; destruct k ; simpl.
   - tauto.
   - intros f; destruct f ; simpl.
-    rewrite <- (Zeval_op2_hold Tauto.isBool).
+    rewrite <- (Zeval_op2_hold isBool).
     simpl. tauto.
 Qed.
 
-Lemma Zeval_formula_compat' : forall env f,  Zeval_formula env Tauto.isProp f <-> Zeval_formula' env f.
+Lemma Zeval_formula_compat' : forall env f,  Zeval_formula env isProp f <-> Zeval_formula' env f.
 Proof.
   intros env f.
   unfold Zeval_formula.
   destruct f as [Flhs  Fop Frhs].
   repeat rewrite Zeval_expr_compat.
   unfold Zeval_formula' ; simpl.
-  unfold eval_expr.
-  generalize (eval_pexpr Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) env Flhs).
-  generalize ((eval_pexpr Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) env Frhs)).
+  unfold eval_expr, eval_pexpr.
+  generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+        (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env Flhs).
+  generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+        (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env Frhs).
   destruct Fop ; simpl; intros;
     intuition auto using Z.le_ge, Z.ge_le, Z.lt_gt, Z.gt_lt.
 Qed.
@@ -245,7 +245,7 @@ Proof.
   apply (eval_nformula_dec Zsor).
 Qed.
 
-Definition ZWitness := Psatz Z.
+Notation ZWitness := ZWitness.
 
 Definition ZWeakChecker := check_normalised_formulas 0 1 Z.add Z.mul Z.eqb Z.leb.
 
@@ -331,7 +331,7 @@ Definition xnnormalise (t : Formula Z) : NFormula Z :=
 
 Lemma xnnormalise_correct :
   forall env f,
-    eval_nformula env (xnnormalise f) <-> Zeval_formula env Tauto.isProp f.
+    eval_nformula env (xnnormalise f) <-> Zeval_formula env isProp f.
 Proof.
   intros env f.
   rewrite Zeval_formula_compat'.
@@ -339,11 +339,11 @@ Proof.
   destruct f as [lhs o rhs].
   destruct o eqn:O ; cbn ; rewrite ?eval_pol_sub;
     rewrite <- !eval_pol_norm ; simpl in *;
-      unfold eval_expr;
-      generalize (   eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                                 (fun x : N => x) (pow_N 1 Z.mul) env lhs);
-      generalize (eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                              (fun x : N => x) (pow_N 1 Z.mul) env rhs); intros z z0.
+      unfold eval_expr, eval_pexpr;
+      generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+                                 (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env lhs);
+      generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+                              (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env rhs); intros z z0.
   - split ; intros.
     + assert (z0 + (z - z0) = z0 + 0) as H0 by congruence.
       rewrite Z.add_0_r in H0.
@@ -435,7 +435,7 @@ Definition normalise {T : Type} (t:Formula Z) (tg:T) : cnf (NFormula Z) T :=
   if Zunsat f then cnf_ff _ _
   else cnf_of_list tg (xnormalise f).
 
-Lemma normalise_correct : forall (T: Type) env t (tg:T), eval_cnf eval_nformula env (normalise t tg) <-> Zeval_formula env Tauto.isProp t.
+Lemma normalise_correct : forall (T: Type) env t (tg:T), eval_cnf eval_nformula env (normalise t tg) <-> Zeval_formula env isProp t.
 Proof.
   intros T env t tg.
   rewrite <- xnnormalise_correct.
@@ -479,7 +479,7 @@ Proof.
   - tauto.
 Qed.
 
-Lemma negate_correct : forall T env t (tg:T), eval_cnf eval_nformula env (negate t tg) <-> ~ Zeval_formula env Tauto.isProp t.
+Lemma negate_correct : forall T env t (tg:T), eval_cnf eval_nformula env (negate t tg) <-> ~ Zeval_formula env isProp t.
 Proof.
   intros T env t tg.
   rewrite <- xnnormalise_correct.
@@ -493,11 +493,23 @@ Proof.
     apply xnegate_correct.
 Qed.
 
-Definition cnfZ (Annot: Type) (TX : Tauto.kind -> Type)  (AF : Type) (k: Tauto.kind) (f : TFormula (Formula Z) Annot TX AF k) :=
+Definition cnfZ (Annot: Type) (TX : kind -> Type)  (AF : Type) (k: kind) (f : @GFormula (Formula Z) TX Annot AF k) :=
   rxcnf Zunsat Zdeduce normalise negate true f.
 
-Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) Tauto.isProp) : bool :=
-  @tauto_checker (Formula Z)  (NFormula Z) unit Zunsat Zdeduce normalise negate  ZWitness (fun cl => ZWeakChecker (List.map fst cl)) f w.
+Definition Zis_tauto x y :=
+  match Zdeduce x y with None => false | Some u => Zunsat u end.
+
+Definition Zcnf_tt := @cnf_tt (NFormula Z) unit.
+Definition Zcnf_ff := @cnf_ff (NFormula Z) unit.
+Definition Zor_cnf := @or_cnf (NFormula Z) unit Zis_tauto.
+Definition Zand_cnf := @and_cnf (NFormula Z) unit.
+
+Definition ZGFormula_to_cnf := @cnf_of_GFormula _ _ _
+  Zcnf_tt Zcnf_ff Zor_cnf Zand_cnf (@normalise unit) (@negate unit)
+  eKind unit true isProp.
+
+Definition ZweakTautoChecker (w: list ZWitness) (f : BFormula (Formula Z) isProp) : bool :=
+  tauto_checker (fun cl => ZWeakChecker (List.map fst cl)) (ZGFormula_to_cnf f) w.
 
 (* To get a complete checker, the proof format has to be enriched *)
 
@@ -539,27 +551,7 @@ Qed.
 
 (** NB: narrow_interval_upper_bound is Zdiv.Zdiv_le_lower_bound *)
 
-Inductive ZArithProof :=
-| DoneProof
-| RatProof : ZWitness -> ZArithProof -> ZArithProof
-| CutProof : ZWitness -> ZArithProof -> ZArithProof
-| SplitProof : PolC Z -> ZArithProof -> ZArithProof -> ZArithProof
-| deprecated_EnumProof : ZWitness -> ZWitness -> list ZArithProof -> ZArithProof
-| ExProof   : positive -> ZArithProof -> ZArithProof
-(*ExProof x : exists z t, x = z - t /\ z >= 0 /\ t >= 0 *)
-.
-#[deprecated(since="Stdlib 9.1")]
-Notation EnumProof := deprecated_EnumProof (only parsing).
-
-
-Register ZArithProof as micromega.ZArithProof.type.
-Register DoneProof   as micromega.ZArithProof.DoneProof.
-Register RatProof    as micromega.ZArithProof.RatProof.
-Register CutProof    as micromega.ZArithProof.CutProof.
-Register SplitProof  as micromega.ZArithProof.SplitProof.
-Register ExProof     as micromega.ZArithProof.ExProof.
-
-
+Notation ZArithProof := ZArithProof.
 
 (* In order to compute the 'cut', we need to express a polynomial P as a * Q + b.
    - b is the constant
@@ -831,10 +823,10 @@ Definition valid_cut_sign (op:Op1) :=
 
 
 Definition bound_var (v : positive) : Formula Z :=
-  Build_Formula (PEX v) OpGe (PEc 0).
+  Build_Formula (PEX _ v) OpGe (PEc 0).
 
 Definition mk_eq_pos (x : positive) (y:positive) (t : positive) : Formula Z :=
-  Build_Formula (PEX x) OpEq (PEsub (PEX y) (PEX t)).
+  Build_Formula (PEX _ x) OpEq (PEsub (PEX _ y) (PEX _ t)).
 
 
 Fixpoint max_var (jmp : positive) (p : Pol Z) : positive :=
@@ -1336,8 +1328,8 @@ Proof.
       apply Z.le_ge, Z.opp_nonneg_nonpos; auto. } }
 Qed.
 
-Definition ZTautoChecker  (f : BFormula (Formula Z) Tauto.isProp) (w: list ZArithProof): bool :=
-  @tauto_checker (Formula Z) (NFormula Z) unit Zunsat Zdeduce normalise negate  ZArithProof (fun cl => ZChecker (List.map fst cl)) f w.
+Definition ZTautoChecker  (f : BFormula (Formula Z) isProp) (w: list ZArithProof): bool :=
+  tauto_checker (fun cl => ZChecker (List.map fst cl)) (ZGFormula_to_cnf f) w.
 
 Lemma ZTautoChecker_sound : forall f w, ZTautoChecker f w = true -> forall env, eval_bf  (Zeval_formula env)  f.
 Proof.
@@ -1383,7 +1375,7 @@ Definition leaf := @VarMap.Elt Z.
 
 Definition coneMember := ZWitness.
 
-Definition eval := eval_formula.
+Definition eval := Feval.
 
 #[deprecated(note="Use [prod positive nat]", since="Stdlib 9.0")]
 Definition prod_pos_nat := prod positive nat.
