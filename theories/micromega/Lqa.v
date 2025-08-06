@@ -20,8 +20,7 @@ From Stdlib Require Import RingMicromega.
 From Stdlib Require Import VarMap.
 From Stdlib Require Import DeclConstant.
 From Stdlib.micromega Require Tauto.
-Declare ML Module "rocq-runtime.plugins.micromega_core".
-Declare ML Module "rocq-runtime.plugins.micromega".
+From micromega_plugin Require Export tactics.
 
 Ltac rchange :=
   let __wit := fresh "__wit" in
