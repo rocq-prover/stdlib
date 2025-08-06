@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import ZifyClasses ZifyInst.
-Declare ML Module "rocq-runtime.plugins.zify".
+From micromega_plugin Require Export Zify.
 
 (** [zify_pre_hook] and [zify_post_hook] are there to be redefined. *)
 Ltac zify_pre_hook := idtac.
