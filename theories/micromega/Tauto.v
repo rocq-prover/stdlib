@@ -14,7 +14,7 @@
 (*                                                                      *)
 (************************************************************************)
 
-From Stdlib Require Export micromega_formula micromega_witness.
+From Stdlib Require Export micromega_formula micromega_witness micromega_eval.
 From Stdlib Require Export micromega_checker.
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
@@ -28,6 +28,9 @@ Inductive Trace (A : Type) :=
 | push : A -> Trace A -> Trace A
 | merge : Trace A -> Trace A -> Trace A
 .
+
+#[local] Notation eIFF := (eIFF eqb).
+Notation eval_f := (GFeval eqb).
 
 Section S.
   Context {TA  : Type}. (* type of interpreted atoms *)
@@ -105,45 +108,7 @@ Section S.
 
     Variable ea : forall (k: kind), TA -> eKind k.
 
-    Definition eTT (k: kind) : eKind k :=
-      if k as k' return  eKind k' then True else true.
-
-    Definition eFF (k: kind) : eKind k :=
-      if k as k' return  eKind k' then False else false.
-
-    Definition eAND (k: kind) : eKind k -> eKind k -> eKind k :=
-      if k as k' return eKind k' -> eKind k' -> eKind k'
-      then and else andb.
-
-    Definition eOR (k: kind) : eKind k -> eKind k -> eKind k :=
-      if k as k' return eKind k' -> eKind k' -> eKind k'
-      then or else orb.
-
-    Definition eIMPL (k: kind) : eKind k -> eKind k -> eKind k :=
-      if k as k' return eKind k' -> eKind k' -> eKind k'
-      then (fun x y => x -> y) else implb.
-
-    Definition eIFF (k: kind) : eKind k -> eKind k -> eKind k :=
-      if k as k' return eKind k' -> eKind k' -> eKind k'
-      then iff else eqb.
-
-    Definition eNOT (k: kind) : eKind k -> eKind k :=
-      if k as k' return eKind k' -> eKind k'
-      then not else negb.
-
-    Fixpoint eval_f (k: kind) (f:GFormula k) {struct f}: eKind k :=
-      match f in micromega_formula.GFormula k' return eKind k' with
-      | TT tk => eTT tk
-      | FF tk => eFF tk
-      | A k a _ =>  ea k a
-      | X k p => ex  p
-      | @AND _ _ _ _ k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
-      | @OR _ _ _ _ k e1 e2  => eOR k (eval_f e1) (eval_f e2)
-      | @NOT _ _ _ _ k e     => eNOT k (eval_f e)
-      | @IMPL _ _ _ _ k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
-      | @IFF _ _ _ _ k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
-      | EQ f1 f2    => (eval_f f1) = (eval_f f2)
-      end.
+    #[local] Notation eval_f := (eval_f ex ea).
 
     Lemma eval_f_rew : forall k (f:GFormula k),
         eval_f f =
@@ -164,7 +129,7 @@ Section S.
     Qed.
 
   End EVAL.
-
+  #[local] Notation eval_f := (eval_f ex).
 
   Definition hold (k: kind) : eKind k ->  Prop :=
     if k as k0 return (eKind k0 -> Prop) then fun x  => x else is_true.
@@ -258,37 +223,6 @@ Section S.
   Qed.
 
 End S.
-
-Section MAPATOMS.
-  Context {TA TA':Type}.
-  Context {TX  : kind -> Type}.
-  Context {AA  : Type}.
-  Context {AF  : Type}.
-
-  Fixpoint map_bformula (k: kind)(fct : TA -> TA') (f : @GFormula TA TX AA AF k) : @GFormula TA' TX AA AF k:=
-    match f with
-    | TT k => TT k
-    | FF k => FF k
-    | X k p => X k p
-    | A k a t => A k (fct a) t
-    | AND f1 f2 => AND (map_bformula fct f1) (map_bformula fct f2)
-    | OR f1 f2 => OR (map_bformula fct f1) (map_bformula fct f2)
-    | NOT f     => NOT (map_bformula fct f)
-    | IMPL f1 a f2 => IMPL (map_bformula fct f1) a (map_bformula fct f2)
-    | IFF f1 f2 => IFF (map_bformula fct f1) (map_bformula fct f2)
-    | EQ f1 f2  => EQ (map_bformula fct f1) (map_bformula fct f2)
-    end.
-
-End MAPATOMS.
-
-Lemma map_simpl : forall A B f l, @map A B f l = match l with
-                                                 | nil => nil
-                                                 | a :: l=> (f a) :: (@map A B f l)
-                                                 end.
-Proof.
-  intros A B f l; destruct l ; reflexivity.
-Qed.
-
 
 Section S.
   (** A cnf tracking annotations of atoms. *)
@@ -1871,7 +1805,7 @@ Section S.
           tauto.
   Qed.
 
-  Lemma tauto_checker_sound : forall t w, tauto_checker (@xcnf true isProp t) w = true -> forall env, @eval_f _ _ _ unit e_eKind (eval env) _ t.
+  Lemma tauto_checker_sound : forall t w, tauto_checker (@xcnf true isProp t) w = true -> forall env, @GFeval eqb _ _ _ unit e_eKind (eval env) _ t.
   Proof.
     unfold tauto_checker.
     intros t w H env.
@@ -1880,10 +1814,10 @@ Section S.
     eapply cnf_checker_sound ; eauto.
   Qed.
 
-  Definition eval_bf {A : Type} (ea : forall (k: kind), A -> eKind k) (k: kind) (f: BFormula A k) := eval_f e_eKind ea f.
+  #[local] Notation eval_bf := (BFeval eqb).
 
   Lemma eval_bf_map : forall T U (fct: T-> U) env (k: kind) (f:BFormula T k) ,
-      eval_bf env  (map_bformula fct f)  = eval_bf (fun b x => env b (fct x)) f.
+      eval_bf env  (GFmap fct f)  = eval_bf (fun b x => env b (fct x)) f.
   Proof.
     intros T U fct env k f;
       induction f as [| | | |? ? IHf1 ? IHf2|? ? IHf1 ? IHf2|? ? IHf
@@ -1894,6 +1828,7 @@ Section S.
 
 
 End S.
+Notation eval_bf := (BFeval eqb).
 
 Notation tauto_checker :=
   (fun term term' annot unsat deduce normalise negate witness check f =>

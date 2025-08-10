@@ -490,22 +490,15 @@ Qed.
 
 (** Normalisation of formulae **)
 
-Definition eval_op2 (o : Op2) : R -> R -> Prop :=
-match o with
-| OpEq => req
-| OpNEq => fun x y : R => x ~= y
-| OpLe => rle
-| OpGe => fun x y : R => y <= x
-| OpLt => fun x y : R => x < y
-| OpGt => fun x y : R => y < x
-end.
+#[local] Notation eval_op2 := (eval_op2
+  isProp req (fun x y => ~ req x y) rle rlt).
 
 Definition  eval_pexpr : PolEnv -> PExpr C -> R :=
- PEeval rplus rtimes rminus ropp phi pow_phi rpow.
+ PEeval rplus rtimes rminus ropp phi pow_phi rpow (@Env.nth R).
 
-Definition eval_formula (env : PolEnv) (f : Formula C) : Prop :=
-  let (lhs, op, rhs) := f in
-    (eval_op2 op) (eval_pexpr env lhs) (eval_pexpr env rhs).
+#[local] Notation eval_formula := (Feval
+  rplus rtimes rminus ropp isProp req (fun x y => ~ req x y) rle rlt
+  phi pow_phi rpow (@Env.nth R)).
 
 (* We normalize Formulas by moving terms to one side *)
 
@@ -812,30 +805,14 @@ Variable phiS : S -> R.
 
 Variable phi_C_of_S :   forall c,  phiS c =  phi (C_of_S c).
 
-Fixpoint map_PExpr (e : PExpr S) : PExpr C :=
-  match e with
-    | PEc c => PEc (C_of_S c)
-    | PEX p => PEX p
-    | PEadd e1 e2 => PEadd (map_PExpr e1) (map_PExpr e2)
-    | PEsub e1 e2 => PEsub (map_PExpr e1) (map_PExpr e2)
-    | PEmul e1 e2 => PEmul (map_PExpr e1) (map_PExpr e2)
-    | PEopp e     => PEopp (map_PExpr e)
-    | PEpow e n   => PEpow (map_PExpr e) n
-  end.
-
-Definition map_Formula (f : Formula S)  : Formula C :=
-  let (l,o,r) := f in
-    Build_Formula (map_PExpr l) o (map_PExpr r).
-
-
 Definition eval_sexpr : PolEnv -> PExpr S -> R :=
-  PEeval rplus rtimes rminus ropp phiS pow_phi rpow.
+  PEeval rplus rtimes rminus ropp phiS pow_phi rpow (@Env.nth R).
 
 Definition eval_sformula (env : PolEnv) (f : Formula S) : Prop :=
   let (lhs, op, rhs) := f in
     (eval_op2 op) (eval_sexpr env lhs) (eval_sexpr env rhs).
 
-Lemma eval_pexprSC : forall env s, eval_sexpr env s = eval_pexpr env (map_PExpr s).
+Lemma eval_pexprSC : forall env s, eval_sexpr env s = eval_pexpr env (PEmap C_of_S s).
 Proof.
   unfold eval_pexpr, eval_sexpr.
   intros env s;
@@ -847,7 +824,7 @@ Proof.
 Qed.
 
 (** equality might be (too) strong *)
-Lemma eval_formulaSC : forall env f, eval_sformula env f = eval_formula env (map_Formula f).
+Lemma eval_formulaSC : forall env f, eval_sformula env f = eval_formula env (Fmap C_of_S f).
 Proof.
   intros env f; destruct f.
   simpl.
@@ -900,6 +877,11 @@ Notation psub := Psub (only parsing).
 Notation padd := Padd (only parsing).
 Notation pmul := Pmul (only parsing).
 Notation popp := Popp (only parsing).
+
+Notation eval_formula :=
+  (fun add mul sub opp eqProp le lt phi pow_phi pow => Feval
+     add mul sub opp isProp eqProp (fun x y => ~ eqProp x y) le lt
+     phi pow_phi pow (@Env.nth _)).
 
 (* Local Variables: *)
 (* coding: utf-8 *)

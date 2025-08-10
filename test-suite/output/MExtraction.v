@@ -18,7 +18,7 @@
    Don't forget to update it in Rocq core when editing this MExtraction.v file
    or MExtraction.out *)
 
-From Stdlib Require Import micromega_checker.
+From Stdlib Require Import micromega_eval micromega_checker.
 From Stdlib Require Extraction.
 From Stdlib Require Import ZMicromega.
 From Stdlib Require Import QMicromega.
@@ -57,7 +57,7 @@ Extract Constant Rinv   => "fun x -> 1 / x".
 (** In order to avoid annoying build dependencies the actual
     extraction is only performed as a test in the test suite. *)
 Recursive Extraction
-           Tauto.mapX Tauto.foldA Tauto.collect_annot Tauto.ids_of_formula Tauto.map_bformula
+           Tauto.mapX Tauto.foldA Tauto.collect_annot Tauto.ids_of_formula GFmap
            Tauto.abst_form
            ZMicromega.cnfZ  ZMicromega.Zeval_const QMicromega.cnfQ
            List.map simpl_cone (*map_cone  indexes*)

@@ -440,7 +440,7 @@ Definition Reval_formula' :=
 
 Lemma Reval_pop2_eval_op2 : forall o e1 e2,
   Reval_pop2 o e1 e2  <->
-  eval_op2 eq Rle Rlt o e1 e2.
+  eval_op2 isProp eq (fun x y => x <> y) Rle Rlt o e1 e2.
 Proof.
   destruct o ; simpl ; try tauto.
   split.
@@ -512,7 +512,7 @@ From Stdlib.micromega Require Import Tauto.
   Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
 
 Definition RTautoChecker (f : BFormula (Formula Rcst) isProp) (w: list RWitness)  : bool :=
-  micromega_checker.tauto_checker (fun cl => RWeakChecker (List.map fst cl)) (Qcnf_of_GFormula (map_bformula (map_Formula Q_of_Rcst) f)) w.
+  micromega_checker.tauto_checker (fun cl => RWeakChecker (List.map fst cl)) (Qcnf_of_GFormula (GFmap (Fmap Q_of_Rcst) f)) w.
 
 Lemma RTautoChecker_sound : forall f w, RTautoChecker f w = true -> forall env, eval_bf  (Reval_formula env)  f.
 Proof.
@@ -520,7 +520,7 @@ Proof.
   unfold RTautoChecker.
   intros TC env.
   apply tauto_checker_sound with (eval:=QReval_formula) (eval':=    Qeval_nformula) (env := env) in TC.
-  - change (eval_f e_eKind (QReval_formula env))
+  - change (GFeval eqb e_eKind (QReval_formula env))
       with
       (eval_bf  (QReval_formula env)) in TC.
     rewrite eval_bf_map in TC.

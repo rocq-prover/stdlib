@@ -11,7 +11,7 @@
    For big polynomials, this is inefficient -- linear access.
    I have modified the code to use binary trees -- logarithmic access.  *)
 
-From Stdlib Require Export micromega_formula micromega_witness.
+From Stdlib Require Export micromega_formula micromega_witness micromega_eval.
 From Stdlib Require Export micromega_checker.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
@@ -681,16 +681,8 @@ Qed.
 
  (** evaluation of polynomial expressions towards R *)
 
- Fixpoint PEeval (l:Env R) (pe:PExpr) : R :=
-   match pe with
-   | PEc c => phi c
-   | PEX j => nth j l
-   | PEadd pe1 pe2 => (PEeval l pe1) + (PEeval l pe2)
-   | PEsub pe1 pe2 => (PEeval l pe1) - (PEeval l pe2)
-   | PEmul pe1 pe2 => (PEeval l pe1) * (PEeval l pe2)
-   | PEopp pe1 => - (PEeval l pe1)
-   | PEpow pe1 n => rpow (PEeval l pe1) (Cp_phi n)
-   end.
+ #[local] Notation PEeval := (PEeval
+   radd rmul rsub ropp phi Cp_phi rpow (@nth R)).
 
  (** Correctness proofs *)
 
@@ -794,3 +786,6 @@ Section POWER.
  End NORM_SUBST_REC.
 
 End MakeRingPol.
+
+Notation PEeval := (fun add mul sub opp phi pow_phi pow => PEeval
+  add mul sub opp phi pow_phi pow (@Env.nth _)).

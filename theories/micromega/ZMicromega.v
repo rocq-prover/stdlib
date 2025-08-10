@@ -218,11 +218,11 @@ Proof.
   destruct f as [Flhs  Fop Frhs].
   repeat rewrite Zeval_expr_compat.
   unfold Zeval_formula' ; simpl.
-  unfold eval_expr.
-  generalize (eval_pexpr Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) env Flhs).
-  generalize ((eval_pexpr Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) env Frhs)).
+  unfold eval_expr, eval_pexpr.
+  generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
+        (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env Flhs).
+  generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
+        (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env Frhs).
   destruct Fop ; simpl; intros;
     intuition auto using Z.le_ge, Z.ge_le, Z.lt_gt, Z.gt_lt.
 Qed.
@@ -340,11 +340,11 @@ Proof.
   destruct f as [lhs o rhs].
   destruct o eqn:O ; cbn ; rewrite ?eval_pol_sub;
     rewrite <- !eval_pol_norm ; simpl in *;
-      unfold eval_expr;
-      generalize (   eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                                 (fun x : N => x) (pow_N 1 Z.mul) env lhs);
-      generalize (eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                              (fun x : N => x) (pow_N 1 Z.mul) env rhs); intros z z0.
+      unfold eval_expr, eval_pexpr;
+      generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
+                                 (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env lhs);
+      generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
+                              (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env rhs); intros z z0.
   - split ; intros.
     + assert (z0 + (z - z0) = z0 + 0) as H0 by congruence.
       rewrite Z.add_0_r in H0.
@@ -1781,7 +1781,7 @@ Definition leaf := @VarMap.Elt Z.
 
 Definition coneMember := ZWitness.
 
-Definition eval := eval_formula.
+Definition eval := Feval.
 
 #[deprecated(note="Use [prod positive nat]", since="9.0")]
 Definition prod_pos_nat := prod positive nat.

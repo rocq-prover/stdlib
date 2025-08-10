@@ -64,31 +64,8 @@ Qed.
 (*Definition Zeval_expr :=  eval_pexpr 0 Z.add Z.mul Z.sub Z.opp  (fun x => x) (fun x => Z.of_N x) (Z.pow).*)
 From Stdlib Require Import EnvRing.
 
-Fixpoint Qeval_expr (env: PolEnv Q) (e: PExpr Q) : Q :=
-  match e with
-    | PEc c =>  c
-    | PEX j =>  env j
-    | PEadd pe1 pe2 => (Qeval_expr env pe1) + (Qeval_expr env pe2)
-    | PEsub pe1 pe2 => (Qeval_expr env pe1) - (Qeval_expr env pe2)
-    | PEmul pe1 pe2 => (Qeval_expr env pe1) * (Qeval_expr env pe2)
-    | PEopp pe1 => - (Qeval_expr env pe1)
-    | PEpow pe1 n => Qpower (Qeval_expr env pe1)  (Z.of_N n)
-  end.
-
-Lemma Qeval_expr_simpl : forall env e,
-  Qeval_expr env e =
-  match e with
-    | PEc c =>  c
-    | PEX j =>  env j
-    | PEadd pe1 pe2 => (Qeval_expr env pe1) + (Qeval_expr env pe2)
-    | PEsub pe1 pe2 => (Qeval_expr env pe1) - (Qeval_expr env pe2)
-    | PEmul pe1 pe2 => (Qeval_expr env pe1) * (Qeval_expr env pe2)
-    | PEopp pe1 => - (Qeval_expr env pe1)
-    | PEpow pe1 n => Qpower (Qeval_expr env pe1)  (Z.of_N n)
-  end.
-Proof.
-  destruct e ; reflexivity.
-Qed.
+#[local] Notation Qeval_expr := (PEeval
+  Qplus Qmult Qminus Qopp id Z.of_N Qpower).
 
 Definition Qeval_expr' := eval_pexpr  Qplus Qmult Qminus Qopp (fun x => x) (fun x => x) (pow_N 1 Qmult).
 
@@ -100,10 +77,9 @@ Qed.
 
 Lemma Qeval_expr_compat : forall env e, Qeval_expr env e = Qeval_expr' env e.
 Proof.
-  induction e ; simpl ; subst ; try congruence.
-  - reflexivity.
-  - rewrite IHe.
-    apply QNpower.
+  induction e ; simpl ; subst ; try congruence; try reflexivity.
+  rewrite IHe.
+  apply QNpower.
 Qed.
 
 Definition Qeval_pop2 (o : Op2) : Q -> Q -> Prop :=
