@@ -419,8 +419,8 @@ Proof.
   - apply Rlt_not_le in H. tauto.
 Qed.
 
-Definition Reval_op2 (k: kind) :  Op2 ->  R -> R -> Tauto.rtyp k:=
-  if k as k0 return (Op2 -> R -> R -> Tauto.rtyp k0)
+Definition Reval_op2 (k: kind) :  Op2 ->  R -> R -> eKind k:=
+  if k as k0 return (Op2 -> R -> R -> eKind k0)
   then Reval_pop2 else Reval_bop2.
 
 Lemma Reval_op2_hold : forall b op q1 q2,
@@ -526,7 +526,7 @@ Proof.
   unfold RTautoChecker.
   intros TC env.
   apply tauto_checker_sound with (eval:=QReval_formula) (eval':=    Qeval_nformula) (env := env) in TC.
-  - change (eval_f e_rtyp (QReval_formula env))
+  - change (eval_f e_eKind (QReval_formula env))
       with
       (eval_bf  (QReval_formula env)) in TC.
     rewrite eval_bf_map in TC.

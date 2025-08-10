@@ -185,8 +185,8 @@ Proof.
   - rewrite <- Z.gtb_gt; tauto.
 Qed.
 
-Definition Zeval_op2 (k: kind) :  Op2 ->  Z -> Z -> Tauto.rtyp k:=
-  if k as k0 return (Op2 -> Z -> Z -> Tauto.rtyp k0)
+Definition Zeval_op2 (k: kind) :  Op2 ->  Z -> Z -> eKind k:=
+  if k as k0 return (Op2 -> Z -> Z -> eKind k0)
   then Zeval_pop2 else Zeval_bop2.
 
 

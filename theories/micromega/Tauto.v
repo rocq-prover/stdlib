@@ -98,42 +98,40 @@ Section S.
     | NOT  f  => collect_annot f
     end.
 
-  Definition rtyp (k: kind) : Type := if k then Prop else bool.
-
-  Variable ex : forall (k: kind), TX k -> rtyp k. (* [ex] will be the identity *)
+  Variable ex : forall (k: kind), TX k -> eKind k. (* [ex] will be the identity *)
 
   Section EVAL.
 
-    Variable ea : forall (k: kind), TA -> rtyp k.
+    Variable ea : forall (k: kind), TA -> eKind k.
 
-    Definition eTT (k: kind) : rtyp k :=
-      if k as k' return  rtyp k' then True else true.
+    Definition eTT (k: kind) : eKind k :=
+      if k as k' return  eKind k' then True else true.
 
-    Definition eFF (k: kind) : rtyp k :=
-      if k as k' return  rtyp k' then False else false.
+    Definition eFF (k: kind) : eKind k :=
+      if k as k' return  eKind k' then False else false.
 
-    Definition eAND (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
+    Definition eAND (k: kind) : eKind k -> eKind k -> eKind k :=
+      if k as k' return eKind k' -> eKind k' -> eKind k'
       then and else andb.
 
-    Definition eOR (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
+    Definition eOR (k: kind) : eKind k -> eKind k -> eKind k :=
+      if k as k' return eKind k' -> eKind k' -> eKind k'
       then or else orb.
 
-    Definition eIMPL (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
+    Definition eIMPL (k: kind) : eKind k -> eKind k -> eKind k :=
+      if k as k' return eKind k' -> eKind k' -> eKind k'
       then (fun x y => x -> y) else implb.
 
-    Definition eIFF (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
+    Definition eIFF (k: kind) : eKind k -> eKind k -> eKind k :=
+      if k as k' return eKind k' -> eKind k' -> eKind k'
       then iff else eqb.
 
-    Definition eNOT (k: kind) : rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k'
+    Definition eNOT (k: kind) : eKind k -> eKind k :=
+      if k as k' return eKind k' -> eKind k'
       then not else negb.
 
-    Fixpoint eval_f (k: kind) (f:GFormula k) {struct f}: rtyp k :=
-      match f in micromega_formula.GFormula k' return rtyp k' with
+    Fixpoint eval_f (k: kind) (f:GFormula k) {struct f}: eKind k :=
+      match f in micromega_formula.GFormula k' return eKind k' with
       | TT tk => eTT tk
       | FF tk => eFF tk
       | A k a _ =>  ea k a
@@ -148,7 +146,7 @@ Section S.
 
     Lemma eval_f_rew : forall k (f:GFormula k),
         eval_f f =
-        match f in micromega_formula.GFormula k' return rtyp k' with
+        match f in micromega_formula.GFormula k' return eKind k' with
         | TT tk => eTT tk
         | FF tk => eFF tk
         | A k a _ =>  ea k a
@@ -167,29 +165,29 @@ Section S.
   End EVAL.
 
 
-  Definition hold (k: kind) : rtyp k ->  Prop :=
-    if k as k0 return (rtyp k0 -> Prop) then fun x  => x else is_true.
+  Definition hold (k: kind) : eKind k ->  Prop :=
+    if k as k0 return (eKind k0 -> Prop) then fun x  => x else is_true.
 
-  Definition eiff (k: kind) : rtyp k -> rtyp k -> Prop :=
-    if k as k' return rtyp k' -> rtyp k' -> Prop then iff else @eq bool.
+  Definition eiff (k: kind) : eKind k -> eKind k -> Prop :=
+    if k as k' return eKind k' -> eKind k' -> Prop then iff else @eq bool.
 
-  Lemma eiff_refl (k: kind) (x : rtyp k) :
+  Lemma eiff_refl (k: kind) (x : eKind k) :
       eiff k x x.
   Proof.
     destruct k ; simpl; tauto.
   Qed.
 
-  Lemma eiff_sym k (x y : rtyp k) : eiff k x y -> eiff k y x.
+  Lemma eiff_sym k (x y : eKind k) : eiff k x y -> eiff k y x.
   Proof.
     destruct k ; simpl; intros ; intuition.
   Qed.
 
-  Lemma eiff_trans k (x y z : rtyp k) : eiff k x y -> eiff k y z -> eiff k x z.
+  Lemma eiff_trans k (x y z : eKind k) : eiff k x y -> eiff k y z -> eiff k x z.
   Proof.
     destruct k ; simpl; intros ; intuition congruence.
   Qed.
 
-  Lemma hold_eiff (k: kind) (x y : rtyp k) :
+  Lemma hold_eiff (k: kind) (x y : eKind k) :
       (hold k x <-> hold k y) <-> eiff k x y.
   Proof.
     destruct k ; simpl.
@@ -237,7 +235,7 @@ Section S.
   Qed.
 
   Lemma eval_f_morph :
-    forall  (ev ev' : forall (k: kind), TA -> rtyp k),
+    forall  (ev ev' : forall (k: kind), TA -> eKind k),
       (forall k a, eiff k (ev k a) (ev' k a)) ->
       forall (k: kind)(f : GFormula k),
         (eiff k (eval_f ev f) (eval_f ev' f)).
@@ -1672,13 +1670,13 @@ Section S.
     }
   Qed.
 
-  Variable eval  : Env -> forall (k: kind), Term -> rtyp k.
+  Variable eval  : Env -> forall (k: kind), Term -> eKind k.
 
   Variable normalise_correct : forall env b t tg, eval_cnf  env (normalise t tg) ->  hold b (eval env b t).
 
   Variable negate_correct : forall env b t tg, eval_cnf env (negate t tg) -> hold b (eNOT b (eval env b t)).
 
-  Definition e_rtyp (k: kind) (x : rtyp k) : rtyp k := x.
+  Definition e_eKind (k: kind) (x : eKind k) : eKind k := x.
 
   Lemma hold_eTT : forall k, hold k (eTT k).
   Proof.
@@ -1754,13 +1752,13 @@ Section S.
       (f2 : GFormula k)
       (IHf1 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f1) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f1 else NOT f1)))
+          hold k (eval_f e_eKind (eval env) (if pol then f1 else NOT f1)))
       (IHf2 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f2) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f2 else NOT f2))),
+          hold k (eval_f e_eKind (eval env) (if pol then f2 else NOT f2))),
     forall (pol : bool) (env : Env),
       eval_cnf env (xcnf pol (IMPL f1 o f2)) ->
-      hold k (eval_f e_rtyp (eval env) (if pol then IMPL f1 o f2 else NOT (IMPL f1 o f2))).
+      hold k (eval_f e_eKind (eval env) (if pol then IMPL f1 o f2 else NOT (IMPL f1 o f2))).
   Proof.
     simpl; intros k f1 o f2 IHf1 IHf2 pol env H. unfold mk_impl in H.
     destruct pol.
@@ -1810,16 +1808,16 @@ Section S.
 
   Lemma xcnf_iff : forall
       (k : kind)
-      (f1 f2 : @GFormula Term rtyp Annot unit k)
+      (f1 f2 : @GFormula Term eKind Annot unit k)
       (IHf1 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f1) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f1 else NOT f1)))
+          hold k (eval_f e_eKind (eval env) (if pol then f1 else NOT f1)))
       (IHf2 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f2) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f2 else NOT f2))),
+          hold k (eval_f e_eKind (eval env) (if pol then f2 else NOT f2))),
       forall (pol : bool) (env : Env),
         eval_cnf env (xcnf pol (IFF f1 f2)) ->
-        hold k (eval_f e_rtyp (eval env) (if pol then IFF f1 f2 else NOT (IFF f1 f2))).
+        hold k (eval_f e_eKind (eval env) (if pol then IFF f1 f2 else NOT (IFF f1 f2))).
   Proof.
     simpl.
     intros k f1 f2 IHf1 IHf2 pol env H.
@@ -1849,8 +1847,8 @@ Section S.
        tauto.
   Qed.
 
-  Lemma xcnf_correct : forall (k: kind) (f : @GFormula Term rtyp Annot unit k)  pol env,
-      eval_cnf env (xcnf pol f) -> hold k (eval_f e_rtyp (eval env) (if pol then f else NOT f)).
+  Lemma xcnf_correct : forall (k: kind) (f : @GFormula Term eKind Annot unit k)  pol env,
+      eval_cnf env (xcnf pol f) -> hold k (eval_f e_eKind (eval env) (if pol then f else NOT f)).
   Proof.
     intros k f;
      induction f as [| | | |? ? IHf1 ? IHf2|? ? IHf1 ? IHf2|? ? IHf
@@ -2012,19 +2010,19 @@ Section S.
           tauto.
   Qed.
 
-  Definition tauto_checker (f:@GFormula Term rtyp Annot unit isProp) (w:list Witness) : bool :=
+  Definition tauto_checker (f:@GFormula Term eKind Annot unit isProp) (w:list Witness) : bool :=
     cnf_checker (xcnf true f) w.
 
-  Lemma tauto_checker_sound : forall t  w, tauto_checker t w = true -> forall env, eval_f e_rtyp (eval env)  t.
+  Lemma tauto_checker_sound : forall t  w, tauto_checker t w = true -> forall env, eval_f e_eKind (eval env)  t.
   Proof.
     unfold tauto_checker.
     intros t w H env.
-    change (eval_f e_rtyp (eval env) t) with (eval_f e_rtyp (eval env) (if true then t else TT isProp)).
+    change (eval_f e_eKind (eval env) t) with (eval_f e_eKind (eval env) (if true then t else TT isProp)).
     apply (xcnf_correct t true).
     eapply cnf_checker_sound ; eauto.
   Qed.
 
-  Definition eval_bf {A : Type} (ea : forall (k: kind), A -> rtyp k) (k: kind) (f: BFormula A k) := eval_f e_rtyp ea f.
+  Definition eval_bf {A : Type} (ea : forall (k: kind), A -> eKind k) (k: kind) (f: BFormula A k) := eval_f e_eKind ea f.
 
   Lemma eval_bf_map : forall T U (fct: T-> U) env (k: kind) (f:BFormula T k) ,
       eval_bf env  (map_bformula fct f)  = eval_bf (fun b x => env b (fct x)) f.
