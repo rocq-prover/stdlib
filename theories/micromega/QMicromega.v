@@ -14,6 +14,7 @@
 (*                                                                      *)
 (************************************************************************)
 
+From Stdlib Require Import micromega.Tauto.
 From Stdlib Require Import OrderedRing.
 From Stdlib Require Import RingMicromega.
 From Stdlib Require Import Refl.
@@ -153,8 +154,8 @@ Proof.
   - apply Qlt_bool_iff.
 Qed.
 
-Definition Qeval_op2 (k:Tauto.kind) :  Op2 ->  Q -> Q -> Tauto.rtyp k:=
-  if k as k0 return (Op2 -> Q -> Q -> Tauto.rtyp k0)
+Definition Qeval_op2 (k:kind) :  Op2 ->  Q -> Q -> eKind k:=
+  if k as k0 return (Op2 -> Q -> Q -> eKind k0)
   then Qeval_pop2 else Qeval_bop2.
 
 
