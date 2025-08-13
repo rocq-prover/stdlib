@@ -17,8 +17,7 @@
 From Stdlib Require Import PreOmega ZMicromega RingMicromega VarMap DeclConstantZ.
 From Stdlib Require Import BinNums.
 From Stdlib.micromega Require Tauto.
-Declare ML Module "rocq-runtime.plugins.micromega_core".
-Declare ML Module "rocq-runtime.plugins.micromega".
+From Stdlib Require Export micromega_tactics.
 
 Ltac zchecker :=
   let __wit := fresh "__wit" in

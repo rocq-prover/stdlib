@@ -26,8 +26,7 @@ From Stdlib.micromega Require Tauto.
 From Stdlib Require Lia.
 From Stdlib Require Lra.
 From Stdlib Require Lqa.
-
-Declare ML Module "rocq-runtime.plugins.micromega".
+From Stdlib Require Export micromega_tactics.
 
 Ltac lia := Lia.lia.
 

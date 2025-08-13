@@ -21,8 +21,7 @@ From Stdlib Require Import RingMicromega.
 From Stdlib Require Import VarMap.
 From Stdlib.micromega Require Tauto.
 From Stdlib Require Import Rregisternames.
-
-Declare ML Module "rocq-runtime.plugins.micromega".
+From Stdlib Require Export micromega_tactics.
 
 Ltac rchange :=
   let __wit := fresh "__wit" in
