@@ -6,7 +6,8 @@
 (env
  (dev
   (coq
-   (flags :standard))))
+   ;; see theories/_CoqProject for details
+   (flags :standard -w -notation-for-abbreviation -w -ltac2-notation-for-abbreviation))))
 
 (rule
  (targets All.v)
