@@ -38,14 +38,6 @@ Definition zero := 0.
 Definition one := 1.
 Definition two := 2.
 
-(** ** Successor *)
-
-Definition succ n :=
-  match n with
-  | 0 => 1
-  | pos p => pos (Pos.succ p)
-  end.
-
 (** ** Predecessor *)
 
 Definition pred n :=
@@ -56,38 +48,17 @@ Definition pred n :=
 
 (** ** Addition *)
 
-Definition add n m :=
-  match n, m with
-  | 0, _ => m
-  | _, 0 => n
-  | pos p, pos q => pos (p + q)
-  end.
-
 Infix "+" := add : N_scope.
 
 Infix "-" := sub : N_scope.
 
 (** Multiplication *)
 
-Definition mul n m :=
-  match n, m with
-  | 0, _ => 0
-  | _, 0 => 0
-  | pos p, pos q => pos (p * q)
-  end.
-
 Infix "*" := mul : N_scope.
 
 Infix "?=" := compare (at level 70, no associativity) : N_scope.
 
 (** Boolean equality and comparison *)
-
-Definition eqb n m :=
-  match n, m with
-    | 0, 0 => true
-    | pos p, pos q => Pos.eqb p q
-    | _, _ => false
-  end.
 
 Definition ltb x y :=
  match x ?= y with Lt => true | _ => false end.
@@ -263,12 +234,6 @@ Definition testbit a n :=
 
 (** Translation from [N] to [nat] and back. *)
 
-Definition to_nat (a:N) :=
-  match a with
-    | 0 => O
-    | pos p => Pos.to_nat p
-  end.
-
 Definition of_nat (n:nat) :=
   match n with
     | O => 0
@@ -289,16 +254,6 @@ Definition iter_op {A} (op : A -> A -> A) (z x : A) (n : N) :=
   match n with N0 => z | Npos p => Pos.iter_op op p x end.
 
 (** Conversion with a decimal representation for printing/parsing *)
-
-Definition of_uint (d:Decimal.uint) := Pos.of_uint d.
-
-Definition of_hex_uint (d:Hexadecimal.uint) := Pos.of_hex_uint d.
-
-Definition of_num_uint (d:Number.uint) :=
-  match d with
-  | Number.UIntDecimal d => of_uint d
-  | Number.UIntHexadecimal d => of_hex_uint d
-  end.
 
 Definition of_int (d:Decimal.int) :=
   match Decimal.norm d with
