@@ -1312,7 +1312,7 @@ Proof.
  - now rewrite ones_spec_low, mod_pow2_bits_low, andb_true_r.
 Qed.
 
-Lemma mod_false_spec :
+Lemma testbit_false_mod_pow2 :
   forall a n j, testbit a n = false -> testbit (a mod 2 ^ j) n = false.
 Proof.
   intros a n j H. rewrite <- land_ones. rewrite land_spec. 
