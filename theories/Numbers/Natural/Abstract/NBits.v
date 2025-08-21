@@ -1312,6 +1312,13 @@ Proof.
  - now rewrite ones_spec_low, mod_pow2_bits_low, andb_true_r.
 Qed.
 
+Lemma testbit_false_mod_pow2 :
+  forall a n j, testbit a n = false -> testbit (a mod 2 ^ j) n = false.
+Proof.
+  intros a n j H. rewrite <- land_ones. rewrite land_spec. 
+  rewrite H. rewrite Bool.andb_false_l. reflexivity.
+Qed.
+
 Lemma land_ones_low : forall a n, log2 a < n ->
  land a (ones n) == a.
 Proof.
