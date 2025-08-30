@@ -9,6 +9,8 @@ From Stdlib Require Export ssr.ssrclasses.
 From Stdlib Require Export ssr.ssrbool.
 From Stdlib Require Export setoid_ring.ring_eval.
 From Stdlib Require Export setoid_ring.ring_checker.
+From Stdlib Require Export setoid_ring.field_eval.
+From Stdlib Require Export setoid_ring.field_checker.
 From Stdlib Require Export Numbers.BinNums.
 From Stdlib Require Export Logic.EqdepFacts.
 From Stdlib Require Export Logic.Eqdep_dec.
