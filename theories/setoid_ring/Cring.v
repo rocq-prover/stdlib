@@ -143,7 +143,7 @@ Ltac cring_simplify_aux lterm fv lexpr hyp :=
       | ?t0::?lterm =>
     match lexpr with
       | ?e::?le =>
-        let t := constr:(@Ring_polynom.norm_subst
+        let t := constr:(@ring_checker.norm_subst
           Z 0%Z 1%Z Z.add Z.mul Z.sub Z.opp Z.eqb Z.quotrem O nil e) in
         let te :=
           constr:(@Ring_polynom.Pphi_dev

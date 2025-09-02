@@ -421,17 +421,6 @@ Qed.
 
  (** Definition of polynomial expressions *)
 
-(*
- Inductive PExpr : Type :=
-  | PEc : C -> PExpr
-  | PEX : positive -> PExpr
-  | PEadd : PExpr -> PExpr -> PExpr
-  | PEsub : PExpr -> PExpr -> PExpr
-  | PEmul : PExpr -> PExpr -> PExpr
-  | PEopp : PExpr -> PExpr
-  | PEpow : PExpr -> N -> PExpr.
-*)
-
 (** Specification of the power function *)
 Section POWER.
   Variable Cpow : Set.
