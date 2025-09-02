@@ -494,11 +494,10 @@ Qed.
   isProp req (fun x y => ~ req x y) rle rlt).
 
 Definition  eval_pexpr : PolEnv -> PExpr C -> R :=
- PEeval rplus rtimes rminus ropp phi pow_phi rpow (@Env.nth R).
+ PEeval rO rI rplus rtimes rminus ropp pow_phi rpow phi (@Env.nth R).
 
-#[local] Notation eval_formula := (Feval
-  rplus rtimes rminus ropp isProp req (fun x y => ~ req x y) rle rlt
-  phi pow_phi rpow (@Env.nth R)).
+#[local] Notation eval_formula := (Feval rO rI rplus rtimes rminus ropp
+  pow_phi rpow isProp req (fun x y => ~ req x y) rle rlt phi (@Env.nth R)).
 
 (* We normalize Formulas by moving terms to one side *)
 
@@ -739,7 +738,7 @@ Fixpoint xdenorm (jmp : positive) (p: Pol C) : PExpr C :=
     | Pc c => PEc c
     | Pinj j p => xdenorm  (Pos.add j jmp ) p
     | PX p j q   => PEadd
-      (PEmul (xdenorm jmp p) (PEpow (PEX jmp) (Npos j)))
+      (PEmul (xdenorm jmp p) (PEpow (PEX _ jmp) (Npos j)))
       (xdenorm (Pos.succ jmp) q)
   end.
 
@@ -806,7 +805,7 @@ Variable phiS : S -> R.
 Variable phi_C_of_S :   forall c,  phiS c =  phi (C_of_S c).
 
 Definition eval_sexpr : PolEnv -> PExpr S -> R :=
-  PEeval rplus rtimes rminus ropp phiS pow_phi rpow (@Env.nth R).
+  PEeval rO rI rplus rtimes rminus ropp pow_phi rpow phiS (@Env.nth R).
 
 Definition eval_sformula (env : PolEnv) (f : Formula S) : Prop :=
   let (lhs, op, rhs) := f in
@@ -816,7 +815,7 @@ Lemma eval_pexprSC : forall env s, eval_sexpr env s = eval_pexpr env (PEmap C_of
 Proof.
   unfold eval_pexpr, eval_sexpr.
   intros env s;
-   induction s as [| |? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs|? IHs ?];
+   induction s as [| | | |? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs|? IHs ?];
    simpl ; try (rewrite IHs1 ; rewrite IHs2) ; try reflexivity.
   - apply phi_C_of_S.
   - rewrite IHs. reflexivity.
@@ -879,9 +878,9 @@ Notation pmul := Pmul (only parsing).
 Notation popp := Popp (only parsing).
 
 Notation eval_formula :=
-  (fun add mul sub opp eqProp le lt phi pow_phi pow => Feval
-     add mul sub opp isProp eqProp (fun x y => ~ eqProp x y) le lt
-     phi pow_phi pow (@Env.nth _)).
+  (fun rO rI add mul sub opp eqProp le lt phi pow_phi pow => Feval
+     rO rI add mul sub opp pow_phi pow
+     isProp eqProp (fun x y => ~ eqProp x y) le lt phi  (@Env.nth _)).
 
 (* Local Variables: *)
 (* coding: utf-8 *)

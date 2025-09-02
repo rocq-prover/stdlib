@@ -378,7 +378,7 @@ Definition INZ (n:N) : R :=
     | Npos p => IZR (Zpos p)
   end.
 
-Definition Reval_expr := eval_pexpr  Rplus Rmult Rminus Ropp R_of_Rcst N.to_nat pow.
+Definition Reval_expr := eval_pexpr R0 R1 Rplus Rmult Rminus Ropp R_of_Rcst N.to_nat pow.
 
 
 Definition Reval_pop2 (o:Op2) : R -> R -> Prop :=
@@ -436,7 +436,7 @@ Definition Reval_formula (e: PolEnv R) (k: kind) (ff : Formula Rcst) :=
 
 
 Definition Reval_formula' :=
-  eval_sformula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt N.to_nat pow R_of_Rcst.
+  eval_sformula R0 R1 Rplus Rmult Rminus Ropp (@eq R) Rle Rlt N.to_nat pow R_of_Rcst.
 
 Lemma Reval_pop2_eval_op2 : forall o e1 e2,
   Reval_pop2 o e1 e2  <->
@@ -459,14 +459,14 @@ Proof.
   apply Reval_pop2_eval_op2.
 Qed.
 
-Definition QReval_expr := eval_pexpr Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
+Definition QReval_expr := eval_pexpr R0 R1 Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
 
 Definition QReval_formula (e: PolEnv R) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (QReval_expr e lhs) (QReval_expr e rhs).
 
 
 Definition QReval_formula' :=
-  eval_formula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
+  eval_formula R0 R1 Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
 
 Lemma QReval_formula_compat : forall env b f, Tauto.hold b (QReval_formula env b f) <-> QReval_formula' env f.
 Proof.

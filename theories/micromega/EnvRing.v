@@ -682,7 +682,7 @@ Qed.
  (** evaluation of polynomial expressions towards R *)
 
  #[local] Notation PEeval := (PEeval
-   radd rmul rsub ropp phi Cp_phi rpow (@nth R)).
+   rO rI radd rmul rsub ropp Cp_phi rpow phi (@nth R)).
 
  (** Correctness proofs *)
 
@@ -750,7 +750,7 @@ Section POWER.
     end.
   Proof.
   simpl (norm_aux (PEadd _ _)).
-  destruct pe1; [ | | | | | reflexivity | ];
+  destruct pe1; [ | | | | | | | reflexivity | ];
    destruct pe2; simpl get_PEopp; reflexivity.
   Qed.
 
@@ -767,7 +767,9 @@ Section POWER.
     PEeval l pe == (norm_aux pe)@l.
   Proof.
    intros.
-   induction pe as [| |pe1 IHpe1 pe2 IHpe2|? IHpe1 ? IHpe2|? IHpe1 ? IHpe2|? IHpe|? IHpe n0].
+   induction pe as [| | | |pe1 IHpe1 pe2 IHpe2|? IHpe1 ? IHpe2|? IHpe1 ? IHpe2|? IHpe|? IHpe n0].
+   - now rewrite (morph0 CRmorph).
+   - now rewrite (morph1 CRmorph).
    - reflexivity.
    - apply mkX_ok.
    - simpl PEeval. rewrite IHpe1, IHpe2.
@@ -787,5 +789,5 @@ Section POWER.
 
 End MakeRingPol.
 
-Notation PEeval := (fun add mul sub opp phi pow_phi pow => PEeval
-  add mul sub opp phi pow_phi pow (@Env.nth _)).
+Notation PEeval := (fun rO rI add mul sub opp phi pow_phi pow => PEeval
+  rO rI add mul sub opp pow_phi pow phi (@Env.nth _)).

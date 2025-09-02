@@ -102,8 +102,10 @@ Qed.
 
 Fixpoint Zeval_expr (env : PolEnv Z) (e: PExpr Z) : Z :=
   match e with
+    | PEO => Z0
+    | PEI => Zpos xH
     | PEc c => c
-    | PEX x => env x
+    | PEX _ x => env x
     | PEadd e1 e2 => Zeval_expr env e1 + Zeval_expr env e2
     | PEmul e1 e2 => Zeval_expr env e1 * Zeval_expr env e2
     | PEpow e1 n  => Z.pow (Zeval_expr env e1) (Z.of_N n)
@@ -113,12 +115,14 @@ Fixpoint Zeval_expr (env : PolEnv Z) (e: PExpr Z) : Z :=
 
 Strategy expand [ Zeval_expr ].
 
-Definition eval_expr := eval_pexpr  Z.add Z.mul Z.sub Z.opp (fun x => x) (fun x => x) (pow_N 1 Z.mul).
+Definition eval_expr := eval_pexpr Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x) (fun x => x) (pow_N 1 Z.mul).
 
 Fixpoint Zeval_const  (e: PExpr Z) : option Z :=
   match e with
+  | PEO => Some Z0
+  | PEI => Some (Zpos xH)
   | PEc c => Some c
-  | PEX x => None
+  | PEX _ x => None
   | PEadd e1 e2 => map_option2 Z.add (Zeval_const e1) (Zeval_const e2)
   | PEmul e1 e2 => map_option2 Z.mul (Zeval_const e1) (Zeval_const e2)
   | PEpow e1 n => map_option (fun x => Z.pow x (Z.of_N n)) (Zeval_const e1)
@@ -200,7 +204,7 @@ Definition Zeval_formula (env : PolEnv Z) (k: kind) (f : Formula Z):=
     (Zeval_op2 k op) (Zeval_expr env lhs) (Zeval_expr env rhs).
 
 Definition Zeval_formula' :=
-  eval_formula  Z.add Z.mul Z.sub Z.opp (@eq Z) Z.le Z.lt (fun x => x) (fun x => x) (pow_N 1 Z.mul).
+  eval_formula Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (@eq Z) Z.le Z.lt (fun x => x) (fun x => x) (pow_N 1 Z.mul).
 
 Lemma Zeval_formula_compat : forall env k f, Tauto.hold k (Zeval_formula env k f) <-> Zeval_formula env isProp f.
 Proof.
@@ -219,10 +223,10 @@ Proof.
   repeat rewrite Zeval_expr_compat.
   unfold Zeval_formula' ; simpl.
   unfold eval_expr, eval_pexpr.
-  generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env Flhs).
-  generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-        (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env Frhs).
+  generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+        (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env Flhs).
+  generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+        (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env Frhs).
   destruct Fop ; simpl; intros;
     intuition auto using Z.le_ge, Z.ge_le, Z.lt_gt, Z.gt_lt.
 Qed.
@@ -341,10 +345,10 @@ Proof.
   destruct o eqn:O ; cbn ; rewrite ?eval_pol_sub;
     rewrite <- !eval_pol_norm ; simpl in *;
       unfold eval_expr, eval_pexpr;
-      generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                                 (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env lhs);
-      generalize (micromega_eval.PEeval Z.add Z.mul Z.sub Z.opp (fun x : Z => x)
-                              (fun x : N => x) (pow_N 1 Z.mul) (@Env.nth Z) env rhs); intros z z0.
+      generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+                                 (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env lhs);
+      generalize (ring_eval.PEeval Z0 (Zpos xH) Z.add Z.mul Z.sub Z.opp (fun x => x)
+                              (pow_N 1 Z.mul) (fun x => x) (@Env.nth Z) env rhs); intros z z0.
   - split ; intros.
     + assert (z0 + (z - z0) = z0 + 0) as H0 by congruence.
       rewrite Z.add_0_r in H0.
@@ -833,10 +837,10 @@ Definition valid_cut_sign (op:Op1) :=
 
 
 Definition bound_var (v : positive) : Formula Z :=
-  Build_Formula (PEX v) OpGe (PEc 0).
+  Build_Formula (PEX _ v) OpGe (PEc 0).
 
 Definition mk_eq_pos (x : positive) (y:positive) (t : positive) : Formula Z :=
-  Build_Formula (PEX x) OpEq (PEsub (PEX y) (PEX t)).
+  Build_Formula (PEX _ x) OpEq (PEsub (PEX _ y) (PEX _ t)).
 
 
 Fixpoint vars (jmp : positive) (p : Pol Z) : list positive :=

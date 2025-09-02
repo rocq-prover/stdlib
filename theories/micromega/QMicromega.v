@@ -65,9 +65,9 @@ Qed.
 From Stdlib Require Import EnvRing.
 
 #[local] Notation Qeval_expr := (PEeval
-  Qplus Qmult Qminus Qopp id Z.of_N Qpower).
+  Q0 Q1 Qplus Qmult Qminus Qopp id Z.of_N Qpower).
 
-Definition Qeval_expr' := eval_pexpr  Qplus Qmult Qminus Qopp (fun x => x) (fun x => x) (pow_N 1 Qmult).
+Definition Qeval_expr' := eval_pexpr Q0 Q1 Qplus Qmult Qminus Qopp (fun x => x) (fun x => x) (pow_N 1 Qmult).
 
 Lemma QNpower : forall r n, r ^ Z.of_N n = pow_N 1 Qmult r n.
 Proof.
@@ -146,7 +146,7 @@ Definition Qeval_formula (e:PolEnv Q) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Qeval_op2 k o (Qeval_expr e lhs) (Qeval_expr e rhs).
 
 Definition Qeval_formula' :=
-  eval_formula  Qplus Qmult Qminus Qopp Qeq Qle Qlt (fun x => x) (fun x => x) (pow_N 1 Qmult).
+  eval_formula Q0 Q1 Qplus Qmult Qminus Qopp Qeq Qle Qlt (fun x => x) (fun x => x) (pow_N 1 Qmult).
 
  Lemma Qeval_formula_compat : forall env b f, Tauto.hold b (Qeval_formula env b f) <-> Qeval_formula' env f.
 Proof.
