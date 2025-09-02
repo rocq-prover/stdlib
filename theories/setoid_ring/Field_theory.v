@@ -1515,7 +1515,7 @@ Theorem PFcons0_fcons_inv:
 Proof.
 intros l a l1; induction l1 as [|e l1 IHl1]; simpl Fcons0.
 - simpl; now split.
-- generalize (ring_correct O l nil a e). lazy zeta; simpl Peq.
+- generalize (ring_correct O l nil a e); unfold ring_checker. lazy zeta; simpl Peq.
   case Peq; intros H; rewrite !PCond_cons; intros (H1,H2);
    repeat split; trivial.
   + now rewrite H.
