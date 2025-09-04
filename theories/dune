@@ -1,7 +1,10 @@
 (include_subdirs qualified)
+
+; We omit All.v as not to block on rocq-core build
 (coq.theory
  (name Stdlib)
- (package rocq-stdlib))
+ (package rocq-stdlib)
+ (modules :standard \ All))
 
 (env
  (dev
@@ -10,5 +13,5 @@
 
 (rule
  (targets All.v)
- (deps All.sh (source_tree .))
+ (deps (package rocq-core) All.sh (source_tree .))
  (action (with-stdout-to %{targets} (run env bash ./All.sh))))
