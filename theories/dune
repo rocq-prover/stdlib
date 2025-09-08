@@ -4,6 +4,7 @@
 (coq.theory
  (name Stdlib)
  (package rocq-stdlib)
+ (flags :standard -w -deprecated-exact-proof -w -deprecated-end-tac)
  (modules :standard \ All))
 
 (env
