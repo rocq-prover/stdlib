@@ -4,6 +4,14 @@
 (coq.theory
  (name Stdlib)
  (package rocq-stdlib)
+ (flags
+   :standard
+   -w -deprecated-exact-proof
+   -w -deprecated-end-tac
+   -w -implicit-create-hint-db
+   -w -closed-notation-not-level-0
+   -w -notation-for-abbreviation
+   -w -postfix-notation-not-level-1)
  (modules :standard \ All))
 
 (env
