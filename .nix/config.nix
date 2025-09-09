@@ -132,7 +132,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "iris-examples"
       "itauto"
       "ITree"
-      "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-reals"
       "mathcomp-zify"
@@ -196,6 +195,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "metacoq-translations"
       "metacoq-utils"
       "metarocq"
+      "metarocq-common"
       "metarocq-erasure"
       "metarocq-erasure-plugin"
       "metarocq-pcuic"
@@ -203,8 +203,9 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "metarocq-safechecker"
       "metarocq-safechecker-plugin"
       "metarocq-template-pcuic"
-      "metarocq-translations"
+      "metarocq-template-rocq"
       "metarocq-test"
+      "metarocq-utils"
       "rewriter"
       "rupicola"
     ];
@@ -267,6 +268,9 @@ with builtins; with (import <nixpkgs> {}).lib; {
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      smtcoq.override.version = "proux01:stdlib251";
+      metarocq.override.version = "proux01:stdlib251";
+      metarocq-test.override.version = "proux01:stdlib251";
       sf.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
@@ -278,7 +282,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       rocq-elpi.override.version = "master";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
-      micromega-plugin.override.version = "master";
+      micromega-plugin.override.version = "tify";
       micromega-plugin.job = false;
       mathcomp.override.version = "master";
       mathcomp-bigenough.override.version = "master";
@@ -368,8 +372,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       equations.override.version = "2137c8e7081f2d47ab903de0cc09fd6a05bfab01";
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
-      metarocq.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
-      metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
       mtac2.override.version = "bcbefa79406fc113f878eb5f89758de241d81433";
       paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
       relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
@@ -381,6 +383,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
+      mathcomp-algebra-tactics.job = false;
     } // listToAttrs (forEach lighten-released (p:
       { name = p; value.job = false; })); };
   };
