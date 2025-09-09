@@ -156,7 +156,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "itree-io"
       "json"
       "kami"
-      "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-classical"
       "mathcomp-reals"
@@ -227,6 +226,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metacoq-translations"
       "metacoq-utils"
       "metarocq"
+      "metarocq-common"
       "metarocq-erasure"
       "metarocq-erasure-plugin"
       "metarocq-pcuic"
@@ -234,7 +234,10 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metarocq-safechecker"
       "metarocq-safechecker-plugin"
       "metarocq-template-pcuic"
+      "metarocq-template-rocq"
       "metarocq-test"
+      "metarocq-translations"
+      "metarocq-utils"
       "rewriter"
       "riscvcoq"
       "rupicola"
@@ -258,6 +261,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       CakeMLExtraction.job = false;  # not in Rocq CI
+      verified-extraction.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
       CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
@@ -280,6 +284,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      smtcoq.override.version = "proux01:stdlib251";
+      metarocq.override.version = "proux01:stdlib251";
+      metarocq-test.override.version = "proux01:stdlib251";
       sf.job = false;  # temporarily disactivated in Rocq CI
       trakt.job = false;  # temporarily disactivated in Rocq CI
       smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
@@ -349,14 +356,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       equations.override.version = "2137c8e7081f2d47ab903de0cc09fd6a05bfab01";
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
-      metarocq.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
-      metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
       mtac2.override.version = "bcbefa79406fc113f878eb5f89758de241d81433";
       paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
       relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
-      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      # smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
       # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
