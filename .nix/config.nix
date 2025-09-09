@@ -132,7 +132,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "iris-examples"
       "itauto"
       "ITree"
-      "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-reals"
       "mathcomp-zify"
@@ -196,6 +195,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "metacoq-translations"
       "metacoq-utils"
       "metarocq"
+      "metarocq-common"
       "metarocq-erasure"
       "metarocq-erasure-plugin"
       "metarocq-pcuic"
@@ -203,8 +203,9 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "metarocq-safechecker"
       "metarocq-safechecker-plugin"
       "metarocq-template-pcuic"
-      "metarocq-translations"
+      "metarocq-template-rocq"
       "metarocq-test"
+      "metarocq-utils"
       "rewriter"
       "rupicola"
     ];
@@ -242,7 +243,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       LibHyps.job = false;  # not in Rocq CI
       reglang.job = false;  # not in Rocq CI
       ssprove.job = false;  # not in Rocq CI
-      smtcoq.override.version = "rocq-master";  # can't use rocq-master above as it isn't actually a rocq package yet
+      # smtcoq.override.version = "rocq-master";  # can't use rocq-master above as it isn't actually a rocq package yet
       TypedExtraction.job = false;  # not in Rocq CI
       TypedExtraction-common.job = false;  # not in Rocq CI
       TypedExtraction-elm.job = false;  # not in Rocq CI
@@ -268,6 +269,10 @@ with builtins; with (import <nixpkgs> {}).lib; {
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+
+      smtcoq.override.version = "proux01:stdlib251";
+      metarocq.override.version = "proux01:stdlib251";
+      metarocq-test.override.version = "proux01:stdlib251";
       sf.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
@@ -279,7 +284,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       rocq-elpi.override.version = "master";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
-      micromega-plugin.override.version = "master";
+      micromega-plugin.override.version = "tify";
       micromega-plugin.job = false;
       mathcomp.override.version = "master";
       mathcomp-bigenough.override.version = "master";
