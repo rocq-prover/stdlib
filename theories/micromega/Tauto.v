@@ -14,6 +14,8 @@
 (*                                                                      *)
 (************************************************************************)
 
+From Stdlib Require Export micromega_formula micromega_witness micromega_eval.
+From Stdlib Require Export micromega_checker.
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Bool.
@@ -21,19 +23,14 @@ From Stdlib Require Import Relation_Definitions Setoid.
 
 Set Implicit Arguments.
 
-(** Formulae are either interpreted over Prop or bool. *)
-Inductive kind : Type :=
-|isProp
-|isBool.
-
-Register isProp as micromega.kind.isProp.
-Register isBool as micromega.kind.isBool.
-
 Inductive Trace (A : Type) :=
 | null : Trace A
 | push : A -> Trace A -> Trace A
 | merge : Trace A -> Trace A -> Trace A
 .
+
+#[local] Notation eIFF := (eIFF eqb).
+Notation eval_f := (GFeval eqb).
 
 Section S.
   Context {TA  : Type}. (* type of interpreted atoms *)
@@ -41,29 +38,7 @@ Section S.
   Context {AA  : Type}. (* type of annotations for atoms *)
   Context {AF  : Type}. (* type of formulae identifiers *)
 
-  Inductive GFormula  : kind -> Type :=
-  | TT   : forall (k: kind), GFormula k
-  | FF   : forall (k: kind), GFormula k
-  | X    : forall (k: kind), TX k -> GFormula k
-  | A    : forall (k: kind), TA -> AA -> GFormula k
-  | AND  : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | OR   : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | NOT  : forall (k: kind), GFormula k -> GFormula k
-  | IMPL : forall (k: kind), GFormula k -> option AF -> GFormula k -> GFormula k
-  | IFF  : forall (k: kind), GFormula k -> GFormula k -> GFormula k
-  | EQ   : GFormula isBool -> GFormula isBool -> GFormula isProp.
-
-  Register TT as micromega.GFormula.TT.
-  Register FF as micromega.GFormula.FF.
-  Register X  as micromega.GFormula.X.
-  Register A  as micromega.GFormula.A.
-  Register AND as micromega.GFormula.AND.
-  Register OR  as micromega.GFormula.OR.
-  Register NOT  as micromega.GFormula.NOT.
-  Register IMPL  as micromega.GFormula.IMPL.
-  Register IFF  as micromega.GFormula.IFF.
-  Register EQ  as micromega.GFormula.EQ.
-
+  Local Notation GFormula := (@GFormula TA TX AA AF).
 
   Section MAPX.
     Variable F : forall k, TX k -> TX k.
@@ -72,7 +47,7 @@ Section S.
       match f with
       | TT k => TT k
       | FF k => FF k
-      | X x => X (F  x)
+      | X k x => X k (F  x)
       | A k a an => A k a an
       | AND f1 f2 => AND (mapX f1) (mapX f2)
       | OR f1 f2  => OR (mapX f1) (mapX f2)
@@ -92,7 +67,7 @@ Section S.
       match f with
       | TT _ => acc
       | FF _ => acc
-      | X x => acc
+      | X k x => acc
       | A _ a an => F acc an
       | AND f1 f2
       | OR f1 f2
@@ -118,7 +93,7 @@ Section S.
 
   Fixpoint collect_annot (k: kind) (f : GFormula k) : list AA :=
     match f with
-    | TT _ | FF _ | X _ => nil
+    | TT _ | FF _ | X _ _ => nil
     | A _ _ a => a ::nil
     | AND f1 f2
     | OR  f1 f2
@@ -127,66 +102,26 @@ Section S.
     | NOT  f  => collect_annot f
     end.
 
-  Definition rtyp (k: kind) : Type := if k then Prop else bool.
-
-  Variable ex : forall (k: kind), TX k -> rtyp k. (* [ex] will be the identity *)
+  Variable ex : forall (k: kind), TX k -> eKind k. (* [ex] will be the identity *)
 
   Section EVAL.
 
-    Variable ea : forall (k: kind), TA -> rtyp k.
+    Variable ea : forall (k: kind), TA -> eKind k.
 
-    Definition eTT (k: kind) : rtyp k :=
-      if k as k' return  rtyp k' then True else true.
-
-    Definition eFF (k: kind) : rtyp k :=
-      if k as k' return  rtyp k' then False else false.
-
-    Definition eAND (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
-      then and else andb.
-
-    Definition eOR (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
-      then or else orb.
-
-    Definition eIMPL (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
-      then (fun x y => x -> y) else implb.
-
-    Definition eIFF (k: kind) : rtyp k -> rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k' -> rtyp k'
-      then iff else eqb.
-
-    Definition eNOT (k: kind) : rtyp k -> rtyp k :=
-      if k as k' return rtyp k' -> rtyp k'
-      then not else negb.
-
-    Fixpoint eval_f (k: kind) (f:GFormula k) {struct f}: rtyp k :=
-      match f in GFormula k' return rtyp k' with
-      | TT tk => eTT tk
-      | FF tk => eFF tk
-      | A k a _ =>  ea k a
-      | X p => ex  p
-      | @AND k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
-      | @OR k e1 e2  => eOR k (eval_f e1) (eval_f e2)
-      | @NOT k e     => eNOT k (eval_f e)
-      | @IMPL k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
-      | @IFF k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
-      | EQ f1 f2    => (eval_f f1) = (eval_f f2)
-      end.
+    #[local] Notation eval_f := (eval_f ex ea).
 
     Lemma eval_f_rew : forall k (f:GFormula k),
         eval_f f =
-        match f in GFormula k' return rtyp k' with
+        match f in micromega_formula.GFormula k' return eKind k' with
         | TT tk => eTT tk
         | FF tk => eFF tk
         | A k a _ =>  ea k a
-        | X p => ex  p
-        | @AND k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
-        | @OR k e1 e2  => eOR k (eval_f e1) (eval_f e2)
-        | @NOT k e     => eNOT k (eval_f e)
-        | @IMPL k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
-        | @IFF k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
+        | X k p => ex  p
+        | @AND _ _ _ _ k e1 e2 => eAND k (eval_f  e1) (eval_f e2)
+        | @OR _ _ _ _ k e1 e2  => eOR k (eval_f e1) (eval_f e2)
+        | @NOT _ _ _ _ k e     => eNOT k (eval_f e)
+        | @IMPL _ _ _ _ k f1 _ f2 => eIMPL k (eval_f f1)  (eval_f f2)
+        | @IFF _ _ _ _ k f1 f2    => eIFF k (eval_f f1) (eval_f f2)
         | EQ f1 f2    => (eval_f f1) = (eval_f f2)
         end.
     Proof.
@@ -194,31 +129,31 @@ Section S.
     Qed.
 
   End EVAL.
+  #[local] Notation eval_f := (eval_f ex).
 
+  Definition hold (k: kind) : eKind k ->  Prop :=
+    if k as k0 return (eKind k0 -> Prop) then fun x  => x else is_true.
 
-  Definition hold (k: kind) : rtyp k ->  Prop :=
-    if k as k0 return (rtyp k0 -> Prop) then fun x  => x else is_true.
+  Definition eiff (k: kind) : eKind k -> eKind k -> Prop :=
+    if k as k' return eKind k' -> eKind k' -> Prop then iff else @eq bool.
 
-  Definition eiff (k: kind) : rtyp k -> rtyp k -> Prop :=
-    if k as k' return rtyp k' -> rtyp k' -> Prop then iff else @eq bool.
-
-  Lemma eiff_refl (k: kind) (x : rtyp k) :
+  Lemma eiff_refl (k: kind) (x : eKind k) :
       eiff k x x.
   Proof.
     destruct k ; simpl; tauto.
   Qed.
 
-  Lemma eiff_sym k (x y : rtyp k) : eiff k x y -> eiff k y x.
+  Lemma eiff_sym k (x y : eKind k) : eiff k x y -> eiff k y x.
   Proof.
     destruct k ; simpl; intros ; intuition.
   Qed.
 
-  Lemma eiff_trans k (x y z : rtyp k) : eiff k x y -> eiff k y z -> eiff k x z.
+  Lemma eiff_trans k (x y z : eKind k) : eiff k x y -> eiff k y z -> eiff k x z.
   Proof.
     destruct k ; simpl; intros ; intuition congruence.
   Qed.
 
-  Lemma hold_eiff (k: kind) (x y : rtyp k) :
+  Lemma hold_eiff (k: kind) (x y : eKind k) :
       (hold k x <-> hold k y) <-> eiff k x y.
   Proof.
     destruct k ; simpl.
@@ -266,7 +201,7 @@ Section S.
   Qed.
 
   Lemma eval_f_morph :
-    forall  (ev ev' : forall (k: kind), TA -> rtyp k),
+    forall  (ev ev' : forall (k: kind), TA -> eKind k),
       (forall k a, eiff k (ev k a) (ev' k a)) ->
       forall (k: kind)(f : GFormula k),
         (eiff k (eval_f ev f) (eval_f ev' f)).
@@ -289,48 +224,6 @@ Section S.
 
 End S.
 
-
-
-(** Typical boolean formulae *)
-Definition eKind (k: kind) := if k then Prop else bool.
-Register eKind as micromega.eKind.
-
-Definition BFormula (A : Type) := @GFormula A eKind unit unit.
-
-Register BFormula as micromega.BFormula.type.
-
-Section MAPATOMS.
-  Context {TA TA':Type}.
-  Context {TX  : kind -> Type}.
-  Context {AA  : Type}.
-  Context {AF  : Type}.
-
-
-  Fixpoint map_bformula (k: kind)(fct : TA -> TA') (f : @GFormula TA TX AA AF k) : @GFormula TA' TX AA AF k:=
-    match f with
-    | TT k => TT k
-    | FF k => FF k
-    | X k p => X k p
-    | A k a t => A k (fct a) t
-    | AND f1 f2 => AND (map_bformula fct f1) (map_bformula fct f2)
-    | OR f1 f2 => OR (map_bformula fct f1) (map_bformula fct f2)
-    | NOT f     => NOT (map_bformula fct f)
-    | IMPL f1 a f2 => IMPL (map_bformula fct f1) a (map_bformula fct f2)
-    | IFF f1 f2 => IFF (map_bformula fct f1) (map_bformula fct f2)
-    | EQ f1 f2  => EQ (map_bformula fct f1) (map_bformula fct f2)
-    end.
-
-End MAPATOMS.
-
-Lemma map_simpl : forall A B f l, @map A B f l = match l with
-                                                 | nil => nil
-                                                 | a :: l=> (f a) :: (@map A B f l)
-                                                 end.
-Proof.
-  intros A B f l; destruct l ; reflexivity.
-Qed.
-
-
 Section S.
   (** A cnf tracking annotations of atoms. *)
 
@@ -349,136 +242,34 @@ Section S.
   #[local] Notation push := (@push Annot).
   #[local] Notation merge := (@merge Annot).
 
-  Definition clause := list  (Term' * Annot).
-  Definition cnf := list clause.
+  #[local] Notation clause := (clause Term' Annot).
+  #[local] Notation cnf := (cnf Term' Annot).
 
   Variable normalise : Term -> Annot -> cnf.
   Variable negate : Term -> Annot -> cnf.
 
+  #[local] Notation cnf_tt := (cnf_tt Term' Annot).
+  #[local] Notation cnf_ff := (cnf_ff Term' Annot).
+  #[local] Notation is_cnf_tt := (@is_cnf_tt Term' Annot).
+  #[local] Notation is_cnf_ff := (@is_cnf_ff Term' Annot).
+  #[local] Notation is_tauto :=
+    (fun x y => match deduce x y with None => false | Some u => unsat u end).
+  #[local] Notation add_term := (add_term is_tauto).
+  #[local] Notation or_clause := (or_clause is_tauto).
+  #[local] Notation or_clause_cnf := (or_clause_cnf is_tauto).
+  #[local] Notation or_cnf_opt := (@or_cnf Term' Annot is_tauto).
+  #[local] Notation or_cnf := (@or_cnf_aux Term' Annot is_tauto).
+  #[local] Notation and_cnf_opt := (@and_cnf Term' Annot).
 
-  Definition cnf_tt : cnf := @nil clause.
-  Definition cnf_ff : cnf :=  cons (@nil (Term' * Annot)) nil.
+  #[local] Notation TFormula TX AF := (@GFormula Term TX Annot AF).
 
-  (** Our cnf is optimised and detects contradictions on the fly. *)
-
-  Fixpoint add_term (t: Term' * Annot) (cl : clause) : option clause :=
-    match cl with
-    | nil =>
-      match deduce (fst t) (fst t) with
-      | None =>  Some (t ::nil)
-      | Some u => if unsat u then None else Some (t::nil)
-      end
-    | t'::cl =>
-      match deduce (fst t) (fst t') with
-      | None =>
-        match add_term t cl with
-        | None => None
-        | Some cl' => Some (t' :: cl')
-        end
-      | Some u =>
-        if unsat u then None else
-          match add_term t cl with
-          | None => None
-          | Some cl' => Some (t' :: cl')
-          end
-      end
-    end.
-
-  Fixpoint or_clause (cl1 cl2 : clause) : option clause :=
-    match cl1 with
-    | nil => Some cl2
-    | t::cl => match add_term t cl2 with
-               | None => None
-               | Some cl' => or_clause cl cl'
-               end
-    end.
-
-  Definition xor_clause_cnf (t:clause) (f:cnf) : cnf :=
-    List.fold_left (fun acc e =>
-                      match or_clause t e with
-                      | None => acc
-                      | Some cl => cl :: acc
-                      end) f nil .
-
-  Definition or_clause_cnf (t: clause) (f:cnf) : cnf :=
-    match t with
-    | nil => f
-    | _   => xor_clause_cnf t f
-    end.
-
-
-  Fixpoint or_cnf (f : cnf) (f' : cnf) {struct f}: cnf :=
-    match f with
-    | nil => cnf_tt
-    | e :: rst => (or_cnf rst f') +++ (or_clause_cnf e f')
-    end.
-
-
-  Definition and_cnf (f1 : cnf) (f2 : cnf) : cnf :=
-    f1 +++ f2.
-
-  (** TX is Prop in Coq and EConstr.constr in Ocaml.
-      AF is unit in Coq and Names.Id.t in Ocaml
-   *)
-  Definition TFormula (TX: kind -> Type) (AF: Type) := @GFormula Term TX Annot AF.
-
-
-  Definition is_cnf_tt (c : cnf) : bool :=
-    match c with
-    | nil => true
-    | _  => false
-    end.
-
-  Definition is_cnf_ff (c : cnf) : bool :=
-    match c with
-    | nil::nil => true
-    | _        => false
-    end.
-
-  Definition and_cnf_opt (f1 : cnf) (f2 : cnf) : cnf :=
-    if is_cnf_ff f1 || is_cnf_ff f2
-    then cnf_ff
-    else
-      if is_cnf_tt f2
-      then f1
-      else and_cnf f1 f2.
-
-
-  Definition or_cnf_opt (f1 : cnf) (f2 : cnf) : cnf :=
-    if is_cnf_tt f1 || is_cnf_tt f2
-    then cnf_tt
-    else if is_cnf_ff f2
-         then f1 else or_cnf f1 f2.
-
-  Section REC.
-    Context {TX : kind -> Type}.
-    Context {AF : Type}.
-
-    Variable REC : forall (pol : bool) (k: kind) (f : TFormula TX AF k), cnf.
-
-    Definition mk_and (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then and_cnf_opt else or_cnf_opt) (REC pol f1) (REC pol f2).
-
-    Definition mk_or (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then or_cnf_opt else and_cnf_opt) (REC pol f1) (REC pol f2).
-
-    Definition mk_impl (k: kind) (pol:bool) (f1 f2 : TFormula TX AF k):=
-      (if pol then or_cnf_opt else and_cnf_opt) (REC (negb pol) f1) (REC pol f2).
-
-
-    Definition mk_iff (k: kind) (pol:bool) (f1 f2: TFormula TX AF k):=
-      or_cnf_opt (and_cnf_opt (REC (negb pol) f1) (REC false f2))
-                 (and_cnf_opt (REC pol f1) (REC true f2)).
-
-
-  End REC.
-
-  Definition is_bool {TX : kind -> Type} {AF: Type} (k: kind) (f : TFormula TX AF k) :=
-    match f with
-    | TT _ => Some true
-    | FF _ => Some false
-    | _    => None
-    end.
+  #[local] Notation mk_and := (mk_and or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_or := (mk_or or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_impl := (mk_impl or_cnf_opt and_cnf_opt).
+  #[local] Notation mk_iff := (mk_iff or_cnf_opt and_cnf_opt).
+  #[local] Notation is_bool := (@is_bool Term Annot).
+  #[local] Notation xcnf :=
+    (cnf_of_GFormula cnf_tt cnf_ff or_cnf_opt and_cnf_opt normalise negate).
 
   Lemma is_bool_inv : forall {TX : kind -> Type} {AF: Type} (k: kind) (f : TFormula  TX AF k) res,
       is_bool f = Some res -> f = if res then TT _ else FF _.
@@ -486,28 +277,6 @@ Section S.
     intros TX AF k f res H.
     destruct f ; inversion H; reflexivity.
   Qed.
-
-
-  Fixpoint xcnf {TX : kind -> Type} {AF: Type} (pol : bool) (k: kind) (f : TFormula TX AF k)  {struct f}: cnf :=
-    match f with
-    | TT _ => if pol then cnf_tt else cnf_ff
-    | FF _ => if pol then cnf_ff else cnf_tt
-    | X _ p => if pol then cnf_ff else cnf_ff (* This is not complete - cannot negate any proposition *)
-    | A _ x t => if pol then normalise x  t else negate x  t
-    | NOT e  => xcnf (negb pol) e
-    | AND e1 e2 => mk_and xcnf pol e1 e2
-    | OR e1 e2  => mk_or xcnf pol e1 e2
-    | IMPL e1 _ e2 => mk_impl xcnf pol e1 e2
-    | IFF e1 e2 => match is_bool e2 with
-                   | Some isb => xcnf (if isb then pol else negb pol) e1
-                   | None  => mk_iff xcnf pol e1 e2
-                   end
-    | EQ e1 e2 =>
-      match is_bool e2 with
-      | Some isb => xcnf (if isb then pol else negb pol) e1
-      | None  => mk_iff xcnf pol e1 e2
-      end
-    end.
 
   Section CNFAnnot.
 
@@ -1248,13 +1017,14 @@ Section S.
         reflexivity.
   Qed.
 
-  Lemma xror_clause_clause : forall a f,
-      fst (xror_clause_cnf a f) = xor_clause_cnf a f.
+  Lemma xror_clause_clause : forall a a' f,
+      fst (xror_clause_cnf (a :: a') f) = or_clause_cnf (a :: a') f.
   Proof.
     unfold xror_clause_cnf.
-    unfold xor_clause_cnf.
+    unfold or_clause_cnf.
     assert (ACC: fst (@nil clause, null) = nil) by reflexivity.
-    intros a f.
+    intros a' a'' f.
+    set (a := a' :: a''); clearbody a.
     set (F1:= (fun '(acc, tg) (e : clause) =>
                  match ror_clause a e with
                  | inl cl => (cl :: acc, tg)
@@ -1395,6 +1165,7 @@ Section S.
       rewrite H by auto.
       unfold or_cnf_opt.
       simpl.
+      fold or_cnf_opt.
       destruct (is_cnf_tt (xcnf true f2)) eqn:EQ;auto.
       -- apply is_cnf_tt_inv in EQ; auto.
       -- destruct (is_cnf_ff (xcnf true f2)) eqn:EQ1.
@@ -1491,14 +1262,13 @@ Section S.
     simpl. tauto.
   Qed.
 
-  Lemma eval_cnf_and_opt : forall env x y, eval_cnf env (and_cnf_opt x y) <-> eval_cnf env (and_cnf x y).
+  Lemma eval_cnf_and_opt : forall env x y, eval_cnf env (and_cnf_opt x y) <-> eval_cnf env (rev_append x y).
   Proof.
     unfold and_cnf_opt.
     intros env x y.
     destruct (is_cnf_ff x) eqn:F1.
     { apply is_cnf_ff_inv in F1.
       simpl. subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_ff.
       tauto.
@@ -1507,7 +1277,6 @@ Section S.
     destruct (is_cnf_ff y) eqn:F2.
     { apply is_cnf_ff_inv in F2.
       simpl. subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_ff.
       tauto.
@@ -1516,7 +1285,6 @@ Section S.
     {
       apply is_cnf_tt_inv in F3.
       subst.
-      unfold and_cnf.
       rewrite eval_cnf_app.
       rewrite eval_cnf_tt.
       tauto.
@@ -1638,9 +1406,7 @@ Section S.
     }
     destruct t ; auto.
     - unfold eval_clause ; simpl. tauto.
-    - unfold xor_clause_cnf.
-      unfold F in H.
-      rewrite H.
+    - rewrite H.
       unfold make_conj at 2. tauto.
   Qed.
 
@@ -1712,13 +1478,13 @@ Section S.
     }
   Qed.
 
-  Variable eval  : Env -> forall (k: kind), Term -> rtyp k.
+  Variable eval  : Env -> forall (k: kind), Term -> eKind k.
 
   Variable normalise_correct : forall env b t tg, eval_cnf  env (normalise t tg) ->  hold b (eval env b t).
 
   Variable negate_correct : forall env b t tg, eval_cnf env (negate t tg) -> hold b (eNOT b (eval env b t)).
 
-  Definition e_rtyp (k: kind) (x : rtyp k) : rtyp k := x.
+  Definition e_eKind (k: kind) (x : eKind k) : eKind k := x.
 
   Lemma hold_eTT : forall k, hold k (eTT k).
   Proof.
@@ -1794,13 +1560,13 @@ Section S.
       (f2 : GFormula k)
       (IHf1 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f1) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f1 else NOT f1)))
+          hold k (eval_f e_eKind (eval env) (if pol then f1 else NOT f1)))
       (IHf2 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f2) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f2 else NOT f2))),
+          hold k (eval_f e_eKind (eval env) (if pol then f2 else NOT f2))),
     forall (pol : bool) (env : Env),
       eval_cnf env (xcnf pol (IMPL f1 o f2)) ->
-      hold k (eval_f e_rtyp (eval env) (if pol then IMPL f1 o f2 else NOT (IMPL f1 o f2))).
+      hold k (eval_f e_eKind (eval env) (if pol then IMPL f1 o f2 else NOT (IMPL f1 o f2))).
   Proof.
     simpl; intros k f1 o f2 IHf1 IHf2 pol env H. unfold mk_impl in H.
     destruct pol.
@@ -1818,7 +1584,6 @@ Section S.
         auto.
     + (* pol = false *)
       rewrite eval_cnf_and_opt in H.
-      unfold and_cnf in H.
       simpl in H.
       rewrite eval_cnf_app in H.
       destruct H as [H0 H1].
@@ -1850,16 +1615,16 @@ Section S.
 
   Lemma xcnf_iff : forall
       (k : kind)
-      (f1 f2 : @GFormula Term rtyp Annot unit k)
+      (f1 f2 : @GFormula Term eKind Annot unit k)
       (IHf1 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f1) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f1 else NOT f1)))
+          hold k (eval_f e_eKind (eval env) (if pol then f1 else NOT f1)))
       (IHf2 : forall (pol : bool) (env : Env),
           eval_cnf env (xcnf pol f2) ->
-          hold k (eval_f e_rtyp (eval env) (if pol then f2 else NOT f2))),
+          hold k (eval_f e_eKind (eval env) (if pol then f2 else NOT f2))),
       forall (pol : bool) (env : Env),
         eval_cnf env (xcnf pol (IFF f1 f2)) ->
-        hold k (eval_f e_rtyp (eval env) (if pol then IFF f1 f2 else NOT (IFF f1 f2))).
+        hold k (eval_f e_eKind (eval env) (if pol then IFF f1 f2 else NOT (IFF f1 f2))).
   Proof.
     simpl.
     intros k f1 f2 IHf1 IHf2 pol env H.
@@ -1869,7 +1634,6 @@ Section S.
       rewrite or_cnf_opt_correct in H;
       rewrite or_cnf_correct in H;
       rewrite! eval_cnf_and_opt in H;
-      unfold and_cnf in H;
       rewrite! eval_cnf_app in H;
       generalize (IHf1 false env);
       generalize (IHf1 true env);
@@ -1889,8 +1653,8 @@ Section S.
        tauto.
   Qed.
 
-  Lemma xcnf_correct : forall (k: kind) (f : @GFormula Term rtyp Annot unit k)  pol env,
-      eval_cnf env (xcnf pol f) -> hold k (eval_f e_rtyp (eval env) (if pol then f else NOT f)).
+  Lemma xcnf_correct : forall (k: kind) (f : @GFormula Term eKind Annot unit k)  pol env,
+      eval_cnf env (xcnf pol f) -> hold k (eval_f e_eKind (eval env) (if pol then f else NOT f)).
   Proof.
     intros k f;
      induction f as [| | | |? ? IHf1 ? IHf2|? ? IHf1 ? IHf2|? ? IHf
@@ -1922,7 +1686,6 @@ Section S.
       + (* pol = true *)
         intros.
         rewrite eval_cnf_and_opt in H.
-        unfold and_cnf in H.
         rewrite eval_cnf_app  in H.
         destruct H as [H H0].
         apply hold_eAND; split.
@@ -1962,7 +1725,6 @@ Section S.
       + (* pol = true *)
         intros. unfold mk_or in H.
         rewrite eval_cnf_and_opt in H.
-        unfold and_cnf.
         rewrite eval_cnf_app in H.
         destruct H as [H0 H1].
         simpl.
@@ -2018,17 +1780,8 @@ Section S.
 
   Variable checker_sound : forall t  w, checker t w = true -> forall env, make_impl (eval_tt env)  t False.
 
-  Fixpoint cnf_checker (f : cnf) (l : list Witness)  {struct f}: bool :=
-    match f with
-    | nil => true
-    | e::f => match l with
-              | nil => false
-              | c::l => match checker e c with
-                        | true => cnf_checker f l
-                        |   _  => false
-                        end
-              end
-    end.
+  #[local] Notation cnf_checker := (cnf_checker checker).
+  #[local] Notation tauto_checker := (tauto_checker checker).
 
   Lemma cnf_checker_sound : forall t  w, cnf_checker t w = true -> forall env, eval_cnf  env  t.
   Proof.
@@ -2052,22 +1805,19 @@ Section S.
           tauto.
   Qed.
 
-  Definition tauto_checker (f:@GFormula Term rtyp Annot unit isProp) (w:list Witness) : bool :=
-    cnf_checker (xcnf true f) w.
-
-  Lemma tauto_checker_sound : forall t  w, tauto_checker t w = true -> forall env, eval_f e_rtyp (eval env)  t.
+  Lemma tauto_checker_sound : forall t w, tauto_checker (@xcnf true isProp t) w = true -> forall env, @GFeval eqb _ _ _ unit e_eKind (eval env) _ t.
   Proof.
     unfold tauto_checker.
     intros t w H env.
-    change (eval_f e_rtyp (eval env) t) with (eval_f e_rtyp (eval env) (if true then t else TT isProp)).
+    change (eval_f e_eKind (eval env) t) with (eval_f e_eKind (eval env) (if true then t else TT isProp)).
     apply (xcnf_correct t true).
     eapply cnf_checker_sound ; eauto.
   Qed.
 
-  Definition eval_bf {A : Type} (ea : forall (k: kind), A -> rtyp k) (k: kind) (f: BFormula A k) := eval_f e_rtyp ea f.
+  #[local] Notation eval_bf := (BFeval eqb).
 
   Lemma eval_bf_map : forall T U (fct: T-> U) env (k: kind) (f:BFormula T k) ,
-      eval_bf env  (map_bformula fct f)  = eval_bf (fun b x => env b (fct x)) f.
+      eval_bf env  (GFmap fct f)  = eval_bf (fun b x => env b (fct x)) f.
   Proof.
     intros T U fct env k f;
       induction f as [| | | |? ? IHf1 ? IHf2|? ? IHf1 ? IHf2|? ? IHf
@@ -2078,7 +1828,16 @@ Section S.
 
 
 End S.
+Notation eval_bf := (BFeval eqb).
 
+Notation tauto_checker :=
+  (fun term term' annot unsat deduce normalise negate witness check f =>
+     @tauto_checker (clause term' annot) witness check
+       (@cnf_of_GFormula term annot (cnf term' annot) (cnf_tt _ _) (cnf_ff _ _)
+          (or_cnf (fun f1 f2 => match deduce f1 f2 : option term' with
+                                | None => false
+                                | Some u => unsat u end))
+          (@and_cnf  _ _) normalise negate eKind annot true isProp f)).
 
 (* Local Variables: *)
 (* coding: utf-8 *)

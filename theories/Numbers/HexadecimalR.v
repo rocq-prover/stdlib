@@ -13,7 +13,7 @@
     Proofs that conversions between hexadecimal numbers and [R]
     are bijections. *)
 
-From Stdlib Require Import PeanoNat.
+From Stdlib Require Import RatDef PeanoNat.
 From Stdlib Require Import Decimal DecimalFacts.
 From Stdlib Require Import Hexadecimal HexadecimalFacts HexadecimalPos HexadecimalZ.
 From Stdlib Require Import HexadecimalQ Rdefinitions.
@@ -23,7 +23,7 @@ Lemma of_IQmake_to_hexadecimal num den :
   | None => True
   | Some (HexadecimalExp _ _ _) => False
   | Some (Hexadecimal i f) =>
-    of_hexadecimal (Hexadecimal i f) = IRQ (QArith_base.Qmake num den)
+    of_hexadecimal (Hexadecimal i f) = IRQ (Qmake num den)
   end.
 Proof.
   unfold IQmake_to_hexadecimal.
