@@ -175,8 +175,8 @@ Lemma diveucl_spec_aux : forall a b, 0 < φ b ->
 Proof.
  intros a b H;assert (W:= diveucl_spec a b).
  assert (φ b>0) by (auto with zarith).
- generalize (Z_div_mod φ a φ b H0).
- destruct (diveucl a b);destruct (Z.div_eucl φ a φ b).
+ generalize (Z_div_mod (φ a) (φ b) H0).
+ destruct (diveucl a b);destruct (Z.div_eucl (φ a) (φ b)).
  inversion W;rewrite Zmult_comm;trivial.
 Qed.
 
@@ -260,7 +260,7 @@ Proof.
     symmetry; apply Zmod_small.
     assert (2 ^ φ Uint63Axioms.digits < 2 ^ φ p); [ apply Zpower_lt_monotone; auto with zarith | ].
     change wB with (2 ^ φ Uint63Axioms.digits) in *; auto with zarith. }
-  rewrite <- (shift_unshift_mod_3 φ Uint63Axioms.digits φ p φ w) by auto with zarith.
+  rewrite <- (shift_unshift_mod_3 (φ Uint63Axioms.digits) (φ p) (φ w)) by auto with zarith.
   replace (φ Uint63Axioms.digits - φ p) with (φ (Uint63Axioms.digits - p)) by (rewrite sub_spec, Zmod_small; auto with zarith).
   rewrite lsr_spec, lsl_spec; reflexivity.
 Qed.
