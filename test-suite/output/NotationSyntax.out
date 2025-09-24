@@ -32,6 +32,9 @@ The command has indeed failed with message:
 Notations for numbers or strings are primitive and need not be reserved.
 "t""t"
      : unit
+File "./output/NotationSyntax.v", line 25, characters 0-60:
+Warning: Notations at level 0 should be closed (first and last symbols should
+be terminal symbols). [level-0-notation-not-closed,parsing,default]
 # "|" true
      : option bool
 "|"%string
