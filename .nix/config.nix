@@ -294,7 +294,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       # plugin pins, from v9.1 branch of Rocq
       aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
-      itauto.override.version = "ff11a568d000b94965a33de428c6e6700b920198";
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
       coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
       dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
@@ -333,7 +332,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
       bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
       bignums-test.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
-      itauto.override.version = "c13c6b4a0070ecc3ae8ea9755a1d6a163d123127";
+      itauto.job = false;  # broken
       coinduction.override.version = "09caaf1f809e3e91ebba05bc38cef6de83ede3b3";
       dpdgraph-test.override.version = "74ced1b11a8df8d4c04c3829fcf273aa63d2c493";
       coq-hammer.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
