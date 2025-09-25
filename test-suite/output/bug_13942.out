@@ -138,6 +138,10 @@ i : Choose false -> Union (M A)
 
 fi fu : B
      : B
+File "./output/bug_13942.v", line 204, characters 0-113:
+Warning: Closed notations (i.e. starting and ending with a terminal symbol)
+should usually be at level 0 (default).
+[closed-notation-not-level-0,parsing,default]
 File "./output/bug_13942.v", line 307, characters 20-31:
 The command has indeed failed with message:
 Could not find an instance for "Insert K K (M A)" in
