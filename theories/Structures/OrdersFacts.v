@@ -398,44 +398,44 @@ Qed.
 
 (** Negated variants of the specifications *)
 
-Lemma leb_nle x y : x <=? y = false <-> ~ (x <= y).
+Lemma leb_nle x y : (x <=? y) = false <-> ~ (x <= y).
 Proof.
 now rewrite <- not_true_iff_false, leb_le.
 Qed.
 
-Lemma leb_gt x y : x <=? y = false <-> y < x.
+Lemma leb_gt x y : (x <=? y) = false <-> y < x.
 Proof.
 now rewrite leb_nle, <- compare_lt_iff, compare_nge_iff.
 Qed.
 
-Lemma ltb_nlt x y : x <? y = false <-> ~ (x < y).
+Lemma ltb_nlt x y : (x <? y) = false <-> ~ (x < y).
 Proof.
 now rewrite <- not_true_iff_false, ltb_lt.
 Qed.
 
-Lemma ltb_ge x y : x <? y = false <-> y <= x.
+Lemma ltb_ge x y : (x <? y) = false <-> y <= x.
 Proof.
 now rewrite ltb_nlt, <- compare_le_iff, compare_ngt_iff.
 Qed.
 
 (** Basic equality laws for boolean tests *)
 
-Lemma leb_refl x : x <=? x = true.
+Lemma leb_refl x : (x <=? x) = true.
 Proof.
 apply leb_le. apply lt_eq_cases. now right.
 Qed.
 
-Lemma leb_antisym x y : y <=? x = negb (x <? y).
+Lemma leb_antisym x y : (y <=? x) = negb (x <? y).
 Proof.
 apply eq_true_iff_eq. now rewrite negb_true_iff, leb_le, ltb_ge.
 Qed.
 
-Lemma ltb_irrefl x : x <? x = false.
+Lemma ltb_irrefl x : (x <? x) = false.
 Proof.
 apply ltb_ge. apply lt_eq_cases. now right.
 Qed.
 
-Lemma ltb_antisym x y : y <? x = negb (x <=? y).
+Lemma ltb_antisym x y : (y <? x) = negb (x <=? y).
 Proof.
 apply eq_true_iff_eq. now rewrite negb_true_iff, ltb_lt, leb_gt.
 Qed.

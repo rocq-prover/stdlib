@@ -171,7 +171,7 @@ Section DEFINITIONS.
     Smorph1 : [cI] == 1;
     Smorph_add : forall x y, [x +! y] == [x]+[y];
     Smorph_mul : forall x y, [x *! y] == [x]*[y];
-    Smorph_eq  : forall x y, x?=!y = true -> [x] == [y]
+    Smorph_eq  : forall x y, (x?=!y) = true -> [x] == [y]
   }.
 
 (* for rings*)
@@ -182,13 +182,13 @@ Section DEFINITIONS.
     morph_sub : forall x y, [x -! y] == [x]-[y];
     morph_mul : forall x y, [x *! y] == [x]*[y];
     morph_opp : forall x, [-!x] == -[x];
-    morph_eq  : forall x y, x?=!y = true -> [x] == [y]
+    morph_eq  : forall x y, (x?=!y) = true -> [x] == [y]
   }.
 
  Section SIGN.
   Variable get_sign : C -> option C.
   Record sign_theory : Prop := mksign_th {
-    sign_spec : forall c c', get_sign c = Some c' -> c ?=! -! c' = true
+    sign_spec : forall c c', get_sign c = Some c' -> (c ?=! -! c') = true
   }.
  End SIGN.
 
