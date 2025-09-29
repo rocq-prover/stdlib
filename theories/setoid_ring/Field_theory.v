@@ -8,6 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Export field_checker.
 From Stdlib Require Ring.
 Import Ring_polynom Ring_tac Ring_theory InitialRing Setoid List Morphisms.
 From Stdlib Require Import BinNat BinInt.
@@ -554,23 +555,10 @@ Qed.
 
   ***************************************************************************)
 
-#[local] Notation "a &&& b" := (if a then b else false)
- (at level 40, left associativity).
-
 (* equality test *)
-Fixpoint PExpr_eq (e e' : PExpr C) {struct e} : bool :=
- match e, e' with
-  | PEc c, PEc c' => ceqb c c'
-  | PEX _ p, PEX _ p' => Pos.eqb p p'
-  | e1 + e2, e1' + e2' => PExpr_eq e1 e1' &&& PExpr_eq e2 e2'
-  | e1 - e2, e1' - e2' => PExpr_eq e1 e1' &&& PExpr_eq e2 e2'
-  | e1 * e2, e1' * e2' => PExpr_eq e1 e1' &&& PExpr_eq e2 e2'
-  | - e, - e' => PExpr_eq e e'
-  | e ^ n, e' ^ n' => N.eqb n n' &&& PExpr_eq e e'
-  | _, _ => false
- end%poly.
+#[local] Notation PExpr_eq := (PExpr_eq ceqb).
 
-Lemma if_true (a b : bool) : a &&& b = true -> a = true /\ b = true.
+Lemma if_true (a b : bool) : andb a b = true -> a = true /\ b = true.
 Proof.
  destruct a, b; split; trivial.
 Qed.
@@ -579,7 +567,7 @@ Theorem PExpr_eq_semi_ok e e' :
  PExpr_eq e e' = true ->  (e === e')%poly.
 Proof.
 revert e'; induction e as [| |?|?|? IHe1 ? IHe2|? IHe1 ? IHe2|? IHe1 ? IHe2|? IHe|? IHe ?];
- intro e'; destruct e'; simpl; try discriminate.
+ intro e'; destruct e'; simpl; try reflexivity; try discriminate.
 - intros H l. now apply (morph_eq CRmorph).
 - case Pos.eqb_spec; intros; now subst.
 - intros H; destruct (if_true _ _ H). now rewrite IHe1, IHe2.
@@ -599,15 +587,16 @@ Qed.
 (** Smart constructors for polynomial expression,
     with reduction of constants *)
 
-Definition NPEadd e1 e2 :=
-  match e1, e2 with
-  | PEc c1, PEc c2 => PEc (c1 + c2)
-  | PEc c, _ => if (c =? 0)%coef then e2 else e1 + e2
-  |  _, PEc c => if (c =? 0)%coef then e1 else e1 + e2
-    (* Peut t'on factoriser ici ??? *)
-  | _, _ => (e1 + e2)
-  end%poly.
+#[local] Notation NPEadd := (NPEadd cO cadd ceqb).
+#[local] Notation NPEsub := (NPEsub cO csub ceqb).
+#[local] Notation NPEopp := (NPEopp copp).
+#[local] Notation NPEpow := (NPEpow cO cI (pow_pos cmul) ceqb).
+#[local] Notation NPEmul := (NPEmul cO cI cmul (pow_pos cmul) ceqb).
+
 Infix "++" := NPEadd (at level 60, right associativity).
+Infix "--" := NPEsub (at level 50, left associativity).
+Infix "^^" := NPEpow (at level 35, right associativity).
+Infix "**" := NPEmul (at level 40, left associativity).
 
 Theorem NPEadd_ok e1 e2 : (e1 ++ e2 === e1 + e2)%poly.
 Proof.
@@ -617,16 +606,6 @@ try intro H; try rewrite H; simpl;
 try apply eq_refl; try (ring [phi_0]).
 apply (morph_add CRmorph).
 Qed.
-
-Definition NPEsub e1 e2 :=
-  match e1, e2 with
-  | PEc c1, PEc c2 => PEc (c1 - c2)
-  | PEc c, _ => if (c =? 0)%coef then - e2 else e1 - e2
-  |  _, PEc c => if (c =? 0)%coef then e1 else e1 - e2
-     (* Peut-on factoriser ici *)
-  | _, _ => e1 - e2
-  end%poly.
-Infix "--" := NPEsub (at level 50, left associativity).
 
 Theorem NPEsub_ok e1 e2: (e1 -- e2 === e1 - e2)%poly.
 Proof.
@@ -638,28 +617,10 @@ destruct e1, e2; simpl; try reflexivity; try case ceqb_spec;
 apply (morph_sub CRmorph).
 Qed.
 
-Definition NPEopp e1 :=
-  match e1 with PEc c1 => PEc (- c1) | _ => - e1 end%poly.
-
 Theorem NPEopp_ok e : (NPEopp e === -e)%poly.
 Proof.
 intros l. destruct e; simpl; trivial. apply (morph_opp CRmorph).
 Qed.
-
-Definition NPEpow x n :=
-  match n with
-  | N0 => 1
-  | Npos p =>
-    if (p =? 1)%positive then x else
-    match x with
-    | PEc c =>
-      if (c =? 1)%coef then 1
-      else if (c =? 0)%coef then 0
-      else PEc (pow_pos cmul c p)
-    | _ => x ^ n
-    end
-  end%poly.
-Infix "^^" := NPEpow (at level 35, right associativity).
 
 Theorem NPEpow_ok e n : (e ^^ n === e ^ n)%poly.
 Proof.
@@ -673,16 +634,6 @@ Proof.
      * now rewrite phi_0, pow_pos_0.
      * now rewrite pow_pos_cst.
 Qed.
-
-Fixpoint NPEmul (x y : PExpr C) {struct x} : PExpr C :=
-  match x, y with
-  | PEc c1, PEc c2 => PEc (c1 * c2)
-  | PEc c, _ => if (c =? 1)%coef then y else if (c =? 0)%coef then 0 else x * y
-  | _, PEc c => if (c =? 1)%coef then x else if (c =? 0)%coef then 0 else x * y
-  | e1 ^ n1, e2 ^ n2 => if (n1 =? n2)%N then (NPEmul e1 e2)^^n1 else x * y
-  | _, _ => x * y
-  end%poly.
-Infix "**" := NPEmul (at level 40, left associativity).
 
 Theorem NPEmul_ok e1 e2 : (e1 ** e2 === e1 * e2)%poly.
 Proof.
@@ -698,16 +649,8 @@ revert e2; induction e1 as [| |?|?|? IHe1 ? IHe2|? IHe1 ? IHe2|? IHe1 ? IHe2|? I
   destruct n; simpl; [ ring | apply pow_pos_mul_l ].
 Qed.
 
-(* simplification *)
-Fixpoint PEsimp (e : PExpr C) : PExpr C :=
- match e with
-  | e1 + e2 => (PEsimp e1) ++ (PEsimp e2)
-  | e1 * e2 => (PEsimp e1) ** (PEsimp e2)
-  | e1 - e2 => (PEsimp e1) -- (PEsimp e2)
-  | - e1 => NPEopp (PEsimp e1)
-  | e1 ^ n1 => (PEsimp e1) ^^ n1
-  | _ => e
- end%poly.
+#[local] Notation PEsimp := (PEsimp
+  cO cI cadd cmul csub copp (pow_pos cmul) ceqb).
 
 Theorem PEsimp_ok e : (PEsimp e === e)%poly.
 Proof.
@@ -732,18 +675,7 @@ Qed.
 
 (* The input: syntax of a field expression *)
 
-Inductive FExpr : Type :=
- | FEO : FExpr
- | FEI : FExpr
- | FEc: C ->  FExpr
- | FEX: positive ->  FExpr
- | FEadd: FExpr -> FExpr ->  FExpr
- | FEsub: FExpr -> FExpr ->  FExpr
- | FEmul: FExpr -> FExpr ->  FExpr
- | FEopp: FExpr ->  FExpr
- | FEinv: FExpr ->  FExpr
- | FEdiv: FExpr -> FExpr ->  FExpr
- | FEpow: FExpr -> N -> FExpr .
+#[local] Notation FExpr := (FExpr C).
 
 Fixpoint FEeval (l : list R) (pe : FExpr) {struct pe} : R :=
   match pe with
@@ -764,10 +696,7 @@ Strategy expand [FEeval].
 
 (* The result of the normalisation *)
 
-Record linear : Type := mk_linear {
-   num : PExpr C;
-   denum : PExpr C;
-   condition : list (PExpr C) }.
+#[local] Notation linear := (linear C).
 
 (***************************************************************************
 
@@ -808,9 +737,7 @@ induction l1 as [|a l1 IHl1].
 - simpl app. rewrite !PCond_cons, IHl1. symmetry; apply and_assoc.
 Qed.
 
-
-(* An unsatisfiable condition: issued when a division by zero is detected *)
-Definition absurd_PCond := cons 0%poly nil.
+#[local] Notation absurd_PCond := (absurd_PCond cO).
 
 Lemma absurd_PCond_bottom : forall l, ~ PCond l absurd_PCond.
 Proof.
@@ -826,35 +753,8 @@ Qed.
 
   ***************************************************************************)
 
-Definition default_isIn e1 p1 e2 p2 :=
-  if PExpr_eq e1 e2 then
-    match Z.pos_sub p1 p2 with
-     | Zpos p => Some (Npos p, 1%poly)
-     | Z0 => Some (N0, 1%poly)
-     | Zneg p => Some (N0, e2 ^^ Npos p)
-    end
-  else None.
-
-Fixpoint isIn e1 p1 e2 p2 {struct e2}: option (N * PExpr C) :=
-  match e2 with
-  | e3 * e4 =>
-       match isIn e1 p1 e3 p2 with
-       | Some (N0, e5) => Some (N0, e5 ** (e4 ^^ Npos p2))
-       | Some (Npos p, e5) =>
-          match isIn e1 p e4 p2 with
-          | Some (n, e6) => Some (n, e5 ** e6)
-          | None => Some (Npos p, e5 ** (e4 ^^ Npos p2))
-          end
-       | None =>
-         match isIn e1 p1 e4 p2 with
-         | Some (n, e5) => Some (n, (e3 ^^ Npos p2) ** e5)
-         | None => None
-         end
-       end
-  | e3 ^ N0 => None
-  | e3 ^ Npos p3 => isIn e1 p1 e3 (Pos.mul p3 p2)
-  | _ => default_isIn e1 p1 e2 p2
-   end%poly.
+#[local] Notation default_isIn := (default_isIn cO cI (pow_pos cmul) ceqb).
+#[local] Notation isIn := (isIn cO cI cmul (pow_pos cmul) ceqb).
 
  Definition ZtoN z := match z with Zpos p => Npos p | _ => N0 end.
  Definition NtoZ n := match n with Npos p => Zpos p | _ => Z0 end.
@@ -874,7 +774,7 @@ Fixpoint isIn e1 p1 e2 p2 {struct e2}: option (N * PExpr C) :=
    | _ => True
   end.
 Proof.
-  unfold default_isIn.
+  unfold field_checker.default_isIn.
   case PExpr_eq_spec; trivial. intros EQ.
   rewrite Z.pos_sub_spec.
   case Pos.compare_spec;intros H; split; try reflexivity.
@@ -901,7 +801,7 @@ Theorem isIn_ok e1 p1 e2 p2 :
    |  _ => True
   end.
 Proof.
-Opaque NPEpow.
+Opaque field_checker.NPEpow.
 revert p1 p2.
 induction e2 as [| |?|?|? IHe1 ? IHe2|? IHe1 ? IHe2|? IHe2_1 ? IHe2_2|? IHe|? IHe2 n]; intros p1 p2;
  try refine (default_isIn_ok e1 _ p1 p2); simpl isIn.
@@ -950,33 +850,14 @@ induction e2 as [| |?|?|? IHe1 ? IHe2|? IHe1 ? IHe2|? IHe2_1 ? IHe2_2|? IHe|? IH
   now rewrite <- PEpow_mul_r.
 Qed.
 
-Record rsplit : Type := mk_rsplit {
-   rsplit_left : PExpr C;
-   rsplit_common : PExpr C;
-   rsplit_right : PExpr C}.
-
 (* Stupid name clash *)
-Notation left := rsplit_left.
-Notation right := rsplit_right.
-Notation common := rsplit_common.
+Notation rsplit := (rsplit C).
+Notation left := (@rsplit_left C).
+Notation right := (@rsplit_right C).
+Notation common := (@rsplit_common C).
 
-Fixpoint split_aux e1 p e2 {struct e1}: rsplit :=
-  match e1 with
-  | e3 * e4 =>
-      let r1 := split_aux e3 p e2 in
-      let r2 := split_aux e4 p (right r1) in
-      mk_rsplit (left r1 ** left r2)
-                (common r1 ** common r2)
-                (right r2)
-  | e3 ^ N0 => mk_rsplit 1 1 e2
-  | e3 ^ Npos p3 => split_aux e3 (Pos.mul p3 p) e2
-  | _ =>
-       match isIn e1 p e2 1 with
-       | Some (N0,e3) => mk_rsplit 1 (e1 ^^ Npos p) e3
-       | Some (Npos q, e3) => mk_rsplit (e1 ^^ Npos q) (e1 ^^ Npos (p - q)) e3
-       | None => mk_rsplit (e1 ^^ Npos p) 1 e2
-       end
-  end%poly.
+#[local] Notation split_aux := (split_aux cO cI cmul (pow_pos cmul) ceqb).
+#[local] Notation split := (field_checker.split cO cI cmul (pow_pos cmul) ceqb).
 
 Lemma split_aux_ok1 e1 p e2 :
   (let res := match isIn e1 p e2 1 with
@@ -988,7 +869,7 @@ Lemma split_aux_ok1 e1 p e2 :
   e1 ^ Npos p === left res * common res
   /\ e2 === right res * common res)%poly.
 Proof.
- Opaque NPEpow NPEmul.
+ Opaque field_checker.NPEpow field_checker.NPEmul.
  intros res. unfold res;clear res; generalize (isIn_ok e1 p e2 xH).
  destruct (isIn e1 p e2 1) as [([|p'],e')|]; simpl.
  - intros (H1,H2); split; npe_simpl.
@@ -1019,8 +900,6 @@ intro e1;induction e1 as [| |?|?|? IHe1_1 ? IHe1_2|? IHe1_1 ? IHe1_2|e1_1 IHe1_1
   + rewrite <- PEpow_mul_r. simpl. apply IHe1.
 Qed.
 
-Definition split e1 e2 := split_aux e1 xH e2.
-
 Theorem split_ok_l e1 e2 :
   (e1 === left (split e1 e2) * common (split e1 e2))%poly.
 Proof.
@@ -1047,54 +926,8 @@ Proof.
  now rewrite H, rmul_0_l.
 Qed.
 
-Fixpoint Fnorm (e : FExpr) : linear :=
-  match e with
-  | FEO => mk_linear 0 1 nil
-  | FEI => mk_linear 1 1 nil
-  | FEc c => mk_linear (PEc c) 1 nil
-  | FEX x => mk_linear (PEX C x) 1 nil
-  | FEadd e1 e2 =>
-      let x := Fnorm e1 in
-      let y := Fnorm e2 in
-      let s := split (denum x) (denum y) in
-      mk_linear
-        ((num x ** right s) ++ (num y ** left s))
-        (left s ** (right s ** common s))
-        (condition x ++ condition y)%list
-  | FEsub e1 e2 =>
-      let x := Fnorm e1 in
-      let y := Fnorm e2 in
-      let s := split (denum x) (denum y) in
-      mk_linear
-        ((num x ** right s) -- (num y ** left s))
-        (left s ** (right s ** common s))
-        (condition x ++ condition y)%list
-  | FEmul e1 e2 =>
-      let x := Fnorm e1 in
-      let y := Fnorm e2 in
-      let s1 := split (num x) (denum y) in
-      let s2 := split (num y) (denum x) in
-      mk_linear (left s1 ** left s2)
-        (right s2 ** right s1)
-        (condition x ++ condition y)%list
-  | FEopp e1 =>
-      let x := Fnorm e1 in
-      mk_linear (NPEopp (num x)) (denum x) (condition x)
-  | FEinv e1 =>
-      let x := Fnorm e1 in
-      mk_linear (denum x) (num x) (num x :: condition x)
-  | FEdiv e1 e2 =>
-      let x := Fnorm e1 in
-      let y := Fnorm e2 in
-      let s1 := split (num x) (num y) in
-      let s2 := split (denum x) (denum y) in
-      mk_linear (left s1 ** right s2)
-        (left s2 ** right s1)
-        (num y :: condition x ++ condition y)%list
-  | FEpow e1 n =>
-      let x := Fnorm e1 in
-      mk_linear ((num x)^^n) ((denum x)^^n) (condition x)
-  end.
+#[local] Notation Fnorm := (Fnorm
+  cO cI cadd cmul csub copp (pow_pos cmul) ceqb).
 
 (* Example *)
 (*
@@ -1460,11 +1293,7 @@ Variable Fcons : PExpr C -> list (PExpr C) -> list (PExpr C).
 Hypothesis PCond_fcons_inv : forall l a l1,
   PCond l (Fcons a l1) ->  ~ a @ l == 0 /\ PCond l l1.
 
-Fixpoint Fapp (l m:list (PExpr C)) {struct l} : list (PExpr C) :=
-  match l with
-  | nil => m
-  | cons a l1 => Fcons a (Fapp l1 m)
-  end.
+#[local] Notation Fapp := (Fapp Fcons).
 
 Lemma fcons_ok : forall l l1,
   (forall lock, lock = PCond l -> lock (Fapp l1 nil)) -> PCond l l1.
@@ -1501,21 +1330,16 @@ intros l a l1; induction l1 as [|e l1 IHl1]; simpl Fcons.
   + now apply IHl1.
 Qed.
 
-(* equality of normal forms rather than syntactic equality *)
-Fixpoint Fcons0 (e:PExpr C) (l:list (PExpr C)) {struct l} : list (PExpr C) :=
- match l with
-   nil       => cons e nil
- | cons a l1 =>
-     if Peq ceqb (Nnorm O nil e) (Nnorm O nil a) then l
-     else cons a (Fcons0 e l1)
- end.
+#[local] Notation Fcons0 := (Fcons0 cO cI cadd cmul csub copp ceqb).
 
 Theorem PFcons0_fcons_inv:
  forall l a l1, PCond l (Fcons0 a l1) ->  ~ a @ l == 0 /\ PCond l l1.
 Proof.
 intros l a l1; induction l1 as [|e l1 IHl1]; simpl Fcons0.
 - simpl; now split.
-- generalize (ring_correct O l nil a e). lazy zeta; simpl Peq.
+- generalize (ring_correct O l nil a e); unfold ring_checker. lazy zeta; simpl Peq.
+  set (na := norm_aux _ _ _ _ _ _ _ a); change na with (Nnorm 0 nil a).
+  set (ne := norm_aux _ _ _ _ _ _ _ e); change ne with (Nnorm 0 nil e).
   case Peq; intros H; rewrite !PCond_cons; intros (H1,H2);
    repeat split; trivial.
   + now rewrite H.
@@ -1523,13 +1347,7 @@ intros l a l1; induction l1 as [|e l1 IHl1]; simpl Fcons0.
   + now apply IHl1.
 Qed.
 
-(* split factorized denominators *)
-Fixpoint Fcons00 (e:PExpr C) (l:list (PExpr C)) {struct e} : list (PExpr C) :=
- match e with
-   PEmul e1 e2 => Fcons00 e1 (Fcons00 e2 l)
- | PEpow e1 _ => Fcons00 e1 l
- | _ => Fcons0 e l
- end.
+#[local] Notation Fcons00 := (Fcons00 cO cI cadd cmul csub copp ceqb).
 
 Theorem PFcons00_fcons_inv:
   forall l a l1, PCond l (Fcons00 a l1) -> ~ a @ l == 0 /\ PCond l l1.
@@ -1564,14 +1382,7 @@ destruct (ceqb c1 c2); constructor.
 - intro E. specialize (H' E). discriminate.
 Qed.
 
-Fixpoint Fcons1 (e:PExpr C) (l:list (PExpr C)) {struct e} : list (PExpr C) :=
- match e with
- | PEmul e1 e2 => Fcons1 e1 (Fcons1 e2 l)
- | PEpow e _ => Fcons1 e l
- | PEopp e => if (-(1) =? 0)%coef then absurd_PCond else Fcons1 e l
- | PEc c => if (c =? 0)%coef then absurd_PCond else l
- | _ => Fcons0 e l
- end.
+#[local] Notation Fcons1 := (Fcons1 cO cI cadd cmul csub copp ceqb).
 
 Theorem PFcons1_fcons_inv:
   forall l a l1, PCond l (Fcons1 a l1) -> ~ a @ l == 0 /\ PCond l l1.
@@ -1595,7 +1406,8 @@ intros l a; elim a; try (intros; apply PFcons0_fcons_inv; trivial; fail).
 - intros ? H ? ? H0. destruct (H _ H0);split;trivial. apply PEpow_nz; trivial.
 Qed.
 
-Definition Fcons2 e l := Fcons1 (PEsimp e) l.
+#[local] Notation Fcons2 := (Fcons2
+  cO cI cadd cmul csub copp (pow_pos cmul) ceqb).
 
 Theorem PFcons2_fcons_inv:
  forall l a l1, PCond l (Fcons2 a l1) -> ~ a @ l == 0 /\ PCond l l1.
@@ -1825,6 +1637,9 @@ Qed.
 End Field.
 
 End Complete.
+
+Notation Fnorm := (fun cO cI cadd cmul csub copp ceqb =>
+  Fnorm cO cI cadd cmul csub copp (pow_pos cmul) ceqb).
 
 Arguments FEO {C}.
 Arguments FEI {C}.
