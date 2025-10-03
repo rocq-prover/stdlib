@@ -202,7 +202,7 @@ Class Insert (K A M : Type) := insert: K → A → M → M.
 #[global] Hint Mode Insert - - ! : typeclass_instances.
 Instance: Params (@insert) 5 := {}.
 Notation "<[ k := a ]>" := (insert k a)
-  (at level 5, right associativity, format "<[ k := a ]>") : stdpp_scope.
+  (at level 0, right associativity, format "<[ k := a ]>") : stdpp_scope.
 #[global] Arguments insert _ _ _ _ !_ _ !_ / : simpl nomatch, assert.
 
 (** The function delete [delete k m] should delete the value at key [k] in

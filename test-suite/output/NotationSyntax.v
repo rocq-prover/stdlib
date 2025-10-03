@@ -22,7 +22,7 @@ Check "t""t".
 Module A.
 
 (* Not forced to be a keyword *)
-Notation "# ""|"" a" := (Some a) (at level 0, a at level 0).
+Notation "# ""|"" a" := (Some a) (at level 2, a at level 0).
 Check # "|" true.
 Check "|"%string.
 
