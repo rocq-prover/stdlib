@@ -378,7 +378,7 @@ Definition INZ (n:N) : R :=
     | Npos p => IZR (Zpos p)
   end.
 
-Definition Reval_expr := eval_pexpr  Rplus Rmult Rminus Ropp R_of_Rcst N.to_nat pow.
+Definition Reval_expr := eval_pexpr R0 R1 Rplus Rmult Rminus Ropp R_of_Rcst N.to_nat pow.
 
 
 Definition Reval_pop2 (o:Op2) : R -> R -> Prop :=
@@ -419,8 +419,8 @@ Proof.
   - apply Rlt_not_le in H. tauto.
 Qed.
 
-Definition Reval_op2 (k: Tauto.kind) :  Op2 ->  R -> R -> Tauto.rtyp k:=
-  if k as k0 return (Op2 -> R -> R -> Tauto.rtyp k0)
+Definition Reval_op2 (k: kind) :  Op2 ->  R -> R -> eKind k:=
+  if k as k0 return (Op2 -> R -> R -> eKind k0)
   then Reval_pop2 else Reval_bop2.
 
 Lemma Reval_op2_hold : forall b op q1 q2,
@@ -431,16 +431,16 @@ Proof.
   - simpl. apply pop2_bop2.
 Qed.
 
-Definition Reval_formula (e: PolEnv R) (k: Tauto.kind) (ff : Formula Rcst) :=
+Definition Reval_formula (e: PolEnv R) (k: kind) (ff : Formula Rcst) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (Reval_expr e lhs) (Reval_expr e rhs).
 
 
 Definition Reval_formula' :=
-  eval_sformula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt N.to_nat pow R_of_Rcst.
+  eval_sformula R0 R1 Rplus Rmult Rminus Ropp (@eq R) Rle Rlt N.to_nat pow R_of_Rcst.
 
 Lemma Reval_pop2_eval_op2 : forall o e1 e2,
   Reval_pop2 o e1 e2  <->
-  eval_op2 eq Rle Rlt o e1 e2.
+  eval_op2 isProp eq (fun x y => x <> y) Rle Rlt o e1 e2.
 Proof.
   destruct o ; simpl ; try tauto.
   split.
@@ -459,14 +459,14 @@ Proof.
   apply Reval_pop2_eval_op2.
 Qed.
 
-Definition QReval_expr := eval_pexpr Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
+Definition QReval_expr := eval_pexpr R0 R1 Rplus Rmult Rminus Ropp Q2R N.to_nat pow.
 
-Definition QReval_formula (e: PolEnv R) (k: Tauto.kind) (ff : Formula Q) :=
+Definition QReval_formula (e: PolEnv R) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Reval_op2 k o (QReval_expr e lhs) (QReval_expr e rhs).
 
 
 Definition QReval_formula' :=
-  eval_formula  Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
+  eval_formula R0 R1 Rplus Rmult Rminus Ropp (@eq R) Rle Rlt Q2R N.to_nat pow.
 
 Lemma QReval_formula_compat : forall env b f, Tauto.hold b (QReval_formula env b f) <-> QReval_formula' env f.
 Proof.
@@ -489,7 +489,8 @@ Qed.
 
 Definition RWitness := Psatz Q.
 
-Definition RWeakChecker := check_normalised_formulas 0%Q 1%Q Qplus Qmult  Qeq_bool Qle_bool.
+#[local] Notation RWeakChecker := (CWeakChecker
+  Q0 Q1 Qplus Qmult Qeq_bool Qle_bool).
 
 From Stdlib Require Import List.
 
@@ -507,18 +508,11 @@ Qed.
 
 From Stdlib.micromega Require Import Tauto.
 
-Definition Rnormalise := @cnf_normalise Q 0%Q 1%Q Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-Definition Rnegate := @cnf_negate Q 0%Q 1%Q Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
+#[local] Notation Qcnf_of_GFormula := (Ccnf_of_GFormula
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
 
-Definition runsat := check_inconsistent 0%Q Qeq_bool Qle_bool.
-
-Definition rdeduce := nformula_plus_nformula 0%Q Qplus Qeq_bool.
-
-Definition RTautoChecker (f : BFormula (Formula Rcst) Tauto.isProp) (w: list RWitness)  : bool :=
-  @tauto_checker (Formula Q) (NFormula Q)
-  unit runsat rdeduce
-  (Rnormalise unit) (Rnegate unit)
-  RWitness (fun cl => RWeakChecker (List.map fst cl)) (map_bformula (map_Formula Q_of_Rcst)  f) w.
+Definition RTautoChecker (f : BFormula (Formula Rcst) isProp) (w: list RWitness)  : bool :=
+  micromega_checker.tauto_checker (fun cl => RWeakChecker (List.map fst cl)) (Qcnf_of_GFormula (GFmap (Fmap Q_of_Rcst) f)) w.
 
 Lemma RTautoChecker_sound : forall f w, RTautoChecker f w = true -> forall env, eval_bf  (Reval_formula env)  f.
 Proof.
@@ -526,7 +520,7 @@ Proof.
   unfold RTautoChecker.
   intros TC env.
   apply tauto_checker_sound with (eval:=QReval_formula) (eval':=    Qeval_nformula) (env := env) in TC.
-  - change (eval_f e_rtyp (QReval_formula env))
+  - change (GFeval eqb e_eKind (QReval_formula env))
       with
       (eval_bf  (QReval_formula env)) in TC.
     rewrite eval_bf_map in TC.
@@ -544,8 +538,7 @@ Proof.
   - apply Reval_nformula_dec.
   - destruct t.
     apply (check_inconsistent_sound Rsor QSORaddon) ; auto.
-  - unfold rdeduce.
-    intros. revert H.
+  - intros. revert H.
     eapply (nformula_plus_nformula_correct Rsor QSORaddon); eauto.
 
   - intros.

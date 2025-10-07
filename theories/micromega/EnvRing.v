@@ -11,66 +11,15 @@
    For big polynomials, this is inefficient -- linear access.
    I have modified the code to use binary trees -- logarithmic access.  *)
 
-
-Set Implicit Arguments.
+From Stdlib Require Export micromega_formula micromega_witness micromega_eval.
+From Stdlib Require Export micromega_checker.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
 
+Set Implicit Arguments.
+
 #[local] Open Scope positive_scope.
 Import RingSyntax.
-
-(** Definition of polynomial expressions *)
-#[universes(template)]
-Inductive PExpr {C} : Type :=
-| PEc : C -> PExpr
-| PEX : positive -> PExpr
-| PEadd : PExpr -> PExpr -> PExpr
-| PEsub : PExpr -> PExpr -> PExpr
-| PEmul : PExpr -> PExpr -> PExpr
-| PEopp : PExpr -> PExpr
-| PEpow : PExpr -> N -> PExpr.
-Arguments PExpr : clear implicits.
-
-Register PEc as micromega.PExpr.PEc.
-Register PEX as micromega.PExpr.PEX.
-Register PEadd as micromega.PExpr.PEadd.
-Register PEsub as micromega.PExpr.PEsub.
-Register PEmul as micromega.PExpr.PEmul.
-Register PEopp as micromega.PExpr.PEopp.
-Register PEpow as micromega.PExpr.PEpow.
-
- (* Definition of multivariable polynomials with coefficients in C :
-    Type [Pol] represents [X1 ... Xn].
-    The representation is Horner's where a [n] variable polynomial
-    (C[X1..Xn]) is seen as a polynomial on [X1] which coefficients
-    are polynomials with [n-1] variables (C[X2..Xn]).
-    There are several optimisations to make the repr compacter:
-    - [Pc c] is the constant polynomial of value c
-       == c*X1^0*..*Xn^0
-    - [Pinj j Q] is a polynomial constant w.r.t the [j] first variables.
-        variable indices are shifted of j in Q.
-       == X1^0 *..* Xj^0 * Q{X1 <- Xj+1;..; Xn-j <- Xn}
-    - [PX P i Q] is an optimised Horner form of P*X^i + Q
-        with P not the null polynomial
-       == P * X1^i + Q{X1 <- X2; ..; Xn-1 <- Xn}
-
-    In addition:
-    - polynomials of the form (PX (PX P i (Pc 0)) j Q) are forbidden
-      since they can be represented by the simpler form (PX P (i+j) Q)
-    - (Pinj i (Pinj j P)) is (Pinj (i+j) P)
-    - (Pinj i (Pc c)) is (Pc c)
- *)
-
-#[universes(template)]
-Inductive Pol {C} : Type :=
-| Pc : C -> Pol
-| Pinj : positive -> Pol -> Pol
-| PX : Pol -> positive -> Pol -> Pol.
-Arguments Pol : clear implicits.
-
-Register Pc as micromega.Pol.Pc.
-Register Pinj as micromega.Pol.Pinj.
-Register PX   as micromega.Pol.PX.
 
 Section MakeRingPol.
 
@@ -155,274 +104,33 @@ Section MakeRingPol.
  Implicit Types pe : PExpr.
  Implicit Types P : Pol.
 
- Definition P0 := Pc cO.
- Definition P1 := Pc cI.
-
- Fixpoint Peq (P P' : Pol) {struct P'} : bool :=
-  match P, P' with
-  | Pc c, Pc c' => c ?=! c'
-  | Pinj j Q, Pinj j' Q' =>
-    match j ?= j' with
-    | Eq => Peq Q Q'
-    | _ => false
-    end
-  | PX P i Q, PX P' i' Q' =>
-    match i ?= i' with
-    | Eq => if Peq P P' then Peq Q Q' else false
-    | _ => false
-    end
-  | _, _ => false
-  end.
+ #[local] Notation P0 := (P0 cO).
+ #[local] Notation P1 := (P1 cI).
+ #[local] Notation Peq := (Peq ceqb).
+ #[local] Notation mkPX := (mkPX cO ceqb).
+ #[local] Notation mk_X := (mkX cO cI).
+ #[local] Notation Popp := (Popp copp).
+ #[local] Notation PaddC := (PaddC cadd).
+ #[local] Notation PsubC := (PsubC csub).
+ #[local] Notation PaddI := (PaddI cadd).
+ #[local] Notation PaddX := (PaddX cO ceqb).
+ #[local] Notation Padd := (Padd cO cadd ceqb).
+ #[local] Notation PsubI := (PsubI cadd copp).
+ #[local] Notation PsubX := (PsubX cO copp ceqb).
+ #[local] Notation Psub := (Psub cO cadd csub copp ceqb).
+ #[local] Notation PmulC_aux := (PmulC_aux cO cmul ceqb).
+ #[local] Notation PmulC := (PmulC cO cI cmul ceqb).
+ #[local] Notation PmulI := (PmulI cO cI cmul ceqb).
+ #[local] Notation Pmul := (Pmul cO cI cadd cmul ceqb).
+ #[local] Notation Psquare := (Psquare cO cI cadd cmul ceqb).
+ #[local] Notation Ppow_pos := (Ppow_pos cO cI cadd cmul ceqb).
+ #[local] Notation norm_aux := (Pol_of_PExpr cO cI cadd cmul csub copp ceqb).
 
  Infix "?==" := Peq.
-
- Definition mkPinj j P :=
-  match P with
-  | Pc _ => P
-  | Pinj j' Q => Pinj (j + j') Q
-  | _ => Pinj j P
-  end.
-
- Definition mkPinj_pred j P :=
-  match j with
-  | xH => P
-  | xO j => Pinj (Pos.pred_double j) P
-  | xI j => Pinj (xO j) P
-  end.
-
- Definition mkPX P i Q :=
-  match P with
-  | Pc c => if c ?=! cO then mkPinj xH Q else PX P i Q
-  | Pinj _ _ => PX P i Q
-  | PX P' i' Q' => if Q' ?== P0 then PX P' (i' + i) Q else PX P i Q
-  end.
-
- Definition mkXi i := PX P1 i P0.
-
- Definition mkX := mkXi 1.
-
- (** Opposite of addition *)
-
- Fixpoint Popp (P:Pol) : Pol :=
-  match P with
-  | Pc c => Pc (-! c)
-  | Pinj j Q => Pinj j (Popp Q)
-  | PX P i Q => PX (Popp P) i (Popp Q)
-  end.
-
  Notation "-- P" := (Popp P).
-
- (** Addition et subtraction *)
-
- Fixpoint PaddC (P:Pol) (c:C) : Pol :=
-  match P with
-  | Pc c1 => Pc (c1 +! c)
-  | Pinj j Q => Pinj j (PaddC Q c)
-  | PX P i Q => PX P i (PaddC Q c)
-  end.
-
- Fixpoint PsubC (P:Pol) (c:C) : Pol :=
-  match P with
-  | Pc c1 => Pc (c1 -! c)
-  | Pinj j Q => Pinj j (PsubC Q c)
-  | PX P i Q => PX P i (PsubC Q c)
-  end.
-
- Section PopI.
-
-  Variable Pop : Pol -> Pol -> Pol.
-  Variable Q : Pol.
-
-  Fixpoint PaddI (j:positive) (P:Pol) : Pol :=
-   match P with
-   | Pc c => mkPinj j (PaddC Q c)
-   | Pinj j' Q' =>
-     match Z.pos_sub j' j with
-     | Zpos k =>  mkPinj j (Pop (Pinj k Q') Q)
-     | Z0 => mkPinj j (Pop Q' Q)
-     | Zneg k => mkPinj j' (PaddI k Q')
-     end
-   | PX P i Q' =>
-     match j with
-     | xH => PX P i (Pop Q' Q)
-     | xO j => PX P i (PaddI (Pos.pred_double j) Q')
-     | xI j => PX P i (PaddI (xO j) Q')
-     end
-   end.
-
-  Fixpoint PsubI (j:positive) (P:Pol) : Pol :=
-   match P with
-   | Pc c => mkPinj j (PaddC (--Q) c)
-   | Pinj j' Q' =>
-     match Z.pos_sub j' j with
-     | Zpos k =>  mkPinj j (Pop (Pinj k Q') Q)
-     | Z0 => mkPinj j (Pop Q' Q)
-     | Zneg k => mkPinj j' (PsubI k Q')
-     end
-   | PX P i Q' =>
-     match j with
-     | xH => PX P i (Pop Q' Q)
-     | xO j => PX P i (PsubI (Pos.pred_double j) Q')
-     | xI j => PX P i (PsubI (xO j) Q')
-     end
-   end.
-
- Variable P' : Pol.
-
- Fixpoint PaddX (i':positive) (P:Pol) : Pol :=
-  match P with
-  | Pc c => PX P' i' P
-  | Pinj j Q' =>
-    match j with
-    | xH =>  PX P' i' Q'
-    | xO j => PX P' i' (Pinj (Pos.pred_double j) Q')
-    | xI j => PX P' i' (Pinj (xO j) Q')
-    end
-  | PX P i Q' =>
-    match Z.pos_sub i i' with
-    | Zpos k => mkPX (Pop (PX P k P0) P') i' Q'
-    | Z0 => mkPX (Pop P P') i Q'
-    | Zneg k => mkPX (PaddX k P) i Q'
-    end
-  end.
-
- Fixpoint PsubX (i':positive) (P:Pol) : Pol :=
-  match P with
-  | Pc c => PX (--P') i' P
-  | Pinj j Q' =>
-    match j with
-    | xH =>  PX (--P') i' Q'
-    | xO j => PX (--P') i' (Pinj (Pos.pred_double j) Q')
-    | xI j => PX (--P') i' (Pinj (xO j) Q')
-    end
-  | PX P i Q' =>
-    match Z.pos_sub i i' with
-    | Zpos k => mkPX (Pop (PX P k P0) P') i' Q'
-    | Z0 => mkPX (Pop P P') i Q'
-    | Zneg k => mkPX (PsubX k P) i Q'
-    end
-  end.
-
-
- End PopI.
-
- Fixpoint Padd (P P': Pol) {struct P'} : Pol :=
-  match P' with
-  | Pc c' => PaddC P c'
-  | Pinj j' Q' => PaddI Padd Q' j' P
-  | PX P' i' Q' =>
-    match P with
-    | Pc c => PX P' i' (PaddC Q' c)
-    | Pinj j Q =>
-      match j with
-      | xH => PX P' i' (Padd Q Q')
-      | xO j => PX P' i' (Padd (Pinj (Pos.pred_double j) Q) Q')
-      | xI j => PX P' i' (Padd (Pinj (xO j) Q) Q')
-      end
-    | PX P i Q =>
-      match Z.pos_sub i i' with
-      | Zpos k => mkPX (Padd (PX P k P0) P') i' (Padd Q Q')
-      | Z0 => mkPX (Padd P P') i (Padd Q Q')
-      | Zneg k => mkPX (PaddX Padd P' k P) i (Padd Q Q')
-      end
-    end
-  end.
  Infix "++" := Padd.
-
- Fixpoint Psub (P P': Pol) {struct P'} : Pol :=
-  match P' with
-  | Pc c' => PsubC P c'
-  | Pinj j' Q' => PsubI Psub Q' j' P
-  | PX P' i' Q' =>
-    match P with
-    | Pc c => PX (--P') i' (*(--(PsubC Q' c))*) (PaddC (--Q') c)
-    | Pinj j Q =>
-      match j with
-      | xH => PX (--P') i' (Psub Q Q')
-      | xO j => PX (--P') i' (Psub (Pinj (Pos.pred_double j) Q) Q')
-      | xI j => PX (--P') i' (Psub (Pinj (xO j) Q) Q')
-      end
-    | PX P i Q =>
-      match Z.pos_sub i i' with
-      | Zpos k => mkPX (Psub (PX P k P0) P') i' (Psub Q Q')
-      | Z0 => mkPX (Psub P P') i (Psub Q Q')
-      | Zneg k => mkPX (PsubX Psub P' k P) i (Psub Q Q')
-      end
-    end
-  end.
  Infix "--" := Psub.
-
- (** Multiplication *)
-
- Fixpoint PmulC_aux (P:Pol) (c:C) : Pol :=
-  match P with
-  | Pc c' => Pc (c' *! c)
-  | Pinj j Q => mkPinj j (PmulC_aux Q c)
-  | PX P i Q => mkPX (PmulC_aux P c) i (PmulC_aux Q c)
-  end.
-
- Definition PmulC P c :=
-  if c ?=! cO then P0 else
-  if c ?=! cI then P else PmulC_aux P c.
-
- Section PmulI.
-  Variable Pmul : Pol -> Pol -> Pol.
-  Variable Q : Pol.
-  Fixpoint PmulI (j:positive) (P:Pol) : Pol :=
-   match P with
-   | Pc c => mkPinj j (PmulC Q c)
-   | Pinj j' Q' =>
-     match Z.pos_sub j' j with
-     | Zpos k => mkPinj j (Pmul (Pinj k Q') Q)
-     | Z0 => mkPinj j (Pmul Q' Q)
-     | Zneg k => mkPinj j' (PmulI k Q')
-     end
-   | PX P' i' Q' =>
-     match j with
-     | xH => mkPX (PmulI xH P') i' (Pmul Q' Q)
-     | xO j' => mkPX (PmulI j P') i' (PmulI (Pos.pred_double j') Q')
-     | xI j' => mkPX (PmulI j P') i' (PmulI (xO j') Q')
-     end
-   end.
-
- End PmulI.
-
- Fixpoint Pmul (P P'' : Pol) {struct P''} : Pol :=
-   match P'' with
-   | Pc c => PmulC P c
-   | Pinj j' Q' => PmulI Pmul Q' j' P
-   | PX P' i' Q' =>
-     match P with
-     | Pc c => PmulC P'' c
-     | Pinj j Q =>
-       let QQ' :=
-         match j with
-         | xH => Pmul Q Q'
-         | xO j => Pmul (Pinj (Pos.pred_double j) Q) Q'
-         | xI j => Pmul (Pinj (xO j) Q) Q'
-         end in
-       mkPX (Pmul P P') i' QQ'
-     | PX P i Q=>
-       let QQ' := Pmul Q Q' in
-       let PQ' := PmulI Pmul Q' xH P in
-       let QP' := Pmul (mkPinj xH Q) P' in
-       let PP' := Pmul P P' in
-       (mkPX (mkPX PP' i P0 ++ QP') i' P0) ++ mkPX PQ' i QQ'
-     end
-  end.
-
  Infix "**" := Pmul.
-
- Fixpoint Psquare (P:Pol) : Pol :=
-   match P with
-   | Pc c => Pc (c *! c)
-   | Pinj j Q => Pinj j (Psquare Q)
-   | PX P i Q =>
-     let twoPQ := Pmul P (mkPinj xH (PmulC Q (cI +! cI))) in
-     let Q2 := Psquare Q in
-     let P2 := Psquare P in
-     mkPX (mkPX P2 i P0 ++ twoPQ) i Q2
-   end.
 
  (** Monomial **)
 
@@ -972,20 +680,9 @@ Qed.
  Qed.
 
  (** evaluation of polynomial expressions towards R *)
- Definition mk_X j := mkPinj_pred j mkX.
 
- (** evaluation of polynomial expressions towards R *)
-
- Fixpoint PEeval (l:Env R) (pe:PExpr) : R :=
-   match pe with
-   | PEc c => phi c
-   | PEX j => nth j l
-   | PEadd pe1 pe2 => (PEeval l pe1) + (PEeval l pe2)
-   | PEsub pe1 pe2 => (PEeval l pe1) - (PEeval l pe2)
-   | PEmul pe1 pe2 => (PEeval l pe1) * (PEeval l pe2)
-   | PEopp pe1 => - (PEeval l pe1)
-   | PEpow pe1 n => rpow (PEeval l pe1) (Cp_phi n)
-   end.
+ #[local] Notation PEeval := (PEeval
+   rO rI radd rmul rsub ropp Cp_phi rpow phi (@nth R)).
 
  (** Correctness proofs *)
 
@@ -1001,18 +698,6 @@ Qed.
 
 Section POWER.
   Variable subst_l : Pol -> Pol.
-  Fixpoint Ppow_pos (res P:Pol) (p:positive) : Pol :=
-   match p with
-   | xH => subst_l (res ** P)
-   | xO p => Ppow_pos (Ppow_pos res P p) P p
-   | xI p => subst_l ((Ppow_pos (Ppow_pos res P p) P p) ** P)
-   end.
-
-  Definition Ppow_N P n :=
-   match n with
-   | N0 => P1
-   | Npos p => Ppow_pos P1 P p
-   end.
 
   Lemma Ppow_pos_ok l :
     (forall P, subst_l P@l == P@l) ->
@@ -1022,6 +707,8 @@ Section POWER.
    induction p as [p IHp|p IHp|];simpl;intros; rewrite ?subst_l_ok, ?Pmul_ok, ?IHp;
     mul_permut.
   Qed.
+
+  #[local] Notation Ppow_N := (Ppow_N cO cI cadd cmul ceqb).
 
   Lemma Ppow_N_ok l :
     (forall P, subst_l P@l == P@l) ->
@@ -1043,20 +730,6 @@ Section POWER.
   Let Pmul_subst P1 P2 := subst_l (Pmul P1 P2).
   Let Ppow_subst := Ppow_N subst_l.
 
-  Fixpoint norm_aux (pe:PExpr) : Pol :=
-   match pe with
-   | PEc c => Pc c
-   | PEX j => mk_X j
-   | PEadd (PEopp pe1) pe2 => Psub (norm_aux pe2) (norm_aux pe1)
-   | PEadd pe1 (PEopp pe2) =>
-     Psub (norm_aux pe1) (norm_aux pe2)
-   | PEadd pe1 pe2 => Padd (norm_aux  pe1) (norm_aux pe2)
-   | PEsub pe1 pe2 => Psub (norm_aux pe1) (norm_aux pe2)
-   | PEmul pe1 pe2 => Pmul (norm_aux pe1) (norm_aux pe2)
-   | PEopp pe1 => Popp (norm_aux pe1)
-   | PEpow pe1 n => Ppow_N (fun p => p) (norm_aux pe1) n
-   end.
-
   Definition norm_subst pe := subst_l (norm_aux pe).
 
   (** Internally, [norm_aux] is expanded in a large number of cases.
@@ -1077,7 +750,7 @@ Section POWER.
     end.
   Proof.
   simpl (norm_aux (PEadd _ _)).
-  destruct pe1; [ | | | | | reflexivity | ];
+  destruct pe1; [ | | | | | | | reflexivity | ];
    destruct pe2; simpl get_PEopp; reflexivity.
   Qed.
 
@@ -1094,7 +767,9 @@ Section POWER.
     PEeval l pe == (norm_aux pe)@l.
   Proof.
    intros.
-   induction pe as [| |pe1 IHpe1 pe2 IHpe2|? IHpe1 ? IHpe2|? IHpe1 ? IHpe2|? IHpe|? IHpe n0].
+   induction pe as [| | | |pe1 IHpe1 pe2 IHpe2|? IHpe1 ? IHpe2|? IHpe1 ? IHpe2|? IHpe|? IHpe n0].
+   - now rewrite (morph0 CRmorph).
+   - now rewrite (morph1 CRmorph).
    - reflexivity.
    - apply mkX_ok.
    - simpl PEeval. rewrite IHpe1, IHpe2.
@@ -1105,7 +780,7 @@ Section POWER.
    - simpl. rewrite IHpe1, IHpe2. Esimpl.
    - simpl. rewrite IHpe1, IHpe2. now rewrite Pmul_ok.
    - simpl. rewrite IHpe. Esimpl.
-   - simpl. rewrite Ppow_N_ok by reflexivity.
+   - simpl. rewrite (Ppow_N_ok id) by reflexivity.
      rewrite (rpow_pow_N pow_th). destruct n0 as [|p]; simpl; Esimpl.
      induction p as [p IHp|p IHp|];simpl; now rewrite ?IHp, ?IHpe, ?Pms_ok, ?Pmul_ok.
   Qed.
@@ -1113,3 +788,6 @@ Section POWER.
  End NORM_SUBST_REC.
 
 End MakeRingPol.
+
+Notation PEeval := (fun rO rI add mul sub opp phi pow_phi pow => PEeval
+  rO rI add mul sub opp pow_phi pow phi (@Env.nth _)).
