@@ -1662,7 +1662,7 @@ Proof.
   now rewrite 2(Rmult_comm r).
 Qed.
 
-Lemma Rmult_gt_reg_l : forall r r1 r2, 0 < r -> r * r1 < r * r2 -> r1 < r2.
+Lemma Rmult_gt_reg_l : forall r r1 r2, r > 0 -> r * r1 > r * r2 -> r1 > r2.
 Proof. now intros r r1 r2; apply Rmult_lt_reg_l. Qed.
 
 Lemma Rmult_gt_reg_r : forall r r1 r2, r > 0 -> r1 * r > r2 * r -> r1 > r2.
