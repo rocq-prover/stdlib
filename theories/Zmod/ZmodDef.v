@@ -18,7 +18,7 @@ Module Zmod.
   - using [small] instead of [Z.modulo] to speed up type-checking of values.
   This construction is [not] a part of the supported interface of [Zmod], so
   the projections are named as [Private_] to exclude them from Search, instead
-  presenting wrappers with types that do not reveal these optimoizations are. *)
+  presenting wrappers with types that do not reveal these optimizations. *)
 #[projections(primitive)]
 Record Zmod (m : Z) := mk {
   Private_to_Z : Z ; Private_range : Bool.Is_true (small Private_to_Z m) }.
@@ -81,7 +81,7 @@ Definition inv {m} (x : Zmod m) : Zmod m := of_small_Z m (Z.invmod (to_Z x) m).
 
 Definition mdiv {m} (x y : Zmod m) : Zmod m := mul x (inv y).
 
-(** ** Powers  *)
+(** ** Powers *)
 
 #[local] Definition Private_pow_N {m} (a : Zmod m) n := N.iter_op mul one a n.
 Definition pow {m} (a : Zmod m) z :=
