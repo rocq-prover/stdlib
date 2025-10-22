@@ -6,3 +6,4 @@
     (`#213 <https://github.com/coq/stdlib/pull/213>`_,
     fixes `#212 <https://github.com/coq/stdlib/issues/212>`_,
     by Damien Doligez).
+
