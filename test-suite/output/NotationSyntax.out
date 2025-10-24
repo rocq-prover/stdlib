@@ -32,10 +32,6 @@ The command has indeed failed with message:
 Notations for numbers or strings are primitive and need not be reserved.
 "t""t"
      : unit
-File "./output/NotationSyntax.v", line 25, characters 0-60:
-Warning: Notations "#" defined at level 0 and "# ""|"" _" defined at level 2
-have incompatible prefixes. One of them will likely not work.
-[notation-incompatible-prefix,parsing,default]
 # "|" true
      : option bool
 "|"%string
