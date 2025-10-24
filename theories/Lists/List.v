@@ -1072,12 +1072,6 @@ Section ListOps.
 
   (**  An alternative tail-recursive definition for reverse *)
 
-  Fixpoint rev_append (l l': list A) : list A :=
-    match l with
-      | [] => l'
-      | a :: l => rev_append l (a::l')
-    end.
-
   Definition rev' l : list A := rev_append l [].
 
   Lemma rev_append_rev : forall l l', rev_append l l' = rev l ++ l'.
@@ -1154,6 +1148,7 @@ Section ListOps.
   Qed.
 
 End ListOps.
+Notation rev_append := rev_append.
 
 (***************************************************)
 (** * Applying functions to the elements of a list *)
@@ -1407,19 +1402,14 @@ Section Fold_Left_Recursor.
   Variables (A : Type) (B : Type).
   Variable f : A -> B -> A.
 
-  Fixpoint fold_left (l:list B) (a0:A) : A :=
-    match l with
-      | [] => a0
-      | b :: l => fold_left l (f a0 b)
-    end.
-
   Lemma fold_left_app : forall (l l':list B)(i:A),
-    fold_left (l++l') i = fold_left l' (fold_left l i).
+    fold_left f (l++l') i = fold_left f l' (fold_left f l i).
   Proof.
     now intro l; induction l; cbn.
   Qed.
 
 End Fold_Left_Recursor.
+Notation fold_left := fold_left.
 
 Lemma fold_left_S_0 :
   forall (A:Type)(l:list A), fold_left (fun x _ => S x) l 0 = length l.
@@ -1432,18 +1422,7 @@ Qed.
 (** Right-to-left iterator on lists *)
 (************************************)
 
-Section Fold_Right_Recursor.
-  Variables (A : Type) (B : Type).
-  Variable f : B -> A -> A.
-  Variable a0 : A.
-
-  Fixpoint fold_right (l:list B) : A :=
-    match l with
-      | [] => a0
-      | b :: l => f b (fold_right l)
-    end.
-
-End Fold_Right_Recursor.
+  Notation fold_right := fold_right.
 
   Lemma fold_right_app : forall (A B:Type)(f:A->B->B) l l' i,
     fold_right f i (l++l') = fold_right f (fold_right f i l') l.
@@ -3883,7 +3862,7 @@ Lemma length_concat A l:
   length (concat l) = list_sum (map (@length A) l).
 Proof.
   induction l; [reflexivity|].
-  simpl. rewrite length_app.
+  simpl; rewrite length_app.
   f_equal. assumption.
 Qed.
 
