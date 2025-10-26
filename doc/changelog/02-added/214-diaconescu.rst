@@ -4,3 +4,4 @@
     extensionality rather than predicate extensionality
     (`#214 <https://github.com/coq/stdlib/pull/214>`_,
     by Jean Abou Samra).
+
