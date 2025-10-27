@@ -53,7 +53,7 @@ with builtins; with (import <nixpkgs> {}).lib;
 
   ## select an entry to build in the following `bundles` set
   ## defaults to "default"
-  default-bundle = "rocq-9.0";
+  default-bundle = "rocq-9.1";
 
   ## write one `bundles.name` attribute set per
   ## alternative configuration
@@ -250,7 +250,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
-      stdlib-html.job = true;
       stdlib-refman-html.job = true;
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       ElmExtraction.job = false;  # not in Rocq CI
@@ -290,6 +289,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       stdlib-warnings.job = true;
       # plugin pins, from v9.1 branch of Rocq
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+      stdlib-test.job = false;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.1";
       # plugin pins, from v9.1 branch of Rocq
@@ -326,6 +326,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       stdlib-warnings.job = true;
       # plugin pins, from v9.0 branch of Coq
       bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
+      stdlib-test.job = false;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.0.0";
       # plugin pins, from v9.0 branch of Coq
