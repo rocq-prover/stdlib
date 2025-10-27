@@ -39,7 +39,8 @@ File "./output/Fixpoint.v", line 91, characters 2-15:
 The command has indeed failed with message:
 Recursive definition of foo and bar is ill-formed.
 As a mutual fixpoint:
-Not enough abstractions in the definition.
+Not enough abstractions in the definition:
+expected at least 1 according to the "struct" annotation.
 The 1st recursive definition is: "?Goal".
 The 2nd recursive definition is: "?Goal0".
 The condition holds up to here.
