@@ -1,5 +1,5 @@
 ##########################################################################
-##         #   The Coq Proof Assistant / The Coq Development Team       ##
+##         #      The Rocq Prover / The Rocq Development Team           ##
 ##  v      #         Copyright INRIA, CNRS and contributors             ##
 ## <O___,, # (see version control and CREDITS file for authors & dates) ##
 ##   \VV/  ###############################################################
@@ -7,10 +7,12 @@
 ##         #     GNU Lesser General Public License Version 2.1          ##
 ##         #     (see LICENSE file for the text of the license)         ##
 ##########################################################################
-"""A Coq domain for Sphinx.
+"""A Rocq domain for Sphinx.
 
-Currently geared towards Coq's manual, rather than Coq source files, but one
+Currently geared towards Rocq's manual, rather than Rocq source files, but one
 could imagine extending it.
+
+Refer to doc/sphinx/README.rst for the documentation of the coqrst domain.
 """
 
 # pylint: disable=missing-type-doc, missing-param-doc
@@ -40,15 +42,15 @@ from sphinx.util.logging import getLogger, get_node_location
 from sphinx.util.nodes import set_source_info, set_role_source_info, make_refnode
 from sphinx.writers.latex import LaTeXTranslator
 
-from . import coqdoc
+from . import rocqdoc
 from .repl import ansicolors
-from .repl.coqtop import CoqTop, CoqTopError
+from .repl.rocqtop import RocqTop, RocqTopError
 from .notations.parsing import ParseError
 from .notations.sphinx import sphinxify
 from .notations.plain import stringify_with_ellipses
 
 # FIXME: Patch this in Sphinx
-# https://github.com/coq/coq/issues/12361
+# https://github.com/rocq-prover/rocq/issues/12361
 if sphinx_version >= (4, 5):
     from sphinx.writers.latex import CR
 
@@ -99,15 +101,15 @@ def notation_to_string(notation):
         # FIXME source and line aren't defined below — see cc93f419e0
         raise ExtensionError(PARSE_ERROR.format(os.path.basename(source), line, notation, e.msg)) from e
 
-def highlight_using_coqdoc(sentence):
-    """Lex sentence using coqdoc, and yield inline nodes for each token"""
-    tokens = coqdoc.lex(utils.unescape(sentence, 1))
+def highlight_using_rocqdoc(sentence):
+    """Lex sentence using rocqdoc, and yield inline nodes for each token"""
+    tokens = rocqdoc.lex(utils.unescape(sentence, 1))
     for classes, value in tokens:
         yield nodes.inline(value, value, classes=classes)
 
 def make_target(objtype, targetid):
     """Create a target to an object of type objtype and id targetid"""
-    return "coq:{}.{}".format(objtype, targetid)
+    return "rocq:{}.{}".format(objtype, targetid)
 
 def make_math_node(latex, docname, nowrap):
     node = nodes.math_block(latex, latex)
@@ -118,18 +120,18 @@ def make_math_node(latex, docname, nowrap):
     return node
 
 # To support any character in tacn, ... names.
-# see https://github.com/coq/coq/pull/13564
+# see https://github.com/rocq-prover/rocq/pull/13564
 def make_id(tag):
     return tag.replace(" ", "-")
 
-class CoqObject(ObjectDescription):
-    """A generic Coq object for Sphinx; all Coq objects are subclasses of this.
+class RocqObject(ObjectDescription):
+    """A generic Rocq object for Sphinx; all Rocq objects are subclasses of this.
 
     The fields and methods to override are listed at the top of this class'
     implementation.  Each object supports the :name: option, which gives an
     explicit name to link to.
 
-    See the comments and docstrings in CoqObject for more information.
+    See the comments and docstrings in RocqObject for more information.
     """
 
     # The semantic domain in which this object lives (eg. “tac”, “cmd”, “chm”…).
@@ -171,7 +173,7 @@ class CoqObject(ObjectDescription):
     option_spec = {
         # Explicit object naming
         'name': directives.unchanged,
-        # Silence warnings produced by report_undocumented_coq_objects
+        # Silence warnings produced by report_undocumented_rocq_objects
         'undocumented': directives.flag,
         # noindex omits this object from its index
         'noindex': directives.flag
@@ -180,7 +182,7 @@ class CoqObject(ObjectDescription):
     def subdomain_data(self):
         if self.subdomain is None:
             raise ValueError()
-        return self.env.domaindata['coq']['objects'][self.subdomain]
+        return self.env.domaindata['rocq']['objects'][self.subdomain]
 
     def _render_annotation(self, signode):
         if self.annotation:
@@ -287,12 +289,12 @@ class CoqObject(ObjectDescription):
         self._prepare_names()
         return super().run()
 
-class DocumentableObject(CoqObject):
+class DocumentableObject(RocqObject):
 
     def _warn_if_undocumented(self):
         document = self.state.document
         config = document.settings.env.config
-        report = config.report_undocumented_coq_objects
+        report = config.report_undocumented_rocq_objects
         if report and not self.content and "undocumented" not in self.options:
             # This is annoyingly convoluted, but we don't want to raise warnings
             # or interrupt the generation of the current node.  For more details
@@ -324,27 +326,16 @@ class NotationObject(DocumentableObject):
         signode += addnodes.desc_name(signature, '', tacn_node)
 
 class GallinaObject(PlainObject):
-    r"""A theorem.
-
-    Example::
-
-       .. thm:: Bound on the ceiling function
-
-          Let :math:`p` be an integer and :math:`c` a rational constant. Then
-          :math:`p \ge c \rightarrow p \ge \lceil{c}\rceil`.
+    """ A Theorem object.
+    See the documentation of the ".. thm::" object in doc/sphinx/README.rst.
     """
     subdomain = "thm"
     index_suffix = "(theorem)"
     annotation = "Theorem"
 
 class VernacObject(NotationObject):
-    """A Coq command.
-
-    Example::
-
-       .. cmd:: Infix @string := @one_term {? ( {+, @syntax_modifier } ) } {? : @ident }
-
-          This command is equivalent to :n:`…`.
+    """A Rocq command object.
+    See the documentation of the ".. cmd::" object in doc/sphinx/README.rst.
     """
     subdomain = "cmd"
     index_suffix = "(command)"
@@ -355,19 +346,8 @@ class VernacObject(NotationObject):
         return m.group(0).strip() if m else None
 
 class VernacVariantObject(VernacObject):
-    """A variant of a Coq command.
-
-    Example::
-
-       .. cmd:: Axiom @ident : @term.
-
-          This command links :token:`term` to the name :token:`term` as its specification in
-          the global environment. The fact asserted by :token:`term` is thus assumed as a
-          postulate.
-
-          .. cmdv:: Parameter @ident : @term.
-
-             This is equivalent to :n:`Axiom @ident : @term`.
+    """An object for a variant of a Rocq command.
+    See the documentation of the ".. cmdv::" object in doc/sphinx/README.rst.
     """
     index_suffix = "(command variant)"
     annotation = "Variant"
@@ -376,24 +356,16 @@ class VernacVariantObject(VernacObject):
         return None
 
 class TacticObject(NotationObject):
-    """A tactic, or a tactic notation.
-
-    Example::
-
-       .. tacn:: do @natural @expr
-
-          :token:`expr` is evaluated to ``v`` which must be a tactic value. …
+    """An object for a tactic, or a tactic notation.
+    See the documentation of the ".. tacn::" object in doc/sphinx/README.rst.
     """
     subdomain = "tacn"
     index_suffix = "(tactic)"
     annotation = "Tactic"
 
 class AttributeObject(NotationObject):
-    """An attribute.
-
-    Example::
-
-       .. attr:: local
+    """An attribute object.
+    See the documentation of the ".. attr::" object in doc/sphinx/README.rst.
     """
     subdomain = "attr"
     index_suffix = "(attribute)"
@@ -403,21 +375,8 @@ class AttributeObject(NotationObject):
         return notation_to_string(signature)
 
 class TacticVariantObject(TacticObject):
-    """A variant of a tactic.
-
-    Example::
-
-       .. tacn:: fail
-
-          This is the always-failing tactic: it does not solve any goal. It is
-          useful for defining other tacticals since it can be caught by
-          :tacn:`try`, :tacn:`repeat`, :tacn:`match goal`, or the branching
-          tacticals. …
-
-          .. tacv:: fail @natural
-
-             The number is the failure level. If no level is specified, it
-             defaults to 0. …
+    """An object for a variant of a tactic.
+    See the documentation of the ".. tacv::" object in doc/sphinx/README.rst.
     """
     index_suffix = "(tactic variant)"
     annotation = "Variant"
@@ -426,71 +385,33 @@ class TacticVariantObject(TacticObject):
         return None
 
 class OptionObject(NotationObject):
-    """A Coq option (a setting with non-boolean value, e.g. a string or numeric value).
-
-    Example::
-
-       .. opt:: Hyps Limit @natural
-          :name Hyps Limit
-
-          Controls the maximum number of hypotheses displayed in goals after
-          application of a tactic.
+    """An object for a Rocq option (a setting with non-boolean value, e.g. a
+    string or numeric value).
+    See the documentation of the ".. opt::" object in doc/sphinx/README.rst.
     """
     subdomain = "opt"
     index_suffix = "(option)"
     annotation = "Option"
 
 class FlagObject(NotationObject):
-    """A Coq flag (i.e. a boolean setting).
-
-    Example::
-
-       .. flag:: Nonrecursive Elimination Schemes
-
-          Controls whether types declared with the keywords
-          :cmd:`Variant` and :cmd:`Record` get an automatic declaration of
-          induction principles.
+    """An object for a Rocq flag (i.e. a boolean setting).
+    See the documentation of the ".. flag::" object in doc/sphinx/README.rst.
     """
     subdomain = "flag"
     index_suffix = "(flag)"
     annotation = "Flag"
 
 class TableObject(NotationObject):
-    """A Coq table, i.e. a setting that is a set of values.
-
-    Example::
-
-       .. table:: Search Blacklist @string
-          :name: Search Blacklist
-
-          Controls ...
+    """An object for a Rocq table, i.e. a setting that is a set of values.
+    See the documentation of the ".. table::" object in doc/sphinx/README.rst.
     """
     subdomain = "table"
     index_suffix = "(table)"
     annotation = "Table"
 
-class ProductionObject(CoqObject):
-    r"""A grammar production.
-
-    Use ``.. prodn`` to document grammar productions instead of Sphinx
-    `production lists
-    <http://www.sphinx-doc.org/en/stable/markup/para.html#directive-productionlist>`_.
-
-    prodn displays multiple productions together with alignment similar to ``.. productionlist``,
-    however unlike ``.. productionlist``\ s, this directive accepts notation syntax.
-
-    Example::
-
-        .. prodn:: occ_switch ::= { {? {| + | - } } {* @natural } }
-        term += let: @pattern := @term in @term
-        | second_production
-
-       The first line defines "occ_switch", which must be unique in the document.  The second
-       references and expands the definition of "term", whose main definition is elsewhere
-       in the document.  The third form is for continuing the
-       definition of a nonterminal when it has multiple productions.  It leaves the first
-       column in the output blank.
-
+class ProductionObject(RocqObject):
+    """A grammar production.
+    See the documentation of the ".. prodn::" object in doc/sphinx/README.rst.
     """
     subdomain = "prodn"
     #annotation = "Grammar production"
@@ -590,21 +511,8 @@ class ProductionObject(CoqObject):
         return [indexnode, table] # only this node goes into the doc
 
 class ExceptionObject(NotationObject):
-    """An error raised by a Coq command or tactic.
-
-    This commonly appears nested in the ``.. tacn::`` that raises the
-    exception.
-
-    Example::
-
-       .. tacv:: assert @form by @tactic
-
-          This tactic applies :n:`@tactic` to solve the subgoals generated by
-          ``assert``.
-
-          .. exn:: Proof is not complete
-
-             Raised if :n:`@tactic` does not fully solve the goal.
+    """An object for an error raised by a Rocq command or tactic.
+    See the documentation of the ".. exn::" object in doc/sphinx/README.rst.
     """
     subdomain = "exn"
     index_suffix = "(error)"
@@ -616,18 +524,8 @@ class ExceptionObject(NotationObject):
         return notation_to_string(signature)
 
 class WarningObject(NotationObject):
-    """An warning raised by a Coq command or tactic..
-
-    Do not mistake this for ``.. warning::``; this directive is for warning
-    messages produced by Coq.
-
-
-    Example::
-
-       .. warn:: Ambiguous path
-
-          When the coercion :token:`qualid` is added to the inheritance graph, non
-          valid coercion paths are ignored.
+    """An object for a warning raised by a Rocq command or tactic..
+    See the documentation of the ".. warn::" object in doc/sphinx/README.rst.
     """
     subdomain = "warn"
     index_suffix = "(warning)"
@@ -639,86 +537,35 @@ class WarningObject(NotationObject):
 
 def NotationRole(role, rawtext, text, lineno, inliner, options={}, content=[]):
     #pylint: disable=unused-argument, dangerous-default-value
-    """Any text using the notation syntax (``@id``, ``{+, …}``, etc.).
-
-    Use this to explain tactic equivalences.  For example, you might write
-    this::
-
-       :n:`generalize @term as @ident` is just like :n:`generalize @term`, but
-       it names the introduced hypothesis :token:`ident`.
-
-    Note that this example also uses ``:token:``.  That's because ``ident`` is
-    defined in the Coq manual as a grammar production, and ``:token:``
-    creates a link to that.  When referring to a placeholder that happens to be
-    a grammar production, ``:token:`…``` is typically preferable to ``:n:`@…```.
+    """A role for any text using the notation syntax (``@id``, ``{+, …}``, etc.).
+    See the documentation of the ":n:" role in doc/sphinx/README.rst.
     """
     notation = utils.unescape(text, 1)
     position = inliner.reporter.get_source_and_line(lineno)
     return [nodes.literal(rawtext, '', notation_to_sphinx(notation, *position, rawtext=rawtext))], []
 
-def coq_code_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
+def rocq_code_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     #pylint: disable=dangerous-default-value
-    """Coq code.
-
-    Use this for Gallina and Ltac snippets::
-
-       :g:`apply plus_comm; reflexivity`
-       :g:`Set Printing All.`
-       :g:`forall (x: t), P(x)`
+    """A Rocq code role for Gallina and Ltac snippets.
+    See the documentation of the ":g:" role in doc/sphinx/README.rst.
     """
     options['language'] = 'Coq'
     return code_role(role, rawtext, text, lineno, inliner, options, content)
     ## Too heavy:
     ## Forked from code_role to use our custom tokenizer; this doesn't work for
-    ## snippets though: for example CoqDoc swallows the parentheses around this:
+    ## snippets though: for example RocqDoc swallows the parentheses around this:
     ## “(a: A) (b: B)”
     # set_classes(options)
-    # classes = ['code', 'coq']
+    # classes = ['code', 'rocq']
     # code = utils.unescape(text, 1)
-    # node = nodes.literal(rawtext, '', *highlight_using_coqdoc(code), classes=classes)
+    # node = nodes.literal(rawtext, '', *highlight_using_rocqdoc(code), classes=classes)
     # return [node], []
 
-CoqCodeRole = coq_code_role
+RocqCodeRole = rocq_code_role
 
-class CoqtopDirective(Directive):
-    r"""A reST directive to describe interactions with Coqtop.
-
-    Usage::
-
-       .. rocqtop:: options…
-
-          Coq code to send to coqtop
-
-    Example::
-
-       .. rocqtop:: in reset
-
-          Print nat.
-          Definition a := 1.
-
-    The blank line after the directive is required.  If you begin a proof,
-    use the ``abort`` option to reset coqtop for the next example.
-
-    Here is a list of permissible options:
-
-    - Display options (choose exactly one)
-
-      - ``all``: Display input and output
-      - ``in``: Display only input
-      - ``out``: Display only output
-      - ``none``: Display neither (useful for setup commands)
-
-    - Behavior options
-
-      - ``reset``: Send a ``Reset Initial`` command before running this block
-      - ``fail``: Don't die if a command fails, implies ``warn`` (so no need to put both)
-      - ``warn``: Don't die if a command emits a warning
-      - ``restart``: Send a ``Restart`` command before running this block (only works in proof mode)
-      - ``abort``: Send an ``Abort All`` command after running this block (leaves all pending proofs if any)
-
-    ``coqtop``\ 's state is preserved across consecutive ``.. rocqtop::`` blocks
-    of the same document (``coqrst`` creates a single ``coqtop`` process per
-    reST source file).  Use the ``reset`` option to reset Coq's state.
+class RocqtopDirective(Directive):
+    """A reST directive to describe interactions with Rocq Top.
+    See the documentation of the ".. rocqtop::" directive in doc/sphinx/README.rst.
     """
     has_content = True
     required_arguments = 1
@@ -732,25 +579,14 @@ class CoqtopDirective(Directive):
         # Pygments-based post-processing (we could also set rawsource to '')
         content = '\n'.join(self.content)
         args = self.arguments[0].split()
-        node = nodes.container(content, coqtop_options = set(args),
-                               classes=['coqtop', 'literal-block'])
+        node = nodes.container(content, rocqtop_options = set(args),
+                               classes=['rocqtop', 'literal-block'])
         self.add_name(node)
         return [node]
 
-class CoqdocDirective(Directive):
-    """A reST directive to display Coqtop-formatted source code.
-
-    Usage::
-
-       .. rocqdoc::
-
-          Coq code to highlight
-
-    Example::
-
-       .. rocqdoc::
-
-          Definition test := 1.
+class RocqdocDirective(Directive):
+    """A reST directive to display Rocq Doc-formatted source code.
+    See the documentation of the ".. rocqdoc::" directive in doc/sphinx/README.rst.
     """
     # TODO implement this as a Pygments highlighter?
     has_content = True
@@ -764,30 +600,14 @@ class CoqdocDirective(Directive):
         # Uses a ‘container’ instead of a ‘literal_block’ to disable
         # Pygments-based post-processing (we could also set rawsource to '')
         content = '\n'.join(self.content)
-        node = nodes.inline(content, '', *highlight_using_coqdoc(content))
-        wrapper = nodes.container(content, node, classes=['coqdoc', 'literal-block'])
+        node = nodes.inline(content, '', *highlight_using_rocqdoc(content))
+        wrapper = nodes.container(content, node, classes=['rocqdoc', 'literal-block'])
         self.add_name(wrapper)
         return [wrapper]
 
 class ExampleDirective(BaseAdmonition):
     """A reST directive for examples.
-
-    This behaves like a generic admonition; see
-    http://docutils.sourceforge.net/docs/ref/rst/directives.html#generic-admonition
-    for more details.
-
-    Optionally, any text immediately following the ``.. example::`` header is
-    used as the example's title.
-
-    Example::
-
-       .. example:: Adding a hint to a database
-
-          The following adds ``plus_comm`` to the ``plu`` database:
-
-          .. rocqdoc::
-
-             Hint Resolve plus_comm : plu.
+    See the documentation of the ".. example::" directive in doc/sphinx/README.rst.
     """
     node_class = nodes.admonition
     directive_name = "example"
@@ -803,15 +623,8 @@ class ExampleDirective(BaseAdmonition):
         return super().run()
 
 class PreambleDirective(Directive):
-    r"""A reST directive to include a TeX file.
-
-    Mostly useful to let MathJax know about `\def`\s and `\newcommand`\s.  The
-    contents of the TeX file are wrapped in a math environment, as MathJax
-    doesn't process LaTeX definitions otherwise.
-
-    Usage::
-
-       .. preamble:: preamble.tex
+    """A reST directive to include a TeX file.
+    See the documentation of the ".. preamble::" directive in doc/sphinx/README.rst
     """
     has_content = False
     required_arguments = 1
@@ -840,28 +653,8 @@ class PreambleDirective(Directive):
         return [node]
 
 class InferenceDirective(Directive):
-    r"""A reST directive to format inference rules.
-
-    This also serves as a small illustration of the way to create new Sphinx
-    directives.
-
-    Usage::
-
-       .. inference:: name
-
-          newline-separated premises
-          --------------------------
-          conclusion
-
-    Example::
-
-       .. inference:: Prod-Pro
-
-          \WTEG{T}{s}
-          s \in \Sort
-          \WTE{\Gamma::(x:T)}{U}{\Prop}
-          -----------------------------
-          \WTEG{\forall~x:T,U}{\Prop}
+    """A reST directive to format inference rules.
+    See the documentation of the ".. inference::" directive in doc/sphinx/README.rst
     """
     required_arguments = 1
     optional_arguments = 0
@@ -902,9 +695,9 @@ class InferenceDirective(Directive):
         return [dl]
 
 class AnsiColorsParser():
-    """Parse ANSI-colored output from Coqtop into Sphinx nodes."""
+    """Parse ANSI-colored output from Rocqtop into Sphinx nodes."""
 
-    # Coqtop's output crashes ansi.py, because it contains a bunch of extended codes
+    # Rocqtop's output crashes ansi.py, because it contains a bunch of extended codes
     # This class is a fork of the original ansi.py, released under a BSD license in sphinx-contribs
 
     COLOR_PATTERN = re.compile('\x1b\\[([^m]+)m')
@@ -925,7 +718,7 @@ class AnsiColorsParser():
                 self.new_nodes.append(nodes.inline('', text))
 
     def colorize_str(self, raw):
-        """Parse raw (an ANSI-colored output string from Coqtop) into Sphinx nodes."""
+        """Parse raw (an ANSI-colored output string from Rocqtop) into Sphinx nodes."""
         last_end = 0
         for match in AnsiColorsParser.COLOR_PATTERN.finditer(raw):
             self._add_text(raw, last_end, match.start())
@@ -941,63 +734,78 @@ class AnsiColorsParser():
         self._finalize_pending_nodes()
         return self.new_nodes
 
-class CoqtopBlocksTransform(Transform):
-    """Filter handling the actual work for the coqtop directive
+class RocqtopBlocksTransform(Transform):
+    """Filter handling the actual work for the rocqtop directive
 
-    Adds coqtop's responses, colorizes input and output, and merges consecutive
-    coqtop directives for better visual rendition.
+    Adds rocqtop's responses, colorizes input and output, and merges consecutive
+    rocqtop directives for better visual rendition.
     """
     default_priority = 10
 
     @staticmethod
-    def is_coqtop_block(node):
-        return isinstance(node, nodes.Element) and 'coqtop_options' in node
+    def is_rocqtop_block(node):
+        return isinstance(node, nodes.Element) and 'rocqtop_options' in node
 
     @staticmethod
-    def is_coqtop_args_field(node):
-        return isinstance(node, nodes.field) and node.children[0].rawsource == 'COQTOP_ARGS'
+    def is_rocqtop_args_field(node):
+        return isinstance(node, nodes.field) and node.children[0].rawsource == 'ROCQTOP_ARGS'
 
     @staticmethod
     def split_lines(source):
-        r"""Split Coq input into chunks, which may include single- or
+        r"""Split Rocq input into chunks, which may include single- or
         multi-line comments.  Nested comments are not supported.
 
         A chunk is a minimal sequence of consecutive lines of the input that
-        ends with a '.' or '*)'
+        ends with a '.' or a focusing brace, possibly followed by blanks and/or comments.
 
         >>> split_lines('A.\nB.''')
-        ['A.', 'B.']
+        ['A.\n', 'B.']
 
         >>> split_lines('A.\n\nB.''')
-        ['A.', '\nB.']
+        ['A.\n', '\nB.']
 
         >>> split_lines('A.\n\nB.\n''')
-        ['A.', '\nB.']
+        ['A.\n', '\nB.']
 
         >>> split_lines("SearchPattern (_ + _ = _ + _).\n"
         ...             "SearchPattern (nat -> bool).\n"
         ...             "SearchPattern (forall l : list _, _ l l).")
         ... # doctest: +NORMALIZE_WHITESPACE
-        ['SearchPattern (_ + _ = _ + _).',
-         'SearchPattern (nat -> bool).',
+        ['SearchPattern (_ + _ = _ + _).\n',
+         'SearchPattern (nat -> bool).\n',
          'SearchPattern (forall l : list _, _ l l).']
 
         >>> split_lines('SearchHead le.\nSearchHead (@eq bool).')
-        ['SearchHead le.', 'SearchHead (@eq bool).']
+        ['SearchHead le.\n', 'SearchHead (@eq bool).']
 
         >>> split_lines("(* *) x. (* *)\ny.\n")
-        ['(* *) x. (* *)', 'y.']
+        ['(* *) x. (* *)\n', 'y.']
 
         >>> split_lines("(* *) x (* \n *)\ny.\n")
-        ['(* *) x (* \n *)', 'y.']
+        ['(* *) x (* \n *)\ny.']
+
+        >>> split_lines("Check (* check *) list (* comment *)\n"
+        ...             "nat. (* another *) (*and another *)"))
+        ['Check (* check *) list (* comment *)\nnat. (* another *) (*and another *)']
         """
-        return re.split(r"(?:(?<=(?<!\.)\.)|(?<=\*\)))\n", source.strip())
+        comment = r"\(\*.*\*\)"
+        # the end of a chunk is marked by
+        # a period (\.) or a focusing brace (:\s*\{)
+        # optional blanks or comments (?:[ \t]*|{comment})*
+        # followed by a newline \n
+        # We capture everything starting from the '.' to recover it afterwards
+        blank = r"[ \t]"
+        dot = r"\."
+        focusing_brace = r":\s*\{"
+        end_of_chunk = fr"((?:{dot}|{focusing_brace})(?:{blank}*|{comment})*\n)"
+        splits = re.split(end_of_chunk, source.strip())
+        return [''.join(splits[i:i+2]) for i in range(0, len(splits), 2)]
 
     @staticmethod
     def parse_options(node):
-        """Parse options according to the description in CoqtopDirective."""
+        """Parse options according to the description in RocqtopDirective."""
 
-        options = node['coqtop_options']
+        options = node['rocqtop_options']
 
         # Behavior options
         opt_reset = 'reset' in options
@@ -1005,7 +813,9 @@ class CoqtopBlocksTransform(Transform):
         opt_warn = 'warn' in options
         opt_restart = 'restart' in options
         opt_abort = 'abort' in options
+        opt_extra = set([opt for opt in options if opt.startswith('extra-')])
         options = options - {'reset', 'fail', 'warn', 'restart', 'abort'}
+        options = set([opt for opt in options if not (opt.startswith('extra-'))])
 
         unexpected_options = list(options - {'all', 'none', 'in', 'out'})
         if unexpected_options:
@@ -1021,6 +831,10 @@ class CoqtopBlocksTransform(Transform):
         opt_input = 'in' in options
         opt_output = 'out' in options
 
+        # if 'extra' is given and not a subset of env variable 'ROCQRST_EXTRA',
+        # allow errors
+        env_extra = os.environ.get('ROCQRST_EXTRA', '')
+        opt_fail = opt_fail or (env_extra != 'all' and len(opt_extra - set(env_extra.split(','))) != 0)
         return {
             'reset': opt_reset,
             'fail': opt_fail,
@@ -1039,7 +853,7 @@ class CoqtopBlocksTransform(Transform):
 
         :param should_show: Whether this node should be displayed"""
         is_empty = contents is not None and re.match(r"^\s*$", contents)
-        return ['coqtop-hidden'] if is_empty or not should_show else []
+        return ['rocqtop-hidden'] if is_empty or not should_show else []
 
     @staticmethod
     def make_rawsource(pairs, opt_input, opt_output):
@@ -1052,7 +866,7 @@ class CoqtopBlocksTransform(Transform):
                 blocks.append(re.sub("^", "    ", output, flags=re.MULTILINE) + "\n")
         return '\n'.join(blocks)
 
-    def add_coq_output_1(self, repl, node):
+    def add_rocq_output_1(self, repl, node):
         options = self.parse_options(node)
 
         pairs = []
@@ -1063,7 +877,7 @@ class CoqtopBlocksTransform(Transform):
             repl.sendone('Reset Initial.')
             repl.send_initial_options()
         if options['fail']:
-            repl.sendone('Unset Coqtop Exit On Error.')
+            repl.sendone('Unset Rocqtop Exit On Error.')
         if options['warn']:
             repl.sendone('Set Warnings "default".')
         for sentence in self.split_lines(node.rawsource):
@@ -1075,14 +889,14 @@ class CoqtopBlocksTransform(Transform):
         if options['abort']:
             repl.sendone('Abort All.')
         if options['fail']:
-            repl.sendone('Set Coqtop Exit On Error.')
+            repl.sendone('Set Rocqtop Exit On Error.')
         if options['warn']:
             repl.sendone('Set Warnings "+default".')
 
         dli = nodes.definition_list_item()
         for sentence, output in pairs:
-            # Use Coqdoc to highlight input
-            in_chunks = highlight_using_coqdoc(sentence)
+            # Use Rocqdoc to highlight input
+            in_chunks = highlight_using_rocqdoc(sentence)
             dli += nodes.term(sentence, '', *in_chunks, classes=self.block_classes(options['input']))
             if output:
                 # Parse ANSI sequences to highlight output
@@ -1091,24 +905,24 @@ class CoqtopBlocksTransform(Transform):
         node.clear()
         node.rawsource = self.make_rawsource(pairs, options['input'], options['output'])
         node['classes'].extend(self.block_classes(options['input'] or options['output']))
-        node += nodes.inline('', '', classes=['coqtop-reset'] * options['reset'])
+        node += nodes.inline('', '', classes=['rocqtop-reset'] * options['reset'])
         node += nodes.definition_list(node.rawsource, dli)
 
-    def add_coqtop_output(self):
-        """Add coqtop's responses to a Sphinx AST
+    def add_rocqtop_output(self):
+        """Add rocqtop's responses to a Sphinx AST
 
-        Finds nodes to process using is_coqtop_block."""
-        arg_fields = self.document.traverse(CoqtopBlocksTransform.is_coqtop_args_field)
+        Finds nodes to process using is_rocqtop_block."""
+        arg_fields = self.document.traverse(RocqtopBlocksTransform.is_rocqtop_args_field)
         additional_args = [arg for field in arg_fields for arg in shlex.split(field.children[1].rawsource)]
-        with CoqTop(color=True, args=additional_args) as repl:
+        with RocqTop(color=True, args=additional_args) as repl:
             repl.send_initial_options()
-            for node in self.document.traverse(CoqtopBlocksTransform.is_coqtop_block):
+            for node in self.document.traverse(RocqtopBlocksTransform.is_rocqtop_block):
                 try:
-                    self.add_coq_output_1(repl, node)
-                except CoqTopError as err:
+                    self.add_rocq_output_1(repl, node)
+                except RocqTopError as err:
                     import textwrap
-                    MSG = ("{}: Error while sending the following to coqtop:\n{}" +
-                           "\n  coqtop output:\n{}" +
+                    MSG = ("{}: Error while sending the following to rocqtop:\n{}" +
+                           "\n  rocqtop output:\n{}" +
                            "\n  Full error text:\n{}")
                     indent = "    "
                     loc = get_node_location(node)
@@ -1118,22 +932,22 @@ class CoqtopBlocksTransform(Transform):
                     raise ExtensionError(MSG.format(loc, le, bef, fe))
 
     @staticmethod
-    def merge_coqtop_classes(kept_node, discarded_node):
+    def merge_rocqtop_classes(kept_node, discarded_node):
         discarded_classes = discarded_node['classes']
-        if not 'coqtop-hidden' in discarded_classes:
+        if not 'rocqtop-hidden' in discarded_classes:
             kept_node['classes'] = [c for c in kept_node['classes']
-                                    if c != 'coqtop-hidden']
+                                    if c != 'rocqtop-hidden']
 
     @staticmethod
-    def merge_consecutive_coqtop_blocks(_app, doctree, _):
-        """Merge consecutive divs wrapping lists of Coq sentences; keep ‘dl’s separate."""
-        for node in doctree.traverse(CoqtopBlocksTransform.is_coqtop_block):
+    def merge_consecutive_rocqtop_blocks(_app, doctree, _):
+        """Merge consecutive divs wrapping lists of Rocq sentences; keep ‘dl’s separate."""
+        for node in doctree.traverse(RocqtopBlocksTransform.is_rocqtop_block):
             if node.parent:
                 rawsources, names = [node.rawsource], set(node['names'])
                 for sibling in node.traverse(include_self=False, descend=False,
                                              siblings=True, ascend=False):
-                    if CoqtopBlocksTransform.is_coqtop_block(sibling):
-                        CoqtopBlocksTransform.merge_coqtop_classes(node, sibling)
+                    if RocqtopBlocksTransform.is_rocqtop_block(sibling):
+                        RocqtopBlocksTransform.merge_rocqtop_classes(node, sibling)
                         rawsources.append(sibling.rawsource)
                         names.update(sibling['names'])
                         node.extend(sibling.children)
@@ -1145,13 +959,13 @@ class CoqtopBlocksTransform(Transform):
                 node['names'] = list(names)
 
     def apply(self):
-        self.add_coqtop_output()
+        self.add_rocqtop_output()
 
-class CoqSubdomainsIndex(Index):
+class RocqSubdomainsIndex(Index):
     """Index subclass to provide subdomain-specific indices.
 
     Just as in the original manual, we want to have separate indices for each
-    Coq subdomain (tactics, commands, options, etc)"""
+    Rocq subdomain (tactics, commands, options, etc)"""
 
     name, localname, shortname, subdomains = None, None, None, [] # Must be overwritten
 
@@ -1171,22 +985,22 @@ class CoqSubdomainsIndex(Index):
         content = sorted(content.items())
         return content, collapse
 
-class CoqVernacIndex(CoqSubdomainsIndex):
+class RocqVernacIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "cmdindex", "Command Index", "commands", ["cmd"]
 
-class CoqTacticIndex(CoqSubdomainsIndex):
+class RocqTacticIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "tacindex", "Tactic Index", "tactics", ["tacn"]
 
-class CoqAttributeIndex(CoqSubdomainsIndex):
+class RocqAttributeIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "attrindex", "Attribute Index", "attributes", ["attr"]
 
-class CoqOptionIndex(CoqSubdomainsIndex):
+class RocqOptionIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "optindex", "Flags, options and Tables Index", "options", ["flag", "opt", "table"]
 
-class CoqGallinaIndex(CoqSubdomainsIndex):
+class RocqGallinaIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "thmindex", "Gallina Index", "theorems", ["thm"]
 
-class CoqExceptionIndex(CoqSubdomainsIndex):
+class RocqExceptionIndex(RocqSubdomainsIndex):
     name, localname, shortname, subdomains = "exnindex", "Errors and Warnings Index", "errors", ["exn", "warn"]
 
 class IndexXRefRole(XRefRole):
@@ -1197,7 +1011,7 @@ class IndexXRefRole(XRefRole):
 
     def process_link(self, env, refnode, has_explicit_title, title, target):
         if not has_explicit_title:
-            index = CoqDomain.find_index_by_name(target)
+            index = RocqDomain.find_index_by_name(target)
             if index:
                 title = index.localname
         return title, target
@@ -1219,15 +1033,7 @@ class StdGlossaryIndex(Index):
 
 def GrammarProductionRole(typ, rawtext, text, lineno, inliner, options={}, content=[]):
     """A grammar production not included in a ``prodn`` directive.
-
-    Useful to informally introduce a production, as part of running text.
-
-    Example::
-
-       :production:`string` indicates a quoted string.
-
-    You're not likely to use this role very commonly; instead, use a ``prodn``
-    directive and reference its tokens using ``:token:`…```.
+    See the documentation of the ":production:" role in doc/sphinx/README.rst
     """
     #pylint: disable=dangerous-default-value, unused-argument
     env = inliner.document.settings.env
@@ -1244,15 +1050,8 @@ GrammarProductionRole.role_name = "production"
 
 
 def GlossaryDefRole(typ, rawtext, text, lineno, inliner, options={}, content=[]):
-    """Marks the definition of a glossary term inline in the text.  Matching :term:`XXX`
-    constructs will link to it.  Use the form :gdef:`text <term>` to display "text"
-    for the definition of "term", such as when "term" must be capitalized or plural
-    for grammatical reasons.  The term will also appear in the Glossary Index.
-
-    Examples::
-
-       A :gdef:`prime` number is divisible only by itself and 1.
-       :gdef:`Composite <composite>` numbers are the non-prime numbers.
+    """A role to mark the definition of a glossary term inline in the text.
+    See the documentation of the ":gdef:" role in doc/sphinx/README.rst
     """
     #pylint: disable=dangerous-default-value, unused-argument
     env = inliner.document.settings.env
@@ -1280,23 +1079,23 @@ def GlossaryDefRole(typ, rawtext, text, lineno, inliner, options={}, content=[])
 
 GlossaryDefRole.role_name = "gdef"
 
-class CoqDomain(Domain):
-    """A domain to document Coq code.
+class RocqDomain(Domain):
+    """A domain to document Rocq code.
 
     Sphinx has a notion of “domains”, used to tailor it to a specific language.
     Domains mostly consist in descriptions of the objects that we wish to
-    describe (for Coq, this includes tactics, tactic notations, options,
+    describe (for Rocq, this includes tactics, tactic notations, options,
     exceptions, etc.), as well as domain-specific roles and directives.
 
     Each domain is responsible for tracking its objects, and resolving
-    references to them. In the case of Coq, this leads us to define Coq
+    references to them. In the case of Rocq, this leads us to define Rocq
     “subdomains”, which classify objects into categories in which names must be
     unique. For example, a tactic and a theorem may share a name, but two
     tactics cannot be named the same.
     """
 
-    name = 'coq'
-    label = 'Coq'
+    name = 'rocq'
+    label = 'Rocq'
 
     object_types = {
         # ObjType (= directive type) → (Local name, *xref-roles)
@@ -1349,10 +1148,10 @@ class CoqDomain(Domain):
         'index': IndexXRefRole(),
         # These are used for highlighting
         'n': NotationRole,
-        'g': CoqCodeRole
+        'g': RocqCodeRole
     }
 
-    indices = [CoqVernacIndex, CoqTacticIndex, CoqOptionIndex, CoqGallinaIndex, CoqExceptionIndex, CoqAttributeIndex]
+    indices = [RocqVernacIndex, RocqTacticIndex, RocqOptionIndex, RocqGallinaIndex, RocqExceptionIndex, RocqAttributeIndex]
 
     data_version = 1
     initial_data = {
@@ -1374,7 +1173,7 @@ class CoqDomain(Domain):
 
     @staticmethod
     def find_index_by_name(targetid):
-        for index in CoqDomain.indices:
+        for index in RocqDomain.indices:
             if index.name == targetid:
                 return index
         return None
@@ -1385,7 +1184,7 @@ class CoqDomain(Domain):
             for name, (docname, objtype, targetid) in objects.items():
                 yield (name, name, objtype, docname, targetid, self.object_types[objtype].attrs['searchprio'])
         for index in self.indices:
-            yield (index.name, index.localname, 'index', "coq-" + index.name, '', -1)
+            yield (index.name, index.localname, 'index', "rocq-" + index.name, '', -1)
 
     def merge_domaindata(self, docnames, otherdata):
         DUP = "Duplicate declaration: '{}' also defined in '{}'.\n"
@@ -1401,9 +1200,9 @@ class CoqDomain(Domain):
         # ‘target’ is the name that was written in the document
         # ‘role’ is where this xref comes from; it's exactly one of our subdomains
         if role == 'index':
-            index = CoqDomain.find_index_by_name(targetname)
+            index = RocqDomain.find_index_by_name(targetname)
             if index:
-                return make_refnode(builder, fromdocname, "coq-" + index.name, '', contnode, index.localname)
+                return make_refnode(builder, fromdocname, "rocq-" + index.name, '', contnode, index.localname)
         else:
             resolved = self.data['objects'][role].get(targetname)
             if resolved:
@@ -1417,60 +1216,60 @@ class CoqDomain(Domain):
                 if docname == docname_to_clear:
                     del subdomain_objects[name]
 
-def is_coqtop_or_coqdoc_block(node):
+def is_rocqtop_or_rocqdoc_block(node):
     return (isinstance(node, nodes.Element) and
-       ('coqtop' in node['classes'] or 'coqdoc' in node['classes']))
+       ('rocqtop' in node['classes'] or 'rocqdoc' in node['classes']))
 
 def simplify_source_code_blocks_for_latex(app, doctree, fromdocname): # pylint: disable=unused-argument
-    """Simplify coqdoc and coqtop blocks.
+    """Simplify rocqdoc and rocqtop blocks.
 
     In HTML mode, this does nothing; in other formats, such as LaTeX, it
-    replaces coqdoc and coqtop blocks by plain text sources, which will use
+    replaces rocqdoc and rocqtop blocks by plain text sources, which will use
     pygments if available.  This prevents the LaTeX builder from getting
     confused.
     """
     is_html = app.builder.tags.has("html")
-    for node in doctree.traverse(is_coqtop_or_coqdoc_block):
+    for node in doctree.traverse(is_rocqtop_or_rocqdoc_block):
         if is_html:
             node.rawsource = '' # Prevent pygments from kicking in
-        elif 'coqtop-hidden' in node['classes']:
+        elif 'rocqtop-hidden' in node['classes']:
             node.parent.remove(node)
         else:
             node.replace_self(nodes.literal_block(node.rawsource, node.rawsource, language="Coq"))
 
-COQ_ADDITIONAL_DIRECTIVES = [CoqtopDirective,
-                             CoqdocDirective,
+ROCQ_ADDITIONAL_DIRECTIVES = [RocqtopDirective,
+                             RocqdocDirective,
                              ExampleDirective,
                              InferenceDirective,
                              PreambleDirective]
 
-COQ_ADDITIONAL_ROLES = [GrammarProductionRole,
+ROCQ_ADDITIONAL_ROLES = [GrammarProductionRole,
                         GlossaryDefRole]
 
 def setup(app):
-    """Register the Coq domain"""
+    """Register the Rocq domain"""
 
     # A few sanity checks:
-    subdomains = set(obj.subdomain for obj in CoqDomain.directives.values())
-    found = set (obj for obj in chain(*(idx.subdomains for idx in CoqDomain.indices)))
+    subdomains = set(obj.subdomain for obj in RocqDomain.directives.values())
+    found = set (obj for obj in chain(*(idx.subdomains for idx in RocqDomain.indices)))
     assert subdomains.issuperset(found), "Missing subdomains: {}".format(found.difference(subdomains))
 
-    assert subdomains.issubset(CoqDomain.roles.keys()), \
-        "Missing from CoqDomain.roles: {}".format(subdomains.difference(CoqDomain.roles.keys()))
+    assert subdomains.issubset(RocqDomain.roles.keys()), \
+        "Missing from RocqDomain.roles: {}".format(subdomains.difference(RocqDomain.roles.keys()))
 
     # Add domain, directives, and roles
-    app.add_domain(CoqDomain)
+    app.add_domain(RocqDomain)
     app.add_index_to_domain('std', StdGlossaryIndex)
 
-    for role in COQ_ADDITIONAL_ROLES:
+    for role in ROCQ_ADDITIONAL_ROLES:
         app.add_role(role.role_name, role)
 
-    for directive in COQ_ADDITIONAL_DIRECTIVES:
+    for directive in ROCQ_ADDITIONAL_DIRECTIVES:
         app.add_directive(directive.directive_name, directive)
 
-    app.add_transform(CoqtopBlocksTransform)
+    app.add_transform(RocqtopBlocksTransform)
     app.connect('doctree-resolved', simplify_source_code_blocks_for_latex)
-    app.connect('doctree-resolved', CoqtopBlocksTransform.merge_consecutive_coqtop_blocks)
+    app.connect('doctree-resolved', RocqtopBlocksTransform.merge_consecutive_rocqtop_blocks)
 
     # Add extra styles
     app.add_css_file("ansi.css")
@@ -1480,11 +1279,11 @@ def setup(app):
     app.add_css_file("pre-text.css")
 
     # Tell Sphinx about extra settings
-    app.add_config_value("report_undocumented_coq_objects", None, 'env')
+    app.add_config_value("report_undocumented_rocq_objects", None, 'env')
 
     # ``env_version`` is used by Sphinx to know when to invalidate
-    # coqdomain-specific bits in its caches.  It should be incremented when the
-    # contents of ``env.domaindata['coq']`` change.  See
+    # rocqdomain-specific bits in its caches.  It should be incremented when the
+    # contents of ``env.domaindata['rocq']`` change.  See
     # `https://github.com/sphinx-doc/sphinx/issues/4460`.
     meta = { "version": "0.1",
              "env_version": 2,

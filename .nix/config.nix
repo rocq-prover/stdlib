@@ -250,6 +250,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
+      stdlib-html.job = true;
       stdlib-refman-html.job = true;
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       ElmExtraction.job = false;  # not in Rocq CI

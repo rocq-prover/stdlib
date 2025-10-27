@@ -46,7 +46,7 @@ with `apt install python3-pip python3-setuptools` on Debian / Ubuntu then run:
     pip3 install sphinx sphinx_rtd_theme beautifulsoup4 \
                  antlr4-python3-runtime==4.7.1 pexpect sphinxcontrib-bibtex
 
-You can check the dependencies using the `doc/tools/coqrst/checkdeps.py` script.
+You can check the dependencies using the `doc/tools/rocqrst/checkdeps.py` script.
 
 ### Other formats
 

@@ -33,7 +33,6 @@ sys.setrecursionlimit(3000)
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('../tools/'))
-sys.path.append(os.path.abspath('../../config/'))
 
 # Disable the correct_copyright_year misfeature from Sphinx
 # See https://github.com/coq/coq/issues/7378
@@ -58,7 +57,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
     'sphinxcontrib.bibtex',
-    'coqrst.coqdomain'
+    'rocqrst.rocqdomain'
 ]
 
 # Change this to "info" or "warning" to get notifications about undocumented Coq
@@ -147,8 +146,6 @@ exclude_patterns = [
     'introduction.rst',
     'refman-preamble.rst',
     'README.rst',
-    'README.gen.rst',
-    'README.template.rst'
 ] + ["*.{}.rst".format(fmt) for fmt in SUPPORTED_FORMATS]
 
 # The reST default role (used for this markup: `text`) to use for all
@@ -156,7 +153,7 @@ exclude_patterns = [
 default_role = 'literal'
 
 # Use the Coq domain
-primary_domain = 'coq'
+primary_domain = 'rocq'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #add_function_parentheses = True

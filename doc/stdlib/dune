@@ -35,7 +35,6 @@
 (rule
   (targets (dir html))
   (alias stdlib-html)
-  (package rocq-stdlib-doc)
   (deps
    coqdoc-html
    index.html
@@ -54,13 +53,3 @@
    (with-stdout-to _index.html ; dune same-directory restriction
     (progn (cat %{header}) (cat index.html) (cat %{footer})))
    (run cp _index.html html/index.html))))
-
-; Installable directories are not yet fully supported by Dune.  See
-; ocaml/dune#1868.  Yet, this makes coq-doc.install a valid target to
-; generate the whole Coq documentation.  And the result under
-; _build/install/default/doc/coq-doc looks just right!
-
-(install
- (dirs (html as html/stdlib))
- (section doc)
- (package rocq-stdlib-doc))

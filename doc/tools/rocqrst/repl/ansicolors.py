@@ -1,5 +1,5 @@
 ##########################################################################
-##         #   The Coq Proof Assistant / The Coq Development Team       ##
+##         #      The Rocq Prover / The Rocq Development Team           ##
 ##  v      #         Copyright INRIA, CNRS and contributors             ##
 ## <O___,, # (see version control and CREDITS file for authors & dates) ##
 ##   \VV/  ###############################################################
@@ -8,10 +8,10 @@
 ##         #     (see LICENSE file for the text of the license)         ##
 ##########################################################################
 """
-Parse Coq's ANSI output.
+Parse Rocq's ANSI output.
 ========================
 
-Translated to Python from Coq's terminal.ml.
+Translated to Python from Rocq's terminal.ml.
 """
 
 # pylint: disable=too-many-return-statements, too-many-branches
@@ -98,5 +98,5 @@ def parse_ansi(code):
     return ["ansi-" + cls for cls in classes]
 
 if __name__ == '__main__':
-    # As produced by Coq with ‘Check nat.’
+    # As produced by Rocq with ‘Check nat.’
     print(parse_ansi("92;49;22;23;24;27"))
