@@ -53,16 +53,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: StructTact'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "StructTact"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "StructTact"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "Cheerios"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "Cheerios"
   ExtLib:
     needs:
     - coq
@@ -117,16 +117,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ExtLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ExtLib"
   ITree:
     needs:
     - coq
@@ -182,20 +182,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ExtLib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ExtLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ExtLib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: paco'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "paco"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "paco"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ITree"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ITree"
   InfSeqExt:
     needs:
     - coq
@@ -250,16 +250,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "InfSeqExt"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "InfSeqExt"
   MenhirLib:
     needs:
     - coq
@@ -314,16 +314,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "MenhirLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "MenhirLib"
   QuickChick:
     needs:
     - coq
@@ -380,24 +380,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ExtLib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ExtLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ExtLib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: simple-io'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "simple-io"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "simple-io"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "QuickChick"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "QuickChick"
   StructTact:
     needs:
     - coq
@@ -452,16 +452,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "StructTact"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "StructTact"
   Verdi:
     needs:
     - coq
@@ -518,24 +518,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: Cheerios'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "Cheerios"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "Cheerios"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: InfSeqExt'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "InfSeqExt"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "InfSeqExt"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "Verdi"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "Verdi"
   aac-tactics:
     needs:
     - coq
@@ -590,16 +590,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "aac-tactics"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "aac-tactics"
   argosy:
     needs:
     - coq
@@ -654,16 +654,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "argosy"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "argosy"
   async-test:
     needs:
     - coq
@@ -720,24 +720,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: itree-io'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "itree-io"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "itree-io"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: json'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "json"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "json"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: QuickChick'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "QuickChick"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "QuickChick"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "async-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "async-test"
   atbr:
     needs:
     - coq
@@ -792,16 +792,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "atbr"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "atbr"
   autosubst:
     needs:
     - coq
@@ -857,20 +857,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "autosubst"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "autosubst"
   bbv:
     needs:
     - coq
@@ -925,18 +925,19 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bbv"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bbv"
   bignums:
     needs:
+    - rocq-core
     - stdlib
     runs-on: ubuntu-latest
     steps:
@@ -987,13 +988,17 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bignums"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bignums"
   bignums-test:
     needs:
     - coq
@@ -1048,16 +1053,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: bignums'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bignums"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bignums"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bignums-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bignums-test"
   ceres:
     needs:
     - coq
@@ -1112,16 +1117,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ceres"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ceres"
   coinduction:
     needs:
     - coq
@@ -1176,18 +1181,19 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coinduction"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coinduction"
   coq:
-    needs: []
+    needs:
+    - rocq-core
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -1237,12 +1243,17 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
   coq-elpi:
     needs:
     - coq
+    - rocq-elpi
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -1293,12 +1304,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-elpi'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-elpi"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-elpi"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq-elpi"
   coq-hammer:
     needs:
     - coq
@@ -1353,16 +1368,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq-hammer-tactics'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-hammer-tactics"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq-hammer-tactics"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-hammer"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq-hammer"
   coq-hammer-tactics:
     needs:
     - coq
@@ -1417,16 +1432,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-hammer-tactics"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq-hammer-tactics"
   coqprime:
     needs:
     - coq
@@ -1481,16 +1496,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: bignums'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bignums"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bignums"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coqprime"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coqprime"
   coquelicot:
     needs:
     - coq
@@ -1546,20 +1561,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coquelicot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coquelicot"
   coqutil:
     needs:
     - coq
@@ -1614,16 +1629,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coqutil"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coqutil"
   deriving:
     needs:
     - coq
@@ -1679,20 +1694,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "deriving"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "deriving"
   dpdgraph-test:
     needs:
     - coq
@@ -1747,16 +1762,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "dpdgraph-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "dpdgraph-test"
   equations:
     needs:
     - coq
@@ -1811,16 +1826,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "equations"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "equations"
   fcsl-pcm:
     needs:
     - coq
@@ -1876,20 +1891,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "fcsl-pcm"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "fcsl-pcm"
   flocq:
     needs:
     - coq
@@ -1944,19 +1959,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "flocq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "flocq"
   hierarchy-builder:
     needs:
-    - coq-elpi
+    - rocq-core
+    - rocq-elpi
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -2006,13 +2022,17 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
-      name: 'Building/fetching previous CI target: coq-elpi'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-elpi"
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-elpi'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-elpi"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
   http:
     needs:
     - coq
@@ -2068,20 +2088,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: QuickChick'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "QuickChick"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "QuickChick"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: async-test'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "async-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "async-test"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "http"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "http"
   itauto:
     needs:
     - coq
@@ -2136,16 +2156,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "itauto"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "itauto"
   itree-io:
     needs:
     - coq
@@ -2201,20 +2221,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ITree'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ITree"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ITree"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: simple-io'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "simple-io"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "simple-io"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "itree-io"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "itree-io"
   json:
     needs:
     - coq
@@ -2270,20 +2290,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: parsec'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "parsec"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "parsec"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: MenhirLib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "MenhirLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "MenhirLib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "json"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "json"
   kami:
     needs:
     - coq
@@ -2338,16 +2358,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "kami"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "kami"
   math-classes:
     needs:
     - coq
@@ -2402,16 +2422,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: bignums'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "bignums"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "bignums"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "math-classes"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "math-classes"
   mathcomp:
     needs:
     - coq
@@ -2467,20 +2487,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-character'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-character"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-character"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp"
   mathcomp-algebra:
     needs:
     - coq
@@ -2537,24 +2557,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-order'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-order"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-order"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-fingroup"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-fingroup"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
   mathcomp-algebra-tactics:
     needs:
     - coq
@@ -2612,28 +2632,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq-elpi'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq-elpi"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq-elpi"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-zify'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-zify"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-zify"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra-tactics"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra-tactics"
   mathcomp-analysis:
     needs:
     - coq
@@ -2691,28 +2711,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-reals'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-reals"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-reals"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-field'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-field"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-field"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-bigenough'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-bigenough"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-bigenough"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-analysis"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-analysis"
   mathcomp-analysis-stdlib:
     needs:
     - coq
@@ -2770,28 +2790,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-analysis'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-analysis"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-analysis"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-reals-stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-reals-stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-reals-stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-analysis-stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-analysis-stdlib"
   mathcomp-bigenough:
     needs:
     - coq
@@ -2846,16 +2866,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-bigenough"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-bigenough"
   mathcomp-boot:
     needs:
     - coq
@@ -2910,16 +2930,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
   mathcomp-character:
     needs:
     - coq
@@ -2975,20 +2995,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-field'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-field"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-field"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-character"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-character"
   mathcomp-classical:
     needs:
     - coq
@@ -3046,28 +3066,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-finmap'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-finmap"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-finmap"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-classical"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-classical"
   mathcomp-field:
     needs:
     - coq
@@ -3123,20 +3143,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-solvable'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-solvable"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-solvable"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-field"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-field"
   mathcomp-fingroup:
     needs:
     - coq
@@ -3192,20 +3212,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-fingroup"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-fingroup"
   mathcomp-finmap:
     needs:
     - coq
@@ -3260,16 +3280,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-finmap"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-finmap"
   mathcomp-order:
     needs:
     - coq
@@ -3325,20 +3345,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-order"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-order"
   mathcomp-reals:
     needs:
     - coq
@@ -3394,20 +3414,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-classical'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-classical"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-classical"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-reals"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-reals"
   mathcomp-reals-stdlib:
     needs:
     - coq
@@ -3464,24 +3484,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-reals'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-reals"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-reals"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-reals-stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-reals-stdlib"
   mathcomp-solvable:
     needs:
     - coq
@@ -3537,20 +3557,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-solvable"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-solvable"
   mathcomp-ssreflect:
     needs:
     - coq
@@ -3607,24 +3627,24 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-order'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-order"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-order"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: hierarchy-builder'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "hierarchy-builder"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "hierarchy-builder"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
   mathcomp-word:
     needs:
     - coq
@@ -3682,28 +3702,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-ssreflect'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-ssreflect"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-ssreflect"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-fingroup"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-fingroup"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-word"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-word"
   mathcomp-zify:
     needs:
     - coq
@@ -3761,28 +3781,28 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-algebra'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-algebra"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-fingroup'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-fingroup"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-fingroup"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-zify"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-zify"
   mtac2:
     needs:
     - coq
@@ -3838,20 +3858,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: unicoq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "unicoq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "unicoq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mtac2"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mtac2"
   neural-net-coq-interp:
     needs:
     - coq
@@ -3906,16 +3926,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "neural-net-coq-interp"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "neural-net-coq-interp"
   paco:
     needs:
     - coq
@@ -3970,16 +3990,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "paco"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "paco"
   paramcoq-test:
     needs:
     - coq
@@ -4034,16 +4054,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "paramcoq-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "paramcoq-test"
   parsec:
     needs:
     - coq
@@ -4099,20 +4119,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ceres'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ceres"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ceres"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ExtLib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ExtLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ExtLib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "parsec"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "parsec"
   quickchick-test:
     needs:
     - coq
@@ -4167,16 +4187,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: QuickChick'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "QuickChick"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "QuickChick"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "quickchick-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "quickchick-test"
   relation-algebra:
     needs:
     - coq
@@ -4232,20 +4252,20 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: aac-tactics'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "aac-tactics"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "aac-tactics"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: mathcomp-boot'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "mathcomp-boot"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "mathcomp-boot"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "relation-algebra"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "relation-algebra"
   rocq-core:
     needs: []
     runs-on: ubuntu-latest
@@ -4298,10 +4318,11 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "rocq-core"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
   rocq-elpi:
-    needs: []
+    needs:
+    - rocq-core
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -4351,11 +4372,18 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "rocq-elpi"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-elpi"
   rocq-elpi-test:
-    needs: []
+    needs:
+    - rocq-core
+    - rocq-elpi
+    - stdlib
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -4405,9 +4433,21 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-elpi'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-elpi"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: stdlib'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "rocq-elpi-test"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-elpi-test"
   rocq-lean-import:
     needs:
     - coq
@@ -4462,16 +4502,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "rocq-lean-import"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-lean-import"
   simple-io:
     needs:
     - coq
@@ -4526,16 +4566,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: ExtLib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "ExtLib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "ExtLib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "simple-io"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "simple-io"
   smtcoq:
     needs:
     - coq
@@ -4590,16 +4630,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "smtcoq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "smtcoq"
   stalmarck:
     needs:
     - coq
@@ -4654,16 +4694,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stalmarck"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stalmarck"
   stalmarck-tactic:
     needs:
     - coq
@@ -4718,18 +4758,19 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stalmarck'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stalmarck"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stalmarck"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stalmarck-tactic"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stalmarck-tactic"
   stdlib:
-    needs: []
+    needs:
+    - rocq-core
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -4779,11 +4820,17 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
   stdlib-refman-html:
-    needs: []
+    needs:
+    - rocq-core
+    - stdlib
     runs-on: ubuntu-latest
     steps:
     - name: Determine which commit to initially checkout
@@ -4833,9 +4880,17 @@ jobs:
         \n    sleep 30\n  fi\nelse\n  echo \"CI target already built\"\n  echo \"\
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: rocq-core'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "rocq-core"
+    - if: steps.stepCheck.outputs.status != 'fetched'
+      name: 'Building/fetching previous CI target: stdlib'
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
+    - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib-refman-html"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib-refman-html"
   stdlib-warnings:
     needs: []
     runs-on: ubuntu-latest
@@ -4888,8 +4943,8 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib-warnings"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib-warnings"
   stdpp:
     needs:
     - coq
@@ -4944,16 +4999,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdpp"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdpp"
   tlc:
     needs:
     - coq
@@ -5008,16 +5063,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "tlc"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "tlc"
   unicoq:
     needs:
     - coq
@@ -5071,12 +5126,12 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "unicoq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "unicoq"
   waterproof:
     needs:
     - coq
@@ -5131,16 +5186,16 @@ jobs:
         status=fetched\" >> $GITHUB_OUTPUT\nfi\n"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: coq'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "coq"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "coq"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: 'Building/fetching previous CI target: stdlib'
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "stdlib"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "stdlib"
     - if: steps.stepCheck.outputs.status != 'fetched'
       name: Building/fetching current CI target
-      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle "rocq-9.1"
-        --argstr job "waterproof"
+      run: NIXPKGS_ALLOW_UNFREE=1 nix-build --no-out-link --argstr bundle 
+        "rocq-9.1" --argstr job "waterproof"
 name: Nix CI for bundle rocq-9.1
 on:
   pull_request:

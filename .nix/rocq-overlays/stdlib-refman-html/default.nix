@@ -1,10 +1,10 @@
-{ antlr4_9, python311, coq, stdlib, coqPackages }:
+{ antlr4_9, python311, rocq-core, stdlib, rocqPackages }:
 
-coqPackages.lib.overrideCoqDerivation {
+rocqPackages.lib.overrideRocqDerivation {
   pname = "stdlib-refman-html";
 
   overrideBuildInputs = stdlib.buildInputs
-  ++ [ coq.ocamlPackages.ocaml coq.ocamlPackages.dune_3 stdlib ]
+  ++ [ rocq-core.ocamlPackages.ocaml rocq-core.ocamlPackages.dune_3 stdlib ]
   ++ [
     # Sphinx doc dependencies
     (python311.withPackages

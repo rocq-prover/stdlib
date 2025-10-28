@@ -47,17 +47,3 @@ set of modules usually bound to the Stdlib.* namespace."))
   coq-core
   (rocq-stdlib (= :version)))
  (synopsis "Compatibility metapackage for Coq Stdlib library after the Rocq renaming"))
-
-(package
- (name rocq-stdlib-doc)
- (license "OPUBL-1.0")
- (depends
-  (conf-python-3 :build)
-  (rocq (and :build (= :version))))
- (synopsis "The Rocq Proof Assistant Standard Library --- Reference Manual")
- (description "Rocq is a formal proof management system. It provides
-a formal language to write mathematical definitions, executable
-algorithms and theorems together with an environment for
-semi-interactive development of machine-checked proofs.
-
-This package provides the Reference Manual for the Standard Library."))
