@@ -10,8 +10,6 @@ Close Scope string_scope.
 
 Open Scope byte_scope.
 Print byte_rect.
-Print byte_rec.
-Print byte_ind.
 Check "000".
 Check "a".
 Check "127".
