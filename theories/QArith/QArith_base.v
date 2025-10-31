@@ -105,22 +105,22 @@ Proof.
 symmetry. apply Z.compare_eq_iff.
 Qed.
 
-Lemma Qlt_alt p q : (p<q) <-> (p?=q = Lt).
+Lemma Qlt_alt p q : (p<q) <-> ((p?=q) = Lt).
 Proof.
 reflexivity.
 Qed.
 
-Lemma Qgt_alt p q : (p>q) <-> (p?=q = Gt).
+Lemma Qgt_alt p q : (p>q) <-> ((p?=q) = Gt).
 Proof.
 symmetry. apply Z.gt_lt_iff.
 Qed.
 
-Lemma Qle_alt p q : (p<=q) <-> (p?=q <> Gt).
+Lemma Qle_alt p q : (p<=q) <-> ((p?=q) <> Gt).
 Proof.
 reflexivity.
 Qed.
 
-Lemma Qge_alt p q : (p>=q) <-> (p?=q <> Lt).
+Lemma Qge_alt p q : (p>=q) <-> ((p?=q) <> Lt).
 Proof.
 symmetry. apply Z.ge_le_iff.
 Qed.

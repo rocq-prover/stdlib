@@ -357,7 +357,7 @@ Proof.
  rewrite (Eqdep_dec.eq_proofs_unicity eq_dec (e (eq_refl true)) (eq_refl i));trivial.
 Qed.
 
-Lemma cast_diff : forall i j, i =? j = false -> cast i j = None.
+Lemma cast_diff : forall i j, (i =? j) = false -> cast i j = None.
 Proof.
  intros i j H;unfold cast;intros; generalize (eqb_correct i j).
  rewrite H;trivial.
@@ -377,7 +377,7 @@ Proof.
  rewrite (Eqdep_dec.eq_proofs_unicity eq_dec (e (eq_refl true)) (eq_refl i));trivial.
 Qed.
 
-Lemma eqo_diff : forall i j, i =? j = false -> eqo i j = None.
+Lemma eqo_diff : forall i j, (i =? j) = false -> eqo i j = None.
 Proof.
  unfold eqo;intros i j H; generalize (eqb_correct i j).
  rewrite H;trivial.
@@ -670,7 +670,7 @@ Proof.
  apply (f_equal2 Z.modulo); auto with zarith.
 Qed.
 
-Lemma lsr_M_r x i (H: (digits <=? i = true)%uint63) : x >> i = 0%uint63.
+Lemma lsr_M_r x i (H: ((digits <=? i) = true)%uint63) : x >> i = 0%uint63.
 Proof.
  apply to_Z_inj.
  rewrite lsr_spec, to_Z_0.
@@ -769,10 +769,10 @@ Proof.
     case bit; discriminate.
 Qed.
 
-Lemma bit_M i n (H: (digits <=? n = true)%uint63): bit i n = false.
+Lemma bit_M i n (H: ((digits <=? n) = true)%uint63): bit i n = false.
 Proof. unfold bit; rewrite lsr_M_r; auto. Qed.
 
-Lemma bit_half i n (H: (n <? digits = true)%uint63) : bit (i>>1) n = bit i (n+1).
+Lemma bit_half i n (H: ((n <? digits) = true)%uint63) : bit (i>>1) n = bit i (n+1).
 Proof.
  unfold bit.
  rewrite lsr_add.
