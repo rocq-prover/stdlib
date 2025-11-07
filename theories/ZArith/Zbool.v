@@ -66,7 +66,7 @@ Proof.
 Qed.
 
 Definition Zle_bool_total x y :
-  { x <=? y = true } + { y <=? x = true }.
+  { (x <=? y) = true } + { (y <=? x) = true }.
 Proof.
  case_eq (x <=? y); intros H.
  - left; trivial.
@@ -81,7 +81,7 @@ Proof.
  rewrite !Z.leb_le. apply Z.add_le_mono.
 Qed.
 
-Lemma Zone_pos : 1 <=? 0 = false.
+Lemma Zone_pos : (1 <=? 0) = false.
 Proof.
  reflexivity.
 Qed.
