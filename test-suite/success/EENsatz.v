@@ -457,3 +457,111 @@ Goal forall x y z : R, div x y -> div y z -> div x z.
   eexists.
   ensatz.
 Qed.
+
+
+(* *)
+(*    Performence test   *)
+(* *)
+
+Goal forall d a b c d e f g :Z,
+    (d | a) ->
+    (d | b) ->
+    (d | c) ->
+    (d | d) ->
+    (d | e) ->
+    (d | f) ->
+    (d | g) ->
+    (d | (a-b -c-d-e-f-g)).
+Proof.
+  integer_rule.
+Qed.
+
+Goal forall a b c x x1 x0:Z,
+    (b * c)%Z = (x1 * a)%Z ->
+    1 = x * a + x0 * b ->
+    exists k1 k2 k3 k4 k5 k6 k7 k8: Z, c = k1 * a + k2 + k3 + k4 + k5 + k6 + k7 + k8.
+Proof.
+  ensatz.
+Qed.
+
+(* *)
+(*      Examples from Nsatz *)
+(* *)
+
+From Stdlib Require Import List BinNat Zdivisibility Zmod QArith QNsatz.
+
+Lemma nonconsecutive_equalities_to_goal
+  (FR ep : Z) (IHp : FR = ep) a :
+  (fst a * snd a + FR = fst a * snd a + ep)%Z.
+Proof. ensatz. Qed.
+
+Lemma example3_Z : forall (x y z : Z), (
+   x+y+z=0 ->
+   x*y+x*z+y*z=0->
+   x*y*z=0 -> x*x*x=0)%Z.
+Proof. ensatz. Qed.
+
+Lemma example3_Zmod3 : forall (x y z : Zmod 3), (
+   x+y+z=0 ->
+   x*y+x*z+y*z=0->
+   x*y*z=0 -> x^3=0)%Zmod.
+Proof. unfold Zmod.pow; simpl; ensatz. Qed.
+
+Lemma example3_Zmodp : forall p (x y z : Zmod p), Z.prime p -> (
+   x+y+z=0 ->
+   x*y+x*z+y*z=0->
+   x*y*z=0 -> x^3=0)%Zmod.
+Proof. unfold Zmod.pow; simpl; ensatz. Qed.
+
+Lemma example3_Q : forall (x y z : Q), (
+   x+y+z==0 ->
+   x*y+x*z+y*z==0->
+   x*y*z==0 -> x*x*x==0)%Q.
+Proof. ensatz. Qed.
+
+Lemma example3_R : forall (x y z : R), (
+   x+y+z=0 ->
+   x*y+x*z+y*z=0->
+   x*y*z=0 -> x*x*x=0)%R.
+Proof. ensatz. Qed.
+
+Lemma example_contradiction_Zmod3 : forall (x : Zmod 3), (
+   x = Zmod.of_Z _ 2 ->
+   x = Zmod.of_Z _ 1 ->
+   0 = 1 :> Zmod 3)%Zmod.
+Proof. ensatz. Qed.
+
+Import Integral_domain Algebra_syntax.
+
+Section test.
+  Context {A:Type}`{Aid:Integral_domain A}.
+
+  Lemma example4 : forall x y z u,
+      x+y+z+u==0 ->
+      x*y+x*z+x*u+y*z+y*u+z*u==0->
+      x*y*z+x*y*u+x*z*u+y*z*u==0->
+      x*y*z*u==0 -> x^4%Z==0.
+  Proof. unfold power; unfold power_ring;simpl; ensatz. Qed.
+
+  Lemma example5 : forall x y z u v,
+      x+y+z+u+v==0 ->
+      x*y+x*z+x*u+x*v+y*z+y*u+y*v+z*u+z*v+u*v==0->
+      x*y*z+x*y*u+x*y*v+x*z*u+x*z*v+x*u*v+y*z*u+y*z*v+y*u*v+z*u*v==0->
+      x*y*z*u+y*z*u*v+z*u*v*x+u*v*x*y+v*x*y*z==0 ->
+      x*y*z*u*v==0 -> x^5%Z==0.
+  Proof. unfold power; unfold power_ring;simpl; ensatz. Qed.
+
+
+  Goal forall x y:Z,  x = y -> (x+0)%Z = (y*1+0)%Z.
+  Proof. ensatz. Qed.
+
+  Goal forall x y:R,  x = y -> (x+0)%R = (y*1+0)%R.
+  Proof. ensatz. Qed.
+
+  Goal forall a b c x:R, a = b -> b = c -> (a*a)%R = (c*c)%R.
+  Proof. ensatz. Qed.
+
+End test.
+
+Lemma fastnsatz1:forall x y:R, x - y = 0 -> x = y.
+Proof. ensatz. Qed.

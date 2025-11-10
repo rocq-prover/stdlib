@@ -288,6 +288,54 @@ Goal forall x y a n:Z, modulo (x^2) a n -> modulo (y^2) a n -> (n | (x+y)*(x-y))
 Qed.
 
 (* *)
+(*      Example of the paper "Integer Reasoning Modulo Different           *)
+(*      Constants in SMT" by Elizaveta Pertseva, Alex Ozdemir,             *)
+(*      Shankara Pailoor, Alp Bassa, Sorawee Porncharoenwase, Işil Dillig, *)
+(*      Clark Barrett                                                      *)
+(*  *)
+
+Lemma modulo_neg a b c:  -c < a - b < c -> modulo a b c -> a = b.
+Proof.
+  unfold modulo. intros Hc [k H].
+  destruct k.
+  - rewrite Z.mul_0_l in H.
+    apply Zminus_eq in H.
+    assumption.
+  - assert (F: a - b < Z.pos p * c).
+    nia.
+    setoid_rewrite H in F.
+    specialize (Z.lt_irrefl (Z.pos p * c)) as HF.
+    contradiction HF.
+  - assert (F: Z.neg p * c < a - b ).
+    nia.
+    setoid_rewrite H in F.
+    specialize (Z.lt_irrefl (Z.neg p * c)) as HF.
+    contradiction HF.
+Qed.
+
+Example zero_knowledge:
+  forall x y r1 r2 r3 c1 c2 c3 p q :Z,
+    (0 < p * p < q ->
+     0 <= x < p -> 0 <= y < p ->
+     0 <= r1 < p -> 0 <= c1 < p ->
+     0 <= r2 < p -> 0 <= c2 < p ->
+     0 <= r3 < p -> 0 <= c3 < p ->
+     modulo (x * y) (r1 + c1 * p) q ->
+     modulo (r1 * y) (r2 + c2 * p) q ->
+     modulo (x + r2) (r3 + c3 * p) q ->
+     modulo (x + x * y*y) r3  p)%Z.
+Proof.
+  intros.
+  assert (C1: -q  < x*y - (r1 + c1 * p) < q) by nia.
+  apply (modulo_neg _ _ _ C1) in H8.
+  assert (C2: -q  < r1*y - (r2 + c2 * p) < q) by nia.
+  apply (modulo_neg _ _ _ C2) in H9.
+  assert (C3: -q  < x + r2 - (r3 + c3 * p) < q) by nia.
+  apply (modulo_neg _ _ _ C3) in H10.
+  integer_rule.
+Qed.
+
+(* *)
 (*      Examples from HOL: *)
 (*      https://github.com/jrh13/hol-light/blob/master/Library/integer.ml *)
 (* *)
@@ -427,5 +475,30 @@ Definition div(a b: R):= exists k: R, b = k*a.
 Goal forall x y z : R, div x y -> div y z -> div x z.
   unfold div.
   preprocess.
+  ensatz.
+Qed.
+
+(* *)
+(*    Performence test   *)
+(* *)
+
+Goal forall d a b c d e f g :Z,
+    (d | a) ->
+    (d | b) ->
+    (d | c) ->
+    (d | d) ->
+    (d | e) ->
+    (d | f) ->
+    (d | g) ->
+    (d | (a-b -c-d-e-f-g)).
+Proof.
+  integer_rule.
+Qed.
+
+Goal forall a b c x x1 x0:Z,
+    (b * c)%Z = (x1 * a)%Z ->
+    1 = x * a + x0 * b ->
+    exists k1 k2 k3 k4 k5 k6 k7 k8: Z, c = k1 * a + k2 + k3 + k4 + k5 + k6 + k7 + k8.
+Proof.
   ensatz.
 Qed.
