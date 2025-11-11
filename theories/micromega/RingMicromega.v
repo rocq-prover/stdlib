@@ -23,7 +23,7 @@ From Stdlib Require Import List.
 From Stdlib Require Import Bool.
 From Stdlib Require Import OrderedRing.
 From Stdlib Require Import Refl.
-From Stdlib.micromega Require Tauto.
+From Stdlib.micromega Require Import Tauto.
 
 Set Implicit Arguments.
 
@@ -114,8 +114,8 @@ Proof.
   exact (rminus_morph sor). (* We already proved that minus is a morphism in OrderedRing.v *)
 Qed.
 
-Definition cneqb (x y : C) := negb (ceqb x y).
-Definition cltb (x y : C) := (cleb x y) && (cneqb x y).
+#[local] Notation cneqb := (cneqb ceqb).
+#[local] Notation cltb := (cltb ceqb cleb).
 
 Notation "x [~=] y" := (cneqb x y).
 Notation "x [<] y" := (cltb x y).
@@ -149,13 +149,7 @@ Definition PolEnv := Env R. (* For interpreting PolC *)
 Definition eval_pol : PolEnv -> PolC -> R :=
    Pphi rplus rtimes phi.
 
-Inductive Op1 : Set := (* relations with 0 *)
-| Equal (* == 0 *)
-| NonEqual (* ~= 0 *)
-| Strict (* > 0 *)
-| NonStrict (* >= 0 *).
-
-Definition NFormula := (PolC * Op1)%type. (* normalized formula *)
+#[local] Notation NFormula := (NFormula C).
 
 Definition eval_op1 (o : Op1) : R -> Prop :=
 match o with
@@ -172,47 +166,6 @@ let (p, op) := f in eval_op1 op (eval_pol env p).
 (** Rule of "signs" for addition and multiplication.
    An arbitrary result is coded buy None. *)
 
-Definition OpMult (o o' : Op1) : option Op1 :=
-match o with
-| Equal => Some Equal
-| NonStrict =>
-  match o' with
-    | Equal => Some Equal
-    | NonEqual  => None
-    | Strict    => Some NonStrict
-    | NonStrict => Some NonStrict
-  end
-| Strict => match o' with
-              | NonEqual => None
-              |  _       => Some o'
-            end
-| NonEqual => match o' with
-                | Equal => Some Equal
-                | NonEqual => Some NonEqual
-                | _        => None
-              end
-end.
-
-Definition OpAdd (o o': Op1) : option Op1 :=
-  match o with
-    | Equal => Some o'
-    | NonStrict =>
-      match o' with
-        | Strict => Some Strict
-        | NonEqual => None
-        | _ => Some NonStrict
-      end
-    | Strict => match o' with
-                  | NonEqual => None
-                  |  _        => Some Strict
-                end
-    | NonEqual => match o' with
-                    | Equal  => Some NonEqual
-                    | _      => None
-                  end
-  end.
-
-
 Lemma OpMult_sound :
   forall (o o' om: Op1) (x y : R),
     eval_op1 o x -> eval_op1 o' y -> OpMult o o' = Some om -> eval_op1 om (x * y).
@@ -224,8 +177,6 @@ unfold eval_op1; intros o; destruct o; simpl; intros o' om x y H1 H2 H3.
   destruct o' ; inversion H3.
   + (* y == 0 *)
     rewrite H2. now rewrite (Rtimes_0_r sor).
-  + (* y ~= 0 *)
-    apply (Rtimes_neq_0 sor) ; auto.
 - (* 0 < x *)
   destruct o' ; inversion H3.
   + (* y == 0 *)
@@ -291,25 +242,7 @@ unfold eval_op1; intros o; destruct o; simpl; intros o' oa e e' H1 H2 Hoa.
     now apply (Rplus_nonneg_nonneg sor).
 Qed.
 
-Inductive Psatz : Type :=
-| PsatzLet: Psatz -> Psatz -> Psatz
-| PsatzIn : nat -> Psatz
-| PsatzSquare : PolC -> Psatz
-| PsatzMulC : PolC -> Psatz -> Psatz
-| PsatzMulE : Psatz -> Psatz -> Psatz
-| PsatzAdd  : Psatz -> Psatz -> Psatz
-| PsatzC    : C -> Psatz
-| PsatzZ    : Psatz.
-
-Register PsatzLet    as micromega.Psatz.PsatzLet.
-Register PsatzIn     as micromega.Psatz.PsatzIn.
-Register PsatzSquare as micromega.Psatz.PsatzSquare.
-Register PsatzMulC   as micromega.Psatz.PsatzMulC.
-Register PsatzMulE   as micromega.Psatz.PsatzMulE.
-Register PsatzAdd    as micromega.Psatz.PsatzAdd.
-Register PsatzC      as micromega.Psatz.PsatzC.
-Register PsatzZ      as micromega.Psatz.PsatzZ.
-
+#[local] Notation Psatz := (Psatz C).
 
 (** Given a list [l] of NFormula and an extended polynomial expression
    [e], if [eval_Psatz l e] succeeds (= Some f) then [f] is a
@@ -317,64 +250,15 @@ Register PsatzZ      as micromega.Psatz.PsatzZ.
    Moreover, the polynomial expression is obtained by replacing the (PsatzIn n)
    by the nth polynomial expression in [l] and the sign is computed by the "rule of sign" *)
 
-(* Might be defined elsewhere *)
-Definition map_option (A B:Type) (f : A -> option B) (o : option A) : option B :=
-  match o with
-    | None => None
-    | Some x => f x
-  end.
-
-Arguments map_option [A B] f o.
-
-Definition map_option2 (A B C : Type) (f : A -> B -> option C)
-  (o: option A) (o': option B) : option C :=
-  match o , o' with
-    | None , _ => None
-    | _ , None => None
-    | Some x , Some x' => f x x'
-  end.
-
-Arguments map_option2 [A B C] f o o'.
-
 Definition Rops_wd := mk_reqe (*rplus rtimes ropp req*)
                        (SORplus_wd sor)
                        (SORtimes_wd sor)
                        (SORopp_wd sor).
 
-Definition pexpr_times_nformula (e: PolC) (f : NFormula) : option NFormula :=
-  let (ef,o) := f in
-    match o with
-      | Equal => Some (Pmul cO cI cplus ctimes ceqb e ef , Equal)
-      |   _   => None
-    end.
-
-Definition nformula_times_nformula (f1 f2 : NFormula) : option NFormula :=
-  let (e1,o1) := f1 in
-    let (e2,o2) := f2 in
-      map_option  (fun x => (Some (Pmul cO cI cplus ctimes ceqb e1 e2,x)))    (OpMult o1 o2).
-
- Definition nformula_plus_nformula (f1 f2 : NFormula) : option NFormula :=
-  let (e1,o1) := f1 in
-    let (e2,o2) := f2 in
-      map_option  (fun x => (Some (Padd cO cplus ceqb e1 e2,x)))    (OpAdd o1 o2).
-
-
-Fixpoint eval_Psatz (l : list NFormula) (e : Psatz) {struct e} : option NFormula :=
-  match e with
-    | PsatzLet p1 p2 => match eval_Psatz l p1 with
-                        | None => None
-                        | Some f => eval_Psatz (f::l) p2
-                        end
-    | PsatzIn n => Some (nth n l (Pc cO, Equal))
-    | PsatzSquare e => Some (Psquare cO cI cplus ctimes ceqb e  , NonStrict)
-    | PsatzMulC re e => map_option (pexpr_times_nformula re) (eval_Psatz l e)
-    | PsatzMulE f1 f2 => map_option2 nformula_times_nformula  (eval_Psatz l f1) (eval_Psatz l f2)
-    | PsatzAdd f1 f2  => map_option2 nformula_plus_nformula  (eval_Psatz l f1) (eval_Psatz l f2)
-    | PsatzC  c  => if cltb cO c then Some (Pc c, Strict) else None
-(* This could be 0, or <> 0 -- but these cases are useless *)
-    | PsatzZ     => Some (Pc cO, Equal) (* Just to make life easier *)
-  end.
-
+#[local] Notation pexpr_times_nformula := (pexpr_times_nformula cO cI cplus ctimes ceqb).
+#[local] Notation nformula_times_nformula := (nformula_times_nformula cO cI cplus ctimes ceqb).
+#[local] Notation nformula_plus_nformula := (nformula_plus_nformula cO cplus ceqb).
+#[local] Notation eval_Psatz := (eval_Psatz cO cI cplus ctimes ceqb cleb).
 
 Lemma pexpr_times_nformula_correct : forall (env: PolEnv) (e: PolC) (f f' : NFormula),
   eval_nformula env f -> pexpr_times_nformula e f = Some f' ->
@@ -508,19 +392,19 @@ Qed.
 
 Fixpoint xhyps_of_psatz (base:nat) (acc : list nat) (prf : Psatz)  : list nat :=
   match prf with
-    | PsatzC _ | PsatzZ | PsatzSquare _ => acc
+    | PsatzC _ | PsatzZ _ | PsatzSquare _ => acc
     | PsatzMulC _ prf => xhyps_of_psatz base acc prf
     | PsatzAdd e1 e2 | PsatzMulE e1 e2 => xhyps_of_psatz base (xhyps_of_psatz base acc e2) e1
-    | PsatzIn n => if ge_bool n base then (n::acc) else acc
+    | PsatzIn _ n => if ge_bool n base then (n::acc) else acc
     | PsatzLet e1 e2 => xhyps_of_psatz base (xhyps_of_psatz (S base) acc e2) e1
   end.
 
 Fixpoint nhyps_of_psatz (base:nat) (prf : Psatz) : list nat :=
   match prf with
-    | PsatzC _ | PsatzZ | PsatzSquare _ => nil
+    | PsatzC _ | PsatzZ _ | PsatzSquare _ => nil
     | PsatzMulC _ prf => nhyps_of_psatz base prf
     | PsatzAdd e1 e2 | PsatzMulE e1 e2 => nhyps_of_psatz base e1 ++ nhyps_of_psatz base e2
-    | PsatzIn n => if ge_bool n base then (n::nil) else nil
+    | PsatzIn _ n => if ge_bool n base then (n::nil) else nil
     | PsatzLet e1 e2 => nhyps_of_psatz base e1 ++ nhyps_of_psatz (S base) e2
   end.
 
@@ -568,22 +452,7 @@ Definition PaddC_ok : forall c P env, eval_pol env (paddC  P c) == eval_pol env 
                        PaddC_ok (SORsetoid sor) Rops_wd (Rth_ARth (SORsetoid sor) Rops_wd (SORrt sor))
                 (SORrm addon).
 
-
-(* Check that a formula f is inconsistent by normalizing and comparing the
-resulting constant with 0 *)
-
-Definition check_inconsistent (f : NFormula) : bool :=
-let (e, op) := f in
-  match  e with
-  | Pc c =>
-    match op with
-    | Equal => cneqb c cO
-    | NonStrict => c [<] cO
-    | Strict => c [<=] cO
-    | NonEqual => c [=] cO
-    end
-  | _ => false (* not a constant *)
-  end.
+#[local] Notation check_inconsistent := (check_inconsistent cO ceqb cleb).
 
 Lemma check_inconsistent_sound :
   forall (p : PolC) (op : Op1),
@@ -600,13 +469,7 @@ try rewrite <- (morph0 (SORrm addon)); trivial.
 - apply cltb_sound in H1. now apply -> (Rlt_nge sor).
 Qed.
 
-
-Definition check_normalised_formulas : list NFormula -> Psatz -> bool :=
-  fun l cm =>
-    match eval_Psatz l cm with
-      | None => false
-      | Some f => check_inconsistent f
-    end.
+#[local] Notation check_normalised_formulas := (check_normalised_formulas cO cI cplus ctimes ceqb cleb).
 
 Lemma checker_nf_sound :
   forall (l : list NFormula) (cm : Psatz),
@@ -627,73 +490,23 @@ Qed.
 
 (** Normalisation of formulae **)
 
-Inductive Op2 : Set := (* binary relations *)
-| OpEq
-| OpNEq
-| OpLe
-| OpGe
-| OpLt
-| OpGt.
-
-Register OpEq  as micromega.Op2.OpEq.
-Register OpNEq as micromega.Op2.OpNEq.
-Register OpLe  as micromega.Op2.OpLe.
-Register OpGe  as micromega.Op2.OpGe.
-Register OpLt  as micromega.Op2.OpLt.
-Register OpGt  as micromega.Op2.OpGt.
-
-Definition eval_op2 (o : Op2) : R -> R -> Prop :=
-match o with
-| OpEq => req
-| OpNEq => fun x y : R => x ~= y
-| OpLe => rle
-| OpGe => fun x y : R => y <= x
-| OpLt => fun x y : R => x < y
-| OpGt => fun x y : R => y < x
-end.
+#[local] Notation eval_op2 := (eval_op2
+  isProp req (fun x y => ~ req x y) rle rlt).
 
 Definition  eval_pexpr : PolEnv -> PExpr C -> R :=
- PEeval rplus rtimes rminus ropp phi pow_phi rpow.
+ PEeval rO rI rplus rtimes rminus ropp pow_phi rpow phi (@Env.nth R).
 
-#[universes(template)]
-Record Formula (T:Type) : Type := Build_Formula{
-  Flhs : PExpr T;
-  Fop : Op2;
-  Frhs : PExpr T
-}.
-
-Register Formula as micromega.Formula.type.
-Register Build_Formula as micromega.Formula.Build_Formula.
-
-Definition eval_formula (env : PolEnv) (f : Formula C) : Prop :=
-  let (lhs, op, rhs) := f in
-    (eval_op2 op) (eval_pexpr env lhs) (eval_pexpr env rhs).
-
+#[local] Notation eval_formula := (Feval rO rI rplus rtimes rminus ropp
+  pow_phi rpow isProp req (fun x y => ~ req x y) rle rlt phi (@Env.nth R)).
 
 (* We normalize Formulas by moving terms to one side *)
 
-Definition norm := norm_aux cO cI cplus ctimes cminus copp ceqb.
-
-Definition psub := Psub cO  cplus cminus copp ceqb.
-
-Definition padd  := Padd cO  cplus ceqb.
-
-Definition pmul := Pmul cO cI cplus ctimes ceqb.
-
-Definition popp := Popp copp.
-
-Definition normalise (f : Formula C) : NFormula :=
-let (lhs, op, rhs) := f in
-  let lhs := norm lhs in
-    let rhs := norm rhs in
-  match op with
-  | OpEq =>  (psub  lhs rhs, Equal)
-  | OpNEq => (psub lhs rhs, NonEqual)
-  | OpLe =>  (psub rhs lhs, NonStrict)
-  | OpGe =>  (psub lhs rhs, NonStrict)
-  | OpGt => (psub  lhs rhs, Strict)
-  | OpLt => (psub  rhs lhs, Strict)
-  end.
+#[local] Notation norm := (Pol_of_PExpr cO cI cplus ctimes cminus copp ceqb).
+#[local] Notation psub := (Psub cO cplus cminus copp ceqb).
+#[local] Notation padd := (Padd cO cplus ceqb).
+#[local] Notation pmul := (Pmul cO cI cplus ctimes ceqb).
+#[local] Notation popp := (Popp copp).
+#[local] Notation normalise := (normalise cO cI cplus ctimes cminus copp ceqb).
 
 Definition negate (f : Formula C) : NFormula :=
 let (lhs, op, rhs) := f in
@@ -777,31 +590,9 @@ Qed.
 
 (** Another normalisation - this is used for cnf conversion **)
 
-Definition xnormalise (f:NFormula) : list (NFormula)  :=
-  let (e,o) := f in
-  match o with
-  | Equal     => (e , Strict) :: (popp e, Strict) :: nil
-  | NonEqual  => (e , Equal) :: nil
-  | Strict    => (popp e, NonStrict) :: nil
-  | NonStrict => (popp e, Strict) :: nil
-  end.
-
-Definition xnegate (t:NFormula) : list (NFormula)  :=
-  let (e,o) := t in
-    match o with
-      | Equal  => (e,Equal) :: nil
-      | NonEqual => (e,Strict)::(popp e,Strict)::nil
-      | Strict  => (e,Strict) :: nil
-      | NonStrict  => (e,NonStrict) :: nil
-    end.
-
-
-Import Stdlib.micromega.Tauto.
-
-Definition cnf_of_list {T : Type} (l:list NFormula) (tg : T) : cnf NFormula T :=
-  List.fold_right (fun x acc =>
-                     if check_inconsistent x then acc else ((x,tg)::nil)::acc)
-                  (cnf_tt _ _)  l.
+#[local] Notation xnormalise := (normalise_aux copp).
+#[local] Notation xnegate := (negate_aux copp).
+#[local] Notation cnf_of_list := (cnf_of_list cO ceqb cleb).
 
 Add Ring SORRing : (SORrt sor).
 
@@ -837,15 +628,8 @@ Proof.
       tauto.
 Qed.
 
-Definition cnf_normalise {T: Type} (t: Formula C) (tg: T) : cnf NFormula T :=
-  let f := normalise t in
-  if check_inconsistent f then cnf_ff _ _
-  else cnf_of_list (xnormalise f) tg.
-
-Definition cnf_negate {T: Type} (t: Formula C) (tg: T) : cnf NFormula T :=
-  let f := normalise t in
-  if check_inconsistent f then cnf_tt _ _
-  else cnf_of_list (xnegate f) tg.
+#[local] Notation cnf_normalise := (cnf_normalise cO cI cplus ctimes cminus copp ceqb cleb).
+#[local] Notation cnf_negate := (cnf_negate cO cI cplus ctimes cminus copp ceqb cleb).
 
 Lemma eq0_cnf : forall x,
     (0 < x -> False) /\ (0 < - x -> False) <-> x == 0.
@@ -954,7 +738,7 @@ Fixpoint xdenorm (jmp : positive) (p: Pol C) : PExpr C :=
     | Pc c => PEc c
     | Pinj j p => xdenorm  (Pos.add j jmp ) p
     | PX p j q   => PEadd
-      (PEmul (xdenorm jmp p) (PEpow (PEX jmp) (Npos j)))
+      (PEmul (xdenorm jmp p) (PEpow (PEX _ jmp) (Npos j)))
       (xdenorm (Pos.succ jmp) q)
   end.
 
@@ -1020,34 +804,18 @@ Variable phiS : S -> R.
 
 Variable phi_C_of_S :   forall c,  phiS c =  phi (C_of_S c).
 
-Fixpoint map_PExpr (e : PExpr S) : PExpr C :=
-  match e with
-    | PEc c => PEc (C_of_S c)
-    | PEX p => PEX p
-    | PEadd e1 e2 => PEadd (map_PExpr e1) (map_PExpr e2)
-    | PEsub e1 e2 => PEsub (map_PExpr e1) (map_PExpr e2)
-    | PEmul e1 e2 => PEmul (map_PExpr e1) (map_PExpr e2)
-    | PEopp e     => PEopp (map_PExpr e)
-    | PEpow e n   => PEpow (map_PExpr e) n
-  end.
-
-Definition map_Formula (f : Formula S)  : Formula C :=
-  let (l,o,r) := f in
-    Build_Formula (map_PExpr l) o (map_PExpr r).
-
-
 Definition eval_sexpr : PolEnv -> PExpr S -> R :=
-  PEeval rplus rtimes rminus ropp phiS pow_phi rpow.
+  PEeval rO rI rplus rtimes rminus ropp pow_phi rpow phiS (@Env.nth R).
 
 Definition eval_sformula (env : PolEnv) (f : Formula S) : Prop :=
   let (lhs, op, rhs) := f in
     (eval_op2 op) (eval_sexpr env lhs) (eval_sexpr env rhs).
 
-Lemma eval_pexprSC : forall env s, eval_sexpr env s = eval_pexpr env (map_PExpr s).
+Lemma eval_pexprSC : forall env s, eval_sexpr env s = eval_pexpr env (PEmap C_of_S s).
 Proof.
   unfold eval_pexpr, eval_sexpr.
   intros env s;
-   induction s as [| |? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs|? IHs ?];
+   induction s as [| | | |? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs1 ? IHs2|? IHs|? IHs ?];
    simpl ; try (rewrite IHs1 ; rewrite IHs2) ; try reflexivity.
   - apply phi_C_of_S.
   - rewrite IHs. reflexivity.
@@ -1055,7 +823,7 @@ Proof.
 Qed.
 
 (** equality might be (too) strong *)
-Lemma eval_formulaSC : forall env f, eval_sformula env f = eval_formula env (map_Formula f).
+Lemma eval_formulaSC : forall env f, eval_sformula env f = eval_formula env (Fmap C_of_S f).
 Proof.
   intros env f; destruct f.
   simpl.
@@ -1073,13 +841,13 @@ Definition simpl_cone (e:Psatz) : Psatz :=
   match e with
     | PsatzSquare t =>
                     match t with
-                      | Pc c   => if ceqb cO c then PsatzZ else PsatzC (ctimes c c)
+                      | Pc c   => if ceqb cO c then PsatzZ _ else PsatzC (ctimes c c)
                       | _ => PsatzSquare t
                     end
     | PsatzMulE t1 t2 =>
       match t1 , t2 with
-        | PsatzZ      , _        => PsatzZ
-        |    _     , PsatzZ      => PsatzZ
+        | PsatzZ _    , _        => PsatzZ C
+        |    _     , PsatzZ _    => PsatzZ C
         | PsatzC c ,  PsatzC c' => PsatzC (ctimes c c')
         | PsatzC p1 , PsatzMulE (PsatzC p2)  x => PsatzMulE (PsatzC (ctimes p1 p2)) x
         | PsatzC p1 , PsatzMulE x (PsatzC p2)  => PsatzMulE (PsatzC (ctimes p1 p2)) x
@@ -1092,8 +860,8 @@ Definition simpl_cone (e:Psatz) : Psatz :=
       end
     | PsatzAdd t1 t2 =>
       match t1 ,  t2 with
-        | PsatzZ     , x => x
-        |   x     , PsatzZ => x
+        | PsatzZ _   , x => x
+        |   x     , PsatzZ _ => x
         |   x     , y   => PsatzAdd x y
       end
     |   _     => e
@@ -1103,6 +871,16 @@ Definition simpl_cone (e:Psatz) : Psatz :=
 
 
 End Micromega.
+Notation norm := Pol_of_PExpr (only parsing).
+Notation psub := Psub (only parsing).
+Notation padd := Padd (only parsing).
+Notation pmul := Pmul (only parsing).
+Notation popp := Popp (only parsing).
+
+Notation eval_formula :=
+  (fun rO rI add mul sub opp eqProp le lt phi pow_phi pow => Feval
+     rO rI add mul sub opp pow_phi pow
+     isProp eqProp (fun x y => ~ eqProp x y) le lt phi  (@Env.nth _)).
 
 (* Local Variables: *)
 (* coding: utf-8 *)
