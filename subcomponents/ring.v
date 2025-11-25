@@ -21,5 +21,6 @@ From Stdlib Require setoid_ring.Ring_tac.
 From Stdlib Require setoid_ring.ArithRing.
 From Stdlib Require setoid_ring.NArithRing.
 From Stdlib Require setoid_ring.Ring_theory.
+From Stdlib Require setoid_ring.ring_eval.
 From Stdlib Require nsatz.NsatzTactic.
 From Stdlib Require nsatz.ENsatzTactic.

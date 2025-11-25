@@ -13,15 +13,15 @@
     Proofs that conversions between decimal numbers and [R]
     are bijections. *)
 
+From Stdlib Require Import RatDef PeanoNat.
 From Stdlib Require Import Decimal DecimalFacts DecimalPos DecimalZ DecimalQ Rdefinitions.
-From Stdlib Require Import PeanoNat.
 
 Lemma of_IQmake_to_decimal num den :
   match IQmake_to_decimal num den with
   | None => True
   | Some (DecimalExp _ _ _) => False
   | Some (Decimal i f) =>
-    of_decimal (Decimal i f) = IRQ (QArith_base.Qmake num den)
+    of_decimal (Decimal i f) = IRQ (Qmake num den)
   end.
 Proof.
   unfold IQmake_to_decimal.

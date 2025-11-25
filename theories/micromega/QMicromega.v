@@ -64,33 +64,10 @@ Qed.
 (*Definition Zeval_expr :=  eval_pexpr 0 Z.add Z.mul Z.sub Z.opp  (fun x => x) (fun x => Z.of_N x) (Z.pow).*)
 From Stdlib Require Import EnvRing.
 
-Fixpoint Qeval_expr (env: PolEnv Q) (e: PExpr Q) : Q :=
-  match e with
-    | PEc c =>  c
-    | PEX j =>  env j
-    | PEadd pe1 pe2 => (Qeval_expr env pe1) + (Qeval_expr env pe2)
-    | PEsub pe1 pe2 => (Qeval_expr env pe1) - (Qeval_expr env pe2)
-    | PEmul pe1 pe2 => (Qeval_expr env pe1) * (Qeval_expr env pe2)
-    | PEopp pe1 => - (Qeval_expr env pe1)
-    | PEpow pe1 n => Qpower (Qeval_expr env pe1)  (Z.of_N n)
-  end.
+#[local] Notation Qeval_expr := (PEeval
+  Q0 Q1 Qplus Qmult Qminus Qopp id Z.of_N Qpower).
 
-Lemma Qeval_expr_simpl : forall env e,
-  Qeval_expr env e =
-  match e with
-    | PEc c =>  c
-    | PEX j =>  env j
-    | PEadd pe1 pe2 => (Qeval_expr env pe1) + (Qeval_expr env pe2)
-    | PEsub pe1 pe2 => (Qeval_expr env pe1) - (Qeval_expr env pe2)
-    | PEmul pe1 pe2 => (Qeval_expr env pe1) * (Qeval_expr env pe2)
-    | PEopp pe1 => - (Qeval_expr env pe1)
-    | PEpow pe1 n => Qpower (Qeval_expr env pe1)  (Z.of_N n)
-  end.
-Proof.
-  destruct e ; reflexivity.
-Qed.
-
-Definition Qeval_expr' := eval_pexpr  Qplus Qmult Qminus Qopp (fun x => x) (fun x => x) (pow_N 1 Qmult).
+Definition Qeval_expr' := eval_pexpr Q0 Q1 Qplus Qmult Qminus Qopp (fun x => x) (fun x => x) (pow_N 1 Qmult).
 
 Lemma QNpower : forall r n, r ^ Z.of_N n = pow_N 1 Qmult r n.
 Proof.
@@ -100,10 +77,9 @@ Qed.
 
 Lemma Qeval_expr_compat : forall env e, Qeval_expr env e = Qeval_expr' env e.
 Proof.
-  induction e ; simpl ; subst ; try congruence.
-  - reflexivity.
-  - rewrite IHe.
-    apply QNpower.
+  induction e ; simpl ; subst ; try congruence; try reflexivity.
+  rewrite IHe.
+  apply QNpower.
 Qed.
 
 Definition Qeval_pop2 (o : Op2) : Q -> Q -> Prop :=
@@ -153,8 +129,8 @@ Proof.
   - apply Qlt_bool_iff.
 Qed.
 
-Definition Qeval_op2 (k:Tauto.kind) :  Op2 ->  Q -> Q -> Tauto.rtyp k:=
-  if k as k0 return (Op2 -> Q -> Q -> Tauto.rtyp k0)
+Definition Qeval_op2 (k:kind) :  Op2 ->  Q -> Q -> eKind k:=
+  if k as k0 return (Op2 -> Q -> Q -> eKind k0)
   then Qeval_pop2 else Qeval_bop2.
 
 
@@ -166,11 +142,11 @@ Proof.
   - simpl. apply pop2_bop2.
 Qed.
 
-Definition Qeval_formula (e:PolEnv Q) (k: Tauto.kind) (ff : Formula Q) :=
+Definition Qeval_formula (e:PolEnv Q) (k: kind) (ff : Formula Q) :=
   let (lhs,o,rhs) := ff in Qeval_op2 k o (Qeval_expr e lhs) (Qeval_expr e rhs).
 
 Definition Qeval_formula' :=
-  eval_formula  Qplus Qmult Qminus Qopp Qeq Qle Qlt (fun x => x) (fun x => x) (pow_N 1 Qmult).
+  eval_formula Q0 Q1 Qplus Qmult Qminus Qopp Qeq Qle Qlt (fun x => x) (fun x => x) (pow_N 1 Qmult).
 
  Lemma Qeval_formula_compat : forall env b f, Tauto.hold b (Qeval_formula env b f) <-> Qeval_formula' env f.
 Proof.
@@ -203,12 +179,8 @@ Proof.
   exact (fun env d =>eval_nformula_dec Qsor (fun x => x)  env d).
 Qed.
 
-Definition QWitness := Psatz Q.
-
-Register QWitness as micromega.QWitness.type.
-
-
-Definition QWeakChecker := check_normalised_formulas 0 1 Qplus Qmult Qeq_bool Qle_bool.
+#[local] Notation QWeakChecker := (CWeakChecker
+  Q0 Q1 Qplus Qmult Qeq_bool Qle_bool).
 
 From Stdlib Require Import List.
 
@@ -226,27 +198,18 @@ Qed.
 
 From Stdlib.micromega Require Import Tauto.
 
-Definition Qnormalise := @cnf_normalise Q 0 1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-
-Definition Qnegate := @cnf_negate Q 0 1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool.
-
-Definition qunsat := check_inconsistent 0 Qeq_bool Qle_bool.
-
-Definition qdeduce := nformula_plus_nformula 0 Qplus Qeq_bool.
+#[local] Notation Qnormalise := (Cnormalise
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
+#[local] Notation Qnegate := (Cnegate
+  Q0 Q1 Qplus Qmult Qminus Qopp Qeq_bool Qle_bool).
+#[local] Notation qunsat := (check_inconsistent Q0 Qeq_bool Qle_bool).
+#[local] Notation qdeduce := (nformula_plus_nformula Q0 Qplus Qeq_bool).
 
 Definition normQ  := norm 0 1 Qplus Qmult Qminus Qopp Qeq_bool.
 Declare Equivalent Keys normQ RingMicromega.norm.
 
-Definition cnfQ (Annot:Type) (TX: Tauto.kind -> Type)  (AF: Type) (k: Tauto.kind) (f: TFormula (Formula Q) Annot TX AF k) :=
-  rxcnf qunsat qdeduce (Qnormalise Annot) (Qnegate Annot) true f.
-
-Definition QTautoChecker  (f : BFormula (Formula Q) Tauto.isProp) (w: list QWitness)  : bool :=
-  @tauto_checker (Formula Q) (NFormula Q) unit
-  qunsat qdeduce
-  (Qnormalise unit)
-  (Qnegate unit) QWitness (fun cl => QWeakChecker (List.map fst cl)) f w.
-
-
+Definition cnfQ (Annot:Type) (TX: kind -> Type)  (AF: Type) (k: kind) (f: @GFormula (Formula Q) TX Annot AF k) :=
+  rxcnf qunsat qdeduce (@Qnormalise Annot) (@Qnegate Annot) true f.
 
 Lemma QTautoChecker_sound : forall f w, QTautoChecker f w = true -> forall env, eval_bf  (Qeval_formula env)  f.
 Proof.
