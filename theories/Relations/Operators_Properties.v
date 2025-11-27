@@ -38,8 +38,9 @@ Section Properties.
   Section Clos_Refl_Trans.
 
     #[warning="-notation-incompatible-prefix"]
-    #[local] Notation "R *" := (clos_refl_trans R)
-      (at level 8, no associativity, format "R *").
+    #[local] Notation "R *" :=
+    (clos_refl_trans R)
+      (at level 1, no associativity, format "R *").
 
     (** Correctness of the reflexive-transitive closure operator *)
 
