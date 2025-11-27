@@ -8,7 +8,7 @@ all install clean: Makefile.coq
 	+$(MAKE) -f $< $(ROCQMAKEOPTIONS) $@
 
 Makefile.coq: _CoqProject
-	$(ROCQMAKEFILE) $(ROCQMAKEFILEOPTIONS) -f $< $(shell find . -regex ".*/[^.][^/]*[.]v") -o $@
+	$(ROCQMAKEFILE) $(ROCQMAKEFILEOPTIONS) -f $< $(shell find . -regex ".*/[^.][^/]*[.]v" -not -name All.v) -o $@
 
 %.vo: Makefile.coq %.v
 	+$(MAKE) -f $< $(ROCQMAKEOPTIONS) $@
