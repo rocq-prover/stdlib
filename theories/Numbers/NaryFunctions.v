@@ -10,7 +10,7 @@
 (*          Pierre Letouzey, Jerome Vouillon, PPS, Paris 7, 2008        *)
 (************************************************************************)
 
-#[local] Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-reference,-deprecated-notation".
 
 #[local] Open Scope type_scope.
 

@@ -14,7 +14,7 @@ From Stdlib Require Export Peano_dec.
 From Stdlib Require Import Sumbool.
 
 #[local]
-Set Warnings "-deprecated".
+Set Warnings "-deprecated-reference".
 #[local] Open Scope nat_scope.
 
 Implicit Types m n x y : nat.

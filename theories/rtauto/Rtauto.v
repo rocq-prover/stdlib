@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 Attributes deprecated(since="9.1", note="Use lia. If you would like to take over maintenance of rtauto, please open an issue.").
-#[local] Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-library-file".
 
 From Stdlib Require Export List.
 From Stdlib Require Export Bintree.

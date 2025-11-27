@@ -9,7 +9,7 @@
 (************************************************************************)
 
 Attributes deprecated(since="9.0", note="use lia instead").
-#[local] Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-reference,-deprecated-syntactic-definition,-deprecated-tactic".
 
 (** Tactics for doing arithmetic proofs.
     Useful to bootstrap lia.

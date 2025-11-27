@@ -123,7 +123,7 @@ Proof.
  Z.swap_greater. rewrite Z.leb_le. apply Z.lt_le_pred.
 Qed.
 
-#[local] Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-syntactic-definition,-deprecated-reference".
 
 (** Properties of the deprecated [Zeq_bool] *)
 
