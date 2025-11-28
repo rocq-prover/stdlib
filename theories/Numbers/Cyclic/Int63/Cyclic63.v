@@ -166,7 +166,9 @@ Qed.
 Lemma squarec_spec :
   forall x,
     Φ(x *c x) = φ x * φ x.
-Proof (fun x => mulc_WW_spec x x).
+Proof.
+  exact (fun x => mulc_WW_spec x x).
+Qed.
 
 Lemma diveucl_spec_aux : forall a b, 0 < φ b ->
   let (q,r) := diveucl a b in

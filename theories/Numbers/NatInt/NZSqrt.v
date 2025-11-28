@@ -39,7 +39,7 @@ Module Type NZSqrtProp
  (Import B : NZSqrt' A)
  (Import C : NZMulOrderProp A).
 
-#[local] Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
+#[local] Notation "a ²" := (a*a) (no associativity, format "a ²").
 
 (** First, sqrt is non-negative *)
 
@@ -393,7 +393,7 @@ Module Type NZSqrtUpProp
 
 (** * [sqrt_up] : a square root that rounds up instead of down *)
 
-#[local] Notation "a ²" := (a*a) (at level 5, no associativity, format "a ²").
+#[local] Notation "a ²" := (a*a) (no associativity, format "a ²").
 
 (** For once, we define instead of axiomatizing, thanks to sqrt *)
 

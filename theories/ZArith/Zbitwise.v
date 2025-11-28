@@ -7,7 +7,7 @@ Module Z.
 #[local] Infix ".&" := Z.land (at level 40).
 #[local] Infix ".^" := Z.lxor (at level 40).
 #[local] Notation ".~ x" := (Z.lnot x) (at level 35).
-#[local] Notation "x .[ i ]" := (Z.testbit x i) (at level 9, format "x .[ i ]").
+#[local] Notation "x .[ i ]" := (Z.testbit x i) (format "x .[ i ]").
 
 #[local] Infix "^^" := xorb (at level 40).
 

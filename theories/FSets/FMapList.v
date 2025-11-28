@@ -412,7 +412,7 @@ Qed.
 
 Lemma equal_2 : forall m (Hm:Sort m) m' (Hm:Sort m') cmp,
   equal cmp m m' = true -> Equivb cmp m m'.
-Proof with auto with ordered_type.
+Proof.
 intros m Hm m' Hm' cmp; revert m' Hm'.
 induction Hm as [|[a e] m Hm IHHm Hr]; simpl in *; intros [|[a' e'] m'] Hm' H; try congruence.
 + split; [tauto|inversion 1].

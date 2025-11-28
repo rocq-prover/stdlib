@@ -19,7 +19,7 @@
 From Stdlib Require Import List Multiset PermutSetoid Relations Sorting.
 
 #[local]
-Set Warnings "-deprecated".
+Set Warnings "-deprecated-reference".
 
 Section defs.
 
@@ -111,6 +111,8 @@ Section defs.
     intros H1 H2; elim H2; intros H3 H4; elim H4; intros.
     apply X0; auto with datatypes.
   Qed.
+
+  Register Scheme is_heap_rect as rect_nodep for is_heap.
 
   (* This lemma ought to be generated automatically by the Inversion tools *)
   #[deprecated(since="8.3", note="Use mergesort.v")]

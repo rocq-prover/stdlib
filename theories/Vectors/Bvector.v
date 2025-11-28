@@ -11,7 +11,7 @@
 (** N.B.: Using this encoding of bit vectors is discouraged.
 See <https://github.com/coq/stdlib/blob/master/theories/Vectors/Vector.v>. *)
 Attributes deprecated(since="8.20", note="Consider [list bool] instead. See <https://github.com/coq/stdlib/blob/master/theories/Vectors/Vector.v> for details. Please open an issue if you would like to keep using Bvector.").
-#[local] Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-reference".
 
 (** Bit vectors. Contribution by Jean Duprat (ENS Lyon). *)
 
