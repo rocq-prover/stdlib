@@ -1248,6 +1248,7 @@ Qed.
 Lemma EvenT_S_OddT n : EvenT (S n) -> OddT n.
 Proof.
   intros [[|k] HE]; inversion HE.
+  simpl.
   exists k; rewrite add_succ_r, add_1_r; reflexivity.
 Qed.
 

@@ -87,7 +87,7 @@ clear - Heq; revert l1 l2 l4 Heq; clear; induction l3; simpl; intros.
 - destruct l2 as [| b].
   + simpl in Heq; subst.
     now rewrite app_nil_r, app_comm_cons.
-  + inversion Heq as [[Heqb Heq']]; subst.
+  + simpl in *; inversion Heq as [[Heqb Heq']]; subst.
     replace (l1 ++ b :: l2) with ((l1 ++ b :: nil) ++ l2)
       by now rewrite <- app_assoc, <- app_comm_cons.
     replace (l4 ++ b :: l3) with ((l4 ++ b :: nil) ++ l3)

@@ -456,7 +456,7 @@ Definition lnorm d :=
 Lemma nzhead_revapp_0 d d' : nztail d = Nil ->
   nzhead (revapp d d') = nzhead d'.
 Proof.
-  revert d'. induction d; intros d' [=]; simpl; trivial.
+  revert d'. induction d; intros d' [=]; simpl in *; trivial.
   destruct (nztail d); now rewrite IHd.
 Qed.
 

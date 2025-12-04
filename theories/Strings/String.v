@@ -102,7 +102,7 @@ Qed.
 Lemma compare_eq_iff : forall s1 s2 : string,
     compare s1 s2 = Eq -> s1 = s2.
 Proof.
-  induction s1, s2; intuition; inversion H.
+  induction s1, s2; intuition; inversion H; simpl in *.
   destruct (Ascii.compare a a0) eqn:Heq; try discriminate H1.
   apply Ascii.compare_eq_iff in Heq.
   apply IHs1 in H1.

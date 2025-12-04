@@ -672,7 +672,7 @@ Proof.
 revert v. induction w as [| w0 n w IHw].
 - apply to_list_nil_iff.
 - intros v H. rewrite (eta v) in H.
-  injection H as [=H0 H1%IHw]. subst. apply eta.
+  injection H as [=H0 H1%IHw]; simpl in *. subst. apply eta.
 Qed.
 
 Lemma to_list_hd A n (v : t A (S n)) d:
@@ -753,7 +753,7 @@ split; intros HF.
 - induction HF; now constructor.
 - remember (to_list v) as l.
   revert n v Heql; induction HF; intros n v Heql;
-    destruct v; inversion Heql; subst; constructor; auto.
+    destruct v; inversion Heql; simpl in *; subst; constructor; auto.
 Qed.
 
 Lemma to_list_Exists A P n (v : t A n):
@@ -763,7 +763,7 @@ split; intros HF.
 - induction HF; now constructor.
 - remember (to_list v) as l.
   revert n v Heql; induction HF; intros n v Heql;
-    destruct v; inversion Heql; subst; now constructor; auto.
+    destruct v; inversion Heql; simpl in *; subst; now constructor; auto.
 Qed.
 
 Lemma to_list_In A a n (v : t A n):
@@ -784,7 +784,7 @@ split; intros HF.
   revert n v1 v2 Heql1 Heql2; induction HF; intros n v1 v2 Heql1 Heql2.
   + destruct v1; [ | inversion Heql1 ].
     apply case0; constructor.
-  + destruct v1; inversion Heql1; subst.
-    rewrite (eta v2) in Heql2; inversion Heql2; subst.
+  + destruct v1; inversion Heql1; simpl in *; subst.
+    rewrite (eta v2) in Heql2; inversion Heql2; simpl in *; subst.
     rewrite (eta v2); constructor; auto.
 Qed.

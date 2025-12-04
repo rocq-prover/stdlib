@@ -199,7 +199,7 @@ Section Simple_Lexicographic_Product.
     slexprod p1 p2 <->
     lexprod _ _ leA (fun _ => leB) (sigT_of_prod p1) (sigT_of_prod p2).
   Proof.
-    now split; intros HP; destruct p1, p2; inversion HP; constructor.
+    now split; intros HP; destruct p1, p2; unfold sigT_of_prod in *; simpl in *; inversion HP; constructor.
   Qed.
 
 End Simple_Lexicographic_Product.
