@@ -179,7 +179,7 @@ Section Facts.
   Proof.
     intro H. destruct x as [|b x].
     - now left.
-    - right. injection H as ->. now exists x.
+    - right. simpl in H; injection H as ->. now exists x.
   Qed.
 
   Theorem app_eq_unit (x y:list A) (a:A) :
@@ -601,7 +601,7 @@ Section Elts.
   Proof.
     revert l.
     induction n as [|n IH]; intros [|x l] H; [easy| |easy|].
-    - exists nil; exists l. now injection H as [= ->].
+    - exists nil; exists l. simpl in H; now injection H as [= ->].
     - destruct (IH _ H) as (l1 & l2 & H1 & H2).
       exists (x::l1); exists l2; simpl; split; now f_equal.
   Qed.
@@ -640,7 +640,8 @@ Section Elts.
     - reflexivity.
     - discriminate (Hnth 0).
     - discriminate (Hnth 0).
-    - injection (Hnth 0) as ->. f_equal. apply IHl.
+    - assert (Hnth0 := Hnth 0); simpl in Hnth0.
+      injection Hnth0 as ->. f_equal. apply IHl.
       intro n. exact (Hnth (S n)).
   Qed.
 
@@ -1883,7 +1884,7 @@ End Fold_Right_Recursor.
       intro l; induction l as [|a l IHl].
       1: simpl; auto.
       all: intuition; inversion H; auto.
-      destruct (split l); simpl in *.
+      simpl in *; destruct (split l); simpl in *.
       inversion H1; subst; simpl.
       f_equal; auto.
     Qed.
@@ -2345,7 +2346,7 @@ Section Cutting.
   Proof.
     revert l x; induction n as [|n IH]; intros [|y l] x.
     - discriminate.
-    - injection 1. intros ->. reflexivity.
+    - injection 1. simpl; intros ->. reflexivity.
     - discriminate.
     - simpl. intros H. f_equal. apply IH. exact H.
   Qed.
@@ -3726,7 +3727,7 @@ Section Repeat.
     repeat x n = y :: l -> x = y /\ repeat x (pred n) = l.
   Proof.
     intros Hr.
-    destruct n; inversion_clear Hr; auto.
+    destruct n; simpl in Hr; inversion_clear Hr; auto.
   Qed.
 
   Lemma repeat_eq_elt x y n l1 l2 :

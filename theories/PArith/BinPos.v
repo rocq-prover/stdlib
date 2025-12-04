@@ -221,10 +221,10 @@ Qed.
 Lemma add_reg_r p q r : p + r = q + r -> p = q.
 Proof.
   revert p q. induction r.
-  - intros [p|p| ] [q|q| ] H; simpl; destr_eq H; f_equal;
+  - intros [p|p| ] [q|q| ] H; simpl; destr_eq H; simpl in *; f_equal;
       auto using add_carry_add; contradict H;
       rewrite add_carry_spec, <- add_succ_r; auto using add_no_neutral.
-  - intros [p|p| ] [q|q| ] H; simpl; destr_eq H; f_equal; auto;
+  - intros [p|p| ] [q|q| ] H; simpl; destr_eq H; simpl in *; f_equal; auto;
       contradict H; auto using add_no_neutral.
   - intros p q H. apply succ_inj. now rewrite <- 2 add_1_r.
 Qed.

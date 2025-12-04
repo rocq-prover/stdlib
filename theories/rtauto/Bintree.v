@@ -266,7 +266,8 @@ case_eq (i ?= index S);intro test.
 Qed.
 
 Lemma Full_index_one_empty : forall S, Full S -> index S = 1 -> S=empty.
-intros [ind cont] F one; inversion F.
+Proof.
+intros [ind cont] F one; inversion F; simpl in *.
 - reflexivity.
 - simpl @index in one;assert (h:=Pos.succ_not_1 (index S)).
   congruence.
