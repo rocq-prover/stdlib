@@ -11,7 +11,7 @@ pose (ff :=
     (EQ
        (A isBool
           {|
-            Flhs := PEadd (PEX 1) (PEmul (PEc 2%Q) (PEX 2));
+            Flhs := PEadd (PEX _ 1) (PEmul (PEc 2%Q) (PEX _ 2));
             Fop := OpLe;
             Frhs := PEc 3%Q
           |} tt) (TT isBool)) None
@@ -19,13 +19,13 @@ pose (ff :=
        (EQ
           (A isBool
              {|
-               Flhs := PEadd (PEmul (PEc 2%Q) (PEX 1)) (PEX 2);
+               Flhs := PEadd (PEmul (PEc 2%Q) (PEX _ 1)) (PEX _ 2);
                Fop := OpLe;
                Frhs := PEc 3%Q
              |} tt) (TT isBool)) None
        (EQ
           (A isBool
-             {| Flhs := PEadd (PEX 1) (PEX 2); Fop := OpLe; Frhs := PEc 2%Q |} tt)
+             {| Flhs := PEadd (PEX _ 1) (PEX _ 2); Fop := OpLe; Frhs := PEc 2%Q |} tt)
           (TT isBool))) : BFormula (Formula Q) isProp).
 let ff' := eval unfold ff in ff in wlra_Q wit0 ff'.
 Check eq_refl : wit0 = (PsatzAdd (PsatzIn Q 2)
