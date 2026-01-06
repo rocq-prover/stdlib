@@ -363,7 +363,7 @@ Lemma permut_nil :
   forall l, permutation l [] -> l = [].
 Proof.
   intro l; destruct l as [ | e l ]; trivial.
-  assert (InA eqA e (e::l)) by (auto with *).
+  assert (InA eqA e (e::l)) by (auto with * ).
   intro Abs; generalize (permut_InA_InA Abs H).
   inversion 1.
 Qed.

@@ -819,12 +819,12 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
   - intros. symmetry.
     unfold eqb.
     rewrite <- findA_NoDupA, InA_rev, findA_NoDupA
-      by (eauto using NoDupA_rev with *); eauto.
+      by (eauto using NoDupA_rev with * ); eauto.
   - case_eq (findA (eqb k) (rev l)); auto.
     intros e.
     unfold eqb.
     rewrite <- findA_NoDupA, InA_rev, findA_NoDupA
-      by (eauto using NoDupA_rev with *).
+      by (eauto using NoDupA_rev with * ).
           intro Eq; rewrite Eq; auto.
   Qed.
 
