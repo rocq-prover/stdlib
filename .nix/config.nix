@@ -163,7 +163,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "paco"
       "paramcoq-test"
       "parsec"
-      "perennial"
       "QuickChick"
       "quickchick-test"
       "relation-algebra"
@@ -296,6 +295,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+      itauto.job = false;  # broken
       coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
       dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
       coq-hammer.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
@@ -307,7 +307,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
       mtac2.override.version = "bcbefa79406fc113f878eb5f89758de241d81433";
       paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
-      perennial.job = false;  # broken
       relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
@@ -345,7 +344,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       metarocq.override.version = "1.4-9.0";
       mtac2.override.version = "1cdb2cb628444ffe9abc6535f6d2e11004de7fc1";
       paramcoq-test.override.version = "32609ca4a9bf4a0e456a855ea5118d8c00cda6be";
-      perennial.job = false;  # broken
       relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
       rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
