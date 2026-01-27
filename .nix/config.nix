@@ -296,6 +296,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
       atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
+      itauto.job = false;  # broken
       coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
       dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
       coq-hammer.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
