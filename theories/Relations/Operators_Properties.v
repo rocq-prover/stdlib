@@ -53,7 +53,7 @@ Section Properties.
 
     (** Idempotency of the reflexive-transitive closure operator *)
 
-    Lemma clos_rt_idempotent : inclusion (R*)* R*.
+    Lemma clos_rt_idempotent : inclusion (R* )* R*.
     Proof.
       red.
       induction 1 as [x y H|x|x y z H IH H0 IH0]; auto with sets.

@@ -373,7 +373,7 @@ Module WProperties_fun (Import E : DecidableType)(M : WSfun E).
    rewrite elements_iff, <- InA_rev; auto.
   }
   assert (Hdup : NoDup l) by
-    (unfold l; eauto using elements_3w, NoDupA_rev with *).
+    (unfold l; eauto using elements_3w, NoDupA_rev with * ).
   assert (Hsame : forall x, In x s <-> InA x l) by
     (unfold l; intros; rewrite elements_iff, InA_rev; intuition).
   clear Pstep; clearbody l; revert s Hsame; induction l.

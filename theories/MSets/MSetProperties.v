@@ -373,7 +373,7 @@ Module WPropertiesOn (Import E : DecidableType)(M : WSetsOn E).
    rewrite elements_iff, <- InA_rev; auto with *.
   }
   assert (Hdup : NoDup l) by
-    (unfold l; eauto using elements_3w, NoDupA_rev with *).
+    (unfold l; eauto using elements_3w, NoDupA_rev with * ).
   assert (Hsame : forall x, In x s <-> InA x l) by
     (unfold l; intros; rewrite elements_iff, InA_rev; intuition).
   clear Pstep; clearbody l; revert s Hsame; induction l.
@@ -441,7 +441,7 @@ Module WPropertiesOn (Import E : DecidableType)(M : WSetsOn E).
   intros A B R f g i j s Rempty Rstep.
   rewrite 2 fold_spec_right. set (l:=rev (elements s)).
   assert (Rstep' : forall x a b, InA x l -> R a b -> R (f x a) (g x b)) by
-    (intros; apply Rstep; auto; rewrite elements_iff, <- InA_rev; auto with *).
+    (intros; apply Rstep; auto; rewrite elements_iff, <- InA_rev; auto with * ).
   clearbody l; clear Rstep s.
   induction l; simpl; auto with relations.
   Qed.
@@ -1004,7 +1004,7 @@ Module OrdProperties (M:Sets).
     + apply (@filter_sort _ E.eq); auto with *; eauto with *.
     + constructor; auto.
       * apply (@filter_sort _ E.eq); auto with *; eauto with *.
-      * rewrite Inf_alt by (apply (@filter_sort _ E.eq); eauto with *).
+      * rewrite Inf_alt by (apply (@filter_sort _ E.eq); eauto with * ).
         intros.
         rewrite filter_InA in H1; auto with *; destruct H1.
         rewrite leb_1 in H2.
@@ -1022,7 +1022,7 @@ Module OrdProperties (M:Sets).
         order.
   - red; intros a.
     rewrite InA_app_iff, InA_cons, !filter_InA, <-!elements_iff,
-      leb_1, gtb_1, (H0 a) by (auto with *).
+      leb_1, gtb_1, (H0 a) by (auto with * ).
     intuition.
     elim_compare a x; intuition.
     right; right; split; auto.
@@ -1045,7 +1045,7 @@ Module OrdProperties (M:Sets).
     setoid_replace y with x; auto.
   - red; intros a.
     rewrite InA_app_iff, InA_cons, InA_nil, <-!elements_iff, (H0 a)
-      by (auto with *).
+      by (auto with * ).
     intuition.
   Qed.
 
