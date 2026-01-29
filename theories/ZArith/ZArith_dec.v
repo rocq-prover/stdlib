@@ -12,7 +12,6 @@ From Stdlib Require Import Sumbool.
 
 From Stdlib Require Import BinInt.
 From Stdlib Require Import Zorder.
-From Stdlib Require Import Zcompare.
 #[local] Open Scope Z_scope.
 
 (* begin hide *)

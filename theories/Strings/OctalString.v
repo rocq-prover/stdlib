@@ -9,10 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import Ascii String.
-From Stdlib Require Import BinNums.
-Import BinNatDef.
-Import BinIntDef.
-Import BinPosDef.
+From Stdlib Require Import BinNatDef BinIntDef BinPosDef.
 
 #[local] Open Scope positive_scope.
 #[local] Open Scope string_scope.

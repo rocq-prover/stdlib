@@ -1,4 +1,4 @@
-From Stdlib Require Import BinInt Lia Btauto. #[local] Open Scope Z_scope.
+From Stdlib Require Import BinInt Wf_Z Lia Btauto. #[local] Open Scope Z_scope.
 Import (ltac.notations) BinInt.Z.
 
 Module Z.

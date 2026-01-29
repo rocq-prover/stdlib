@@ -26,7 +26,7 @@ def dfs(target, comp, html, dot):
     if target in component.keys():
         assert comp_requires(comp, component[target]),\
                f"{target} (from component {component[target]}) used in {comp}"+\
-               f"but {comp} does not require {component[target]}"
+               f" but {comp} does not require {component[target]}"
         return
     component[target] = comp
     for dep in compdeps[target]:

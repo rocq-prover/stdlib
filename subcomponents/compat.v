@@ -8,4 +8,10 @@ From subcomponents Require wellfounded.
 From subcomponents Require streams.
 From Stdlib Require Compat.AdmitAxiom.
 From Stdlib Require Compat.Stdlib818.
-From Stdlib Require Reals.Nsatz.
+From Stdlib Require Numbers.AltBinNotations.
+From Stdlib Require Numbers.NaryFunctions.
+From Stdlib Require Numbers.NatInt.NZDomain.
+From Stdlib Require Numbers.NatInt.NZProperties.
+From Stdlib Require Numbers.Natural.Abstract.NStrongRec.
+From Stdlib Require Numbers.Natural.Abstract.NDefOps.
+From Stdlib Require Numbers.Natural.Abstract.NIso.

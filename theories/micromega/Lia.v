@@ -14,9 +14,8 @@
 (*                                                                      *)
 (************************************************************************)
 
-From Stdlib Require Import PreOmega ZMicromega RingMicromega VarMap DeclConstantZ.
-From Stdlib Require Import BinNums.
-From Stdlib.micromega Require Tauto.
+From Stdlib Require Import BinInt.
+From Stdlib.micromega Require Import Tauto VarMap ZMicromega Zify.
 Declare ML Module "rocq-runtime.plugins.micromega_core".
 Declare ML Module "rocq-runtime.plugins.micromega".
 

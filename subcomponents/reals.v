@@ -1,3 +1,4 @@
+From subcomponents Require arith.
 From subcomponents Require qarith.
 From subcomponents Require classical_logic.
 From subcomponents Require vectors.

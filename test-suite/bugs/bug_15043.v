@@ -9,16 +9,12 @@ Abort.
 
 End ShortExample.
 
+
 Module OriginalReport.
 
 Axiom proof_admitted : False.
 Tactic Notation "admit" := abstract case proof_admitted.
-From Stdlib Require Psatz.
-From Stdlib Require Utf8.
-
-Import Arith.
-Import Psatz.
-Import Stdlib.Unicode.Utf8.
+From Stdlib Require Import Arith Psatz Utf8.
 
 Fixpoint log3_iter down_counter log_up_counter up_counter dist_next :=
     match down_counter with

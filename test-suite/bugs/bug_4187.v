@@ -7,7 +7,8 @@ Axiom proof_admitted : False.
 Tactic Notation "admit" := case proof_admitted.
 From Stdlib Require Import List.
 From Stdlib Require Import Setoid.
-From Stdlib Require Import BinNat.
+From Stdlib Require Import BinNat .
+From Stdlib Require Compare_dec Wf_nat.
 From Stdlib Require Import Sumbool.
 #[global] Set Implicit Arguments.
 #[global] Generalizable All Variables.

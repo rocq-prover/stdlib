@@ -679,6 +679,15 @@ Qed.
 
 (** ** Correctness proofs for Trunc division *)
 
+Lemma div_eucl_0_r a : Z.div_eucl a 0 = (0, a).
+Proof. case a; trivial. Qed.
+
+Lemma mod_0_r a : a mod 0 = a.
+Proof. case a; trivial. Qed.
+
+Lemma div_0_r a : a/0 = 0.
+Proof. case a; trivial. Qed.
+
 Lemma pos_div_eucl_eq a b : 0 < b ->
   let (q, r) := pos_div_eucl a b in pos a = q * b + r.
 Proof.

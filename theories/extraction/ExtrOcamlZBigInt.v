@@ -12,7 +12,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import ZArith NArith.
+From Stdlib Require Import BinInt BinNat.
 From Stdlib Require Import ExtrOcamlBasic.
 
 Extraction Blacklist Z Big_int_Z.

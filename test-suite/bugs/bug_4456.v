@@ -8,13 +8,10 @@ Axiom proof_admitted : False.
 
 Tactic Notation "admit" := case proof_admitted.
 
-From Stdlib Require Program.
-From Stdlib Require String.
-From Stdlib Require Lia.
+From Stdlib Require Import Program String Arith Lia List.
 Module Export Fiat_DOT_Common.
 Module Export Fiat.
 Module Common.
-Import Stdlib.Lists.List.
 Export Program.
 
 #[global] Set Implicit Arguments.
@@ -110,8 +107,6 @@ Module Export Fiat.
 Module Export Parsers.
 Module Export ContextFreeGrammar.
 Module Export Core.
-Import Stdlib.Strings.String.
-Import Stdlib.Lists.List.
 Export Fiat.Parsers.StringLike.Core.
 
 Section cfg.
@@ -489,8 +484,6 @@ Defined.
   End app.
 
 Import Stdlib.Lists.List.
-Import Arith.
-Import Lia.
 Import Fiat_DOT_Common.Fiat.Common.
 Import Fiat.Parsers.ContextFreeGrammar.Valid.
 #[local] Open Scope string_like_scope.

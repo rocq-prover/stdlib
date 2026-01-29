@@ -1,4 +1,4 @@
-From subcomponents Require arith.
+From subcomponents Require naturals.
 From Stdlib Require Logic.IndefiniteDescription.
 From Stdlib Require Logic.Classical_Pred_Type.
 From Stdlib Require Logic.Classical_Prop.

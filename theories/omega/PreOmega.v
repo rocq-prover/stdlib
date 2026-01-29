@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import Arith BinInt BinNat Znat Nnat.
+From Stdlib Require Import BinInt BinNat Znat Nnat.
 
 #[local] Open Scope Z_scope.
 

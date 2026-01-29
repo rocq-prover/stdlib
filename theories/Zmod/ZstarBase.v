@@ -280,7 +280,7 @@ Lemma mul_cancel_l [m] (a b c : Zstar m) (H : mul a b = mul a c) : b = c.
 Proof.
   case (Z.eq_dec m 0) as [->|]; trivial.
   { apply (f_equal (fun x => unsigned (to_Zmod x))) in H.
-    rewrite !to_Zmod_mul, !to_Z_mul, !Zmod_0_r in H.
+    rewrite !to_Zmod_mul, !to_Z_mul, !Z.mod_0_r in H.
     eapply to_Zmod_inj, to_Z_inj, Z.mul_cancel_l; eauto.
     pose proof to_Zmod_range a; rewrite Z.coprime_0_r_iff in *; lia. }
   apply (f_equal (fun x => mul (inv a) x)) in H.
@@ -440,7 +440,7 @@ Proof.
   case (Z.eqb_spec m 0) as [->|].
   2:rewrite inv_mul, !mul_assoc, mul_inv_same_r, mul_1_l by lia; trivial.
   apply to_Zmod_inj, to_Z_inj.
-  repeat rewrite ?to_Zmod_inv, ?to_Zmod_mul, ?to_Z_mul, ?to_Z_inv, ?to_Zmod_pow, ?to_Z_pow, ?Zmod_0_r, ?Z.invmod_0_r.
+  repeat rewrite ?to_Zmod_inv, ?to_Zmod_mul, ?to_Z_mul, ?to_Z_inv, ?to_Zmod_pow, ?to_Z_pow, ?Z.mod_0_r, ?Z.invmod_0_r.
   rewrite Z.sgn_mul.
   assert (to_Z x = 1 \/ to_Z x = -1) as [->| ->] by (rewrite Z.coprime_0_r_iff in H; lia).
   all : cbn [Z.sgn]; lia.
@@ -534,7 +534,7 @@ Proof.
   case Z.eqb_spec; intros.
   { subst m; rewrite Z.coprime_0_r_iff in H; cbv [In].
     rewrite <-2to_Zmod_inj_iff, !to_Zmod_opp, !to_Zmod_1.
-    rewrite <-2unsigned_inj_iff, !unsigned_opp, !unsigned_1_neg, Zmod_0_r; lia. }
+    rewrite <-2unsigned_inj_iff, !unsigned_opp, !unsigned_1_neg, Z.mod_0_r; lia. }
   rewrite in_of_Zmod_filter. auto using in_elements.
 Qed.
 
