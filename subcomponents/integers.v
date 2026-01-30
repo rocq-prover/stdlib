@@ -16,7 +16,7 @@ From Stdlib Require Numbers.Integer.Abstract.ZGcd.
 From Stdlib Require Numbers.Integer.Abstract.ZLcm.
 From Stdlib Require Numbers.Integer.Abstract.ZMaxMin.
 From Stdlib Require Numbers.Integer.Abstract.ZProperties.
-From Stdlib Require PArith.Pnat.
 From Stdlib Require ZArith.BinIntDef.
 From Stdlib Require ZArith.BinInt.
+From Stdlib Require ZArith.ZArith_dec.
 From Stdlib Require PArith.POrderedType.

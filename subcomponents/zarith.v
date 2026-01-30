@@ -1,20 +1,16 @@
 From subcomponents Require lia.
 From Stdlib Require ZArith.ZArith.
 From Stdlib Require ZArith.Zquot.
-From Stdlib Require Numbers.Natural.Binary.NBinary.
 From Stdlib Require ZArith.Zwf.
-From Stdlib Require Numbers.Integer.Binary.ZBinary.
-From Stdlib Require Numbers.Integer.NatPairs.ZNatPairs.
 From Stdlib Require Numbers.DecimalNat.
 From Stdlib Require Numbers.HexadecimalNat.
 From Stdlib Require micromega.ZCoeff.
-From Stdlib Require micromega.OrderedRing.
-From Stdlib Require micromega.Ztac.
-From Stdlib Require ZArith.Zeuclid.
 From Stdlib Require ZArith.auxiliary.
 From Stdlib Require ZArith.Zpow_alt.
-From Stdlib Require BinNums BinPos Pnat POrderedType.
-From Stdlib Require Numbers.Integer.Abstract.ZDivEucl.
-From Stdlib Require Numbers.Integer.NatPairs.ZNatPairs.
-From Stdlib Require Numbers.Natural.Binary.NBinary.
-From Stdlib Require Numbers.Integer.Binary.ZBinary.
+From Stdlib Require ZArith.Zpow_def.
+From Stdlib Require ZArith.Zcomplements.
+From Stdlib Require ZArith.Zdiv.
+From Stdlib Require Numbers.DecimalZ.
+From Stdlib Require Numbers.HexadecimalZ.
+From Stdlib Require ZArith_base. (* deprecated, used in Znumtheory *)
+From Stdlib Require Znumtheory.
