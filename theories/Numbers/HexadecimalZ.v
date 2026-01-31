@@ -13,7 +13,7 @@
     Proofs that conversions between hexadecimal numbers and [Z]
     are bijections. *)
 
-From Stdlib Require Import Hexadecimal HexadecimalFacts HexadecimalPos HexadecimalN ZArith.
+From Stdlib Require Import Hexadecimal HexadecimalFacts HexadecimalPos HexadecimalN BinNat BinInt Znat.
 
 Lemma of_to (z:Z) : Z.of_hex_int (Z.to_hex_int z) = z.
 Proof.
@@ -94,7 +94,7 @@ Proof.
   induction n; [now simpl; rewrite N.mul_1_r|].
   rewrite !Unsigned.nat_iter_S, <-IHn.
   simpl Unsigned.usize; rewrite N.pow_succ_r'.
-  rewrite !N2Z.inj_mul; simpl Z.of_N; ring.
+  rewrite !N2Z.inj_mul, ?Z.mul_assoc, ?(Z.mul_comm 16); trivial.
 Qed.
 
 Lemma of_hex_int_iter_D0 d n :
@@ -104,7 +104,7 @@ Proof.
   case d; clear d; intro d; simpl.
   - now rewrite of_hex_uint_iter_D0.
   - rewrite of_hex_uint_iter_D0; induction n; [now simpl|].
-    rewrite !Unsigned.nat_iter_S, <-IHn; ring.
+    rewrite !Unsigned.nat_iter_S, <-IHn, ?Z.mul_opp_r; trivial.
 Qed.
 
 Definition double d :=

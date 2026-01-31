@@ -10,8 +10,8 @@
 
 (* Instances of [ZifyClasses] for dealing with advanced [N] operators. *)
 
-From Stdlib Require Import BinNat BinInt Znat Zdiv.
-From Stdlib Require Import ZifyClasses ZifyInst Zify.
+From Stdlib Require Import BinNat BinInt Znat.
+From Stdlib.micromega Require Import ZifyClasses ZifyInst Zify SatDivMod.
 
 Ltac zify_convert_to_euclidean_division_equations_flag ::= constr:(true).
 
@@ -35,7 +35,26 @@ Instance Op_N_pow : BinOp N.pow :=
   {| TBOp := Z.pow ; TBOpInj := N2Z.inj_pow|}.
 Add Zify BinOp Op_N_pow.
 
-#[local] Open Scope Z_scope.
+#[local]
+Open Scope Z_scope.
+
+#[local]
+Lemma Z_div_nonneg_nonneg a b : 0 <= a -> 0 <= b -> 0 <= a / b.
+Proof.
+  intros H; pose proof Z.div_pos a b H.
+  case (Z.ltb_spec 0 b); auto.
+  intros A B; rewrite (Z.le_antisymm _ _ A B).
+  case a; cbv; congruence.
+Qed.
+
+#[local]
+Lemma Z_mod_nonneg_nonneg a b : 0 <= a -> 0 <= b -> 0 <= a mod b.
+Proof.
+  case (Z.ltb_spec 0 b); intros.
+  { apply Z.mod_pos_bound; trivial. }
+  rewrite <-(Z.le_antisymm 0 b); trivial.
+  case a in *; cbv in *; congruence.
+Qed.
 
 #[global]
 Instance SatDiv : Saturate Z.div :=

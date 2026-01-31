@@ -1,8 +1,5 @@
-From subcomponents Require zarith_base.
+From subcomponents Require integers.
 From subcomponents Require lists.
-From Stdlib Require ZArith.Zpow_def.
-From Stdlib Require ZArith.Zcomplements.
-From Stdlib Require ZArith.Zdiv.
 From Stdlib Require setoid_ring.Ncring_polynom.
 From Stdlib Require setoid_ring.Rings_Z.
 From Stdlib Require setoid_ring.Ncring_initial.
@@ -23,3 +20,5 @@ From Stdlib Require setoid_ring.NArithRing.
 From Stdlib Require setoid_ring.Ring_theory.
 From Stdlib Require nsatz.NsatzTactic.
 From Stdlib Require nsatz.ENsatzTactic.
+From Stdlib Require micromega.VarMap.
+From Stdlib Require micromega.RingMicromega.

@@ -11,12 +11,7 @@
 
 (** Binary Integers (Pierre Crégut, CNET, Lannion, France) *)
 
-From Stdlib Require Export Arith_base.
 From Stdlib Require Import BinInt.
-From Stdlib Require Import Zorder.
-From Stdlib Require Import Decidable.
-From Stdlib Require Import Peano_dec.
-From Stdlib Require Export Compare_dec.
 
 #[local] Open Scope Z_scope.
 

@@ -8,9 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Export Ring.
 From Stdlib Require Import BinInt.
-From Stdlib Require Import Zpow_def.
+From Stdlib.setoid_ring Require Export Ring.
 
 Import InitialRing.
 
@@ -49,6 +48,15 @@ Ltac Zpower_neg :=
 
 #[local] Lemma Private_proj1_eqb_eq x y : Z.eqb x y = true -> x = y.
 Proof. apply Z.eqb_eq. Qed.
+
+Lemma Zpower_theory : power_theory 1%Z Z.mul (@eq Z) Z.of_N Z.pow.
+Proof.
+ constructor. intros z n.
+ destruct n as [|p];simpl;trivial.
+ unfold Z.pow_pos.
+ rewrite <- (Z.mul_1_r (pow_pos _ _ _)). generalize 1%Z.
+ induction p as [p IHp|p IHp|]; simpl; intros; rewrite ?IHp, ?Z.mul_assoc; trivial.
+Qed.
 
 Add Ring Zr : Zth
   (decidable Private_proj1_eqb_eq, constants [Zcst], preprocess [Zpower_neg;unfold Z.succ],

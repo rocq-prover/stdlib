@@ -13,7 +13,7 @@
     Proofs that conversions between decimal numbers and [Z]
     are bijections. *)
 
-From Stdlib Require Import Decimal DecimalFacts DecimalPos DecimalN ZArith.
+From Stdlib Require Import Decimal DecimalFacts DecimalPos DecimalN BinNat BinInt Znat.
 
 Lemma of_to (z:Z) : Z.of_int (Z.to_int z) = z.
 Proof.
@@ -93,7 +93,7 @@ Proof.
   induction n; [now simpl; rewrite N.mul_1_r|].
   rewrite !Unsigned.nat_iter_S, <-IHn.
   simpl Unsigned.usize; rewrite N.pow_succ_r'.
-  rewrite !N2Z.inj_mul; simpl Z.of_N; ring.
+  rewrite !N2Z.inj_mul; simpl Z.of_N; rewrite ?Z.mul_assoc, ?(Z.mul_comm 10); trivial.
 Qed.
 
 Lemma of_int_iter_D0 d n :
@@ -102,7 +102,7 @@ Proof.
   case d; clear d; intro d; simpl.
   - now rewrite of_uint_iter_D0.
   - rewrite of_uint_iter_D0; induction n; [now simpl|].
-    rewrite !Unsigned.nat_iter_S, <-IHn; ring.
+    rewrite !Unsigned.nat_iter_S, <-IHn, ?Z.mul_opp_r; trivial.
 Qed.
 
 Lemma nztail_to_uint_pow10 n :

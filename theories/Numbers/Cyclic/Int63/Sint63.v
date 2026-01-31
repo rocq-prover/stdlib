@@ -411,7 +411,7 @@ Proof.
   intros ltn0.
   apply to_Z_inj.
   rewrite asr_spec, Z.pow_neg_r by assumption.
-  now rewrite Zdiv_0_r.
+  now rewrite Z.div_0_r.
 Qed.
 
 Lemma asr_1 (n : int) : (1 >> n)%sint63 = (n =? 0)%sint63.

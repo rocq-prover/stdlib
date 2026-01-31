@@ -8,8 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import Ring_tac BinList Ring_polynom InitialRing.
-From Stdlib Require Export Field_theory.
+From Stdlib.setoid_ring Require Import Ring_tac BinList Ring_polynom InitialRing Field_theory.
+Export Field_theory.
 
  (* syntaxification *)
  (* We do not assume that Cst recognizes the rO and rI terms as constants, as *)

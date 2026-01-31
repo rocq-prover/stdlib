@@ -1,4 +1,5 @@
 From subcomponents Require orders_ex.
+From subcomponents Require arith.
 From subcomponents Require zarith.
 From Stdlib Require FSets.FMapInterface.
 From Stdlib Require FSets.FSetInterface.

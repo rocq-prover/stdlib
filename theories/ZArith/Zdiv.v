@@ -192,6 +192,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
+#[deprecated(use=Z.mod_0_r, since="9.1")]
 Lemma Zmod_0_r: forall a, a mod 0 = a.
 Proof.
   intros a; destruct a; simpl; auto.
@@ -202,6 +203,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
+#[deprecated(use=Z.div_0_r, since="9.1")]
 Lemma Zdiv_0_r: forall a, a/0 = 0.
 Proof.
   intros a; destruct a; simpl; auto.
@@ -209,7 +211,7 @@ Qed.
 
 Ltac zero_or_not a :=
   destruct (Z.eq_dec a 0);
-  [subst; rewrite ?Zmod_0_l, ?Zdiv_0_l, ?Zmod_0_r, ?Zdiv_0_r;
+  [subst; rewrite ?Zmod_0_l, ?Zdiv_0_l, ?Z.mod_0_r, ?Z.div_0_r;
    auto with zarith|].
 
 Lemma Zmod_1_r: forall a, a mod 1 = 0.
@@ -219,7 +221,7 @@ Lemma Zdiv_1_r: forall a, a/1 = a.
 Proof. intros a. zero_or_not a. apply Z.div_1_r. Qed.
 
 #[global]
-Hint Resolve Zmod_0_l Zmod_0_r Zdiv_0_l Zdiv_0_r Zdiv_1_r Zmod_1_r
+Hint Resolve Zmod_0_l Z.mod_0_r Zdiv_0_l Z.div_0_r Zdiv_1_r Zmod_1_r
  : zarith.
 
 Lemma Zdiv_1_l: forall a, 1 < a -> 1/a = 0.
@@ -264,14 +266,14 @@ Qed.
 
 Lemma Z_div_nonneg_nonneg : forall a b, 0 <= a -> 0 <= b -> 0 <= a / b.
 Proof.
-  intros a b. destruct b; intros; now (rewrite Zdiv_0_r + apply Z_div_pos).
+  intros a b. destruct b; intros; now (rewrite Z.div_0_r + apply Z_div_pos).
 Qed.
 
 (* Modulo for a non-negative divisor is non-negative. *)
 
 Lemma Z_mod_nonneg_nonneg : forall a b, 0 <= a -> 0 <= b -> 0 <= a mod b.
 Proof.
-  destruct b; intros; now (rewrite Zmod_0_r + apply Z_mod_lt).
+  destruct b; intros; now (rewrite Z.mod_0_r + apply Z_mod_lt).
 Qed.
 
 (** As soon as the divisor is greater or equal than 2,
@@ -768,7 +770,7 @@ Proof. zero_or_not b; [|rewrite Z.mod_small_iff]; intuition idtac. Qed.
 Lemma gcd_mod_l a b : Z.gcd (a mod b) b = Z.gcd a b.
 Proof.
   case (Z.eqb_spec b 0) as [->|];
-    rewrite ?Zmod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
+    rewrite ?Z.mod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
 Qed.
 
 Lemma gcd_mod_r a b : Z.gcd a (b mod a) = Z.gcd a b.
@@ -777,7 +779,7 @@ Proof. rewrite Z.gcd_comm, Z.gcd_mod_l, Z.gcd_comm; trivial. Qed.
 Lemma mod_pow_l a b c : (a mod c)^b mod c = ((a ^ b) mod c).
 Proof.
   destruct (Z.ltb_spec b 0) as [|Hb]. { rewrite !Z.pow_neg_r; trivial. }
-  destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Z.mod_0_r; trivial. }
   generalize dependent b; eapply Wf_Z.natlike_ind; trivial; intros x Hx IH.
   rewrite !Z.pow_succ_r, <-Z.mul_mod_idemp_r, IH, Z.mul_mod_idemp_l, Z.mul_mod_idemp_r; trivial.
 Qed.
@@ -785,7 +787,7 @@ Qed.
 Lemma cong_iff_0 a b m : a mod m = b mod m <-> (a - b) mod m = 0.
 Proof.
   case (Z.eq_dec m 0) as [->|Hm].
-  { rewrite ?Zmod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
+  { rewrite ?Z.mod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
   split; intros H. { rewrite Zminus_mod, H, Z.sub_diag, Z.mod_0_l; trivial. }
   apply Zmod_divides in H; trivial; case H as [c H].
   assert (b = a + (-c) * m) as ->; rewrite ?Z.mod_add; trivial.
@@ -795,16 +797,16 @@ Qed.
 Lemma cong_iff_ex a b m : a mod m = b mod m <-> exists n, a - b = n * m.
 Proof.
   destruct (Z.eq_dec m 0) as [->|].
-  { rewrite !Zmod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
+  { rewrite !Z.mod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
     firstorder idtac. }
   { rewrite cong_iff_0, Z.mod_divide by trivial; reflexivity. }
 Qed.
 
 Lemma mod_mod_divide a b c : (c | b) -> (a mod b) mod c = a mod c.
 Proof.
-  destruct (Z.eqb_spec b 0); subst. { rewrite Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec b 0); subst. { rewrite Z.mod_0_r; trivial. }
   inversion_clear 1; subst.
-  destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Z.mod_0_r; trivial. }
   apply cong_iff_ex; eexists (- x * (a/(x*c))); rewrite Z.mod_eq by auto.
   ring_simplify; trivial.
 Qed.
@@ -816,7 +818,7 @@ Proof.
   { rewrite !Z_mod_zero_opp_full; trivial. }
   rewrite Z_mod_nz_opp_full by trivial.
   rewrite <-Zminus_mod_idemp_r.
-  case (Z.eq_dec b 0) as [->|]; [rewrite Zmod_0_r; ring|].
+  case (Z.eq_dec b 0) as [->|]; [rewrite Z.mod_0_r; ring|].
   rewrite <-Z.mod_add with (b:=1) by trivial.
   change 0 with (0 mod b); f_equal; ring.
 Qed.
@@ -833,7 +835,7 @@ Proof. rewrite <-(mod_mod_opp_r a (-b)), Z.opp_involutive; trivial. Qed.
 Lemma mod_mod_abs_r a b : (a mod Z.abs b) mod b = a mod b.
 Proof.
   case b as []; cbn [Z.abs].
-  { rewrite ?Zmod_0_r; trivial. }
+  { rewrite ?Z.mod_0_r; trivial. }
   { apply Z.mod_mod; inversion 1. }
   { rewrite <-Pos2Z.opp_pos. apply mod_opp_r_mod. }
 Qed.
@@ -841,7 +843,7 @@ Qed.
 Lemma mod_abs_r_mod a b : (a mod b) mod Z.abs b = a mod Z.abs b.
 Proof.
   case b as []; cbn [Z.abs].
-  { rewrite ?Zmod_0_r; trivial. }
+  { rewrite ?Z.mod_0_r; trivial. }
   { apply Z.mod_mod; inversion 1. }
   { rewrite <-Pos2Z.opp_pos. apply mod_mod_opp_r. }
 Qed.

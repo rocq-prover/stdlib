@@ -1,3 +1,4 @@
+From subcomponents Require arith.
 From subcomponents Require primitive_string.
 From subcomponents Require primitive_array.
 From subcomponents Require primitive_floats.

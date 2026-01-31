@@ -26,7 +26,7 @@ def dfs(target, comp, html, dot):
     if target in component.keys():
         assert comp_requires(comp, component[target]),\
                f"{target} (from component {component[target]}) used in {comp}"+\
-               f"but {comp} does not require {component[target]}"
+               f" but {comp} does not require {component[target]}"
         return
     component[target] = comp
     for dep in compdeps[target]:
@@ -108,5 +108,12 @@ with open(sys.argv[1] if 1 < len(sys.argv) else os.devnull, 'w') as html,\
           continue
       assert component.get(target) not in [None, top],\
               f"{target} does not belong to any component"
+      if not is_component(target):
+        continue
+      for dep in sorted(dependencies[target]):
+        if is_component(dep):
+          continue
+        assert component[dep] == target,\
+            f"{dep} listed in {target} is used earlier in {component[dep]}"
   print("</dl>", file=html)
   print("}", file=dot)

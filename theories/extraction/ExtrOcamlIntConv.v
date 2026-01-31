@@ -14,7 +14,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import Arith ZArith.
+From Stdlib Require Import PeanoNat BinInt.
 
 Parameter int : Type.
 Parameter int_zero : int.

@@ -1,4 +1,5 @@
-From subcomponents Require arith.
+From subcomponents Require integers.
+From subcomponents Require lists.
 From Stdlib Require Strings.HexString.
 From Stdlib Require Strings.Ascii.
 From Stdlib Require Strings.String.

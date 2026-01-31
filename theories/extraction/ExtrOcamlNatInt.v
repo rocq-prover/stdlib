@@ -12,7 +12,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import Arith EqNat Euclid.
+From Stdlib Require Import PeanoNat Peano_dec EqNat Euclid.
 From Stdlib Require Import ExtrOcamlBasic.
 
 (** Disclaimer: trying to obtain efficient certified programs

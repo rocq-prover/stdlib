@@ -1,2 +1,2 @@
-From subcomponents Require zarith.
+From subcomponents Require ring.
 From Stdlib Require setoid_ring.Field.

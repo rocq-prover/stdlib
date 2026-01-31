@@ -1,3 +1,4 @@
+From subcomponents Require arith.
 From subcomponents Require qarith.
 From subcomponents Require classical_logic.
 From subcomponents Require vectors.
@@ -9,7 +10,6 @@ From Stdlib Require Reals.ClassicalConstructiveReals.
 From Stdlib Require Reals.Machin.
 From Stdlib Require Reals.Rminmax.
 From Stdlib Require Reals.Rlogic.
-From Stdlib Require Reals.Nsatz.
 From Stdlib Require setoid_ring.Rings_R.
 From Stdlib Require micromega.Psatz.
 From Stdlib Require Numbers.DecimalR.
