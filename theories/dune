@@ -12,4 +12,6 @@
 (rule
  (targets All.v)
  (deps All.sh (source_tree .))
- (action (with-stdout-to %{targets} (run env bash ./All.sh))))
+ ; -unsorted: coqdep will want the .vo for the corelib to be present
+ ; we could depend on rocq-core instead
+ (action (with-stdout-to %{targets} (run env bash ./All.sh -unsorted))))
