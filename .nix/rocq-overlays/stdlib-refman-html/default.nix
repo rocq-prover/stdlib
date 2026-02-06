@@ -8,7 +8,7 @@ rocqPackages.lib.overrideRocqDerivation {
   ++ [
     # Sphinx doc dependencies
     (python311.withPackages
-      (ps: [ ps.sphinx ps.sphinx_rtd_theme ps.pexpect ps.beautifulsoup4
+      (ps: [ ps.sphinx ps.sphinx-rtd-theme ps.pexpect ps.beautifulsoup4
              (ps.antlr4-python3-runtime.override {antlr4 = antlr4_9;}) ps.sphinxcontrib-bibtex ]))
     antlr4_9
   ];

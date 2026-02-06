@@ -244,7 +244,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "v3.0.1";
+      coq-elpi.override.elpi-version = "3.4.2";
       fiat-crypto-legacy.override.version = "sp2019latest";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
@@ -267,11 +267,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       sf.job = false;  # temporarily disactivated in Rocq CI
       trakt.job = false;  # temporarily disactivated in Rocq CI
       smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
+      LibHyps.job = false;  # not in Rocq CI
     };
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "v3.0.1";
+      rocq-elpi.override.elpi-version = "3.4.2";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
     };
