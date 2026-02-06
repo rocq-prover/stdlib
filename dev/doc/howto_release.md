@@ -4,6 +4,7 @@
 * check the result of "make refman-html"
   (in _build/default/doc/refman-html)
 * if need be, update supported versions of Rocq in .nix/config.nix
+  and regenerate CI config with nix-shell --arg do-nothing true --run "genNixActions"
 * rerun CI
 * release on github (and add the generated tarball as asset)
 * once tagging is done push a commit to update doc/sphinx/changes.rst

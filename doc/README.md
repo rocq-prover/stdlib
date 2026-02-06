@@ -34,7 +34,7 @@ build the refman is to run:
 Otherwise, you need to install (in another way) Python 3, and the following Python packages:
 
   - sphinx >= 4.5.0
-  - sphinx_rtd_theme >= 1.0.0
+  - sphinx-rtd-theme >= 1.0.0
   - beautifulsoup4 >= 4.8.2
   - antlr4-python3-runtime >= 4.7.1 & <= 4.9.3
   - pexpect >= 4.6.0
@@ -43,7 +43,7 @@ Otherwise, you need to install (in another way) Python 3, and the following Pyth
 For instance, on Debian / Ubuntu, you can install pip and setuptools
 with `apt install python3-pip python3-setuptools` on Debian / Ubuntu then run:
 
-    pip3 install sphinx sphinx_rtd_theme beautifulsoup4 \
+    pip3 install sphinx sphinx-rtd-theme beautifulsoup4 \
                  antlr4-python3-runtime==4.7.1 pexpect sphinxcontrib-bibtex
 
 You can check the dependencies using the `doc/tools/rocqrst/checkdeps.py` script.
