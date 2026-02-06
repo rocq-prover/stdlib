@@ -207,7 +207,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "engine-bench"
       "fiat-crypto"
       "fiat-crypto-ocaml"
-      "fiat-crypto-legacy"
       "iris"
       "iris-examples"
       "metacoq"
@@ -244,17 +243,18 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "v3.0.1";
-      fiat-crypto-legacy.override.version = "sp2019latest";
+      coq-elpi.override.elpi-version = "3.4.2";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
+      iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       ElmExtraction.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
+      LibHyps.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -271,7 +271,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "v3.0.1";
+      rocq-elpi.override.elpi-version = "3.4.2";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
     };
