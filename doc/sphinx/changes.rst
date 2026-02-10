@@ -8,6 +8,240 @@ Recent changes
 
    .. include:: ../unreleased.rst
 
+Version 9.1
+-----------
+
+Changes in 9.1.0
+~~~~~~~~~~~~~~~~
+
+.. contents::
+   :local:
+
+
+Changed
+^^^^^^^
+
+- Internal dependencies between about 50 stdlib files
+
+  + To diagnose a failing qualified reference use
+    `From Stdlib Require All. Locate My.Qualified.reference.`
+    Then add a Require command for the appropriately granular containing file
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+- in `FinFun`
+
+  + Split out non-`Fin`-specific definitons into `Lists.Finite`
+    (`#154 <https://github.com/coq/stdlib/pull/154>`_,
+    by Andres Erbsen).
+
+- in `HLevels.v`
+
+  + Split into `HLevels` into `HLevelsBase`, which does not depend
+    on axioms, and :g:`HLevels`, which exports the former and provides the
+    previous functionality
+    (`#133 <https://github.com/coq/stdlib/pull/133>`_,
+    by Andres Erbsen).
+
+- in `NsatzTactic.v`
+
+  + Split NsatzTactic into a smaller `NsatzTactic` that only depends on
+    `setoid_ring`, and per-domain files `ZNsatz`, `QNsatz`, and `RNsatz`
+    (`#155 <https://github.com/coq/stdlib/pull/155>`_,
+    by Andres Erbsen).
+
+- in `Permutation`
+
+  + Moved `Fin`-specific definitons into `FinFun`
+    (`#154 <https://github.com/coq/stdlib/pull/154>`_,
+    by Andres Erbsen).
+
+- in `RIneq.v`
+
+  + Changed the statement of `Rmult_gt_reg_l`.
+    Use the convertible `Rmult_lt_reg_l`
+    if you need a backward compatible solution
+    (`#213 <https://github.com/coq/stdlib/pull/213>`_,
+    fixes `#212 <https://github.com/coq/stdlib/issues/212>`_,
+    by Damien Doligez).
+
+- in `ZArith,v` and dependencies
+
+  + Reducing reliance on :g:`Znumtheory` within stdlib changed the internal
+    dependencies between files, code relying on files being transitively
+    required in stdlib may need to now explicitly ``Require``
+    `Znumtheory`,
+    `BinInt`,
+    `BinList`,
+    `BinNat`,
+    `BinNums`,
+    `BinPos`,
+    `Setoid`,
+    `Tauto`,
+    `Zhints`,
+    `Zpow_def`,
+    `Zpow_facts`,
+    or `Zbool`
+    (`#136 <https://github.com/coq/stdlib/pull/136>`_,
+    by Andres Erbsen).
+
+Added
+^^^^^
+
+- in `BinInt`
+
+  + Added lemmas `div_eucl_0_r`, `mod_0_r`, `div_0_r`
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+- in `BinNatDef.v` and `BinNat.v`
+
+  + Added definition `Niter_op` for repeating associative operations, a proof
+    relating it to the generic :g:`N.iter` (:g:`iter_op_correct`), and
+    properties :g:`iter_op_0_r`, :g:`iter_op_1_r`, :g:`iter_op_succ_r`, and
+    :g:`iter_op_add_r`
+    (`#134 <https://github.com/coq/stdlib/pull/134>`_,
+    by Andres Erbsen).
+
+- in `Diaconescu.v`
+
+  + Add a proof of Diaconescu's theorem assuming propositional
+    extensionality rather than predicate extensionality
+    (`#214 <https://github.com/coq/stdlib/pull/214>`_,
+    by Jean Abou Samra).
+
+- in `ENsatzTactic`
+
+  + Add new tactic `ensatz` for proving polynomial equalities
+    with existential quantifiers or existential variables
+    (`#160 <https://github.com/coq/stdlib/pull/160>`_,
+    by Lionel Blatter).
+
+- in `HLevelsBase.v`
+
+  + transparent lemmas :g:`false_hprop`, :g:`true_hprop`,
+    :g:`Is_true_hprop`, :g:`eq_true_hprop`, and a wrappers
+    :g:`transparent_Is_true` and :g:`transparent_eq_true` to produce
+    transparent proofs for :g:`Is_true` and
+    :g:`eq_true` given not necessarily transparent proofs of the same
+    (`#133 <https://github.com/coq/stdlib/pull/133>`_,
+    by Andres Erbsen).
+
+- in `Ncring_tac`
+
+  + Added extension-point typeclass `extra_reify` that is only resolved on
+    non-variables for which built-in syntax-directed reification did not find a
+    match
+    (`#156 <https://github.com/coq/stdlib/pull/156>`_,
+    by Andres Erbsen).
+
+- in `NsatzTactic`
+
+  + Added support for `nsatz` using ring hypotheses above non-ring hypotheses.
+    If a proof relies on `nsatz` not using earlier ring hypotheses, clear these
+    hypotheses before calling nsatz.
+    (`#157 <https://github.com/coq/stdlib/pull/157>`_,
+    by Andres Erbsen).
+
+- in `ZArithRing`
+
+  + Added `Zpower_theory` to replace the now-deprecated one in `Zpow_def`
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+- in `Zcong.v`
+
+  + theory of integer congruences and multiplicative inverses up to Chinese
+    Remainder Theorem
+    (`#135 <https://github.com/coq/stdlib/pull/135>`_,
+    by Andres Erbsen).
+
+- new file `Zdivisibility.v`
+
+  + Refactored theory of integer divisibility including primality and
+    coprimality. This file is intended to replace `Znumtheory`
+    (`#136 <https://github.com/coq/stdlib/pull/136>`_,
+    by Andres Erbsen).
+
+- in `Zmod.v`
+
+  + Added theory of modular integer arithmetic, including machine words /
+    bitvectors and the multiplicative group of integers modulo another integer.
+    About 450 lemmas are provided
+    (`#144 <https://github.com/coq/stdlib/pull/144>`_,
+    by Andres Erbsen).
+
+- in `ZmodNsatz` and `Zmod`
+
+  + Added support for the `nsatz` tactic on `Zmod`
+    (`#156 <https://github.com/coq/stdlib/pull/156>`_,
+    by Andres Erbsen).
+
+- in `ZModOffset.v`
+
+  + Added theory of :g:`Z.modulo` with output range shifted by a constant. The
+    main definition is :g:`Z.omodulo`, with :g:`Z.smodulo` capturing the
+    special case where the offset is equal to half of the modulus, such as in
+    two's-complement arithmetic
+    (`#135 <https://github.com/coq/stdlib/pull/135>`_,
+    by Andres Erbsen).
+
+Removed
+^^^^^^^
+
+- in `Zdiv.v`
+
+  + alias `Zmod` for `Z.modulo`, deprecated since 8.17
+    (`#149 <https://github.com/coq/stdlib/pull/149>`_,
+    by Andres Erbsen).
+
+- in `ZMicromega`
+
+  + Support for `EnumProof`s in `ZChecker`.
+    The `lia` plugin does not generate such proofs anymore.
+    If you have a different certificate generator that targets the same
+    checker, please open an issue
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+Deprecated
+^^^^^^^^^^
+
+- in `Div`
+
+  + Lemmas `Zmod_0_r` and `Zdiv_0_r` in favor of `BinInt.Z.mod_0_r` and
+    `BinInt.Z.div_0_r`
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+- in `Rtauto and rtauto.Bintree`
+
+  + If you use this plugin and would like to continue using it, please open an
+    issue to discuss its maintainership
+    (`#161 <https://github.com/coq/stdlib/pull/161>`_,
+    by Andres Erbsen).
+
+- in `ZMicromega`
+
+  + Internal tactics `flatten_bool` and `inv`, definitions `EnumProof`, `isZ0`,
+    `bdepth`, `vars`, and lemmas `eq_le_iff`, `isZ0_0`, `isZ0_0`, `isZ0_n0`,
+    `isZ0_n0`, `eq_true_iff_eq`, `max_var_le`, `max_var_correct`,
+    `max_var_nformulae_correct_aux`, `max_var_nformalae_correct`,
+    `ltof_bdepth_split_l`, `ltof_bdepth_split_r`
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+  + Misplaced lemma `Zpower_theory`, with replacement in `ZArithRing`
+    (`#150 <https://github.com/coq/stdlib/pull/150>`_,
+    by Andres Erbsen).
+
+- in `Znumtheory.v`
+
+  + Deprecated most definitions in favor of `Zdivisibility.v` or appropriate
+    established files
+    (`#136 <https://github.com/coq/stdlib/pull/136>`_,
+    by Andres Erbsen).
+
 Version 9.0
 -----------
 
