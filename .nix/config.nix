@@ -207,7 +207,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "engine-bench"
       "fiat-crypto"
       "fiat-crypto-ocaml"
-      "fiat-crypto-legacy"
       "iris"
       "iris-examples"
       "metacoq"
@@ -244,17 +243,18 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "v3.0.1";
-      fiat-crypto-legacy.override.version = "sp2019latest";
+      coq-elpi.override.elpi-version = "3.4.2";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
+      iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       ElmExtraction.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
+      LibHyps.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -271,7 +271,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     common-bundles = {
       bignums.override.version = "master";
       rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "v3.0.1";
+      rocq-elpi.override.elpi-version = "3.4.2";
       rocq-elpi-test.override.version = "master";
       hierarchy-builder.override.version = "master";
     };
@@ -282,6 +282,41 @@ with builtins; with (import <nixpkgs> {}).lib;
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
     }; };
+    "rocq-9.2" = { rocqPackages = common-bundles // {
+      rocq-core.override.version = "9.2";
+      # plugin pins, from v9.2 branch of Rocq
+      bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
+      stdlib-test.job = false;
+    }; coqPackages = coq-common-bundles // {
+      coq.override.version = "9.2";
+      # plugin pins, from v9.2 branch of Rocq
+      aac-tactics.override.version = "4f796a7b0ee88330162727fc6ea988a7e0ea46e3";
+      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
+      bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
+      itauto.job = false;  # broken
+      coinduction.override.version = "9502ae09e9f87518330f37c08bc19a8c452dcd91";
+      dpdgraph-test.override.version = "7a0fba21287dd8889c55e6611f8ba219d012b81b";
+      coq-hammer.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
+      coq-hammer-tactics.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
+      equations.override.version = "757662b9c875d7169a07b861d48e82157520ab1a";
+      equations-test.job = false;
+      fiat-parsers.job = false;  # broken
+      metarocq.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
+      metarocq-test.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
+      mtac2.override.version = "fe8b6049835caa793436e277a64ee7e4910f7b04";
+      paramcoq-test.override.version = "f8026210f37faf6c4031de24ada9fdded29d67e5";
+      relation-algebra.override.version = "ba3db5783060d9e25d1db5e377fc9d71338a5160";
+      rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
+      rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
+      smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
+      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
+      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
+      unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
+      waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
+      compcert.job = false;  # broken
+      VST.job = false;  # depends on compcert
+    } // listToAttrs (forEach lighten-released (p:
+      { name = p; value.job = false; })); };
     "rocq-9.1" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.1";
       # check that we compile without warnings on last release of Rocq
