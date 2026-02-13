@@ -23,6 +23,7 @@ Defined.
 
 Abbreviation eq_nat_dec := Nat.eq_dec (only parsing).
 
+Create HintDb arith.
 #[global]
 Hint Resolve O_or_S eq_nat_dec: arith.
 

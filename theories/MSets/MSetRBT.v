@@ -40,6 +40,8 @@ From Stdlib Require Import Bool List BinPos Pnat Setoid SetoidList PeanoNat.
    only when needed *)
 #[local] Unset Elimination Schemes.
 
+Create Rewrite HintDb rb.
+
 (** An extra function not (yet?) in MSetInterface.S *)
 
 Module Type MSetRemoveMin (Import M:MSetInterface.S).

@@ -16,6 +16,7 @@
   Moreover, we prove that [E.Eq] and [Equal] are setoid equalities.
 *)
 
+From Stdlib Require Export FSetInterface.
 From Stdlib Require Import DecidableTypeEx.
 From Stdlib Require Export MSetInterface.
 Set Implicit Arguments.

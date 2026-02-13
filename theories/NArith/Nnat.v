@@ -161,6 +161,7 @@ Qed.
 
 End N2Nat.
 
+Create Rewrite HintDb Nnat.
 #[global] Hint Rewrite N2Nat.inj_div N2Nat.inj_mod N2Nat.inj_pow
  N2Nat.inj_double N2Nat.inj_succ_double
  N2Nat.inj_succ N2Nat.inj_add N2Nat.inj_mul N2Nat.inj_sub

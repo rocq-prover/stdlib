@@ -30,6 +30,7 @@ Variable phiCR_comm: forall (c:C)(x:R), x * [c] == [c] * x.
 Ltac rsimpl := repeat (gen_rewrite || rewrite phiCR_comm).
 Ltac add_push := gen_add_push .
 
+Create Rewrite HintDb rsimpl.
 #[local] Hint Rewrite
   ring_opp_zero ring_opp_add
   ring_add_0_l ring_add_0_r

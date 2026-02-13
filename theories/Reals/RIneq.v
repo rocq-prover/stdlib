@@ -61,6 +61,7 @@ From Stdlib Require Export RealField.
 
 Lemma Rle_refl : forall r, r <= r.
 Proof. now intros r; right. Qed.
+Create HintDb rorders.
 #[global]
 Hint Immediate Rle_refl: rorders.
 

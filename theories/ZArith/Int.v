@@ -23,6 +23,8 @@ Delimit Scope Int_scope with I.
 
 #[local] Ltac Tauto.intuition_solver ::= auto with bool.
 
+Create Rewrite HintDb i2z.
+
 (** * A specification of integers *)
 
 Module Type Int.

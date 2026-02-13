@@ -8,6 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Import Datatypes.
+
 Set Implicit Arguments.
 
 (** Streams *)

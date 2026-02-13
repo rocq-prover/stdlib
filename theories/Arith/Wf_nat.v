@@ -10,7 +10,7 @@
 
 (** Well-founded relations and natural numbers *)
 
-From Stdlib Require Import PeanoNat.
+From Stdlib Require Import PeanoNat Peano_dec.
 
 #[local] Open Scope nat_scope.
 

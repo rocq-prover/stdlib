@@ -55,6 +55,8 @@ Definition Cmp (elt:Type)(cmp:elt->elt->bool) e1 e2 := cmp e1 e2 = true.
     No requirements for an ordering on keys nor elements, only decidability
     of equality on keys. First, a functorial signature: *)
 
+Create HintDb map.
+
 Module Type WSfun (E : DecidableType).
 
   Definition key := E.t.

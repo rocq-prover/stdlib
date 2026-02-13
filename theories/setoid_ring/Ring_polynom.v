@@ -17,6 +17,8 @@ From Stdlib Require Export Ring_theory.
 Import RingSyntax.
 (* Set Universe Polymorphism. *)
 
+Create Rewrite HintDb Esimpl.
+
 Section MakeRingPol.
 
  (* Ring elements *)

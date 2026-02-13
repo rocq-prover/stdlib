@@ -8,6 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Import Datatypes.
 From Stdlib Require Import PeanoNat.
 From Stdlib Require Import Morphisms.
 From Stdlib Require Export ListDef.
@@ -3972,7 +3973,7 @@ Ltac invlist f :=
 
 (** * Exporting hints and tactics *)
 
-
+Create Rewrite HintDb list.
 #[global] Hint Rewrite
   rev_involutive (* rev (rev l) = l *)
   rev_unit (* rev (l ++ a :: nil) = a :: rev l *)

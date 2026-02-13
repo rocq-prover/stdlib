@@ -24,6 +24,8 @@ From Stdlib Require Import DoubleType.
 
 #[local] Open Scope Z_scope.
 
+Create Rewrite HintDb cyclic.
+
 (** First, a description via an operator record and a spec record. *)
 
 Module ZnZ.

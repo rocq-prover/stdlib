@@ -18,7 +18,7 @@
    Sandrine Blazy (used for building certified compilers).
 *)
 
-From Stdlib Require Import Bool PeanoNat BinPos Orders OrdersEx MSetInterface.
+From Stdlib Require Import Bool PeanoNat BinPos Orders OrdersEx MSetInterface FSetPositive.
 
 Set Implicit Arguments.
 #[local] Open Scope lazy_bool_scope.

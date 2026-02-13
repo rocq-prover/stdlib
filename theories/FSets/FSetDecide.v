@@ -19,6 +19,11 @@
 
 From Stdlib Require Import Decidable Setoid DecidableTypeEx FSetFacts.
 
+Create HintDb FSet_Prop.
+Create HintDb FSet_decidability.
+Create Rewrite HintDb set_simpl.
+Create Rewrite HintDb set_eq_simpl.
+
 (** First, a version for Weak Sets in functorial presentation *)
 
 Module WDecide_fun (E : DecidableType)(Import M : WSfun E).

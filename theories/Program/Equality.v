@@ -21,6 +21,7 @@ Ltac is_ground_goal :=
 
 (** Try to find a contradiction. *)
 
+Create HintDb exfalso.
 #[global]
 Hint Extern 10 => is_ground_goal ; progress exfalso : exfalso.
 
@@ -162,6 +163,7 @@ Ltac pi_eq_proofs := repeat pi_eq_proof.
 Ltac clear_eq_proofs :=
   abstract_eq_proofs ; pi_eq_proofs.
 
+Create Rewrite HintDb refl_id.
 #[global] Hint Rewrite <- eq_rect_eq : refl_id.
 
 (** The [refl_id] database should be populated with lemmas of the form
@@ -309,6 +311,7 @@ Proof. intros. rewrite (UIP_refl A). assumption. Defined.
 (** This hint database and the following tactic can be used with [autounfold] to
    unfold everything to [eq_rect]s. *)
 
+Create HintDb dep_elim.
 #[global]
 Hint Unfold solution_left solution_right deletion simplification_heq
   simplification_existT1 simplification_existT2 simplification_K

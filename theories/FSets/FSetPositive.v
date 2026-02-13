@@ -25,6 +25,8 @@ Set Implicit Arguments.
 #[local] Open Scope positive_scope.
 #[local] Unset Elimination Schemes.
 
+Create HintDb ct.
+
 Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   Module E:=PositiveOrderedTypeBits.

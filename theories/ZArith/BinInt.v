@@ -14,6 +14,8 @@ From Stdlib Require Import BinNat Bool Equalities GenericMinMax
  OrdersFacts ZAxioms ZProperties DecidableClass.
 From Stdlib Require BinIntDef.
 
+Create HintDb zarith.
+
 (***********************************************************)
 (** * Binary Integers *)
 (***********************************************************)

@@ -16,6 +16,8 @@ Unset Strict Implicit.
 
 (** * Properties of [compare] *)
 
+Create Rewrite HintDb order.
+
 Module Type CompareFacts (Import O:DecStrOrder').
 
  #[local] Infix "?=" := compare (at level 70, no associativity).

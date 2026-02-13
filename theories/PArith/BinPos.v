@@ -26,6 +26,8 @@ From Stdlib Require Export BinPosDef.
 
 #[local] Open Scope positive_scope.
 
+Create Rewrite HintDb compare.
+
 (** Every definitions and early properties about positive numbers
     are placed in a module [Pos] for qualification purpose. *)
 

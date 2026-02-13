@@ -1585,6 +1585,7 @@ Section S.
     auto.
   Qed.
 
+  Create HintDb tauto.
   #[local]
   Hint Resolve no_middle_eval_tt : tauto.
 

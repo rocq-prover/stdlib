@@ -10,6 +10,8 @@
 
 From Stdlib Require Import DecidableClass HLevelsBase.
 
+Create Rewrite HintDb bitwise.
+
 (** The type [bool] is defined in the prelude as
 [[
 Inductive bool : Set := true : bool | false : bool
