@@ -209,7 +209,7 @@ Definition concat s1 s2 :=
 *)
 
 Record triple := mktriple { t_left:t; t_in:bool; t_right:t }.
-Notation "<< l , b , r >>" := (mktriple l b r) (at level 9).
+Notation "<< l , b , r >>" := (mktriple l b r) (at level 0).
 
 Fixpoint split x s : triple := match s with
   | Leaf => << Leaf, false, Leaf >>

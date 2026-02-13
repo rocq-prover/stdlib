@@ -10,9 +10,17 @@
     (`#235 <https://github.com/coq/stdlib/pull/235>`_,
     by Pierre Roux).
 
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
 - in `MSetAVL.v`
 
   + changed notations `_ #1`, `_ #2`, `_ #l`, `_ #b` and `_ #r` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
     (`#235 <https://github.com/coq/stdlib/pull/235>`_,
     by Pierre Roux).
 
@@ -25,5 +33,11 @@
 - in `NZBits.v`
 
   + changed notation `_ .[ _ ]` from level 5 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `NZDomain.v`
+
+  + changed notation `[ _ ]` from level 7 to level 0
     (`#235 <https://github.com/coq/stdlib/pull/235>`_,
     by Pierre Roux).
