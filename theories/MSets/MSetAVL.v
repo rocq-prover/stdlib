@@ -530,11 +530,11 @@ Qed.
 
 Declare Scope pair_scope.
 
-Notation "s #1" := (fst s) (at level 9, format "s '#1'") : pair_scope.
-Notation "s #2" := (snd s) (at level 9, format "s '#2'") : pair_scope.
-Notation "t #l" := (t_left t) (at level 9, format "t '#l'") : pair_scope.
-Notation "t #b" := (t_in t) (at level 9, format "t '#b'") : pair_scope.
-Notation "t #r" := (t_right t) (at level 9, format "t '#r'") : pair_scope.
+Notation "s #1" := (fst s) (at level 1, format "s '#1'") : pair_scope.
+Notation "s #2" := (snd s) (at level 1, format "s '#2'") : pair_scope.
+Notation "t #l" := (t_left t) (at level 1, format "t '#l'") : pair_scope.
+Notation "t #b" := (t_in t) (at level 1, format "t '#b'") : pair_scope.
+Notation "t #r" := (t_right t) (at level 1, format "t '#r'") : pair_scope.
 
 #[local] Open Scope pair_scope.
 
