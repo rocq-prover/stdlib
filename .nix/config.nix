@@ -284,6 +284,8 @@ with builtins; with (import <nixpkgs> {}).lib;
     }; };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
+      # check that we compile without warnings on last release of Rocq
+      stdlib-warnings.job = true;
       # plugin pins, from v9.2 branch of Rocq
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       stdlib-test.job = false;
@@ -319,8 +321,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.job = false; })); };
     "rocq-9.1" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.1";
-      # check that we compile without warnings on last release of Rocq
-      stdlib-warnings.job = true;
       # plugin pins, from v9.1 branch of Rocq
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
       stdlib-test.job = false;

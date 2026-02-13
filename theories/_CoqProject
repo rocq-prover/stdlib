@@ -1,4 +1,9 @@
 -R . Stdlib
+# When editing below lines, keep the theories/dune file in sync
 # to handle when requiring Rocq >= 9.2
 -arg -w -arg -notation-for-abbreviation
 -arg -w -arg -ltac2-notation-for-abbreviation
+-arg -w -arg -implicit-create-hint-db
+-arg -w -arg -implicit-create-rewrite-hint-db
+-arg -w -arg -register-all
+-arg -w -arg -scheme-rewriting
