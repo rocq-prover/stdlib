@@ -131,64 +131,64 @@ Qed.
 (** The decidability of equality and order relations over
     type [Z] gives some boolean functions with the adequate specification. *)
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_lt_ge_bool (x y:Z) := bool_of_sumbool (Z_lt_ge_dec x y).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_ge_lt_bool (x y:Z) := bool_of_sumbool (Z_ge_lt_dec x y).
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_le_gt_bool (x y:Z) := bool_of_sumbool (Z_le_gt_dec x y).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_gt_le_bool (x y:Z) := bool_of_sumbool (Z_gt_le_dec x y).
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_eq_bool (x y:Z) := bool_of_sumbool (Z.eq_dec x y).
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Z_noteq_bool (x y:Z) := bool_of_sumbool (Z_noteq_dec x y).
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Zeven_odd_bool (x:Z) := bool_of_sumbool (Zeven_odd_dec x).
 
 (**********************************************************************)
 (** * Boolean comparisons of binary integers *)
 
-#[deprecated(use=Z.leb, since="9.0")]
+#[deprecated(use=Z.leb, since="Stdlib 9.0")]
 Notation Zle_bool := Z.leb (only parsing).
-#[deprecated(use=Z.geb, since="9.0")]
+#[deprecated(use=Z.geb, since="Stdlib 9.0")]
 Notation Zge_bool := Z.geb (only parsing).
-#[deprecated(use=Z.ltb, since="9.0")]
+#[deprecated(use=Z.ltb, since="Stdlib 9.0")]
 Notation Zlt_bool := Z.ltb (only parsing).
-#[deprecated(use=Z.gtb, since="9.0")]
+#[deprecated(use=Z.gtb, since="Stdlib 9.0")]
 Notation Zgt_bool := Z.gtb (only parsing).
 
 (** We now provide a direct [Z.eqb] that doesn't refer to [Z.compare].
    The old [Zeq_bool] is kept for compatibility. *)
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Notation Zeq_bool := Z.eqb.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_is_eq_bool x y : x = y <-> Zeq_bool x y = true.
 Proof. symmetry; apply Z.eqb_eq. Qed.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_bool_eq x y : Zeq_bool x y = true -> x = y.
 Proof. apply Z.eqb_eq. Qed.
 
-#[deprecated(use=Z.eqb, since="9.0")]
+#[deprecated(use=Z.eqb, since="Stdlib 9.0")]
 Definition Zneq_bool (x y:Z) :=
   match x ?= y with
     | Eq => false
     | _ => true
   end.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_bool_neq x y : Zeq_bool x y = false -> x <> y.
 Proof.
  rewrite Zeq_is_eq_bool; now destruct Zeq_bool.
 Qed.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_bool_if x y : if Zeq_bool x y then x=y else x<>y.
 Proof.
  generalize (Zeq_bool_eq x y) (Zeq_bool_neq x y).

@@ -7,7 +7,7 @@
 (*         *     GNU Lesser General Public License Version 2.1          *)
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
-Attributes deprecated(since="9.1", note="Use lia. If you would like to take over maintenance of rtauto, please open an issue.").
+Attributes deprecated(since="Stdlib 9.1", note="Use lia. If you would like to take over maintenance of rtauto, please open an issue.").
 #[local] Set Warnings "-deprecated-library-file".
 
 From Stdlib Require Export List.

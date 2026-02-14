@@ -2685,7 +2685,7 @@ Proof.
 Qed.
 
 (* NOTE: keeping inconsistent variable names for backward compatibility. *)
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_bool_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
 Proof. now intros n m H; apply Z.eqb_eq, eq_IZR. Qed.
 

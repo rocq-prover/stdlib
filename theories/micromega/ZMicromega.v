@@ -21,17 +21,17 @@ From Stdlib.micromega Require Import Refl Tauto OrderedRing RingMicromega EnvRin
 
 #[local] Open Scope Z_scope.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Ltac flatten_bool :=
   repeat match goal with
            [ id : (_ && _)%bool = true |- _ ] =>  destruct (andb_prop _ _ id); clear id
          |  [ id : (_ || _)%bool = true |- _ ] =>  destruct (orb_prop _ _ id); clear id
          end.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Ltac inv H := inversion H ; try subst ; clear H.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma eq_le_iff : forall x, 0 = x  <-> (0 <= x /\ x <= 0).
 Proof.
   intros.
@@ -548,7 +548,7 @@ Inductive ZArithProof :=
 | ExProof   : positive -> ZArithProof -> ZArithProof
 (*ExProof x : exists z t, x = z - t /\ z >= 0 /\ t >= 0 *)
 .
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Notation EnumProof := deprecated_EnumProof (only parsing).
 
 
@@ -572,19 +572,19 @@ Definition deprecated_isZ0 (x:Z) :=
     | _  => false
   end.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma isZ0_0 : forall x, deprecated_isZ0 x = true <-> x = 0.
 Proof.
   intros x; destruct x ; simpl ; intuition congruence.
 Qed.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma isZ0_n0 : forall x, deprecated_isZ0 x = false <-> x <> 0.
 Proof.
   intros x; destruct x ; simpl ; intuition congruence.
 Qed.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Notation isZ0 := deprecated_isZ0 (only parsing).
 
 Definition ZgcdM (x y : Z) := Z.max (Z.gcd x y) 1.
@@ -1256,7 +1256,7 @@ Proof.
 Qed.
 
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma eq_true_iff_eq :
   forall b1 b2 : bool, (b1 = true <-> b2 = true) <-> b1 = b2.
 Proof.
@@ -1385,15 +1385,15 @@ Definition coneMember := ZWitness.
 
 Definition eval := eval_formula.
 
-#[deprecated(note="Use [prod positive nat]", since="9.0")]
+#[deprecated(note="Use [prod positive nat]", since="Stdlib 9.0")]
 Definition prod_pos_nat := prod positive nat.
 
-#[deprecated(use=Z.to_N, since="9.0")]
+#[deprecated(use=Z.to_N, since="Stdlib 9.0")]
 Notation n_of_Z := Z.to_N (only parsing).
 
 Require Import PeanoNat Wf_nat.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Fixpoint vars (jmp : positive) (p : Pol Z) : list positive :=
   match p with
   | Pc c => nil
@@ -1401,7 +1401,7 @@ Fixpoint vars (jmp : positive) (p : Pol Z) : list positive :=
   | PX p j q => jmp::(vars jmp p)++vars (Pos.succ jmp) q
   end.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma max_var_le : forall p v,
     (v <= max_var v p)%positive.
 Proof.
@@ -1426,7 +1426,7 @@ Qed.
 
 Local Set Warnings "-deprecated".
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma max_var_correct : forall p j v,
     In v (vars j p) -> Pos.le v (max_var j p).
 Proof.
@@ -1447,7 +1447,7 @@ Proof.
       eapply Pos.le_trans ; eauto.
 Qed.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma max_var_nformulae_correct_aux : forall l p o v,
     In (p,o) l -> In v (vars xH p) -> Pos.le v (fold_left F l 1)%positive.
 Proof.
@@ -1468,7 +1468,7 @@ induction l as [|a l IHl].
   + eapply IHl ; eauto.
 Qed.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma max_var_nformalae_correct : forall l p o v,
       In (p,o) l -> In v (vars xH p) -> Pos.le v (max_var_nformulae l)%positive.
 Proof.
@@ -1477,7 +1477,7 @@ Proof.
 Qed.
 
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Fixpoint bdepth (pf : ZArithProof) : nat :=
 match pf with
   | DoneProof  => O
@@ -1488,7 +1488,7 @@ match pf with
   | ExProof _ p   => S (bdepth p)
 end.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma ltof_bdepth_split_l :
   forall p pf1 pf2,
          ltof ZArithProof bdepth pf1 (SplitProof p pf1 pf2).
@@ -1499,7 +1499,7 @@ Proof.
   apply Nat.le_max_l.
 Qed.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Lemma ltof_bdepth_split_r :
   forall p pf1 pf2,
          ltof ZArithProof bdepth pf2 (SplitProof p pf1 pf2).

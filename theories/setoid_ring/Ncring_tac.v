@@ -54,7 +54,7 @@ Definition extra_reify {R zero one add mul sub opp} (lvar : list R) (term : R) :
   PExpr Z.
 Existing Class extra_reify.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Ltac extra_reify term := open_constr:(tt).
 
 #[local] Set Warnings "-deprecated-tactic".
@@ -175,7 +175,7 @@ Ltac lterm_goal g :=
 Lemma Private_Zeqb_ok: forall x y : Z, Z.eqb x y = true -> x == y.
 Proof. intros x y ->%Z.eqb_eq. reflexivity. Qed.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Notation Zeqb_ok := Private_Zeqb_ok (only parsing).
 
 

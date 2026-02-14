@@ -1,4 +1,4 @@
-Attributes deprecated(since="9.1", note="Use RNsatz, QNsatz, or ZNsatz, or NsatzTactic.").
+Attributes deprecated(since="Stdlib 9.1", note="Use RNsatz, QNsatz, or ZNsatz, or NsatzTactic.").
 Require Export RNsatz QNsatz ZNsatz NsatzTactic.
 
 From Stdlib Require Import List.
@@ -37,16 +37,16 @@ Ltac Ncring_tac.extra_reify term ::=
   | _ => open_constr:(tt)
   end.
 
-#[deprecated(since="9.1", note="use discriminate")]
+#[deprecated(since="Stdlib 9.1", note="use discriminate")]
 Lemma Z_one_zero: 1%Z <> 0%Z.
 Proof. discriminate. Qed.
 
-#[deprecated(since="9.1", use=Q_apart_0_1)]
+#[deprecated(since="Stdlib 9.1", use=Q_apart_0_1)]
 Notation Q_one_zero := Q_apart_0_1 (only parsing).
 
-#[deprecated(since="9.1", use=eq_equivalence)]
+#[deprecated(since="Stdlib 9.1", use=eq_equivalence)]
 Lemma Rsth : Setoid_Theory R (@eq R).
 Proof. cbv [Setoid_Theory]. exact _. Qed.
 
-#[deprecated(since="9.1", use=R1_neq_R0)]
+#[deprecated(since="Stdlib 9.1", use=R1_neq_R0)]
 Notation R_one_zero := R1_neq_R0 (only parsing).
