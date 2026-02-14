@@ -567,5 +567,5 @@ Qed.
 (* coding: utf-8 *)
 (* End: *)
 
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Notation to_nat := N.to_nat.

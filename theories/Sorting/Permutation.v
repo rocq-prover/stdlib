@@ -884,6 +884,6 @@ Qed.
 End Permutation_transp.
 
 (* begin hide *)
-#[deprecated(since="9.1", use=Permutation_app_comm )]
+#[deprecated(since="Stdlib 9.1", use=Permutation_app_comm )]
 Notation Permutation_app_swap := Permutation_app_comm (only parsing).
 (* end hide *)

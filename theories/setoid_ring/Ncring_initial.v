@@ -211,7 +211,7 @@ Declare Equivalent Keys bracket gen_phiZ.
 - apply gen_phiZ_ext.
 Defined.
 
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Lemma gen_Zeqb_ok : forall x y,
   Z.eqb x y = true -> [x] == [y].
 Proof. intros x y ->%Z.eqb_eq; reflexivity. Qed.

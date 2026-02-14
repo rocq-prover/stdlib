@@ -192,7 +192,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
-#[deprecated(use=Z.mod_0_r, since="9.1")]
+#[deprecated(use=Z.mod_0_r, since="Stdlib 9.1")]
 Lemma Zmod_0_r: forall a, a mod 0 = a.
 Proof.
   intros a; destruct a; simpl; auto.
@@ -203,7 +203,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
-#[deprecated(use=Z.div_0_r, since="9.1")]
+#[deprecated(use=Z.div_0_r, since="Stdlib 9.1")]
 Lemma Zdiv_0_r: forall a, a/0 = 0.
 Proof.
   intros a; destruct a; simpl; auto.

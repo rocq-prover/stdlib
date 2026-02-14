@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-Attributes deprecated(since="9.0", note="use ZArith instead").
+Attributes deprecated(since="Stdlib 9.0", note="use ZArith instead").
 
 (** Library for manipulating integers based on binary encoding.
     This is a subset of basic modules.

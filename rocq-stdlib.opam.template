@@ -1,6 +1,6 @@
 depends: [
   "rocq-runtime"
-  "rocq-core" {>= "9.0"}
+  "rocq-core" {>= "9.1"}
 ]
 build: [
   [make "-j" jobs]

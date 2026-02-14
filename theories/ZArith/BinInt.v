@@ -1871,11 +1871,11 @@ Qed.
 
 End LocalNotations.
 
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Notation SYM1 lem := (fun n => eq_sym (lem n)) (only parsing).
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Notation SYM2 lem := (fun n m => eq_sym (lem n m)) (only parsing).
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Notation SYM3 lem := (fun n m p => eq_sym (lem n m p)) (only parsing).
 
 #[global]

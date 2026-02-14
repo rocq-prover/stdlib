@@ -56,5 +56,5 @@ From Stdlib Require Export ZNsatz.
 
 Export ZArithRing.
 
-(* This compat Require is deprecated since 9.1 *)
+(* This compat Require is deprecated since Stdlib 9.1 *)
 From Stdlib Require Znumtheory.
