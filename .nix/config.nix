@@ -354,41 +354,5 @@ with builtins; with (import <nixpkgs> {}).lib;
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
       { name = p; value.job = false; })); };
-    "rocq-9.0" = { rocqPackages = common-bundles // {
-      rocq-core.override.version = "9.0.0";
-      # check that we compile without warnings on last release of Coq
-      stdlib-warnings.job = true;
-      # plugin pins, from v9.0 branch of Coq
-      bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
-      stdlib-test.job = false;
-    }; coqPackages = coq-common-bundles // {
-      coq.override.version = "9.0.0";
-      # plugin pins, from v9.0 branch of Coq
-      aac-tactics.override.version = "109af844f39bf541823271e45e42e40069f3c2c4";
-      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
-      bignums.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
-      bignums-test.override.version = "cc2d9ee990e4cfebe5f107d8357198baa526eded";
-      itauto.job = false;  # broken
-      coinduction.override.version = "09caaf1f809e3e91ebba05bc38cef6de83ede3b3";
-      dpdgraph-test.override.version = "74ced1b11a8df8d4c04c3829fcf273aa63d2c493";
-      coq-hammer.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
-      coq-hammer-tactics.override.version = "31442e8178a5d85a9f57a323b65bf9f719ded8ec";
-      equations.override.version = "1.3.1+9.0";
-      equations-test.job = false;
-      fiat-parsers.job = false;  # broken
-      metarocq.override.version = "1.4-9.0";
-      mtac2.override.version = "1cdb2cb628444ffe9abc6535f6d2e11004de7fc1";
-      paramcoq-test.override.version = "32609ca4a9bf4a0e456a855ea5118d8c00cda6be";
-      relation-algebra.override.version = "7966d1a7bb524444120c56c3474717bcc91a5215";
-      rocq-lean-import.override.version = "c513cee4f5edf8e8a06ba553ca58de5142cffde6";
-      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
-      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
-      unicoq.override.version = "a9b72f755539c0b3280e38e778a09e2b7519a51a";
-      waterproof.override.version = "443f794ddc102309d00f1d512ab50b84fdc261aa";
-      compcert.job = false;  # broken
-      VST.job = false;  # depends on compcert
-    } // listToAttrs (forEach lighten-released (p:
-      { name = p; value.job = false; })); };
   };
 }

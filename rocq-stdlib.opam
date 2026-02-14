@@ -25,7 +25,7 @@ bug-reports: "https://github.com/coq/stdlib/issues"
 dev-repo: "git+https://github.com/coq/stdlib.git"
 depends: [
   "rocq-runtime"
-  "rocq-core" {>= "9.0"}
+  "rocq-core" {>= "9.1"}
 ]
 build: [
   [make "-j" jobs]
