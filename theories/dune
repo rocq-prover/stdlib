@@ -7,7 +7,7 @@
  (dev
   (coq
    ;; see theories/_CoqProject for details
-   (flags :standard -w -notation-for-abbreviation -w -ltac2-notation-for-abbreviation))))
+   (flags :standard -w -notation-for-abbreviation -w -ltac2-notation-for-abbreviation -w -implicit-create-hint-db -w -implicit-create-rewrite-hint-db -w -register-all -w -scheme-rewriting))))
 
 (rule
  (targets All.v)

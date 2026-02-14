@@ -233,7 +233,7 @@ Definition ofnat (n : nat) : t := (S^n) 0.
 
 Declare Scope ofnat.
 #[local] Open Scope ofnat.
-Notation "[ n ]" := (ofnat n) (at level 7) : ofnat.
+Notation "[ n ]" := (ofnat n) (at level 0) : ofnat.
 
 Lemma ofnat_zero : [O] == 0.
 Proof.

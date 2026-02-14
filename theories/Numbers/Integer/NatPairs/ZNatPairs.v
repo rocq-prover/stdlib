@@ -17,8 +17,8 @@ From Stdlib Require Export Ring.
 Declare Scope pair_scope.
 #[local] Open Scope pair_scope.
 
-Notation "s #1" := (fst s) (at level 9, format "s '#1'") : pair_scope.
-Notation "s #2" := (snd s) (at level 9, format "s '#2'") : pair_scope.
+Notation "s #1" := (fst s) (at level 1, format "s '#1'") : pair_scope.
+Notation "s #2" := (snd s) (at level 1, format "s '#2'") : pair_scope.
 
 Module ZPairsAxiomsMod (Import N : NAxiomsMiniSig) <: ZAxiomsMiniSig.
  Module Import NProp.
