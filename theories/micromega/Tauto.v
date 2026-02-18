@@ -289,7 +289,8 @@ Section S.
 
 End S.
 
-
+#[global]
+Hint Extern 2 (subrelation (eiff _) _) => progress cbn : typeclass_instances.
 
 (** Typical boolean formulae *)
 Definition eKind (k: kind) := if k then Prop else bool.
