@@ -12,7 +12,7 @@ Coercion vec_list : vector >-> list.
 
 #[export] Hint Rewrite @vec_len : datatypes.
 
-Ltac crush := repeat (program_simplify ; autorewrite with list datatypes ; auto with *).
+Ltac crush := repeat (program_simplify ; autorewrite with list datatypes ; auto with * ).
 
 Obligation Tactic := crush.
 

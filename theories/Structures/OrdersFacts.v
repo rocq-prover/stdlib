@@ -18,7 +18,7 @@ Unset Strict Implicit.
 
 Module Type CompareFacts (Import O:DecStrOrder').
 
- Local Infix "?=" := compare (at level 70, no associativity).
+ #[local] Infix "?=" := compare (at level 70, no associativity).
 
  Lemma compare_eq_iff x y : (x ?= y) = Eq <-> x==y.
  Proof.
@@ -53,7 +53,7 @@ Module Type CompareFacts (Import O:DecStrOrder').
  rewrite compare_gt_iff; intuition.
  Qed.
 
- Global Hint Rewrite compare_eq_iff compare_lt_iff compare_gt_iff : order.
+ #[global] Hint Rewrite compare_eq_iff compare_lt_iff compare_gt_iff : order.
 
 #[global]
  Instance compare_compat : Proper (eq==>eq==>Logic.eq) compare.
@@ -141,7 +141,7 @@ Module OrderedTypeFacts (Import O: OrderedType').
   Notation "x <= y" := (~lt y x) : order.
   Infix "?=" := compare (at level 70, no associativity) : order.
 
-  Local Open Scope order.
+  #[local] Open Scope order.
 
   Tactic Notation "elim_compare" constr(x) constr(y) :=
    destruct (compare_spec x y).
@@ -209,7 +209,7 @@ End OrderedTypeFacts.
 
 Module OrderedTypeTest (Import O:OrderedType').
   Module Import MO := OrderedTypeFacts O.
-  Local Open Scope order.
+  #[local] Open Scope order.
   Lemma lt_not_eq x y : x<y -> ~x==y.  Proof. order. Qed.
   Lemma lt_eq x y z : x<y -> y==z -> x<z. Proof. order. Qed.
   Lemma eq_lt x y z : x==y -> y<z -> x<z. Proof. order. Qed.
@@ -398,44 +398,44 @@ Qed.
 
 (** Negated variants of the specifications *)
 
-Lemma leb_nle x y : x <=? y = false <-> ~ (x <= y).
+Lemma leb_nle x y : (x <=? y) = false <-> ~ (x <= y).
 Proof.
 now rewrite <- not_true_iff_false, leb_le.
 Qed.
 
-Lemma leb_gt x y : x <=? y = false <-> y < x.
+Lemma leb_gt x y : (x <=? y) = false <-> y < x.
 Proof.
 now rewrite leb_nle, <- compare_lt_iff, compare_nge_iff.
 Qed.
 
-Lemma ltb_nlt x y : x <? y = false <-> ~ (x < y).
+Lemma ltb_nlt x y : (x <? y) = false <-> ~ (x < y).
 Proof.
 now rewrite <- not_true_iff_false, ltb_lt.
 Qed.
 
-Lemma ltb_ge x y : x <? y = false <-> y <= x.
+Lemma ltb_ge x y : (x <? y) = false <-> y <= x.
 Proof.
 now rewrite ltb_nlt, <- compare_le_iff, compare_ngt_iff.
 Qed.
 
 (** Basic equality laws for boolean tests *)
 
-Lemma leb_refl x : x <=? x = true.
+Lemma leb_refl x : (x <=? x) = true.
 Proof.
 apply leb_le. apply lt_eq_cases. now right.
 Qed.
 
-Lemma leb_antisym x y : y <=? x = negb (x <? y).
+Lemma leb_antisym x y : (y <=? x) = negb (x <? y).
 Proof.
 apply eq_true_iff_eq. now rewrite negb_true_iff, leb_le, ltb_ge.
 Qed.
 
-Lemma ltb_irrefl x : x <? x = false.
+Lemma ltb_irrefl x : (x <? x) = false.
 Proof.
 apply ltb_ge. apply lt_eq_cases. now right.
 Qed.
 
-Lemma ltb_antisym x y : y <? x = negb (x <=? y).
+Lemma ltb_antisym x y : (y <? x) = negb (x <=? y).
 Proof.
 apply eq_true_iff_eq. now rewrite negb_true_iff, ltb_lt, leb_gt.
 Qed.

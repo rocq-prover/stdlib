@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Wf_nat BinInt Zcomplements Znat.
 From Stdlib Require Export Zpow_def.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** * Power functions over [Z] *)
 
@@ -203,7 +203,9 @@ Section Powers_of_2.
   Qed.
 
   Lemma two_p_correct x : two_p x = 2^x.
-  Proof (two_p_equiv x).
+  Proof.
+    exact (two_p_equiv x).
+  Qed.
 
   Theorem two_p_is_exp x y :
     0 <= x -> 0 <= y -> two_p (x + y) = two_p x * two_p y.

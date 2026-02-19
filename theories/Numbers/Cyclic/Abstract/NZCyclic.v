@@ -27,11 +27,11 @@ From Stdlib Require Import Lia.
 
 Module NZCyclicAxiomsMod (Import Cyclic : CyclicType) <: NZAxiomsSig.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
-Local Notation wB := (base ZnZ.digits).
+#[local] Notation wB := (base ZnZ.digits).
 
-Local Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
+#[local] Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
 
 Definition eq (n m : t) := [| n |] = [| m |].
 Definition zero := ZnZ.zero.
@@ -43,15 +43,15 @@ Definition add := ZnZ.add.
 Definition sub := ZnZ.sub.
 Definition mul := ZnZ.mul.
 
-Local Infix "=="  := eq (at level 70).
-Local Notation "0" := zero.
-Local Notation S := succ.
-Local Notation P := pred.
-Local Infix "+" := add.
-Local Infix "-" := sub.
-Local Infix "*" := mul.
+#[local] Infix "=="  := eq (at level 70).
+#[local] Notation "0" := zero.
+#[local] Notation S := succ.
+#[local] Notation P := pred.
+#[local] Infix "+" := add.
+#[local] Infix "-" := sub.
+#[local] Infix "*" := mul.
 
-Global Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_succ ZnZ.spec_pred
+#[global] Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_succ ZnZ.spec_pred
  ZnZ.spec_add ZnZ.spec_mul ZnZ.spec_sub : cyclic.
 Ltac zify :=
  unfold eq, zero, one, two, succ, pred, add, sub, mul in *;
@@ -65,7 +65,7 @@ Proof.
   intros x y z; apply eq_trans.
 Qed.
 
-Local Obligation Tactic := zcongruence.
+#[local] Obligation Tactic := zcongruence.
 
 #[global]
 Program Instance succ_wd : Proper (eq ==> eq) succ.

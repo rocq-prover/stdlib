@@ -19,7 +19,7 @@ From Stdlib Require Import Decimal Ascii String.
     we don't have a perfect bijection. Since the second variant is implemented
     thanks to the first one, we provide both. *)
 
-Local Open Scope string_scope.
+#[local] Open Scope string_scope.
 
 (** Parsing one char *)
 

@@ -17,7 +17,7 @@ From Stdlib Require Import Binomial.
 From Stdlib Require Import Lia.
 From Stdlib Require Import Arith.Factorial.
 From Stdlib Require Import Peano_dec.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** TT Ak; 0<=k<=N *)
 Fixpoint prod_f_R0 (f:nat -> R) (N:nat) : R :=

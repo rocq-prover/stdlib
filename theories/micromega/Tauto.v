@@ -289,7 +289,8 @@ Section S.
 
 End S.
 
-
+#[global]
+Hint Extern 2 (subrelation (eiff _) _) => progress cbn : typeclass_instances.
 
 (** Typical boolean formulae *)
 Definition eKind (k: kind) := if k then Prop else bool.
@@ -340,14 +341,14 @@ Section S.
   Variable Term' : Type.
   Variable Annot : Type.
 
-  Local Notation Trace := (Trace Annot).
+  #[local] Notation Trace := (Trace Annot).
 
   Variable unsat : Term'  -> bool. (* see [unsat_prop] *)
   Variable deduce : Term' -> Term' -> option Term'. (* see [deduce_prop] *)
 
-  Local Notation null := (@null Annot).
-  Local Notation push := (@push Annot).
-  Local Notation merge := (@merge Annot).
+  #[local] Notation null := (@null Annot).
+  #[local] Notation push := (@push Annot).
+  #[local] Notation merge := (@merge Annot).
 
   Definition clause := list  (Term' * Annot).
   Definition cnf := list clause.

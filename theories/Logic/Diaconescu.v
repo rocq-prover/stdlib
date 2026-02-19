@@ -17,8 +17,7 @@
    Three variants of Diaconescu's result in type theory are shown below.
 
    A. A proof that the relational form of the Axiom of Choice +
-      Extensionality for Predicates entails Excluded-Middle (by Hugo
-      Herbelin)
+      Propositional Extensionality entails Excluded-Middle
 
    B. A proof that the relational form of the Axiom of Choice + Proof
       Irrelevance entails Excluded-Middle for Equality Statements (by
@@ -44,9 +43,49 @@
 *)
 From Stdlib Require ClassicalFacts ChoiceFacts.
 
-(**********************************************************************)
-(** * Pred. Ext. + Rel. Axiom of Choice -> Excluded-Middle       *)
+Theorem prop_ext_and_rel_choice_imp_EM
+  (prop_ext : ClassicalFacts.prop_extensionality)
+  (rel_choice : ChoiceFacts.RelationalChoice) :
+  forall P : Prop, P \/ ~ P.
+ Proof.
+  intros P.
+  set (A := (True, P)). set (B := (P, True)).
+  set (is_A_or_B := fun props => props = A \/ props = B).
+  set (A_proof := or_introl eq_refl : is_A_or_B A).
+  set (B_proof := or_intror eq_refl : is_A_or_B B).
+  set (A_or_B := {props | is_A_or_B props}).
+  set (A_with_proof := exist _ A A_proof : A_or_B).
+  set (B_with_proof := exist _ B B_proof : A_or_B).
+  assert (choice_premise :
+           forall props_with_proof : A_or_B,
+             exists b : bool,
+               if b
+               then fst (proj1_sig props_with_proof)
+               else snd (proj1_sig props_with_proof)). {
+    intros [props [H | H]]; rewrite H; simpl.
+    - exists true. constructor.
+    - exists false. constructor.
+  }
+  destruct (rel_choice _ _ _ choice_premise) as [R [R_subrelation R_functional]].
+  unfold subrelation in R_subrelation.
+  destruct (R_functional A_with_proof) as [a [R_A_a a_unique]].
+  pose proof (a_works := R_subrelation A_with_proof a R_A_a). simpl in a_works.
+  destruct (R_functional B_with_proof) as [b [R_B_b b_unique]].
+  pose proof (b_works := R_subrelation B_with_proof b R_B_b). simpl in b_works.
+  destruct a. 2: { left. exact a_works. }
+  destruct b. 1: { left. exact b_works. }
+  right. intros HP.
+  assert (P = True). { apply prop_ext. tauto. } subst P.
+  assert (E : A_with_proof = B_with_proof). {
+    unfold A_with_proof, B_with_proof. f_equal.
+    apply (ClassicalFacts.ext_prop_dep_proof_irrel_cic prop_ext).
+  }
+  rewrite E in a_unique.
+  pose proof (true_eq_false := a_unique false R_B_b).
+  discriminate true_eq_false.
+Qed.
 
+(* This section is kept for backwards compatibility *)
 Section PredExt_RelChoice_imp_EM.
 
 (** The axiom of extensionality for predicates *)
@@ -271,7 +310,7 @@ End ProofIrrel_RelChoice_imp_EqEM.
 
 (** Proof sketch from Bell [[Bell93]] (with thanks to P. Castéran) *)
 
-Local Notation inhabited A := A (only parsing).
+#[local] Notation inhabited A := A (only parsing).
 
 Section ExtensionalEpsilon_imp_EM.
 
@@ -285,7 +324,7 @@ Hypothesis epsilon_extensionality :
   forall (A:Type) (i:inhabited A) (P Q:A->Prop),
   (forall a, P a <-> Q a) -> epsilon A i P = epsilon A i Q.
 
-Local Notation eps := (epsilon bool true) (only parsing).
+#[local] Notation eps := (epsilon bool true) (only parsing).
 
 Theorem extensional_epsilon_imp_EM : forall P:Prop, P \/ ~ P.
 Proof.

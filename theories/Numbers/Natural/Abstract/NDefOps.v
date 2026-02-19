@@ -54,7 +54,7 @@ Qed.
 
 Definition def_add (x y : N.t) := recursion y (fun _ => S) x.
 
-Local Infix "+++" := def_add (at level 50, left associativity).
+#[local] Infix "+++" := def_add (at level 50, left associativity).
 
 #[global]
 Instance def_add_wd : Proper (N.eq ==> N.eq ==> N.eq) def_add.
@@ -85,7 +85,7 @@ Qed.
 
 Definition def_mul (x y : N.t) := recursion 0 (fun _ p => p +++ x) y.
 
-Local Infix "**" := def_mul (at level 40, left associativity).
+#[local] Infix "**" := def_mul (at level 40, left associativity).
 
 #[global]
 Instance def_mul_wd : Proper (N.eq ==> N.eq ==> N.eq) def_mul.
@@ -122,7 +122,7 @@ recursion
   (fun _ f n => recursion false (fun n' _ => f n') n)
   m.
 
-Local Infix "<<" := ltb (at level 70, no associativity).
+#[local] Infix "<<" := ltb (at level 70, no associativity).
 
 #[global]
 Instance ltb_wd : Proper (N.eq ==> N.eq ==> Logic.eq) ltb.
@@ -130,13 +130,13 @@ Proof.
 unfold ltb. f_equiv'.
 Qed.
 
-Theorem ltb_base : forall n, 0 << n = if_zero false true n.
+Theorem ltb_base : forall n, (0 << n) = if_zero false true n.
 Proof.
 intro n; unfold ltb; now rewrite recursion_0.
 Qed.
 
 Theorem ltb_step :
-  forall m n, S m << n = recursion false (fun n' _ => m << n') n.
+  forall m n, (S m << n) = recursion false (fun n' _ => m << n') n.
 Proof.
 intros m n; unfold ltb at 1.
 f_equiv.
@@ -147,14 +147,14 @@ Qed.
 functions themselves, i.e., rewrite (recursion lt_base lt_step (S n)) to
 lt_step n (recursion lt_base lt_step n)? *)
 
-Theorem ltb_0 : forall n, n << 0 = false.
+Theorem ltb_0 : forall n, (n << 0) = false.
 Proof.
 cases n.
 - rewrite ltb_base; now rewrite if_zero_0.
 - intro n; rewrite ltb_step. now rewrite recursion_0.
 Qed.
 
-Theorem ltb_0_succ : forall n, 0 << S n = true.
+Theorem ltb_0_succ : forall n, (0 << S n) = true.
 Proof.
 intro n; rewrite ltb_base; now rewrite if_zero_succ.
 Qed.
@@ -165,7 +165,7 @@ intros n m.
 rewrite ltb_step. rewrite recursion_succ; f_equiv'.
 Qed.
 
-Theorem ltb_lt : forall n m, n << m = true <-> n < m.
+Theorem ltb_lt : forall n m, (n << m) = true <-> n < m.
 Proof.
 double_induct n m.
 - cases m.
@@ -175,7 +175,7 @@ double_induct n m.
 - intros n m. rewrite succ_ltb_mono. now rewrite <- succ_lt_mono.
 Qed.
 
-Theorem ltb_ge : forall n m, n << m = false <-> n >= m.
+Theorem ltb_ge : forall n m, (n << m) = false <-> n >= m.
 Proof.
 intros. rewrite <- not_true_iff_false, ltb_lt. apply nlt_ge.
 Qed.
@@ -336,7 +336,7 @@ Qed.
 
 Definition pow (n m : N.t) := recursion 1 (fun _ r => n*r) m.
 
-Local Infix "^^" := pow (at level 30, right associativity).
+#[local] Infix "^^" := pow (at level 30, right associativity).
 
 #[global]
 Instance pow_wd : Proper (N.eq==>N.eq==>N.eq) pow.

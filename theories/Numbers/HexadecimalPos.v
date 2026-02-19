@@ -13,11 +13,11 @@
     Proofs that conversions between hexadecimal numbers and [positive]
     are bijections. *)
 
-From Stdlib Require Import Hexadecimal HexadecimalFacts PArith NArith NArithRing.
+From Stdlib Require Import Hexadecimal HexadecimalFacts BinPos BinNat Nnat.
 
 Module Unsigned.
 
-Local Open Scope N.
+#[local] Open Scope N.
 
 (** A direct version of [of_little_uint] *)
 Fixpoint of_lu (d:uint) : N :=
@@ -110,7 +110,7 @@ Proof.
   induction d; simpl; intro d'; [ now rewrite N.mul_1_r | .. ];
   unfold rev; simpl revapp; rewrite 2 IHd;
   rewrite <- N.add_assoc; f_equal; simpl_of_lu; simpl of_lu;
-  rewrite N.pow_succ_r'; ring.
+  rewrite N.pow_succ_r', ?N.mul_assoc, ?(N.mul_comm 16), ?Nmult_plus_distr_r; trivial.
 Qed.
 
 Definition Nadd n p :=
@@ -140,14 +140,14 @@ Proof.
   rewrite N.pow_succ_r';
   unfold rev; simpl revapp; try rewrite of_lu_revapp; simpl of_lu;
   rewrite of_uint_acc_eqn by easy; simpl tl; simpl hd;
-  rewrite IHd, Nadd_simpl; ring.
+  rewrite IHd, Nadd_simpl, ?N.mul_assoc, <-?N.add_assoc, ?(N.mul_comm 16), ?Nmult_plus_distr_r; trivial.
 Qed.
 
 Lemma of_uint_alt d : Pos.of_hex_uint d = of_lu (rev d).
 Proof.
   induction d; simpl; trivial; unfold rev; simpl revapp;
   rewrite of_lu_revapp; simpl of_lu; try apply of_uint_acc_rev.
-  rewrite IHd. ring.
+  rewrite IHd, N.add_0_r; trivial.
 Qed.
 
 Lemma of_lu_rev d : Pos.of_hex_uint (rev d) = of_lu d.
@@ -162,7 +162,8 @@ Proof.
   rewrite N.double_spec, N.succ_double_spec.
   induction d; try destruct IHd as (IH1,IH2);
   simpl Little.double; simpl Little.succ_double;
-  repeat (simpl_of_lu; rewrite ?IH1, ?IH2); split; reflexivity || ring.
+  repeat (simpl_of_lu; rewrite ?IH1, ?IH2); split;
+    rewrite ?(N.add_comm _ 1), ?Nmult_plus_distr_l, ?N.add_assoc, ?N.mul_assoc; trivial.
 Qed.
 
 Lemma of_lu_double d :
@@ -360,7 +361,7 @@ Proof.
   revert IHu.
   set (t := _ u); case t; clear t; intros u0 n H.
   rewrite of_lu_eqn; unfold hd, tl.
-  rewrite N.add_0_l, H, Nat2N.inj_succ, N.pow_succ_r'; ring.
+  rewrite N.add_0_l, H, Nat2N.inj_succ, N.pow_succ_r', ?N.mul_assoc, ?(N.mul_comm 16); trivial.
 Qed.
 
 Definition double d := rev (Little.double (rev d)).

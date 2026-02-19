@@ -10,7 +10,7 @@
 
 From Stdlib Require Import PeanoNat.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types k l p q r : nat.
 
@@ -76,7 +76,9 @@ Section Between.
   Qed.
 
   Lemma exists_lt : forall k l, exists_between k l -> k < l.
-  Proof exists_le_S.
+  Proof.
+    exact exists_le_S.
+  Qed.
   #[local]
   Hint Immediate exists_le_S exists_lt: core.
 

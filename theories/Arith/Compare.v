@@ -10,30 +10,34 @@
 
 (** Equality is decidable on [nat] *)
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Notation not_eq_sym := not_eq_sym (only parsing).
 
 Implicit Types m n p q : nat.
 
-From Stdlib Require Import Arith_base.
-From Stdlib Require Import Peano_dec.
-From Stdlib Require Import Compare_dec.
+From Stdlib Require Import PeanoNat Compare_dec.
 
 Definition le_or_le_S := le_le_S_dec.
 
 Definition Pcompare := gt_eq_gt_dec.
 
 Lemma le_dec : forall n m, {n <= m} + {m <= n}.
-Proof le_ge_dec.
+Proof.
+  exact le_ge_dec.
+Qed.
 
 Definition lt_or_eq n m := {m > n} + {n = m}.
 
 Lemma le_decide : forall n m, n <= m -> lt_or_eq n m.
-Proof le_lt_eq_dec.
+Proof.
+  exact le_lt_eq_dec.
+Qed.
 
 Lemma le_le_S_eq : forall n m, n <= m -> S n <= m \/ n = m.
-Proof (fun n m Hle => proj1 (Nat.lt_eq_cases n m) Hle).
+Proof.
+  exact (fun n m Hle => proj1 (Nat.lt_eq_cases n m) Hle).
+Qed.
 
 (* By special request of G. Kahn - Used in Group Theory *)
 Lemma discrete_nat :

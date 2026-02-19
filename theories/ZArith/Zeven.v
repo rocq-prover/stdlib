@@ -17,9 +17,9 @@
 
 From Stdlib Require Import BinInt.
 
-Local Ltac Tauto.intuition_solver ::= auto with bool.
+#[local] Ltac Tauto.intuition_solver ::= auto with bool.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Historical formulation of even and odd predicates, based on
     case analysis. We now rather recommend using [Z.Even] and
@@ -55,10 +55,14 @@ Proof.
 Qed.
 
 Theorem Zeven_ex_iff n : Zeven n <-> exists m, n = 2*m.
-Proof (Zeven_equiv n).
+Proof.
+  exact (Zeven_equiv n).
+Qed.
 
 Theorem Zodd_ex_iff n : Zodd n <-> exists m, n = 2*m + 1.
-Proof (Zodd_equiv n).
+Proof.
+  exact (Zodd_equiv n).
+Qed.
 
 (** Boolean tests of parity (now in BinInt.Z) *)
 
@@ -147,7 +151,9 @@ Notation Zodd_bool_pred := Z.odd_pred (only parsing).
 (** Properties of [Z.div2] *)
 
 Lemma Zdiv2_odd_eqn n : n = 2*(Z.div2 n) + if Z.odd n then 1 else 0.
-Proof (Z.div2_odd n).
+Proof.
+  exact (Z.div2_odd n).
+Qed.
 
 Lemma Zeven_div2 n : Zeven n -> n = 2 * Z.div2 n.
 Proof.

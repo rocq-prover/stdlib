@@ -105,22 +105,22 @@ Proof.
 symmetry. apply Z.compare_eq_iff.
 Qed.
 
-Lemma Qlt_alt p q : (p<q) <-> (p?=q = Lt).
+Lemma Qlt_alt p q : (p<q) <-> ((p?=q) = Lt).
 Proof.
 reflexivity.
 Qed.
 
-Lemma Qgt_alt p q : (p>q) <-> (p?=q = Gt).
+Lemma Qgt_alt p q : (p>q) <-> ((p?=q) = Gt).
 Proof.
 symmetry. apply Z.gt_lt_iff.
 Qed.
 
-Lemma Qle_alt p q : (p<=q) <-> (p?=q <> Gt).
+Lemma Qle_alt p q : (p<=q) <-> ((p?=q) <> Gt).
 Proof.
 reflexivity.
 Qed.
 
-Lemma Qge_alt p q : (p>=q) <-> (p?=q <> Lt).
+Lemma Qge_alt p q : (p>=q) <-> ((p?=q) <> Lt).
 Proof.
 symmetry. apply Z.ge_le_iff.
 Qed.
@@ -1420,7 +1420,7 @@ apply (Qlt_not_le _ _ H).
 apply Qmult_lt_0_le_reg_r with (/c).
 - apply Qinv_lt_0_compat.
   assumption.
-- setoid_replace (a*c/c) with (a) by (apply Qdiv_mult_l; auto with *).
+- setoid_replace (a*c/c) with (a) by (apply Qdiv_mult_l; auto with * ).
   assumption.
 Qed.
 
@@ -1443,7 +1443,7 @@ apply (Qlt_not_le _ _ H).
 apply Qmult_lt_0_le_reg_r with (/b).
 - apply Qinv_lt_0_compat.
   assumption.
-- setoid_replace (c*b/b) with (c) by (apply Qdiv_mult_l; auto with *).
+- setoid_replace (c*b/b) with (c) by (apply Qdiv_mult_l; auto with * ).
   assumption.
 Qed.
 
@@ -1468,7 +1468,7 @@ Proof.
         -- apply Qinv_lt_0_compat.  apply H.
         -- apply H1.
       * intro abs. rewrite abs in H. apply (Qlt_irrefl 0 H).
-  - intro H1. rewrite <- (Qinv_involutive b). rewrite <- (Qmult_1_l (// b)).
+  - intro H1. rewrite <- (Qinv_involutive b). rewrite <- (Qmult_1_l (/ / b)).
     apply Qlt_shift_div_l.
     + apply Qinv_lt_0_compat. apply H0.
     + rewrite <- (Qmult_inv_r a).

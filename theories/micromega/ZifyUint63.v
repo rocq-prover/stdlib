@@ -32,7 +32,7 @@ Instance Op_wB : CstOp wB :=
 Add Zify CstOp Op_wB.
 
 Lemma ltb_lt : forall n m,
-  (n <? m)%uint63 = (φ (n)%uint63 <? φ (m)%uint63)%Z.
+  (n <? m)%uint63 = (φ%uint63 n <? φ%uint63 m)%Z.
 Proof.
   intros. apply Bool.eq_true_iff_eq.
   rewrite ltb_spec. rewrite <- Z.ltb_lt.
@@ -45,7 +45,7 @@ Instance Op_ltb : BinOp ltb :=
 Add Zify BinOp Op_ltb.
 
 Lemma leb_le : forall n m,
-  (n <=? m)%uint63 = (φ (n)%uint63 <=? φ (m)%uint63)%Z.
+  (n <=? m)%uint63 = (φ%uint63 n <=? φ%uint63 m)%Z.
 Proof.
   intros. apply Bool.eq_true_iff_eq.
   rewrite leb_spec. rewrite <- Z.leb_le.
@@ -58,7 +58,7 @@ Instance Op_leb : BinOp leb :=
 Add Zify BinOp Op_leb.
 
 Lemma eqb_eq : forall n m,
-  (n =? m)%uint63 = (φ (n)%uint63 =? φ (m)%uint63)%Z.
+  (n =? m)%uint63 = (φ%uint63 n =? φ%uint63 m)%Z.
 Proof.
   intros. apply Bool.eq_true_iff_eq.
   rewrite eqb_spec. rewrite Z.eqb_eq.
@@ -190,7 +190,7 @@ Instance Op_is_zero : UnOp is_zero :=
 Add Zify UnOp Op_is_zero.
 
 Lemma is_evenE : forall x,
-    is_even x = Z.even φ (x)%uint63.
+    is_even x = Z.even (φ%uint63 x).
 Proof.
   intros.
   generalize (is_even_spec x).

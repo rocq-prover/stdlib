@@ -9,15 +9,12 @@
 (************************************************************************)
 
 From Stdlib Require Import Ascii String.
-From Stdlib Require Import BinNums.
-Import BinNatDef.
-Import BinIntDef.
-Import BinPosDef.
+From Stdlib Require Import BinNatDef BinIntDef BinPosDef.
 
-Local Open Scope positive_scope.
-Local Open Scope string_scope.
+#[local] Open Scope positive_scope.
+#[local] Open Scope string_scope.
 
-Local Notation "a || b"
+#[local] Notation "a || b"
   := (if a then true else if b then true else false).
 Definition ascii_to_digit (ch : ascii) : option N
   := (if ascii_dec ch "0" then Some 0

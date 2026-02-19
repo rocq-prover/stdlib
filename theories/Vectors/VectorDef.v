@@ -22,7 +22,7 @@ From Stdlib Require Import Compat.Fin92 Compat.Vector92 VectorFin.
 From Stdlib Require Import Arith_base.
 From Stdlib Require Vectors.Fin.
 Import EqNotations.
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Universe u.
 #[deprecated(since="9.1", use=Vector92.vec)]
@@ -47,8 +47,8 @@ Arguments t_rect : clear implicits.
 Arguments t_rec : clear implicits.
 Arguments t_sind : clear implicits.
 
-Local Notation "[ ]" := (nil _) (format "[ ]").
-Local Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
+#[local] Notation "[ ]" := (nil _) (format "[ ]").
+#[local] Notation "h :: t" := (cons _ h _ t) (at level 60, right associativity).
 
 Section SCHEMES.
 
@@ -112,7 +112,7 @@ Section BASES.
 (** The first element of a non empty vector *)
 #[deprecated(since="9.1", use=Vector92.hd)]
 Definition hd {A} := @caseS _ (fun n v => A) (fun h n t => h).
-Global Arguments hd {A} {n} v.
+#[global] Arguments hd {A} {n} v.
 
 #[deprecated(since="9.1", use=Vector92.hd)]
 Lemma hd_92 [A n] v : @hd A n v = @Vector92.hd A n v.
@@ -121,7 +121,7 @@ Proof. rewrite (inj_S v); reflexivity. Qed.
 (** The last element of an non empty vector *)
 #[deprecated(since="9.1", use=Vector92.last)]
 Definition last {A} := @rectS _ (fun _ _ => A) (fun a => a) (fun _ _ _ H => H).
-Global Arguments last {A} {n} v.
+#[global] Arguments last {A} {n} v.
 
 #[deprecated(since="9.1", use=Vector92.last)]
 Lemma last_92 [A] n v : @last A n v = @Vector92.last A n v.
@@ -195,7 +195,7 @@ Admitted.
 (** Remove the first element of a non empty vector *)
 #[deprecated(since="9.1", use=Vector92.tl)]
 Definition tl {A} := @caseS _ (fun n v => t A n) (fun h n t => t).
-Global Arguments tl {A} {n} v.
+#[global] Arguments tl {A} {n} v.
 
 #[deprecated(since="9.1", use=Vector92.tl)]
 Lemma tl_92 [A n] v : @tl A n v = @Vector92.tl A n v.
@@ -209,7 +209,7 @@ Definition uncons {A} {n : nat} (v : t A (S n)) : A * t A n := (hd v, tl v).
 #[deprecated(since="9.1", note="If you would like stdlib to keep this definition, please open an issue.")]
 Definition shiftout {A} := @rectS _ (fun n _ => t A n) (fun a => [])
   (fun h _ _ H => h :: H).
-Global Arguments shiftout {A} {n} v.
+#[global] Arguments shiftout {A} {n} v.
 
 #[deprecated(since="9.1", use=Vector92.snoc)]
 (** Add an element at the end of a vector *)
@@ -227,7 +227,7 @@ Proof. induction v; cbn; congruence. Qed.
 #[deprecated(since="9.1", note="If you would like stdlib to keep this definition, please open an issue.")]
 Definition shiftrepeat {A} := @rectS _ (fun n _ => t A (S (S n)))
   (fun h =>  h :: h :: []) (fun h _ _ H => h :: H).
-Global Arguments shiftrepeat {A} {n} v.
+#[global] Arguments shiftrepeat {A} {n} v.
 
 (** Take first [p] elements of a vector *)
 #[deprecated(since="9.1", use=Vector92.firstn)]
@@ -361,7 +361,7 @@ Proof.
 Qed.
 
 End BASES.
-Local Notation "v [@ p ]" := (nth v p) (at level 1).
+#[local] Notation "v [@ p ]" := (nth v p) (at level 1).
 
 Section ITERATORS.
 (** * Here are special non dependent useful instantiation of induction schemes *)
@@ -383,7 +383,7 @@ Proof. reflexivity. Qed.
 Definition map2 {A B C} (g:A -> B -> C) :
   forall (n : nat), t A n -> t B n -> t C n :=
 @rect2 _ _ (fun n _ _ => t C n) (nil C) (fun _ _ _ H a b => (g a b) :: H).
-Global Arguments map2 {A B C} g {n} v1 v2.
+#[global] Arguments map2 {A B C} g {n} v1 v2.
 
 #[deprecated(since="9.1", use=Vector92.map2)]
 Lemma map2_92 {A B C} f n v w : @map2 A B C f n v w = @Vector92.map2 A B C f n v w.

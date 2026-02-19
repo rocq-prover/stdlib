@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import ZArith.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 From Stdlib Require Export Uint63 Sint63Axioms.
 From Stdlib Require Import Lia.
 
@@ -85,7 +85,7 @@ Proof.
   case ltbP.
   - intros ltxmin; split.
     + now transitivity 0%Z; [>| now apply Uint63.to_Z_bounded].
-    + replace (φ min_int%uint63) with (φ max_int%uint63 + 1)%Z in ltxmin.
+    + replace (φ min_int)%uint63 with ((φ max_int)%uint63 + 1)%Z in ltxmin.
       * lia.
       * now compute.
   - rewrite Z.nlt_ge; intros leminx.
@@ -112,7 +112,7 @@ Proof.
   case ltbP.
   - intros ltxmin [leq0x _].
     generalize (Uint63Axioms.of_to_Z x).
-    destruct (φ x%uint63).
+    destruct (φ%uint63 x).
     + now intros <-.
     + now intros <-; unfold Uint63Axioms.of_Z.
     + now intros _.
@@ -120,7 +120,7 @@ Proof.
     fold (- x)%sint63; rewrite (opp_spec x).
     rewrite Z_mod_nz_opp_full.
     + rewrite Zmod_small by easy.
-      destruct (wB - φ x%uint63) eqn: iswbmx.
+      destruct (wB - φ%uint63 x) eqn: iswbmx.
       * lia.
       * simpl.
         apply to_Z_inj.
@@ -131,7 +131,7 @@ Proof.
         rewrite <- Z.sub_0_l.
         rewrite <- (Zmod_0_l wB).
         rewrite <- Zminus_mod.
-        replace (0 - _) with (φ x%uint63 - wB) by ring.
+        replace (0 - _) with (φ%uint63 x - wB) by ring.
         rewrite <- Zminus_mod_idemp_r.
         rewrite Z_mod_same_full.
         rewrite Z.sub_0_r.
@@ -145,7 +145,7 @@ Qed.
 Lemma to_Z_inj (x y : int) : to_Z x = to_Z y -> x = y.
 Proof. exact (fun e => can_inj of_to_Z e). Qed.
 
-Lemma to_Z_mod_Uint63to_Z (x : int) : to_Z x mod wB = φ x%uint63.
+Lemma to_Z_mod_Uint63to_Z (x : int) : to_Z x mod wB = φ%uint63 x.
 Proof.
   unfold to_Z.
   case ltbP; [> now rewrite Z.mod_small by now apply Uint63.to_Z_bounded |].
@@ -179,10 +179,10 @@ Proof.
 Qed.
 
 Lemma to_Z_cmodwB (x : int) :
-  to_Z x = cmod (φ x%uint63) wB.
+  to_Z x = cmod (φ%uint63 x) wB.
 Proof.
   unfold to_Z, cmod.
-  case ltbP; change φ (min_int)%uint63 with (wB / 2).
+  case ltbP; change (φ%uint63 min_int) with (wB / 2).
   - intros ltxmin.
     rewrite Z.mod_small; [> lia |].
     split.
@@ -411,7 +411,7 @@ Proof.
   intros ltn0.
   apply to_Z_inj.
   rewrite asr_spec, Z.pow_neg_r by assumption.
-  now rewrite Zdiv_0_r.
+  now rewrite Z.div_0_r.
 Qed.
 
 Lemma asr_1 (n : int) : (1 >> n)%sint63 = (n =? 0)%sint63.

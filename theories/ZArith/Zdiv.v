@@ -15,7 +15,7 @@
 
 From Stdlib Require Export BinInt.
 From Stdlib Require Import Wf_Z Zbool ZArithRing Zcomplements Setoid Morphisms.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** The definition of the division is now in [BinIntDef], the initial
     specifications and properties are in [BinInt]. *)
@@ -107,10 +107,14 @@ Proof.
 Qed.
 
 Lemma Z_mod_lt a b : b > 0 -> 0 <= a mod b < b.
-Proof (fun Hb => Z.mod_pos_bound a b (Z.gt_lt _ _ Hb)).
+Proof.
+  exact (fun Hb => Z.mod_pos_bound a b (Z.gt_lt _ _ Hb)).
+Qed.
 
 Lemma Z_mod_neg a b : b < 0 -> b < a mod b <= 0.
-Proof (Z.mod_neg_bound a b).
+Proof.
+  exact (Z.mod_neg_bound a b).
+Qed.
 
 Lemma Z_div_mod_eq_full a b : a = b*(a/b) + (a mod b).
 Proof.
@@ -153,12 +157,16 @@ Theorem Zdiv_mod_unique_2 :
  forall b q1 q2 r1 r2:Z,
   Remainder r1 b -> Remainder r2 b ->
   b*q1+r1 = b*q2+r2 -> q1=q2 /\ r1=r2.
-Proof Z.div_mod_unique.
+Proof.
+  exact Z.div_mod_unique.
+Qed.
 
 Theorem Zdiv_unique_full:
  forall a b q r, Remainder r b ->
    a = b*q + r -> q = a/b.
-Proof Z.div_unique.
+Proof.
+  exact Z.div_unique.
+Qed.
 
 Theorem Zdiv_unique:
  forall a b q r, 0 <= r < b ->
@@ -168,7 +176,9 @@ Proof. intros; eapply Zdiv_unique_full; eauto. Qed.
 Theorem Zmod_unique_full:
  forall a b q r, Remainder r b ->
   a = b*q + r ->  r = a mod b.
-Proof Z.mod_unique.
+Proof.
+  exact Z.mod_unique.
+Qed.
 
 Theorem Zmod_unique:
  forall a b q r, 0 <= r < b ->
@@ -182,6 +192,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
+#[deprecated(use=Z.mod_0_r, since="Stdlib 9.1")]
 Lemma Zmod_0_r: forall a, a mod 0 = a.
 Proof.
   intros a; destruct a; simpl; auto.
@@ -192,6 +203,7 @@ Proof.
   intros a; destruct a; simpl; auto.
 Qed.
 
+#[deprecated(use=Z.div_0_r, since="Stdlib 9.1")]
 Lemma Zdiv_0_r: forall a, a/0 = 0.
 Proof.
   intros a; destruct a; simpl; auto.
@@ -199,7 +211,7 @@ Qed.
 
 Ltac zero_or_not a :=
   destruct (Z.eq_dec a 0);
-  [subst; rewrite ?Zmod_0_l, ?Zdiv_0_l, ?Zmod_0_r, ?Zdiv_0_r;
+  [subst; rewrite ?Zmod_0_l, ?Zdiv_0_l, ?Z.mod_0_r, ?Z.div_0_r;
    auto with zarith|].
 
 Lemma Zmod_1_r: forall a, a mod 1 = 0.
@@ -209,17 +221,23 @@ Lemma Zdiv_1_r: forall a, a/1 = a.
 Proof. intros a. zero_or_not a. apply Z.div_1_r. Qed.
 
 #[global]
-Hint Resolve Zmod_0_l Zmod_0_r Zdiv_0_l Zdiv_0_r Zdiv_1_r Zmod_1_r
+Hint Resolve Zmod_0_l Z.mod_0_r Zdiv_0_l Z.div_0_r Zdiv_1_r Zmod_1_r
  : zarith.
 
 Lemma Zdiv_1_l: forall a, 1 < a -> 1/a = 0.
-Proof Z.div_1_l.
+Proof.
+  exact Z.div_1_l.
+Qed.
 
 Lemma Zmod_1_l: forall a, 1 < a ->  1 mod a = 1.
-Proof Z.mod_1_l.
+Proof.
+  exact Z.mod_1_l.
+Qed.
 
 Lemma Z_div_same_full : forall a:Z, a<>0 -> a/a = 1.
-Proof Z.div_same.
+Proof.
+  exact Z.div_same.
+Qed.
 
 Lemma Z_mod_same_full : forall a, a mod a = 0.
 Proof. intros a. zero_or_not a. apply Z.mod_same; auto. Qed.
@@ -228,7 +246,9 @@ Lemma Z_mod_mult : forall a b, (a*b) mod b = 0.
 Proof. intros a b. zero_or_not b. apply Z.mul_0_r. now apply Z.mod_mul. Qed.
 
 Lemma Z_div_mult_full : forall a b:Z, b <> 0 -> (a*b)/b = a.
-Proof Z.div_mul.
+Proof.
+  exact Z.div_mul.
+Qed.
 
 (** * Order results about Z.modulo and Z.div *)
 
@@ -246,14 +266,14 @@ Qed.
 
 Lemma Z_div_nonneg_nonneg : forall a b, 0 <= a -> 0 <= b -> 0 <= a / b.
 Proof.
-  intros a b. destruct b; intros; now (rewrite Zdiv_0_r + apply Z_div_pos).
+  intros a b. destruct b; intros; now (rewrite Z.div_0_r + apply Z_div_pos).
 Qed.
 
 (* Modulo for a non-negative divisor is non-negative. *)
 
 Lemma Z_mod_nonneg_nonneg : forall a b, 0 <= a -> 0 <= b -> 0 <= a mod b.
 Proof.
-  destruct b; intros; now (rewrite Zmod_0_r + apply Z_mod_lt).
+  destruct b; intros; now (rewrite Z.mod_0_r + apply Z_mod_lt).
 Qed.
 
 (** As soon as the divisor is greater or equal than 2,
@@ -272,12 +292,16 @@ Qed.
 (** A division of a small number by a bigger one yields zero. *)
 
 Theorem Zdiv_small: forall a b, 0 <= a < b -> a/b = 0.
-Proof Z.div_small.
+Proof.
+  exact Z.div_small.
+Qed.
 
 (** Same situation, in term of modulo: *)
 
 Theorem Zmod_small: forall a n, 0 <= a < n -> a mod n = a.
-Proof Z.mod_small.
+Proof.
+  exact Z.mod_small.
+Qed.
 
 (** [Z.ge] is compatible with a positive division. *)
 
@@ -351,10 +375,14 @@ Proof. intros a b c. zero_or_not c.
 Qed.
 
 Lemma Z_div_plus_full : forall a b c:Z, c <> 0 -> (a + b * c) / c = a / c + b.
-Proof Z.div_add.
+Proof.
+  exact Z.div_add.
+Qed.
 
 Theorem Z_div_plus_full_l: forall a b c : Z, b <> 0 -> (a * b + c) / b = a + c / b.
-Proof Z.div_add_l.
+Proof.
+  exact Z.div_add_l.
+Qed.
 
 (** [Z.opp] and [Z.div], [Z.modulo].
     Due to the choice of convention for our Euclidean division,
@@ -580,7 +608,9 @@ Qed.
 (** Particular case : dividing by 2 is related with parity *)
 
 Lemma Zdiv2_div : forall a, Z.div2 a = a/2.
-Proof Z.div2_div.
+Proof.
+  exact Z.div2_div.
+Qed.
 
 Lemma Zmod_odd : forall a, a mod 2 = if Z.odd a then 1 else 0.
 Proof.
@@ -740,7 +770,7 @@ Proof. zero_or_not b; [|rewrite Z.mod_small_iff]; intuition idtac. Qed.
 Lemma gcd_mod_l a b : Z.gcd (a mod b) b = Z.gcd a b.
 Proof.
   case (Z.eqb_spec b 0) as [->|];
-    rewrite ?Zmod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
+    rewrite ?Z.mod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
 Qed.
 
 Lemma gcd_mod_r a b : Z.gcd a (b mod a) = Z.gcd a b.
@@ -749,7 +779,7 @@ Proof. rewrite Z.gcd_comm, Z.gcd_mod_l, Z.gcd_comm; trivial. Qed.
 Lemma mod_pow_l a b c : (a mod c)^b mod c = ((a ^ b) mod c).
 Proof.
   destruct (Z.ltb_spec b 0) as [|Hb]. { rewrite !Z.pow_neg_r; trivial. }
-  destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Z.mod_0_r; trivial. }
   generalize dependent b; eapply Wf_Z.natlike_ind; trivial; intros x Hx IH.
   rewrite !Z.pow_succ_r, <-Z.mul_mod_idemp_r, IH, Z.mul_mod_idemp_l, Z.mul_mod_idemp_r; trivial.
 Qed.
@@ -757,7 +787,7 @@ Qed.
 Lemma cong_iff_0 a b m : a mod m = b mod m <-> (a - b) mod m = 0.
 Proof.
   case (Z.eq_dec m 0) as [->|Hm].
-  { rewrite ?Zmod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
+  { rewrite ?Z.mod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
   split; intros H. { rewrite Zminus_mod, H, Z.sub_diag, Z.mod_0_l; trivial. }
   apply Zmod_divides in H; trivial; case H as [c H].
   assert (b = a + (-c) * m) as ->; rewrite ?Z.mod_add; trivial.
@@ -767,16 +797,16 @@ Qed.
 Lemma cong_iff_ex a b m : a mod m = b mod m <-> exists n, a - b = n * m.
 Proof.
   destruct (Z.eq_dec m 0) as [->|].
-  { rewrite !Zmod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
+  { rewrite !Z.mod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
     firstorder idtac. }
   { rewrite cong_iff_0, Z.mod_divide by trivial; reflexivity. }
 Qed.
 
 Lemma mod_mod_divide a b c : (c | b) -> (a mod b) mod c = a mod c.
 Proof.
-  destruct (Z.eqb_spec b 0); subst. { rewrite Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec b 0); subst. { rewrite Z.mod_0_r; trivial. }
   inversion_clear 1; subst.
-  destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Zmod_0_r; trivial. }
+  destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Z.mod_0_r; trivial. }
   apply cong_iff_ex; eexists (- x * (a/(x*c))); rewrite Z.mod_eq by auto.
   ring_simplify; trivial.
 Qed.
@@ -788,7 +818,7 @@ Proof.
   { rewrite !Z_mod_zero_opp_full; trivial. }
   rewrite Z_mod_nz_opp_full by trivial.
   rewrite <-Zminus_mod_idemp_r.
-  case (Z.eq_dec b 0) as [->|]; [rewrite Zmod_0_r; ring|].
+  case (Z.eq_dec b 0) as [->|]; [rewrite Z.mod_0_r; ring|].
   rewrite <-Z.mod_add with (b:=1) by trivial.
   change 0 with (0 mod b); f_equal; ring.
 Qed.
@@ -805,7 +835,7 @@ Proof. rewrite <-(mod_mod_opp_r a (-b)), Z.opp_involutive; trivial. Qed.
 Lemma mod_mod_abs_r a b : (a mod Z.abs b) mod b = a mod b.
 Proof.
   case b as []; cbn [Z.abs].
-  { rewrite ?Zmod_0_r; trivial. }
+  { rewrite ?Z.mod_0_r; trivial. }
   { apply Z.mod_mod; inversion 1. }
   { rewrite <-Pos2Z.opp_pos. apply mod_opp_r_mod. }
 Qed.
@@ -813,7 +843,7 @@ Qed.
 Lemma mod_abs_r_mod a b : (a mod b) mod Z.abs b = a mod Z.abs b.
 Proof.
   case b as []; cbn [Z.abs].
-  { rewrite ?Zmod_0_r; trivial. }
+  { rewrite ?Z.mod_0_r; trivial. }
   { apply Z.mod_mod; inversion 1. }
   { rewrite <-Pos2Z.opp_pos. apply mod_mod_opp_r. }
 Qed.

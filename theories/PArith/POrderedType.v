@@ -10,7 +10,7 @@
 
 From Stdlib Require Import BinPos Equalities Orders OrdersTac.
 
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 
 (** * DecidableType structure for [positive] numbers *)
 

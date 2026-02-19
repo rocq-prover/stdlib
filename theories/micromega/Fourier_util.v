@@ -1,7 +1,7 @@
 From Stdlib Require Export Rbase.
 From Stdlib Require Import Lra.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Lemma Rlt_mult_inv_pos : forall x y:R, 0 < x -> 0 < y -> 0 < x * / y.
 Proof.

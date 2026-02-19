@@ -27,7 +27,7 @@ From Stdlib Require Import MVT.
 From Stdlib Require Import Ranalysis4.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Definition P_Rmin_stt (P:R -> Prop) x y := Rmin_case x y P.
 #[deprecated(since="8.16", note="Use Rmin_case instead.")]

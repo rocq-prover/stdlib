@@ -27,8 +27,8 @@ From Stdlib Require Import List Relations Relations_1.
 (** Preambule *)
 
 Set Implicit Arguments.
-Local Notation "[ ]" := nil (at level 0).
-Local Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..) (at level 0).
+#[local] Notation "[ ]" := nil (at level 0).
+#[local] Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..) (at level 0).
 Arguments Transitive [U] R.
 
 Section defs.

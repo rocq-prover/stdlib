@@ -31,7 +31,7 @@ Inductive Permutation : list A -> list A -> Prop :=
 | perm_trans l l' l'' :
     Permutation l l' -> Permutation l' l'' -> Permutation l l''.
 
-Local Hint Constructors Permutation : core.
+#[local] Hint Constructors Permutation : core.
 
 (** Some facts about [Permutation] *)
 
@@ -82,8 +82,8 @@ Hint Resolve Permutation_refl perm_nil perm_skip : core.
 (* These hints do not reduce the size of the problem to solve and they
    must be used with care to avoid combinatoric explosions *)
 
-Local Hint Resolve perm_swap perm_trans : core.
-Local Hint Resolve Permutation_sym Permutation_trans : core.
+#[local] Hint Resolve perm_swap perm_trans : core.
+#[local] Hint Resolve Permutation_sym Permutation_trans : core.
 
 (* This provides reflexivity, symmetry and transitivity and rewriting
    on morphims to come *)
@@ -129,7 +129,7 @@ Proof.
   intros l l' x Hperm; induction Hperm; simpl; tauto.
 Qed.
 
-Global Instance Permutation_in' :
+#[global] Instance Permutation_in' :
  Proper (Logic.eq ==> @Permutation A ==> iff) (@In A).
 Proof.
   repeat red; intros; subst; eauto using Permutation_in.
@@ -177,7 +177,7 @@ Qed.
 Lemma Permutation_cons_append : forall (l : list A) x,
   Permutation (x :: l) (l ++ x :: nil).
 Proof. induction l; intros; auto. simpl. rewrite <- IHl; auto. Qed.
-Local Hint Resolve Permutation_cons_append : core.
+#[local] Hint Resolve Permutation_cons_append : core.
 
 Theorem Permutation_app_comm : forall (l l' : list A),
   Permutation (l ++ l') (l' ++ l).
@@ -188,14 +188,14 @@ Proof.
     rewrite app_comm_cons, Permutation_cons_append.
     now rewrite <- app_assoc.
 Qed.
-Local Hint Resolve Permutation_app_comm : core.
+#[local] Hint Resolve Permutation_app_comm : core.
 
 Lemma Permutation_app_rot : forall l1 l2 l3: list A,
   Permutation (l1 ++ l2 ++ l3) (l2 ++ l3 ++ l1).
 Proof.
   intros l1 l2 l3; now rewrite (app_assoc l2).
 Qed.
-Local Hint Resolve Permutation_app_rot : core.
+#[local] Hint Resolve Permutation_app_rot : core.
 
 Lemma Permutation_app_swap_app : forall l1 l2 l3: list A,
   Permutation (l1 ++ l2 ++ l3) (l2 ++ l1 ++ l3).
@@ -204,7 +204,7 @@ Proof.
   rewrite 2 app_assoc.
   apply Permutation_app_tail, Permutation_app_comm.
 Qed.
-Local Hint Resolve Permutation_app_swap_app : core.
+#[local] Hint Resolve Permutation_app_swap_app : core.
 
 Lemma Permutation_app_middle : forall l l1 l2 l3 l4,
  Permutation (l1 ++ l2) (l3 ++ l4) ->
@@ -221,7 +221,7 @@ Proof.
   rewrite app_comm_cons, Permutation_cons_append.
   now rewrite <- app_assoc.
 Qed.
-Local Hint Resolve Permutation_cons_app : core.
+#[local] Hint Resolve Permutation_cons_app : core.
 
 Lemma Permutation_Add a l l' : Add a l l' -> Permutation (a::l) l'.
 Proof.
@@ -234,7 +234,7 @@ Theorem Permutation_middle : forall (l1 l2:list A) a,
 Proof.
   auto.
 Qed.
-Local Hint Resolve Permutation_middle : core.
+#[local] Hint Resolve Permutation_middle : core.
 
 Lemma Permutation_middle2 : forall l1 l2 l3 a b,
   Permutation (a :: b :: l1 ++ l2 ++ l3) (l1 ++ a :: l2 ++ b :: l3).
@@ -244,7 +244,7 @@ Proof.
   rewrite 2 app_assoc.
   now apply Permutation_cons_app.
 Qed.
-Local Hint Resolve Permutation_middle2 : core.
+#[local] Hint Resolve Permutation_middle2 : core.
 
 Lemma Permutation_elt : forall l1 l2 l1' l2' (a:A),
  Permutation (l1 ++ l2) (l1' ++ l2') ->
@@ -259,7 +259,7 @@ Proof.
   induction l as [| x l]; simpl; trivial. now rewrite IHl at 1.
 Qed.
 
-Global Instance Permutation_rev' :
+#[global] Instance Permutation_rev' :
  Proper (@Permutation A ==> @Permutation A) (@rev A).
 Proof.
   repeat intro; now rewrite <- 2 Permutation_rev.
@@ -271,13 +271,13 @@ Proof.
   intros l l' Hperm; induction Hperm; simpl; auto. now transitivity (length l').
 Qed.
 
-Global Instance Permutation_length' :
+#[global] Instance Permutation_length' :
  Proper (@Permutation A ==> Logic.eq) (@length A) | 10.
 Proof.
   exact Permutation_length.
 Qed.
 
-Global Instance Permutation_Forall (P : A -> Prop) :
+#[global] Instance Permutation_Forall (P : A -> Prop) :
  Proper ((@Permutation A) ==> Basics.impl) (Forall P).
 Proof.
   intros l1 l2 HP.
@@ -287,7 +287,7 @@ Proof.
     inversion_clear HF2; auto.
 Qed.
 
-Global Instance Permutation_Exists (P : A -> Prop) :
+#[global] Instance Permutation_Exists (P : A -> Prop) :
  Proper ((@Permutation A) ==> Basics.impl) (Exists P).
 Proof.
   intros l1 l2 HP.
@@ -522,7 +522,7 @@ Proof.
    + constructor; intuition.
 Qed.
 
-Global Instance Permutation_NoDup' :
+#[global] Instance Permutation_NoDup' :
  Proper (@Permutation A ==> iff) (@NoDup A).
 Proof.
   repeat red; eauto using Permutation_NoDup.
@@ -630,7 +630,7 @@ Proof.
  induction 1; simpl; eauto.
 Qed.
 
-Global Instance Permutation_map' :
+#[global] Instance Permutation_map' :
   Proper (@Permutation A ==> @Permutation B) (map f).
 Proof.
   exact Permutation_map.
@@ -676,7 +676,7 @@ Proof.
   now contradiction (Hf x).
 Qed.
 
-Global Instance Permutation_flat_map (g : A -> list B) :
+#[global] Instance Permutation_flat_map (g : A -> list B) :
  Proper ((@Permutation A) ==> (@Permutation B)) (flat_map g).
 Proof.
   intros l1; induction l1; intros l2 HP.
@@ -703,10 +703,10 @@ Qed.
 (** Alternative characterization of permutation
     via [nth_error] and [nth] *)
 
-Local Definition adapt f n :=
+#[local] Definition adapt f n :=
  let m := f (S n) in if le_lt_dec m (f 0) then m else pred m.
 
-Local Definition adapt_injective f : Injective f -> Injective (adapt f).
+#[local] Definition adapt_injective f : Injective f -> Injective (adapt f).
 Proof.
  unfold adapt. intros Hf x y EQ.
  destruct le_lt_dec as [LE|LT]; destruct le_lt_dec as [LE'|LT'].
@@ -725,7 +725,7 @@ Proof.
    now rewrite <- (Nat.lt_succ_pred _ _ LT), <- (Nat.lt_succ_pred _ _ LT'), EQ.
 Defined.
 
-Local Definition adapt_ok A (a : A) l1 l2 f : Injective f -> length l1 = f 0 ->
+#[local] Definition adapt_ok A (a : A) l1 l2 f : Injective f -> length l1 = f 0 ->
  forall n, nth_error (l1++a::l2) (f (S n)) = nth_error (l1++l2) (adapt f n).
 Proof.
  unfold adapt. intros Hf E n.
@@ -835,7 +835,7 @@ Proof.
   now apply (perm_t_trans IHHP2).
 Qed.
 
-Global Instance Permutation_transp_equiv : Equivalence Permutation_transp | 100.
+#[global] Instance Permutation_transp_equiv : Equivalence Permutation_transp | 100.
 Proof.
   split.
   - intros l; apply perm_t_refl.
@@ -884,6 +884,6 @@ Qed.
 End Permutation_transp.
 
 (* begin hide *)
-#[deprecated(since="9.1", use=Permutation_app_comm )]
+#[deprecated(since="Stdlib 9.1", use=Permutation_app_comm )]
 Notation Permutation_app_swap := Permutation_app_comm (only parsing).
 (* end hide *)

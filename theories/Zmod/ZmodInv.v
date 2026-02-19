@@ -3,11 +3,11 @@ From Stdlib Require Import Bool.Bool Lists.List Lists.Finite Sorting.Permutation
 Import ListNotations.
 
 From Stdlib Require Import Zmod.ZmodDef Zmod.ZstarDef Zmod.ZmodBase Zmod.ZstarBase.
-Local Open Scope Z_scope.
-Local Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
-Local Coercion Zstar.to_Zmod : Zstar.Zstar >-> Zmod.Zmod.
+#[local] Open Scope Z_scope.
+#[local] Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
+#[local] Coercion Zstar.to_Zmod : Zstar.Zstar >-> Zmod.Zmod.
 
-Local Hint Extern 0 (?x <-> ?x) => reflexivity : core.
+#[local] Hint Extern 0 (?x <-> ?x) => reflexivity : core.
 
 Module Zmod.
 Import ZstarDef.Zstar ZstarBase.Zstar ZmodDef.Zmod ZmodBase.Zmod.

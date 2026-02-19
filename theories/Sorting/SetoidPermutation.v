@@ -14,7 +14,7 @@ From Stdlib Require Import Permutation SetoidList.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with relations.
+#[local] Ltac Tauto.intuition_solver ::= auto with relations.
 
 (** Permutations of list modulo a setoid equality. *)
 
@@ -30,9 +30,9 @@ Inductive PermutationA : list A -> list A -> Prop :=
   | permA_swap x y l : PermutationA (y :: x :: l) (x :: y :: l)
   | permA_trans l₁ l₂ l₃ :
      PermutationA l₁ l₂ -> PermutationA l₂ l₃ -> PermutationA l₁ l₃.
-Local Hint Constructors PermutationA : core.
+#[local] Hint Constructors PermutationA : core.
 
-Global Instance: Equivalence PermutationA.
+#[global] Instance: Equivalence PermutationA.
 Proof.
  constructor.
  - intro l. induction l; intuition.
@@ -40,7 +40,7 @@ Proof.
  - exact permA_trans.
 Qed.
 
-Global Instance PermutationA_cons :
+#[global] Instance PermutationA_cons :
   Proper (eqA ==> PermutationA ==> PermutationA) (@cons A).
 Proof.
  repeat intro. now apply permA_skip.
@@ -52,7 +52,7 @@ Proof.
  induction l; trivial; intros. apply permA_skip; intuition.
 Qed.
 
-Global Instance PermutationA_app :
+#[global] Instance PermutationA_app :
   Proper (PermutationA ==> PermutationA ==> PermutationA) (@app A).
 Proof.
  intros l₁ l₂ Pl k₁ k₂ Pk.

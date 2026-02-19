@@ -10,9 +10,9 @@
 (*          Pierre Letouzey, Jerome Vouillon, PPS, Paris 7, 2008        *)
 (************************************************************************)
 
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-reference,-deprecated-notation".
 
-Local Open Scope type_scope.
+#[local] Open Scope type_scope.
 
 From Stdlib Require Import List.
 

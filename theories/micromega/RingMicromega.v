@@ -11,7 +11,7 @@
 (************************************************************************)
 
 From Stdlib Require Import PeanoNat.
-From Stdlib Require Import BinPos BinNat.
+From Stdlib Require Import BinPos BinNat NArithRing.
 From Stdlib Require Import Relation_Definitions.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import Ring.
@@ -76,8 +76,8 @@ one structure *)
 Record SORaddon := mk_SOR_addon {
   SORrm : ring_morph 0 1 rplus rtimes rminus ropp req cO cI cplus ctimes cminus copp ceqb phi;
   SORpower : power_theory rI rtimes req pow_phi rpow;
-  SORcneqb_morph : forall x y : C, x [=] y = false -> [x] ~= [y];
-  SORcleb_morph : forall x y : C, x [<=] y = true -> [x] <= [y]
+  SORcneqb_morph : forall x y : C, (x [=] y) = false -> [x] ~= [y];
+  SORcleb_morph : forall x y : C, (x [<=] y) = true -> [x] <= [y]
 }.
 
 Variable addon : SORaddon.
@@ -124,19 +124,19 @@ Ltac le_less := rewrite (Rle_lt_eq sor); left; try assumption.
 Ltac le_equal := rewrite (Rle_lt_eq sor); right; try reflexivity; try assumption.
 Ltac le_elim H := rewrite (Rle_lt_eq sor) in H; destruct H as [H | H].
 
-Lemma cleb_sound : forall x y : C, x [<=] y = true -> [x] <= [y].
+Lemma cleb_sound : forall x y : C, (x [<=] y) = true -> [x] <= [y].
 Proof.
   exact (SORcleb_morph addon).
 Qed.
 
-Lemma cneqb_sound : forall x y : C, x [~=] y = true -> [x] ~= [y].
+Lemma cneqb_sound : forall x y : C, (x [~=] y) = true -> [x] ~= [y].
 Proof.
 intros x y H1. apply (SORcneqb_morph addon). unfold cneqb, negb in H1.
 destruct (ceqb x y); now try discriminate.
 Qed.
 
 
-Lemma cltb_sound : forall x y : C, x [<] y = true -> [x] < [y].
+Lemma cltb_sound : forall x y : C, (x [<] y) = true -> [x] < [y].
 Proof.
 intros x y H. unfold cltb in H. apply andb_prop in H. destruct H as [H1 H2].
 apply cleb_sound in H1. apply cneqb_sound in H2. apply <- (Rlt_le_neq sor). now split.

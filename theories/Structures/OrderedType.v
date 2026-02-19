@@ -64,9 +64,9 @@ Module MOT_to_OT (Import O : MiniOrderedType) <: OrderedType.
   Include O.
 
   Definition eq_dec : forall x y : t, {eq x y} + {~ eq x y}.
-  Proof with auto with ordered_type.
-   intros x y; elim (compare x y); intro H; [ right | left | right ]...
-   assert (~ eq y x)...
+  Proof.
+   intros x y; elim (compare x y); intro H; [ right | left | right ]; auto with ordered_type.
+   assert (~ eq y x); auto with ordered_type.
   Defined.
 
 End MOT_to_OT.
@@ -92,17 +92,17 @@ Module OrderedTypeFacts (Import O: OrderedType).
   Proof. split; [ exact lt_antirefl | exact lt_trans]. Qed.
 
   Lemma lt_eq : forall x y z, lt x y -> eq y z -> lt x z.
-  Proof with auto with ordered_type.
+  Proof.
    intros x y z H ?; destruct (compare x z) as [Hlt|Heq|Hlt]; auto.
-   - elim (lt_not_eq H); apply eq_trans with z...
-   - elim (lt_not_eq (lt_trans Hlt H))...
+   - elim (lt_not_eq H); apply eq_trans with z; auto with ordered_type.
+   - elim (lt_not_eq (lt_trans Hlt H)); auto with ordered_type.
   Qed.
 
   Lemma eq_lt : forall x y z, eq x y -> lt y z -> lt x z.
-  Proof with auto with ordered_type.
+  Proof.
    intros x y z H H0; destruct (compare x z) as [Hlt|Heq|Hlt]; auto.
-   - elim (lt_not_eq H0); apply eq_trans with x...
-   - elim (lt_not_eq (lt_trans H0 Hlt))...
+   - elim (lt_not_eq H0); apply eq_trans with x; auto with ordered_type.
+   - elim (lt_not_eq (lt_trans H0 Hlt)); auto with ordered_type.
   Qed.
 
 #[global]
@@ -340,22 +340,22 @@ Module KeyOrderedType(O:OrderedType).
   #[local]
   Hint Immediate eqk_sym eqke_sym : ordered_type.
 
-  Global Instance eqk_equiv : Equivalence eqk.
+  #[global] Instance eqk_equiv : Equivalence eqk.
   Proof. constructor; eauto with ordered_type. Qed.
 
-  Global Instance eqke_equiv : Equivalence eqke.
+  #[global] Instance eqke_equiv : Equivalence eqke.
   Proof. split; eauto with ordered_type. Qed.
 
-  Global Instance ltk_strorder : StrictOrder ltk.
+  #[global] Instance ltk_strorder : StrictOrder ltk.
   Proof. constructor; eauto with ordered_type. intros x; apply (irreflexivity (x:=fst x)). Qed.
 
-  Global Instance ltk_compat : Proper (eqk==>eqk==>iff) ltk.
+  #[global] Instance ltk_compat : Proper (eqk==>eqk==>iff) ltk.
   Proof.
   intros (x,e) (x',e') Hxx' (y,f) (y',f') Hyy'; compute.
    compute in Hxx'; compute in Hyy'. rewrite Hxx', Hyy'; auto.
   Qed.
 
-  Global Instance ltk_compat' : Proper (eqke==>eqke==>iff) ltk.
+  #[global] Instance ltk_compat' : Proper (eqke==>eqke==>iff) ltk.
   Proof.
   intros (x,e) (x',e') (Hxx',_) (y,f) (y',f') (Hyy',_); compute.
    compute in Hxx'; compute in Hyy'. rewrite Hxx', Hyy'; auto.
@@ -400,14 +400,14 @@ Module KeyOrderedType(O:OrderedType).
   (* An alternative formulation for [In k l] is [exists e, InA eqk (k,e) l] *)
 
   Lemma In_alt : forall k l, In k l <-> exists e, InA eqk (k,e) l.
-  Proof with auto with ordered_type.
+  Proof.
   intros k l; split; intros [y H].
-  - exists y...
+  - exists y; auto with ordered_type.
   - induction H as [a l eq|a l H IH].
     + destruct a as [k' y'].
-      exists y'...
+      exists y'; auto with ordered_type.
     + destruct IH as [e H0].
-      exists e...
+      exists e; auto with ordered_type.
   Qed.
 
   Lemma MapsTo_eq : forall l x y e, eq x y -> MapsTo x e l -> MapsTo y e l.

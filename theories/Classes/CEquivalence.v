@@ -26,9 +26,9 @@ Set Implicit Arguments.
 Unset Strict Implicit.
 
 Generalizable Variables A R eqA B S eqB.
-Local Obligation Tactic := try solve [simpl_crelation].
+#[local] Obligation Tactic := try solve [simpl_crelation].
 
-Local Open Scope signatureT_scope.
+#[local] Open Scope signatureT_scope.
 
 Definition equiv `{Equivalence A R} : crelation A := R.
 
@@ -41,7 +41,7 @@ Notation " x === y " := (equiv x y) (at level 70, no associativity) : equiv_scop
 
 Notation " x =/= y " := (complement equiv x y) (at level 70, no associativity) : equiv_scope.
 
-Local Open Scope equiv_scope.
+#[local] Open Scope equiv_scope.
 
 (** Overloading for [PER]. *)
 

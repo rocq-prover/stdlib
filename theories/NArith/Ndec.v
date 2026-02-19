@@ -16,7 +16,7 @@ From Stdlib Require Import BinNat.
 From Stdlib Require Import Pnat.
 From Stdlib Require Import Nnat.
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 (** Obsolete results about boolean comparisons over [N],
     kept for compatibility with IntMap and SMC. *)

@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import BinInt.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** An alternative power function for Z *)
 

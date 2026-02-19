@@ -11,7 +11,7 @@
 From Stdlib Require Import BinInt Znat ZArithRing Lia Wf_Z Zcomplements Zdiv Zdivisibility.
 From Stdlib Require Export Zpower.
 From Stdlib Require Znumtheory.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** Properties of the power function over [Z] *)
 
@@ -21,7 +21,9 @@ Local Open Scope Z_scope.
     primality. *)
 
 Lemma Zpower_pos_1_r x : Z.pow_pos x 1 = x.
-Proof (Z.pow_1_r x).
+Proof.
+  exact (Z.pow_1_r x).
+Qed.
 
 Lemma Zpower_pos_1_l p : Z.pow_pos 1 p = 1.
 Proof. now apply (Z.pow_1_l (Zpos p)). Qed.
@@ -170,7 +172,7 @@ Proof.
   rewrite Z.mul_comm, <- Z.pow_succ_r by lia; f_equal; lia.
 Qed.
 
-#[deprecated(use=Z.coprime_pow_r, since="9.1")]
+#[deprecated(use=Z.coprime_pow_r, since="Stdlib 9.1")]
 Theorem rel_prime_Zpower_r i p q :
  0 <= i -> Znumtheory.rel_prime p q -> Znumtheory.rel_prime p (q^i).
 Proof.
@@ -178,7 +180,7 @@ Proof.
   apply Z.coprime_pow_r.
 Qed.
 
-#[deprecated(use=Z.coprime_pow_l, since="9.1")]
+#[deprecated(use=Z.coprime_pow_l, since="Stdlib 9.1")]
 Theorem rel_prime_Zpower i j p q :
  0 <= i ->  0 <= j -> Znumtheory.rel_prime p q -> Znumtheory.rel_prime (p^i) (q^j).
 Proof.
@@ -188,7 +190,7 @@ Qed.
 
 Import Znumtheory.
 
-#[deprecated(use=Z.divide_prime_pp, since="9.1")]
+#[deprecated(use=Z.divide_prime_pp, since="Stdlib 9.1")]
 Theorem prime_power_prime p q n :
  0 <= n -> prime p -> prime q -> (p | q^n) -> p = q.
 Proof. rewrite <-!prime_alt; eauto using Z.divide_prime_pp. Qed.
@@ -228,7 +230,7 @@ Qed.
 
 (** * Z.square: a direct definition of [z^2] *)
 
-#[deprecated(use=Pos.square_spec, since="9.1")]
+#[deprecated(use=Pos.square_spec, since="Stdlib 9.1")]
 Notation Psquare_correct := Pos.square_spec (only parsing).
-#[deprecated(use=Z.square_spec, since="9.1")]
+#[deprecated(use=Z.square_spec, since="Stdlib 9.1")]
 Notation Zsquare_correct := Z.square_spec (only parsing).

@@ -9,12 +9,12 @@ Axiom wmult : forall sz, word sz -> word sz -> word sz.
 Axiom wminus : forall sz, word sz -> word sz -> word sz.
 Axiom wneg : forall sz, word sz -> word sz.
 Axiom wring : forall sz, ring_theory (wzero sz) (wone sz) (@wplus sz) (@wmult sz) (@wminus sz) (@wneg sz) (@eq _).
-Local Unset Universe Polymorphism.
+#[local] Unset Universe Polymorphism.
 Section foo.
   Context (sz : Type).
   Add Ring word_sz_ring : (wring sz). (* success *)
 End foo.
-Local Set Universe Polymorphism.
+#[local] Set Universe Polymorphism.
 Section foo'.
   Context (sz : Type).
   Fail Add Ring word_sz_ring' : (wring sz).

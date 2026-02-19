@@ -12,7 +12,7 @@ From Stdlib Require Import QArith_base Orders QOrderedType GenericMinMax.
 
 (** * Maximum and Minimum of two rational numbers *)
 
-Local Open Scope Q_scope.
+#[local] Open Scope Q_scope.
 
 (** [Qmin] and [Qmax] are obtained the usual way from [Qcompare]. *)
 

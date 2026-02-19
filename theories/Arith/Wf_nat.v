@@ -12,7 +12,7 @@
 
 From Stdlib Require Import PeanoNat.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Implicit Types m n p : nat.
 
@@ -165,7 +165,9 @@ Defined.
 
 Lemma gt_wf_ind :
   forall n (P:nat -> Prop), (forall n, (forall m, n > m -> P m) -> P n) -> P n.
-Proof lt_wf_ind.
+Proof.
+  exact lt_wf_ind.
+Qed.
 
 Lemma lt_wf_double_rect :
  forall P:nat -> nat -> Type,

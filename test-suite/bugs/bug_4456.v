@@ -8,18 +8,15 @@ Axiom proof_admitted : False.
 
 Tactic Notation "admit" := case proof_admitted.
 
-From Stdlib Require Program.
-From Stdlib Require String.
-From Stdlib Require Lia.
+From Stdlib Require Import Program String Arith Lia List.
 Module Export Fiat_DOT_Common.
 Module Export Fiat.
 Module Common.
-Import Stdlib.Lists.List.
 Export Program.
 
-Global Set Implicit Arguments.
+#[global] Set Implicit Arguments.
 
-Global Coercion is_true : bool >-> Sortclass.
+#[global] Coercion is_true : bool >-> Sortclass.
 Coercion bool_of_sum {A B} (b : sum A B) : bool := if b then true else false.
 
 Fixpoint ForallT {T} (P : T -> Type) (ls : list T) : Type
@@ -46,7 +43,7 @@ Module Export Core.
 Import Stdlib.Relations.Relation_Definitions.
 Import Stdlib.Classes.Morphisms.
 
-Local Coercion is_true : bool >-> Sortclass.
+#[local] Coercion is_true : bool >-> Sortclass.
 
 Module Export StringLike.
   Class StringLike {Char : Type} :=
@@ -65,7 +62,7 @@ Module Export StringLike.
   Arguments StringLike : clear implicits.
   Infix "=s" := (@beq _ _) (at level 70, no associativity) : type_scope.
   Notation "s ~= [ ch ]" := (is_char s ch) (at level 70, no associativity) : string_like_scope.
-  Local Open Scope string_like_scope.
+  #[local] Open Scope string_like_scope.
 
   Class StringLikeProperties (Char : Type) `{StringLike Char} :=
     {
@@ -92,7 +89,7 @@ Module Export StringLike.
       take_drop : forall str n m, take n (drop m str) =s drop m (take (n + m) str);
       bool_eq_from_get : forall str str', (forall n, get n str = get n str') -> str =s str'
     }.
-Global Arguments StringLikeProperties _ {_}.
+#[global] Arguments StringLikeProperties _ {_}.
 End StringLike.
 
 End Core.
@@ -110,8 +107,6 @@ Module Export Fiat.
 Module Export Parsers.
 Module Export ContextFreeGrammar.
 Module Export Core.
-Import Stdlib.Strings.String.
-Import Stdlib.Lists.List.
 Export Fiat.Parsers.StringLike.Core.
 
 Section cfg.
@@ -159,7 +154,7 @@ Module Export Parsers.
 Module Export BaseTypes.
 Import Wf_nat.
 
-Local Coercion is_true : bool >-> Sortclass.
+#[local] Coercion is_true : bool >-> Sortclass.
 
 Section recursive_descent_parser.
   Context {Char} {HSL : StringLike Char} {G : grammar Char}.
@@ -286,7 +281,7 @@ Module Export Parsers.
 Module Export ContextFreeGrammar.
 Module Export Properties.
 
-Local Open Scope list_scope.
+#[local] Open Scope list_scope.
 Definition production_is_reachableT {Char} (G : grammar Char) (p : production Char)
   := { nt : _
    & { prefix : _
@@ -312,8 +307,8 @@ Module Export MinimalParse.
 Import Stdlib.Lists.List.
 Import Fiat.Parsers.ContextFreeGrammar.Core.
 
-Local Coercion is_true : bool >-> Sortclass.
-Local Open Scope string_like_scope.
+#[local] Coercion is_true : bool >-> Sortclass.
+#[local] Open Scope string_like_scope.
 
 Section cfg.
   Context {Char} {HSL : StringLike Char} {G : grammar Char}.
@@ -489,11 +484,9 @@ Defined.
   End app.
 
 Import Stdlib.Lists.List.
-Import Arith.
-Import Lia.
 Import Fiat_DOT_Common.Fiat.Common.
 Import Fiat.Parsers.ContextFreeGrammar.Valid.
-Local Open Scope string_like_scope.
+#[local] Open Scope string_like_scope.
 
 Section recursive_descent_parser.
   Context {Char} {HSL : StringLike Char} {HSLP : StringLikeProperties Char} (G : grammar Char).
@@ -502,9 +495,9 @@ Section recursive_descent_parser.
           {rdata : @parser_removal_dataT' _ G _}
           {gvalid : grammar_valid G}.
 
-  Local Notation dec T := (T + (T -> False))%type (only parsing).
+  #[local] Notation dec T := (T + (T -> False))%type (only parsing).
 
-  Local Notation iffT x y := ((x -> y) * (y -> x))%type (only parsing).
+  #[local] Notation iffT x y := ((x -> y) * (y -> x))%type (only parsing).
 
   Lemma dec_prod {A B} (HA : dec A) (HB : dec B) : dec (A * B).
 admit.
@@ -574,7 +567,7 @@ Defined.
           -> dec (minimal_parse_of_production (G := G) len0 valid str (it :: its)).
 admit.
 Defined.
-        Local Ltac t_parse_production_for := repeat
+        #[local] Ltac t_parse_production_for := repeat
                       match goal with
                       | [ H : (Nat.eqb _ _) = true |- _ ] => apply ->Nat.eqb_eq in H
               | _ => progress subst

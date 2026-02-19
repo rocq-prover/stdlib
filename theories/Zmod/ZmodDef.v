@@ -1,12 +1,12 @@
 From Stdlib Require Import BinNatDef BinInt Bool List Zcong.
 Import ListNotations.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Zmod.
 
 (** [small z m = true <-> z mod m = z], but [small] is efficiently computable
    through a single arbitrary-precision comparison.  *)
-Local Definition small z m :=
+#[local] Definition small z m :=
   (0 =? m) || negb (Z.sgn z =? -Z.sgn m) && (Z.abs z <? Z.abs m).
 
 (** [Zmod m] is isomorphic to [{ z | z mod m = z}]. For efficiency, it is
@@ -18,7 +18,7 @@ Local Definition small z m :=
   - using [small] instead of [Z.modulo] to speed up type-checking of values.
   This construction is [not] a part of the supported interface of [Zmod], so
   the projections are named as [Private_] to exclude them from Search, instead
-  presenting wrappers with types that do not reveal these optimoizations are. *)
+  presenting wrappers with types that do not reveal these optimizations. *)
 #[projections(primitive)]
 Record Zmod (m : Z) := mk {
   Private_to_Z : Z ; Private_range : Bool.Is_true (small Private_to_Z m) }.
@@ -81,9 +81,9 @@ Definition inv {m} (x : Zmod m) : Zmod m := of_small_Z m (Z.invmod (to_Z x) m).
 
 Definition mdiv {m} (x y : Zmod m) : Zmod m := mul x (inv y).
 
-(** ** Powers  *)
+(** ** Powers *)
 
-Local Definition Private_pow_N {m} (a : Zmod m) n := N.iter_op mul one a n.
+#[local] Definition Private_pow_N {m} (a : Zmod m) n := N.iter_op mul one a n.
 Definition pow {m} (a : Zmod m) z :=
   if Z.ltb z 0 then inv (Private_pow_N a (Z.to_N (Z.opp z))) else Private_pow_N a (Z.to_N z).
 
@@ -117,7 +117,7 @@ Definition srs {m} x n := of_Z m (Z.shiftr (@signed m x) n).
    common-denominator modulus. See the four variants of [skipn_app] and
    [app_assoc], for a taste of the challenges. *)
 
-Local Notation bits n := (Zmod (2^n)).
+#[local] Notation bits n := (Zmod (2^n)).
 
 Definition app {n m} (a : bits n) (b : bits m) : bits (n+m) :=
   of_Z _ (Z.lor a (Z.shiftl b n)).

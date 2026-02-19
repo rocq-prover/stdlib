@@ -13,7 +13,7 @@
 
 From Stdlib Require Import Cyclic63 CyclicAxioms.
 
-Local Open Scope uint63_scope.
+#[local] Open Scope uint63_scope.
 
 (** Detection of constants *)
 
@@ -36,7 +36,9 @@ Module Uint63ring := CyclicRing Uint63Cyclic.
 (** Unlike in the generic [CyclicRing], we can use Leibniz here. *)
 
 Lemma Uint63_canonic : forall x y, to_Z x = to_Z y -> x = y.
-Proof to_Z_inj.
+Proof.
+  exact to_Z_inj.
+Qed.
 
 Lemma ring_theory_switch_eq :
  forall A (R R':A->A->Prop) zero one add mul sub opp,

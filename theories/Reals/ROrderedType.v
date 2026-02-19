@@ -10,7 +10,7 @@
 
 From Stdlib Require Import Rbase Equalities Orders OrdersTac.
 
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 (** * DecidableType structure for real numbers *)
 

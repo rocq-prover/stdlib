@@ -12,10 +12,10 @@
    Each instance is registered using a Add 'class' 'name_of_instance'.
  *)
 
-From Stdlib Require Import Arith BinInt BinNat Zeven Znat Nnat.
+From Stdlib Require Import BinInt BinNat Znat Nnat.
 From Stdlib Require Import ZifyClasses.
 Declare ML Module "rocq-runtime.plugins.zify".
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Ltac refl :=
   abstract (intros ; match goal with
@@ -581,9 +581,15 @@ Instance Op_Z_div2 : UnOp Z.div2 :=
   { TUOp x := x / 2 ; TUOpInj := Z.div2_div }.
 Add Zify UnOp Op_Z_div2.
 
+Local Lemma Zquot2_quot n : Z.quot2 n = n ÷ 2.
+Proof.
+  rewrite Z.quot_div, Z.mul_1_r, <-Z.div2_div by inversion 1.
+  case n; trivial; induction p; trivial.
+Qed.
+
 #[global]
 Instance Op_Z_quot2 : UnOp Z.quot2 :=
-  { TUOp x := Z.quot x 2 ; TUOpInj := Zeven.Zquot2_quot }.
+  { TUOp x := Z.quot x 2 ; TUOpInj := Zquot2_quot }.
 Add Zify UnOp Op_Z_quot2.
 
 Lemma of_nat_to_nat_eq x : Z.of_nat (Z.to_nat x) = Z.max 0 x.

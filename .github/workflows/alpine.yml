@@ -35,7 +35,17 @@ jobs:
       with:
         branch: ${{ matrix.alpine }}
         extra-repositories: https://dl-cdn.alpinelinux.org/alpine/edge/testing
-        packages: rocq dune
-    - name: dune build -p rocq-stdlib
+        packages: rocq dune  bash python3 graphviz  make findutils diffutils grep rsync
+    - name: 'dune build @stdlib-html # depends on stdlib'
       shell: alpine.sh {0}
-      run: dune build -p rocq-stdlib
+      run: 'dune build @stdlib-html # depends on stdlib'
+    - name: 'find _build/default/doc/stdlib/html/ -iname "*\**" -print -delete # for upload-artifact'
+      shell: alpine.sh {0}
+      run: 'find _build/default/doc/stdlib/html/ -iname "*\**" -print -delete # for upload-artifact'
+    - uses: actions/upload-artifact@v4
+      with:
+        name: stdlib-html
+        path: _build/default/doc/stdlib/html
+    - name: Check for duplicate files
+      shell: alpine.sh {0}
+      run: dev/tools/check-duplicate-files.sh

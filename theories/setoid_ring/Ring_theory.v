@@ -171,7 +171,7 @@ Section DEFINITIONS.
     Smorph1 : [cI] == 1;
     Smorph_add : forall x y, [x +! y] == [x]+[y];
     Smorph_mul : forall x y, [x *! y] == [x]*[y];
-    Smorph_eq  : forall x y, x?=!y = true -> [x] == [y]
+    Smorph_eq  : forall x y, (x?=!y) = true -> [x] == [y]
   }.
 
 (* for rings*)
@@ -182,13 +182,13 @@ Section DEFINITIONS.
     morph_sub : forall x y, [x -! y] == [x]-[y];
     morph_mul : forall x y, [x *! y] == [x]*[y];
     morph_opp : forall x, [-!x] == -[x];
-    morph_eq  : forall x y, x?=!y = true -> [x] == [y]
+    morph_eq  : forall x y, (x?=!y) = true -> [x] == [y]
   }.
 
  Section SIGN.
   Variable get_sign : C -> option C.
   Record sign_theory : Prop := mksign_th {
-    sign_spec : forall c c', get_sign c = Some c' -> c ?=! -! c' = true
+    sign_spec : forall c c', get_sign c = Some c' -> (c ?=! -! c') = true
   }.
  End SIGN.
 
@@ -291,11 +291,13 @@ Section ALMOST_RING.
  Proof. reflexivity. Qed.
 
  Lemma SRth_ARth : almost_ring_theory 0 1 radd rmul SRsub SRopp req.
- Proof (mk_art 0 1 radd rmul SRsub SRopp req
-    (SRadd_0_l SRth) (SRadd_comm SRth) (SRadd_assoc SRth)
-    (SRmul_1_l SRth) (SRmul_0_l SRth)
-    (SRmul_comm SRth) (SRmul_assoc SRth) (SRdistr_l SRth)
-    SRopp_mul_l SRopp_add SRsub_def).
+ Proof.
+   exact (mk_art 0 1 radd rmul SRsub SRopp req
+            (SRadd_0_l SRth) (SRadd_comm SRth) (SRadd_assoc SRth)
+            (SRmul_1_l SRth) (SRmul_0_l SRth)
+            (SRmul_comm SRth) (SRmul_assoc SRth) (SRdistr_l SRth)
+            SRopp_mul_l SRopp_add SRsub_def).
+ Qed.
 
  (** Identity morphism for semi-ring equipped with their almost-ring structure*)
  Variable reqb : R->R->bool.
@@ -390,10 +392,11 @@ Section ALMOST_RING.
  Qed.
 
  Lemma  Rth_ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
- Proof
-  (mk_art 0 1 radd rmul rsub ropp req (Radd_0_l Rth) (Radd_comm Rth) (Radd_assoc Rth)
-    (Rmul_1_l Rth) Rmul_0_l (Rmul_comm Rth) (Rmul_assoc Rth) (Rdistr_l Rth)
-    Ropp_mul_l Ropp_add (Rsub_def Rth)).
+ Proof.
+   exact (mk_art 0 1 radd rmul rsub ropp req (Radd_0_l Rth) (Radd_comm Rth) (Radd_assoc Rth)
+            (Rmul_1_l Rth) Rmul_0_l (Rmul_comm Rth) (Rmul_assoc Rth) (Rdistr_l Rth)
+            Ropp_mul_l Ropp_add (Rsub_def Rth)).
+ Qed.
 
  (** Every semi morphism between two rings is a morphism*)
  Variable C : Type.
@@ -450,11 +453,12 @@ Section ALMOST_RING.
  Lemma Smorph_morph :
    ring_morph 0 1 radd rmul rsub ropp req
      cO cI cadd cmul csub copp ceqb phi.
- Proof
-  (mkmorph 0 1 radd rmul rsub ropp req cO cI cadd cmul csub copp ceqb phi
-        (Smorph0 Smorph) (Smorph1 Smorph)
-         (Smorph_add Smorph) Smorph_sub (Smorph_mul Smorph) Smorph_opp
-         (Smorph_eq Smorph)).
+ Proof.
+ exact (mkmorph 0 1 radd rmul rsub ropp req cO cI cadd cmul csub copp ceqb phi
+          (Smorph0 Smorph) (Smorph1 Smorph)
+          (Smorph_add Smorph) Smorph_sub (Smorph_mul Smorph) Smorph_opp
+          (Smorph_eq Smorph)).
+ Qed.
 
  End RING.
 

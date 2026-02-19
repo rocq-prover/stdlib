@@ -6,7 +6,7 @@ Module Test1.
 
   Record Z2@{u} : Type@{u} := MkZ2 { unZ2 : Z }.
 
-  Global Instance Inj_Z2_Z : InjTyp Z2 Z :=
+  #[global] Instance Inj_Z2_Z : InjTyp Z2 Z :=
     { inj := unZ2
     ; pred := fun _ => True
     ; cstr := fun _ => I
@@ -19,7 +19,7 @@ Module Test1.
   Proof.
   Admitted.
 
-  Global Instance Op_eq : BinRel (@eq Z2) :=
+  #[global] Instance Op_eq : BinRel (@eq Z2) :=
     { TR := @eq Z
     ; TRInj := eq_Z2_inj
     }.
@@ -40,7 +40,7 @@ Module Test2.
 
   Record Z2@{u} : Type@{u} := MkZ2 { unZ2 : Z }.
 
-  Global Instance Inj_Z2_Z : InjTyp Z2 Z :=
+  #[global] Instance Inj_Z2_Z : InjTyp Z2 Z :=
     { inj := unZ2
     ; pred := fun _ => True
     ; cstr := fun _ => I
@@ -53,7 +53,7 @@ Module Test2.
   Proof.
   Admitted.
 
-  Global Instance Op_eq : BinRel (@eq Z2) :=
+  #[global] Instance Op_eq : BinRel (@eq Z2) :=
     { TR := @eq Z
     ; TRInj := eq_Z2_inj
     }.
@@ -73,7 +73,7 @@ Module Test3.
 
   Record Z2@{u} : Type@{u} := MkZ2 { unZ2 : Z }.
 
-  Global Instance Inj_Z2_Z : InjTyp Z2 Z :=
+  #[global] Instance Inj_Z2_Z : InjTyp Z2 Z :=
     { inj := unZ2
     ; pred := fun _ => True
     ; cstr := fun _ => I
@@ -86,7 +86,7 @@ Module Test3.
   Proof.
   Admitted.
 
-  Global Instance Op_eq : BinRel (@eq Z2) :=
+  #[global] Instance Op_eq : BinRel (@eq Z2) :=
     { TR := @eq Z
     ; TRInj := eq_Z2_inj
     }.

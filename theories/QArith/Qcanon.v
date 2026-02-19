@@ -115,22 +115,22 @@ Proof.
   split; auto. now intros <-.
 Qed.
 
-Lemma Qclt_alt : forall p q, (p<q) <-> (p?=q = Lt).
+Lemma Qclt_alt : forall p q, (p<q) <-> ((p?=q) = Lt).
 Proof.
   intros; exact (Qlt_alt p q).
 Qed.
 
-Lemma Qcgt_alt : forall p q, (p>q) <-> (p?=q = Gt).
+Lemma Qcgt_alt : forall p q, (p>q) <-> ((p?=q) = Gt).
 Proof.
   intros; exact (Qgt_alt p q).
 Qed.
 
-Lemma Qcle_alt : forall p q, (p<=q) <-> (p?=q <> Gt).
+Lemma Qcle_alt : forall p q, (p<=q) <-> ((p?=q) <> Gt).
 Proof.
   intros; exact (Qle_alt p q).
 Qed.
 
-Lemma Qcge_alt : forall p q, (p>=q) <-> (p?=q <> Lt).
+Lemma Qcge_alt : forall p q, (p>=q) <-> ((p?=q) <> Lt).
 Proof.
   intros; exact (Qge_alt p q).
 Qed.

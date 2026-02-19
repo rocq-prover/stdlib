@@ -21,9 +21,9 @@
 From Stdlib Require Import Bool PeanoNat BinPos OrderedType OrderedTypeEx FSetInterface.
 
 Set Implicit Arguments.
-Local Open Scope lazy_bool_scope.
-Local Open Scope positive_scope.
-Local Unset Elimination Schemes.
+#[local] Open Scope lazy_bool_scope.
+#[local] Open Scope positive_scope.
+#[local] Unset Elimination Schemes.
 
 Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
@@ -357,7 +357,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
     destruct r; trivial.
     now destruct x.
   Qed.
-  Local Opaque node.
+  #[local] Opaque node.
 
   (** Specification of [is_empty] *)
 
@@ -570,8 +570,8 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
   Lemma ct_xgg: forall x, ct x Gt Gt.
   Proof. destruct x; constructor. Qed.
 
-  Local Hint Constructors ct: ct.
-  Local Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
+  #[local] Hint Constructors ct: ct.
+  #[local] Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
   Ltac ct := trivial with ct.
 
   Lemma ct_lex: forall u v w u' v' w',

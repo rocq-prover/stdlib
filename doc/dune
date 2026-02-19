@@ -14,7 +14,7 @@
   ;   + tools/coqdoc/coqdoc.css
   (package rocq-stdlib)
   (source_tree sphinx)
-  (source_tree tools/coqrst)
+  (source_tree tools/rocqrst)
   unreleased.rst
   (env_var SPHINXWARNOPT)))
 
@@ -22,16 +22,7 @@
  (targets
   (dir refman-html))
  (alias refman-html)
- (package rocq-stdlib-doc)
- ; Cannot use this deps alias because of ocaml/dune#3415
- ; (deps (alias refman-deps))
- ; EJGA: note this should've been fixed in dune master as of 05/03/2021
- (deps
-  (package rocq-stdlib)
-  (source_tree sphinx)
-  (source_tree tools/coqrst)
-  unreleased.rst
-  (env_var SPHINXWARNOPT))
+ (deps (alias refman-deps))
  (action
   (run env sphinx-build -q %{env:SPHINXWARNOPT=-W} -b html sphinx %{targets})))
 
@@ -39,28 +30,8 @@
  (targets
   (dir refman-pdf))
  (alias refman-pdf)
- (package rocq-stdlib-doc)
- ; Cannot use this deps alias because of ocaml/dune#3415
- ; (deps (alias refman-deps))
- ; EJGA: note this should've been fixed in dune master as of 05/03/2021
- (deps
-  (package coq-core)
-  (package rocq-stdlib)
-  (source_tree sphinx)
-  (source_tree tools/coqrst)
-  unreleased.rst
-  (env_var SPHINXWARNOPT))
+ (deps (alias refman-deps))
  (action
   (progn
    (run env sphinx-build -q %{env:SPHINXWARNOPT=-W} -b latex sphinx %{targets})
    (chdir %{targets} (run make LATEXMKOPTS=-silent)))))
-
-(install
- (dirs
-  (refman-html as html/refman)
-  (refman-pdf as pdf/refman))
- (section doc)
- (package rocq-stdlib-doc))
-
-(documentation
- (package rocq-stdlib-doc))

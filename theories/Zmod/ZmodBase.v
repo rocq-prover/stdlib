@@ -4,17 +4,17 @@ From Stdlib Require Import Bool.Bool Lists.List Sorting.Permutation.
 From Stdlib Require Import Zmod.ZmodDef.
 Import ListNotations.
 
-Local Open Scope Zmod_scope.
-Local Open Scope Z_scope.
+#[local] Open Scope Zmod_scope.
+#[local] Open Scope Z_scope.
 
-Local Hint Extern 0 (?x <-> ?x) => reflexivity : core.
+#[local] Hint Extern 0 (?x <-> ?x) => reflexivity : core.
 
 Module Zmod.
 Export ZmodDef.Zmod.
 
 (** ** Unsigned conversions to [Z] *)
 
-Local Lemma small_iff z m :
+#[local] Lemma small_iff z m :
   Bool.Is_true (ZmodDef.Zmod.small z m) <-> z mod m = z.
 Proof.
   rewrite Z.mod_id_iff.
@@ -111,7 +111,7 @@ Proof.
   rewrite of_Z_inj_abs.
   split.
   { split.
-    { intros ->. rewrite !Zmod_0_r in H; apply H; inversion 1. }
+    { intros ->. rewrite !Z.mod_0_r in H; apply H; inversion 1. }
     { intros. subst. specialize (H ltac:(lia)).
       rewrite ?Z.abs_eq in * by lia; trivial. } }
   { intros [A B] ?.
@@ -512,7 +512,7 @@ Proof.
   rewrite to_Z_mul, ?to_Z_of_Z, ?Zmult_mod_idemp_r, ?Zmult_mod_idemp_l; auto.
 Qed.
 
-Local Ltac r := try apply to_Z_inj; cbv [one];
+#[local] Ltac r := try apply to_Z_inj; cbv [one];
   (* Note: rewrite is slow, and autorewrite isn't faster *)
   repeat rewrite ?to_Z_of_Z, ?to_Z_add, ?to_Z_mul, ?to_Z_sub, ?to_Z_opp,
     ?mod_to_Z, ?Zmod_0_l, ?Z.mul_1_l, ?Z.add_0_l, ?Zplus_mod_idemp_l,
@@ -566,7 +566,7 @@ Section WithRing.
   Lemma mul_opp_l a b : mul (opp a) b = opp (mul a b). Proof. ring. Qed.
   Lemma mul_opp_r a b : mul a (opp b) = opp (mul a b). Proof. ring. Qed.
   Lemma mul_opp_opp a b : mul (opp a) (opp b) = mul a b. Proof. ring. Qed.
-  Local Lemma square_roots_opp_prime_subproof a b :
+  #[local] Lemma square_roots_opp_prime_subproof a b :
     sub (mul a a) (mul b b) = mul (sub a (opp b)) (sub a b). Proof. ring. Qed.
 End WithRing.
 
@@ -583,7 +583,7 @@ Proof.
   rewrite to_Z_of_small_Z; cycle 1; f_equal.
   { apply Z.mod_id_iff; case Z.eqb eqn:?; Z.to_euclidean_division_equations; nia. }
   destruct m as [|m|m]; cbn [Z.sgn Z.opp]; intuition try lia.
-  { case Z.eqb; rewrite Zmod_0_r, ?Z.add_0_r; trivial. }
+  { case Z.eqb; rewrite Z.mod_0_r, ?Z.add_0_r; trivial. }
   { case Z.eqb eqn:?; [|rewrite Z.mod_small]; Z.to_euclidean_division_equations; nia. }
   case (Z.eqb_spec (Z.sgn (x/y)) 1) as []; trivial.
   rewrite (Z.mod_diveq (-1)); Z.to_euclidean_division_equations; nia.
@@ -596,7 +596,7 @@ Proof.
   rewrite to_Z_udiv by trivial.
   pose proof unsigned_range x.
   pose proof unsigned_range y.
-  destruct m as [|m|m]; [apply Zmod_0_r| |lia].
+  destruct m as [|m|m]; [apply Z.mod_0_r| |lia].
   apply Z.mod_small; Z.to_euclidean_division_equations; nia.
 Qed.
 Notation to_Z_udiv_nonneg := unsigned_udiv_nonneg (only parsing).
@@ -623,7 +623,7 @@ Proof.
 Qed.
 
 Lemma umod_0_r [m] x : @umod m x zero = x.
-Proof. apply to_Z_inj; rewrite unsigned_umod, unsigned_0, Zmod_0_r; trivial. Qed.
+Proof. apply to_Z_inj; rewrite unsigned_umod, unsigned_0, Z.mod_0_r; trivial. Qed.
 
 Lemma signed_squot [m] x y : @signed m (squot x y) =
   Z.smodulo (if signed y =? 0 then -1 else signed x ÷ signed y) m.
@@ -696,7 +696,7 @@ Notation to_Z_and := unsigned_and (only parsing).
 Lemma unsigned_and_small [m] (Hm : 0 <= m) x y : @to_Z m (and x y) = Z.land x y.
 Proof.
   rewrite to_Z_and.
-  case (Z.eqb_spec m 0) as [->|]; auto using Zmod_0_r.
+  case (Z.eqb_spec m 0) as [->|]; auto using Z.mod_0_r.
   apply Z.mod_small.
   pose proof to_Z_range x; pose proof to_Z_range y.
   pose proof N.land_le_l (Z.to_N x) (Z.to_N y).
@@ -712,7 +712,7 @@ Notation to_Z_ndn  := unsigned_ndn (only parsing).
 Lemma unsigned_ndn_small [m] x y (Hm : 0 <= m) : @to_Z m (ndn x y) = Z.ldiff x y.
 Proof.
   rewrite to_Z_ndn.
-  case (Z.eqb_spec m 0) as [->|]; auto using Zmod_0_r.
+  case (Z.eqb_spec m 0) as [->|]; auto using Z.mod_0_r.
   apply Z.mod_small.
   pose proof to_Z_range x; pose proof to_Z_range y.
   pose proof N.ldiff_le_l (Z.to_N x) (Z.to_N y).
@@ -730,7 +730,7 @@ Notation to_Z_slu := unsigned_slu (only parsing).
 Lemma unsigned_sru [m] x n (Hn : 0 <= n) : @to_Z m (sru x n) = Z.shiftr x n.
 Proof.
   cbv [sru]; rewrite to_Z_of_Z.
-  case (Z.eqb_spec m 0) as [->|]; auto using Zmod_0_r.
+  case (Z.eqb_spec m 0) as [->|]; auto using Z.mod_0_r.
   apply Z.mod_id_iff; pose proof (to_Z_range x).
   rewrite Z.shiftr_div_pow2; Z.to_euclidean_division_equations; nia.
 Qed.
@@ -806,7 +806,7 @@ Proof. trivial. Qed.
 Lemma pow_2_r [m] x : @pow m x 2 = mul x x.
 Proof. trivial. Qed.
 
-Local Notation pow_N := ZmodDef.Zmod.Private_pow_N.
+#[local] Notation pow_N := ZmodDef.Zmod.Private_pow_N.
 
 Lemma Private_pow_nonneg [m] (x : Zmod m) z (Hz : 0 <= z) : pow x z = pow_N x (Z.to_N z).
 Proof. cbv [pow]; case (Z.ltb_spec z 0) as []; trivial; lia. Qed.
@@ -853,7 +853,7 @@ Proof.
   rewrite ?mul_assoc; f_equal; rewrite <-?mul_assoc; f_equal; auto using mul_comm.
 Qed.
 
-Local Coercion Z.of_N : N >-> Z.
+#[local] Coercion Z.of_N : N >-> Z.
 Lemma Private_to_Z_pow_N [m] x n : @to_Z m (pow_N x n) = to_Z x ^ n mod m.
 Proof.
   revert x; induction n using N.peano_ind; intros;

@@ -3,11 +3,11 @@ From Stdlib Require Import Bool.Bool Lists.List Lists.Finite Sorting.Permutation
 Import ListNotations.
 
 From Stdlib Require Import Zmod.ZmodDef Zmod.ZmodBase Zmod.ZstarDef.
-Local Open Scope Z_scope.
-Local Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
-Local Coercion Zstar.to_Zmod : Zstar.Zstar >-> Zmod.Zmod.
+#[local] Open Scope Z_scope.
+#[local] Coercion ZmodDef.Zmod.to_Z : Zmod >-> Z.
+#[local] Coercion Zstar.to_Zmod : Zstar.Zstar >-> Zmod.Zmod.
 
-Local Hint Extern 0 (?x <-> ?x) => reflexivity : core.
+#[local] Hint Extern 0 (?x <-> ?x) => reflexivity : core.
 
 Module Zstar.
 Import ZmodDef.Zmod ZmodBase.Zmod ZstarDef.Zstar.
@@ -280,7 +280,7 @@ Lemma mul_cancel_l [m] (a b c : Zstar m) (H : mul a b = mul a c) : b = c.
 Proof.
   case (Z.eq_dec m 0) as [->|]; trivial.
   { apply (f_equal (fun x => unsigned (to_Zmod x))) in H.
-    rewrite !to_Zmod_mul, !to_Z_mul, !Zmod_0_r in H.
+    rewrite !to_Zmod_mul, !to_Z_mul, !Z.mod_0_r in H.
     eapply to_Zmod_inj, to_Z_inj, Z.mul_cancel_l; eauto.
     pose proof to_Zmod_range a; rewrite Z.coprime_0_r_iff in *; lia. }
   apply (f_equal (fun x => mul (inv a) x)) in H.
@@ -410,7 +410,7 @@ Proof.
     rewrite (pow_neg _ z), to_Zmod_of_Zmod; trivial; try lia. apply G; lia. }
 Qed.
 
-Local Lemma Private_pow_succ_r_nonneg [m] (x : Zstar m) z (H : 0 <= z) :
+#[local] Lemma Private_pow_succ_r_nonneg [m] (x : Zstar m) z (H : 0 <= z) :
   pow x (Z.succ z) = mul x (pow x z).
 Proof.
   cbv [pow]; apply to_Zmod_inj.
@@ -440,7 +440,7 @@ Proof.
   case (Z.eqb_spec m 0) as [->|].
   2:rewrite inv_mul, !mul_assoc, mul_inv_same_r, mul_1_l by lia; trivial.
   apply to_Zmod_inj, to_Z_inj.
-  repeat rewrite ?to_Zmod_inv, ?to_Zmod_mul, ?to_Z_mul, ?to_Z_inv, ?to_Zmod_pow, ?to_Z_pow, ?Zmod_0_r, ?Z.invmod_0_r.
+  repeat rewrite ?to_Zmod_inv, ?to_Zmod_mul, ?to_Z_mul, ?to_Z_inv, ?to_Zmod_pow, ?to_Z_pow, ?Z.mod_0_r, ?Z.invmod_0_r.
   rewrite Z.sgn_mul.
   assert (to_Z x = 1 \/ to_Z x = -1) as [->| ->] by (rewrite Z.coprime_0_r_iff in H; lia).
   all : cbn [Z.sgn]; lia.
@@ -534,7 +534,7 @@ Proof.
   case Z.eqb_spec; intros.
   { subst m; rewrite Z.coprime_0_r_iff in H; cbv [In].
     rewrite <-2to_Zmod_inj_iff, !to_Zmod_opp, !to_Zmod_1.
-    rewrite <-2unsigned_inj_iff, !unsigned_opp, !unsigned_1_neg, Zmod_0_r; lia. }
+    rewrite <-2unsigned_inj_iff, !unsigned_opp, !unsigned_1_neg, Z.mod_0_r; lia. }
   rewrite in_of_Zmod_filter. auto using in_elements.
 Qed.
 
@@ -596,7 +596,7 @@ Proof.
   intros ?????%of_Zmod_inj; rewrite filter_In, ?Z.eqb_eq in *; intuition idtac.
 Qed.
 
-Local Hint Unfold Injective List.incl : core.
+#[local] Hint Unfold Injective List.incl : core.
 Lemma Permutation_mul_elements [m] (a : Zstar m) :
   Permutation (List.map (mul a) (elements m)) (elements m).
 Proof.
@@ -642,7 +642,7 @@ Proof.
   rewrite <-length_positives_length_negatives_odd, length_positives_odd; trivial.
 Qed.
 
-Local Lemma Private_odd_prime (p : Z) : Z.prime p -> 3 <= p -> p mod 2 = 1.
+#[local] Lemma Private_odd_prime (p : Z) : Z.prime p -> 3 <= p -> p mod 2 = 1.
 Proof.
   case (Z.mod_pos_bound p 2 eq_refl) as [[]%Zle_lt_or_eq ?]; trivial.
   { intros _ _; eapply Z.le_antisymm;

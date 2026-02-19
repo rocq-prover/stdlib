@@ -15,7 +15,7 @@ From Stdlib Require Import Raxioms RIneq DiscrR.
 
 Ltac nsatz_internal_discrR ::= discrR.
 
-Local Ltac extra_reify :=
+#[local] Ltac extra_reify :=
   lazymatch goal with |- Ncring_tac.extra_reify _ (IZR ?z) =>
     lazymatch isZcst z with
     | true => exact (PEc z)

@@ -27,8 +27,8 @@ From Stdlib Require Import Lia Relations Multiset SetoidList.
 
 Set Implicit Arguments.
 
-Local Notation "[ ]" := nil.
-Local Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
+#[local] Notation "[ ]" := nil.
+#[local] Notation "[ a ; .. ; b ]" := (a :: .. (b :: []) ..).
 
 Section Permut.
 
@@ -254,7 +254,7 @@ Qed.
 
 (** PL: Inutilisable dans un rewrite sans un change prealable. *)
 
-Global Instance if_eqA (B:Type)(b b':B) :
+#[global] Instance if_eqA (B:Type)(b b':B) :
  Proper (eqA==>eqA==>@eq _) (fun x y => if eqA_dec x y then b else b').
 Proof.
  intros x x' Hxx' y y' Hyy'.
@@ -285,7 +285,7 @@ Proof.
 Qed.
 
 
-Global Instance multiplicity_eqA (l:list A) :
+#[global] Instance multiplicity_eqA (l:list A) :
  Proper (eqA==>@eq _) (multiplicity (list_contents l)).
 Proof.
   intros x x' Hxx'.
@@ -363,7 +363,7 @@ Lemma permut_nil :
   forall l, permutation l [] -> l = [].
 Proof.
   intro l; destruct l as [ | e l ]; trivial.
-  assert (InA eqA e (e::l)) by (auto with *).
+  assert (InA eqA e (e::l)) by (auto with * ).
   intro Abs; generalize (permut_InA_InA Abs H).
   inversion 1.
 Qed.

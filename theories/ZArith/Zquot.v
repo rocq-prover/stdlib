@@ -11,7 +11,7 @@
 From Stdlib Require Import BinNat BinInt Nnat Znat Lia ZArithRing Zdiv Morphisms.
 From Stdlib Require Zeven.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (** This file provides results about the Round-Toward-Zero Euclidean
   division [Z.quotrem], whose projections are [Z.quot] (noted ÷)
@@ -419,7 +419,7 @@ Theorem Zquot_Zdiv_pos : forall a b, 0 <= a -> 0 <= b ->
 Proof.
  intros a b Ha Hb. Z.le_elim Hb.
  - generalize (Zquotrem_Zdiv_eucl_pos a b Ha Hb); intuition.
- - subst; now rewrite Zquot_0_r, Zdiv_0_r.
+ - subst; now rewrite Zquot_0_r, Z.div_0_r.
 Qed.
 
 Theorem Zrem_Zmod_pos : forall a b, 0 <= a -> 0 < b ->

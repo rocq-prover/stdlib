@@ -2,7 +2,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import ZArith.
+From Stdlib Require Import BinInt.
 From Stdlib Require Import ExtrHaskellZNum.
 
 (**

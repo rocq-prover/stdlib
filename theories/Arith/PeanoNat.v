@@ -31,7 +31,7 @@ Set Inline Level 50.
 (** All operations are well-defined (trivial here since eq is Leibniz) *)
 
 Definition eq_equiv : Equivalence (@eq nat) := eq_equivalence.
-Local Obligation Tactic := simpl_relation.
+#[local] Obligation Tactic := simpl_relation.
 #[global] Program Instance succ_wd : Proper (eq==>eq) S.
 #[global] Program Instance pred_wd : Proper (eq==>eq) pred.
 #[global] Program Instance add_wd : Proper (eq==>eq==>eq) plus.
@@ -1110,16 +1110,24 @@ Proof.
 Qed.
 
 Lemma Even_double n : Even n -> n = double (div2 n).
-Proof proj1 (proj1 (Even_Odd_double n)).
+Proof.
+  exact (proj1 (proj1 (Even_Odd_double n))).
+Qed.
 
 Lemma double_Even n : n = double (div2 n) -> Even n.
-Proof proj2 (proj1 (Even_Odd_double n)).
+Proof.
+  exact (proj2 (proj1 (Even_Odd_double n))).
+Qed.
 
 Lemma Odd_double n : Odd n -> n = S (double (div2 n)).
-Proof proj1 (proj2 (Even_Odd_double n)).
+Proof.
+  exact (proj1 (proj2 (Even_Odd_double n))).
+Qed.
 
 Lemma double_Odd n : n = S (double (div2 n)) -> Odd n.
-Proof proj2 (proj2 (Even_Odd_double n)).
+Proof.
+  exact (proj2 (proj2 (Even_Odd_double n))).
+Qed.
 
 (** Inductive definition of even and odd *)
 Inductive Even_alt : nat -> Prop :=

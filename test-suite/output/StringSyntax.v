@@ -10,8 +10,6 @@ Close Scope string_scope.
 
 Open Scope byte_scope.
 Print byte_rect.
-Print byte_rec.
-Print byte_ind.
 Check "000".
 Check "a".
 Check "127".
@@ -38,7 +36,7 @@ Compute byte_of_ascii "a".
 Compute string_of_list_byte ("a"::nil)%byte.
 Compute list_byte_of_string "a".
 
-Local Open Scope byte_scope.
+#[local] Open Scope byte_scope.
 Compute List.fold_right
         (fun n ls => match Byte.of_nat n with
                      | Some b => cons b ls
@@ -46,15 +44,15 @@ Compute List.fold_right
                      end)
         nil
         (ListDef.seq 0 256).
-Local Close Scope byte_scope.
-Local Open Scope char_scope.
+#[local] Close Scope byte_scope.
+#[local] Open Scope char_scope.
 Compute List.map Ascii.ascii_of_nat (ListDef.seq 0 256).
-Local Close Scope char_scope.
+#[local] Close Scope char_scope.
 
 (* Test numeral notations for parameterized inductives *)
 Module Test2.
 
-Notation string := (list Byte.byte).
+Abbreviation string := (list Byte.byte).
 Definition id_string := @id string.
 
 String Notation string id_string id_string : list_scope.
@@ -99,12 +97,12 @@ End Test3.
 (* Test overlapping string notations *)
 Module Test4.
 
-Notation string1 := (list Byte.byte).
+Abbreviation string1 := (list Byte.byte).
 Definition id_string1 := @id string1.
 
 String Notation string1 id_string1 id_string1 : list_scope.
 
-Notation string2 := (list Ascii.ascii).
+Abbreviation string2 := (list Ascii.ascii).
 Definition a2b := List.map byte_of_ascii.
 Definition b2a := List.map ascii_of_byte.
 

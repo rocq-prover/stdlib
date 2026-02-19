@@ -1,6 +1,6 @@
 
 From Stdlib Require Import Btauto.
-Local Open Scope bool_scope.
+#[local] Open Scope bool_scope.
 
 Axiom unsigned : bool.
 Axiom combine : bool.

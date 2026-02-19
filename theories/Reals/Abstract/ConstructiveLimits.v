@@ -12,7 +12,7 @@ From Stdlib Require Import PeanoNat QArith Qabs.
 From Stdlib Require Import ConstructiveReals.
 From Stdlib Require Import ConstructiveAbs.
 
-Local Open Scope ConstructiveReals.
+#[local] Open Scope ConstructiveReals.
 
 
 (** Definitions and basic properties of limits of real sequences

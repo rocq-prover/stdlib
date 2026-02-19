@@ -11,7 +11,7 @@
 (** N.B.: Using this encoding of bit vectors is discouraged.
 See <https://github.com/coq/stdlib/blob/master/theories/Vectors/Vector.v>. *)
 Attributes deprecated(since="8.20", note="Consider [list bool] instead. See <https://github.com/coq/stdlib/blob/master/theories/Vectors/Vector.v> for details. Please open an issue if you would like to keep using Bvector.").
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-reference".
 
 (** Bit vectors. Contribution by Jean Duprat (ENS Lyon). *)
 
@@ -20,7 +20,7 @@ From Stdlib Require Export Bool Sumbool.
 From Stdlib Require Vector.
 Export Vector.VectorNotations.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 (**
 We build bit vectors in the spirit of List.v.

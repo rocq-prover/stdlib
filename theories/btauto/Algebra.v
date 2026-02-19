@@ -48,7 +48,7 @@ end.
 (* We opacify here decide for proofs, and will make it transparent for
    reflexive tactics later on. *)
 
-Global Opaque decide.
+#[global] Opaque decide.
 
 Ltac tac_decide :=
 match goal with
@@ -92,7 +92,7 @@ end.
 
 Section Definitions.
 
-(** * Global, inductive definitions. *)
+(** * #[global], inductive definitions. *)
 
 (** A Horner polynomial is either a constant, or a product P × (i + Q), where i
   is a variable. *)

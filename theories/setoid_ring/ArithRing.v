@@ -50,7 +50,7 @@ Ltac Ss_to_add f acc :=
   end.
 
 (* For internal use only *)
-Local Definition protected_to_nat := N.to_nat.
+#[local] Definition protected_to_nat := N.to_nat.
 
 Ltac natprering :=
   match goal with

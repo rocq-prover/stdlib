@@ -50,8 +50,8 @@ From Stdlib Require Import ZArith.
 From Stdlib Require Export ZArithRing.
 From Stdlib Require Export RealField.
 
-Local Open Scope Z_scope.
-Local Open Scope R_scope.
+#[local] Open Scope Z_scope.
+#[local] Open Scope R_scope.
 
 (*********************************************************)
 (** ** Relation between orders and equality              *)
@@ -1662,7 +1662,7 @@ Proof.
   now rewrite 2(Rmult_comm r).
 Qed.
 
-Lemma Rmult_gt_reg_l : forall r r1 r2, 0 < r -> r * r1 < r * r2 -> r1 < r2.
+Lemma Rmult_gt_reg_l : forall r r1 r2, r > 0 -> r * r1 > r * r2 -> r1 > r2.
 Proof. now intros r r1 r2; apply Rmult_lt_reg_l. Qed.
 
 Lemma Rmult_gt_reg_r : forall r r1 r2, r > 0 -> r1 * r > r2 * r -> r1 > r2.
@@ -2685,11 +2685,11 @@ Proof.
 Qed.
 
 (* NOTE: keeping inconsistent variable names for backward compatibility. *)
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_bool_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
 Proof. now intros n m H; apply Z.eqb_eq, eq_IZR. Qed.
 
-Local Lemma Private_Zeqb_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
+#[local] Lemma Private_Zeqb_IZR : forall x y:Z, IZR x = IZR y -> Z.eqb x y = true.
 Proof. intros. apply Z.eqb_eq, eq_IZR; trivial. Qed.
 
 Add Field RField : Rfield

@@ -1,5 +1,5 @@
 Require Import BinInt Zdiv Zdiv_facts PreOmega Lia Wf_Z ZArith_dec.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z.
 
@@ -28,7 +28,7 @@ Lemma omod_small_iff d a b :
   (d <= a < d+b \/ b = 0 \/ d+b < a <= d) <-> Z.omodulo d a b = a.
 Proof.
   cbv [Z.omodulo]; case (Z.eq_dec b 0) as [->|];
-  rewrite ?Zmod_0_r; try pose proof Z.mod_small_iff (a-d) b; lia.
+  rewrite ?Z.mod_0_r; try pose proof Z.mod_small_iff (a-d) b; lia.
 Qed.
 
 Lemma omod_small d a b : d <= a < d+b -> Z.omodulo d a b = a.
@@ -40,7 +40,7 @@ Proof. intros; apply omod_small_iff; auto 3. Qed.
 Lemma omod_0_r d a : Z.omodulo d a 0 = a.
 Proof. intros; apply omod_small_iff; auto 3. Qed.
 
-Local Ltac t := cbv [Z.omodulo]; repeat rewrite
+#[local] Ltac t := cbv [Z.omodulo]; repeat rewrite
   ?Zplus_mod_idemp_l, ?Zplus_mod_idemp_r, ?Zminus_mod_idemp_l, ?Zminus_mod_idemp_r, ?Z.add_simpl_r, ?Zmod_mod;
   try solve [trivial | lia | f_equal; lia].
 
@@ -188,7 +188,7 @@ Qed.
 Lemma smod_complement a b h (H : b = 2*h) :
   Z.smodulo a b / h = - (Z.modulo a b / h).
 Proof.
-  destruct (Z.eqb_spec h 0); [subst; rewrite ?Zdiv_0_r; trivial|]; rewrite <-smod_mod.
+  destruct (Z.eqb_spec h 0); [subst; rewrite ?Z.div_0_r; trivial|]; rewrite <-smod_mod.
   specialize (Z.mod_bound_or a b); generalize (a mod b); clear a; intros a **.
   pose proof Z.div_smod a b ltac:(lia).
   progress replace (Z.quot b 2) with h in *

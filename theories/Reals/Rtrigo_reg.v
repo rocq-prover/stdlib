@@ -16,8 +16,8 @@ From Stdlib Require Import Ranalysis1.
 From Stdlib Require Import PSeries_reg.
 From Stdlib Require Import Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope nat_scope.
-Local Open Scope R_scope.
+#[local] Open Scope nat_scope.
+#[local] Open Scope R_scope.
 
 
 (**********)

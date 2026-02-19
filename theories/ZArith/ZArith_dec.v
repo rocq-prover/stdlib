@@ -12,8 +12,7 @@ From Stdlib Require Import Sumbool.
 
 From Stdlib Require Import BinInt.
 From Stdlib Require Import Zorder.
-From Stdlib Require Import Zcompare.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (* begin hide *)
 (* Trivial, to deprecate? *)
@@ -194,8 +193,12 @@ Proof.
 Defined.
 
 Corollary Z_notzerop : forall (x:Z), {x <> 0} + {x = 0}.
-Proof (fun x => sumbool_not _ _ (Z_zerop x)).
+Proof.
+  exact (fun x => sumbool_not _ _ (Z_zerop x)).
+Qed.
 
 Corollary Z_noteq_dec : forall (x y:Z), {x <> y} + {x = y}.
-Proof (fun x y => sumbool_not _ _ (Z.eq_dec x y)).
+Proof.
+  exact (fun x y => sumbool_not _ _ (Z.eq_dec x y)).
+Qed.
 (* end hide *)

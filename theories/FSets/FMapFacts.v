@@ -20,7 +20,7 @@ From Stdlib Require Export FMapInterface.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Local Ltac Tauto.intuition_solver ::= auto with bool map.
+#[local] Ltac Tauto.intuition_solver ::= auto with bool map.
 
 #[global]
 Hint Extern 1 (Equivalence _) => constructor; congruence : core.
@@ -819,12 +819,12 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
   - intros. symmetry.
     unfold eqb.
     rewrite <- findA_NoDupA, InA_rev, findA_NoDupA
-      by (eauto using NoDupA_rev with *); eauto.
+      by (eauto using NoDupA_rev with * ); eauto.
   - case_eq (findA (eqb k) (rev l)); auto.
     intros e.
     unfold eqb.
     rewrite <- findA_NoDupA, InA_rev, findA_NoDupA
-      by (eauto using NoDupA_rev with *).
+      by (eauto using NoDupA_rev with * ).
           intro Eq; rewrite Eq; auto.
   Qed.
 

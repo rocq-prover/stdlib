@@ -15,12 +15,12 @@ From Stdlib Require Import Wf_nat.
 From Stdlib Require Zabs Wf_Z.
 From Stdlib Require Zeven.
 
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 (**********************************************************************)
 (** About parity *)
 
-#[deprecated(since="9.0")]
+#[deprecated(since="Stdlib 9.0")]
 Notation two_or_two_plus_one := Zeven.Z_modulo_2 (only parsing).
 
 (**********************************************************************)

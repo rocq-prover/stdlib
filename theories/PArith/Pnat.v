@@ -16,8 +16,8 @@ From Stdlib Require Import BinPos PeanoNat.
 
 (** Original development by Pierre Crégut, CNET, Lannion, France *)
 
-Local Open Scope positive_scope.
-Local Open Scope nat_scope.
+#[local] Open Scope positive_scope.
+#[local] Open Scope nat_scope.
 
 Module Pos2Nat.
  Import Pos.
@@ -457,23 +457,33 @@ Notation pred_o_P_of_succ_nat_o_nat_of_P_eq_id := Pos2SuccNat.pred_id (only pars
 Lemma nat_of_P_minus_morphism p q :
  Pos.compare_cont Eq p q = Gt ->
   Pos.to_nat (p - q) = Pos.to_nat p - Pos.to_nat q.
-Proof (fun H => Pos2Nat.inj_sub p q (Pos.gt_lt _ _ H)).
+Proof.
+  exact (fun H => Pos2Nat.inj_sub p q (Pos.gt_lt _ _ H)).
+Qed.
 
 Lemma nat_of_P_lt_Lt_compare_morphism p q :
  Pos.compare_cont Eq p q = Lt -> Pos.to_nat p < Pos.to_nat q.
-Proof (proj1 (Pos2Nat.inj_lt p q)).
+Proof.
+  exact (proj1 (Pos2Nat.inj_lt p q)).
+Qed.
 
 Lemma nat_of_P_gt_Gt_compare_morphism p q :
  Pos.compare_cont Eq p q = Gt -> Pos.to_nat p > Pos.to_nat q.
-Proof (proj1 (Pos2Nat.inj_gt p q)).
+Proof.
+  exact (proj1 (Pos2Nat.inj_gt p q)).
+Qed.
 
 Lemma nat_of_P_lt_Lt_compare_complement_morphism p q :
  Pos.to_nat p < Pos.to_nat q -> Pos.compare_cont Eq p q = Lt.
-Proof (proj2 (Pos2Nat.inj_lt p q)).
+Proof.
+  exact (proj2 (Pos2Nat.inj_lt p q)).
+Qed.
 
 Lemma nat_of_P_gt_Gt_compare_complement_morphism p q :
  Pos.to_nat p > Pos.to_nat q -> Pos.compare_cont Eq p q = Gt.
-Proof (proj2 (Pos2Nat.inj_gt p q)).
+Proof.
+  exact (proj2 (Pos2Nat.inj_gt p q)).
+Qed.
 
 (** Old intermediate results about [Pmult_nat] *)
 

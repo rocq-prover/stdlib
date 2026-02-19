@@ -11,7 +11,7 @@
 From Stdlib Require Import Arith_base.
 From Stdlib Require Import Bool.
 
-Local Open Scope nat_scope.
+#[local] Open Scope nat_scope.
 
 Definition zerob (n:nat) : bool :=
   match n with

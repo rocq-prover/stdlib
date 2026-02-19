@@ -68,53 +68,53 @@ where " Γ ⊢ τ " := (term Γ τ) : type_scope.
 
 #[export] Hint Constructors term : lambda.
 
-Local Open Scope context_scope.
+#[local] Open Scope context_scope.
 
 Ltac eqns := subst ; reverse ; simplify_dep_elim ; simplify_IH_hyps.
 
 Lemma weakening : forall Γ Δ τ, Γ ; Δ ⊢ τ ->
   forall τ', Γ , τ' ; Δ ⊢ τ.
-Proof with simpl in * ; eqns ; eauto with lambda.
+Proof.
   intros Γ Δ τ H.
 
   dependent induction H.
 
-  destruct Δ as [|Δ τ'']...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
 
-  destruct Δ as [|Δ τ'']...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
 
-  destruct Δ as [|Δ τ'']...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
     apply abs.
-    specialize (IHterm Γ (Δ, τ'', τ))...
+    specialize (IHterm Γ (Δ, τ'', τ)); simpl in * ; eqns ; eauto with lambda.
 
-  intro. eapply app...
+  intro. eapply app; simpl in * ; eqns ; eauto with lambda.
 Defined.
 
 Lemma weakening_ctx : forall Γ Δ τ, Γ ; Δ ⊢ τ ->
   forall Δ', Γ ; Δ' ; Δ ⊢ τ.
-Proof with simpl in * ; eqns ; eauto with lambda.
+Proof.
   intros Γ Δ τ H.
 
   dependent induction H.
 
-  destruct Δ as [|Δ τ'']...
-  induction Δ'...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
+  induction Δ'; simpl in * ; eqns ; eauto with lambda.
 
-  destruct Δ as [|Δ τ'']...
-  induction Δ'...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
+  induction Δ'; simpl in * ; eqns ; eauto with lambda.
 
-  destruct Δ as [|Δ τ'']...
+  destruct Δ as [|Δ τ'']; simpl in * ; eqns ; eauto with lambda.
     apply abs.
-    specialize (IHterm Γ (empty, τ))...
+    specialize (IHterm Γ (empty, τ)); simpl in * ; eqns ; eauto with lambda.
 
     apply abs.
-    specialize (IHterm Γ (Δ, τ'', τ))...
+    specialize (IHterm Γ (Δ, τ'', τ)); simpl in * ; eqns ; eauto with lambda.
 
-  intro. eapply app...
+  intro. eapply app; simpl in * ; eqns ; eauto with lambda.
 Defined.
 
 Lemma exchange : forall Γ Δ α β τ, term (Γ, α, β ; Δ) τ -> term (Γ, β, α ; Δ) τ.
-Proof with simpl in * ; eqns ; eauto.
+Proof.
   intros until 1.
   dependent induction H.
 
@@ -123,15 +123,15 @@ Proof with simpl in * ; eqns ; eauto.
 
     apply ax.
 
-  destruct Δ...
-    pose (weakening Γ (empty, α))...
+  destruct Δ; simpl in * ; eqns ; eauto.
+    pose (weakening Γ (empty, α)); simpl in * ; eqns ; eauto.
 
-    apply weak...
+    apply weak; simpl in * ; eqns ; eauto.
 
-  apply abs...
-    specialize (IHterm Γ (Δ, τ))...
+  apply abs; simpl in * ; eqns ; eauto.
+    specialize (IHterm Γ (Δ, τ)); simpl in * ; eqns ; eauto.
 
-  eapply app...
+  eapply app; simpl in * ; eqns ; eauto.
 Defined.
 
 

@@ -54,10 +54,10 @@ Definition extra_reify {R zero one add mul sub opp} (lvar : list R) (term : R) :
   PExpr Z.
 Existing Class extra_reify.
 
-#[deprecated(since="9.1")]
+#[deprecated(since="Stdlib 9.1")]
 Ltac extra_reify term := open_constr:(tt).
 
-Local Set Warnings "-deprecated".
+#[local] Set Warnings "-deprecated-tactic".
 Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
   let reify_term x := reify_term R ring0 ring1 add mul sub opp lvar x in
   match term with
@@ -133,7 +133,6 @@ Ltac reify_term R ring0 ring1 add mul sub opp lvar term :=
     | ?v => v
     end
   end.
-Local Set Warnings "deprecated".
 
 Ltac list_reifyl_core Tring lvar lterm :=
   lazymatch lterm with
@@ -176,7 +175,7 @@ Ltac lterm_goal g :=
 Lemma Private_Zeqb_ok: forall x y : Z, Z.eqb x y = true -> x == y.
 Proof. intros x y ->%Z.eqb_eq. reflexivity. Qed.
 
-#[deprecated(use=Z.eqb_eq, since="9.0")]
+#[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Notation Zeqb_ok := Private_Zeqb_ok (only parsing).
 
 
@@ -361,7 +360,7 @@ Tactic Notation "non_commutative_ring_simplify" constr(lterm) "in" ident(H):=
 Class ReifyL {R:Type} (lvar lterm : list R) := list_reifyl : (list R * list (PExpr Z)).
 Arguments list_reifyl {R lvar lterm _}.
 
-Global Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
+#[global] Hint Extern 0 (@ReifyL ?T ?lvar ?lterm) =>
   let rr := constr:(_ :> Ring (T:=T)) in
   let reif := list_reifyl rr lvar lterm in
   exact reif

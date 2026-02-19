@@ -1,7 +1,0 @@
-Structures/_Def/GenericMinMax.v
-Structures/_Def/Equalities.v
-Structures/_Def/Orders.v
-Structures/_Def/OrdersFacts.v
-Structures/_Def/OrdersTac.v
-
--Q Structures/_Def Stdlib.Structures

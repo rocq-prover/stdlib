@@ -1,8 +1,8 @@
 From Stdlib Require Import Uint63.
 From Stdlib Require Export PrimArray ArrayAxioms.
 
-Local Open Scope uint63_scope.
-Local Open Scope array_scope.
+#[local] Open Scope uint63_scope.
+#[local] Open Scope array_scope.
 
 Notation array := PrimArray.array (only parsing).
 Notation make := PrimArray.make (only parsing).
@@ -30,7 +30,7 @@ Notation array_ext := ArrayAxioms.array_ext (only parsing).
 
 Lemma default_copy A (t:array A) : default (copy t) = default t.
 Proof.
-  assert (irr_lt : length t <? length t = false). {
+  assert (irr_lt : (length t <? length t) = false). {
     destruct (Uint63.ltbP (length t) (length t)); try reflexivity.
     exfalso; eapply BinInt.Z.lt_irrefl; eassumption.
   }
@@ -41,7 +41,7 @@ Qed.
 
 Lemma default_make A (a : A) size : default (make size a) = a.
 Proof.
-  assert (irr_lt : length (make size a) <? length (make size a) = false). {
+  assert (irr_lt : (length (make size a) <? length (make size a)) = false). {
     destruct (Uint63.ltbP (length (make size a)) (length (make size a))); try reflexivity.
     exfalso; eapply BinInt.Z.lt_irrefl; eassumption.
   }

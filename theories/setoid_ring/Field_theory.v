@@ -8,11 +8,10 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Ring.
-Import Ring_polynom Ring_tac Ring_theory InitialRing Setoid List Morphisms.
+From Corelib Require Import RelationClasses Setoid Morphisms.
 From Stdlib Require Import BinNat BinInt.
+From Stdlib.setoid_ring Require Import Ring_base Ring_polynom Ring_tac Ring_theory InitialRing.
 Set Implicit Arguments.
-(* Set Universe Polymorphism. *)
 
 Section MakeFieldPol.
 
@@ -22,7 +21,7 @@ Variable R:Type.
 Declare Scope R_scope.
 Bind Scope R_scope with R.
 Delimit Scope R_scope with ring.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R->R).
 Variable (rdiv : R->R->R) (rinv : R->R).
@@ -554,7 +553,7 @@ Qed.
 
   ***************************************************************************)
 
-Local Notation "a &&& b" := (if a then b else false)
+#[local] Notation "a &&& b" := (if a then b else false)
  (at level 40, left associativity).
 
 (* equality test *)
@@ -778,24 +777,24 @@ Record linear : Type := mk_linear {
 Fixpoint PCond (l : list R) (le : list (PExpr C)) {struct le} : Prop :=
   match le with
   | nil => True
-  | e1 :: nil => ~ req (e1 @ l) rO
-  | e1 :: l1 => ~ req (e1 @ l) rO /\ PCond l l1
+  | cons e1 nil => ~ req (e1 @ l) rO
+  | cons e1 l1 => ~ req (e1 @ l) rO /\ PCond l l1
   end.
 
 Theorem PCond_cons l a l1 :
- PCond l (a :: l1) <-> ~ a @ l == 0 /\ PCond l l1.
+ PCond l (cons a l1) <-> ~ a @ l == 0 /\ PCond l l1.
 Proof.
 destruct l1.
 - simpl. split; [split|destruct 1]; trivial.
 - reflexivity.
 Qed.
 
-Theorem PCond_cons_inv_l l a l1 : PCond l (a::l1) ->  ~ a @ l == 0.
+Theorem PCond_cons_inv_l l a l1 : PCond l (cons a l1) ->  ~ a @ l == 0.
 Proof.
 rewrite PCond_cons. now destruct 1.
 Qed.
 
-Theorem PCond_cons_inv_r l a l1 : PCond l (a :: l1) ->  PCond l l1.
+Theorem PCond_cons_inv_r l a l1 : PCond l (cons a l1) ->  PCond l l1.
 Proof.
 rewrite PCond_cons. now destruct 1.
 Qed.

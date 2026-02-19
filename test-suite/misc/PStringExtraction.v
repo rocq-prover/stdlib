@@ -10,8 +10,8 @@
 
 From Stdlib Require Import Uint63 PrimString ExtrOCamlPString.
 
-Local Open Scope uint63.
-Local Open Scope pstring.
+#[local] Open Scope uint63.
+#[local] Open Scope pstring.
 
 Definition s1 := "hello".
 Definition s2 := "wwworlddd".

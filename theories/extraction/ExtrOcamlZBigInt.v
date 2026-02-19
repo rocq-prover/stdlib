@@ -12,7 +12,7 @@
 
 From Stdlib Require Extraction.
 
-From Stdlib Require Import ZArith NArith.
+From Stdlib Require Import BinInt BinNat.
 From Stdlib Require Import ExtrOcamlBasic.
 
 Extraction Blacklist Z Big_int_Z.
@@ -87,8 +87,8 @@ Extract Constant N.div =>
 Extract Constant N.modulo =>
  "(fun a b -> if Big_int_Z.eq_big_int b Big_int_Z.zero_big_int
   then a else Big_int_Z.mod_big_int a b)".
-Extract Constant Z.eqb => "Big_int_Z.eq_big_int".
-Extract Constant Z.eq_dec => "Big_int_Z.eq_big_int".
+Extract Constant N.eqb => "Big_int_Z.eq_big_int".
+Extract Constant N.eq_dec => "Big_int_Z.eq_big_int".
 Extract Constant N.compare =>
  "(fun x y -> let s = Big_int_Z.compare_big_int x y in
   if s = 0 then Eq else if s < 0 then Lt else Gt)".

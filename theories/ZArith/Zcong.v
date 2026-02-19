@@ -2,7 +2,7 @@ From Stdlib Require Import BinInt.
 From Stdlib Require Import ZArithRing.
 From Stdlib Require Import Zdiv.
 From Stdlib Require Import Zdivisibility.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Module Z.
 
@@ -25,7 +25,7 @@ Proof.
   case (Z.eqb_spec a 0) as [->|nz]; trivial.
   cbv [invmod]; destruct Z.extgcd as [[u v]g] eqn:H.
   eapply Z.extgcd_correct in H; case H as [[]]; subst; cbn [fst snd].
-  rewrite ?Zmod_0_r, ?Z.mul_0_r, ?Z.add_0_r in *.
+  rewrite ?Z.mod_0_r, ?Z.mul_0_r, ?Z.add_0_r in *.
   rewrite Z.gcd_0_r, <-Z.sgn_abs, (Z.mul_comm u) in H.
   eapply Z.mul_cancel_l; eauto.
 Qed.
@@ -33,7 +33,7 @@ Qed.
 Lemma invmod_ok a m : invmod a m * a mod m = Z.gcd a m mod m.
 Proof.
   case (Z.eqb_spec m 0) as [->|nz].
-  { rewrite invmod_0_r, ?Zmod_0_r, ?Z.gcd_0_r, <-?Z.sgn_abs; apply Z.mul_comm. }
+  { rewrite invmod_0_r, ?Z.mod_0_r, ?Z.gcd_0_r, <-?Z.sgn_abs; apply Z.mul_comm. }
   cbv [invmod]; destruct Z.extgcd as [[u v]g] eqn:H.
   eapply Z.extgcd_correct in H; case H as [[]]; subst; cbn [fst snd].
   rewrite Z.gcd_mod, Z.gcd_comm in H by trivial; rewrite <-H.
@@ -66,7 +66,7 @@ Qed.
 
 Lemma invmod_mod_l a m : invmod (a mod m) m = invmod a m.
 Proof.
-  case (Z.eq_dec m 0) as [->|]; [rewrite Zmod_0_r; trivial|].
+  case (Z.eq_dec m 0) as [->|]; [rewrite Z.mod_0_r; trivial|].
   cbv [invmod]. rewrite Zmod_mod; trivial.
 Qed.
 
@@ -100,7 +100,7 @@ Proof.
   cbv [combinecong Z.lcm] in *; case (Z.extgcd m1 m2) as [[a b] d] eqn:E.
   eapply Z.extgcd_correct in E; case E as [E D]; rewrite D in *;
   repeat case Z.eq_dec as [];
-  rewrite ?e0, ?Zdiv_0_r, ?Z.mul_0_r, ?Zmod_0_r; auto using Zmod_mod.
+  rewrite ?e0, ?Z.div_0_r, ?Z.mul_0_r, ?Z.mod_0_r; auto using Zmod_mod.
 Qed.
 
 Lemma combinecong_sound m1 m2 r1 r2 (H : r1 mod Z.gcd m1 m2 = r2 mod Z.gcd m1 m2)
@@ -112,7 +112,7 @@ Proof.
     change (Z.abs _) with (Z.lcm m1 m2).
   destruct (Z.eq_dec (Z.gcd m1 m2) 0) in *.
   { apply Z.gcd_eq_0 in e; case e as []; subst.
-    case Z.eq_dec; rewrite ?Zmod_0_r in *; cbn in *; intuition congruence. }
+    case Z.eq_dec; rewrite ?Z.mod_0_r in *; cbn in *; intuition congruence. }
   case Z.eq_dec as []; try congruence.
   rewrite 2 Z.mod_mod_divide by auto using Z.divide_lcm_l, Z.divide_lcm_r.
   apply Z.cong_iff_0, Z.mod_divide in H; trivial; rewrite <-D in *; clear D.
@@ -142,7 +142,7 @@ Proof.
   revert H1 H2; case (combinecong_sound m1 m2 r1 r2 H) as [<- <-]; intros.
   rewrite <-mod_combinecong_lcm. remember (combinecong _ _ _ _) as b.
   case (Z.eq_dec m1 0) as [->|]; case (Z.eq_dec m2 0) as [->|];
-    rewrite ?Zmod_0_r in *; try congruence.
+    rewrite ?Z.mod_0_r in *; try congruence.
   apply Z.cong_iff_ex in H1, H2; case H1 as [s H1]; case H2 as [r H2].
   assert (s*m1/Z.gcd m1 m2 = r*m2/Z.gcd m1 m2) by congruence.
   rewrite !Z.divide_div_mul_exact in * by

@@ -13,7 +13,7 @@ From Stdlib Require Import Zdiv.
 
 (************)
 
-Local Coercion inject_Z : Z >-> Q.
+#[local] Coercion inject_Z : Z >-> Q.
 
 Definition Qfloor (x:Q) := let (n,d) := x in Z.div n (Zpos d).
 Definition Qceiling (x:Q) := (-(Qfloor (-x)))%Z.
@@ -142,7 +142,7 @@ Lemma Zdiv_Qdiv (n m: Z): (n / m)%Z = Qfloor (n / m).
 Proof.
  unfold Qfloor. intros. simpl.
  destruct m as [ | | p]; simpl.
- - now rewrite Zdiv_0_r, Z.mul_0_r.
+ - now rewrite Z.div_0_r, Z.mul_0_r.
  - now rewrite Z.mul_1_r.
  - rewrite <- Z.opp_eq_mul_m1.
    rewrite <- (Z.opp_involutive (Zpos p)).

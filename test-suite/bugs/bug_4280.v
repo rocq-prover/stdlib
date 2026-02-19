@@ -1,6 +1,6 @@
 From Stdlib Require Import ZArith Lia.
 From Stdlib Require Import Eqdep_dec.
-Local Open Scope Z_scope.
+#[local] Open Scope Z_scope.
 
 Definition t := { n: Z | n > 1 }.
 

@@ -38,8 +38,9 @@ Section Properties.
   Section Clos_Refl_Trans.
 
     #[warning="-notation-incompatible-prefix"]
-    Local Notation "R *" := (clos_refl_trans R)
-      (at level 8, no associativity, format "R *").
+    #[local] Notation "R *" :=
+    (clos_refl_trans R)
+      (at level 1, no associativity, format "R *").
 
     (** Correctness of the reflexive-transitive closure operator *)
 
@@ -52,7 +53,7 @@ Section Properties.
 
     (** Idempotency of the reflexive-transitive closure operator *)
 
-    Lemma clos_rt_idempotent : inclusion (R*)* R*.
+    Lemma clos_rt_idempotent : inclusion (R* )* R*.
     Proof.
       red.
       induction 1 as [x y H|x|x y z H IH H0 IH0]; auto with sets.

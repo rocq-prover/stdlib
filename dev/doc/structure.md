@@ -18,32 +18,19 @@ help somewhat master that situation.
 Documentation
 -------------
 
-One can find a graph of dependencies in file
-`doc/stdlib/depends.dot`. This graph is included in the documentation
-built by `make stdlib-html` in directory
-`_build/default/doc/stdlib/html/`. To find the exact files contained
-in each node `<n>` of this graph, one can look at the corresponding
-`theories/Make.<n>` file.
-
-CI testing
-----------
-
-A CI job `stdlib-subcomponents` checks that the above documented
-structure remains valid.
+Special `.v` files in `subcomponents/` are used to group the normal `.v` files under `theories/` into subcomponents.
+A file in one subcomponent can only depend on a file in another subcomponent
+if the former file's subcomponent depends on the latter file's subcomponent
+(potentially through other subcomponents).
+This rule, and the completeness of the subcomponent categorization,
+are checked during `make stdlib-html` by `dev/tools/subcomponents.py`,
+generating a dependency graph in `_build/default/doc/stdlib/index-subcomponents.html`.
 
 How to Modify the Structure
 ---------------------------
 
-When adding a file, it is enough to list it in the appropriate
-`theories/Make.*` file. Note that, for historical reasons, some
-directories are split between different subcomponents. In this case,
-the new line in the `theories/Make.*` file must contain the
-appropriate `_SubComponent` fake subdirectory. Look at
-`theories/Make.lists` for an example.
+When adding a file, it is sufficient to list it in the appropriate `subcomponents/*.v` file.
+However, it is often preferable to instead `Require` the new file in an existing `.v` file documented in doc/stdlib/index.html`
+(which is already assigned to the appropriate subcomponent).
 
-To add or remove a subcomponent, just add or remove the corresponding
-`theories/Make.*` file and adapt `doc/stdlib/depends.dot` and
-`.nix/rocq-overlays/stdlib-subcomponents/default.nix`. One can use the
-`dev/tools/make-depends.sh` script to help update the graph (the line
-below `File dependencies` can be uncommented to better understand
-which files are responsible for some subcomponent dependency).
+`dev/tools/subcomponents.py` can be called directly to check that subcomponents are declared consistently and diagnose related issues.

@@ -43,7 +43,7 @@ Lemma CatchCommuteUnique2 :
              (commute1 : <<p, q>> <~> <<q', p'>>)
              (commute2 : <<p, q>> <~> <<q'', p''>>),
       (p' = p'') /\ (q' = q'').
-Proof with auto.
+Proof.
 intros.
 set (X := commute2).
 Fail dependent destruction commute1;

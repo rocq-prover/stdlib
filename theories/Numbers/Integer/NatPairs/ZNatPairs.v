@@ -15,10 +15,10 @@ From Stdlib Require Import NSub ZAxioms.
 From Stdlib Require Export Ring.
 
 Declare Scope pair_scope.
-Local Open Scope pair_scope.
+#[local] Open Scope pair_scope.
 
-Notation "s #1" := (fst s) (at level 9, format "s '#1'") : pair_scope.
-Notation "s #2" := (snd s) (at level 9, format "s '#2'") : pair_scope.
+Notation "s #1" := (fst s) (at level 1, format "s '#1'") : pair_scope.
+Notation "s #2" := (snd s) (at level 1, format "s '#2'") : pair_scope.
 
 Module ZPairsAxiomsMod (Import N : NAxiomsMiniSig) <: ZAxiomsMiniSig.
  Module Import NProp.
@@ -38,7 +38,7 @@ Infix "-" := N.sub : NScope.
 Infix "*" := N.mul : NScope.
 Infix "<" := N.lt : NScope.
 Infix "<=" := N.le : NScope.
-Local Open Scope NScope.
+#[local] Open Scope NScope.
 
 (** The definitions of functions ([add], [mul], etc.) will be unfolded
     by the properties functor. Since we don't want [add_comm] to refer
@@ -91,7 +91,7 @@ Infix "*" := Z.mul : ZScope.
 Notation "- x" := (Z.opp x) : ZScope.
 Infix "<" := Z.lt : ZScope.
 Infix "<=" := Z.le : ZScope.
-Local Open Scope ZScope.
+#[local] Open Scope ZScope.
 
 Lemma sub_add_opp : forall n m, Z.sub n m = Z.add n (Z.opp m).
 Proof. reflexivity. Qed.

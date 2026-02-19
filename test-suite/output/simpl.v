@@ -44,7 +44,7 @@ Check "** NonPrimitiveProjection".
 Module DirectTuple.
 Check "DirectTuple (NonPrimitiveProjection)".
 Record T := {p:nat}.
-Notation TUPLE := {|p:=0|}.
+Abbreviation TUPLE := {|p:=0|}.
 Eval simpl in TUPLE.(p).  (* -> 0 *)
 Eval cbn in TUPLE.(p).    (* -> 0 *)
 Eval hnf in TUPLE.(p).    (* -> 0 *)
@@ -76,7 +76,7 @@ End NamedTuple.
 Module DirectCoFix.
 Check "DirectCoFix (NonPrimitiveProjection)".
 CoInductive U := {p:U}.
-Notation COFIX := (cofix a := {|p:=a|}).
+Abbreviation COFIX := (cofix a := {|p:=a|}).
 Eval simpl in COFIX.(p).  (* -> COFIX *)
 Eval cbn in COFIX.(p).    (* -> COFIX *)
 Eval hnf in COFIX.(p).    (* -> COFIX *)
@@ -112,7 +112,7 @@ Set Primitive Projections.
 Module DirectTuple.
 Check "DirectTuple (PrimitiveProjectionFolded)".
 Record T := {p:nat}.
-Notation TUPLE := {|p:=0|}.
+Abbreviation TUPLE := {|p:=0|}.
 Eval simpl in TUPLE.(p).  (* -> 0 *)
 Eval cbn in TUPLE.(p).    (* -> 0 *)
 Eval hnf in TUPLE.(p).    (* -> 0 *)
@@ -143,7 +143,7 @@ End NamedTuple.
 Module DirectCoFix.
 Check "DirectCoFix (PrimitiveProjectionFolded)".
 CoInductive U := {p:U}.
-Notation COFIX := (cofix a := {|p:=a|}).
+Abbreviation COFIX := (cofix a := {|p:=a|}).
 Eval simpl in COFIX.(p).  (* -> COFIX *)
 Eval cbn in COFIX.(p).    (* -> COFIX *)
 Eval hnf in COFIX.(p).    (* -> COFIX *)
@@ -214,7 +214,7 @@ Module DirectCoFix.
 Check "DirectCoFix (PrimitiveProjectionUnfolded)".
 CoInductive U := {q:U}.
 CoFixpoint a := {|q:=a|}.
-Notation COFIX := (cofix a := {|q:=a|}).
+Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
 Goal P a.(q). unfold q. cbv delta [a]. simpl. Show. Abort. (* -> COFIX *)
 Goal P a.(q). unfold q. cbv delta [a]. cbn. Show. Abort.   (* -> COFIX *)
@@ -229,7 +229,7 @@ Module NamedCoFix.
 Check "NamedCoFix (PrimitiveProjectionUnfolded)".
 CoInductive U := {q:U}.
 CoFixpoint a := {|q:=a|}.
-Notation COFIX := (cofix a := {|q:=a|}).
+Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
 Goal P a.(q). unfold q. simpl. Show. Abort.  (* -> a *)
 Goal P a.(q). unfold q. cbn. Show. Abort.    (* -> a *)
@@ -254,7 +254,7 @@ Set Primitive Projections.
 Module DirectTuple.
 Check "DirectTuple (PrimitiveProjectionConstant)".
 Record T := {p:nat}.
-Notation TUPLE := {|p:=0|}.
+Abbreviation TUPLE := {|p:=0|}.
 Definition a := {|p:=0|}.
 Axiom P : nat -> Prop.
 Goal P (id p a). unfold id. cbv delta [a]. simpl. Show. Abort. (* -> 0 *)
@@ -288,7 +288,7 @@ End NamedTuple.
 Module DirectCoFix.
 Check "DirectCoFix (PrimitiveProjectionConstant)".
 CoInductive U := {q:U}.
-Notation COFIX := (cofix a := {|q:=a|}).
+Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
 Goal P (id q COFIX). unfold id. simpl. Show. Abort.  (* -> COFIX *)
 Goal P (id q COFIX). unfold id. cbn. Show. Abort.    (* -> COFIX *)

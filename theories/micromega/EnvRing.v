@@ -16,7 +16,7 @@ Set Implicit Arguments.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
 
-Local Open Scope positive_scope.
+#[local] Open Scope positive_scope.
 Import RingSyntax.
 
 (** Definition of polynomial expressions *)

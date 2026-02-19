@@ -14,7 +14,7 @@ From Stdlib Require Import SeqSeries.
 From Stdlib Require Import Rtrigo_def.
 From Stdlib Require Import Lia Lra.
 From Stdlib Require Import Arith.Factorial.
-Local Open Scope R_scope.
+#[local] Open Scope R_scope.
 
 Definition A1 (x:R) (N:nat) : R :=
   sum_f_R0 (fun k:nat => (-1) ^ k / INR (fact (2 * k)) * x ^ (2 * k)) N.
