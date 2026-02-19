@@ -80,7 +80,7 @@ Originally from the contribution bit vector by Jean Duprat (ENS Lyon).
 
 Based on contents from Util/VecUtil of the CoLoR contribution *)
 
-#[local] Set Warnings "-stdlib-vector".
+#[local] Set Warnings "-stdlib-vector,-deprecated".
 From Stdlib Require Fin.
 From Stdlib Require VectorDef.
 From Stdlib Require VectorSpec.
