@@ -97,6 +97,22 @@ with builtins; with (import <nixpkgs> {}).lib;
     ## Run on push on following branches (default [ "master" ])
     # push-branches = [ "master" "branch2" ];
 
+    rocq-master = [
+      "bignums"
+      "rocq-elpi"
+      "rocq-elpi-test"
+      "hierarchy-builder"
+      "mathcomp"
+      "mathcomp-algebra"
+      "mathcomp-bigenough"
+      "mathcomp-boot"
+      "mathcomp-character"
+      "mathcomp-field"
+      "mathcomp-fingroup"
+      "mathcomp-finmap"
+      "mathcomp-order"
+      "mathcomp-solvable"
+    ];
     master = [
       "aac-tactics"
       "argosy"
@@ -140,21 +156,10 @@ with builtins; with (import <nixpkgs> {}).lib;
       "itree-io"
       "json"
       "kami"
-      "mathcomp"
-      "mathcomp-algebra"
       "mathcomp-algebra-tactics"
       "mathcomp-analysis"
-      "mathcomp-boot"
-      "mathcomp-bigenough"
-      "mathcomp-character"
       "mathcomp-classical"
-      "mathcomp-field"
-      "mathcomp-fingroup"
-      "mathcomp-finmap"
-      "mathcomp-order"
       "mathcomp-reals"
-      "mathcomp-solvable"
-      "mathcomp-ssreflect"
       "mathcomp-zify"
       "math-classes"
       "MenhirLib"
@@ -235,7 +240,9 @@ with builtins; with (import <nixpkgs> {}).lib;
       "rupicola"
       "VerdiRaft"
     ];
-    coq-common-bundles = listToAttrs (forEach master (p:
+    coq-common-bundles = listToAttrs (forEach rocq-master (p:
+      { name = p; value.override.version = "master"; }))
+    // listToAttrs (forEach master (p:
       { name = p; value.override.version = "master"; }))
     // listToAttrs (forEach coq-master (p:
       { name = p; value.override.version = "coq-master"; }))
@@ -243,18 +250,25 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "3.4.2";
+      coq-elpi.override.elpi-version = "3.6.1";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
+      ceres-bs.job = false;  # not in Rocq CI
+      ConCert.job = false;  # not in Rocq CI
       ElmExtraction.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
       LibHyps.job = false;  # not in Rocq CI
+      TypedExtraction.job = false;  # not in Rocq CI
+      TypedExtraction-common.job = false;  # not in Rocq CI
+      TypedExtraction-elm.job = false;  # not in Rocq CI
+      TypedExtraction-plugin.job = false;  # not in Rocq CI
+      TypedExtraction-rust.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -268,13 +282,8 @@ with builtins; with (import <nixpkgs> {}).lib;
       trakt.job = false;  # temporarily disactivated in Rocq CI
       smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
-    common-bundles = {
-      bignums.override.version = "master";
-      rocq-elpi.override.version = "master";
-      rocq-elpi.override.elpi-version = "3.4.2";
-      rocq-elpi-test.override.version = "master";
-      hierarchy-builder.override.version = "master";
-    };
+    common-bundles = listToAttrs (forEach rocq-master (p:
+      { name = p; value.override.version = "master"; }));
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "master";

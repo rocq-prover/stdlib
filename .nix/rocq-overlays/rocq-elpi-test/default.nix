@@ -1,4 +1,4 @@
-{ mkRocqDerivation, rocq-elpi, stdlib, version ? null }:
+{ mkRocqDerivation, rocq-core, rocq-elpi, stdlib, version ? null }:
 
 mkRocqDerivation {
   pname = "rocq-elpi-test";
@@ -6,7 +6,12 @@ mkRocqDerivation {
   owner = "LPCIC";
   inherit version;
 
-  propagatedBuildInputs = [ rocq-elpi stdlib ];
+  propagatedBuildInputs = [
+    rocq-core.ocamlPackages.yojson
+    rocq-core.ocamlPackages.xml-light
+    rocq-elpi
+    stdlib
+  ];
 
   useDune = true;
 
