@@ -56,7 +56,6 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
-    'sphinxcontrib.bibtex',
     'rocqrst.rocqdomain'
 ]
 
@@ -497,6 +496,3 @@ epub_exclude_files = ['search.html']
 
 # navtree options
 navtree_shift = True
-
-# since sphinxcontrib-bibtex version 2 we need this
-bibtex_bibfiles = [ "biblio.bib" ]
