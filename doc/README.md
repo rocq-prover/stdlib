@@ -38,13 +38,12 @@ Otherwise, you need to install (in another way) Python 3, and the following Pyth
   - beautifulsoup4 >= 4.8.2
   - antlr4-python3-runtime >= 4.7.1 & <= 4.9.3
   - pexpect >= 4.6.0
-  - sphinxcontrib-bibtex >= 0.4.2
 
 For instance, on Debian / Ubuntu, you can install pip and setuptools
 with `apt install python3-pip python3-setuptools` on Debian / Ubuntu then run:
 
     pip3 install sphinx sphinx-rtd-theme beautifulsoup4 \
-                 antlr4-python3-runtime==4.7.1 pexpect sphinxcontrib-bibtex
+                 antlr4-python3-runtime==4.7.1 pexpect
 
 You can check the dependencies using the `doc/tools/rocqrst/checkdeps.py` script.
 

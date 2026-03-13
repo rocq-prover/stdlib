@@ -25,4 +25,3 @@ Appendix
 .. toctree::
 
    changes
-   zebibliography
