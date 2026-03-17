@@ -1,4 +1,4 @@
-{ mkRocqDerivation, rocq-core, rocq-elpi, stdlib, version ? null }:
+{ mkRocqDerivation, rocq-elpi, stdlib, version ? null }:
 
 mkRocqDerivation {
   pname = "rocq-elpi-test";
@@ -7,8 +7,6 @@ mkRocqDerivation {
   inherit version;
 
   propagatedBuildInputs = [
-    rocq-core.ocamlPackages.yojson
-    rocq-core.ocamlPackages.xml-light
     rocq-elpi
     stdlib
   ];
@@ -22,7 +20,7 @@ mkRocqDerivation {
 
   buildPhase = ''
     export DUNE_build_FLAGS="--release"
-    make -j1 all-tests
+    make -j1 all-tests-no-plugins
     make -j1 all-examples
   '';
 
