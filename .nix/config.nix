@@ -250,14 +250,16 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "3.6.1";
+      coq-elpi.override.elpi-version = "3.6.2";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
+      CakeMLExtraction.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
+      CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
       ElmExtraction.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
