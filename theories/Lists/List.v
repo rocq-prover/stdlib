@@ -2345,7 +2345,7 @@ Section Cutting.
   Proof.
     revert l x; induction n as [|n IH]; intros [|y l] x.
     - discriminate.
-    - injection 1. intros ->. reflexivity.
+    - injection 1 as ->. reflexivity.
     - discriminate.
     - simpl. intros H. f_equal. apply IH. exact H.
   Qed.
@@ -2955,19 +2955,9 @@ Section Compare.
       intros Heq1 Heq2 Hne1 Hne2.
       revert prefix2 xs1 xs2 ys1 ys2 Heq1 Heq2.
       induction prefix1 as [|z prefix1 IH]; intros prefix2 xs1 xs2 ys1 ys2.
-      - destruct prefix2; [reflexivity|]. simpl. intros H1 H2.
-        injection H1; clear H1; intros ??; subst.
-        injection H2; clear H2; intros ??; subst.
-        exfalso. apply Hne1. reflexivity.
-      - destruct prefix2.
-        + simpl. intros H1 H2.
-          injection H1; clear H1; intros ??; subst.
-          injection H2; clear H2; intros ??; subst.
-          exfalso. apply Hne2. reflexivity.
-        + simpl. intros H1 H2.
-          injection H1; clear H1; intros ??; subst.
-          injection H2; clear H2; intros ?; subst.
-          intros. f_equal. eapply IH; eassumption.
+      - destruct prefix2; simpl; congruence.
+      - destruct prefix2; [simpl; congruence|].
+        injection 1 as; injection 1 as; subst; erewrite IH; eauto.
     Qed.
 
     #[local] Ltac list_auto :=
@@ -2981,7 +2971,7 @@ Section Compare.
       | H : ?xs ++ _ = ?xs ++ _ |- _ =>
           apply app_inv_head in H
       | H : _ :: _ = _ :: _ |- _ =>
-          injection H; intros; clear H; subst
+          injection H as; subst
       | H : [] = _ :: _ |- _ =>
           inversion H
       | H : cmp ?x ?x = Lt |- _ =>
