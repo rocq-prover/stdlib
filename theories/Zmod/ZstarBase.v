@@ -194,7 +194,7 @@ Lemma mul_assoc [m] a b c : @mul m a (mul b c) = mul (mul a b) c.
 Proof. apply to_Zmod_inj; rewrite ?to_Zmod_mul. apply Zmod.mul_assoc. Qed.
 Lemma mul_comm [m] a b : @mul m a b = mul b a.
 Proof. apply to_Zmod_inj; rewrite ?to_Zmod_mul; apply Zmod.mul_comm. Qed.
-Lemma mul_1_l [m] a : @mul m one a = a. Proof.
+Lemma mul_1_l [m] a : @mul m one a = a.
 Proof. apply to_Zmod_inj; rewrite ?to_Zmod_mul, to_Zmod_1. apply Zmod.mul_1_l. Qed.
 Lemma mul_1_r [m] a : @mul m a one = a. Proof. rewrite <-mul_comm; apply mul_1_l. Qed.
 Lemma mul_m1_l [m] a : @mul m (opp one) a = opp a.
