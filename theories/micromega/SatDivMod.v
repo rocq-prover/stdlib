@@ -29,7 +29,7 @@ Instance SatDiv : Saturate Z.div :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_div_nonneg_nonneg
   |}.
-Add Zify Saturate SatDiv.
+Add Tify Saturate SatDiv.
 
 #[global]
 Instance SatMod : Saturate Z.modulo :=
@@ -39,4 +39,4 @@ Instance SatMod : Saturate Z.modulo :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_mod_nonneg_nonneg
   |}.
-Add Zify Saturate SatMod.
+Add Tify Saturate SatMod.

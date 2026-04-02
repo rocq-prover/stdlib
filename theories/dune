@@ -1,7 +1,8 @@
 (include_subdirs qualified)
 (coq.theory
  (name Stdlib)
- (package rocq-stdlib))
+ (package rocq-stdlib)
+ (theories micromega_plugin))
 
 (env
  (dev
