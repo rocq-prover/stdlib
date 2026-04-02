@@ -120,5 +120,6 @@ Notation "'~'" := (Byte.x7e) (only printing, at level 0).
 Set Printing Depth 100.
 
 Goal False.
+Proof.
   let cc := eval cbv in allBytes in idtac cc.
 Abort.

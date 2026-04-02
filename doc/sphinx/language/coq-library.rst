@@ -174,6 +174,7 @@ tactics (see Chapters ring and micromega), there are also:
     From Stdlib Require Import DiscrR.
     Open Scope R_scope.
     Goal 5 <> 0.
+    Proof.
     discrR.
 
 .. tacn:: split_Rabs
@@ -187,6 +188,7 @@ tactics (see Chapters ring and micromega), there are also:
     From Stdlib Require Import Reals.
     Open Scope R_scope.
     Goal forall x:R, x <= Rabs x.
+    Proof.
     intro; split_Rabs.
 
 .. tacn:: split_Rmult
@@ -201,6 +203,7 @@ tactics (see Chapters ring and micromega), there are also:
     From Stdlib Require Import Reals.
     Open Scope R_scope.
     Goal forall x y z:R, x * y * z <> 0.
+    Proof.
     intros; split_Rmult.
 
 List library

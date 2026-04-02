@@ -1,6 +1,7 @@
 (* Simpl with patterns *)
 
 Goal forall x, 0+x = 1+x.
+Proof.
 intro x.
 simpl (_ + x).
 Show.
@@ -182,13 +183,13 @@ Check "DirectTuple (PrimitiveProjectionUnfolded)".
 Record T := {p:nat}.
 Definition a := {|p:=0|}.
 Axiom P : nat -> Prop.
-Goal P a.(p). unfold p. cbv delta [a]. simpl. Show. Abort. (* -> 0 *)
-Goal P a.(p). unfold p. cbv delta [a]. cbn. Show. Abort.   (* -> 0 *)
-Goal P a.(p). unfold p. cbv delta [a]. hnf. Show. Abort.   (* -> 0 *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. simpl. Show. Abort. (* -> 0 *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. cbn. Show. Abort.   (* -> 0 *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. hnf. Show. Abort.   (* -> 0 *)
 Arguments p : simpl never.
-Goal P a.(p). unfold p. cbv delta [a]. simpl. Show. Abort. (* -> 0 *) (* bug never 3 *)
-Goal P a.(p). unfold p. cbv delta [a]. cbn. Show. Abort.   (* -> {| p := 0 |}.(p) *)
-Goal P a.(p). unfold p. cbv delta [a]. hnf. Show. Abort.   (* -> 0 *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. simpl. Show. Abort. (* -> 0 *) (* bug never 3 *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. cbn. Show. Abort.   (* -> {| p := 0 |}.(p) *)
+Goal P a.(p). Proof. unfold p. cbv delta [a]. hnf. Show. Abort.   (* -> 0 *)
 End DirectTuple.
 
 Module NamedTuple.
@@ -196,18 +197,18 @@ Check "NamedTuple (PrimitiveProjectionUnfolded)".
 Record T := {p:nat}.
 Definition a := {|p:=0|}.
 Axiom P : nat -> Prop.
-Goal P a.(p). unfold p. simpl. Show. Abort. (* -> 0 *)
-Goal P a.(p). unfold p. cbn. Show. Abort.   (* -> 0 *)
-Goal P a.(p). unfold p. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
+Goal P a.(p). Proof. unfold p. simpl. Show. Abort. (* -> 0 *)
+Goal P a.(p). Proof. unfold p. cbn. Show. Abort.   (* -> 0 *)
+Goal P a.(p). Proof. unfold p. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
 Arguments p : simpl never.
-Goal P a.(p). unfold p. simpl. Show. Abort. (* -> 0 *)     (* bug never 3 *)
-Goal P a.(p). unfold p. cbn. Show. Abort.   (* -> a.(p) *)
-Goal P a.(p). unfold p. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
+Goal P a.(p). Proof. unfold p. simpl. Show. Abort. (* -> 0 *)     (* bug never 3 *)
+Goal P a.(p). Proof. unfold p. cbn. Show. Abort.   (* -> a.(p) *)
+Goal P a.(p). Proof. unfold p. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
 Arguments p : simpl nomatch.
 Arguments a : simpl never.
-Goal P a.(p). unfold p. simpl. Show. Abort.  (* -> 0 *)     (* bug never 1 *)
-Goal P a.(p). unfold p. cbn. Show. Abort.    (* -> a.(p) *)
-Goal P a.(p). unfold p. hnf. Show. Abort.    (* -> a.(p) *) (* bug primproj 2 *)
+Goal P a.(p). Proof. unfold p. simpl. Show. Abort.  (* -> 0 *)     (* bug never 1 *)
+Goal P a.(p). Proof. unfold p. cbn. Show. Abort.    (* -> a.(p) *)
+Goal P a.(p). Proof. unfold p. hnf. Show. Abort.    (* -> a.(p) *) (* bug primproj 2 *)
 End NamedTuple.
 
 Module DirectCoFix.
@@ -216,13 +217,13 @@ CoInductive U := {q:U}.
 CoFixpoint a := {|q:=a|}.
 Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
-Goal P a.(q). unfold q. cbv delta [a]. simpl. Show. Abort. (* -> COFIX *)
-Goal P a.(q). unfold q. cbv delta [a]. cbn. Show. Abort.   (* -> COFIX *)
-Goal P a.(q). unfold q. cbv delta [a]. hnf. Show. Abort.   (* -> COFIX *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. simpl. Show. Abort. (* -> COFIX *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. cbn. Show. Abort.   (* -> COFIX *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. hnf. Show. Abort.   (* -> COFIX *)
 Arguments q : simpl never.
-Goal P a.(q). unfold q. cbv delta [a]. simpl. Show. Abort. (* -> COFIX *) (* never not respected on purpose *)
-Goal P a.(q). unfold q. cbv delta [a]. cbn. Show. Abort.   (* -> COFIX.(q) *)
-Goal P a.(q). unfold q. cbv delta [a]. hnf. Show. Abort.   (* -> COFIX *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. simpl. Show. Abort. (* -> COFIX *) (* never not respected on purpose *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. cbn. Show. Abort.   (* -> COFIX.(q) *)
+Goal P a.(q). Proof. unfold q. cbv delta [a]. hnf. Show. Abort.   (* -> COFIX *)
 End DirectCoFix.
 
 Module NamedCoFix.
@@ -231,18 +232,18 @@ CoInductive U := {q:U}.
 CoFixpoint a := {|q:=a|}.
 Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
-Goal P a.(q). unfold q. simpl. Show. Abort.  (* -> a *)
-Goal P a.(q). unfold q. cbn. Show. Abort.    (* -> a *)
-Goal P a.(q). unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P a.(q). Proof. unfold q. simpl. Show. Abort.  (* -> a *)
+Goal P a.(q). Proof. unfold q. cbn. Show. Abort.    (* -> a *)
+Goal P a.(q). Proof. unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 Arguments q : simpl never.
-Goal P a.(q). unfold q. simpl. Show. Abort.  (* -> a *)
-Goal P a.(q). unfold q. cbn. Show. Abort.    (* -> a.(q) *)
-Goal P a.(q). unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P a.(q). Proof. unfold q. simpl. Show. Abort.  (* -> a *)
+Goal P a.(q). Proof. unfold q. cbn. Show. Abort.    (* -> a.(q) *)
+Goal P a.(q). Proof. unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 Arguments q : simpl nomatch.
 Arguments a : simpl never.
-Goal P a.(q). unfold q. simpl. Show. Abort.  (* -> a *)
-Goal P a.(q). unfold q. cbn. Show. Abort.    (* -> a.(q) *)
-Goal P a.(q). unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P a.(q). Proof. unfold q. simpl. Show. Abort.  (* -> a *)
+Goal P a.(q). Proof. unfold q. cbn. Show. Abort.    (* -> a.(q) *)
+Goal P a.(q). Proof. unfold q. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 End NamedCoFix.
 End PrimitiveProjectionUnfolded.
 
@@ -257,13 +258,13 @@ Record T := {p:nat}.
 Abbreviation TUPLE := {|p:=0|}.
 Definition a := {|p:=0|}.
 Axiom P : nat -> Prop.
-Goal P (id p a). unfold id. cbv delta [a]. simpl. Show. Abort. (* -> 0 *)
-Goal P (id p a). unfold id. cbv delta [a]. cbn. Show. Abort.   (* -> 0 *)
-Goal P (id p a). unfold id. cbv delta [a]. hnf. Show. Abort.   (* -> TUPLE.(p) *) (* bug primproj 1 *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. simpl. Show. Abort. (* -> 0 *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. cbn. Show. Abort.   (* -> 0 *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. hnf. Show. Abort.   (* -> TUPLE.(p) *) (* bug primproj 1 *)
 Arguments p : simpl never.
-Goal P (id p a). unfold id. cbv delta [a]. simpl. Show. Abort. (* -> TUPLE.(p) *)
-Goal P (id p a). unfold id. cbv delta [a]. cbn. Show. Abort.   (* -> TUPLE.(p) *)
-Goal P (id p a). unfold id. cbv delta [a]. hnf. Show. Abort.   (* -> TUPLE.(p) *) (* bug primproj 1 *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. simpl. Show. Abort. (* -> TUPLE.(p) *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. cbn. Show. Abort.   (* -> TUPLE.(p) *)
+Goal P (id p a). Proof. unfold id. cbv delta [a]. hnf. Show. Abort.   (* -> TUPLE.(p) *) (* bug primproj 1 *)
 End DirectTuple.
 
 Module NamedTuple.
@@ -271,18 +272,18 @@ Check "NamedTuple (PrimitiveProjectionConstant)".
 Record T := {p:nat}.
 Definition a := {|p:=0|}.
 Axiom P : nat -> Prop.
-Goal P (id p a). unfold id. simpl. Show. Abort. (* -> 0 *)
-Goal P (id p a). unfold id. cbn. Show. Abort.   (* -> 0 *)
-Goal P (id p a). unfold id. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
+Goal P (id p a). Proof. unfold id. simpl. Show. Abort. (* -> 0 *)
+Goal P (id p a). Proof. unfold id. cbn. Show. Abort.   (* -> 0 *)
+Goal P (id p a). Proof. unfold id. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
 Arguments p : simpl never.
-Goal P (id p a). unfold id. simpl. Show. Abort. (* -> a.(p) *)
-Goal P (id p a). unfold id. cbn. Show. Abort.   (* -> a.(p) *)
-Goal P (id p a). unfold id. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
+Goal P (id p a). Proof. unfold id. simpl. Show. Abort. (* -> a.(p) *)
+Goal P (id p a). Proof. unfold id. cbn. Show. Abort.   (* -> a.(p) *)
+Goal P (id p a). Proof. unfold id. hnf. Show. Abort.   (* -> a.(p) *) (* bug primproj 2 *)
 Arguments p : simpl nomatch.
 Arguments a : simpl never.
-Goal P (id p a). unfold id. simpl. Show. Abort.  (* -> 0 *) (* never not respected on purpose *)
-Goal P (id p a). unfold id. cbn. Show. Abort.    (* -> a.(p) *)
-Goal P (id p a). unfold id. hnf. Show. Abort.    (* -> a.(p) *)
+Goal P (id p a). Proof. unfold id. simpl. Show. Abort.  (* -> 0 *) (* never not respected on purpose *)
+Goal P (id p a). Proof. unfold id. cbn. Show. Abort.    (* -> a.(p) *)
+Goal P (id p a). Proof. unfold id. hnf. Show. Abort.    (* -> a.(p) *)
 End NamedTuple.
 
 Module DirectCoFix.
@@ -290,13 +291,13 @@ Check "DirectCoFix (PrimitiveProjectionConstant)".
 CoInductive U := {q:U}.
 Abbreviation COFIX := (cofix a := {|q:=a|}).
 Axiom P : U -> Prop.
-Goal P (id q COFIX). unfold id. simpl. Show. Abort.  (* -> COFIX *)
-Goal P (id q COFIX). unfold id. cbn. Show. Abort.    (* -> COFIX *)
-Goal P (id q COFIX). unfold id. hnf. Show. Abort.    (* -> COFIX.(q) *) (* bug primproj 3 *)
+Goal P (id q COFIX). Proof. unfold id. simpl. Show. Abort.  (* -> COFIX *)
+Goal P (id q COFIX). Proof. unfold id. cbn. Show. Abort.    (* -> COFIX *)
+Goal P (id q COFIX). Proof. unfold id. hnf. Show. Abort.    (* -> COFIX.(q) *) (* bug primproj 3 *)
 Arguments q : simpl never.
-Goal P (id q COFIX). unfold id. simpl. Show. Abort.  (* -> COFIX.(q) *)
-Goal P (id q COFIX). unfold id. cbn. Show. Abort.    (* -> COFIX.(q) *)
-Goal P (id q COFIX). unfold id. hnf. Show. Abort.    (* -> COFIX.(q) *) (* bug primproj 3 *)
+Goal P (id q COFIX). Proof. unfold id. simpl. Show. Abort.  (* -> COFIX.(q) *)
+Goal P (id q COFIX). Proof. unfold id. cbn. Show. Abort.    (* -> COFIX.(q) *)
+Goal P (id q COFIX). Proof. unfold id. hnf. Show. Abort.    (* -> COFIX.(q) *) (* bug primproj 3 *)
 End DirectCoFix.
 
 Module NamedCoFix.
@@ -304,17 +305,17 @@ Check "NamedCoFix (PrimitiveProjectionConstant)".
 CoInductive U := {q:U}.
 CoFixpoint a := {|q:=a|}.
 Axiom P : U -> Prop.
-Goal P (id q a). unfold id. simpl. Show. Abort.  (* -> a *)
-Goal P (id q a). unfold id. cbn. Show. Abort.    (* -> a *)
-Goal P (id q a). unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P (id q a). Proof. unfold id. simpl. Show. Abort.  (* -> a *)
+Goal P (id q a). Proof. unfold id. cbn. Show. Abort.    (* -> a *)
+Goal P (id q a). Proof. unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 Arguments q : simpl never.
-Goal P (id q a). unfold id. simpl. Show. Abort.  (* -> a.(q) *)
-Goal P (id q a). unfold id. cbn. Show. Abort.    (* -> a.(q) *)
-Goal P (id q a). unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P (id q a). Proof. unfold id. simpl. Show. Abort.  (* -> a.(q) *)
+Goal P (id q a). Proof. unfold id. cbn. Show. Abort.    (* -> a.(q) *)
+Goal P (id q a). Proof. unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 Arguments q : simpl nomatch.
 Arguments a : simpl never.
-Goal P (id q a). unfold id. simpl. Show. Abort.  (* -> a *) (* never not respected on purpose *)
-Goal P (id q a). unfold id. cbn. Show. Abort.    (* -> a.(q) *)
-Goal P (id q a). unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
+Goal P (id q a). Proof. unfold id. simpl. Show. Abort.  (* -> a *) (* never not respected on purpose *)
+Goal P (id q a). Proof. unfold id. cbn. Show. Abort.    (* -> a.(q) *)
+Goal P (id q a). Proof. unfold id. hnf. Show. Abort.    (* -> a.(q) *) (* bug primproj 4 *)
 End NamedCoFix.
 End PrimitiveProjectionConstant.
