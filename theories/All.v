@@ -306,6 +306,7 @@ From Stdlib Require Export micromega.ZifyNat.
 From Stdlib Require Export micromega.ZifyN.
 From Stdlib Require Export micromega.ZifyComparison.
 From Stdlib Require Export micromega.ZCoeff.
+From Stdlib Require Export micromega.Tify.
 From Stdlib Require Export micromega.Psatz.
 From Stdlib Require Export extraction.Extraction.
 From Stdlib Require Export funind.FunInd.
