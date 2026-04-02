@@ -27,6 +27,7 @@ x-maintenance-intent: ["(latest)"]
 depends: [
   "rocq-runtime"
   "rocq-core" {>= "9.2"}
+  "micromega-plugin" {= "dev"}
 ]
 build: [
   [make "-j" jobs]

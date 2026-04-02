@@ -269,21 +269,34 @@ with builtins; with (import <nixpkgs> {}).lib; {
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
-
+      bedrock2.override.version = "proux01:stdlib251";
+      coq-elpi.override.version = "proux01:stdlib251";
+      coqutil.override.version = "proux01:stdlib251";
+      itauto.override.version = "proux01:stdlib251";
+      equations.override.version = "proux01:stdlib251";
+      equations-test.override.version = "proux01:stdlib251";
       smtcoq.override.version = "proux01:stdlib251";
       metarocq.override.version = "proux01:stdlib251";
       metarocq-test.override.version = "proux01:stdlib251";
+      waterproof.override.version = "proux01:stdlib251";
       sf.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
-      { name = p; value.override.version = "master"; }));
+      { name = p; value.override.version = "master"; }))
+    // {
+      micromega-plugin.override.version = "tify";
+      rocq-elpi.override.version = "proux01:stdlib251";
+      rocq-elpi-test.override.version = "proux01:stdlib251";
+    };
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "master";
       stdlib-test.job = true;
       rocq-elpi.override.version = "master";
-      rocq-elpi-test.override.version = "master";
+      # rocq-elpi-test.override.version = "master";
+      rocq-elpi-test.override.version = "proux01:stdlib251";
       hierarchy-builder.override.version = "master";
+      # micromega-plugin.override.version = "master";
       micromega-plugin.override.version = "tify";
       micromega-plugin.job = false;
       mathcomp.override.version = "master";
@@ -385,7 +398,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       dpdgraph-test.override.version = "7a0fba21287dd8889c55e6611f8ba219d012b81b";
       coq-hammer.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
       coq-hammer-tactics.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
-      equations.override.version = "757662b9c875d7169a07b861d48e82157520ab1a";
+      equations.job = false;
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
       metarocq.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
@@ -398,7 +411,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
       smtcoq.job = false;
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.job = false;  # not available for 9.2
-      waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
+      # waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
+      waterproof.job = false;
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
