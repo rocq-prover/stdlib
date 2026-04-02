@@ -54,11 +54,13 @@ Close Scope hex_R_scope.
 From Stdlib Require Import Reals.
 
 Goal 254e3 = 2540 * 10 ^ 2.
+Proof.
 ring.
 Qed.
 
 From Stdlib Require Import Psatz.
 
 Goal 254e3 = 2540 * 10 ^ 2.
+Proof.
 lra.
 Qed.

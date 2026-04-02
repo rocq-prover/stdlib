@@ -1934,14 +1934,12 @@ Qed.
 
 Lemma Zsgn_19 : forall x y : Z, (0 < Z.sgn x + Z.sgn y)%Z -> (0 < x + y)%Z.
 Proof.
- Proof.
  intros [|p1|p1]; [intros y|intros [|p2|p2] ..]; simpl in |- *; intro H;
   discriminate H || (constructor || apply Zsgn_12; assumption).
 Qed.
 
 Lemma Zsgn_20 : forall x y : Z, (Z.sgn x + Z.sgn y < 0)%Z -> (x + y < 0)%Z.
 Proof.
- Proof.
  intros [|p1|p1]; [intros y|intros [|p2|p2] ..]; simpl in |- *; intro H;
   discriminate H || (constructor || apply Zsgn_11; assumption).
 Qed.
@@ -1955,7 +1953,6 @@ Qed.
 
 Lemma Zsgn_22 : forall x y : Z, (Z.sgn x + Z.sgn y < 0)%Z -> (x <= 0)%Z.
 Proof.
- Proof.
  intros [|p1|p1]; [intros y|intros [|p2|p2] ..]; simpl in |- *; intros H H0;
   discriminate H || discriminate H0.
 Qed.

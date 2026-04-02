@@ -3,6 +3,7 @@ From Stdlib Require Import FunctionalExtensionality.
 
 (* Basic example *)
 Goal (forall x y z, x+y+z = z+y+x) -> (fun x y z => z+y+x) = (fun x y z => x+y+z).
+Proof.
 intro H.
 extensionality in H.
 symmetry in H.
@@ -11,6 +12,7 @@ Qed.
 
 (* Test rejection of non-equality *)
 Goal forall H:(forall A:Prop, A), H=H -> forall H'':True, H''=H''.
+Proof.
 intros H H' H''.
 Fail extensionality in H.
 clear H'.
@@ -20,6 +22,7 @@ Abort.
 
 (* Test success on dependent equality *)
 Goal forall (p : forall x, S x = x + 1), p = p -> S = fun x => x + 1.
+Proof.
 intros p H.
 extensionality in p.
 assumption.
@@ -28,6 +31,7 @@ Qed.
 (* Test dependent functional extensionality *)
 Goal forall (P:nat->Type) (Q:forall a, P a -> Type) (f g:forall a (b:P a), Q a b),
    (forall x y, f x y = g x y) -> f = g.
+Proof.
 intros * H.
 extensionality in H.
 assumption.

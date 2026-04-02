@@ -284,8 +284,7 @@ Lemma Thales: forall O A B C D:point,
   (distance2 O B * distance2 O C = distance2 O D * distance2 O A
   /\ distance2 O B * distance2 C D = distance2 O D * distance2 A B)
  \/ collinear O A B.
-geo_begin.
-Proof.
+Proof. geo_begin.
   idtac "Thales 2 goals".
   Time nsatz.
   Time nsatz.
