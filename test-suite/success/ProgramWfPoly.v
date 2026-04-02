@@ -1,7 +1,6 @@
 (* An example extracted by the minimizer from category-theory *)
 
-Require Coq.FSets.FMaps.
-Require Coq.Program.Program.
+From Stdlib Require FMaps Program.
 
 Axiom proof_admitted : False.
 Tactic Notation "admit" := abstract case proof_admitted.
@@ -20,7 +19,7 @@ End Lib.
 End Category_DOT_Lib_WRAPPED.
 Module Export Category_DOT_Lib_DOT_FMapExt_WRAPPED.
 Module Export FMapExt.
-Import Coq.FSets.FMapFacts.
+Import Stdlib.FSets.FMapFacts.
 
 Module FMapExt (E : DecidableType) (M : WSfun E).
 
@@ -44,8 +43,8 @@ Include Category_DOT_Lib_DOT_FMapExt_WRAPPED.FMapExt.
 End FMapExt.
 
 End Lib.
-Import Coq.NArith.NArith.
-Import Coq.FSets.FMaps.
+Import Stdlib.NArith.NArith.
+Import Stdlib.FSets.FMaps.
 
 Module PO := PairOrderedType N_as_OT N_as_OT.
 Module M  := FMapList.Make(PO).

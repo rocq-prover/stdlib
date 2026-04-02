@@ -1,4 +1,4 @@
-Require Import List Permutation Morphisms ZArith Lia.
+From Stdlib Require Import List Permutation Morphisms ZArith Lia.
 Import ListNotations.
 
 Module Import List.

@@ -1,4 +1,4 @@
-Require Coq.Program.Tactics.
+From Stdlib Require Program.Tactics.
 
 Module Example1.
 
@@ -40,7 +40,7 @@ Program Definition f (v : A) : unit :=
 
 End Example3.
 
-Require Import JMeq.
+From Stdlib Require Import JMeq.
 
 Module Example4.
 

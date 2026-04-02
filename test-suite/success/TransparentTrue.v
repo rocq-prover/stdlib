@@ -1,4 +1,4 @@
-Require Import Bool.
+From Stdlib Require Import Bool.
 
 Goal forall axiom, @transparent_Is_true true axiom = I.
 Proof. intros. exact eq_refl. Qed.

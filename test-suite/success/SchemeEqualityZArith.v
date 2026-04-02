@@ -1,7 +1,7 @@
 (* An example from fiat_crypto which fails for two reasons:
    - parameters of the form [Type * Type] are not yet supported
    - Prop arguments are not supported *)
-Require Import ZArith.
+From Stdlib Require Import ZArith.
 Module M.
 
 Fixpoint tuple' T n : Type :=
