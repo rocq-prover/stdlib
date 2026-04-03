@@ -34,9 +34,9 @@ Ltac nia := Lia.nia.
 
 Ltac xpsatz dom d :=
   let tac := lazymatch dom with
-  | Z => (xsos_Z Lia.zchecker) || (xpsatz_Z d Lia.zchecker)
-  | R => (xsos_R Lra.rchecker) || (xpsatz_R d Lra.rchecker)
-  | Q => (xsos_Q Lqa.rchecker) || (xpsatz_Q d Lqa.rchecker)
+  | Z => (mp_sos_Z Lia.zchecker) || (mp_psatz_Z d Lia.zchecker)
+  | R => (mp_sos_R Lra.rchecker) || (mp_psatz_R d Lra.rchecker)
+  | Q => (mp_sos_Q Lqa.rchecker) || (mp_psatz_Q d Lqa.rchecker)
   | _ => fail "Unsupported domain"
   end in tac.
 

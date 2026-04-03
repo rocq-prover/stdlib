@@ -86,6 +86,6 @@ Goal forall x y ,
     -> Z.le (Z.shiftr x 24) 255.
   intros.
   Zify.zify_saturate.
-  (* [xlia zchecker] used to raise a [Stack overflow] error. It is supposed to fail normally. *)
-  assert_fails (xlia zchecker).
+  (* [mp_lia zchecker] used to raise a [Stack overflow] error. It is supposed to fail normally. *)
+  assert_fails (mp_lia zchecker).
 Abort.
