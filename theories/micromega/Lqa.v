@@ -36,15 +36,15 @@ Ltac rchecker_abstract := rchange ; vm_cast_no_check (eq_refl true).
 Ltac rchecker := rchecker_no_abstract.
 
 (** Here, lra stands for linear rational arithmetic *)
-Ltac lra := xlra_Q rchecker.
+Ltac lra := mp_lra_Q rchecker.
 
 (** Here, nra stands for non-linear rational arithmetic *)
-Ltac nra := xnra_Q rchecker.
+Ltac nra := mp_nra_Q rchecker.
 
 Ltac xpsatz dom d :=
   let tac := lazymatch dom with
   | Q =>
-    ((xsos_Q rchecker) || (xpsatz_Q d rchecker))
+    ((mp_sos_Q rchecker) || (mp_psatz_Q d rchecker))
   | _ => fail "Unsupported domain"
   end in tac.
 
