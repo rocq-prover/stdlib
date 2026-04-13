@@ -136,7 +136,8 @@ PREREQUISITELOG = $(addsuffix .log,$(wildcard prerequisite/*.v)) .csdp.cache
 ifeq ($(COQLIB_NOT_FOUND),true)
 all:
 	@echo ""
-	@echo "Coq's standard library has not been installed; please run: "
+	@echo "The Stdli library has not been installed; please run:"
+	@echo "  - cd .."
 	@echo "  - make"
 	@echo "  - make install"
 	@echo ""
