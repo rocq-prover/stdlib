@@ -4,6 +4,7 @@ From Stdlib Require Import Ensembles.
 From Stdlib Require Import String.
 #[global] Set Implicit Arguments.
 #[global] Set Asymmetric Patterns.
+#[warning="-unknown-option"] Set Asymmetric Patterns No Implicits.
 Ltac clearbodies := repeat match goal with | [ H := _ |- _ ] => clearbody H end.
 
 Inductive Comp : Type -> Type :=

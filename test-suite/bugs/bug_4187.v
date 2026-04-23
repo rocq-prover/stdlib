@@ -3,6 +3,7 @@
 (* coqc version 8.4pl5 (December 2014) compiled on Dec 28 2014 03:23:16 with OCaml 4.01.0
    coqtop version 8.4pl5 (December 2014) *)
 Set Asymmetric Patterns.
+#[warning="-unknown-option"] Set Asymmetric Patterns No Implicits.
 Axiom proof_admitted : False.
 Tactic Notation "admit" := case proof_admitted.
 From Stdlib Require Import List.
