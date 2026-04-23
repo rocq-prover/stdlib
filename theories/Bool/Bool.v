@@ -1037,6 +1037,10 @@ Defined.
     in a unique [iff] statement, but this isn't allowed since
     [iff] is in Prop. *)
 
+Lemma reflect_iff_neg (P : Prop) (b : bool) :
+  reflect P b -> (b = false <-> ~ P).
+Proof. now intros H; split; intros ?; destruct H as [H | H]. Qed.
+
 (** Reflect implies decidability of the proposition *)
 
 Lemma reflect_dec : forall P b, reflect P b -> {P}+{~P}.
