@@ -415,11 +415,11 @@ Proof.
 Qed.
 
 Lemma skipn_app [n m] a b (Hn : 0 <= n) (Hm : 0 <= m) :
-  skipn n (@app n m a b) = of_Z _ (to_Z (skipn n (@app n m a b))).
+  skipn n (@app n m a b) = of_Z _ (to_Z b).
 Proof.
   case (skipn_app_ex a b) as [?->]; trivial.
-  apply to_Z_inj; rewrite to_Z_eq_rect, to_Z_of_Z.
-  rewrite Z.add_simpl_l, mod_to_Z; trivial.
+  apply to_Z_inj. rewrite to_Z_eq_rect, to_Z_of_Z.
+  pose proof unsigned_range b. rewrite Z.mod_small; lia.
 Qed.
 
 Lemma app_assoc_dep [n m l] (a : bits n) (b : bits m) (c : bits l)
