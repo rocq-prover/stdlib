@@ -21,8 +21,7 @@ From Stdlib Require Import RingMicromega.
 From Stdlib Require Import VarMap.
 From Stdlib.micromega Require Tauto.
 From Stdlib Require Import Rregisternames.
-
-Declare ML Module "rocq-runtime.plugins.micromega".
+From micromega_plugin Require Export tactics.
 
 Ltac rchange :=
   let __wit := fresh "__wit" in
@@ -38,15 +37,15 @@ Ltac rchecker_abstract := rchange ; vm_cast_no_check (eq_refl true).
 Ltac rchecker := rchecker_no_abstract.
 
 (** Here, lra stands for linear real arithmetic *)
-Ltac lra := unfold Rdiv in * ; xlra_R rchecker.
+Ltac lra := unfold Rdiv in * ; mp_lra_R rchecker.
 
 (** Here, nra stands for non-linear real arithmetic *)
-Ltac nra := unfold Rdiv in * ; xnra_R rchecker.
+Ltac nra := unfold Rdiv in * ; mp_nra_R rchecker.
 
 Ltac xpsatz dom d :=
   let tac := lazymatch dom with
   | R =>
-    (xsos_R rchecker) || (xpsatz_R d rchecker)
+    (mp_sos_R rchecker) || (mp_psatz_R d rchecker)
   | _ => fail "Unsupported domain"
  end in tac.
 

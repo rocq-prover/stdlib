@@ -156,7 +156,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "itree-io"
       "json"
       "kami"
-      "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-classical"
       "mathcomp-reals"
@@ -227,6 +226,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metacoq-translations"
       "metacoq-utils"
       "metarocq"
+      "metarocq-common"
       "metarocq-erasure"
       "metarocq-erasure-plugin"
       "metarocq-pcuic"
@@ -234,7 +234,10 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metarocq-safechecker"
       "metarocq-safechecker-plugin"
       "metarocq-template-pcuic"
+      "metarocq-template-rocq"
       "metarocq-test"
+      "metarocq-translations"
+      "metarocq-utils"
       "rewriter"
       "riscvcoq"
       "rupicola"
@@ -249,7 +252,7 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      coq-elpi.override.version = "master";
+      # coq-elpi.override.version = "master";
       coq-elpi.override.elpi-version = "3.6.2";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
@@ -258,6 +261,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       CakeMLExtraction.job = false;  # not in Rocq CI
+      verified-extraction.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
       CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
@@ -280,12 +284,28 @@ with builtins; with (import <nixpkgs> {}).lib;
       #   for a complete list of Coq packages available in Nix
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
+      micromega-plugin.override.version = "tify";
+      bedrock2.override.version = "proux01:stdlib251";
+      coq-elpi.override.version = "proux01:stdlib251";
+      coqutil.override.version = "proux01:stdlib251";
+      itauto.override.version = "proux01:stdlib251";
+      equations.override.version = "proux01:stdlib251";
+      equations-test.override.version = "proux01:stdlib251";
+      smtcoq.override.version = "proux01:stdlib251";
+      metarocq.override.version = "proux01:stdlib251";
+      metarocq-test.override.version = "proux01:stdlib251";
+      waterproof.override.version = "proux01:stdlib251";
       sf.job = false;  # temporarily disactivated in Rocq CI
       trakt.job = false;  # temporarily disactivated in Rocq CI
       smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
-      { name = p; value.override.version = "master"; }));
+      { name = p; value.override.version = "master"; }))
+    // {
+      micromega-plugin.override.version = "tify";
+      rocq-elpi.override.version = "proux01:stdlib251";
+      rocq-elpi-test.override.version = "proux01:stdlib251";
+    };
   in {
     "rocq-master" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "master";
@@ -311,7 +331,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       dpdgraph-test.override.version = "7a0fba21287dd8889c55e6611f8ba219d012b81b";
       coq-hammer.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
       coq-hammer-tactics.override.version = "1d581299c2a85af175b53bd35370ea074af922ec";
-      equations.override.version = "757662b9c875d7169a07b861d48e82157520ab1a";
+      equations.job = false;
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
       metarocq.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
@@ -321,11 +341,13 @@ with builtins; with (import <nixpkgs> {}).lib;
       relation-algebra.override.version = "ba3db5783060d9e25d1db5e377fc9d71338a5160";
       rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
       rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
-      smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
+      # smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
+      smtcoq.job = false;
       # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
-      waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
+      # waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
+      waterproof.job = false;
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
@@ -346,21 +368,21 @@ with builtins; with (import <nixpkgs> {}).lib;
       dpdgraph-test.override.version = "7817def06d4e3abc2e54a2600cf6e29d63d58b8a";
       coq-hammer.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
       coq-hammer-tactics.override.version = "8649603dcbac5d92eaf1319a6b7cdfc65cdd804b";
-      equations.override.version = "2137c8e7081f2d47ab903de0cc09fd6a05bfab01";
+      equations.job = false;
       equations-test.job = false;
       fiat-parsers.job = false;  # broken
-      metarocq.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
-      metarocq-test.override.version = "2995003b88f3812e5649cfdd0f9a4c44ceaf0700";
       mtac2.override.version = "bcbefa79406fc113f878eb5f89758de241d81433";
       paramcoq-test.override.version = "937537d416bc5f7b81937d4223d7783d0e687239";
       relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
-      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      # smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      smtcoq.job = false;
       # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
-      waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
+      # waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
+      waterproof.job = false;
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
