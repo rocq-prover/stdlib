@@ -99,8 +99,6 @@ with builtins; with (import <nixpkgs> {}).lib;
 
     rocq-master = [
       "bignums"
-      "rocq-elpi"
-      "rocq-elpi-test"
       "hierarchy-builder"
       "mathcomp"
       "mathcomp-algebra"
@@ -249,12 +247,11 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      coq-elpi.override.version = "master";
-      coq-elpi.override.elpi-version = "3.6.2";
       tlc.override.version = "master-for-coq-ci";
       smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
+      rocq-elpi.job = true;
       iris-examples.job = false;  # Currently broken
       jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       CakeMLExtraction.job = false;  # not in Rocq CI
@@ -262,6 +259,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
       ElmExtraction.job = false;  # not in Rocq CI
+      Ordinal.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
@@ -271,6 +269,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       TypedExtraction-elm.job = false;  # not in Rocq CI
       TypedExtraction-plugin.job = false;  # not in Rocq CI
       TypedExtraction-rust.job = false;  # not in Rocq CI
+      verified-extraction.job = false;  # not in Rocq CI
       # To add a simple overlay applying to all bundles,
       # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -290,8 +289,11 @@ with builtins; with (import <nixpkgs> {}).lib;
     "rocq-master" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "master";
       stdlib-test.job = true;
+      rocq-elpi.override.version = "master";
+      rocq-elpi-test.override.version = "master";
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
+      coq-elpi.override.version = "master";
     }; };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
