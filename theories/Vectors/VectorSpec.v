@@ -18,22 +18,25 @@ Attributes warn(cats="stdlib vector", note="Using Vector.t is known to be techni
    Institution: PPS, INRIA 12/2010
 *)
 
-#[local] Set Warnings "-stdlib-vector".
+#[local] Set Warnings "-stdlib-vector,deprecated".
 From Stdlib Require Fin List.
-From Stdlib Require Import VectorDef PeanoNat Eqdep_dec.
+From Stdlib Require Import Vector92 VectorFin VectorDef PeanoNat Eqdep_dec.
 Import VectorNotations EqNotations.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this definition, please open an issue.")]
 Definition cons_inj {A} {a1 a2} {n} {v1 v2 : t A n}
  (eq : a1 :: v1 = a2 :: v2) : a1 = a2 /\ v1 = v2 :=
    match eq in _ = x return caseS _ (fun a2' _ v2' => fun v1' => a1 = a2' /\ v1' = v2') x v1
    with | eq_refl => conj eq_refl eq_refl
    end.
 
+#[deprecated(since="9.1", use=Vector92.inj_0)]
 Lemma nil_spec {A} (v : t A 0) : v = [].
 Proof.
 apply (fun P E => case0 P E v). reflexivity.
 Defined.
 
+#[deprecated(since="9.1", use=Vector92.inj_S)]
 Lemma eta {A} {n} (v : t A (S n)) : v = hd v :: tl v.
 Proof.
 apply (fun P IS => caseS P IS (n := n) v); intros; reflexivity.
@@ -44,23 +47,33 @@ is true for the one that use [lt] *)
 
 (** ** Properties of [nth] and [nth_order] *)
 
+Lemma getFin_inj [A n] (v w : t A n)
+  (H : forall i, VectorFin.getFin v i = VectorFin.getFin w i) : v = w.
+Proof.
+  apply Vector92.to_list_inj, List.nth_error_ext; intros i.
+  case (Nat.ltb_spec i n) as [Hi|].
+  { rewrite <-(Fin92.to_nat_of_nat i n Hi), !VectorFin.nth_error_to_list; auto using f_equal. }
+  { rewrite 2 (proj2 (List.nth_error_None _ _)); rewrite ?Vector92.length_to_list; auto. }
+Qed.
+
+Lemma getFin_inj_iff [A n] (v w : t A n) :
+  (forall i, VectorFin.getFin v i = VectorFin.getFin w i) <-> v = w.
+Proof. split; [apply getFin_inj | intros ->; auto]. Qed.
+
+#[deprecated(since="9.1", use=getFin_inj_iff)]
 Lemma eq_nth_iff A n (v1 v2: t A n):
   (forall p1 p2, p1 = p2 -> v1 [@ p1 ] = v2 [@ p2 ]) <-> v1 = v2.
 Proof.
-split.
-- revert n v1 v2; refine (@rect2 _ _ _ _ _).
-  + reflexivity.
-  + intros n ? ? H ? ? H0. f_equal.
-    * apply (H0 Fin.F1 Fin.F1 eq_refl).
-    * apply H. intros p1 p2 H1;
-        apply (H0 (Fin.FS p1) (Fin.FS p2) (f_equal (@Fin.FS n) H1)).
-- intros; now f_equal.
+  rewrite <-getFin_inj_iff; repeat setoid_rewrite nth_92.
+  split; intros; subst; eauto.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_order_hd A: forall n (v : t A (S n)) (H : 0 < S n),
   nth_order v H = hd v.
 Proof. intros n v H; now rewrite (eta v). Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_order_tl A: forall n k (v : t A (S n)) (H : k < n) (HS : S k < S n),
   nth_order (tl v) H = nth_order v HS.
 Proof.
@@ -71,12 +84,14 @@ intros n; induction n; intros k v H HS.
   now rewrite (Fin.of_nat_ext H (proj2 (Nat.succ_lt_mono _ _) HS)).
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_order_last A: forall n (v: t A (S n)) (H: n < S n),
   nth_order v H = last v.
 Proof.
 unfold nth_order; refine (@rectS _ _ _ _); now simpl.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_order_ext A: forall n k (v : t A n) (H1 H2 : k < n),
   nth_order v H1 = nth_order v H2.
 Proof.
@@ -84,6 +99,7 @@ intros n k v H1 H2; unfold nth_order.
 now rewrite (Fin.of_nat_ext H1 H2).
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_append_L A: forall n m (v : t A n) (w : t A m) p,
   (v ++ w) [@ Fin.L m p] = v [@ p].
 Proof.
@@ -92,12 +108,14 @@ intros n m v w. induction v as [|a n v IH].
 - intros p. now apply (Fin.caseS' p).
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma nth_append_R A: forall n m (v : t A n) (w : t A m) p,
   (v ++ w) [@ Fin.R n p] = w [@ p].
 Proof.
 intros n m v w. now induction v.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma In_nth A: forall n (v : t A n) p,
   In (nth v p) v.
 Proof.
@@ -178,6 +196,7 @@ apply (Fin.rect2 (fun n p1 p2 => forall v a b,
     f_equal; apply IH; intros Heq; apply Hneq; now subst.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma replace_append_L A: forall n m (v : t A n) (w : t A m) p a,
   replace (v ++ w) (Fin.L m p) a = (replace v p a) ++ w.
 Proof.
@@ -188,6 +207,7 @@ intros n m v w p a. induction v as [|b n v IH].
   + intros p'. cbn. apply f_equal, IH.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma replace_append_R A: forall n m (v : t A n) (w : t A m) p a,
   replace (v ++ w) (Fin.R n p) a = v ++ (replace w p a).
 Proof.
@@ -203,6 +223,7 @@ Proof.
 now induction p.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.app_repeat_repeat)]
 Lemma append_const A (a : A) n m : (const a n) ++ (const a m) = const a (n + m).
 Proof.
 induction n as [|n IH].
@@ -212,18 +233,21 @@ Qed.
 
 (** ** Properties of [map] *)
 
+#[deprecated(since="9.1", use=Vector92.map_rev)]
 Lemma map_id A: forall n (v : t A n),
   map (fun x => x) v = v.
 Proof.
 intros n v; induction v as [|? ? v IHv]; simpl; [ | rewrite IHv ]; auto.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_map)]
 Lemma map_map A B C: forall (f:A->B) (g:B->C) n (v : t A n),
   map g (map f v) = map (fun x => g (f x)) v.
 Proof.
 intros f g n v; induction v as [|? ? v IHv]; simpl; [ | rewrite IHv ]; auto.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_ext_in)]
 Lemma map_ext_in A B: forall (f g:A->B) n (v : t A n),
   (forall a, In a v -> f a = g a) -> map f v = map g v.
 Proof.
@@ -232,6 +256,7 @@ intros f g n v H; induction v as [|? ? v IHv].
 - cbn. now f_equal; [|apply IHv; intros ??]; apply H; [left|right].
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_ext)]
 Lemma map_ext A B: forall (f g:A->B), (forall a, f a = g a) ->
   forall n (v : t A n), map f v = map g v.
 Proof.
@@ -246,6 +271,7 @@ subst p2; induction p1 as [n|n p1 IHp1].
 - revert n v p1 IHp1; refine (@caseS _  _ _); now simpl.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_app)]
 Lemma map_append A B: forall (f:A->B) n m (v: t A n) (w: t A m),
   (map f (v ++ w)) = map f v ++ map f w.
 Proof.
@@ -324,6 +350,7 @@ Qed.
 
 (** ** Properties of [uncons] and [splitat] *)
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma uncons_cons {A} : forall {n : nat} (a : A) (v : t A n),
   uncons (a::v) = (a,v).
 Proof. reflexivity. Qed.
@@ -500,6 +527,7 @@ Qed.
 
 (** ** Properties of [shiftin] and [shiftrepeat] *)
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma shiftin_nth A a n (v: t A n) k1 k2 (eq: k1 = k2):
   nth (shiftin a v) (Fin.L_R 1 k1) = nth v k2.
 Proof.
@@ -513,6 +541,7 @@ Proof.
 induction v; now simpl.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma shiftrepeat_nth A: forall n k (v: t A (S n)),
   nth (shiftrepeat v) (Fin.L_R 1 k) = nth v k.
 Proof.
@@ -523,11 +552,13 @@ apply (fun P P0 PS => Fin.rectS P P0 PS k); clear n k.
 - intros n k IH v. rewrite (eta v). apply IH.
 Qed.
 
+#[deprecated(since="9.1", note="If you would like stdlib to keep this lemma, please open an issue.")]
 Lemma shiftrepeat_last A: forall n (v: t A (S n)), last (shiftrepeat v) = last v.
 Proof.
 refine (@rectS _ _ _ _); now simpl.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_snoc)]
 Lemma map_shiftin A B: forall (f : A -> B) a n (v : t A n),
   map f (shiftin a v) = shiftin (f a) (map f v).
 Proof.
@@ -536,6 +567,7 @@ intros f a n v. induction v as [|b n v IH].
 - cbn. apply f_equal, IH.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.fold_right_snoc)]
 Lemma fold_right_shiftin A B: forall (f : A -> B -> B) a b n (v : t A n),
   fold_right f (shiftin b v) a = fold_right f v (f b a).
 Proof.
@@ -562,12 +594,14 @@ Qed.
 
 (** ** Properties of [rev] *)
 
+#[deprecated(since="9.1", use=Vector92.rev_nil)]
 Lemma rev_nil A: rev (nil A) = [].
 Proof.
 unfold rev, rev_append.
 now rewrite (UIP_refl_nat _ (plus_n_O 0)), (UIP_refl_nat _ (Nat.tail_add_spec 0 0)).
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.rev_cons)]
 Lemma rev_cons A: forall a n (v : t A n), rev (a :: v) = shiftin a (rev v).
 Proof.
 intros a n v. unfold rev, rev_append, eq_rect_r.
@@ -580,6 +614,7 @@ induction v as [|b n v IH]; intros m w k E1 E2; cbn.
 - apply (IH _ (b :: w)).
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.rev_snoc)]
 Lemma rev_shiftin A: forall a n (v : t A n),
   rev (shiftin a v) = a :: rev v.
 Proof.
@@ -588,6 +623,7 @@ intros a n v. induction v as [|b n v IH]; cbn.
 - now rewrite !rev_cons, IH.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.rev_rev)]
 Lemma rev_rev A: forall n (v : t A n), rev (rev v) = v.
 Proof.
 intros n v. induction v as [|a n v IH].
@@ -595,6 +631,7 @@ intros n v. induction v as [|a n v IH].
 - now rewrite rev_cons, rev_shiftin, IH.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.map_rev)]
 Lemma map_rev A B: forall (f : A -> B) n (v : t A n),
   map f (rev v) = rev (map f v).
 Proof.
@@ -603,6 +640,7 @@ intros f n v. induction v as [|a n v IH]; cbn.
 - now rewrite !rev_cons, map_shiftin, IH.
 Qed.
 
+#[deprecated(since="9.1", use=Vector92.fold_right_rev)]
 Lemma fold_left_rev_right A B: forall (f:A->B->B) n (v : t A n) a,
   fold_right f (rev v) a = fold_left (fun x y => f y x) a v.
 Proof.
@@ -629,12 +667,9 @@ Qed.
 
 (** ** Properties of [to_list] *)
 
+#[deprecated(since="9.1", use=to_list_of_list)]
 Lemma to_list_of_list_opp {A} (l: list A): to_list (of_list l) = l.
-Proof.
-induction l.
-- reflexivity.
-- unfold to_list; simpl. now f_equal.
-Qed.
+Proof. rewrite to_list_92, of_list_92; apply to_list_of_list. Qed.
 
 Lemma length_to_list A n (v : t A n): length (to_list v) = n.
 Proof. induction v; cbn; auto. Qed.
@@ -709,12 +744,10 @@ Lemma to_list_tl A n (v : t A (S n)):
   to_list (tl v) = List.tl (to_list v).
 Proof. now rewrite (eta v). Qed.
 
+#[deprecated(since="9.1", use=to_list_app)]
 Lemma to_list_append A n m (v1 : t A n) (v2 : t A m):
   to_list (append v1 v2) = List.app (to_list v1) (to_list v2).
-Proof.
-induction v1; simpl; trivial.
-now rewrite to_list_cons; f_equal.
-Qed.
+Proof. rewrite !to_list_92, append_92, to_list_app; trivial. Qed.
 
 Lemma to_list_rev_append_tail A n m (v1 : t A n) (v2 : t A m):
   to_list (rev_append_tail v1 v2) = List.rev_append (to_list v1) (to_list v2).

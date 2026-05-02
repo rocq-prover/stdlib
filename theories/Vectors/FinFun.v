@@ -9,7 +9,7 @@
 (************************************************************************)
 
 (** An example of finite type : [Fin.t] *)
-#[local] Set Warnings "-stdlib-vector".
+#[local] Set Warnings "-stdlib-vector,-deprecated".
 Set Implicit Arguments.
 From Stdlib Require Import PeanoNat Compare_dec List Finite Fin Permutation.
 Export Finite. (* compat 9.0 *)
