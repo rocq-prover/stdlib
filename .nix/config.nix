@@ -99,17 +99,6 @@ with builtins; with (import <nixpkgs> {}).lib;
 
     rocq-master = [
       "bignums"
-      "hierarchy-builder"
-      "mathcomp"
-      "mathcomp-algebra"
-      "mathcomp-bigenough"
-      "mathcomp-boot"
-      "mathcomp-character"
-      "mathcomp-field"
-      "mathcomp-fingroup"
-      "mathcomp-finmap"
-      "mathcomp-order"
-      "mathcomp-solvable"
     ];
     master = [
       "aac-tactics"
@@ -156,7 +145,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "kami"
       "mathcomp-algebra-tactics"
       "mathcomp-analysis"
-      "mathcomp-classical"
       "mathcomp-reals"
       "mathcomp-zify"
       "math-classes"
@@ -186,7 +174,6 @@ with builtins; with (import <nixpkgs> {}).lib;
     coq-master = [
       "dpdgraph-test"
       "smtcoq"
-      "trakt"
       "waterproof"
     ];
     main = [
@@ -248,7 +235,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       { name = p; value.override.version = "main"; }))
     // {
       tlc.override.version = "master-for-coq-ci";
-      smtcoq-trakt.override.version = "with-trakt-coq-master";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       rocq-elpi.job = true;
@@ -258,18 +244,35 @@ with builtins; with (import <nixpkgs> {}).lib;
       ceres-bs.job = false;  # not in Rocq CI
       CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
+      coqeal.job = false;  # not in Rocq CI
       ElmExtraction.job = false;  # not in Rocq CI
+      extructures.job = false;  # not in Rocq CI
+      gaia.job = false;  # not in Rocq CI
+      graph-theory.job = false;  # not in Rocq CI
+      libvalidsdp.job = false;  # not in Rocq CI
       Ordinal.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
       LibHyps.job = false;  # not in Rocq CI
+      reglang.job = false;  # not in Rocq CI
+      ssprove.job = false;  # not in Rocq CI
       TypedExtraction.job = false;  # not in Rocq CI
       TypedExtraction-common.job = false;  # not in Rocq CI
       TypedExtraction-elm.job = false;  # not in Rocq CI
       TypedExtraction-plugin.job = false;  # not in Rocq CI
       TypedExtraction-rust.job = false;  # not in Rocq CI
+      validsdp.job = false;  # not in Rocq CI
       verified-extraction.job = false;  # not in Rocq CI
+      wasmcert.job = false;  # not in Rocq CI
+      hierarchy-builder.job = false;  # not a reverse dependency of Stdlib
+      mathcomp-order.job = false;  # not a reverse dependency of Stdlib
+      mathcomp-fingroup.job = false;  # not a reverse dependency of Stdlib
+      mathcomp-algebra.job = true;  # dependency of analysis
+      mathcomp-solvable.job = false;  # not a reverse dependency of Stdlib
+      mathcomp-character.job = false;  # not a reverse dependency of Stdlib
+      mathcomp-field.job = true;  # dependency of analysis
+      mathcomp.job = false;  # not a reverse dependency of Stdlib
       # To add a simple overlay applying to all bundles,
       # add, just below this comment, a line like
       #<package>.override.version = "<github_login>:<branch>";
@@ -291,9 +294,17 @@ with builtins; with (import <nixpkgs> {}).lib;
       stdlib-test.job = true;
       rocq-elpi.override.version = "master";
       rocq-elpi-test.override.version = "master";
+      hierarchy-builder.override.version = "master";
+      mathcomp.override.version = "master";
+      mathcomp-bigenough.override.version = "master";
+      mathcomp-finmap.override.version = "master";
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
       coq-elpi.override.version = "master";
+      hierarchy-builder.override.version = "master";
+      mathcomp.override.version = "master";
+      mathcomp-bigenough.override.version = "master";
+      mathcomp-finmap.override.version = "master";
     }; };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
@@ -302,6 +313,29 @@ with builtins; with (import <nixpkgs> {}).lib;
       # plugin pins, from v9.2 branch of Rocq
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       stdlib-test.job = false;
+      autosubst.job = false;  # no release for 9.2 yet
+      async-test.job = false;  # no release for 9.2 yet
+      coquelicot.job = false;  # no release for 9.2 yet
+      deriving.job = false;  # no release for 9.2 yet
+      fcsl-pcm.job = false;  # no release for 9.2 yet
+      hierarchy-builder.job = false;  # no release for 9.2 yet
+      http.job = false;  # no release for 9.2 yet
+      mathcomp.job = false;  # no release for 9.2 yet
+      mathcomp-algebra.job = false;  # no release for 9.2 yet
+      mathcomp-algebra-tactics.job = false;  # no release for 9.2 yet
+      mathcomp-analysis.job = false;  # no release for 9.2 yet
+      mathcomp-analysis-stdlib.job = false;  # no release for 9.2 yet
+      mathcomp-field.job = false;  # no release for 9.2 yet
+      mathcomp-reals.job = false;  # no release for 9.2 yet
+      mathcomp-reals-stdlib.job = false;  # no release for 9.2 yet
+      mathcomp-word.job = false;  # no release for 9.2 yet
+      mathcomp-zify.job = false;  # no release for 9.2 yet
+      mathcomp-finmap.job = false;  # no release for 9.2 yet
+      mathcomp-bigenough.job = false;  # no release for 9.2 yet
+      QuickChick.job = false;  # no release for 9.2 yet
+      quickchick-test.job = false;  # no release for 9.2 yet
+      relation-algebra.job = false;  # no release for 9.2 yet
+      Verdi.job = false;  # no release for 9.2 yet
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.2";
       # plugin pins, from v9.2 branch of Rocq
@@ -324,7 +358,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
       rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
       smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
-      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
       waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
@@ -359,7 +392,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      # smtcoq-trakt.override.version = "9392f7446a174b770110445c155a07b183cdca3d";
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
       waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
