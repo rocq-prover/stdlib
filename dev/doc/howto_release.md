@@ -1,6 +1,7 @@
 * generate changelog with dev/tools/generate-release-changelog.sh
   and update doc/sphinx/changes.rst accordingly
 * update doc/sphinx/conf.py (particularly is_a_released_version)
+* update theories/Version.v
 * check the result of "make refman-html"
   (in _build/default/doc/refman-html)
 * if need be, update supported versions of Rocq in .nix/config.nix
