@@ -220,10 +220,12 @@ Variables a1 a2 : A.
 Definition A' := @sigT A (fun x => x=a1 \/ x=a2).
 
 Definition a1':A'.
+Proof.
 exists a1 ; auto.
 Defined.
 
 Definition a2':A'.
+Proof.
 exists a2 ; auto.
 Defined.
 

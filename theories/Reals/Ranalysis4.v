@@ -384,6 +384,7 @@ Proof.
 Qed.
 
 Lemma sinh_lt : forall x y, x < y -> sinh x < sinh y.
+Proof.
 intros x y xy; destruct (MVT_cor2 sinh cosh x y xy) as [c [Pc _]].
 - intros; apply derivable_pt_lim_sinh.
 - apply Rplus_lt_reg_l with (Ropp (sinh x)); rewrite Rplus_opp_l, Rplus_comm.

@@ -25,6 +25,7 @@ abstract (compute; discriminate).
 Defined.
 
 Add Morphism Qabs with signature Qeq ==> Qeq as Qabs_wd.
+Proof.
 intros [xn xd] [yn yd] H.
 simpl.
 unfold Qeq in *.
@@ -58,6 +59,7 @@ apply Qabs_case.
 Qed.
 
 Lemma Qabs_nonneg : forall x, 0 <= (Qabs x).
+Proof.
 intros x.
 apply Qabs_case.
 - auto.

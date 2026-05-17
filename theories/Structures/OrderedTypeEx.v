@@ -206,6 +206,7 @@ Module PairOrderedType(O1 O2:OrderedType) <: OrderedType.
  Qed.
 
  Definition compare : forall x y : t, Compare lt eq x y.
+ Proof.
  intros (x1,x2) (y1,y2).
  destruct (O1.compare x1 y1).
  - apply LT; unfold lt; auto.

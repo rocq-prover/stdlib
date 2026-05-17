@@ -42,6 +42,7 @@ Inductive Power_set (A:Ensemble U) : Ensemble (Ensemble U) :=
 Hint Resolve Definition_of_Power_set : core.
 
 Theorem Empty_set_minimal : forall X:Ensemble U, Included U (Empty_set U) X.
+Proof.
 intro X; red.
 intros x H'; elim H'.
 Qed.
@@ -50,6 +51,7 @@ Hint Resolve Empty_set_minimal : core.
 
 Theorem Power_set_Inhabited :
  forall X:Ensemble U, Inhabited (Ensemble U) (Power_set X).
+Proof.
 intro X.
 apply Inhabited_intro with (Empty_set U); auto with sets.
 Qed.
@@ -57,18 +59,21 @@ Qed.
 Hint Resolve Power_set_Inhabited : core.
 
 Theorem Inclusion_is_an_order : Order (Ensemble U) (Included U).
+Proof.
 auto 6 with sets.
 Qed.
 #[local]
 Hint Resolve Inclusion_is_an_order : core.
 
 Theorem Inclusion_is_transitive : Transitive (Ensemble U) (Included U).
+Proof.
 elim Inclusion_is_an_order; auto with sets.
 Qed.
 #[local]
 Hint Resolve Inclusion_is_transitive : core.
 
 Definition Power_set_PO : Ensemble U -> PO (Ensemble U).
+Proof.
 intro A; try assumption.
 apply Definition_of_PO with (Power_set A) (Included U); auto with sets.
 Defined.
@@ -78,6 +83,7 @@ Hint Unfold Power_set_PO : core.
 Theorem Strict_Rel_is_Strict_Included :
  same_relation (Ensemble U) (Strict_Included U)
    (Strict_Rel_of (Ensemble U) (Power_set_PO (Full_set U))).
+Proof.
 auto with sets.
 Qed.
 #[local]
@@ -86,6 +92,7 @@ Hint Resolve Strict_Rel_Transitive Strict_Rel_is_Strict_Included : core.
 Lemma Strict_inclusion_is_transitive_with_inclusion :
  forall x y z:Ensemble U,
    Strict_Included U x y -> Included U y z -> Strict_Included U x z.
+Proof.
 intros x y z H' H'0; try assumption.
 elim Strict_Rel_is_Strict_Included.
 unfold contains.
@@ -97,6 +104,7 @@ Qed.
 Lemma Strict_inclusion_is_transitive_with_inclusion_left :
  forall x y z:Ensemble U,
    Included U x y -> Strict_Included U y z -> Strict_Included U x z.
+Proof.
 intros x y z H' H'0; try assumption.
 elim Strict_Rel_is_Strict_Included.
 unfold contains.
@@ -107,6 +115,7 @@ Qed.
 
 Lemma Strict_inclusion_is_transitive :
  Transitive (Ensemble U) (Strict_Included U).
+Proof.
 apply cong_transitive_same_relation with
  (R := Strict_Rel_of (Ensemble U) (Power_set_PO (Full_set U)));
  auto with sets.
@@ -114,6 +123,7 @@ Qed.
 
 Theorem Empty_set_is_Bottom :
  forall A:Ensemble U, Bottom (Ensemble U) (Power_set_PO A) (Empty_set U).
+Proof.
 intro A; apply Bottom_definition; simpl; auto with sets.
 Qed.
 #[local]
@@ -122,6 +132,7 @@ Hint Resolve Empty_set_is_Bottom : core.
 Theorem Union_minimal :
  forall a b X:Ensemble U,
    Included U a X -> Included U b X -> Included U (Union U a b) X.
+Proof.
 intros a b X H' H'0; red.
 intros x H'1; elim H'1; auto with sets.
 Qed.
@@ -131,25 +142,30 @@ Hint Resolve Union_minimal : core.
 Theorem Intersection_maximal :
  forall a b X:Ensemble U,
    Included U X a -> Included U X b -> Included U X (Intersection U a b).
+Proof.
 auto with sets.
 Qed.
 
 Theorem Union_increases_l : forall a b:Ensemble U, Included U a (Union U a b).
+Proof.
 auto with sets.
 Qed.
 
 Theorem Union_increases_r : forall a b:Ensemble U, Included U b (Union U a b).
+Proof.
 auto with sets.
 Qed.
 
 Theorem Intersection_decreases_l :
  forall a b:Ensemble U, Included U (Intersection U a b) a.
+Proof.
 intros a b; red.
 intros x H'; elim H'; auto with sets.
 Qed.
 
 Theorem Intersection_decreases_r :
  forall a b:Ensemble U, Included U (Intersection U a b) b.
+Proof.
 intros a b; red.
 intros x H'; elim H'; auto with sets.
 Qed.
@@ -162,6 +178,7 @@ Theorem Union_is_Lub :
    Included U a A ->
    Included U b A ->
    Lub (Ensemble U) (Power_set_PO A) (Couple (Ensemble U) a b) (Union U a b).
+Proof.
 intros A a b H' H'0.
 apply Lub_definition; simpl.
 - apply Upper_Bound_definition; simpl; auto with sets.
@@ -175,6 +192,7 @@ Theorem Intersection_is_Glb :
    Included U b A ->
    Glb (Ensemble U) (Power_set_PO A) (Couple (Ensemble U) a b)
      (Intersection U a b).
+Proof.
 intros A a b H' H'0.
 apply Glb_definition; simpl.
 - apply Lower_Bound_definition; simpl; auto with sets.

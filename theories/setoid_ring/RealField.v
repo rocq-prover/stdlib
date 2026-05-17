@@ -82,6 +82,7 @@ apply Rlt_trans with (0 + 1).
 Qed.
 
 Lemma Rgen_phiPOS : forall x, InitialRing.gen_phiPOS1 1 Rplus Rmult x > 0.
+Proof.
 unfold Rgt.
 induction x; simpl; intros.
 - apply Rlt_trans with (1 + 0).
@@ -106,6 +107,7 @@ Qed.
 
 Lemma Rgen_phiPOS_not_0 :
   forall x, InitialRing.gen_phiPOS1 1 Rplus Rmult x <> 0.
+Proof.
 red; intros.
 specialize (Rgen_phiPOS x).
 rewrite H; intro.

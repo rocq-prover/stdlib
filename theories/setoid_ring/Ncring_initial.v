@@ -200,6 +200,7 @@ Declare Equivalent Keys bracket gen_phiZ.
 (*proof that [.] satisfies morphism specifications*)
 #[global] Instance gen_phiZ_morph :
 (@Ring_morphism (Z:Type) R _ _ _ _ _ _ _ Zops Zr _ _ _ _ _ _ _ _ _ gen_phiZ) . (* beurk!*)
+Proof.
  apply Build_Ring_morphism; simpl;try reflexivity.
 - apply gen_phiZ_add.
 - intros. rewrite ring_sub_def.

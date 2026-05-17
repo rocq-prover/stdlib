@@ -1132,6 +1132,7 @@ lra.
 Qed.
 
 Definition mkposreal_lb_ub (x lb ub:R) (lb_lt_x:lb<x) (x_lt_ub:x<ub) : posreal.
+Proof.
  apply (mkposreal ((ub-lb)/2) (ub_lt_2_pos x ub lb lb_lt_x x_lt_ub)).
 Defined.
 (* end hide *)

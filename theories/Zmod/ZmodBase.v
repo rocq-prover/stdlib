@@ -272,7 +272,7 @@ Lemma unsigned_1_pos [m] (Hm : 2 <= m) : @to_Z m one = 1.
 Proof. cbv [one]; rewrite to_Z_of_Z_small; lia. Qed.
 Notation to_Z_1_pos := unsigned_1_pos (only parsing).
 
-Lemma unsigned_1_1 : @to_Z 1 one = 0. trivial. Qed.
+Lemma unsigned_1_1 : @to_Z 1 one = 0. Proof. trivial. Qed.
 Notation to_Z_1_1 := unsigned_1_1 (only parsing).
 
 Lemma unsigned_1_neg [m] (Hm : m <= 0) : @to_Z m one = m+1.

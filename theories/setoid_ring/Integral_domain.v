@@ -24,6 +24,7 @@ Section integral_domain.
 Context {R:Type}`{Rid:Integral_domain R}.
 
 Lemma integral_domain_minus_one_zero: ~ - (1:R) == 0.
+Proof.
 red;intro. apply integral_domain_one_zero.
 assert (0 == - (0:R)).
 - cring.
@@ -34,6 +35,7 @@ Qed.
 Definition pow (r : R) (n : nat) := Ring_theory.pow_N 1 mul r (N.of_nat n).
 
 Lemma pow_not_zero: forall p n, pow p n == 0 -> p == 0.
+Proof.
   induction n.
   - unfold pow; simpl. intros. absurd (1 == 0).
     + simpl. apply integral_domain_one_zero.
@@ -54,6 +56,7 @@ Qed.
 
 Lemma Rintegral_domain_pow:
   forall c p r, ~c == 0 -> c * (pow p r) == ring0 -> p == ring0.
+Proof.
   intros. case (integral_domain_product c (pow p r) H0).
   - intros; absurd (c == ring0); auto.
   - intros. apply pow_not_zero with r. trivial.

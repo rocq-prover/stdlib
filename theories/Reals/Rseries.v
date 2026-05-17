@@ -401,6 +401,7 @@ Qed.
 (* Convergence is preserved after shifting the indices. *)
 Lemma CV_shift :
   forall f k l, Un_cv (fun n => f (n + k)%nat) l -> Un_cv f l.
+Proof.
 intros f' k l cvfk eps ep; destruct (cvfk eps ep) as [N Pn].
 exists (N + k)%nat; intros n nN; assert (tmp: (n = (n - k) + k)%nat).
 - rewrite Nat.sub_add;[ | apply Nat.le_trans with (N + k)%nat]; auto with arith.
@@ -409,6 +410,7 @@ Qed.
 
 Lemma CV_shift' :
   forall f k l, Un_cv f l -> Un_cv (fun n => f (n + k)%nat) l.
+Proof.
 intros f' k l cvf eps ep; destruct (cvf eps ep) as [N Pn].
 exists N; intros n nN; apply Pn; auto with arith.
 Qed.

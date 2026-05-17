@@ -194,6 +194,7 @@ apply IZR_lt; reflexivity.
 Qed.
 
 Definition PI_2_aux : {z | 7/8 <= z <= 7/4 /\ -cos z = 0}.
+Proof.
 assert (cc : continuity (fun r =>- cos r)). {
   apply continuity_opp, continuity_cos.
 }
@@ -221,11 +222,13 @@ Definition PI2 := proj1_sig PI_2_aux.
 Definition PI := 2 * PI2.
 
 Lemma cos_pi2 : cos PI2 = 0.
+Proof.
 unfold PI2; case PI_2_aux; simpl.
 intros x [_ q]; rewrite <- (Ropp_involutive (cos x)), q; apply Ropp_0.
 Qed.
 
 Lemma pi2_int : 7/8 <= PI2 <= 7/4.
+Proof.
 unfold PI2; case PI_2_aux; simpl; tauto.
 Qed.
 
@@ -263,6 +266,7 @@ Proof.
 Qed.
 
 Lemma sin_pos_tech : forall x, 0 < x < 2 -> 0 < sin x.
+Proof.
 intros x [int1 int2].
 assert (lo : 0 <= x) by (apply Rlt_le; assumption).
 assert (up : x <= 4) by (apply Rlt_le, Rlt_trans with (1:=int2); lra).
@@ -280,6 +284,7 @@ apply Rmult_lt_0_compat;[assumption | lra ].
 Qed.
 
 Lemma sin_PI2 : sin (PI / 2) = 1.
+Proof.
 replace (PI / 2) with PI2 by (unfold PI; field).
 assert (int' : 0 < PI2 < 2). {
  destruct pi2_int; split; lra.

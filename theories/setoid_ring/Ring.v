@@ -16,6 +16,7 @@ From Stdlib Require Export Ring_tac.
 
 Lemma BoolTheory :
   ring_theory false true xorb andb xorb (fun b:bool => b) (eq(A:=bool)).
+Proof.
 split; simpl.
 - intros x; destruct x; reflexivity.
 - intros x y; destruct x; destruct y; reflexivity.
@@ -32,6 +33,7 @@ Definition bool_eq (b1 b2:bool) :=
   if b1 then b2 else negb b2.
 
 Lemma bool_eq_ok : forall b1 b2, bool_eq b1 b2 = true -> b1 = b2.
+Proof.
 intros b1 b2; destruct b1; destruct b2; auto.
 Qed.
 

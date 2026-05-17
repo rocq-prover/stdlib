@@ -209,6 +209,7 @@ Section first_definitions.
 
   Lemma set_add_elim2 :
    forall (a b:A) (x:set), set_In a (set_add b x) -> a <> b -> set_In a x.
+  Proof.
    intros a b x H; case (set_add_elim _ _ _ H); intros; trivial.
    case H1; trivial.
    Qed.
@@ -339,11 +340,13 @@ Section first_definitions.
 
   Lemma set_union_emptyL :
    forall (a:A) (x:set), set_In a (set_union empty_set x) -> set_In a x.
+  Proof.
     intros a x H; case (set_union_elim _ _ _ H); auto || contradiction.
   Qed.
 
   Lemma set_union_emptyR :
    forall (a:A) (x:set), set_In a (set_union x empty_set) -> set_In a x.
+  Proof.
     intros a x H; case (set_union_elim _ _ _ H); auto || contradiction.
   Qed.
 
@@ -439,6 +442,7 @@ Section first_definitions.
 
   Lemma set_diff_elim2 :
    forall (a:A) (x y:set), set_In a (set_diff x y) -> ~ set_In a y.
+  Proof.
   intros a x y; elim x; simpl.
   - intros; contradiction.
   - intros a0 l Hrec.
@@ -462,6 +466,7 @@ Section first_definitions.
   Qed.
 
   Lemma set_diff_trivial : forall (a:A) (x:set), ~ set_In a (set_diff x x).
+  Proof.
   red; intros a x H.
   apply (set_diff_elim2 _ _ _ H).
   apply (set_diff_elim1 _ _ _ H).

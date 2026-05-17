@@ -72,6 +72,7 @@ Section Integers_sect.
   Qed.
 
   Definition nat_po : PO nat.
+  Proof.
     apply Definition_of_PO with (Carrier_of := Integers) (Rel_of := le);
       auto with sets arith.
     - apply Inhabited_intro with (x := 0).

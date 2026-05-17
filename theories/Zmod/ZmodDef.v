@@ -26,6 +26,7 @@ Arguments Private_to_Z {m}.
 #[global] Add Printing Constructor Zmod.
 
 Definition of_small_Z (m : Z) (z : Z) : Zmod m.
+Proof.
   refine (mk m (if small z m then z else 0)
                (transparent_Is_true' _ (fun _ => _))).
   abstract (case (small z m) eqn:H; rewrite ?H; case m; trivial).

@@ -41,6 +41,7 @@ match m with
 end.
 
 Theorem pos_eq_refl : forall m n, pos_eq m n = true -> m = n.
+Proof.
 induction m;simpl;destruct n;congruence ||
 (intro e;apply f_equal;auto).
 Qed.
@@ -66,6 +67,7 @@ end
 end.
 
 Theorem form_eq_refl: forall p q, form_eq p q = true -> p = q.
+Proof.
 induction p;destruct q;simpl;clean.
 - intro h;generalize (pos_eq_refl _ _ h);congruence.
 - case_eq (form_eq p1 q1);clean.
@@ -105,6 +107,7 @@ Lemma compose0 :
 forall hyps F (A:Prop),
  A ->
  (interp_ctx hyps F A).
+Proof.
 induction F;intros A H;simpl;auto.
 Qed.
 
@@ -113,6 +116,7 @@ forall hyps F (A B:Prop),
  (A -> B) ->
  (interp_ctx hyps F A) ->
  (interp_ctx hyps F B).
+Proof.
 induction F;intros A B H;simpl;auto.
 apply IHF;auto.
 Qed.
@@ -123,6 +127,7 @@ forall hyps F (A B C:Prop),
  (interp_ctx hyps F A) ->
  (interp_ctx hyps F B) ->
  (interp_ctx hyps F C).
+Proof.
 induction F;intros A B C H;simpl;auto.
 apply IHF;auto.
 Qed.
@@ -134,6 +139,7 @@ forall hyps F (A B C D:Prop),
  (interp_ctx hyps F B) ->
  (interp_ctx hyps F C) ->
  (interp_ctx hyps F D).
+Proof.
 induction F;intros A B C D H;simpl;auto.
 apply IHF;auto.
 Qed.
@@ -141,6 +147,7 @@ Qed.
 Lemma weaken : forall hyps F f G,
  (interp_ctx hyps F G) ->
  (interp_ctx (hyps\f)  (F_push f hyps F) G).
+Proof.
 induction F;simpl;intros;auto.
 apply compose1 with ([[a]]-> G);auto.
 Qed.
@@ -148,6 +155,7 @@ Qed.
 Theorem project_In : forall hyps F g,
 In g hyps F ->
 interp_ctx hyps F [[g]].
+Proof.
 induction F;simpl.
 - contradiction.
 - intros g H;destruct H.
@@ -158,6 +166,7 @@ Qed.
 Theorem project : forall hyps F p g,
 get  p hyps = PSome g->
 interp_ctx hyps F [[g]].
+Proof.
 intros hyps F p g e; apply project_In.
 apply get_In with p;assumption.
 Qed.
@@ -256,6 +265,7 @@ Theorem interp_proof:
 forall p hyps F gl,
 check_proof hyps gl p = true -> interp_ctx hyps F [[gl]].
 
+Proof.
 induction p; intros hyps F gl.
 
 - (* Axiom *)
@@ -368,6 +378,7 @@ induction p; intros hyps F gl.
 Qed.
 
 Theorem Reflect: forall gl prf, if check_proof empty gl prf then [[gl]] else True.
+Proof.
 intros gl prf;case_eq (check_proof empty gl prf);intro check_prf.
 - change (interp_ctx empty F_empty [[gl]]) ;
     apply interp_proof with prf;assumption.

@@ -296,6 +296,7 @@ Section Properties.
       P z ->
       (forall x y, R x y -> clos_refl_trans_1n R y z -> P y -> P x) ->
       forall x, clos_refl_trans_1n R x z -> P x.
+    Proof.
       intros P z H H0 x; induction 1 as [|x y z]; auto.
       apply H0 with y; auto.
     Qed.
@@ -304,6 +305,7 @@ Section Properties.
       P z ->
       (forall x y, R x y -> P y -> clos_refl_trans R y z -> P x) ->
       forall x, clos_refl_trans R x z -> P x.
+    Proof.
       intros P z Hz IH x Hxz.
       apply clos_rt_rt1n_iff in Hxz.
       elim Hxz using rt1n_ind_right; auto.
@@ -327,6 +329,7 @@ Section Properties.
 
     Lemma clos_rst1n_trans : forall x y z, clos_refl_sym_trans_1n R x y ->
         clos_refl_sym_trans_1n R y z -> clos_refl_sym_trans_1n R x z.
+    Proof.
       induction 1 as [|x y z0].
       - auto.
       - intros; right with y; eauto.
@@ -345,6 +348,7 @@ Section Properties.
 
     Lemma clos_rst_rst1n  : forall x y,
       clos_refl_sym_trans R x y -> clos_refl_sym_trans_1n R x y.
+    Proof.
       induction 1 as [x y| | |].
       - constructor 2 with y; auto.
         constructor 1.

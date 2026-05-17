@@ -105,6 +105,7 @@ Qed.
 (*********)
 Lemma mul_factor_gt_f :
   forall eps l l':R, eps > 0 -> Rmin 1 (eps * mul_factor l l') > 0.
+Proof.
   intros; apply Rmin_Rgt_r; split.
   - exact Rlt_0_1.
   - exact (mul_factor_gt eps l l' H).

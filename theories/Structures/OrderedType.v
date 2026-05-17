@@ -107,6 +107,7 @@ Module OrderedTypeFacts (Import O: OrderedType).
 
 #[global]
   Instance lt_compat : Proper (eq==>eq==>iff) lt.
+  Proof.
   apply proper_sym_impl_iff_2; auto with *.
   intros x x' Hx y y' Hy H.
   apply eq_lt with x; auto with ordered_type.

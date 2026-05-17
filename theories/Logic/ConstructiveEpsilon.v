@@ -153,6 +153,7 @@ Inductive rel_ls : nat -> nat -> Prop :=
 
 (** Following the Braga method, the output is packed with a proof of its conformity wrt rel_ls *)
 Definition linear_search_conform start (b : before_witness start) : {n : nat | rel_ls start n}.
+Proof.
   revert start b.
   refine (fix loop start b :=
      match P_dec start with
@@ -173,6 +174,7 @@ Defined.
     and as linear search is tail recursive, [Q] can be fixed (but [rq] varies,
     behaving like a logical continuation). *)
 Definition linear_search_conform_alt start (b : before_witness start) : {n : nat | rel_ls start n}.
+Proof.
   refine ((fun Q: nat -> Prop => _ : (forall y, rel_ls start y -> Q y) -> {n | Q n})
             (rel_ls start) (fun y r => r)).
   revert start b.
