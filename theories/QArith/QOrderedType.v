@@ -15,14 +15,14 @@ From Stdlib Require Import QArith_base Equalities Orders OrdersTac.
 (** * DecidableType structure for rational numbers *)
 
 Module Q_as_DT <: DecidableTypeFull.
- Definition t := Q.
- Definition eq := Qeq.
- Definition eq_equiv := Q_Setoid.
- Definition eqb := Qeq_bool.
- Definition eqb_eq := Qeq_bool_iff.
+  Definition t := Q.
+  Definition eq := Qeq.
+  Definition eq_equiv := Q_Setoid.
+  Definition eqb := Qeq_bool.
+  Definition eqb_eq := Qeq_bool_iff.
 
- Include BackportEq. (** eq_refl, eq_sym, eq_trans *)
- Include HasEqBool2Dec. (** eq_dec *)
+  Include BackportEq. (** eq_refl, eq_sym, eq_trans *)
+  Include HasEqBool2Dec. (** eq_dec *)
 
 End Q_as_DT.
 
@@ -34,21 +34,21 @@ End Q_as_DT.
 (** * OrderedType structure for rational numbers *)
 
 Module Q_as_OT <: OrderedTypeFull.
- Include Q_as_DT.
- Definition lt := Qlt.
- Definition le := Qle.
- Definition compare := Qcompare.
+   Include Q_as_DT.
+   Definition lt := Qlt.
+   Definition le := Qle.
+   Definition compare := Qcompare.
 
-#[global]
- Instance lt_strorder : StrictOrder Qlt.
- Proof. split; [ exact Qlt_irrefl | exact Qlt_trans ]. Qed.
+  #[global]
+   Instance lt_strorder : StrictOrder Qlt.
+   Proof. split; [ exact Qlt_irrefl | exact Qlt_trans ]. Qed.
 
-#[global]
- Instance lt_compat : Proper (Qeq==>Qeq==>iff) Qlt.
- Proof. auto with *. Qed.
+  #[global]
+   Instance lt_compat : Proper (Qeq==>Qeq==>iff) Qlt.
+   Proof. auto with *. Qed.
 
- Definition le_lteq := Qle_lteq.
- Definition compare_spec := Qcompare_spec.
+   Definition le_lteq := Qle_lteq.
+   Definition compare_spec := Qcompare_spec.
 
 End Q_as_OT.
 

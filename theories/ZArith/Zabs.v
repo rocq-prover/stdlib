@@ -43,25 +43,25 @@ Lemma Zabs_ind :
   forall (P:Z -> Prop) (n:Z),
     (n >= 0 -> P n) -> (n <= 0 -> P (- n)) -> P (Z.abs n).
 Proof.
- intros. apply Z.abs_case_strong; Z.swap_greater; trivial.
- intros x y Hx; now subst.
+  intros. apply Z.abs_case_strong; Z.swap_greater; trivial.
+  intros x y Hx; now subst.
 Qed.
 
 Theorem Zabs_intro : forall P (n:Z), P (- n) -> P n -> P (Z.abs n).
 Proof.
- intros P n; now destruct n.
+  intros P n; now destruct n.
 Qed.
 
 Definition Zabs_dec : forall x:Z, {x = Z.abs x} + {x = - Z.abs x}.
 Proof.
- intros x; destruct x; auto.
+  intros x; destruct x; auto.
 Defined.
 
 Lemma Zabs_spec x :
   0 <= x /\ Z.abs x = x \/
   0 > x /\ Z.abs x = -x.
 Proof.
- Z.swap_greater. apply Z.abs_spec.
+  Z.swap_greater. apply Z.abs_spec.
 Qed.
 
 (** * Some results about the sign function. *)
@@ -79,7 +79,7 @@ Lemma Zsgn_spec x :
   0 = x /\ Z.sgn x = 0 \/
   0 > x /\ Z.sgn x = -1.
 Proof.
- intros. Z.swap_greater. apply Z.sgn_spec.
+  intros. Z.swap_greater. apply Z.sgn_spec.
 Qed.
 
 (** Compatibility *)
@@ -94,11 +94,11 @@ Notation Zabs_nat_compare := Zabs2Nat.inj_compare (only parsing).
 
 Lemma Zabs_nat_le n m : 0 <= n <= m -> (Z.abs_nat n <= Z.abs_nat m)%nat.
 Proof.
- intros (H,H'). apply Zabs2Nat.inj_le; trivial. now transitivity n.
+  intros (H,H'). apply Zabs2Nat.inj_le; trivial. now transitivity n.
 Qed.
 
 Lemma Zabs_nat_lt n m : 0 <= n < m -> (Z.abs_nat n < Z.abs_nat m)%nat.
 Proof.
- intros (H,H'). apply Zabs2Nat.inj_lt; trivial.
-  transitivity n; trivial. now apply Z.lt_le_incl.
+  intros (H,H'). apply Zabs2Nat.inj_lt; trivial.
+   transitivity n; trivial. now apply Z.lt_le_incl.
 Qed.

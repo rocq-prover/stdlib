@@ -1451,21 +1451,21 @@ Qed.
 Lemma max_var_nformulae_correct_aux : forall l p o v,
     In (p,o) l -> In v (vars xH p) -> Pos.le v (fold_left F l 1)%positive.
 Proof.
-intros l p o v H H0.
-generalize 1%positive as acc.
-revert p o v H H0.
-induction l as [|a l IHl].
-- simpl. tauto.
-- simpl.
-  intros p o v H H0 ?.
-  destruct H ; subst.
-  + unfold F at 2.
-    simpl.
-    apply max_var_correct in H0.
-    apply max_var_nformulae_mono_aux.
-    apply Pos.max_case_strong;intros ; auto.
-    eapply Pos.le_trans ; eauto.
-  + eapply IHl ; eauto.
+  intros l p o v H H0.
+  generalize 1%positive as acc.
+  revert p o v H H0.
+  induction l as [|a l IHl].
+  - simpl. tauto.
+  - simpl.
+    intros p o v H H0 ?.
+    destruct H ; subst.
+    + unfold F at 2.
+      simpl.
+      apply max_var_correct in H0.
+      apply max_var_nformulae_mono_aux.
+      apply Pos.max_case_strong;intros ; auto.
+      eapply Pos.le_trans ; eauto.
+    + eapply IHl ; eauto.
 Qed.
 
 #[deprecated(since="Stdlib 9.1")]

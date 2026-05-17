@@ -46,200 +46,200 @@ Set Implicit Arguments.
 
 Section ChoiceSchemes.
 
-Variables A B :Type.
+  Variables A B :Type.
 
-Variable P:A->Prop.
+  Variable P:A->Prop.
 
-(** ** Constructive choice and description *)
+  (** ** Constructive choice and description *)
 
-(** AC_rel = relational form of the (non extensional) axiom of choice
+  (** AC_rel = relational form of the (non extensional) axiom of choice
              (a "set-theoretic" axiom of choice) *)
 
-Definition RelationalChoice_on :=
-  forall R:A->B->Prop,
-    (forall x : A, exists y : B, R x y) ->
-    (exists R' : A->B->Prop, subrelation R' R /\ forall x, exists! y, R' x y).
+  Definition RelationalChoice_on :=
+    forall R:A->B->Prop,
+      (forall x : A, exists y : B, R x y) ->
+      (exists R' : A->B->Prop, subrelation R' R /\ forall x, exists! y, R' x y).
 
-(** AC_fun = functional form of the (non extensional) axiom of choice
+  (** AC_fun = functional form of the (non extensional) axiom of choice
              (a "type-theoretic" axiom of choice) *)
 
-(* Note: This is called Type-Theoretic Description Axiom (TTDA) in
+  (* Note: This is called Type-Theoretic Description Axiom (TTDA) in
    [[Werner97]] (using a non-standard meaning of "description"). This
    is called intensional axiom of choice (AC_int) in [[Carlström04]] *)
 
-Definition FunctionalChoice_on_rel (R:A->B->Prop) :=
-  (forall x:A, exists y : B, R x y) ->
-  exists f : A -> B, (forall x:A, R x (f x)).
+  Definition FunctionalChoice_on_rel (R:A->B->Prop) :=
+    (forall x:A, exists y : B, R x y) ->
+    exists f : A -> B, (forall x:A, R x (f x)).
 
-Definition FunctionalChoice_on :=
-  forall R:A->B->Prop,
-    (forall x : A, exists y : B, R x y) ->
-    (exists f : A->B, forall x : A, R x (f x)).
+  Definition FunctionalChoice_on :=
+    forall R:A->B->Prop,
+      (forall x : A, exists y : B, R x y) ->
+      (exists f : A->B, forall x : A, R x (f x)).
 
-(** AC_fun_dep = functional form of the (non extensional) axiom of
+  (** AC_fun_dep = functional form of the (non extensional) axiom of
                  choice, with dependent functions *)
-Definition DependentFunctionalChoice_on (A:Type) (B:A -> Type) :=
-  forall R:forall x:A, B x -> Prop,
-    (forall x:A, exists y : B x, R x y) ->
-    (exists f : (forall x:A, B x), forall x:A, R x (f x)).
+  Definition DependentFunctionalChoice_on (A:Type) (B:A -> Type) :=
+    forall R:forall x:A, B x -> Prop,
+      (forall x:A, exists y : B x, R x y) ->
+      (exists f : (forall x:A, B x), forall x:A, R x (f x)).
 
-(** AC_trunc = axiom of choice for propositional truncations
+  (** AC_trunc = axiom of choice for propositional truncations
                (truncation and quantification commute) *)
-Definition InhabitedForallCommute_on (A : Type) (B : A -> Type) :=
-  (forall x, inhabited (B x)) -> inhabited (forall x, B x).
+  Definition InhabitedForallCommute_on (A : Type) (B : A -> Type) :=
+    (forall x, inhabited (B x)) -> inhabited (forall x, B x).
 
-(** DC_fun = functional form of the dependent axiom of choice *)
+  (** DC_fun = functional form of the dependent axiom of choice *)
 
-Definition FunctionalDependentChoice_on :=
-  forall (R:A->A->Prop),
-    (forall x, exists y, R x y) -> forall x0,
-    (exists f : nat -> A, f 0 = x0 /\ forall n, R (f n) (f (S n))).
+  Definition FunctionalDependentChoice_on :=
+    forall (R:A->A->Prop),
+      (forall x, exists y, R x y) -> forall x0,
+      (exists f : nat -> A, f 0 = x0 /\ forall n, R (f n) (f (S n))).
 
-(** ACw_fun = functional form of the countable axiom of choice *)
+  (** ACw_fun = functional form of the countable axiom of choice *)
 
-Definition FunctionalCountableChoice_on :=
-  forall (R:nat->A->Prop),
-    (forall n, exists y, R n y) ->
-    (exists f : nat -> A, forall n, R n (f n)).
+  Definition FunctionalCountableChoice_on :=
+    forall (R:nat->A->Prop),
+      (forall n, exists y, R n y) ->
+      (exists f : nat -> A, forall n, R n (f n)).
 
-(** AC! = functional relation reification
+  (** AC! = functional relation reification
           (known as axiom of unique choice in topos theory,
            sometimes called principle of definite description in
            the context of constructive type theory, sometimes
            called axiom of no choice) *)
 
-Definition FunctionalRelReification_on :=
-  forall R:A->B->Prop,
-    (forall x : A, exists! y : B, R x y) ->
-    (exists f : A->B, forall x : A, R x (f x)).
+  Definition FunctionalRelReification_on :=
+    forall R:A->B->Prop,
+      (forall x : A, exists! y : B, R x y) ->
+      (exists f : A->B, forall x : A, R x (f x)).
 
-(** AC_dep! = functional relation reification, with dependent functions
+  (** AC_dep! = functional relation reification, with dependent functions
               see AC! *)
-Definition DependentFunctionalRelReification_on (A:Type) (B:A -> Type) :=
-  forall (R:forall x:A, B x -> Prop),
-    (forall x:A, exists! y : B x, R x y) ->
-    (exists f : (forall x:A, B x), forall x:A, R x (f x)).
+  Definition DependentFunctionalRelReification_on (A:Type) (B:A -> Type) :=
+    forall (R:forall x:A, B x -> Prop),
+      (forall x:A, exists! y : B x, R x y) ->
+      (exists f : (forall x:A, B x), forall x:A, R x (f x)).
 
-(** AC_fun_repr = functional choice of a representative in an equivalence class *)
+  (** AC_fun_repr = functional choice of a representative in an equivalence class *)
 
-(* Note: This is called Type-Theoretic Choice Axiom (TTCA) in
+  (* Note: This is called Type-Theoretic Choice Axiom (TTCA) in
    [[Werner97]] (by reference to the extensional set-theoretic
    formulation of choice); Note also a typo in its intended
    formulation in [[Werner97]]. *)
 
-Definition RepresentativeFunctionalChoice_on :=
-  forall R:A->A->Prop,
-    (Equivalence R) ->
-    (exists f : A->A, forall x : A, (R x (f x)) /\ forall x', R x x' -> f x = f x').
+  Definition RepresentativeFunctionalChoice_on :=
+    forall R:A->A->Prop,
+      (Equivalence R) ->
+      (exists f : A->A, forall x : A, (R x (f x)) /\ forall x', R x x' -> f x = f x').
 
-(** AC_fun_setoid = functional form of the (so-called extensional) axiom of
+  (** AC_fun_setoid = functional form of the (so-called extensional) axiom of
                     choice from setoids *)
 
-Definition SetoidFunctionalChoice_on :=
-  forall R : A -> A -> Prop,
-  forall T : A -> B -> Prop,
-  Equivalence R ->
-  (forall x x' y, R x x' -> T x y -> T x' y) ->
-  (forall x, exists y, T x y) ->
-  exists f : A -> B, forall x : A, T x (f x) /\ (forall x' : A, R x x' -> f x = f x').
+  Definition SetoidFunctionalChoice_on :=
+    forall R : A -> A -> Prop,
+    forall T : A -> B -> Prop,
+    Equivalence R ->
+    (forall x x' y, R x x' -> T x y -> T x' y) ->
+    (forall x, exists y, T x y) ->
+    exists f : A -> B, forall x : A, T x (f x) /\ (forall x' : A, R x x' -> f x = f x').
 
-(** AC_fun_setoid_gen = functional form of the general form of the (so-called
+  (** AC_fun_setoid_gen = functional form of the general form of the (so-called
                         extensional) axiom of choice over setoids *)
 
-(* Note: This is called extensional axiom of choice (AC_ext) in
+  (* Note: This is called extensional axiom of choice (AC_ext) in
    [[Carlström04]]. *)
 
-Definition GeneralizedSetoidFunctionalChoice_on :=
-  forall R : A -> A -> Prop,
-  forall S : B -> B -> Prop,
-  forall T : A -> B -> Prop,
-  Equivalence R ->
-  Equivalence S ->
-  (forall x x' y y', R x x' -> S y y' -> T x y -> T x' y') ->
-  (forall x, exists y, T x y) ->
-  exists f : A -> B,
-    forall x : A, T x (f x) /\ (forall x' : A, R x x' -> S (f x) (f x')).
+  Definition GeneralizedSetoidFunctionalChoice_on :=
+    forall R : A -> A -> Prop,
+    forall S : B -> B -> Prop,
+    forall T : A -> B -> Prop,
+    Equivalence R ->
+    Equivalence S ->
+    (forall x x' y y', R x x' -> S y y' -> T x y -> T x' y') ->
+    (forall x, exists y, T x y) ->
+    exists f : A -> B,
+      forall x : A, T x (f x) /\ (forall x' : A, R x x' -> S (f x) (f x')).
 
-(** AC_fun_setoid_simple = functional form of the (so-called extensional) axiom of
+  (** AC_fun_setoid_simple = functional form of the (so-called extensional) axiom of
                            choice from setoids on locally compatible relations *)
 
-Definition SimpleSetoidFunctionalChoice_on A B :=
-  forall R : A -> A -> Prop,
-  forall T : A -> B -> Prop,
-  Equivalence R ->
-  (forall x, exists y, forall x', R x x' -> T x' y) ->
-  exists f : A -> B, forall x : A, T x (f x) /\ (forall x' : A, R x x' -> f x = f x').
+  Definition SimpleSetoidFunctionalChoice_on A B :=
+    forall R : A -> A -> Prop,
+    forall T : A -> B -> Prop,
+    Equivalence R ->
+    (forall x, exists y, forall x', R x x' -> T x' y) ->
+    exists f : A -> B, forall x : A, T x (f x) /\ (forall x' : A, R x x' -> f x = f x').
 
-(** ID_epsilon = constructive version of indefinite description;
+  (** ID_epsilon = constructive version of indefinite description;
                  combined with proof-irrelevance, it may be connected to
                  Carlström's type theory with a constructive indefinite description
                  operator *)
 
-Definition ConstructiveIndefiniteDescription_on :=
-  forall P:A->Prop,
-    (exists x, P x) -> { x:A | P x }.
+  Definition ConstructiveIndefiniteDescription_on :=
+    forall P:A->Prop,
+      (exists x, P x) -> { x:A | P x }.
 
-(** ID_iota = constructive version of definite description;
+  (** ID_iota = constructive version of definite description;
               combined with proof-irrelevance, it may be connected to
               Carlström's and Stenlund's type theory with a
               constructive definite description operator) *)
 
-Definition ConstructiveDefiniteDescription_on :=
-  forall P:A->Prop,
-    (exists! x, P x) -> { x:A | P x }.
+  Definition ConstructiveDefiniteDescription_on :=
+    forall P:A->Prop,
+      (exists! x, P x) -> { x:A | P x }.
 
-(** ** Weakly classical choice and description *)
+  (** ** Weakly classical choice and description *)
 
-(** GAC_rel = guarded relational form of the (non extensional) axiom of choice *)
+  (** GAC_rel = guarded relational form of the (non extensional) axiom of choice *)
 
-Definition GuardedRelationalChoice_on :=
-  forall P : A->Prop, forall R : A->B->Prop,
-    (forall x : A, P x -> exists y : B, R x y) ->
-    (exists R' : A->B->Prop,
-      subrelation R' R /\ forall x, P x -> exists! y, R' x y).
+  Definition GuardedRelationalChoice_on :=
+    forall P : A->Prop, forall R : A->B->Prop,
+      (forall x : A, P x -> exists y : B, R x y) ->
+      (exists R' : A->B->Prop,
+        subrelation R' R /\ forall x, P x -> exists! y, R' x y).
 
-(** GAC_fun = guarded functional form of the (non extensional) axiom of choice *)
+  (** GAC_fun = guarded functional form of the (non extensional) axiom of choice *)
 
-Definition GuardedFunctionalChoice_on :=
-  forall P : A->Prop, forall R : A->B->Prop,
-    inhabited B ->
-    (forall x : A, P x -> exists y : B, R x y) ->
-    (exists f : A->B, forall x, P x -> R x (f x)).
+  Definition GuardedFunctionalChoice_on :=
+    forall P : A->Prop, forall R : A->B->Prop,
+      inhabited B ->
+      (forall x : A, P x -> exists y : B, R x y) ->
+      (exists f : A->B, forall x, P x -> R x (f x)).
 
-(** GAC! = guarded functional relation reification *)
+  (** GAC! = guarded functional relation reification *)
 
-Definition GuardedFunctionalRelReification_on :=
-  forall P : A->Prop, forall R : A->B->Prop,
-    inhabited B ->
-    (forall x : A, P x -> exists! y : B, R x y) ->
-    (exists f : A->B, forall x : A, P x -> R x (f x)).
+  Definition GuardedFunctionalRelReification_on :=
+    forall P : A->Prop, forall R : A->B->Prop,
+      inhabited B ->
+      (forall x : A, P x -> exists! y : B, R x y) ->
+      (exists f : A->B, forall x : A, P x -> R x (f x)).
 
-(** OAC_rel = "omniscient" relational form of the (non extensional) axiom of choice *)
+  (** OAC_rel = "omniscient" relational form of the (non extensional) axiom of choice *)
 
-Definition OmniscientRelationalChoice_on :=
-  forall R : A->B->Prop,
-    exists R' : A->B->Prop,
-      subrelation R' R /\ forall x : A, (exists y : B, R x y) -> exists! y, R' x y.
+  Definition OmniscientRelationalChoice_on :=
+    forall R : A->B->Prop,
+      exists R' : A->B->Prop,
+        subrelation R' R /\ forall x : A, (exists y : B, R x y) -> exists! y, R' x y.
 
-(** OAC_fun = "omniscient" functional form of the (non extensional) axiom of choice
+  (** OAC_fun = "omniscient" functional form of the (non extensional) axiom of choice
               (called AC* in Bell [[Bell]]) *)
 
-Definition OmniscientFunctionalChoice_on :=
-  forall R : A->B->Prop,
-    inhabited B ->
-    exists f : A->B, forall x : A, (exists y : B, R x y) -> R x (f x).
+  Definition OmniscientFunctionalChoice_on :=
+    forall R : A->B->Prop,
+      inhabited B ->
+      exists f : A->B, forall x : A, (exists y : B, R x y) -> R x (f x).
 
-(** D_epsilon = (weakly classical) indefinite description principle *)
+  (** D_epsilon = (weakly classical) indefinite description principle *)
 
-Definition EpsilonStatement_on :=
-  forall P:A->Prop,
-    inhabited A -> { x:A | (exists x, P x) -> P x }.
+  Definition EpsilonStatement_on :=
+    forall P:A->Prop,
+      inhabited A -> { x:A | (exists x, P x) -> P x }.
 
-(** D_iota = (weakly classical) definite description principle *)
+  (** D_iota = (weakly classical) definite description principle *)
 
-Definition IotaStatement_on :=
-  forall P:A->Prop,
-    inhabited A -> { x:A | (exists! x, P x) -> P x }.
+  Definition IotaStatement_on :=
+    forall P:A->Prop,
+      inhabited A -> { x:A | (exists! x, P x) -> P x }.
 
 End ChoiceSchemes.
 

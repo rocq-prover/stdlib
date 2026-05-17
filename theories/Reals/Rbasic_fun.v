@@ -266,11 +266,11 @@ Qed.
 Lemma Rmax_Rlt : forall x y z,
   Rmax x y < z <-> x < z /\ y < z.
 Proof.
-intros x y z; split.
-- unfold Rmax; case (Rle_dec x y).
-  + intros xy yz; split;[apply Rle_lt_trans with y|]; assumption.
-  + intros xz xy; split;[|apply Rlt_trans with x;[apply Rnot_le_gt|]];assumption.
-- intros [h h']; apply Rmax_lub_lt; assumption.
+  intros x y z; split.
+  - unfold Rmax; case (Rle_dec x y).
+    + intros xy yz; split;[apply Rle_lt_trans with y|]; assumption.
+    + intros xz xy; split;[|apply Rlt_trans with x;[apply Rnot_le_gt|]];assumption.
+  - intros [h h']; apply Rmax_lub_lt; assumption.
 Qed.
 
 (*********)
@@ -308,8 +308,8 @@ Qed.
 
 Lemma Rabs_R1 : Rabs 1 = 1.
 Proof.
-unfold Rabs; case (Rcase_abs 1); auto with real.
-intros H; absurd (1 < 0); auto with real.
+  unfold Rabs; case (Rcase_abs 1); auto with real.
+  intros H; absurd (1 < 0); auto with real.
 Qed.
 
 (*********)
@@ -365,9 +365,9 @@ Definition RRle_abs := Rle_abs.
 
 Lemma Rabs_le : forall a b, -b <= a <= b -> Rabs a <= b.
 Proof.
-intros a b; unfold Rabs; case Rcase_abs.
-- intros _ [it _]; apply Ropp_le_cancel; rewrite Ropp_involutive; exact it.
-- intros _ [_ it]; exact it.
+  intros a b; unfold Rabs; case Rcase_abs.
+  - intros _ [it _]; apply Ropp_le_cancel; rewrite Ropp_involutive; exact it.
+  - intros _ [_ it]; exact it.
 Qed.
 
 (*********)
@@ -640,49 +640,49 @@ Qed.
 
 Lemma Ropp_Rmax : forall x y, - Rmax x y = Rmin (-x) (-y).
 Proof.
-intros x y; apply Rmax_case_strong.
-- now intros w; rewrite Rmin_left;[ | apply Rge_le, Ropp_le_ge_contravar].
-- now intros w; rewrite Rmin_right; [ | apply Rge_le, Ropp_le_ge_contravar].
+  intros x y; apply Rmax_case_strong.
+  - now intros w; rewrite Rmin_left;[ | apply Rge_le, Ropp_le_ge_contravar].
+  - now intros w; rewrite Rmin_right; [ | apply Rge_le, Ropp_le_ge_contravar].
 Qed.
 
 Lemma Ropp_Rmin : forall x y, - Rmin x y = Rmax (-x) (-y).
 Proof.
-intros x y; apply Rmin_case_strong.
-- now intros w; rewrite Rmax_left;[ | apply Rge_le, Ropp_le_ge_contravar].
-- now intros w; rewrite Rmax_right; [ | apply Rge_le, Ropp_le_ge_contravar].
+  intros x y; apply Rmin_case_strong.
+  - now intros w; rewrite Rmax_left;[ | apply Rge_le, Ropp_le_ge_contravar].
+  - now intros w; rewrite Rmax_right; [ | apply Rge_le, Ropp_le_ge_contravar].
 Qed.
 
 Lemma Rmax_assoc : forall a b c, Rmax a (Rmax b c) = Rmax (Rmax a b) c.
 Proof.
-intros a b c.
-unfold Rmax; destruct (Rle_dec b c); destruct (Rle_dec a b);
-  destruct (Rle_dec a c); destruct (Rle_dec b c); auto with real;
-  match goal with
-  | id :  ~ ?x <= ?y, id2 : ?x <= ?z |- _ =>
-   case id; apply Rle_trans with z; auto with real
-  | id : ~ ?x <= ?y, id2 : ~ ?z <= ?x |- _ =>
-   case id; apply Rle_trans with z; auto with real
-  end.
+  intros a b c.
+  unfold Rmax; destruct (Rle_dec b c); destruct (Rle_dec a b);
+    destruct (Rle_dec a c); destruct (Rle_dec b c); auto with real;
+    match goal with
+    | id :  ~ ?x <= ?y, id2 : ?x <= ?z |- _ =>
+     case id; apply Rle_trans with z; auto with real
+    | id : ~ ?x <= ?y, id2 : ~ ?z <= ?x |- _ =>
+     case id; apply Rle_trans with z; auto with real
+    end.
 Qed.
 
 Lemma Rminmax : forall a b, Rmin a b <= Rmax a b.
 Proof.
-intros a b; destruct (Rle_dec a b).
-- rewrite Rmin_left, Rmax_right; assumption.
-- now rewrite Rmin_right, Rmax_left; assumption ||
-                                                apply Rlt_le, Rnot_le_gt.
+  intros a b; destruct (Rle_dec a b).
+  - rewrite Rmin_left, Rmax_right; assumption.
+  - now rewrite Rmin_right, Rmax_left; assumption ||
+                                                  apply Rlt_le, Rnot_le_gt.
 Qed.
 
 Lemma Rmin_assoc : forall x y z, Rmin x (Rmin y z) =
   Rmin (Rmin x y) z.
 Proof.
-intros a b c.
-unfold Rmin; destruct (Rle_dec b c); destruct (Rle_dec a b);
-  destruct (Rle_dec a c); destruct (Rle_dec b c); auto with real;
-  match goal with
-  | id :  ~ ?x <= ?y, id2 : ?x <= ?z |- _ =>
-   case id; apply Rle_trans with z; auto with real
-  | id : ~ ?x <= ?y, id2 : ~ ?z <= ?x |- _ =>
-   case id; apply Rle_trans with z; auto with real
-  end.
+  intros a b c.
+  unfold Rmin; destruct (Rle_dec b c); destruct (Rle_dec a b);
+    destruct (Rle_dec a c); destruct (Rle_dec b c); auto with real;
+    match goal with
+    | id :  ~ ?x <= ?y, id2 : ?x <= ?z |- _ =>
+     case id; apply Rle_trans with z; auto with real
+    | id : ~ ?x <= ?y, id2 : ~ ?z <= ?x |- _ =>
+     case id; apply Rle_trans with z; auto with real
+    end.
 Qed.

@@ -37,27 +37,27 @@ From Stdlib Require Import Wf_nat.
 Lemma Z_of_nat_complete (x : Z) :
  0 <= x -> exists n : nat, x = Z.of_nat n.
 Proof.
- intros H. exists (Z.to_nat x). symmetry. now apply Z2Nat.id.
+  intros H. exists (Z.to_nat x). symmetry. now apply Z2Nat.id.
 Qed.
 
 Lemma Z_of_nat_complete_inf (x : Z) :
  0 <= x -> {n : nat | x = Z.of_nat n}.
 Proof.
- intros H. exists (Z.to_nat x). symmetry. now apply Z2Nat.id.
+  intros H. exists (Z.to_nat x). symmetry. now apply Z2Nat.id.
 Qed.
 
 Lemma Z_of_nat_prop :
   forall P:Z -> Prop,
     (forall n:nat, P (Z.of_nat n)) -> forall x:Z, 0 <= x -> P x.
 Proof.
- intros P H x Hx. now destruct (Z_of_nat_complete x Hx) as (n,->).
+  intros P H x Hx. now destruct (Z_of_nat_complete x Hx) as (n,->).
 Qed.
 
 Lemma Z_of_nat_set :
  forall P:Z -> Set,
    (forall n:nat, P (Z.of_nat n)) -> forall x:Z, 0 <= x -> P x.
 Proof.
- intros P H x Hx. now destruct (Z_of_nat_complete_inf x Hx) as (n,->).
+  intros P H x Hx. now destruct (Z_of_nat_complete_inf x Hx) as (n,->).
 Qed.
 
 Lemma natlike_ind :
@@ -66,10 +66,10 @@ Lemma natlike_ind :
    (forall x:Z, 0 <= x -> P x -> P (Z.succ x)) ->
    forall x:Z, 0 <= x -> P x.
 Proof.
- intros P Ho Hrec x Hx; apply Z_of_nat_prop; trivial.
- intros n; induction n.
- - exact Ho.
- - rewrite Nat2Z.inj_succ. apply Hrec; trivial using Nat2Z.is_nonneg.
+  intros P Ho Hrec x Hx; apply Z_of_nat_prop; trivial.
+  intros n; induction n.
+  - exact Ho.
+  - rewrite Nat2Z.inj_succ. apply Hrec; trivial using Nat2Z.is_nonneg.
 Qed.
 
 Lemma natlike_rec :
@@ -78,10 +78,10 @@ Lemma natlike_rec :
    (forall x:Z, 0 <= x -> P x -> P (Z.succ x)) ->
    forall x:Z, 0 <= x -> P x.
 Proof.
- intros P Ho Hrec x Hx; apply Z_of_nat_set; trivial.
- intros n; induction n.
- - exact Ho.
- - rewrite Nat2Z.inj_succ. apply Hrec; trivial using Nat2Z.is_nonneg.
+  intros P Ho Hrec x Hx; apply Z_of_nat_set; trivial.
+  intros n; induction n.
+  - exact Ho.
+  - rewrite Nat2Z.inj_succ. apply Hrec; trivial using Nat2Z.is_nonneg.
 Qed.
 
 Section Efficient_Rec.
@@ -93,8 +93,8 @@ Section Efficient_Rec.
 
   #[local] Definition R_wf : well_founded R.
   Proof.
-   apply well_founded_lt_compat with Z.to_nat.
-   intros x y (Hx,H). apply Z2Nat.inj_lt; Z.order.
+    apply well_founded_lt_compat with Z.to_nat.
+    intros x y (Hx,H). apply Z2Nat.inj_lt; Z.order.
   Defined.
 
   Lemma natlike_rec2 :
@@ -103,16 +103,16 @@ Section Efficient_Rec.
       (forall z:Z, 0 <= z -> P z -> P (Z.succ z)) ->
       forall z:Z, 0 <= z -> P z.
   Proof.
-   intros P Ho Hrec z.
-   induction z as [z IH] using (well_founded_induction_type R_wf).
-   destruct z as [|p|p]; intros Hz.
-   - apply Ho.
-   - set (y:=Z.pred (Zpos p)).
-     assert (LE : 0 <= y) by (unfold y; now apply Z.lt_le_pred).
-     assert (EQ : Zpos p = Z.succ y) by (unfold y; now rewrite Z.succ_pred).
-     rewrite EQ. apply Hrec, IH; trivial.
-     split; trivial. unfold y; apply Z.lt_pred_l.
-   - now destruct Hz.
+    intros P Ho Hrec z.
+    induction z as [z IH] using (well_founded_induction_type R_wf).
+    destruct z as [|p|p]; intros Hz.
+    - apply Ho.
+    - set (y:=Z.pred (Zpos p)).
+      assert (LE : 0 <= y) by (unfold y; now apply Z.lt_le_pred).
+      assert (EQ : Zpos p = Z.succ y) by (unfold y; now rewrite Z.succ_pred).
+      rewrite EQ. apply Hrec, IH; trivial.
+      split; trivial. unfold y; apply Z.lt_pred_l.
+    - now destruct Hz.
   Qed.
 
   (** A variant of the previous using [Z.pred] instead of [Z.succ]. *)
@@ -123,16 +123,16 @@ Section Efficient_Rec.
       (forall z:Z, 0 < z -> P (Z.pred z) -> P z) ->
       forall z:Z, 0 <= z -> P z.
   Proof.
-   intros P Ho Hrec z.
-   induction z as [z IH] using (well_founded_induction_type R_wf).
-   destruct z as [|p|p]; intros Hz.
-   - apply Ho.
-   - assert (EQ : 0 <= Z.pred (Zpos p)) by now apply Z.lt_le_pred.
-     apply Hrec.
-     + easy.
-     + apply IH; trivial. split; trivial.
-     apply Z.lt_pred_l.
-   - now destruct Hz.
+    intros P Ho Hrec z.
+    induction z as [z IH] using (well_founded_induction_type R_wf).
+    destruct z as [|p|p]; intros Hz.
+    - apply Ho.
+    - assert (EQ : 0 <= Z.pred (Zpos p)) by now apply Z.lt_le_pred.
+      apply Hrec.
+      + easy.
+      + apply IH; trivial. split; trivial.
+      apply Z.lt_pred_l.
+    - now destruct Hz.
   Qed.
 
   (** A more general induction principle on non-negative numbers using [Z.lt]. *)
@@ -142,15 +142,15 @@ Section Efficient_Rec.
       (forall x:Z, (forall y:Z, 0 <= y < x -> P y) -> 0 <= x -> P x) ->
       forall x:Z, 0 <= x -> P x.
   Proof.
-   intros P Hrec x.
-   induction x as [x IH] using (well_founded_induction_type R_wf).
-   destruct x; intros Hx.
-   - apply Hrec; trivial. intros y (Hy,Hy').
-     assert (0 < 0) by now apply Z.le_lt_trans with y.
-     discriminate.
-   - apply Hrec; trivial. intros y (Hy,Hy').
-     apply IH; trivial. now split.
-   - now destruct Hx.
+    intros P Hrec x.
+    induction x as [x IH] using (well_founded_induction_type R_wf).
+    destruct x; intros Hx.
+    - apply Hrec; trivial. intros y (Hy,Hy').
+      assert (0 < 0) by now apply Z.le_lt_trans with y.
+      discriminate.
+    - apply Hrec; trivial. intros y (Hy,Hy').
+      apply IH; trivial. now split.
+    - now destruct Hx.
   Defined.
 
   Lemma Zlt_0_ind :

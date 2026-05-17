@@ -25,78 +25,78 @@ Definition decidable (P:Prop) := P \/ ~ P.
 
 Theorem dec_not_not : forall P:Prop, decidable P -> (~ P -> False) -> P.
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem dec_True : decidable True.
 Proof.
-unfold decidable; auto.
+  unfold decidable; auto.
 Qed.
 
 Theorem dec_False : decidable False.
 Proof.
-unfold decidable, not; auto.
+  unfold decidable, not; auto.
 Qed.
 
 Theorem dec_or :
  forall A B:Prop, decidable A -> decidable B -> decidable (A \/ B).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem dec_and :
  forall A B:Prop, decidable A -> decidable B -> decidable (A /\ B).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem dec_not : forall A:Prop, decidable A -> decidable (~ A).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem dec_imp :
  forall A B:Prop, decidable A -> decidable B -> decidable (A -> B).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem dec_iff :
  forall A B:Prop, decidable A -> decidable B -> decidable (A<->B).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Theorem not_not : forall P:Prop, decidable P -> ~ ~ P -> P.
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem not_or : forall A B:Prop, ~ (A \/ B) -> ~ A /\ ~ B.
 Proof.
-tauto.
+  tauto.
 Qed.
 
 Theorem not_and : forall A B:Prop, decidable A -> ~ (A /\ B) -> ~ A \/ ~ B.
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem not_imp : forall A B:Prop, decidable A -> ~ (A -> B) -> A /\ ~ B.
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem imp_simp : forall A B:Prop, decidable A -> (A -> B) -> ~ A \/ B.
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem not_iff :
   forall A B:Prop, decidable A -> decidable B ->
     ~ (A <-> B) -> (A /\ ~ B) \/ (~ A /\ B).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Register dec_True as core.dec.True.
@@ -123,54 +123,54 @@ Register not_iff as core.dec.not_iff.
 
 Theorem not_true_iff : (True -> False) <-> False.
 Proof.
-tauto.
+  tauto.
 Qed.
 
 Theorem not_false_iff : (False -> False) <-> True.
 Proof.
-tauto.
+  tauto.
 Qed.
 
 Theorem not_not_iff : forall A:Prop, decidable A ->
   (((A -> False) -> False) <-> A).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Theorem contrapositive : forall A B:Prop, decidable A ->
   (((A -> False) -> (B -> False)) <-> (B -> A)).
 Proof.
-unfold decidable; tauto.
+  unfold decidable; tauto.
 Qed.
 
 Lemma or_not_l_iff_1 : forall A B: Prop, decidable A ->
   ((A -> False) \/ B <-> (A -> B)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Lemma or_not_l_iff_2 : forall A B: Prop, decidable B ->
   ((A -> False) \/ B <-> (A -> B)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Lemma or_not_r_iff_1 : forall A B: Prop, decidable A ->
   (A \/ (B -> False) <-> (B -> A)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Lemma or_not_r_iff_2 : forall A B: Prop, decidable B ->
   (A \/ (B -> False) <-> (B -> A)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Lemma imp_not_l : forall A B: Prop, decidable A ->
   (((A -> False) -> B) <-> (A \/ B)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 
@@ -183,25 +183,25 @@ Qed.
 Theorem not_or_iff : forall A B:Prop,
   (A \/ B -> False) <-> (A -> False) /\ (B -> False).
 Proof.
-tauto.
+  tauto.
 Qed.
 
 Lemma not_and_iff : forall A B:Prop,
   (A /\ B -> False) <-> (A -> B -> False).
 Proof.
-tauto.
+  tauto.
 Qed.
 
 Lemma not_imp_iff : forall A B:Prop, decidable A ->
   (((A -> B) -> False) <-> A /\ (B -> False)).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 Lemma not_imp_rev_iff : forall A B : Prop, decidable A ->
   (((A -> B) -> False) <-> (B -> False) /\ A).
 Proof.
-unfold decidable. tauto.
+  unfold decidable. tauto.
 Qed.
 
 (* Functional relations on decidable co-domains are decidable *)
@@ -210,9 +210,9 @@ Theorem dec_functional_relation :
   forall (X Y : Type) (A:X->Y->Prop), (forall y y' : Y, decidable (y=y')) ->
   (forall x, exists! y, A x y) -> forall x y, decidable (A x y).
 Proof.
-intros X Y A Hdec H x y.
-destruct (H x) as (y',(Hex,Huniq)).
-destruct (Hdec y y') as [->|Hnot]; firstorder.
+  intros X Y A Hdec H x y.
+  destruct (H x) as (y',(Hex,Huniq)).
+  destruct (Hdec y y') as [->|Hnot]; firstorder.
 Qed.
 
 (** With the following hint database, we can leverage [auto] to check

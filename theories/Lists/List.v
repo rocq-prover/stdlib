@@ -28,10 +28,10 @@ Open Scope list_scope.
 (** Standard notations for lists.
 In a special module to avoid conflicts. *)
 Module ListNotations.
-Notation "[ ]" := nil (format "[ ]") : list_scope.
-Notation "[ x ]" := (cons x nil) : list_scope.
-Notation "[ x ; y ; .. ; z ]" :=  (cons x (cons y .. (cons z nil) ..))
-  (format "[ '[' x ;  '/' y ;  '/' .. ;  '/' z ']' ]") : list_scope.
+  Notation "[ ]" := nil (format "[ ]") : list_scope.
+  Notation "[ x ]" := (cons x nil) : list_scope.
+  Notation "[ x ; y ; .. ; z ]" :=  (cons x (cons y .. (cons z nil) ..))
+    (format "[ '[' x ;  '/' y ;  '/' .. ;  '/' z ']' ]") : list_scope.
 End ListNotations.
 
 Import ListNotations.
@@ -327,26 +327,26 @@ Section Facts.
 
   Theorem in_split : forall x (l:list A), In x l -> exists l1 l2, l = l1++x::l2.
   Proof.
-  intros x l; induction l as [|a l IHl]; simpl; [destruct 1|destruct 1 as [?|H]].
-  - subst a; auto.
-    exists [], l; auto.
-  - destruct (IHl H) as (l1,(l2,H0)).
-    exists (a::l1), l2; simpl. apply f_equal. auto.
+    intros x l; induction l as [|a l IHl]; simpl; [destruct 1|destruct 1 as [?|H]].
+    - subst a; auto.
+      exists [], l; auto.
+    - destruct (IHl H) as (l1,(l2,H0)).
+      exists (a::l1), l2; simpl. apply f_equal. auto.
   Qed.
 
   Lemma in_elt : forall (x:A) l1 l2, In x (l1 ++ x :: l2).
   Proof.
-  intros.
-  apply in_or_app.
-  right; left; reflexivity.
+    intros.
+    apply in_or_app.
+    right; left; reflexivity.
   Qed.
 
   Lemma in_elt_inv : forall (x y : A) l1 l2,
     In x (l1 ++ y :: l2) -> x = y \/ In x (l1 ++ l2).
   Proof.
-  intros x y l1 l2 Hin.
-  apply in_app_or in Hin.
-  destruct Hin as [Hin|[Hin|Hin]]; [right|left|right]; try apply in_or_app; intuition.
+    intros x y l1 l2 Hin.
+    apply in_app_or in Hin.
+    destruct Hin as [Hin|[Hin|Hin]]; [right|left|right]; try apply in_or_app; intuition.
   Qed.
 
   Lemma app_inj_pivot x1 x2 y1 y2 (a : A): x1 ++ a :: x2 = y1 ++ a :: y2 ->
@@ -589,11 +589,11 @@ Section Elts.
 
   Lemma nth_error_Some l n : nth_error l n <> None <-> n < length l.
   Proof.
-   revert n. induction l as [|? ? IHl]; intro n; destruct n; simpl.
-    - split; [now destruct 1 | inversion 1].
-    - split; [now destruct 1 | inversion 1].
-    - now split; intros; [apply Nat.lt_0_succ|].
-    - now rewrite IHl, Nat.succ_lt_mono.
+    revert n. induction l as [|? ? IHl]; intro n; destruct n; simpl.
+     - split; [now destruct 1 | inversion 1].
+     - split; [now destruct 1 | inversion 1].
+     - now split; intros; [apply Nat.lt_0_succ|].
+     - now rewrite IHl, Nat.succ_lt_mono.
   Qed.
 
   Lemma nth_error_split l n a : nth_error l n = Some a ->
@@ -1104,19 +1104,19 @@ Section ListOps.
 
   Lemma concat_nil : concat [] = [].
   Proof.
-  reflexivity.
+    reflexivity.
   Qed.
 
   Lemma concat_cons : forall x l, concat (cons x l) = x ++ concat l.
   Proof.
-  reflexivity.
+    reflexivity.
   Qed.
 
   Lemma concat_app : forall l1 l2, concat (l1 ++ l2) = concat l1 ++ concat l2.
   Proof.
-  intros l1; induction l1 as [|x l1 IH]; intros l2; simpl.
-  - reflexivity.
-  - rewrite IH; apply app_assoc.
+    intros l1; induction l1 as [|x l1 IH]; intros l2; simpl.
+    - reflexivity.
+    - rewrite IH; apply app_assoc.
   Qed.
 
   Lemma in_concat : forall l y,
@@ -1495,209 +1495,209 @@ End Fold_Right_Recursor.
   (*************************************)
 
   Section Bool.
-    Variable A : Type.
-    Variable f : A -> bool.
+      Variable A : Type.
+      Variable f : A -> bool.
 
-  (** find whether a boolean function can be satisfied by an
+    (** find whether a boolean function can be satisfied by an
        elements of the list. *)
 
-    Fixpoint existsb (l:list A) : bool :=
-      match l with
-        | [] => false
-        | a :: l => f a || existsb l
-      end.
+      Fixpoint existsb (l:list A) : bool :=
+        match l with
+          | [] => false
+          | a :: l => f a || existsb l
+        end.
 
-    Lemma existsb_exists :
-      forall l, existsb l = true <-> exists x, In x l /\ f x = true.
-    Proof.
-      intro l; induction l as [ | a m IH ]; split; simpl.
-      - easy.
-      - intros [x [[]]].
-      - destruct (f a) eqn:Ha.
-        + intros _. exists a. tauto.
-        + intros [x [? ?]] %IH. exists x. tauto.
-      - intros [ x [ [ Hax | Hxm ] Hfx ] ].
-        + now rewrite Hax, Hfx.
-        + destruct IH as [ _ -> ]; eauto with bool.
-    Qed.
+      Lemma existsb_exists :
+        forall l, existsb l = true <-> exists x, In x l /\ f x = true.
+      Proof.
+        intro l; induction l as [ | a m IH ]; split; simpl.
+        - easy.
+        - intros [x [[]]].
+        - destruct (f a) eqn:Ha.
+          + intros _. exists a. tauto.
+          + intros [x [? ?]] %IH. exists x. tauto.
+        - intros [ x [ [ Hax | Hxm ] Hfx ] ].
+          + now rewrite Hax, Hfx.
+          + destruct IH as [ _ -> ]; eauto with bool.
+      Qed.
 
-    Lemma existsb_nth : forall l n d, n < length l ->
-      existsb l = false -> f (nth n l d) = false.
-    Proof.
-      intro l; induction l as [|a ? IHl]; [easy|].
-      cbn. intros [|n]; [now destruct (f a)|].
-      intros d ? %Nat.succ_lt_mono.
-      now destruct (f a); [|apply IHl].
-    Qed.
+      Lemma existsb_nth : forall l n d, n < length l ->
+        existsb l = false -> f (nth n l d) = false.
+      Proof.
+        intro l; induction l as [|a ? IHl]; [easy|].
+        cbn. intros [|n]; [now destruct (f a)|].
+        intros d ? %Nat.succ_lt_mono.
+        now destruct (f a); [|apply IHl].
+      Qed.
 
-    Lemma existsb_app : forall l1 l2,
-      existsb (l1++l2) = existsb l1 || existsb l2.
-    Proof.
-      intro l1; induction l1 as [|a ? ?]; intros l2; simpl.
-      - auto.
-      - case (f a); simpl; solve[auto].
-    Qed.
+      Lemma existsb_app : forall l1 l2,
+        existsb (l1++l2) = existsb l1 || existsb l2.
+      Proof.
+        intro l1; induction l1 as [|a ? ?]; intros l2; simpl.
+        - auto.
+        - case (f a); simpl; solve[auto].
+      Qed.
 
-  (** find whether a boolean function is satisfied by
+    (** find whether a boolean function is satisfied by
     all the elements of a list. *)
 
-    Fixpoint forallb (l:list A) : bool :=
-      match l with
-      | [] => true
-      | a::l => f a && forallb l
-      end.
+      Fixpoint forallb (l:list A) : bool :=
+        match l with
+        | [] => true
+        | a::l => f a && forallb l
+        end.
 
-    Lemma forallb_forall :
-      forall l, forallb l = true <-> (forall x, In x l -> f x = true).
+      Lemma forallb_forall :
+        forall l, forallb l = true <-> (forall x, In x l -> f x = true).
+      Proof.
+        intro l; induction l as [|a l IHl]; simpl; [ tauto | split; intro H ].
+        + destruct (andb_prop _ _ H); intros a' [?|?].
+          - congruence.
+          - apply IHl; assumption.
+        + apply andb_true_intro; split.
+          - apply H; left; reflexivity.
+          - apply IHl; intros; apply H; right; assumption.
+      Qed.
+
+      Lemma forallb_app :
+        forall l1 l2, forallb (l1++l2) = forallb l1 && forallb l2.
+      Proof.
+        intro l1; induction l1 as [|a ? ?]; simpl.
+        - auto.
+        - case (f a); simpl; solve[auto].
+      Qed.
+
+    (** [filter] *)
+
+      Fixpoint filter (l:list A) : list A :=
+        match l with
+        | [] => []
+        | x :: l => if f x then x::(filter l) else filter l
+        end.
+
+      Lemma filter_In : forall x l, In x (filter l) <-> In x l /\ f x = true.
+      Proof.
+        intros x l; induction l as [|a ? ?]; simpl.
+        - tauto.
+        - intros.
+          case_eq (f a); intros; simpl; intuition congruence.
+      Qed.
+
+      Lemma filter_app (l l':list A) :
+        filter (l ++ l') = filter l ++ filter l'.
+      Proof.
+        induction l as [|x l IH]; simpl; trivial.
+        destruct (f x); simpl; now rewrite IH.
+      Qed.
+
+      Lemma concat_filter_map : forall (l : list (list A)),
+        concat (map filter l) = filter (concat l).
+      Proof.
+        intro l; induction l as [| v l IHl]; [auto|].
+        simpl. rewrite IHl. rewrite filter_app. reflexivity.
+      Qed.
+
+      Lemma forallb_filter l: forallb (filter l) = true.
+      Proof.
+        induction l as [|x l IH]; [reflexivity|].
+        cbn. remember (f x) as y. destruct y.
+        - apply andb_true_intro. auto.
+        - exact IH.
+      Qed.
+
+      Lemma forallb_filter_id l: forallb l = true -> filter l = l.
+      Proof.
+        induction l as [|x l IH]; [easy|].
+        cbn. intro H. destruct (f x).
+        - f_equal. apply IH, H.
+        - discriminate H.
+      Qed.
+
+    (** [find] *)
+
+      Fixpoint find (l:list A) : option A :=
+        match l with
+        | [] => None
+        | x :: tl => if f x then Some x else find tl
+        end.
+
+      Lemma find_some l x : find l = Some x -> In x l /\ f x = true.
+      Proof.
+        induction l as [|a l IH]; simpl; [easy| ].
+        case_eq (f a); intros Ha Eq.
+        * injection Eq as [= ->]; auto.
+        * destruct (IH Eq); auto.
+      Qed.
+
+      Lemma find_none l : find l = None -> forall x, In x l -> f x = false.
+      Proof.
+        induction l as [|a l IH]; simpl; [easy|].
+        case_eq (f a); intros Ha Eq x IN; [easy|].
+        destruct IN as [<-|IN]; auto.
+      Qed.
+
+      Lemma filter_rev (l : list A) : filter (rev l) = rev (filter l).
+      Proof.
+        induction l; cbn [rev]; trivial.
+        rewrite filter_app, IHl; cbn [filter].
+        case f; cbn [app]; auto using app_nil_r.
+      Qed.
+
+    (** [partition] *)
+
+      Fixpoint partition (l:list A) : list A * list A :=
+        match l with
+        | [] => ([], [])
+        | x :: tl => let (g,d) := partition tl in
+                     if f x then (x::g,d) else (g,x::d)
+        end.
+
+    Theorem partition_cons1 a l l1 l2:
+      partition l = (l1, l2) ->
+      f a = true ->
+      partition (a::l) = (a::l1, l2).
     Proof.
-      intro l; induction l as [|a l IHl]; simpl; [ tauto | split; intro H ].
-      + destruct (andb_prop _ _ H); intros a' [?|?].
-        - congruence.
-        - apply IHl; assumption.
-      + apply andb_true_intro; split.
-        - apply H; left; reflexivity.
-        - apply IHl; intros; apply H; right; assumption.
+      simpl. now intros -> ->.
     Qed.
 
-    Lemma forallb_app :
-      forall l1 l2, forallb (l1++l2) = forallb l1 && forallb l2.
+    Theorem partition_cons2 a l l1 l2:
+      partition l = (l1, l2) ->
+      f a=false ->
+      partition (a::l) = (l1, a::l2).
     Proof.
-      intro l1; induction l1 as [|a ? ?]; simpl.
-      - auto.
-      - case (f a); simpl; solve[auto].
+      simpl. now intros -> ->.
     Qed.
 
-  (** [filter] *)
-
-    Fixpoint filter (l:list A) : list A :=
-      match l with
-      | [] => []
-      | x :: l => if f x then x::(filter l) else filter l
-      end.
-
-    Lemma filter_In : forall x l, In x (filter l) <-> In x l /\ f x = true.
+    Theorem partition_length l l1 l2:
+      partition l = (l1, l2) ->
+      length l = length l1 + length l2.
     Proof.
-      intros x l; induction l as [|a ? ?]; simpl.
-      - tauto.
-      - intros.
-        case_eq (f a); intros; simpl; intuition congruence.
+      revert l1 l2. induction l as [ | a l' Hrec]; intros l1 l2.
+      - now intros [= <- <- ].
+      - simpl. destruct (f a), (partition l') as (left, right);
+        intros [= <- <- ]; simpl; rewrite (Hrec left right); auto.
     Qed.
 
-    Lemma filter_app (l l':list A) :
-      filter (l ++ l') = filter l ++ filter l'.
+    Theorem partition_inv_nil (l : list A):
+      partition l = ([], []) <-> l = [].
     Proof.
-      induction l as [|x l IH]; simpl; trivial.
-      destruct (f x); simpl; now rewrite IH.
+      split.
+      - destruct l as [|a l'].
+        * intuition.
+        * simpl. destruct (f a), (partition l'); now intros [= -> ->].
+      - now intros ->.
     Qed.
 
-    Lemma concat_filter_map : forall (l : list (list A)),
-      concat (map filter l) = filter (concat l).
+    Theorem elements_in_partition l l1 l2:
+      partition l = (l1, l2) ->
+      forall x:A, In x l <-> In x l1 \/ In x l2.
     Proof.
-      intro l; induction l as [| v l IHl]; [auto|].
-      simpl. rewrite IHl. rewrite filter_app. reflexivity.
+      revert l1 l2. induction l as [| a l' Hrec]; simpl; intros l1 l2 Eq x.
+      - injection Eq as [= <- <-]. tauto.
+      - destruct (partition l') as (left, right).
+        specialize (Hrec left right eq_refl x).
+        destruct (f a); injection Eq as [= <- <-]; simpl; tauto.
     Qed.
-
-    Lemma forallb_filter l: forallb (filter l) = true.
-    Proof.
-      induction l as [|x l IH]; [reflexivity|].
-      cbn. remember (f x) as y. destruct y.
-      - apply andb_true_intro. auto.
-      - exact IH.
-    Qed.
-
-    Lemma forallb_filter_id l: forallb l = true -> filter l = l.
-    Proof.
-      induction l as [|x l IH]; [easy|].
-      cbn. intro H. destruct (f x).
-      - f_equal. apply IH, H.
-      - discriminate H.
-    Qed.
-
-  (** [find] *)
-
-    Fixpoint find (l:list A) : option A :=
-      match l with
-      | [] => None
-      | x :: tl => if f x then Some x else find tl
-      end.
-
-    Lemma find_some l x : find l = Some x -> In x l /\ f x = true.
-    Proof.
-     induction l as [|a l IH]; simpl; [easy| ].
-     case_eq (f a); intros Ha Eq.
-     * injection Eq as [= ->]; auto.
-     * destruct (IH Eq); auto.
-    Qed.
-
-    Lemma find_none l : find l = None -> forall x, In x l -> f x = false.
-    Proof.
-     induction l as [|a l IH]; simpl; [easy|].
-     case_eq (f a); intros Ha Eq x IN; [easy|].
-     destruct IN as [<-|IN]; auto.
-    Qed.
-
-    Lemma filter_rev (l : list A) : filter (rev l) = rev (filter l).
-    Proof.
-      induction l; cbn [rev]; trivial.
-      rewrite filter_app, IHl; cbn [filter].
-      case f; cbn [app]; auto using app_nil_r.
-    Qed.
-
-  (** [partition] *)
-
-    Fixpoint partition (l:list A) : list A * list A :=
-      match l with
-      | [] => ([], [])
-      | x :: tl => let (g,d) := partition tl in
-                   if f x then (x::g,d) else (g,x::d)
-      end.
-
-  Theorem partition_cons1 a l l1 l2:
-    partition l = (l1, l2) ->
-    f a = true ->
-    partition (a::l) = (a::l1, l2).
-  Proof.
-    simpl. now intros -> ->.
-  Qed.
-
-  Theorem partition_cons2 a l l1 l2:
-    partition l = (l1, l2) ->
-    f a=false ->
-    partition (a::l) = (l1, a::l2).
-  Proof.
-    simpl. now intros -> ->.
-  Qed.
-
-  Theorem partition_length l l1 l2:
-    partition l = (l1, l2) ->
-    length l = length l1 + length l2.
-  Proof.
-    revert l1 l2. induction l as [ | a l' Hrec]; intros l1 l2.
-    - now intros [= <- <- ].
-    - simpl. destruct (f a), (partition l') as (left, right);
-      intros [= <- <- ]; simpl; rewrite (Hrec left right); auto.
-  Qed.
-
-  Theorem partition_inv_nil (l : list A):
-    partition l = ([], []) <-> l = [].
-  Proof.
-    split.
-    - destruct l as [|a l'].
-      * intuition.
-      * simpl. destruct (f a), (partition l'); now intros [= -> ->].
-    - now intros ->.
-  Qed.
-
-  Theorem elements_in_partition l l1 l2:
-    partition l = (l1, l2) ->
-    forall x:A, In x l <-> In x l1 \/ In x l2.
-  Proof.
-    revert l1 l2. induction l as [| a l' Hrec]; simpl; intros l1 l2 Eq x.
-    - injection Eq as [= <- <-]. tauto.
-    - destruct (partition l') as (left, right).
-      specialize (Hrec left right eq_refl x).
-      destruct (f a); injection Eq as [= <- <-]; simpl; tauto.
-  Qed.
 
   End Bool.
 
@@ -2505,42 +2505,42 @@ Section Add.
 
   Lemma Add_app a l1 l2 : Add a (l1++l2) (l1++a::l2).
   Proof.
-   induction l1; simpl; now constructor.
+    induction l1; simpl; now constructor.
   Qed.
 
   Lemma Add_split a l l' :
     Add a l l' -> exists l1 l2, l = l1++l2 /\ l' = l1++a::l2.
   Proof.
-   induction 1 as [l|x ? ? ? IHAdd].
-   - exists nil; exists l; split; trivial.
-   - destruct IHAdd as (l1 & l2 & Hl & Hl').
-     exists (x::l1); exists l2; split; simpl; f_equal; trivial.
+    induction 1 as [l|x ? ? ? IHAdd].
+    - exists nil; exists l; split; trivial.
+    - destruct IHAdd as (l1 & l2 & Hl & Hl').
+      exists (x::l1); exists l2; split; simpl; f_equal; trivial.
   Qed.
 
   Lemma Add_in a l l' : Add a l l' ->
    forall x, In x l' <-> In x (a::l).
   Proof.
-   induction 1 as [|? ? ? ? IHAdd]; intros; simpl in *; rewrite ?IHAdd; tauto.
+    induction 1 as [|? ? ? ? IHAdd]; intros; simpl in *; rewrite ?IHAdd; tauto.
   Qed.
 
   Lemma Add_length a l l' : Add a l l' -> length l' = S (length l).
   Proof.
-   induction 1; simpl; now auto.
+    induction 1; simpl; now auto.
   Qed.
 
   Lemma Add_inv a l : In a l -> exists l', Add a l' l.
   Proof.
-   intro Ha. destruct (in_split _ _ Ha) as (l1 & l2 & ->).
-   exists (l1 ++ l2). apply Add_app.
+    intro Ha. destruct (in_split _ _ Ha) as (l1 & l2 & ->).
+    exists (l1 ++ l2). apply Add_app.
   Qed.
 
   Lemma incl_Add_inv a l u v :
     ~In a l -> incl (a::l) v -> Add a u v -> incl l u.
   Proof.
-   intros Ha H AD y Hy.
-   assert (Hy' : In y (a::u)).
-   { rewrite <- (Add_in AD). apply H; simpl; auto. }
-   destruct Hy'; [ subst; now elim Ha | trivial ].
+    intros Ha H AD y Hy.
+    assert (Hy' : In y (a::u)).
+    { rewrite <- (Add_in AD). apply H; simpl; auto. }
+    destruct Hy'; [ subst; now elim Ha | trivial ].
   Qed.
 
 End Add.
@@ -2559,30 +2559,30 @@ Section ReDun.
 
   Lemma NoDup_Add a l l' : Add a l l' -> (NoDup l' <-> NoDup l /\ ~In a l).
   Proof.
-   induction 1 as [l|x l l' AD IH].
-   - split; [ inversion_clear 1; now split | now constructor ].
-   - split.
-     + inversion_clear 1. rewrite IH in *. rewrite (Add_in AD) in *.
-       simpl in *; split; try constructor; intuition.
-     + intros (N,IN). inversion_clear N. constructor.
-       * rewrite (Add_in AD); simpl in *; intuition.
-       * apply IH. split; trivial. simpl in *; intuition.
+    induction 1 as [l|x l l' AD IH].
+    - split; [ inversion_clear 1; now split | now constructor ].
+    - split.
+      + inversion_clear 1. rewrite IH in *. rewrite (Add_in AD) in *.
+        simpl in *; split; try constructor; intuition.
+      + intros (N,IN). inversion_clear N. constructor.
+        * rewrite (Add_in AD); simpl in *; intuition.
+        * apply IH. split; trivial. simpl in *; intuition.
   Qed.
 
   Lemma NoDup_remove l l' a :
     NoDup (l++a::l') -> NoDup (l++l') /\ ~In a (l++l').
   Proof.
-  apply NoDup_Add. apply Add_app.
+    apply NoDup_Add. apply Add_app.
   Qed.
 
   Lemma NoDup_remove_1 l l' a : NoDup (l++a::l') -> NoDup (l++l').
   Proof.
-  intros. now apply NoDup_remove with a.
+    intros. now apply NoDup_remove with a.
   Qed.
 
   Lemma NoDup_remove_2 l l' a : NoDup (l++a::l') -> ~In a (l++l').
   Proof.
-  intros. now apply NoDup_remove.
+    intros. now apply NoDup_remove.
   Qed.
 
   Theorem NoDup_cons_iff a l:
@@ -2609,16 +2609,16 @@ Section ReDun.
 
   Lemma NoDup_app_remove_l l l' : NoDup (l++l') -> NoDup l'.
   Proof.
-  induction l as [|a l IHl]; intro H.
-  - exact H.
-  - apply IHl, (NoDup_remove_1 nil _ _ H).
+    induction l as [|a l IHl]; intro H.
+    - exact H.
+    - apply IHl, (NoDup_remove_1 nil _ _ H).
   Qed.
 
   Lemma NoDup_app_remove_r l l' : NoDup (l++l') -> NoDup l.
   Proof.
-  induction l' as [|a l' IHl']; intro H.
-  - now rewrite app_nil_r in H.
-  - apply IHl', (NoDup_remove_1 _ _ _ H).
+    induction l' as [|a l' IHl']; intro H.
+    - now rewrite app_nil_r in H.
+    - apply IHl', (NoDup_remove_1 _ _ _ H).
   Qed.
 
   Lemma NoDup_rev l : NoDup l -> NoDup (rev l).
@@ -2760,26 +2760,26 @@ Section ReDun.
   Lemma NoDup_incl_length l l' :
     NoDup l -> incl l l' -> length l <= length l'.
   Proof.
-   intros N. revert l'. induction N as [|a l Hal N IH]; simpl.
-   - intros. now apply Nat.le_0_l.
-   - intros l' H.
-     destruct (Add_inv a l') as (l'', AD). { apply H; simpl; auto. }
-     rewrite (Add_length AD). apply le_n_S. apply IH.
-     now apply incl_Add_inv with a l'.
+    intros N. revert l'. induction N as [|a l Hal N IH]; simpl.
+    - intros. now apply Nat.le_0_l.
+    - intros l' H.
+      destruct (Add_inv a l') as (l'', AD). { apply H; simpl; auto. }
+      rewrite (Add_length AD). apply le_n_S. apply IH.
+      now apply incl_Add_inv with a l'.
   Qed.
 
   Lemma NoDup_length_incl l l' :
     NoDup l -> length l' <= length l -> incl l l' -> incl l' l.
   Proof.
-   intros N. revert l'. induction N as [|a l Hal N IH].
-   - intro l'; destruct l'; easy.
-   - intros l' E H x Hx.
-     destruct (Add_inv a l') as (l'', AD). { apply H; simpl; auto. }
-     rewrite (Add_in AD) in Hx. simpl in Hx.
-     destruct Hx as [Hx|Hx]; [left; trivial|right].
-     revert x Hx. apply (IH l''); trivial.
-     * apply Nat.succ_le_mono. now rewrite <- (Add_length AD).
-     * now apply incl_Add_inv with a l'.
+    intros N. revert l'. induction N as [|a l Hal N IH].
+    - intro l'; destruct l'; easy.
+    - intros l' E H x Hx.
+      destruct (Add_inv a l') as (l'', AD). { apply H; simpl; auto. }
+      rewrite (Add_in AD) in Hx. simpl in Hx.
+      destruct Hx as [Hx|Hx]; [left; trivial|right].
+      revert x Hx. apply (IH l''); trivial.
+      * apply Nat.succ_le_mono. now rewrite <- (Add_length AD).
+      * now apply incl_Add_inv with a l'.
   Qed.
 
   Lemma NoDup_incl_NoDup (l l' : list A) : NoDup l ->
@@ -2818,8 +2818,8 @@ End ReDun.
 
 Lemma NoDup_map_inv A B (f:A->B) l : NoDup (map f l) -> NoDup l.
 Proof.
- induction l; simpl; inversion_clear 1; subst; constructor; auto.
- intro H. now apply (in_map f) in H.
+  induction l; simpl; inversion_clear 1; subst; constructor; auto.
+  intro H. now apply (in_map f) in H.
 Qed.
 
 (***********************************)
@@ -2875,9 +2875,9 @@ Section NatSeq.
 
   Lemma seq_NoDup len start : NoDup (seq start len).
   Proof.
-   revert start; induction len as [|len IH];
-     intros start; simpl; constructor; trivial.
-   rewrite in_seq. intros (H,_). now apply (Nat.lt_irrefl start).
+    revert start; induction len as [|len IH];
+      intros start; simpl; constructor; trivial.
+    rewrite in_seq. intros (H,_). now apply (Nat.lt_irrefl start).
   Qed.
 
   Lemma seq_app : forall len1 len2 start,
@@ -2890,10 +2890,10 @@ Section NatSeq.
 
   Lemma seq_S : forall len start, seq start (S len) = seq start len ++ [start + len].
   Proof.
-   intros len start.
-   change [start + len] with (seq (start + len) 1).
-   rewrite <- seq_app.
-   rewrite Nat.add_succ_r, Nat.add_0_r; reflexivity.
+    intros len start.
+    change [start + len] with (seq (start + len) 1).
+    rewrite <- seq_app.
+    rewrite Nat.add_succ_r, Nat.add_0_r; reflexivity.
   Qed.
 
   Lemma skipn_seq n start len : skipn n (seq start len) = seq (start+n) (len-n).
@@ -3874,9 +3874,9 @@ Definition list_sum l := fold_right plus 0 l.
 Lemma list_sum_app : forall l1 l2,
    list_sum (l1 ++ l2) = list_sum l1 + list_sum l2.
 Proof.
-intro l1; induction l1 as [|a l1 IHl1]; intros l2; [ reflexivity | ].
-simpl; rewrite IHl1.
-apply Nat.add_assoc.
+  intro l1; induction l1 as [|a l1 IHl1]; intros l2; [ reflexivity | ].
+  simpl; rewrite IHl1.
+  apply Nat.add_assoc.
 Qed.
 
 Lemma length_concat A l:
@@ -3918,8 +3918,8 @@ Definition list_max l := fold_right max 0 l.
 Lemma list_max_app : forall l1 l2,
    list_max (l1 ++ l2) = max (list_max l1) (list_max l2).
 Proof.
-intro l1; induction l1 as [|a l1 IHl1]; intros l2; [ reflexivity | ].
-now simpl; rewrite IHl1, Nat.max_assoc.
+  intro l1; induction l1 as [|a l1 IHl1]; intros l2; [ reflexivity | ].
+  now simpl; rewrite IHl1, Nat.max_assoc.
 Qed.
 
 Lemma list_max_le : forall l n,
@@ -3935,17 +3935,17 @@ Qed.
 Lemma list_max_lt : forall l n, l <> [] ->
   list_max l < n <-> Forall (fun k => k < n) l.
 Proof.
-intro l; induction l as [|a l IHl]; simpl; intros n Hnil; split; intros H; intuition.
-- destruct l.
-  + repeat constructor.
-    now simpl in H; rewrite Nat.max_0_r in H.
-  + apply Nat.max_lub_lt_iff in H.
-    now constructor; [ | apply IHl ].
-- destruct l; inversion_clear H as [ | ? ? Hlt HF ].
-  + now simpl; rewrite Nat.max_0_r.
-  + apply IHl in HF.
-    * now apply Nat.max_lub_lt_iff.
-    * intros Heq; inversion Heq.
+  intro l; induction l as [|a l IHl]; simpl; intros n Hnil; split; intros H; intuition.
+  - destruct l.
+    + repeat constructor.
+      now simpl in H; rewrite Nat.max_0_r in H.
+    + apply Nat.max_lub_lt_iff in H.
+      now constructor; [ | apply IHl ].
+  - destruct l; inversion_clear H as [ | ? ? Hlt HF ].
+    + now simpl; rewrite Nat.max_0_r.
+    + apply IHl in HF.
+      * now apply Nat.max_lub_lt_iff.
+      * intros Heq; inversion Heq.
 Qed.
 
 

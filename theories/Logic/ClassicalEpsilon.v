@@ -81,9 +81,9 @@ Lemma epsilon_inh_irrelevance :
    forall (A:Type) (i j : inhabited A) (P:A->Prop),
    (exists x, P x) -> epsilon i P = epsilon j P.
 Proof.
- intros.
- unfold epsilon, classical_indefinite_description.
- destruct (excluded_middle_informative (exists x : A, P x)) as [|[]]; trivial.
+  intros.
+  unfold epsilon, classical_indefinite_description.
+  destruct (excluded_middle_informative (exists x : A, P x)) as [|[]]; trivial.
 Qed.
 
 Opaque epsilon.

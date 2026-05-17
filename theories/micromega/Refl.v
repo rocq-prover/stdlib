@@ -31,9 +31,9 @@ Fixpoint make_impl (A : Type) (eval : A -> Prop) (l : list A) (goal : Prop) {str
 Theorem make_impl_true :
   forall (A : Type) (eval : A -> Prop) (l : list A), make_impl eval l True.
 Proof.
-intros A eval l; induction l as [| a l IH]; simpl.
-- trivial.
-- intro; apply IH.
+  intros A eval l; induction l as [| a l IH]; simpl.
+  - trivial.
+  - intro; apply IH.
 Qed.
 
 
@@ -42,13 +42,13 @@ Theorem make_impl_map :
          (EVAL : forall x, eval' x <-> eval (fst x)),
     make_impl eval' l r <-> make_impl eval (List.map fst l) r.
 Proof.
-intros A B eval eval' l; induction l as [| a l IH]; simpl.
-- tauto.
-- intros r EVAL.
-  rewrite EVAL.
-  rewrite IH.
-  + tauto.
-  + auto.
+  intros A B eval eval' l; induction l as [| a l IH]; simpl.
+  - tauto.
+  - intros r EVAL.
+    rewrite EVAL.
+    rewrite IH.
+    + tauto.
+    + auto.
 Qed.
 
 Fixpoint make_conj (A : Type) (eval : A -> Prop) (l : list A) {struct l} : Prop :=
@@ -61,7 +61,7 @@ Fixpoint make_conj (A : Type) (eval : A -> Prop) (l : list A) {struct l} : Prop 
 Theorem make_conj_cons : forall (A : Type) (eval : A -> Prop) (a : A) (l : list A),
   make_conj eval (a :: l) <-> eval a /\ make_conj eval l.
 Proof.
-intros A eval a l; destruct l; simpl; tauto.
+  intros A eval a l; destruct l; simpl; tauto.
 Qed.
 
 

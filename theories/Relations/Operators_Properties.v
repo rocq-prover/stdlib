@@ -137,10 +137,10 @@ Section Properties.
 
     Lemma clos_t1n_trans : forall x y, clos_trans_1n R x y -> clos_trans R x y.
     Proof.
-     induction 1 as [x y H|x y z H H0 IH0].
-     - left; assumption.
-     - right with y; auto.
-       left; auto.
+      induction 1 as [x y H|x y z H H0 IH0].
+      - left; assumption.
+      - right with y; auto.
+        left; auto.
     Qed.
 
     Lemma clos_trans_t1n : forall x y, clos_trans R x y -> clos_trans_1n R x y.

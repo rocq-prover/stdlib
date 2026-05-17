@@ -26,8 +26,8 @@ From Stdlib Require Export Ngcd_def.
 #[local] Open Scope N_scope.
 
 Section TestOrder.
- Let test : forall x y, x<=y -> y<=x -> x=y.
- Proof.
- N.order.
- Defined.
+  Let test : forall x y, x<=y -> y<=x -> x=y.
+  Proof.
+    N.order.
+  Defined.
 End TestOrder.

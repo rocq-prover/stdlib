@@ -44,55 +44,55 @@ Qed.
 Lemma Zcompare_Gt_trans :
   forall n m p:Z, (n ?= m) = Gt -> (m ?= p) = Gt -> (n ?= p) = Gt.
 Proof.
- intros n m p. change (n > m -> m > p -> n > p).
- Z.swap_greater. intros. now transitivity m.
+  intros n m p. change (n > m -> m > p -> n > p).
+  Z.swap_greater. intros. now transitivity m.
 Qed.
 
 (** * Comparison and opposite *)
 
 Lemma Zcompare_opp n m : (n ?= m) = (- m ?= - n).
 Proof.
- symmetry. apply Z.compare_opp.
+  symmetry. apply Z.compare_opp.
 Qed.
 
 (** * Comparison first-order specification *)
 
 Lemma Zcompare_Gt_spec n m : (n ?= m) = Gt ->  exists h, n + - m = Zpos h.
 Proof.
- rewrite Z.compare_sub. unfold Z.sub.
- destruct (n+-m) as [|p|p]; try discriminate. now exists p.
+  rewrite Z.compare_sub. unfold Z.sub.
+  destruct (n+-m) as [|p|p]; try discriminate. now exists p.
 Qed.
 
 (** * Comparison and addition *)
 
 Lemma Zcompare_plus_compat n m p : (p + n ?= p + m) = (n ?= m).
 Proof.
- apply Z.add_compare_mono_l.
+  apply Z.add_compare_mono_l.
 Qed.
 
 Lemma Zplus_compare_compat (r:comparison) (n m p q:Z) :
   (n ?= m) = r -> (p ?= q) = r -> (n + p ?= m + q) = r.
 Proof.
- rewrite (Z.compare_sub n), (Z.compare_sub p), (Z.compare_sub (n+p)).
- unfold Z.sub. rewrite Z.opp_add_distr. rewrite Z.add_shuffle1.
- destruct (n+-m), (p+-q); simpl; intros; now subst.
+  rewrite (Z.compare_sub n), (Z.compare_sub p), (Z.compare_sub (n+p)).
+  unfold Z.sub. rewrite Z.opp_add_distr. rewrite Z.add_shuffle1.
+  destruct (n+-m), (p+-q); simpl; intros; now subst.
 Qed.
 
 Lemma Zcompare_succ_Gt n : (Z.succ n ?= n) = Gt.
 Proof.
- apply Z.lt_gt. apply Z.lt_succ_diag_r.
+  apply Z.lt_gt. apply Z.lt_succ_diag_r.
 Qed.
 
 Lemma Zcompare_Gt_not_Lt n m : (n ?= m) = Gt <-> (n ?= m+1) <> Lt.
 Proof.
- change (n > m <-> n >= m+1). Z.swap_greater. symmetry. apply Z.le_succ_l.
+  change (n > m <-> n >= m+1). Z.swap_greater. symmetry. apply Z.le_succ_l.
 Qed.
 
 (** * Successor and comparison *)
 
 Lemma Zcompare_succ_compat n m : (Z.succ n ?= Z.succ m) = (n ?= m).
 Proof.
- rewrite <- 2 Z.add_1_l. apply Z.add_compare_mono_l.
+  rewrite <- 2 Z.add_1_l. apply Z.add_compare_mono_l.
 Qed.
 
 (** * Multiplication and comparison *)
@@ -100,20 +100,20 @@ Qed.
 Lemma Zcompare_mult_compat :
   forall (p:positive) (n m:Z), (Zpos p * n ?= Zpos p * m) = (n ?= m).
 Proof.
- intros p [|n|n] [|m|m]; simpl; trivial; now rewrite Pos.mul_compare_mono_l.
+  intros p [|n|n] [|m|m]; simpl; trivial; now rewrite Pos.mul_compare_mono_l.
 Qed.
 
 Lemma Zmult_compare_compat_l n m p:
   p > 0 -> (n ?= m) = (p * n ?= p * m).
 Proof.
- intros; destruct p; try discriminate.
- symmetry. apply Zcompare_mult_compat.
+  intros; destruct p; try discriminate.
+  symmetry. apply Zcompare_mult_compat.
 Qed.
 
 Lemma Zmult_compare_compat_r n m p :
   p > 0 -> (n ?= m) = (n * p ?= m * p).
 Proof.
- intros; rewrite 2 (Z.mul_comm _ p); now apply Zmult_compare_compat_l.
+  intros; rewrite 2 (Z.mul_comm _ p); now apply Zmult_compare_compat_l.
 Qed.
 
 (** * Relating [x ?= y] to [=], [<=], [<], [>=] or [>] *)
@@ -128,7 +128,7 @@ Lemma Zcompare_elim :
                        | Gt => c3
                      end.
 Proof.
- intros. case Z.compare_spec; trivial. now Z.swap_greater.
+  intros. case Z.compare_spec; trivial. now Z.swap_greater.
 Qed.
 
 Lemma Zcompare_eq_case :
@@ -139,7 +139,7 @@ Lemma Zcompare_eq_case :
                      | Gt => c3
                    end.
 Proof.
- intros. subst. now rewrite Z.compare_refl.
+  intros. subst. now rewrite Z.compare_refl.
 Qed.
 
 Lemma Zle_compare :

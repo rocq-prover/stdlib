@@ -17,16 +17,16 @@ From Stdlib Require Export Ring_tac.
 Lemma BoolTheory :
   ring_theory false true xorb andb xorb (fun b:bool => b) (eq(A:=bool)).
 Proof.
-split; simpl.
-- intros x; destruct x; reflexivity.
-- intros x y; destruct x; destruct y; reflexivity.
-- intros x y z; destruct x; destruct y; destruct z; reflexivity.
-- reflexivity.
-- intros x y; destruct x; destruct y; reflexivity.
-- intros x y; destruct x; destruct y; reflexivity.
-- intros x y z; destruct x; destruct y; destruct z; reflexivity.
-- reflexivity.
-- intros x; destruct x; reflexivity.
+  split; simpl.
+  - intros x; destruct x; reflexivity.
+  - intros x y; destruct x; destruct y; reflexivity.
+  - intros x y z; destruct x; destruct y; destruct z; reflexivity.
+  - reflexivity.
+  - intros x y; destruct x; destruct y; reflexivity.
+  - intros x y; destruct x; destruct y; reflexivity.
+  - intros x y z; destruct x; destruct y; destruct z; reflexivity.
+  - reflexivity.
+  - intros x; destruct x; reflexivity.
 Qed.
 
 Definition bool_eq (b1 b2:bool) :=
@@ -34,7 +34,7 @@ Definition bool_eq (b1 b2:bool) :=
 
 Lemma bool_eq_ok : forall b1 b2, bool_eq b1 b2 = true -> b1 = b2.
 Proof.
-intros b1 b2; destruct b1; destruct b2; auto.
+  intros b1 b2; destruct b1; destruct b2; auto.
 Qed.
 
 Ltac bool_cst t :=

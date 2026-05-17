@@ -265,7 +265,7 @@ Qed.
 
 Lemma nzhead_app_nil_r d d' : nzhead (app d d') = Nil -> nzhead d' = Nil.
 Proof.
-now intro H; generalize H; rewrite nzhead_app_r; [|rewrite H; apply Nat.le_0_l].
+  now intro H; generalize H; rewrite nzhead_app_r; [|rewrite H; apply Nat.le_0_l].
 Qed.
 
 Lemma nzhead_app_nil d d' :

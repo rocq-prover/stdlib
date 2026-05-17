@@ -287,7 +287,7 @@ Hint Resolve minus_diag_reverse_stt: arith. (* Minus.minus_diag_reverse *)
 #[local]
 Lemma minus_plus_simpl_l_reverse_stt n m p : n - m = p + n - (p + m).
 Proof.
- now rewrite Nat.sub_add_distr, Nat.add_comm, Nat.add_sub.
+  now rewrite Nat.sub_add_distr, Nat.add_comm, Nat.add_sub.
 Qed.
 Add Search Blacklist "Coq.Arith.Arith_base.minus_plus_simpl_l_reverse_stt".
 #[global]
@@ -346,7 +346,7 @@ Hint Resolve mult_assoc_reverse_stt Nat.mul_assoc: arith. (* Mult.mult_assoc_rev
 #[local]
 Lemma mult_O_le_stt n m : m = 0 \/ n <= m * n.
 Proof.
- destruct m; [left|right]; simpl; trivial using Nat.le_add_r.
+  destruct m; [left|right]; simpl; trivial using Nat.le_add_r.
 Qed.
 Add Search Blacklist "Coq.Arith.Arith_base.mult_O_le_stt".
 #[global]

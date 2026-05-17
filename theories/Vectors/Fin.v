@@ -39,42 +39,42 @@ Inductive t : nat -> Set :=
 |FS : forall {n}, t n -> t (S n).
 
 Section SCHEMES.
-Definition case0 P (p: t 0): P p :=
-  match p with | F1 | FS  _ => fun devil => False_rect (@ID) devil (* subterm !!! *) end.
+  Definition case0 P (p: t 0): P p :=
+    match p with | F1 | FS  _ => fun devil => False_rect (@ID) devil (* subterm !!! *) end.
 
-Definition caseS' {n : nat} (p : t (S n)) : forall (P : t (S n) -> Type)
-  (P1 : P F1) (PS : forall (p : t n), P (FS p)), P p :=
-  match p with
-  | @F1 k => fun P P1 PS => P1
-  | FS pp => fun P P1 PS => PS pp
-  end.
-
-Definition caseS (P: forall {n}, t (S n) -> Type)
-  (P1: forall n, @P n F1) (PS : forall {n} (p: t n), P (FS p))
-  {n} (p: t (S n)) : P p := caseS' p P (P1 n) PS.
-
-Definition rectS (P: forall {n}, t (S n) -> Type)
-  (P1: forall n, @P n F1) (PS : forall {n} (p: t (S n)), P p -> P (FS p)):
-  forall {n} (p: t (S n)), P p :=
-fix rectS_fix {n} (p: t (S n)): P p:=
-  match p with
-  | @F1 k => P1 k
-  | @FS 0 pp => case0 (fun f => P (FS f)) pp
-  | @FS (S k) pp => PS pp (rectS_fix pp)
-  end.
-
-Definition rect2 (P : forall {n} (a b : t n), Type)
-  (H0 : forall n, @P (S n) F1 F1)
-  (H1 : forall {n} (f : t n), P F1 (FS f))
-  (H2 : forall {n} (f : t n), P (FS f) F1)
-  (HS : forall {n} (f g : t n), P f g -> P (FS f) (FS g)) :
-    forall {n} (a b : t n), P a b :=
-  fix rect2_fix {n} (a : t n) {struct a} : forall (b : t n), P a b :=
-    match a with
-    | @F1 m => fun (b : t (S m)) => caseS' b (P F1) (H0 _) H1
-    | @FS m a' => fun (b : t (S m)) =>
-      caseS' b (fun b => P (@FS m a') b) (H2 a') (fun b' => HS _ _ (rect2_fix a' b'))
+  Definition caseS' {n : nat} (p : t (S n)) : forall (P : t (S n) -> Type)
+    (P1 : P F1) (PS : forall (p : t n), P (FS p)), P p :=
+    match p with
+    | @F1 k => fun P P1 PS => P1
+    | FS pp => fun P P1 PS => PS pp
     end.
+
+  Definition caseS (P: forall {n}, t (S n) -> Type)
+    (P1: forall n, @P n F1) (PS : forall {n} (p: t n), P (FS p))
+    {n} (p: t (S n)) : P p := caseS' p P (P1 n) PS.
+
+  Definition rectS (P: forall {n}, t (S n) -> Type)
+    (P1: forall n, @P n F1) (PS : forall {n} (p: t (S n)), P p -> P (FS p)):
+    forall {n} (p: t (S n)), P p :=
+  fix rectS_fix {n} (p: t (S n)): P p:=
+    match p with
+    | @F1 k => P1 k
+    | @FS 0 pp => case0 (fun f => P (FS f)) pp
+    | @FS (S k) pp => PS pp (rectS_fix pp)
+    end.
+
+  Definition rect2 (P : forall {n} (a b : t n), Type)
+    (H0 : forall n, @P (S n) F1 F1)
+    (H1 : forall {n} (f : t n), P F1 (FS f))
+    (H2 : forall {n} (f : t n), P (FS f) F1)
+    (HS : forall {n} (f g : t n), P f g -> P (FS f) (FS g)) :
+      forall {n} (a b : t n), P a b :=
+    fix rect2_fix {n} (a : t n) {struct a} : forall (b : t n), P a b :=
+      match a with
+      | @F1 m => fun (b : t (S m)) => caseS' b (P F1) (H0 _) H1
+      | @FS m a' => fun (b : t (S m)) =>
+        caseS' b (fun b => P (@FS m a') b) (H2 a') (fun b' => HS _ _ (rect2_fix a' b'))
+      end.
 
 End SCHEMES.
 
@@ -120,30 +120,30 @@ Fixpoint of_nat_lt {p n : nat} : p < n -> t n :=
 
 Lemma of_nat_ext {p}{n} (h h' : p < n) : of_nat_lt h = of_nat_lt h'.
 Proof.
- now rewrite (Peano_dec.le_unique _ _ h h').
+  now rewrite (Peano_dec.le_unique _ _ h h').
 Qed.
 
 Lemma of_nat_to_nat_inv {m} (p : t m) : of_nat_lt (proj2_sig (to_nat p)) = p.
 Proof.
-induction p as [|? p]; simpl.
-- reflexivity.
-- destruct (to_nat p); simpl in *. f_equal. subst p. apply of_nat_ext.
+  induction p as [|? p]; simpl.
+  - reflexivity.
+  - destruct (to_nat p); simpl in *. f_equal. subst p. apply of_nat_ext.
 Qed.
 
 Lemma to_nat_of_nat {p}{n} (h : p < n) : to_nat (of_nat_lt h) = exist _ p h.
 Proof.
-revert p h. induction n as [|n IHn].
-- intros p h. destruct (Nat.nlt_0_r p h).
-- intros [|p] h; cbn; [|rewrite IHn]; f_equal; apply Peano_dec.le_unique.
+  revert p h. induction n as [|n IHn].
+  - intros p h. destruct (Nat.nlt_0_r p h).
+  - intros [|p] h; cbn; [|rewrite IHn]; f_equal; apply Peano_dec.le_unique.
 Qed.
 
 Lemma to_nat_inj {n} (p q : t n) :
  proj1_sig (to_nat p) = proj1_sig (to_nat q) -> p = q.
 Proof.
- intro H.
- rewrite <- (of_nat_to_nat_inv p), <- (of_nat_to_nat_inv q).
- destruct (to_nat p) as (np,hp), (to_nat q) as (nq,hq); simpl in *.
- revert hp hq. rewrite H. apply of_nat_ext.
+  intro H.
+  rewrite <- (of_nat_to_nat_inv p), <- (of_nat_to_nat_inv q).
+  destruct (to_nat p) as (np,hp), (to_nat q) as (nq,hq); simpl in *.
+  revert hp hq. rewrite H. apply of_nat_ext.
 Qed.
 
 
@@ -167,15 +167,15 @@ Fixpoint L {m} n (p : t m) : t (m + n) :=
 
 Lemma L_sanity {m} n (p : t m) : proj1_sig (to_nat (L n p)) = proj1_sig (to_nat p).
 Proof.
-induction p as [|? p IHp].
-- reflexivity.
-- simpl; destruct (to_nat (L n p)); simpl in *; rewrite IHp. now destruct (to_nat p).
+  induction p as [|? p IHp].
+  - reflexivity.
+  - simpl; destruct (to_nat (L n p)); simpl in *; rewrite IHp. now destruct (to_nat p).
 Qed.
 
 Lemma L_inj {m} n (p q : t m) : L n p = L n q -> p = q.
 Proof.
-induction p as [m|m p IH]; apply (caseS' q); [easy..|].
-intros ??. f_equal. now apply IH, FS_inj.
+  induction p as [m|m p IH]; apply (caseS' q); [easy..|].
+  intros ??. f_equal. now apply IH, FS_inj.
 Qed.
 
 (** The p{^ th} element of [fin m] viewed as the p{^ th} element of
@@ -183,13 +183,13 @@ Qed.
 Really really inefficient !!! *)
 Definition L_R {m} n (p : t m) : t (n + m).
 Proof.
-induction n as [|n IHn].
-- exact p.
-- exact ((fix LS k (p: t k) :=
-    match p with
-      |@F1 k' => @F1 (S k')
-      |FS p' => FS (LS _ p')
-    end) _ IHn).
+  induction n as [|n IHn].
+  - exact p.
+  - exact ((fix LS k (p: t k) :=
+      match p with
+        |@F1 k' => @F1 (S k')
+        |FS p' => FS (LS _ p')
+      end) _ IHn).
 Defined.
 
 (** The p{^ th} element of [fin m] viewed as the (n + p){^ th} element of
@@ -199,23 +199,23 @@ Fixpoint R {m} n (p : t m) : t (n + m) :=
 
 Lemma R_sanity {m} n (p : t m) : proj1_sig (to_nat (R n p)) = n + proj1_sig (to_nat p).
 Proof.
-induction n as [|n IHn].
-- reflexivity.
-- simpl; destruct (to_nat (R n p)); simpl in *; rewrite IHn. now destruct (to_nat p).
+  induction n as [|n IHn].
+  - reflexivity.
+  - simpl; destruct (to_nat (R n p)); simpl in *; rewrite IHn. now destruct (to_nat p).
 Qed.
 
 Lemma R_inj {m} n (p q : t m) : R n p = R n q -> p = q.
 Proof.
-induction n as [|n IH].
-- easy.
-- intros ?. now apply IH, FS_inj.
+  induction n as [|n IH].
+  - easy.
+  - intros ?. now apply IH, FS_inj.
 Qed.
 
 Lemma L_R_neq n m (p : t n) (q : t m) : L m p <> R n q.
 Proof.
-induction p as [n|n p IH].
-- discriminate.
-- intros ?. now apply IH, FS_inj.
+  induction p as [n|n p IH].
+  - discriminate.
+  - intros ?. now apply IH, FS_inj.
 Qed.
 
 Fixpoint case_L_R' {n m} : forall (P : t (n + m) -> Type) (p : t (n + m)),
@@ -268,11 +268,11 @@ end.
 Lemma depair_sanity {m n} (o : t m) (p : t n) :
   proj1_sig (to_nat (depair o p)) = n * (proj1_sig (to_nat o)) + (proj1_sig (to_nat p)).
 Proof.
-induction o as [|? o IHo] ; simpl.
-- rewrite L_sanity. now rewrite Nat.mul_0_r.
-- rewrite R_sanity. rewrite IHo.
-  rewrite Nat.add_assoc. destruct (to_nat o); simpl; rewrite Nat.mul_succ_r.
-    now rewrite (Nat.add_comm n).
+  induction o as [|? o IHo] ; simpl.
+  - rewrite L_sanity. now rewrite Nat.mul_0_r.
+  - rewrite R_sanity. rewrite IHo.
+    rewrite Nat.add_assoc. destruct (to_nat o); simpl; rewrite Nat.mul_succ_r.
+      now rewrite (Nat.add_comm n).
 Qed.
 
 Fixpoint eqb {m n} (p : t m) (q : t n) :=
@@ -285,45 +285,45 @@ end.
 
 Lemma eqb_nat_eq : forall m n (p : t m) (q : t n), eqb p q = true -> m = n.
 Proof.
-intros m n p; revert n; induction p as [|? p IHp];
- intros ? q; destruct q; simpl; intros; f_equal.
-- now apply Nat.eqb_eq.
-- easy.
-- easy.
-- eapply IHp. eassumption.
+  intros m n p; revert n; induction p as [|? p IHp];
+   intros ? q; destruct q; simpl; intros; f_equal.
+  - now apply Nat.eqb_eq.
+  - easy.
+  - easy.
+  - eapply IHp. eassumption.
 Qed.
 
 Lemma eqb_eq : forall n (p q : t n), eqb p q = true <-> p = q.
 Proof.
-apply rect2; simpl; intros.
-- split; intros ; [ reflexivity | now apply Nat.eqb_eq ].
-- now split.
-- now split.
-- eapply iff_trans.
- + eassumption.
- + split.
-  * intros; now f_equal.
-  * apply FS_inj.
+  apply rect2; simpl; intros.
+  - split; intros ; [ reflexivity | now apply Nat.eqb_eq ].
+  - now split.
+  - now split.
+  - eapply iff_trans.
+   + eassumption.
+   + split.
+    * intros; now f_equal.
+    * apply FS_inj.
 Qed.
 
 Lemma eq_dec {n} (x y : t n): {x = y} + {x <> y}.
 Proof.
-case_eq (eqb x y); intros.
-- left; now apply eqb_eq.
-- right. intros Heq. apply <- eqb_eq in Heq. congruence.
+  case_eq (eqb x y); intros.
+  - left; now apply eqb_eq.
+  - right. intros Heq. apply <- eqb_eq in Heq. congruence.
 Defined.
 
 Definition cast: forall {m} (v: t m) {n}, m = n -> t n.
 Proof.
-refine (fix cast {m} (v: t m) {struct v} :=
- match v in t m' return forall n, m' = n -> t n with
- |F1 => fun n => match n with
-   | 0 => fun H => False_rect _ _
-   | S n' => fun H => F1
- end
- |FS f => fun n => match n with
-   | 0 => fun H => False_rect _ _
-   | S n' => fun H => FS (cast f n' (f_equal pred H))
- end
-end); discriminate.
+  refine (fix cast {m} (v: t m) {struct v} :=
+   match v in t m' return forall n, m' = n -> t n with
+   |F1 => fun n => match n with
+     | 0 => fun H => False_rect _ _
+     | S n' => fun H => F1
+   end
+   |FS f => fun n => match n with
+     | 0 => fun H => False_rect _ _
+     | S n' => fun H => FS (cast f n' (f_equal pred H))
+   end
+  end); discriminate.
 Defined.

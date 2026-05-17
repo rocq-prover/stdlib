@@ -43,18 +43,18 @@ Proof. reflexivity. Qed.
 
 Lemma floor_ok : forall p:positive, floor p <= Zpos p < 2 * floor p.
 Proof.
- unfold floor. intros p; induction p as [p [IH1p IH2p]|p [IH1p IH2]|]; simpl.
- - rewrite !Pos2Z.inj_xI, (Pos2Z.inj_xO (xO _)), Pos2Z.inj_xO.
-   split.
-   + apply Z.le_trans with (2 * Z.pos p); auto using Z.le_succ_diag_r.
-   + apply Z.lt_le_trans with (2 * (Z.pos p + 1)).
-     * rewrite Z.mul_add_distr_l, Z.mul_1_r.
-       apply Z.add_lt_mono_l; reflexivity.
-     * apply Z.mul_le_mono_nonneg_l; trivial using Z.le_0_2.
-       rewrite Z.add_1_r. apply Z.le_succ_l. trivial.
- - rewrite (Pos2Z.inj_xO (xO _)), (Pos2Z.inj_xO p), Pos2Z.inj_xO.
-   split; auto with zarith.
- - split; auto using Z.le_refl, Z.lt_1_2.
+  unfold floor. intros p; induction p as [p [IH1p IH2p]|p [IH1p IH2]|]; simpl.
+  - rewrite !Pos2Z.inj_xI, (Pos2Z.inj_xO (xO _)), Pos2Z.inj_xO.
+    split.
+    + apply Z.le_trans with (2 * Z.pos p); auto using Z.le_succ_diag_r.
+    + apply Z.lt_le_trans with (2 * (Z.pos p + 1)).
+      * rewrite Z.mul_add_distr_l, Z.mul_1_r.
+        apply Z.add_lt_mono_l; reflexivity.
+      * apply Z.mul_le_mono_nonneg_l; trivial using Z.le_0_2.
+        rewrite Z.add_1_r. apply Z.le_succ_l. trivial.
+  - rewrite (Pos2Z.inj_xO (xO _)), (Pos2Z.inj_xO p), Pos2Z.inj_xO.
+    split; auto with zarith.
+  - split; auto using Z.le_refl, Z.lt_1_2.
 Qed.
 
 (**********************************************************************)
@@ -113,7 +113,7 @@ Qed.
 
 Lemma sqr_pos n : n * n >= 0.
 Proof.
- Z.swap_greater. apply Z.square_nonneg.
+  Z.swap_greater. apply Z.square_nonneg.
 Qed.
 
 (**********************************************************************)

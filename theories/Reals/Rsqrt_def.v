@@ -446,10 +446,10 @@ Qed.
 (* A general purpose corollary. *)
 Lemma cv_pow_half : forall a, Un_cv (fun n => a/2^n) 0.
 Proof.
-intros a; unfold Rdiv; replace 0 with (a * 0) by ring.
-apply CV_mult.
-- intros eps ep; exists 0%nat; rewrite Rdist_eq; intros n _; assumption.
-- exact (cv_infty_cv_0 pow_2_n pow_2_n_infty).
+  intros a; unfold Rdiv; replace 0 with (a * 0) by ring.
+  apply CV_mult.
+  - intros eps ep; exists 0%nat; rewrite Rdist_eq; intros n _; assumption.
+  - exact (cv_infty_cv_0 pow_2_n pow_2_n_infty).
 Qed.
 
 (** Intermediate Value Theorem *)

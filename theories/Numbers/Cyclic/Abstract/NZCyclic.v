@@ -27,216 +27,216 @@ From Stdlib Require Import Lia.
 
 Module NZCyclicAxiomsMod (Import Cyclic : CyclicType) <: NZAxiomsSig.
 
-#[local] Open Scope Z_scope.
+  #[local] Open Scope Z_scope.
 
-#[local] Notation wB := (base ZnZ.digits).
+  #[local] Notation wB := (base ZnZ.digits).
 
-#[local] Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
+  #[local] Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
 
-Definition eq (n m : t) := [| n |] = [| m |].
-Definition zero := ZnZ.zero.
-Definition one := ZnZ.one.
-Definition two := ZnZ.succ ZnZ.one.
-Definition succ := ZnZ.succ.
-Definition pred := ZnZ.pred.
-Definition add := ZnZ.add.
-Definition sub := ZnZ.sub.
-Definition mul := ZnZ.mul.
+  Definition eq (n m : t) := [| n |] = [| m |].
+  Definition zero := ZnZ.zero.
+  Definition one := ZnZ.one.
+  Definition two := ZnZ.succ ZnZ.one.
+  Definition succ := ZnZ.succ.
+  Definition pred := ZnZ.pred.
+  Definition add := ZnZ.add.
+  Definition sub := ZnZ.sub.
+  Definition mul := ZnZ.mul.
 
-#[local] Infix "=="  := eq (at level 70).
-#[local] Notation "0" := zero.
-#[local] Notation S := succ.
-#[local] Notation P := pred.
-#[local] Infix "+" := add.
-#[local] Infix "-" := sub.
-#[local] Infix "*" := mul.
+  #[local] Infix "=="  := eq (at level 70).
+  #[local] Notation "0" := zero.
+  #[local] Notation S := succ.
+  #[local] Notation P := pred.
+  #[local] Infix "+" := add.
+  #[local] Infix "-" := sub.
+  #[local] Infix "*" := mul.
 
-#[global] Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_succ ZnZ.spec_pred
- ZnZ.spec_add ZnZ.spec_mul ZnZ.spec_sub : cyclic.
-Ltac zify :=
- unfold eq, zero, one, two, succ, pred, add, sub, mul in *;
- autorewrite with cyclic.
-Ltac zcongruence := repeat red; intros; zify; congruence.
+  #[global] Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_succ ZnZ.spec_pred
+   ZnZ.spec_add ZnZ.spec_mul ZnZ.spec_sub : cyclic.
+  Ltac zify :=
+   unfold eq, zero, one, two, succ, pred, add, sub, mul in *;
+   autorewrite with cyclic.
+  Ltac zcongruence := repeat red; intros; zify; congruence.
 
-#[global]
-Instance eq_equiv : Equivalence eq.
-Proof.
-  split. 1-2: firstorder auto with crelations.
-  intros x y z; apply eq_trans.
-Qed.
+  #[global]
+  Instance eq_equiv : Equivalence eq.
+  Proof.
+    split. 1-2: firstorder auto with crelations.
+    intros x y z; apply eq_trans.
+  Qed.
 
-#[local] Obligation Tactic := zcongruence.
+  #[local] Obligation Tactic := zcongruence.
 
-#[global]
-Program Instance succ_wd : Proper (eq ==> eq) succ.
-#[global]
-Program Instance pred_wd : Proper (eq ==> eq) pred.
-#[global]
-Program Instance add_wd : Proper (eq ==> eq ==> eq) add.
-#[global]
-Program Instance sub_wd : Proper (eq ==> eq ==> eq) sub.
-#[global]
-Program Instance mul_wd : Proper (eq ==> eq ==> eq) mul.
+  #[global]
+  Program Instance succ_wd : Proper (eq ==> eq) succ.
+  #[global]
+  Program Instance pred_wd : Proper (eq ==> eq) pred.
+  #[global]
+  Program Instance add_wd : Proper (eq ==> eq ==> eq) add.
+  #[global]
+  Program Instance sub_wd : Proper (eq ==> eq ==> eq) sub.
+  #[global]
+  Program Instance mul_wd : Proper (eq ==> eq ==> eq) mul.
 
-Theorem gt_wB_1 : 1 < wB.
-Proof.
-unfold base. apply Zpower_gt_1; unfold Z.lt; auto with zarith.
-Qed.
+  Theorem gt_wB_1 : 1 < wB.
+  Proof.
+    unfold base. apply Zpower_gt_1; unfold Z.lt; auto with zarith.
+  Qed.
 
-Theorem gt_wB_0 : 0 < wB.
-Proof.
-pose proof gt_wB_1; lia.
-Qed.
+  Theorem gt_wB_0 : 0 < wB.
+  Proof.
+    pose proof gt_wB_1; lia.
+  Qed.
 
-Lemma one_mod_wB : 1 mod wB = 1.
-Proof.
-  rewrite Zmod_small.
-  - reflexivity.
-  - split.
-    + auto with zarith.
-    + apply gt_wB_1.
-Qed.
+  Lemma one_mod_wB : 1 mod wB = 1.
+  Proof.
+    rewrite Zmod_small.
+    - reflexivity.
+    - split.
+      + auto with zarith.
+      + apply gt_wB_1.
+  Qed.
 
-Lemma succ_mod_wB : forall n : Z, (n + 1) mod wB = ((n mod wB) + 1) mod wB.
-Proof.
-intro n. rewrite <- one_mod_wB at 2. now rewrite <- Zplus_mod.
-Qed.
+  Lemma succ_mod_wB : forall n : Z, (n + 1) mod wB = ((n mod wB) + 1) mod wB.
+  Proof.
+    intro n. rewrite <- one_mod_wB at 2. now rewrite <- Zplus_mod.
+  Qed.
 
-Lemma pred_mod_wB : forall n : Z, (n - 1) mod wB = ((n mod wB) - 1) mod wB.
-Proof.
-intro n. rewrite <- one_mod_wB at 2. now rewrite Zminus_mod.
-Qed.
+  Lemma pred_mod_wB : forall n : Z, (n - 1) mod wB = ((n mod wB) - 1) mod wB.
+  Proof.
+    intro n. rewrite <- one_mod_wB at 2. now rewrite Zminus_mod.
+  Qed.
 
-Lemma NZ_to_Z_mod : forall n, [| n |] mod wB = [| n |].
-Proof.
-  intro n; rewrite Zmod_small.
-  - reflexivity.
-  - apply ZnZ.spec_to_Z.
-Qed.
+  Lemma NZ_to_Z_mod : forall n, [| n |] mod wB = [| n |].
+  Proof.
+    intro n; rewrite Zmod_small.
+    - reflexivity.
+    - apply ZnZ.spec_to_Z.
+  Qed.
 
-Theorem pred_succ : forall n, P (S n) == n.
-Proof.
-intro n. zify.
-rewrite <- pred_mod_wB.
-replace ([| n |] + 1 - 1)%Z with [| n |] by ring. apply NZ_to_Z_mod.
-Qed.
+  Theorem pred_succ : forall n, P (S n) == n.
+  Proof.
+    intro n. zify.
+    rewrite <- pred_mod_wB.
+    replace ([| n |] + 1 - 1)%Z with [| n |] by ring. apply NZ_to_Z_mod.
+  Qed.
 
-Theorem one_succ : one == succ zero.
-Proof.
-zify; simpl Z.add. now rewrite one_mod_wB.
-Qed.
+  Theorem one_succ : one == succ zero.
+  Proof.
+    zify; simpl Z.add. now rewrite one_mod_wB.
+  Qed.
 
-Theorem two_succ : two == succ one.
-Proof.
-reflexivity.
-Qed.
+  Theorem two_succ : two == succ one.
+  Proof.
+    reflexivity.
+  Qed.
 
-Section Induction.
+  Section Induction.
 
-Variable A : t -> Prop.
-Hypothesis A_wd : Proper (eq ==> iff) A.
-Hypothesis A0 : A 0.
-Hypothesis AS : forall n, A n <-> A (S n).
- (* Below, we use only -> direction *)
+    Variable A : t -> Prop.
+    Hypothesis A_wd : Proper (eq ==> iff) A.
+    Hypothesis A0 : A 0.
+    Hypothesis AS : forall n, A n <-> A (S n).
+     (* Below, we use only -> direction *)
 
-Let B (n : Z) := A (ZnZ.of_Z n).
+    Let B (n : Z) := A (ZnZ.of_Z n).
 
-Lemma B0 : B 0.
-Proof.
-unfold B. apply A0.
-Qed.
+    Lemma B0 : B 0.
+    Proof.
+      unfold B. apply A0.
+    Qed.
 
-Lemma BS : forall n : Z, 0 <= n -> n < wB - 1 -> B n -> B (n + 1).
-Proof.
-intros n H1 H2 H3.
-unfold B in *. apply AS in H3.
-setoid_replace (ZnZ.of_Z (n + 1)) with (S (ZnZ.of_Z n)).
-- assumption.
-- zify.
-  rewrite 2 ZnZ.of_Z_correct. 2-3: lia.
-  symmetry; apply Zmod_small; lia.
-Qed.
+    Lemma BS : forall n : Z, 0 <= n -> n < wB - 1 -> B n -> B (n + 1).
+    Proof.
+      intros n H1 H2 H3.
+      unfold B in *. apply AS in H3.
+      setoid_replace (ZnZ.of_Z (n + 1)) with (S (ZnZ.of_Z n)).
+      - assumption.
+      - zify.
+        rewrite 2 ZnZ.of_Z_correct. 2-3: lia.
+        symmetry; apply Zmod_small; lia.
+    Qed.
 
-Theorem Zbounded_induction :
-  (forall Q : Z -> Prop, forall b : Z,
-    Q 0 ->
-    (forall n, 0 <= n -> n < b - 1 -> Q n -> Q (n + 1)) ->
-      forall n, 0 <= n -> n < b -> Q n)%Z.
-Proof.
-intros Q b Q0 QS.
-set (Q' := fun n => (n < b /\ Q n) \/ (b <= n)).
-assert (H : forall n, 0 <= n -> Q' n).
-- apply natlike_rec2; unfold Q'.
-  + destruct (Z.le_gt_cases b 0) as [H | H].
-    * now right.
-    * left; now split.
-  + intros n H IH. destruct IH as [[IH1 IH2] | IH].
-    * destruct (Z.le_gt_cases (b - 1) n) as [H1 | H1].
-      -- right; lia.
-      -- left. split; [ lia | now apply (QS n)].
-    * right; auto with zarith.
-- unfold Q' in *; intros n H1 H2. destruct (H n H1) as [[H3 H4] | H3].
-  + assumption.
-  + now apply Z.le_ngt in H3.
-Qed.
+    Theorem Zbounded_induction :
+      (forall Q : Z -> Prop, forall b : Z,
+        Q 0 ->
+        (forall n, 0 <= n -> n < b - 1 -> Q n -> Q (n + 1)) ->
+          forall n, 0 <= n -> n < b -> Q n)%Z.
+    Proof.
+      intros Q b Q0 QS.
+      set (Q' := fun n => (n < b /\ Q n) \/ (b <= n)).
+      assert (H : forall n, 0 <= n -> Q' n).
+      - apply natlike_rec2; unfold Q'.
+        + destruct (Z.le_gt_cases b 0) as [H | H].
+          * now right.
+          * left; now split.
+        + intros n H IH. destruct IH as [[IH1 IH2] | IH].
+          * destruct (Z.le_gt_cases (b - 1) n) as [H1 | H1].
+            -- right; lia.
+            -- left. split; [ lia | now apply (QS n)].
+          * right; auto with zarith.
+      - unfold Q' in *; intros n H1 H2. destruct (H n H1) as [[H3 H4] | H3].
+        + assumption.
+        + now apply Z.le_ngt in H3.
+    Qed.
 
-Lemma B_holds : forall n : Z, 0 <= n < wB -> B n.
-Proof.
-intros n [H1 H2].
-apply Zbounded_induction with wB.
-- apply B0.
-- apply BS.
-- assumption.
-- assumption.
-Qed.
+    Lemma B_holds : forall n : Z, 0 <= n < wB -> B n.
+    Proof.
+      intros n [H1 H2].
+      apply Zbounded_induction with wB.
+      - apply B0.
+      - apply BS.
+      - assumption.
+      - assumption.
+    Qed.
 
-Theorem bi_induction : forall n, A n.
-Proof.
-intro n. setoid_replace n with (ZnZ.of_Z (ZnZ.to_Z n)).
-- apply B_holds. apply ZnZ.spec_to_Z.
-- red. symmetry. apply ZnZ.of_Z_correct.
-  apply ZnZ.spec_to_Z.
-Qed.
+    Theorem bi_induction : forall n, A n.
+    Proof.
+      intro n. setoid_replace n with (ZnZ.of_Z (ZnZ.to_Z n)).
+      - apply B_holds. apply ZnZ.spec_to_Z.
+      - red. symmetry. apply ZnZ.of_Z_correct.
+        apply ZnZ.spec_to_Z.
+    Qed.
 
-End Induction.
+  End Induction.
 
-Theorem add_0_l : forall n, 0 + n == n.
-Proof.
-intro n. zify.
-rewrite Z.add_0_l. apply Zmod_small. apply ZnZ.spec_to_Z.
-Qed.
+  Theorem add_0_l : forall n, 0 + n == n.
+  Proof.
+    intro n. zify.
+    rewrite Z.add_0_l. apply Zmod_small. apply ZnZ.spec_to_Z.
+  Qed.
 
-Theorem add_succ_l : forall n m, (S n) + m == S (n + m).
-Proof.
-intros n m. zify.
-rewrite succ_mod_wB. repeat rewrite Zplus_mod_idemp_l; try apply gt_wB_0.
-rewrite <- (Z.add_assoc ([| n |] mod wB) 1 [| m |]). rewrite Zplus_mod_idemp_l.
-rewrite (Z.add_comm 1 [| m |]); now rewrite Z.add_assoc.
-Qed.
+  Theorem add_succ_l : forall n m, (S n) + m == S (n + m).
+  Proof.
+    intros n m. zify.
+    rewrite succ_mod_wB. repeat rewrite Zplus_mod_idemp_l; try apply gt_wB_0.
+    rewrite <- (Z.add_assoc ([| n |] mod wB) 1 [| m |]). rewrite Zplus_mod_idemp_l.
+    rewrite (Z.add_comm 1 [| m |]); now rewrite Z.add_assoc.
+  Qed.
 
-Theorem sub_0_r : forall n, n - 0 == n.
-Proof.
-intro n. zify. rewrite Z.sub_0_r. apply NZ_to_Z_mod.
-Qed.
+  Theorem sub_0_r : forall n, n - 0 == n.
+  Proof.
+    intro n. zify. rewrite Z.sub_0_r. apply NZ_to_Z_mod.
+  Qed.
 
-Theorem sub_succ_r : forall n m, n - (S m) == P (n - m).
-Proof.
-intros n m. zify. rewrite Zminus_mod_idemp_r, Zminus_mod_idemp_l.
-now replace ([|n|] - ([|m|] + 1))%Z with ([|n|] - [|m|] - 1)%Z
-     by ring.
-Qed.
+  Theorem sub_succ_r : forall n m, n - (S m) == P (n - m).
+  Proof.
+    intros n m. zify. rewrite Zminus_mod_idemp_r, Zminus_mod_idemp_l.
+    now replace ([|n|] - ([|m|] + 1))%Z with ([|n|] - [|m|] - 1)%Z
+         by ring.
+  Qed.
 
-Theorem mul_0_l : forall n, 0 * n == 0.
-Proof.
-intro n. now zify.
-Qed.
+  Theorem mul_0_l : forall n, 0 * n == 0.
+  Proof.
+    intro n. now zify.
+  Qed.
 
-Theorem mul_succ_l : forall n m, (S n) * m == n * m + m.
-Proof.
-intros n m. zify. rewrite Zplus_mod_idemp_l, Zmult_mod_idemp_l.
-now rewrite Z.mul_add_distr_r, Z.mul_1_l.
-Qed.
+  Theorem mul_succ_l : forall n m, (S n) * m == n * m + m.
+  Proof.
+    intros n m. zify. rewrite Zplus_mod_idemp_l, Zmult_mod_idemp_l.
+    now rewrite Z.mul_add_distr_r, Z.mul_1_l.
+  Qed.
 
-Definition t := t.
+  Definition t := t.
 
 End NZCyclicAxiomsMod.

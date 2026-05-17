@@ -40,19 +40,19 @@ Lemma Z_div_mod_POS :
     forall a:positive,
       let (q, r) := Z.pos_div_eucl a b in Zpos a = b * q + r /\ 0 <= r < b.
 Proof.
- intros b Hb a. Z.swap_greater.
- generalize (Z.pos_div_eucl_eq a b Hb) (Z.pos_div_eucl_bound a b Hb).
- destruct Z.pos_div_eucl. rewrite Z.mul_comm. auto.
+  intros b Hb a. Z.swap_greater.
+  generalize (Z.pos_div_eucl_eq a b Hb) (Z.pos_div_eucl_bound a b Hb).
+  destruct Z.pos_div_eucl. rewrite Z.mul_comm. auto.
 Qed.
 
 Theorem Z_div_mod a b :
   b > 0 ->
   let (q, r) := Z.div_eucl a b in a = b * q + r /\ 0 <= r < b.
 Proof.
- Z.swap_greater. intros Hb.
- assert (Hb' : b<>0) by (now destruct b).
- generalize (Z.div_eucl_eq a b Hb') (Z.mod_pos_bound a b Hb).
- unfold Z.modulo. destruct Z.div_eucl. auto.
+  Z.swap_greater. intros Hb.
+  assert (Hb' : b<>0) by (now destruct b).
+  generalize (Z.div_eucl_eq a b Hb') (Z.mod_pos_bound a b Hb).
+  unfold Z.modulo. destruct Z.div_eucl. auto.
 Qed.
 
 (** For stating the fully general result, let's give a short name
@@ -86,16 +86,16 @@ Theorem Z_div_mod_full a b :
   b <> 0 ->
   let (q, r) := Z.div_eucl a b in a = b * q + r /\ Remainder r b.
 Proof.
- intros Hb.
- generalize (Z.div_eucl_eq a b Hb)
-  (Z.mod_pos_bound a b) (Z.mod_neg_bound a b).
- unfold Z.modulo. destruct Z.div_eucl as (q,r).
- intros EQ POS NEG.
- split; auto.
- red; destruct b.
- - now destruct Hb.
- - left; now apply POS.
- - right; now apply NEG.
+  intros Hb.
+  generalize (Z.div_eucl_eq a b Hb)
+   (Z.mod_pos_bound a b) (Z.mod_neg_bound a b).
+  unfold Z.modulo. destruct Z.div_eucl as (q,r).
+  intros EQ POS NEG.
+  split; auto.
+  red; destruct b.
+  - now destruct Hb.
+  - left; now apply POS.
+  - right; now apply NEG.
 Qed.
 
 (** The same results as before, stated separately in terms of Z.div and Z.modulo *)
@@ -146,11 +146,11 @@ Theorem Zdiv_mod_unique b q1 q2 r1 r2 :
   0 <= r1 < Z.abs b -> 0 <= r2 < Z.abs b ->
   b*q1+r1 = b*q2+r2 -> q1=q2 /\ r1=r2.
 Proof.
-intros Hr1 Hr2 H. rewrite <- (Z.abs_sgn b), <- !Z.mul_assoc in H.
-destruct (Z.div_mod_unique (Z.abs b) (Z.sgn b * q1) (Z.sgn b * q2) r1 r2); auto.
-split; trivial.
-apply Z.mul_cancel_l with (Z.sgn b); trivial.
-rewrite Z.sgn_null_iff, <- Z.abs_0_iff. destruct Hr1; Z.order.
+  intros Hr1 Hr2 H. rewrite <- (Z.abs_sgn b), <- !Z.mul_assoc in H.
+  destruct (Z.div_mod_unique (Z.abs b) (Z.sgn b * q1) (Z.sgn b * q2) r1 r2); auto.
+  split; trivial.
+  apply Z.mul_cancel_l with (Z.sgn b); trivial.
+  rewrite Z.sgn_null_iff, <- Z.abs_0_iff. destruct Hr1; Z.order.
 Qed.
 
 Theorem Zdiv_mod_unique_2 :
@@ -370,8 +370,8 @@ Qed.
 
 Lemma Z_mod_plus_full : forall a b c:Z, (a + b * c) mod c = a mod c.
 Proof. intros a b c. zero_or_not c.
- - now rewrite Z.mul_0_r, Z.add_0_r.
- - now apply Z.mod_add.
+  - now rewrite Z.mul_0_r, Z.add_0_r.
+  - now apply Z.mod_add.
 Qed.
 
 Lemma Z_div_plus_full : forall a b c:Z, c <> 0 -> (a + b * c) / c = a / c + b.
@@ -431,23 +431,23 @@ Proof. intros a b c ?. zero_or_not b. apply Z.div_mul_cancel_r; auto. Qed.
 Lemma Zdiv_mult_cancel_l : forall a b c:Z,
  c<>0 -> (c*a)/(c*b) = a/b.
 Proof.
- intros a b c ?. rewrite (Z.mul_comm c b); zero_or_not b.
- rewrite (Z.mul_comm b c). apply Z.div_mul_cancel_l; auto.
+  intros a b c ?. rewrite (Z.mul_comm c b); zero_or_not b.
+  rewrite (Z.mul_comm b c). apply Z.div_mul_cancel_l; auto.
 Qed.
 
 Lemma Zmult_mod_distr_l: forall a b c,
   (c*a) mod (c*b) = c * (a mod b).
 Proof.
- intros a b c. zero_or_not c. rewrite (Z.mul_comm c b); zero_or_not b.
- rewrite (Z.mul_comm b c). apply Z.mul_mod_distr_l; auto.
+  intros a b c. zero_or_not c. rewrite (Z.mul_comm c b); zero_or_not b.
+  rewrite (Z.mul_comm b c). apply Z.mul_mod_distr_l; auto.
 Qed.
 
 Lemma Zmult_mod_distr_r: forall a b c,
   (a*c) mod (b*c) = (a mod b) * c.
 Proof.
- intros a b c. zero_or_not b. rewrite (Z.mul_comm b c); zero_or_not c.
- + now rewrite !Z.mul_0_r.
- + rewrite (Z.mul_comm c b). apply Z.mul_mod_distr_r; auto.
+  intros a b c. zero_or_not b. rewrite (Z.mul_comm b c); zero_or_not c.
+  + now rewrite !Z.mul_0_r.
+  + rewrite (Z.mul_comm c b). apply Z.mul_mod_distr_r; auto.
 Qed.
 
 (** Operations modulo. *)
@@ -511,55 +511,55 @@ Qed.
    equivalence, compatible with [+], [-] and [*]. *)
 
 Section EqualityModulo.
-Variable N:Z.
+  Variable N:Z.
 
-Definition eqm a b := (a mod N = b mod N).
-Infix "==" := eqm (at level 70).
+  Definition eqm a b := (a mod N = b mod N).
+  Infix "==" := eqm (at level 70).
 
-Lemma eqm_refl : forall a, a == a.
-Proof. unfold eqm; auto. Qed.
+  Lemma eqm_refl : forall a, a == a.
+  Proof. unfold eqm; auto. Qed.
 
-Lemma eqm_sym : forall a b, a == b -> b == a.
-Proof. unfold eqm; auto. Qed.
+  Lemma eqm_sym : forall a b, a == b -> b == a.
+  Proof. unfold eqm; auto. Qed.
 
-Lemma eqm_trans : forall a b c,
-  a == b -> b == c -> a == c.
-Proof. now unfold eqm; intros a b c ->. Qed.
+  Lemma eqm_trans : forall a b c,
+    a == b -> b == c -> a == c.
+  Proof. now unfold eqm; intros a b c ->. Qed.
 
-Instance eqm_setoid : Equivalence eqm.
-Proof.
- constructor; [exact eqm_refl | exact eqm_sym | exact eqm_trans].
-Qed.
+  Instance eqm_setoid : Equivalence eqm.
+  Proof.
+    constructor; [exact eqm_refl | exact eqm_sym | exact eqm_trans].
+  Qed.
 
-Instance Zplus_eqm : Proper (eqm ==> eqm ==> eqm) Z.add.
-Proof.
-  unfold eqm; repeat red; intros ? ? H ? ? H0.
-  rewrite Zplus_mod, H, H0, <- Zplus_mod; auto.
-Qed.
+  Instance Zplus_eqm : Proper (eqm ==> eqm ==> eqm) Z.add.
+  Proof.
+    unfold eqm; repeat red; intros ? ? H ? ? H0.
+    rewrite Zplus_mod, H, H0, <- Zplus_mod; auto.
+  Qed.
 
-Instance Zminus_eqm : Proper (eqm ==> eqm ==> eqm) Z.sub.
-Proof.
-  unfold eqm; repeat red; intros ? ? H ? ? H0.
-  rewrite Zminus_mod, H, H0, <- Zminus_mod; auto.
-Qed.
+  Instance Zminus_eqm : Proper (eqm ==> eqm ==> eqm) Z.sub.
+  Proof.
+    unfold eqm; repeat red; intros ? ? H ? ? H0.
+    rewrite Zminus_mod, H, H0, <- Zminus_mod; auto.
+  Qed.
 
-Instance Zmult_eqm : Proper (eqm ==> eqm ==> eqm) Z.mul.
-Proof.
-  unfold eqm; repeat red; intros ? ? H ? ? H0.
-  rewrite Zmult_mod, H, H0, <- Zmult_mod; auto.
-Qed.
+  Instance Zmult_eqm : Proper (eqm ==> eqm ==> eqm) Z.mul.
+  Proof.
+    unfold eqm; repeat red; intros ? ? H ? ? H0.
+    rewrite Zmult_mod, H, H0, <- Zmult_mod; auto.
+  Qed.
 
-Instance Zopp_eqm : Proper (eqm ==> eqm) Z.opp.
-Proof.
-  intros x y H. change ((-x)==(-y)) with ((0-x)==(0-y)). now rewrite H.
-Qed.
+  Instance Zopp_eqm : Proper (eqm ==> eqm) Z.opp.
+  Proof.
+    intros x y H. change ((-x)==(-y)) with ((0-x)==(0-y)). now rewrite H.
+  Qed.
 
-Lemma Zmod_eqm : forall a, (a mod N) == a.
-Proof.
-  intros a; exact (Zmod_mod a N).
-Qed.
+  Lemma Zmod_eqm : forall a, (a mod N) == a.
+  Proof.
+    intros a; exact (Zmod_mod a N).
+  Qed.
 
-(* NB: Z.modulo and Z.div are not morphisms with respect to eqm.
+  (* NB: Z.modulo and Z.div are not morphisms with respect to eqm.
     For instance, let (==) be (eqm 2). Then we have (3 == 1) but:
     ~ (3 mod 3 == 1 mod 3)
     ~ (1 mod 3 == 1 mod 1)
@@ -571,9 +571,9 @@ End EqualityModulo.
 
 Lemma Zdiv_Zdiv : forall a b c, 0<=b -> 0<=c -> (a/b)/c = a/(b*c).
 Proof.
- intros a b c ? ?. zero_or_not b. rewrite Z.mul_comm. zero_or_not c.
- rewrite Z.mul_comm. apply Z.div_div; auto.
- apply Z.le_neq; auto.
+  intros a b c ? ?. zero_or_not b. rewrite Z.mul_comm. zero_or_not c.
+  rewrite Z.mul_comm. apply Z.div_div; auto.
+  apply Z.le_neq; auto.
 Qed.
 
 (** Unfortunately, the previous result isn't always true on negative numbers.
@@ -581,9 +581,9 @@ Qed.
 
 Lemma Zmod_div : forall a b, a mod b / b = 0.
 Proof.
- intros a b.
- zero_or_not b.
- auto using Z.mod_div.
+  intros a b.
+  zero_or_not b.
+  auto using Z.mod_div.
 Qed.
 
 (** A last inequality: *)
@@ -601,8 +601,8 @@ Qed.
 Lemma Zmod_divides : forall a b, b<>0 ->
  (a mod b = 0 <-> exists c, a = b*c).
 Proof.
- intros. rewrite Z.mod_divide; trivial.
- split; intros (c,Hc); exists c; subst; auto using Z.mul_comm.
+  intros. rewrite Z.mod_divide; trivial.
+  split; intros (c,Hc); exists c; subst; auto using Z.mul_comm.
 Qed.
 
 (** Particular case : dividing by 2 is related with parity *)
@@ -614,22 +614,22 @@ Qed.
 
 Lemma Zmod_odd : forall a, a mod 2 = if Z.odd a then 1 else 0.
 Proof.
- intros a. now rewrite <- Z.bit0_odd, <- Z.bit0_mod.
+  intros a. now rewrite <- Z.bit0_odd, <- Z.bit0_mod.
 Qed.
 
 Lemma Zmod_even : forall a, a mod 2 = if Z.even a then 0 else 1.
 Proof.
- intros a. rewrite Zmod_odd, <-Z.negb_even; now destruct Z.even.
+  intros a. rewrite Zmod_odd, <-Z.negb_even; now destruct Z.even.
 Qed.
 
 Lemma Zodd_mod : forall a, Z.odd a = Z.eqb (a mod 2) 1.
 Proof.
- intros a. rewrite Zmod_odd. now destruct Z.odd.
+  intros a. rewrite Zmod_odd. now destruct Z.odd.
 Qed.
 
 Lemma Zeven_mod : forall a, Z.even a = Z.eqb (a mod 2) 0.
 Proof.
- intros a. rewrite Zmod_even. now destruct Z.even.
+  intros a. rewrite Zmod_even. now destruct Z.even.
 Qed.
 
 (** * Compatibility *)
@@ -764,87 +764,87 @@ Qed.
 Arguments Zdiv_eucl_extended : default implicits.
 
 Module Z.
-Lemma mod_id_iff a b : a mod b = a <-> 0 <= a < b \/ b = 0 \/ b < a <= 0.
-Proof. zero_or_not b; [|rewrite Z.mod_small_iff]; intuition idtac. Qed.
+  Lemma mod_id_iff a b : a mod b = a <-> 0 <= a < b \/ b = 0 \/ b < a <= 0.
+  Proof. zero_or_not b; [|rewrite Z.mod_small_iff]; intuition idtac. Qed.
 
-Lemma gcd_mod_l a b : Z.gcd (a mod b) b = Z.gcd a b.
-Proof.
-  case (Z.eqb_spec b 0) as [->|];
-    rewrite ?Z.mod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
-Qed.
+  Lemma gcd_mod_l a b : Z.gcd (a mod b) b = Z.gcd a b.
+  Proof.
+    case (Z.eqb_spec b 0) as [->|];
+      rewrite ?Z.mod_0_r, ?Z.gcd_mod, Z.gcd_comm; trivial.
+  Qed.
 
-Lemma gcd_mod_r a b : Z.gcd a (b mod a) = Z.gcd a b.
-Proof. rewrite Z.gcd_comm, Z.gcd_mod_l, Z.gcd_comm; trivial. Qed.
+  Lemma gcd_mod_r a b : Z.gcd a (b mod a) = Z.gcd a b.
+  Proof. rewrite Z.gcd_comm, Z.gcd_mod_l, Z.gcd_comm; trivial. Qed.
 
-Lemma mod_pow_l a b c : (a mod c)^b mod c = ((a ^ b) mod c).
-Proof.
-  destruct (Z.ltb_spec b 0) as [|Hb]. { rewrite !Z.pow_neg_r; trivial. }
-  destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Z.mod_0_r; trivial. }
-  generalize dependent b; eapply Wf_Z.natlike_ind; trivial; intros x Hx IH.
-  rewrite !Z.pow_succ_r, <-Z.mul_mod_idemp_r, IH, Z.mul_mod_idemp_l, Z.mul_mod_idemp_r; trivial.
-Qed.
+  Lemma mod_pow_l a b c : (a mod c)^b mod c = ((a ^ b) mod c).
+  Proof.
+    destruct (Z.ltb_spec b 0) as [|Hb]. { rewrite !Z.pow_neg_r; trivial. }
+    destruct (Z.eqb_spec c 0) as [|Hc]. { subst. rewrite !Z.mod_0_r; trivial. }
+    generalize dependent b; eapply Wf_Z.natlike_ind; trivial; intros x Hx IH.
+    rewrite !Z.pow_succ_r, <-Z.mul_mod_idemp_r, IH, Z.mul_mod_idemp_l, Z.mul_mod_idemp_r; trivial.
+  Qed.
 
-Lemma cong_iff_0 a b m : a mod m = b mod m <-> (a - b) mod m = 0.
-Proof.
-  case (Z.eq_dec m 0) as [->|Hm].
-  { rewrite ?Z.mod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
-  split; intros H. { rewrite Zminus_mod, H, Z.sub_diag, Z.mod_0_l; trivial. }
-  apply Zmod_divides in H; trivial; case H as [c H].
-  assert (b = a + (-c) * m) as ->; rewrite ?Z.mod_add; trivial.
-  (* lia *) rewrite Z.mul_opp_l, Z.mul_comm, <-H; ring.
-Qed.
+  Lemma cong_iff_0 a b m : a mod m = b mod m <-> (a - b) mod m = 0.
+  Proof.
+    case (Z.eq_dec m 0) as [->|Hm].
+    { rewrite ?Z.mod_0_r; rewrite Z.sub_move_0_r; reflexivity. }
+    split; intros H. { rewrite Zminus_mod, H, Z.sub_diag, Z.mod_0_l; trivial. }
+    apply Zmod_divides in H; trivial; case H as [c H].
+    assert (b = a + (-c) * m) as ->; rewrite ?Z.mod_add; trivial.
+    (* lia *) rewrite Z.mul_opp_l, Z.mul_comm, <-H; ring.
+  Qed.
 
-Lemma cong_iff_ex a b m : a mod m = b mod m <-> exists n, a - b = n * m.
-Proof.
-  destruct (Z.eq_dec m 0) as [->|].
-  { rewrite !Z.mod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
-    firstorder idtac. }
-  { rewrite cong_iff_0, Z.mod_divide by trivial; reflexivity. }
-Qed.
+  Lemma cong_iff_ex a b m : a mod m = b mod m <-> exists n, a - b = n * m.
+  Proof.
+    destruct (Z.eq_dec m 0) as [->|].
+    { rewrite !Z.mod_0_r. setoid_rewrite Z.mul_0_r. setoid_rewrite Z.sub_move_0_r.
+      firstorder idtac. }
+    { rewrite cong_iff_0, Z.mod_divide by trivial; reflexivity. }
+  Qed.
 
-Lemma mod_mod_divide a b c : (c | b) -> (a mod b) mod c = a mod c.
-Proof.
-  destruct (Z.eqb_spec b 0); subst. { rewrite Z.mod_0_r; trivial. }
-  inversion_clear 1; subst.
-  destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Z.mod_0_r; trivial. }
-  apply cong_iff_ex; eexists (- x * (a/(x*c))); rewrite Z.mod_eq by auto.
-  ring_simplify; trivial.
-Qed.
+  Lemma mod_mod_divide a b c : (c | b) -> (a mod b) mod c = a mod c.
+  Proof.
+    destruct (Z.eqb_spec b 0); subst. { rewrite Z.mod_0_r; trivial. }
+    inversion_clear 1; subst.
+    destruct (Z.eqb_spec c 0); subst. { rewrite Z.mul_0_r, 2Z.mod_0_r; trivial. }
+    apply cong_iff_ex; eexists (- x * (a/(x*c))); rewrite Z.mod_eq by auto.
+    ring_simplify; trivial.
+  Qed.
 
-Lemma mod_opp_mod_opp a b : - (-a mod b) mod b = a mod b.
-Proof.
-  eapply cong_iff_0.
-  destruct (Z.eq_dec (a mod b) 0).
-  { rewrite !Z_mod_zero_opp_full; trivial. }
-  rewrite Z_mod_nz_opp_full by trivial.
-  rewrite <-Zminus_mod_idemp_r.
-  case (Z.eq_dec b 0) as [->|]; [rewrite Z.mod_0_r; ring|].
-  rewrite <-Z.mod_add with (b:=1) by trivial.
-  change 0 with (0 mod b); f_equal; ring.
-Qed.
+  Lemma mod_opp_mod_opp a b : - (-a mod b) mod b = a mod b.
+  Proof.
+    eapply cong_iff_0.
+    destruct (Z.eq_dec (a mod b) 0).
+    { rewrite !Z_mod_zero_opp_full; trivial. }
+    rewrite Z_mod_nz_opp_full by trivial.
+    rewrite <-Zminus_mod_idemp_r.
+    case (Z.eq_dec b 0) as [->|]; [rewrite Z.mod_0_r; ring|].
+    rewrite <-Z.mod_add with (b:=1) by trivial.
+    change 0 with (0 mod b); f_equal; ring.
+  Qed.
 
-Lemma mod_mod_opp_r a b : (a mod - b) mod b = a mod b.
-Proof.
-  replace a with (--a) at 1 by apply Z.opp_involutive.
-  rewrite Zmod_opp_opp, Z.mod_opp_mod_opp; trivial.
-Qed.
+  Lemma mod_mod_opp_r a b : (a mod - b) mod b = a mod b.
+  Proof.
+    replace a with (--a) at 1 by apply Z.opp_involutive.
+    rewrite Zmod_opp_opp, Z.mod_opp_mod_opp; trivial.
+  Qed.
 
-Lemma mod_opp_r_mod a b : (a mod b) mod - b = a mod - b.
-Proof. rewrite <-(mod_mod_opp_r a (-b)), Z.opp_involutive; trivial. Qed.
+  Lemma mod_opp_r_mod a b : (a mod b) mod - b = a mod - b.
+  Proof. rewrite <-(mod_mod_opp_r a (-b)), Z.opp_involutive; trivial. Qed.
 
-Lemma mod_mod_abs_r a b : (a mod Z.abs b) mod b = a mod b.
-Proof.
-  case b as []; cbn [Z.abs].
-  { rewrite ?Z.mod_0_r; trivial. }
-  { apply Z.mod_mod; inversion 1. }
-  { rewrite <-Pos2Z.opp_pos. apply mod_opp_r_mod. }
-Qed.
+  Lemma mod_mod_abs_r a b : (a mod Z.abs b) mod b = a mod b.
+  Proof.
+    case b as []; cbn [Z.abs].
+    { rewrite ?Z.mod_0_r; trivial. }
+    { apply Z.mod_mod; inversion 1. }
+    { rewrite <-Pos2Z.opp_pos. apply mod_opp_r_mod. }
+  Qed.
 
-Lemma mod_abs_r_mod a b : (a mod b) mod Z.abs b = a mod Z.abs b.
-Proof.
-  case b as []; cbn [Z.abs].
-  { rewrite ?Z.mod_0_r; trivial. }
-  { apply Z.mod_mod; inversion 1. }
-  { rewrite <-Pos2Z.opp_pos. apply mod_mod_opp_r. }
-Qed.
+  Lemma mod_abs_r_mod a b : (a mod b) mod Z.abs b = a mod Z.abs b.
+  Proof.
+    case b as []; cbn [Z.abs].
+    { rewrite ?Z.mod_0_r; trivial. }
+    { apply Z.mod_mod; inversion 1. }
+    { rewrite <-Pos2Z.opp_pos. apply mod_mod_opp_r. }
+  Qed.
 End Z.

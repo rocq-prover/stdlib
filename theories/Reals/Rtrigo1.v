@@ -167,54 +167,54 @@ Qed.
 
 Lemma sin_gt_cos_7_8 : sin (7 / 8) > cos (7 / 8).
 Proof.
-assert (lo1 : 0 <= 7/8) by lra.
-assert (up1 : 7/8 <= 4) by lra.
-assert (lo : -2 <= 7/8) by lra.
-assert (up : 7/8 <= 2) by lra.
-destruct (pre_sin_bound _ 0 lo1 up1) as [lower _ ].
-destruct (pre_cos_bound _ 0 lo up) as [_ upper].
-apply Rle_lt_trans with (1 := upper).
-apply Rlt_le_trans with (2 := lower).
-unfold cos_approx, sin_approx.
-simpl sum_f_R0.
-unfold cos_term, sin_term; simpl fact; rewrite !INR_IZR_INZ.
-simpl plus; simpl mult; simpl Z_of_nat.
-field_simplify.
-match goal with
-  |- IZR ?a / ?b < ?c / ?d =>
-  apply Rmult_lt_reg_r with d;[apply (IZR_lt 0); reflexivity |
-    unfold Rdiv at 2; rewrite Rmult_assoc, Rinv_l, Rmult_1_r, Rmult_comm;
-     [ |apply not_eq_sym, Rlt_not_eq, (IZR_lt 0); reflexivity ]];
-  apply Rmult_lt_reg_r with b;[apply (IZR_lt 0); reflexivity | ]
-end.
-unfold Rdiv; rewrite !Rmult_assoc, Rinv_l, Rmult_1_r;
- [ | apply not_eq_sym, Rlt_not_eq, (IZR_lt 0); reflexivity].
-rewrite <- !mult_IZR.
-apply IZR_lt; reflexivity.
+  assert (lo1 : 0 <= 7/8) by lra.
+  assert (up1 : 7/8 <= 4) by lra.
+  assert (lo : -2 <= 7/8) by lra.
+  assert (up : 7/8 <= 2) by lra.
+  destruct (pre_sin_bound _ 0 lo1 up1) as [lower _ ].
+  destruct (pre_cos_bound _ 0 lo up) as [_ upper].
+  apply Rle_lt_trans with (1 := upper).
+  apply Rlt_le_trans with (2 := lower).
+  unfold cos_approx, sin_approx.
+  simpl sum_f_R0.
+  unfold cos_term, sin_term; simpl fact; rewrite !INR_IZR_INZ.
+  simpl plus; simpl mult; simpl Z_of_nat.
+  field_simplify.
+  match goal with
+    |- IZR ?a / ?b < ?c / ?d =>
+    apply Rmult_lt_reg_r with d;[apply (IZR_lt 0); reflexivity |
+      unfold Rdiv at 2; rewrite Rmult_assoc, Rinv_l, Rmult_1_r, Rmult_comm;
+       [ |apply not_eq_sym, Rlt_not_eq, (IZR_lt 0); reflexivity ]];
+    apply Rmult_lt_reg_r with b;[apply (IZR_lt 0); reflexivity | ]
+  end.
+  unfold Rdiv; rewrite !Rmult_assoc, Rinv_l, Rmult_1_r;
+   [ | apply not_eq_sym, Rlt_not_eq, (IZR_lt 0); reflexivity].
+  rewrite <- !mult_IZR.
+  apply IZR_lt; reflexivity.
 Qed.
 
 Definition PI_2_aux : {z | 7/8 <= z <= 7/4 /\ -cos z = 0}.
 Proof.
-assert (cc : continuity (fun r =>- cos r)). {
-  apply continuity_opp, continuity_cos.
-}
-assert (cvp : 0 < cos (7/8)). {
- assert (int78 : -2 <= 7/8 <= 2) by (split; lra).
- destruct int78 as [lower upper].
- case (pre_cos_bound _ 0 lower upper).
- unfold cos_approx; simpl sum_f_R0; unfold cos_term.
- intros cl _; apply Rlt_le_trans with (2 := cl); simpl.
- lra.
-}
-assert (cun : cos (7/4) < 0). {
- replace (7/4) with (7/8 + 7/8) by field.
- rewrite cos_plus.
- apply Rlt_minus; apply Rsqr_incrst_1.
- - exact sin_gt_cos_7_8.
- - apply Rlt_le; assumption.
- - apply Rlt_le; apply Rlt_trans with (1 := cvp); exact sin_gt_cos_7_8.
-}
-apply IVT; auto; lra.
+  assert (cc : continuity (fun r =>- cos r)). {
+    apply continuity_opp, continuity_cos.
+  }
+  assert (cvp : 0 < cos (7/8)). {
+   assert (int78 : -2 <= 7/8 <= 2) by (split; lra).
+   destruct int78 as [lower upper].
+   case (pre_cos_bound _ 0 lower upper).
+   unfold cos_approx; simpl sum_f_R0; unfold cos_term.
+   intros cl _; apply Rlt_le_trans with (2 := cl); simpl.
+   lra.
+  }
+  assert (cun : cos (7/4) < 0). {
+   replace (7/4) with (7/8 + 7/8) by field.
+   rewrite cos_plus.
+   apply Rlt_minus; apply Rsqr_incrst_1.
+   - exact sin_gt_cos_7_8.
+   - apply Rlt_le; assumption.
+   - apply Rlt_le; apply Rlt_trans with (1 := cvp); exact sin_gt_cos_7_8.
+  }
+  apply IVT; auto; lra.
 Qed.
 
 Definition PI2 := proj1_sig PI_2_aux.
@@ -223,13 +223,13 @@ Definition PI := 2 * PI2.
 
 Lemma cos_pi2 : cos PI2 = 0.
 Proof.
-unfold PI2; case PI_2_aux; simpl.
-intros x [_ q]; rewrite <- (Ropp_involutive (cos x)), q; apply Ropp_0.
+  unfold PI2; case PI_2_aux; simpl.
+  intros x [_ q]; rewrite <- (Ropp_involutive (cos x)), q; apply Ropp_0.
 Qed.
 
 Lemma pi2_int : 7/8 <= PI2 <= 7/4.
 Proof.
-unfold PI2; case PI_2_aux; simpl; tauto.
+  unfold PI2; case PI_2_aux; simpl; tauto.
 Qed.
 
 (**********)
@@ -262,39 +262,39 @@ Qed.
 (**********)
 Lemma cos_PI2 : cos (PI / 2) = 0.
 Proof.
- unfold PI; generalize cos_pi2; replace ((2 * PI2)/2) with PI2 by field; tauto.
+  unfold PI; generalize cos_pi2; replace ((2 * PI2)/2) with PI2 by field; tauto.
 Qed.
 
 Lemma sin_pos_tech : forall x, 0 < x < 2 -> 0 < sin x.
 Proof.
-intros x [int1 int2].
-assert (lo : 0 <= x) by (apply Rlt_le; assumption).
-assert (up : x <= 4) by (apply Rlt_le, Rlt_trans with (1:=int2); lra).
-destruct (pre_sin_bound _ 0 lo up) as [t _]; clear lo up.
-apply Rlt_le_trans with (2:= t); clear t.
-unfold sin_approx; simpl sum_f_R0; unfold sin_term; simpl.
-match goal with |- _ < ?a =>
-  replace a with (x * (1 - x^2/6)) by (simpl; field)
-end.
-assert (t' : x ^ 2 <= 4). {
- replace 4 with (2 ^ 2) by field.
- apply (pow_incr x 2); split; apply Rlt_le; assumption.
-}
-apply Rmult_lt_0_compat;[assumption | lra ].
+  intros x [int1 int2].
+  assert (lo : 0 <= x) by (apply Rlt_le; assumption).
+  assert (up : x <= 4) by (apply Rlt_le, Rlt_trans with (1:=int2); lra).
+  destruct (pre_sin_bound _ 0 lo up) as [t _]; clear lo up.
+  apply Rlt_le_trans with (2:= t); clear t.
+  unfold sin_approx; simpl sum_f_R0; unfold sin_term; simpl.
+  match goal with |- _ < ?a =>
+    replace a with (x * (1 - x^2/6)) by (simpl; field)
+  end.
+  assert (t' : x ^ 2 <= 4). {
+   replace 4 with (2 ^ 2) by field.
+   apply (pow_incr x 2); split; apply Rlt_le; assumption.
+  }
+  apply Rmult_lt_0_compat;[assumption | lra ].
 Qed.
 
 Lemma sin_PI2 : sin (PI / 2) = 1.
 Proof.
-replace (PI / 2) with PI2 by (unfold PI; field).
-assert (int' : 0 < PI2 < 2). {
- destruct pi2_int; split; lra.
-}
-assert (lo2 := sin_pos_tech PI2 int').
-assert (t2 : Rabs (sin PI2) = 1). {
- rewrite <- Rabs_R1; apply Rsqr_eq_abs_0.
- rewrite Rsqr_1, sin2, cos_pi2, Rsqr_0, Rminus_0_r; reflexivity.
-}
-revert t2; rewrite Rabs_pos_eq;[| apply Rlt_le]; tauto.
+  replace (PI / 2) with PI2 by (unfold PI; field).
+  assert (int' : 0 < PI2 < 2). {
+   destruct pi2_int; split; lra.
+  }
+  assert (lo2 := sin_pos_tech PI2 int').
+  assert (t2 : Rabs (sin PI2) = 1). {
+   rewrite <- Rabs_R1; apply Rsqr_eq_abs_0.
+   rewrite Rsqr_1, sin2, cos_pi2, Rsqr_0, Rminus_0_r; reflexivity.
+  }
+  revert t2; rewrite Rabs_pos_eq;[| apply Rlt_le]; tauto.
 Qed.
 
 Lemma PI_RGT_0 : PI > 0.
@@ -337,23 +337,23 @@ Qed.
 Lemma sin_bound : forall (a : R) (n : nat), 0 <= a -> a <= PI ->
        sin_approx a (2 * n + 1) <= sin a <= sin_approx a (2 * (n + 1)).
 Proof.
-intros a n a0 api; apply pre_sin_bound.
-- assumption.
-- apply Rle_trans with (1:= api) (2 := PI_4).
+  intros a n a0 api; apply pre_sin_bound.
+  - assumption.
+  - apply Rle_trans with (1:= api) (2 := PI_4).
 Qed.
 
 Lemma cos_bound : forall (a : R) (n : nat), - PI / 2 <= a -> a <= PI / 2 ->
        cos_approx a (2 * n + 1) <= cos a <= cos_approx a (2 * (n + 1)).
 Proof.
-intros a n lower upper; apply pre_cos_bound.
-- apply Rle_trans with (2 := lower).
-  apply Rmult_le_reg_r with 2; [lra |].
-  replace ((-PI/2) * 2) with (-PI) by field.
-  assert (t := PI_4); lra.
-- apply Rle_trans with (1 := upper).
-  apply Rmult_le_reg_r with 2; [lra | ].
-  replace ((PI/2) * 2) with PI by field.
-  generalize PI_4; intros; lra.
+  intros a n lower upper; apply pre_cos_bound.
+  - apply Rle_trans with (2 := lower).
+    apply Rmult_le_reg_r with 2; [lra |].
+    replace ((-PI/2) * 2) with (-PI) by field.
+    assert (t := PI_4); lra.
+  - apply Rle_trans with (1 := upper).
+    apply Rmult_le_reg_r with 2; [lra | ].
+    replace ((PI/2) * 2) with PI by field.
+    generalize PI_4; intros; lra.
 Qed.
 (**********)
 Lemma neg_cos : forall x:R, cos (x + PI) = - cos x.
@@ -1142,14 +1142,14 @@ Qed.
 
 Lemma sin_inj x y : -(PI/2)  <= x <= PI/2 -> -(PI/2) <= y <= PI/2 -> sin x = sin y -> x = y.
 Proof.
-intros xP yP Hsin.
-destruct (total_order_T x y) as [[H|H]|H]; auto.
-- assert (sin x < sin y).
-  + now apply sin_increasing_1; lra.
-  + now lra.
-- assert (sin y < sin x).
-  + now apply sin_increasing_1; lra.
-  + now lra.
+  intros xP yP Hsin.
+  destruct (total_order_T x y) as [[H|H]|H]; auto.
+  - assert (sin x < sin y).
+    + now apply sin_increasing_1; lra.
+    + now lra.
+  - assert (sin y < sin x).
+    + now apply sin_increasing_1; lra.
+    + now lra.
 Qed.
 
 Lemma cos_increasing_0 :
@@ -1234,14 +1234,14 @@ Qed.
 
 Lemma cos_inj x y : 0 <= x <= PI -> 0 <= y <= PI -> cos x = cos y -> x = y.
 Proof.
-intros xP yP Hcos.
-destruct (total_order_T x y) as [[H|H]|H]; auto.
-- assert (cos y < cos x).
-  + now apply cos_decreasing_1; lra.
-  + now lra.
-- assert (cos x < cos y).
-  + now apply cos_decreasing_1; lra.
-  + now lra.
+  intros xP yP Hcos.
+  destruct (total_order_T x y) as [[H|H]|H]; auto.
+  - assert (cos y < cos x).
+    + now apply cos_decreasing_1; lra.
+    + now lra.
+  - assert (cos x < cos y).
+    + now apply cos_decreasing_1; lra.
+    + now lra.
 Qed.
 
 Lemma tan_diff :
@@ -1691,7 +1691,7 @@ Lemma cos_eq_0_2PI_1 (x:R) :
   0 <= x -> x <= 2 * PI ->
   x = PI / 2 \/ x = 3 * (PI / 2) -> cos x = 0.
 Proof.
- intros Lo Hi [ -> | -> ].
- - now rewrite cos_PI2.
- - now rewrite cos_3PI2.
+  intros Lo Hi [ -> | -> ].
+  - now rewrite cos_PI2.
+  - now rewrite cos_3PI2.
 Qed.

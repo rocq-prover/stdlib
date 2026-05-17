@@ -70,9 +70,9 @@ Proof. intros. now apply Z.pow_le_mono_l. Qed.
 Lemma Zpower_le_monotone_inv a b c :
   1 < a -> 0 < b -> a^b <= a^c -> b <= c.
 Proof.
- intros Ha Hb H. apply (Z.pow_le_mono_r_iff a); trivial.
- apply Z.lt_le_incl; apply (Z.pow_gt_1 a); trivial.
- apply Z.lt_le_trans with (a^b); trivial. now apply Z.pow_gt_1.
+  intros Ha Hb H. apply (Z.pow_le_mono_r_iff a); trivial.
+  apply Z.lt_le_incl; apply (Z.pow_gt_1 a); trivial.
+  apply Z.lt_le_trans with (a^b); trivial. now apply Z.pow_gt_1.
 Qed.
 
 Notation Zpower_nat_Zpower := Zpower_nat_Zpower (only parsing).

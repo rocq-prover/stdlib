@@ -38,29 +38,29 @@ Number Notation int parser printer : sint63_scope.
 
 
 Module Import Sint63NotationsInternalA.
-Delimit Scope sint63_scope with sint63.
-Bind Scope sint63_scope with int.
+  Delimit Scope sint63_scope with sint63.
+  Bind Scope sint63_scope with int.
 End Sint63NotationsInternalA.
 
 Module Import Sint63NotationsInternalB.
-Infix "<<" := PrimInt63.lsl (at level 30, no associativity) : sint63_scope.
-(* TODO do we want >> to be asr or lsr? And is there a notation for the other one? *)
-Infix ">>" := asr (at level 30, no associativity) : sint63_scope.
-Infix "land" := PrimInt63.land (at level 40, left associativity) : sint63_scope.
-Infix "lor" := PrimInt63.lor (at level 40, left associativity) : sint63_scope.
-Infix "lxor" := PrimInt63.lxor (at level 40, left associativity) : sint63_scope.
-Infix "+" := PrimInt63.add : sint63_scope.
-Infix "-" := PrimInt63.sub : sint63_scope.
-Infix "*" := PrimInt63.mul : sint63_scope.
-Infix "/" := divs : sint63_scope.
-Infix "mod" := mods (at level 40, no associativity) : sint63_scope.
-Infix "=?" := PrimInt63.eqb (at level 70, no associativity) : sint63_scope.
-Infix "<?" := ltsb (at level 70, no associativity) : sint63_scope.
-Infix "<=?" := lesb (at level 70, no associativity) : sint63_scope.
-Infix "≤?" := lesb (at level 70, no associativity) : sint63_scope.
-Notation "- x" := (opp x) : sint63_scope.
-Notation "n ?= m" := (compares n m)
-  (at level 70, no associativity) : sint63_scope.
+  Infix "<<" := PrimInt63.lsl (at level 30, no associativity) : sint63_scope.
+  (* TODO do we want >> to be asr or lsr? And is there a notation for the other one? *)
+  Infix ">>" := asr (at level 30, no associativity) : sint63_scope.
+  Infix "land" := PrimInt63.land (at level 40, left associativity) : sint63_scope.
+  Infix "lor" := PrimInt63.lor (at level 40, left associativity) : sint63_scope.
+  Infix "lxor" := PrimInt63.lxor (at level 40, left associativity) : sint63_scope.
+  Infix "+" := PrimInt63.add : sint63_scope.
+  Infix "-" := PrimInt63.sub : sint63_scope.
+  Infix "*" := PrimInt63.mul : sint63_scope.
+  Infix "/" := divs : sint63_scope.
+  Infix "mod" := mods (at level 40, no associativity) : sint63_scope.
+  Infix "=?" := PrimInt63.eqb (at level 70, no associativity) : sint63_scope.
+  Infix "<?" := ltsb (at level 70, no associativity) : sint63_scope.
+  Infix "<=?" := lesb (at level 70, no associativity) : sint63_scope.
+  Infix "≤?" := lesb (at level 70, no associativity) : sint63_scope.
+  Notation "- x" := (opp x) : sint63_scope.
+  Notation "n ?= m" := (compares n m)
+    (at level 70, no associativity) : sint63_scope.
 End Sint63NotationsInternalB.
 
 Definition max_int := Eval vm_compute in (min_int - 1)%sint63.

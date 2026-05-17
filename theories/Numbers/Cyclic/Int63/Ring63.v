@@ -46,13 +46,13 @@ Lemma ring_theory_switch_eq :
   ring_theory zero one add mul sub opp R ->
   ring_theory zero one add mul sub opp R'.
 Proof.
-intros A R R' zero one add mul sub opp Impl Ring.
-constructor; intros; apply Impl; apply Ring.
+  intros A R R' zero one add mul sub opp Impl Ring.
+  constructor; intros; apply Impl; apply Ring.
 Qed.
 
 Lemma Uint63Ring : ring_theory 0 1 add mul sub opp Logic.eq.
 Proof.
-exact (ring_theory_switch_eq _ _ _ _ _ _ _ _ _ Uint63_canonic Uint63ring.CyclicRing).
+  exact (ring_theory_switch_eq _ _ _ _ _ _ _ _ _ Uint63_canonic Uint63ring.CyclicRing).
 Qed.
 
 Lemma eq31_correct : forall x y, eqb x y = true -> x=y.
@@ -63,8 +63,8 @@ Add Ring Uint63Ring : Uint63Ring
   constants [Uint63cst]).
 
 Section TestRing.
-Let test : forall x y, 1 + x*y + x*x + 1 = 1*1 + 1 + y*x + 1*x*x.
-Proof.
-intros. ring.
-Defined.
+  Let test : forall x y, 1 + x*y + x*x + 1 = 1*1 + 1 + y*x + 1*x*x.
+  Proof.
+    intros. ring.
+  Defined.
 End TestRing.

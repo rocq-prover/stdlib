@@ -59,9 +59,9 @@ Infix "=?" := eqb : char_scope.
 
 Lemma eqb_spec (a b : ascii) : reflect (a = b) (a =? b)%char.
 Proof.
- destruct a, b; simpl.
- do 8 (case Bool.eqb_spec; [ intros -> | constructor; now intros [= ] ]).
- now constructor.
+  destruct a, b; simpl.
+  do 8 (case Bool.eqb_spec; [ intros -> | constructor; now intros [= ] ]).
+  now constructor.
 Qed.
 
 #[local] Ltac t_eqb :=
@@ -136,10 +136,10 @@ Qed.
 Theorem N_ascii_embedding :
   forall n:N, (n < 256)%N -> N_of_ascii (ascii_of_N n) = n.
 Proof.
-intro n; destruct n as [|p].
-- reflexivity.
-- do 8 (destruct p as [p|p|]; [ | | intros; vm_compute; reflexivity ]);
-  intro H; vm_compute in H; destruct p; discriminate.
+  intro n; destruct n as [|p].
+  - reflexivity.
+  - do 8 (destruct p as [p|p|]; [ | | intros; vm_compute; reflexivity ]);
+    intro H; vm_compute in H; destruct p; discriminate.
 Qed.
 
 Theorem N_ascii_bounded :
@@ -157,13 +157,13 @@ Qed.
 Theorem nat_ascii_embedding :
   forall n : nat, n < 256 -> nat_of_ascii (ascii_of_nat n) = n.
 Proof.
- intros. unfold nat_of_ascii, ascii_of_nat.
- rewrite N_ascii_embedding.
- - apply Nat2N.id.
- - unfold N.lt.
-   change 256%N with (N.of_nat 256).
-   rewrite <- Nat2N.inj_compare.
-   now apply Nat.compare_lt_iff.
+  intros. unfold nat_of_ascii, ascii_of_nat.
+  rewrite N_ascii_embedding.
+  - apply Nat2N.id.
+  - unfold N.lt.
+    change 256%N with (N.of_nat 256).
+    rewrite <- Nat2N.inj_compare.
+    now apply Nat.compare_lt_iff.
 Qed.
 
 Theorem nat_ascii_bounded :

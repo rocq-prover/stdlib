@@ -130,69 +130,69 @@ Module Type WSfun (E : DecidableType).
 
     Section Spec.
 
-      Variable m m' m'' : t elt.
-      Variable x y z : key.
-      Variable e e' : elt.
+       Variable m m' m'' : t elt.
+       Variable x y z : key.
+       Variable e e' : elt.
 
-      Parameter MapsTo : key -> elt -> t elt -> Prop.
+       Parameter MapsTo : key -> elt -> t elt -> Prop.
 
-      Definition In (k:key)(m: t elt) : Prop := exists e:elt, MapsTo k e m.
+       Definition In (k:key)(m: t elt) : Prop := exists e:elt, MapsTo k e m.
 
-      Definition Empty m := forall (a : key)(e:elt) , ~ MapsTo a e m.
+       Definition Empty m := forall (a : key)(e:elt) , ~ MapsTo a e m.
 
-      Definition eq_key (p p':key*elt) := E.eq (fst p) (fst p').
+       Definition eq_key (p p':key*elt) := E.eq (fst p) (fst p').
 
-      Definition eq_key_elt (p p':key*elt) :=
-          E.eq (fst p) (fst p') /\ (snd p) = (snd p').
+       Definition eq_key_elt (p p':key*elt) :=
+           E.eq (fst p) (fst p') /\ (snd p) = (snd p').
 
-    (** Specification of [MapsTo] *)
-      Parameter MapsTo_1 : E.eq x y -> MapsTo x e m -> MapsTo y e m.
+     (** Specification of [MapsTo] *)
+       Parameter MapsTo_1 : E.eq x y -> MapsTo x e m -> MapsTo y e m.
 
-    (** Specification of [mem] *)
-      Parameter mem_1 : In x m -> mem x m = true.
-      Parameter mem_2 : mem x m = true -> In x m.
+     (** Specification of [mem] *)
+       Parameter mem_1 : In x m -> mem x m = true.
+       Parameter mem_2 : mem x m = true -> In x m.
 
-    (** Specification of [empty] *)
-      Parameter empty_1 : Empty empty.
+     (** Specification of [empty] *)
+       Parameter empty_1 : Empty empty.
 
-    (** Specification of [is_empty] *)
-      Parameter is_empty_1 : Empty m -> is_empty m = true.
-      Parameter is_empty_2 : is_empty m = true -> Empty m.
+     (** Specification of [is_empty] *)
+       Parameter is_empty_1 : Empty m -> is_empty m = true.
+       Parameter is_empty_2 : is_empty m = true -> Empty m.
 
-    (** Specification of [add] *)
-      Parameter add_1 : E.eq x y -> MapsTo y e (add x e m).
-      Parameter add_2 : ~ E.eq x y -> MapsTo y e m -> MapsTo y e (add x e' m).
-      Parameter add_3 : ~ E.eq x y -> MapsTo y e (add x e' m) -> MapsTo y e m.
+     (** Specification of [add] *)
+       Parameter add_1 : E.eq x y -> MapsTo y e (add x e m).
+       Parameter add_2 : ~ E.eq x y -> MapsTo y e m -> MapsTo y e (add x e' m).
+       Parameter add_3 : ~ E.eq x y -> MapsTo y e (add x e' m) -> MapsTo y e m.
 
-    (** Specification of [remove] *)
-      Parameter remove_1 : E.eq x y -> ~ In y (remove x m).
-      Parameter remove_2 : ~ E.eq x y -> MapsTo y e m -> MapsTo y e (remove x m).
-      Parameter remove_3 : MapsTo y e (remove x m) -> MapsTo y e m.
+     (** Specification of [remove] *)
+       Parameter remove_1 : E.eq x y -> ~ In y (remove x m).
+       Parameter remove_2 : ~ E.eq x y -> MapsTo y e m -> MapsTo y e (remove x m).
+       Parameter remove_3 : MapsTo y e (remove x m) -> MapsTo y e m.
 
-    (** Specification of [find] *)
-      Parameter find_1 : MapsTo x e m -> find x m = Some e.
-      Parameter find_2 : find x m = Some e -> MapsTo x e m.
+     (** Specification of [find] *)
+       Parameter find_1 : MapsTo x e m -> find x m = Some e.
+       Parameter find_2 : find x m = Some e -> MapsTo x e m.
 
-    (** Specification of [elements] *)
-      Parameter elements_1 :
-        MapsTo x e m -> InA eq_key_elt (x,e) (elements m).
-      Parameter elements_2 :
-        InA eq_key_elt (x,e) (elements m) -> MapsTo x e m.
-      (** When compared with ordered maps, here comes the only
+     (** Specification of [elements] *)
+       Parameter elements_1 :
+         MapsTo x e m -> InA eq_key_elt (x,e) (elements m).
+       Parameter elements_2 :
+         InA eq_key_elt (x,e) (elements m) -> MapsTo x e m.
+       (** When compared with ordered maps, here comes the only
          property that is really weaker: *)
-      Parameter elements_3w : NoDupA eq_key (elements m).
+       Parameter elements_3w : NoDupA eq_key (elements m).
 
-    (** Specification of [cardinal] *)
-      Parameter cardinal_1 : cardinal m = length (elements m).
+     (** Specification of [cardinal] *)
+       Parameter cardinal_1 : cardinal m = length (elements m).
 
-    (** Specification of [fold] *)
-      Parameter fold_1 :
-        forall (A : Type) (i : A) (f : key -> elt -> A -> A),
-        fold f m i = fold_left (fun a p => f (fst p) (snd p) a) (elements m) i.
+     (** Specification of [fold] *)
+       Parameter fold_1 :
+         forall (A : Type) (i : A) (f : key -> elt -> A -> A),
+         fold f m i = fold_left (fun a p => f (fst p) (snd p) a) (elements m) i.
 
-    (** Equality of maps *)
+     (** Equality of maps *)
 
-    (** Caveat: there are at least three distinct equality predicates on maps.
+     (** Caveat: there are at least three distinct equality predicates on maps.
       - The simplest (and maybe most natural) way is to consider keys up to
         their equivalence [E.eq], but elements up to Leibniz equality, in
         the spirit of [eq_key_elt] above. This leads to predicate [Equal].
@@ -205,21 +205,21 @@ Module Type WSfun (E : DecidableType).
         it can be generalized in a [Equiv] expecting a more general
         (possibly non-decidable) equality predicate on elements *)
 
-     Definition Equal m m' := forall y, find y m = find y m'.
-     Definition Equiv (eq_elt:elt->elt->Prop) m m' :=
-         (forall k, In k m <-> In k m') /\
-         (forall k e e', MapsTo k e m -> MapsTo k e' m' -> eq_elt e e').
-     Definition Equivb (cmp: elt->elt->bool) := Equiv (Cmp cmp).
+      Definition Equal m m' := forall y, find y m = find y m'.
+      Definition Equiv (eq_elt:elt->elt->Prop) m m' :=
+          (forall k, In k m <-> In k m') /\
+          (forall k e e', MapsTo k e m -> MapsTo k e' m' -> eq_elt e e').
+      Definition Equivb (cmp: elt->elt->bool) := Equiv (Cmp cmp).
 
-     (** Specification of [equal] *)
+      (** Specification of [equal] *)
 
-     Variable cmp : elt -> elt -> bool.
+      Variable cmp : elt -> elt -> bool.
 
-     Parameter equal_1 : Equivb cmp m m' -> equal cmp m m' = true.
-     Parameter equal_2 : equal cmp m m' = true -> Equivb cmp m m'.
+      Parameter equal_1 : Equivb cmp m m' -> equal cmp m m' = true.
+      Parameter equal_2 : equal cmp m m' = true -> Equivb cmp m m'.
 
     End Spec.
-   End Types.
+  End Types.
 
     (** Specification of [map] *)
       Parameter map_1 : forall (elt elt':Type)(m: t elt)(x:key)(e:elt)(f:elt->elt'),
@@ -272,11 +272,11 @@ End WS.
 Module Type Sfun (E : OrderedType).
   Include WSfun E.
   Section elt.
-  Variable elt:Type.
-   Definition lt_key (p p':key*elt) := E.lt (fst p) (fst p').
-   (* Additional specification of [elements] *)
-   Parameter elements_3 : forall m, sort lt_key (elements m).
-   (** Remark: since [fold] is specified via [elements], this stronger
+    Variable elt:Type.
+     Definition lt_key (p p':key*elt) := E.lt (fst p) (fst p').
+     (* Additional specification of [elements] *)
+     Parameter elements_3 : forall m, sort lt_key (elements m).
+     (** Remark: since [fold] is specified via [elements], this stronger
    specification of [elements] has an indirect impact on [fold],
    which can now be proved to receive elements in increasing order. *)
   End elt.

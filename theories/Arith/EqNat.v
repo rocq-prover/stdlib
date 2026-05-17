@@ -39,12 +39,12 @@ Qed.
 
 Lemma eq_eq_nat n m : n = m -> eq_nat n m.
 Proof.
- apply eq_nat_is_eq.
+  apply eq_nat_is_eq.
 Qed.
 
 Lemma eq_nat_eq n m : eq_nat n m -> n = m.
 Proof.
- apply eq_nat_is_eq.
+  apply eq_nat_is_eq.
 Qed.
 
 Theorem eq_nat_elim :

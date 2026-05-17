@@ -117,32 +117,32 @@ Module MoreInt (Import I:Int).
 
   Lemma eqb_eq n p : (n =? p) = true <-> n == p.
   Proof.
-   now rewrite i2z_eqb, Z.eqb_eq.
+    now rewrite i2z_eqb, Z.eqb_eq.
   Qed.
 
   Lemma eqb_neq n p : (n =? p) = false <-> ~(n == p).
   Proof.
-   rewrite <- eqb_eq. destruct (n =? p); intuition.
+    rewrite <- eqb_eq. destruct (n =? p); intuition.
   Qed.
 
   Lemma ltb_lt n p : (n <? p) = true <-> n < p.
   Proof.
-   now rewrite i2z_ltb, Z.ltb_lt.
+    now rewrite i2z_ltb, Z.ltb_lt.
   Qed.
 
   Lemma ltb_nlt n p : (n <? p) = false <-> ~(n < p).
   Proof.
-   rewrite <- ltb_lt. destruct (n <? p); intuition.
+    rewrite <- ltb_lt. destruct (n <? p); intuition.
   Qed.
 
   Lemma leb_le n p : (n <=? p) = true <-> n <= p.
   Proof.
-   now rewrite i2z_leb, Z.leb_le.
+    now rewrite i2z_leb, Z.leb_le.
   Qed.
 
   Lemma leb_nle n p : (n <=? p) = false <-> ~(n <= p).
   Proof.
-   rewrite <- leb_le. destruct (n <=? p); intuition.
+    rewrite <- leb_le. destruct (n <=? p); intuition.
   Qed.
 
   (** A magic (but costly) tactic that goes from [int] back to the [Z]

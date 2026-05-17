@@ -42,9 +42,9 @@ Lemma Zpower_nat_is_exp :
   forall (n m:nat) (z:Z),
     Zpower_nat z (n + m) = Zpower_nat z n * Zpower_nat z m.
 Proof.
- intros n; induction n as [|n IHn].
- - intros. now rewrite Zpower_nat_0_r, Z.mul_1_l.
- - intros. simpl. now rewrite IHn, Z.mul_assoc.
+  intros n; induction n as [|n IHn].
+  - intros. now rewrite Zpower_nat_0_r, Z.mul_1_l.
+  - intros. simpl. now rewrite IHn, Z.mul_assoc.
 Qed.
 
 (** Conversions between powers of unary and binary integers *)
@@ -68,7 +68,7 @@ Qed.
 Theorem Zpower_nat_Zpower z n : 0 <= n ->
  z^n = Zpower_nat z (Z.abs_nat n).
 Proof.
- intros. now rewrite Zpower_nat_Z, Zabs2Nat.id_abs, Z.abs_eq.
+  intros. now rewrite Zpower_nat_Z, Zabs2Nat.id_abs, Z.abs_eq.
 Qed.
 
 (** The function [(Z.pow_pos z)] is a morphism
@@ -77,7 +77,7 @@ Qed.
 Lemma Zpower_pos_is_exp (n m : positive)(z:Z) :
   Z.pow_pos z (n + m) = Z.pow_pos z n * Z.pow_pos z m.
 Proof.
- now apply (Z.pow_add_r z (Zpos n) (Zpos m)).
+  now apply (Z.pow_add_r z (Zpos n) (Zpos m)).
 Qed.
 
 #[global]
@@ -88,7 +88,7 @@ Hint Unfold Z.pow_pos Zpower_nat: zarith.
 Theorem Zpower_exp x n m :
   n >= 0 -> m >= 0 -> x ^ (n + m) = x ^ n * x ^ m.
 Proof.
- Z.swap_greater. apply Z.pow_add_r.
+  Z.swap_greater. apply Z.pow_add_r.
 Qed.
 
 Section Powers_of_2.
@@ -128,27 +128,27 @@ Section Powers_of_2.
 
   Lemma shift_equiv n p : 0<=n -> Zpos (shift n p) = Z.shiftl (Zpos p) n.
   Proof.
-   destruct n.
-   - trivial.
-   - simpl; intros. now apply Pos.iter_swap_gen.
-   - now destruct 1.
+    destruct n.
+    - trivial.
+    - simpl; intros. now apply Pos.iter_swap_gen.
+    - now destruct 1.
   Qed.
 
   Lemma two_power_nat_equiv n : two_power_nat n = 2 ^ (Z.of_nat n).
   Proof.
-   induction n as [|n IHn].
-   - trivial.
-   - now rewrite Nat2Z.inj_succ, Z.pow_succ_r, <- IHn by apply Nat2Z.is_nonneg.
+    induction n as [|n IHn].
+    - trivial.
+    - now rewrite Nat2Z.inj_succ, Z.pow_succ_r, <- IHn by apply Nat2Z.is_nonneg.
   Qed.
 
   Lemma two_power_pos_equiv p : two_power_pos p = 2 ^ Zpos p.
   Proof.
-   now apply Pos.iter_swap_gen.
+    now apply Pos.iter_swap_gen.
   Qed.
 
   Lemma two_p_equiv x : two_p x = 2 ^ x.
   Proof.
-   destruct x; trivial. apply two_power_pos_equiv.
+    destruct x; trivial. apply two_power_pos_equiv.
   Qed.
 
   (** Properties of these old versions of powers of two *)
@@ -159,41 +159,41 @@ Section Powers_of_2.
   Lemma shift_nat_plus n m x :
     shift_nat (n + m) x = shift_nat n (shift_nat m x).
   Proof.
-   induction n; simpl; now f_equal.
+    induction n; simpl; now f_equal.
   Qed.
 
   Theorem shift_nat_correct n x :
     Zpos (shift_nat n x) = Zpower_nat 2 n * Zpos x.
   Proof.
-   induction n as [|n IHn].
-   - trivial.
-   - now rewrite Zpower_nat_succ_r, <- Z.mul_assoc, <- IHn.
+    induction n as [|n IHn].
+    - trivial.
+    - now rewrite Zpower_nat_succ_r, <- Z.mul_assoc, <- IHn.
   Qed.
 
   Theorem two_power_nat_correct n : two_power_nat n = Zpower_nat 2 n.
   Proof.
-   now rewrite two_power_nat_equiv, Zpower_nat_Z.
+    now rewrite two_power_nat_equiv, Zpower_nat_Z.
   Qed.
 
   Lemma shift_pos_nat p x : shift_pos p x = shift_nat (Pos.to_nat p) x.
   Proof.
-   apply Pos2Nat.inj_iter.
+    apply Pos2Nat.inj_iter.
   Qed.
 
   Lemma two_power_pos_nat p : two_power_pos p = two_power_nat (Pos.to_nat p).
   Proof.
-   unfold two_power_pos. now rewrite shift_pos_nat.
+    unfold two_power_pos. now rewrite shift_pos_nat.
   Qed.
 
   Theorem shift_pos_correct p x :
     Zpos (shift_pos p x) = Z.pow_pos 2 p * Zpos x.
   Proof.
-   now rewrite shift_pos_nat, Zpower_pos_nat, shift_nat_correct.
+    now rewrite shift_pos_nat, Zpower_pos_nat, shift_nat_correct.
   Qed.
 
   Theorem two_power_pos_correct x : two_power_pos x = Z.pow_pos 2 x.
   Proof.
-   apply two_power_pos_equiv.
+    apply two_power_pos_equiv.
   Qed.
 
   Theorem two_power_pos_is_exp x y :
@@ -215,18 +215,18 @@ Section Powers_of_2.
 
   Lemma two_p_gt_ZERO x : 0 <= x -> two_p x > 0.
   Proof.
-   Z.swap_greater. rewrite two_p_equiv. now apply Z.pow_pos_nonneg.
+    Z.swap_greater. rewrite two_p_equiv. now apply Z.pow_pos_nonneg.
   Qed.
 
   Lemma two_p_S x : 0 <= x -> two_p (Z.succ x) = 2 * two_p x.
   Proof.
-   rewrite !two_p_equiv. now apply Z.pow_succ_r.
+    rewrite !two_p_equiv. now apply Z.pow_succ_r.
   Qed.
 
   Lemma two_p_pred x : 0 <= x -> two_p (Z.pred x) < two_p x.
   Proof.
-   rewrite !two_p_equiv. intros. apply Z.pow_lt_mono_r; auto using Z.lt_pred_l.
-   reflexivity.
+    rewrite !two_p_equiv. intros. apply Z.pow_lt_mono_r; auto using Z.lt_pred_l.
+    reflexivity.
   Qed.
 
 End Powers_of_2.
@@ -263,55 +263,55 @@ Section power_div_with_rest.
     let (_, d) := Pos.iter Zdiv_rest_aux (x, 0, 1) p in
     d = two_power_pos p.
   Proof.
-   rewrite Pos2Nat.inj_iter, two_power_pos_nat.
-   induction (Pos.to_nat p); simpl; trivial.
-   destruct (nat_rect _ _ _ _) as ((q,r),d).
-   unfold Zdiv_rest_aux. rewrite two_power_nat_S; now f_equal.
+    rewrite Pos2Nat.inj_iter, two_power_pos_nat.
+    induction (Pos.to_nat p); simpl; trivial.
+    destruct (nat_rect _ _ _ _) as ((q,r),d).
+    unfold Zdiv_rest_aux. rewrite two_power_nat_S; now f_equal.
   Qed.
 
   Lemma Zdiv_rest_correct2 (x:Z) (p:positive) :
     let '(q,r,d) := Pos.iter Zdiv_rest_aux (x, 0, 1) p in
     x = q * d + r /\ 0 <= r < d.
   Proof.
-    apply Pos.iter_invariant; [|rewrite Z.mul_1_r, Z.add_0_r; repeat split; auto; discriminate].
-   intros ((q,r),d) (H,(H1',H2')). unfold Zdiv_rest_aux.
-   assert (H1 : 0 < d) by now apply Z.le_lt_trans with (1 := H1').
-   assert (H2 : 0 <= d + r) by now apply Z.add_nonneg_nonneg; auto; apply Z.lt_le_incl.
-   assert (H3 : d + r < 2 * d)
-     by now rewrite <-Z.add_diag; apply Z.add_lt_mono_l.
-   assert (H4 : r < 2 * d) by now
-     apply Z.lt_le_trans with (1 * d); [
-       rewrite Z.mul_1_l; auto |
-       apply Z.mul_le_mono_nonneg_r; try discriminate;
-       now apply Z.lt_le_incl].
-  destruct q as [ |[q|q| ]|[q|q| ]].
-   - repeat split; auto.
-   - rewrite Pos2Z.inj_xI, Z.mul_add_distr_r in H.
-     rewrite Z.mul_shuffle3, Z.mul_assoc.
-     rewrite Z.mul_1_l in H; rewrite Z.add_assoc.
-     repeat split; auto with zarith.
-   - rewrite Pos2Z.inj_xO in H.
-     rewrite Z.mul_shuffle3, Z.mul_assoc.
-     repeat split; auto.
-   - rewrite Z.mul_1_l in H; repeat split; auto.
-   - rewrite Pos2Z.neg_xI, Z.mul_sub_distr_r in H.
-     rewrite Z.mul_sub_distr_r, Z.mul_shuffle3, Z.mul_assoc.
-     repeat split; auto.
-     rewrite !Z.mul_1_l, H, Z.add_assoc.
-     apply (f_equal2 Z.add); auto.
-     rewrite <- Z.sub_sub_distr, <- !Z.add_diag, Z.add_simpl_r.
-     now rewrite Z.mul_1_l.
-   - rewrite Pos2Z.neg_xO in H.
-     rewrite Z.mul_shuffle3, Z.mul_assoc.
-     repeat split; auto.
-   - repeat split; auto.
-     rewrite H, (Z.mul_opp_l 1), Z.mul_1_l, Z.add_assoc.
-     apply (f_equal2 Z.add); auto.
-     rewrite Z.add_comm, <- Z.add_diag.
-     rewrite Z.mul_add_distr_l.
-     replace (-1 * d) with (-d).
-     + now rewrite Z.add_assoc, Z.add_opp_diag_r .
-     + now rewrite (Z.mul_opp_l 1), <-(Z.mul_opp_l 1).
+      apply Pos.iter_invariant; [|rewrite Z.mul_1_r, Z.add_0_r; repeat split; auto; discriminate].
+     intros ((q,r),d) (H,(H1',H2')). unfold Zdiv_rest_aux.
+     assert (H1 : 0 < d) by now apply Z.le_lt_trans with (1 := H1').
+     assert (H2 : 0 <= d + r) by now apply Z.add_nonneg_nonneg; auto; apply Z.lt_le_incl.
+     assert (H3 : d + r < 2 * d)
+       by now rewrite <-Z.add_diag; apply Z.add_lt_mono_l.
+     assert (H4 : r < 2 * d) by now
+       apply Z.lt_le_trans with (1 * d); [
+         rewrite Z.mul_1_l; auto |
+         apply Z.mul_le_mono_nonneg_r; try discriminate;
+         now apply Z.lt_le_incl].
+    destruct q as [ |[q|q| ]|[q|q| ]].
+     - repeat split; auto.
+     - rewrite Pos2Z.inj_xI, Z.mul_add_distr_r in H.
+       rewrite Z.mul_shuffle3, Z.mul_assoc.
+       rewrite Z.mul_1_l in H; rewrite Z.add_assoc.
+       repeat split; auto with zarith.
+     - rewrite Pos2Z.inj_xO in H.
+       rewrite Z.mul_shuffle3, Z.mul_assoc.
+       repeat split; auto.
+     - rewrite Z.mul_1_l in H; repeat split; auto.
+     - rewrite Pos2Z.neg_xI, Z.mul_sub_distr_r in H.
+       rewrite Z.mul_sub_distr_r, Z.mul_shuffle3, Z.mul_assoc.
+       repeat split; auto.
+       rewrite !Z.mul_1_l, H, Z.add_assoc.
+       apply (f_equal2 Z.add); auto.
+       rewrite <- Z.sub_sub_distr, <- !Z.add_diag, Z.add_simpl_r.
+       now rewrite Z.mul_1_l.
+     - rewrite Pos2Z.neg_xO in H.
+       rewrite Z.mul_shuffle3, Z.mul_assoc.
+       repeat split; auto.
+     - repeat split; auto.
+       rewrite H, (Z.mul_opp_l 1), Z.mul_1_l, Z.add_assoc.
+       apply (f_equal2 Z.add); auto.
+       rewrite Z.add_comm, <- Z.add_diag.
+       rewrite Z.mul_add_distr_l.
+       replace (-1 * d) with (-d).
+       + now rewrite Z.add_assoc, Z.add_opp_diag_r .
+       + now rewrite (Z.mul_opp_l 1), <-(Z.mul_opp_l 1).
   Qed.
 
   (** Old-style rich specification by proof of existence *)
@@ -335,10 +335,10 @@ Section power_div_with_rest.
     let (q,r) := Zdiv_rest x p in
     x = q * 2^(Zpos p) + r /\ 0 <= r < 2^(Zpos p).
   Proof.
-   unfold Zdiv_rest.
-   generalize (Zdiv_rest_correct1 x p); generalize (Zdiv_rest_correct2 x p).
-   destruct (Pos.iter Zdiv_rest_aux (x, 0, 1) p) as ((q,r),d).
-   intros H ->. now rewrite two_power_pos_equiv in H.
+    unfold Zdiv_rest.
+    generalize (Zdiv_rest_correct1 x p); generalize (Zdiv_rest_correct2 x p).
+    destruct (Pos.iter Zdiv_rest_aux (x, 0, 1) p) as ((q,r),d).
+    intros H ->. now rewrite two_power_pos_equiv in H.
   Qed.
 
   (** Equivalence with [Z.shiftr] *)
@@ -346,10 +346,10 @@ Section power_div_with_rest.
   Lemma Zdiv_rest_shiftr x p :
    fst (Zdiv_rest x p) = Z.shiftr x (Zpos p).
   Proof.
-   generalize (Zdiv_rest_ok x p). destruct (Zdiv_rest x p) as (q,r).
-   intros (H,H'). simpl.
-   rewrite Z.shiftr_div_pow2 by easy.
-   apply Z.div_unique_pos with r; trivial. now rewrite Z.mul_comm.
+    generalize (Zdiv_rest_ok x p). destruct (Zdiv_rest x p) as (q,r).
+    intros (H,H'). simpl.
+    rewrite Z.shiftr_div_pow2 by easy.
+    apply Z.div_unique_pos with r; trivial. now rewrite Z.mul_comm.
   Qed.
 
 End power_div_with_rest.

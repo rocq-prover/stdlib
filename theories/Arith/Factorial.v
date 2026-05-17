@@ -29,7 +29,7 @@ Qed.
 
 Lemma fact_neq_0 n : fact n <> 0.
 Proof.
- apply Nat.neq_0_lt_0, lt_O_fact.
+  apply Nat.neq_0_lt_0, lt_O_fact.
 Qed.
 
 Lemma fact_le n m : n <= m -> fact n <= fact m.

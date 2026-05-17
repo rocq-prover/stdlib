@@ -31,7 +31,7 @@ From Stdlib Require Export Rpower.
 
 Definition AppVar : R.
 Proof.
-exact R0.
+  exact R0.
 Qed.
 
 (**********)

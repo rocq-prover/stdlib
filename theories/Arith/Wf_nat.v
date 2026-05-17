@@ -18,30 +18,30 @@ Implicit Types m n p : nat.
 
 Section Well_founded_Nat.
 
-Variable A : Type.
+  Variable A : Type.
 
-Variable f : A -> nat.
-Definition ltof (a b:A) := f a < f b.
-Definition gtof (a b:A) := f b > f a.
+  Variable f : A -> nat.
+  Definition ltof (a b:A) := f a < f b.
+  Definition gtof (a b:A) := f b > f a.
 
-Theorem well_founded_ltof : well_founded ltof.
-Proof.
-  assert (H : forall n (a:A), f a < n -> Acc ltof a).
-  { intro n; induction n as [|n IHn].
-    - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
-    - intros a Ha. apply Acc_intro. unfold ltof at 1. intros b Hb.
-      apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
-  intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
-Defined.
+  Theorem well_founded_ltof : well_founded ltof.
+  Proof.
+    assert (H : forall n (a:A), f a < n -> Acc ltof a).
+    { intro n; induction n as [|n IHn].
+      - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
+      - intros a Ha. apply Acc_intro. unfold ltof at 1. intros b Hb.
+        apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
+    intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
+  Defined.
 
-Register well_founded_ltof as num.nat.well_founded_ltof.
+  Register well_founded_ltof as num.nat.well_founded_ltof.
 
-Theorem well_founded_gtof : well_founded gtof.
-Proof.
-  exact well_founded_ltof.
-Defined.
+  Theorem well_founded_gtof : well_founded gtof.
+  Proof.
+    exact well_founded_ltof.
+  Defined.
 
-(** It is possible to directly prove the induction principle going
+  (** It is possible to directly prove the induction principle going
    back to primitive recursion on natural numbers ([induction_ltof1])
    or to use the previous lemmas to extract a program with a fixpoint
    ([induction_ltof2])
@@ -63,56 +63,56 @@ the ML-like program for [induction_ltof2] is :
 ]]
 *)
 
-Theorem induction_ltof1 :
-  forall P:A -> Type,
-    (forall x:A, (forall y:A, ltof y x -> P y) -> P x) -> forall a:A, P a.
-Proof.
-  intros P F.
-  assert (H : forall n (a:A), f a < n -> P a).
-  { intro n; induction n as [|n IHn].
-    - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
-    - intros a Ha. apply F. unfold ltof. intros b Hb.
-      apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
-  intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
-Defined.
+  Theorem induction_ltof1 :
+    forall P:A -> Type,
+      (forall x:A, (forall y:A, ltof y x -> P y) -> P x) -> forall a:A, P a.
+  Proof.
+    intros P F.
+    assert (H : forall n (a:A), f a < n -> P a).
+    { intro n; induction n as [|n IHn].
+      - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
+      - intros a Ha. apply F. unfold ltof. intros b Hb.
+        apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
+    intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
+  Defined.
 
-Theorem induction_gtof1 :
-  forall P:A -> Type,
-    (forall x:A, (forall y:A, gtof y x -> P y) -> P x) -> forall a:A, P a.
-Proof.
-  exact induction_ltof1.
-Defined.
+  Theorem induction_gtof1 :
+    forall P:A -> Type,
+      (forall x:A, (forall y:A, gtof y x -> P y) -> P x) -> forall a:A, P a.
+  Proof.
+    exact induction_ltof1.
+  Defined.
 
-Theorem induction_ltof2 :
-  forall P:A -> Type,
-    (forall x:A, (forall y:A, ltof y x -> P y) -> P x) -> forall a:A, P a.
-Proof.
-  exact (well_founded_induction_type well_founded_ltof).
-Defined.
+  Theorem induction_ltof2 :
+    forall P:A -> Type,
+      (forall x:A, (forall y:A, ltof y x -> P y) -> P x) -> forall a:A, P a.
+  Proof.
+    exact (well_founded_induction_type well_founded_ltof).
+  Defined.
 
-Theorem induction_gtof2 :
-  forall P:A -> Type,
-    (forall x:A, (forall y:A, gtof y x -> P y) -> P x) -> forall a:A, P a.
-Proof.
-  exact induction_ltof2.
-Defined.
+  Theorem induction_gtof2 :
+    forall P:A -> Type,
+      (forall x:A, (forall y:A, gtof y x -> P y) -> P x) -> forall a:A, P a.
+  Proof.
+    exact induction_ltof2.
+  Defined.
 
-(** If a relation [R] is compatible with [lt] i.e. if [x R y => f(x) < f(y)]
+  (** If a relation [R] is compatible with [lt] i.e. if [x R y => f(x) < f(y)]
     then [R] is well-founded. *)
 
-Variable R : A -> A -> Prop.
+  Variable R : A -> A -> Prop.
 
-Hypothesis H_compat : forall x y:A, R x y -> f x < f y.
+  Hypothesis H_compat : forall x y:A, R x y -> f x < f y.
 
-Theorem well_founded_lt_compat : well_founded R.
-Proof.
-  assert (H : forall n (a:A), f a < n -> Acc R a).
-  { intro n; induction n as [|n IHn].
-    - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
-    - intros a Ha. apply Acc_intro. intros b Hb.
-      apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
-  intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
-Defined.
+  Theorem well_founded_lt_compat : well_founded R.
+  Proof.
+    assert (H : forall n (a:A), f a < n -> Acc R a).
+    { intro n; induction n as [|n IHn].
+      - intros a Ha; absurd (f a < 0); auto. apply Nat.nlt_0_r.
+      - intros a Ha. apply Acc_intro. intros b Hb.
+        apply IHn. apply Nat.lt_le_trans with (f a); auto. now apply Nat.succ_le_mono. }
+    intros a. apply (H (S (f a))). apply Nat.lt_succ_diag_r.
+  Defined.
 
 End Well_founded_Nat.
 

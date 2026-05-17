@@ -86,9 +86,9 @@ Arguments Q2Qc q%_Q.
 
 Lemma Q2Qc_eq_iff (q q' : Q) : Q2Qc q = Q2Qc q' <-> q == q'.
 Proof.
- split; intro H.
- - now injection H as [= H%Qred_eq_iff].
- - apply Qc_is_canon. simpl. now rewrite H.
+  split; intro H.
+  - now injection H as [= H%Qred_eq_iff].
+  - apply Qc_is_canon. simpl. now rewrite H.
 Qed.
 
 Notation " 0 " := (Q2Qc 0) : Qc_scope.
@@ -539,7 +539,7 @@ Add Field Qcfield : Qcft.
 
 Example test_field : (forall x y : Qc, y<>0 -> (x/y)*y = x)%Qc.
 Proof.
-intros.
-field.
-auto.
+  intros.
+  field.
+  auto.
 Qed.

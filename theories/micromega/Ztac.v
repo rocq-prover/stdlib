@@ -46,7 +46,7 @@ Proof. apply Z.le_succ_l. Qed.
 #[deprecated(since="Stdlib 9.0")]
 #[local] Lemma Private_Zle_minus_le_0 n m : m <= n -> 0 <= n - m.
 Proof.
- apply Z.le_0_sub.
+  apply Z.le_0_sub.
 Qed.
 
 #[deprecated(since="Stdlib 9.0")]

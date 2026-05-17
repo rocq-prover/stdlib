@@ -117,7 +117,7 @@ Module DepOfNodep (Import M: S) <: Sdep with Module E := M.E.
     {r : A |   let (l,_) := elements s in
                   r = fold_left (fun a e => f e a) l i}.
   Proof.
-  intros; exists (fold (A:=A) f s i); exact (fold_1 s i f).
+    intros; exists (fold (A:=A) f s i); exact (fold_1 s i f).
   Qed.
 
   Definition cardinal :
@@ -250,16 +250,16 @@ Module DepOfNodep (Import M: S) <: Sdep with Module E := M.E.
   Definition choose_aux: forall s : t,
     { x : elt | M.choose s = Some x } + { M.choose s = None }.
   Proof.
-   intros.
-   destruct (M.choose s); [left | right]; auto.
-   exists e; auto.
+    intros.
+    destruct (M.choose s); [left | right]; auto.
+    exists e; auto.
   Qed.
 
   Definition choose : forall s : t, {x : elt | In x s} + {Empty s}.
   Proof.
-   intros; destruct (choose_aux s) as [(x,Hx)|H].
-   - left; exists x; apply choose_1; auto.
-   - right; apply choose_2; auto.
+    intros; destruct (choose_aux s) as [(x,Hx)|H].
+    - left; exists x; apply choose_1; auto.
+    - right; apply choose_2; auto.
   Defined.
 
   Lemma choose_ok1 :
@@ -294,16 +294,16 @@ Module DepOfNodep (Import M: S) <: Sdep with Module E := M.E.
        | _, _                        => False
      end.
   Proof.
-   intros.
-   generalize (@M.choose_1 s)(@M.choose_2 s)
-              (@M.choose_1 s')(@M.choose_2 s')(@M.choose_3 s s')
-              (choose_ok1 s)(choose_ok2 s)(choose_ok1 s')(choose_ok2 s').
-   destruct (choose s) as [(x,Hx)|Hx]; destruct (choose s') as [(x',Hx')|Hx']; auto; intros.
-   - apply H4; auto.
-     + rewrite H5; exists Hx; auto.
-     + rewrite H7; exists Hx'; auto.
-   - apply Hx' with x; unfold Equal in H; rewrite <-H; auto.
-   - apply Hx with x'; unfold Equal in H; rewrite H; auto.
+    intros.
+    generalize (@M.choose_1 s)(@M.choose_2 s)
+               (@M.choose_1 s')(@M.choose_2 s')(@M.choose_3 s s')
+               (choose_ok1 s)(choose_ok2 s)(choose_ok1 s')(choose_ok2 s').
+    destruct (choose s) as [(x,Hx)|Hx]; destruct (choose s') as [(x',Hx')|Hx']; auto; intros.
+    - apply H4; auto.
+      + rewrite H5; exists Hx; auto.
+      + rewrite H7; exists Hx'; auto.
+    - apply Hx' with x; unfold Equal in H; rewrite <-H; auto.
+    - apply Hx with x'; unfold Equal in H; rewrite H; auto.
   Qed.
 
   Definition min_elt :
@@ -448,10 +448,10 @@ Module NodepOfDep (M: Sdep) <: S with Module E := M.E.
   Lemma choose_3 : forall s s' x x',
    choose s = Some x -> choose s' = Some x' -> Equal s s' -> E.eq x x'.
   Proof.
-  unfold choose; intros.
-  generalize (M.choose_equal H1); clear H1.
-  destruct (M.choose s) as [(?,?)|?]; destruct (M.choose s') as [(?,?)|?];
-   simpl; auto; congruence.
+    unfold choose; intros.
+    generalize (M.choose_equal H1); clear H1.
+    destruct (M.choose s) as [(?,?)|?]; destruct (M.choose s') as [(?,?)|?];
+     simpl; auto; congruence.
   Qed.
 
   Definition elements (s : t) : list elt := let (l, _) := elements s in l.

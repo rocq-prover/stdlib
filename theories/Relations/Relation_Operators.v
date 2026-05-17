@@ -65,30 +65,30 @@ End Reflexive_Closure.
 (** ** Reflexive-transitive closure *)
 
 Section Reflexive_Transitive_Closure.
-  Variable A : Type.
-  Variable R : relation A.
+   Variable A : Type.
+   Variable R : relation A.
 
-  (** Definition by direct reflexive-transitive closure *)
+   (** Definition by direct reflexive-transitive closure *)
 
-  Inductive clos_refl_trans (x:A) : A -> Prop :=
-    | rt_step (y:A) : R x y -> clos_refl_trans x y
-    | rt_refl : clos_refl_trans x x
-    | rt_trans (y z:A) :
-          clos_refl_trans x y -> clos_refl_trans y z -> clos_refl_trans x z.
+   Inductive clos_refl_trans (x:A) : A -> Prop :=
+     | rt_step (y:A) : R x y -> clos_refl_trans x y
+     | rt_refl : clos_refl_trans x x
+     | rt_trans (y z:A) :
+           clos_refl_trans x y -> clos_refl_trans y z -> clos_refl_trans x z.
 
-  (** Alternative definition by transitive extension on the left *)
+   (** Alternative definition by transitive extension on the left *)
 
-  Inductive clos_refl_trans_1n (x: A) : A -> Prop :=
-    | rt1n_refl : clos_refl_trans_1n x x
-    | rt1n_trans (y z:A) :
-         R x y -> clos_refl_trans_1n y z -> clos_refl_trans_1n x z.
+   Inductive clos_refl_trans_1n (x: A) : A -> Prop :=
+     | rt1n_refl : clos_refl_trans_1n x x
+     | rt1n_trans (y z:A) :
+          R x y -> clos_refl_trans_1n y z -> clos_refl_trans_1n x z.
 
-  (** Alternative definition by transitive extension on the right *)
+   (** Alternative definition by transitive extension on the right *)
 
- Inductive clos_refl_trans_n1 (x: A) : A -> Prop :=
-    | rtn1_refl : clos_refl_trans_n1 x x
-    | rtn1_trans (y z:A) :
-        R y z -> clos_refl_trans_n1 x y -> clos_refl_trans_n1 x z.
+  Inductive clos_refl_trans_n1 (x: A) : A -> Prop :=
+     | rtn1_refl : clos_refl_trans_n1 x x
+     | rtn1_trans (y z:A) :
+         R y z -> clos_refl_trans_n1 x y -> clos_refl_trans_n1 x z.
 
 End Reflexive_Transitive_Closure.
 
@@ -145,14 +145,14 @@ End Union.
 (** ** Disjoint union of relations *)
 
 Section Disjoint_Union.
-Variables A B : Type.
-Variable leA : A -> A -> Prop.
-Variable leB : B -> B -> Prop.
+  Variables A B : Type.
+  Variable leA : A -> A -> Prop.
+  Variable leB : B -> B -> Prop.
 
-Inductive le_AsB : A + B -> A + B -> Prop :=
-  | le_aa (x y:A) : leA x y -> le_AsB (inl _ x) (inl _ y)
-  | le_ab (x:A) (y:B) : le_AsB (inl _ x) (inr _ y)
-  | le_bb (x y:B) : leB x y -> le_AsB (inr _ x) (inr _ y).
+  Inductive le_AsB : A + B -> A + B -> Prop :=
+    | le_aa (x y:A) : leA x y -> le_AsB (inl _ x) (inl _ y)
+    | le_ab (x:A) (y:B) : le_AsB (inl _ x) (inr _ y)
+    | le_bb (x y:B) : leB x y -> le_AsB (inr _ x) (inr _ y).
 
 End Disjoint_Union.
 

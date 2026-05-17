@@ -41,7 +41,7 @@ Notation Zpos_minus := Pos2Z.inj_sub_max (only parsing).
 Lemma Zmax_spec x y :
   x >= y /\ Z.max x y = x  \/ x < y /\ Z.max x y = y.
 Proof.
- Z.swap_greater. destruct (Z.max_spec x y); auto.
+  Z.swap_greater. destruct (Z.max_spec x y); auto.
 Qed.
 
 Lemma Zmax_left n m : n>=m -> Z.max n m = n.
@@ -49,5 +49,5 @@ Proof. Z.swap_greater. apply Z.max_l. Qed.
 
 Lemma Zpos_max_1 p : Z.max 1 (Z.pos p) = Z.pos p.
 Proof.
- now destruct p.
+  now destruct p.
 Qed.

@@ -160,22 +160,22 @@ Notation nat_compare_S := Nat.compare_succ (only parsing).
 
 Lemma nat_compare_lt n m : n<m <-> (n ?= m) = Lt.
 Proof.
- symmetry. apply Nat.compare_lt_iff.
+  symmetry. apply Nat.compare_lt_iff.
 Qed.
 
 Lemma nat_compare_gt n m : n>m <-> (n ?= m) = Gt.
 Proof.
- symmetry. apply Nat.compare_gt_iff.
+  symmetry. apply Nat.compare_gt_iff.
 Qed.
 
 Lemma nat_compare_le n m : n<=m <-> (n ?= m) <> Gt.
 Proof.
- symmetry. apply Nat.compare_le_iff.
+  symmetry. apply Nat.compare_le_iff.
 Qed.
 
 Lemma nat_compare_ge n m : n>=m <-> (n ?= m) <> Lt.
 Proof.
- symmetry. apply Nat.compare_ge_iff.
+  symmetry. apply Nat.compare_ge_iff.
 Qed.
 
 (** Some projections of the above equivalences. *)
@@ -223,30 +223,30 @@ Notation leb_iff := Nat.leb_le (only parsing).
 
 Lemma leb_iff_conv m n : (n <=? m) = false <-> m < n.
 Proof.
- rewrite Nat.leb_nle. apply Nat.nle_gt.
+  rewrite Nat.leb_nle. apply Nat.nle_gt.
 Qed.
 
 Lemma leb_correct m n : m <= n -> (m <=? n) = true.
 Proof.
- apply Nat.leb_le.
+  apply Nat.leb_le.
 Qed.
 
 Lemma leb_complete m n : (m <=? n) = true -> m <= n.
 Proof.
- apply Nat.leb_le.
+  apply Nat.leb_le.
 Qed.
 
 Lemma leb_correct_conv m n : m < n -> (n <=? m) = false.
 Proof.
- apply leb_iff_conv.
+  apply leb_iff_conv.
 Qed.
 
 Lemma leb_complete_conv m n : (n <=? m) = false -> m < n.
 Proof.
- apply leb_iff_conv.
+  apply leb_iff_conv.
 Qed.
 
 Lemma leb_compare n m : (n <=? m) = true <-> (n ?= m) <> Gt.
 Proof.
- rewrite Nat.compare_le_iff. apply Nat.leb_le.
+  rewrite Nat.compare_le_iff. apply Nat.leb_le.
 Qed.

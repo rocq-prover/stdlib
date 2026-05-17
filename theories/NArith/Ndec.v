@@ -141,8 +141,8 @@ Definition Nleb (a b:N) := leb (N.to_nat a) (N.to_nat b).
 
 Lemma Nleb_alt a b : Nleb a b = N.leb a b.
 Proof.
- unfold Nleb.
- now rewrite eq_iff_eq_true, N.leb_le, leb_compare, <- N2Nat.inj_compare.
+  unfold Nleb.
+  now rewrite eq_iff_eq_true, N.leb_le, leb_compare, <- N2Nat.inj_compare.
 Qed.
 
 Lemma Nleb_Nle a b : Nleb a b = true <-> a <= b.
@@ -275,7 +275,7 @@ Proof. apply <- Nltb_Ncompare; auto. Qed.
 
 Lemma Ncompare_Lt_Nltb a b : N.compare a b = Lt -> Nleb b a = false.
 Proof.
- intros H. rewrite Nltb_Ncompare, N.compare_antisym, H; auto.
+  intros H. rewrite Nltb_Ncompare, N.compare_antisym, H; auto.
 Qed.
 
 (* Old results about [N.min] *)

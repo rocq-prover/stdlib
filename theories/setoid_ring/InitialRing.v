@@ -52,190 +52,190 @@ Qed.
 (** Two generic morphisms from Z to (abrbitrary) rings, *)
 (**second one is more convenient for proofs but they are ext. equal*)
 Section ZMORPHISM.
- Variable R : Type.
- Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R -> R).
- Variable req : R -> R -> Prop.
-  Notation "0" := rO.  Notation "1" := rI.
-  Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
-  Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
-  Notation "x == y" := (req x y).
-  Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-      as R_setoid3.
-     Ltac rrefl := gen_reflexivity Rsth.
- Variable Reqe : ring_eq_ext radd rmul ropp req.
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext3.
-   Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext3.
-   Proof. exact (Rmul_ext Reqe). Qed.
-   Add Morphism ropp with signature (req ==> req) as ropp_ext3.
-   Proof. exact (Ropp_ext Reqe). Qed.
+  Variable R : Type.
+  Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R -> R).
+  Variable req : R -> R -> Prop.
+   Notation "0" := rO.  Notation "1" := rI.
+   Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
+   Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
+   Notation "x == y" := (req x y).
+   Variable Rsth : Setoid_Theory R req.
+      Add Parametric Relation : R req
+        reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
+        symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
+        transitivity proved by (@Equivalence_Transitive _ _ Rsth)
+       as R_setoid3.
+      Ltac rrefl := gen_reflexivity Rsth.
+  Variable Reqe : ring_eq_ext radd rmul ropp req.
+    Add Morphism radd with signature (req ==> req ==> req) as radd_ext3.
+    Proof. exact (Radd_ext Reqe). Qed.
+    Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext3.
+    Proof. exact (Rmul_ext Reqe). Qed.
+    Add Morphism ropp with signature (req ==> req) as ropp_ext3.
+    Proof. exact (Ropp_ext Reqe). Qed.
 
- Fixpoint gen_phiPOS1 (p:positive) : R :=
-  match p with
-  | xH => 1
-  | xO p => (1 + 1) * (gen_phiPOS1 p)
-  | xI p => 1 + ((1 + 1) * (gen_phiPOS1 p))
-  end.
+  Fixpoint gen_phiPOS1 (p:positive) : R :=
+   match p with
+   | xH => 1
+   | xO p => (1 + 1) * (gen_phiPOS1 p)
+   | xI p => 1 + ((1 + 1) * (gen_phiPOS1 p))
+   end.
 
- Fixpoint gen_phiPOS (p:positive) : R :=
-  match p with
-  | xH => 1
-  | xO xH => (1 + 1)
-  | xO p => (1 + 1) * (gen_phiPOS p)
-  | xI xH => 1 + (1 +1)
-  | xI p => 1 + ((1 + 1) * (gen_phiPOS p))
-  end.
+  Fixpoint gen_phiPOS (p:positive) : R :=
+   match p with
+   | xH => 1
+   | xO xH => (1 + 1)
+   | xO p => (1 + 1) * (gen_phiPOS p)
+   | xI xH => 1 + (1 +1)
+   | xI p => 1 + ((1 + 1) * (gen_phiPOS p))
+   end.
 
- Definition gen_phiZ1 z :=
-  match z with
-  | Zpos p => gen_phiPOS1 p
-  | Z0 => 0
-  | Zneg p => -(gen_phiPOS1 p)
-  end.
+  Definition gen_phiZ1 z :=
+   match z with
+   | Zpos p => gen_phiPOS1 p
+   | Z0 => 0
+   | Zneg p => -(gen_phiPOS1 p)
+   end.
 
- Definition gen_phiZ z :=
-  match z with
-  | Zpos p => gen_phiPOS p
-  | Z0 => 0
-  | Zneg p => -(gen_phiPOS p)
-  end.
- Notation "[ x ]" := (gen_phiZ x).
+  Definition gen_phiZ z :=
+   match z with
+   | Zpos p => gen_phiPOS p
+   | Z0 => 0
+   | Zneg p => -(gen_phiPOS p)
+   end.
+  Notation "[ x ]" := (gen_phiZ x).
 
- Definition get_signZ z :=
-  match z with
-  | Zneg p => Some (Zpos p)
-  | _ => None
-  end.
+  Definition get_signZ z :=
+   match z with
+   | Zneg p => Some (Zpos p)
+   | _ => None
+   end.
 
- Lemma get_signZ_th : sign_theory Z.opp Z.eqb get_signZ.
- Proof.
-  constructor.
-  intros c;destruct c;intros ? H;try discriminate.
-  injection H as [= <-].
-  simpl. apply Pos.eqb_refl.
- Qed.
+  Lemma get_signZ_th : sign_theory Z.opp Z.eqb get_signZ.
+  Proof.
+    constructor.
+    intros c;destruct c;intros ? H;try discriminate.
+    injection H as [= <-].
+    simpl. apply Pos.eqb_refl.
+  Qed.
 
 
- Section ALMOST_RING.
- Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext3.
-   Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
-   Ltac norm := gen_srewrite Rsth Reqe ARth.
-   Ltac add_push := gen_add_push radd Rsth Reqe ARth.
+  Section ALMOST_RING.
+    Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
+      Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext3.
+      Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+      Ltac norm := gen_srewrite Rsth Reqe ARth.
+      Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
- Lemma same_gen : forall x, gen_phiPOS1 x == gen_phiPOS x.
- Proof.
-  intros x;induction x as [x IHx|x IHx|];simpl.
-  - rewrite IHx;destruct x;simpl;norm.
-  - rewrite IHx;destruct x;simpl;norm.
-  - rrefl.
- Qed.
+    Lemma same_gen : forall x, gen_phiPOS1 x == gen_phiPOS x.
+    Proof.
+      intros x;induction x as [x IHx|x IHx|];simpl.
+      - rewrite IHx;destruct x;simpl;norm.
+      - rewrite IHx;destruct x;simpl;norm.
+      - rrefl.
+    Qed.
 
- Lemma ARgen_phiPOS_Psucc : forall x,
-   gen_phiPOS1 (Pos.succ x) == 1 + (gen_phiPOS1 x).
- Proof.
-  intros x;induction x as [x IHx|x IHx|];simpl;norm.
-  rewrite IHx;norm.
-  add_push 1;rrefl.
- Qed.
+    Lemma ARgen_phiPOS_Psucc : forall x,
+      gen_phiPOS1 (Pos.succ x) == 1 + (gen_phiPOS1 x).
+    Proof.
+      intros x;induction x as [x IHx|x IHx|];simpl;norm.
+      rewrite IHx;norm.
+      add_push 1;rrefl.
+    Qed.
 
- Lemma ARgen_phiPOS_add : forall x y,
-   gen_phiPOS1 (x + y) == (gen_phiPOS1 x) + (gen_phiPOS1 y).
- Proof.
-  intros x;induction x as [x IHx|x IHx|];
-   intros y;destruct y as [y|y|];simpl;norm.
-  - rewrite Pos.add_carry_spec.
-    rewrite ARgen_phiPOS_Psucc.
-    rewrite IHx;norm.
-    add_push (gen_phiPOS1 y);add_push 1;rrefl.
-  - rewrite IHx;norm;add_push (gen_phiPOS1 y);rrefl.
-  - rewrite ARgen_phiPOS_Psucc;norm;add_push 1;rrefl.
-  - rewrite IHx;norm;add_push(gen_phiPOS1 y); add_push 1;rrefl.
-  - rewrite IHx;norm;add_push(gen_phiPOS1 y);rrefl.
-  - add_push 1;rrefl.
-  - rewrite ARgen_phiPOS_Psucc;norm;add_push 1;rrefl.
- Qed.
+    Lemma ARgen_phiPOS_add : forall x y,
+      gen_phiPOS1 (x + y) == (gen_phiPOS1 x) + (gen_phiPOS1 y).
+    Proof.
+      intros x;induction x as [x IHx|x IHx|];
+       intros y;destruct y as [y|y|];simpl;norm.
+      - rewrite Pos.add_carry_spec.
+        rewrite ARgen_phiPOS_Psucc.
+        rewrite IHx;norm.
+        add_push (gen_phiPOS1 y);add_push 1;rrefl.
+      - rewrite IHx;norm;add_push (gen_phiPOS1 y);rrefl.
+      - rewrite ARgen_phiPOS_Psucc;norm;add_push 1;rrefl.
+      - rewrite IHx;norm;add_push(gen_phiPOS1 y); add_push 1;rrefl.
+      - rewrite IHx;norm;add_push(gen_phiPOS1 y);rrefl.
+      - add_push 1;rrefl.
+      - rewrite ARgen_phiPOS_Psucc;norm;add_push 1;rrefl.
+    Qed.
 
- Lemma ARgen_phiPOS_mult :
-   forall x y, gen_phiPOS1 (x * y) == gen_phiPOS1 x * gen_phiPOS1 y.
- Proof.
-  intros x;induction x as [x IHx|x IHx|];intros;simpl;norm.
-  - rewrite ARgen_phiPOS_add;simpl;rewrite IHx;norm.
-  - rewrite IHx;rrefl.
- Qed.
+    Lemma ARgen_phiPOS_mult :
+      forall x y, gen_phiPOS1 (x * y) == gen_phiPOS1 x * gen_phiPOS1 y.
+    Proof.
+      intros x;induction x as [x IHx|x IHx|];intros;simpl;norm.
+      - rewrite ARgen_phiPOS_add;simpl;rewrite IHx;norm.
+      - rewrite IHx;rrefl.
+    Qed.
 
- End ALMOST_RING.
+  End ALMOST_RING.
 
- Variable Rth : ring_theory 0 1 radd rmul rsub ropp req.
- Let ARth := Rth_ARth Rsth Reqe Rth.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext4.
-   Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
-   Ltac norm := gen_srewrite Rsth Reqe ARth.
-   Ltac add_push := gen_add_push radd Rsth Reqe ARth.
+  Variable Rth : ring_theory 0 1 radd rmul rsub ropp req.
+  Let ARth := Rth_ARth Rsth Reqe Rth.
+    Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext4.
+    Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+    Ltac norm := gen_srewrite Rsth Reqe ARth.
+    Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
-(*morphisms are extensionally equal*)
- Lemma same_genZ : forall x, [x] == gen_phiZ1 x.
- Proof.
-  intros x;destruct x;simpl; try rewrite (same_gen ARth);rrefl.
- Qed.
+ (*morphisms are extensionally equal*)
+  Lemma same_genZ : forall x, [x] == gen_phiZ1 x.
+  Proof.
+    intros x;destruct x;simpl; try rewrite (same_gen ARth);rrefl.
+  Qed.
 
- Lemma gen_Zeqb_ok : forall x y,
-   Z.eqb x y = true -> [x] == [y].
- Proof. intros x y ->%Z.eqb_eq; reflexivity. Qed.
+  Lemma gen_Zeqb_ok : forall x y,
+    Z.eqb x y = true -> [x] == [y].
+  Proof. intros x y ->%Z.eqb_eq; reflexivity. Qed.
 
- Lemma gen_phiZ1_pos_sub : forall x y,
- gen_phiZ1 (Z.pos_sub x y) == gen_phiPOS1 x + -gen_phiPOS1 y.
- Proof.
-  intros x y.
-  rewrite Z.pos_sub_spec.
-  case Pos.compare_spec; intros H; simpl.
-  - rewrite H. rewrite (Ropp_def Rth);rrefl.
-  - rewrite <- (Pos.sub_add y x H) at 2. rewrite Pos.add_comm.
-    rewrite (ARgen_phiPOS_add ARth);simpl;norm.
-    rewrite (Ropp_def Rth);norm.
-  - rewrite <- (Pos.sub_add x y H) at 2.
-    rewrite (ARgen_phiPOS_add ARth);simpl;norm.
-    add_push (gen_phiPOS1 (x-y));rewrite (Ropp_def Rth); norm.
- Qed.
+  Lemma gen_phiZ1_pos_sub : forall x y,
+  gen_phiZ1 (Z.pos_sub x y) == gen_phiPOS1 x + -gen_phiPOS1 y.
+  Proof.
+    intros x y.
+    rewrite Z.pos_sub_spec.
+    case Pos.compare_spec; intros H; simpl.
+    - rewrite H. rewrite (Ropp_def Rth);rrefl.
+    - rewrite <- (Pos.sub_add y x H) at 2. rewrite Pos.add_comm.
+      rewrite (ARgen_phiPOS_add ARth);simpl;norm.
+      rewrite (Ropp_def Rth);norm.
+    - rewrite <- (Pos.sub_add x y H) at 2.
+      rewrite (ARgen_phiPOS_add ARth);simpl;norm.
+      add_push (gen_phiPOS1 (x-y));rewrite (Ropp_def Rth); norm.
+  Qed.
 
- Lemma gen_phiZ_add : forall x y, [x + y] == [x] + [y].
- Proof.
-  intros x y; repeat rewrite same_genZ; generalize x y;clear x y.
-  intros x y;destruct x, y; simpl; norm.
-  - apply (ARgen_phiPOS_add ARth).
-  - apply gen_phiZ1_pos_sub.
-  - rewrite gen_phiZ1_pos_sub. apply (Radd_comm Rth).
-  - rewrite (ARgen_phiPOS_add ARth); norm.
- Qed.
+  Lemma gen_phiZ_add : forall x y, [x + y] == [x] + [y].
+  Proof.
+    intros x y; repeat rewrite same_genZ; generalize x y;clear x y.
+    intros x y;destruct x, y; simpl; norm.
+    - apply (ARgen_phiPOS_add ARth).
+    - apply gen_phiZ1_pos_sub.
+    - rewrite gen_phiZ1_pos_sub. apply (Radd_comm Rth).
+    - rewrite (ARgen_phiPOS_add ARth); norm.
+  Qed.
 
- Lemma gen_phiZ_mul : forall x y, [x * y] == [x] * [y].
- Proof.
-  intros x y;repeat rewrite same_genZ.
-  destruct x;destruct y;simpl;norm;
-  rewrite  (ARgen_phiPOS_mult ARth);try (norm;fail).
-  rewrite (Ropp_opp Rsth Reqe Rth);rrefl.
- Qed.
+  Lemma gen_phiZ_mul : forall x y, [x * y] == [x] * [y].
+  Proof.
+    intros x y;repeat rewrite same_genZ.
+    destruct x;destruct y;simpl;norm;
+    rewrite  (ARgen_phiPOS_mult ARth);try (norm;fail).
+    rewrite (Ropp_opp Rsth Reqe Rth);rrefl.
+  Qed.
 
- Lemma gen_phiZ_ext : forall x y : Z, x = y -> [x] == [y].
- Proof. intros;subst;rrefl. Qed.
+  Lemma gen_phiZ_ext : forall x y : Z, x = y -> [x] == [y].
+  Proof. intros;subst;rrefl. Qed.
 
-(*proof that [.] satisfies morphism specifications*)
- Lemma gen_phiZ_morph :
-  ring_morph 0 1 radd rmul rsub ropp req Z0 (Zpos xH)
-   Z.add Z.mul Z.sub Z.opp Z.eqb gen_phiZ.
- Proof.
-  assert ( SRmorph : semi_morph 0 1 radd rmul req Z0 (Zpos xH)
-                  Z.add Z.mul Z.eqb gen_phiZ).
-  - apply mkRmorph;simpl;try rrefl.
-    + apply gen_phiZ_add.
-    + apply gen_phiZ_mul.
-    + apply gen_Zeqb_ok.
-  - apply  (Smorph_morph Rsth Reqe Rth Zth SRmorph gen_phiZ_ext).
- Qed.
+ (*proof that [.] satisfies morphism specifications*)
+  Lemma gen_phiZ_morph :
+   ring_morph 0 1 radd rmul rsub ropp req Z0 (Zpos xH)
+    Z.add Z.mul Z.sub Z.opp Z.eqb gen_phiZ.
+  Proof.
+    assert ( SRmorph : semi_morph 0 1 radd rmul req Z0 (Zpos xH)
+                    Z.add Z.mul Z.eqb gen_phiZ).
+    - apply mkRmorph;simpl;try rrefl.
+      + apply gen_phiZ_add.
+      + apply gen_phiZ_mul.
+      + apply gen_Zeqb_ok.
+    - apply  (Smorph_morph Rsth Reqe Rth Zth SRmorph gen_phiZ_ext).
+  Qed.
 
 End ZMORPHISM.
 
@@ -283,79 +283,79 @@ Proof. exact (fun x y => proj1 (N.eqb_eq x y)). Qed.
 (**Same as above : definition of two, extensionally equal, generic morphisms *)
 (**from N to any semi-ring*)
 Section NMORPHISM.
- Variable R : Type.
- Variable  (rO rI : R) (radd rmul: R->R->R).
- Variable req : R -> R -> Prop.
-  Notation "0" := rO.  Notation "1" := rI.
-  Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
- Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-       as R_setoid4.
-     Ltac rrefl := gen_reflexivity Rsth.
- Variable SReqe : sring_eq_ext radd rmul req.
- Variable SRth : semi_ring_theory 0 1 radd rmul req.
- Let ARth := SRth_ARth Rsth SRth.
- Let Reqe := SReqe_Reqe SReqe.
- Let ropp := (@SRopp R).
- Let rsub := (@SRsub R radd).
-  Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
-  Notation "x == y" := (req x y).
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext4.
-   Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext4.
-   Proof. exact (Rmul_ext Reqe). Qed.
-   Ltac norm := gen_srewrite_sr Rsth Reqe ARth.
+  Variable R : Type.
+  Variable  (rO rI : R) (radd rmul: R->R->R).
+  Variable req : R -> R -> Prop.
+   Notation "0" := rO.  Notation "1" := rI.
+   Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
+  Variable Rsth : Setoid_Theory R req.
+      Add Parametric Relation : R req
+        reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
+        symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
+        transitivity proved by (@Equivalence_Transitive _ _ Rsth)
+        as R_setoid4.
+      Ltac rrefl := gen_reflexivity Rsth.
+  Variable SReqe : sring_eq_ext radd rmul req.
+  Variable SRth : semi_ring_theory 0 1 radd rmul req.
+  Let ARth := SRth_ARth Rsth SRth.
+  Let Reqe := SReqe_Reqe SReqe.
+  Let ropp := (@SRopp R).
+  Let rsub := (@SRsub R radd).
+   Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
+   Notation "x == y" := (req x y).
+    Add Morphism radd with signature (req ==> req ==> req) as radd_ext4.
+    Proof. exact (Radd_ext Reqe). Qed.
+    Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext4.
+    Proof. exact (Rmul_ext Reqe). Qed.
+    Ltac norm := gen_srewrite_sr Rsth Reqe ARth.
 
- Definition gen_phiN1 x :=
-  match x with
-  | N0 => 0
-  | Npos x => gen_phiPOS1 1 radd rmul x
-  end.
+  Definition gen_phiN1 x :=
+   match x with
+   | N0 => 0
+   | Npos x => gen_phiPOS1 1 radd rmul x
+   end.
 
- Definition gen_phiN x :=
-  match x with
-  | N0 => 0
-  | Npos x => gen_phiPOS 1 radd rmul x
-  end.
- Notation "[ x ]" := (gen_phiN x).
+  Definition gen_phiN x :=
+   match x with
+   | N0 => 0
+   | Npos x => gen_phiPOS 1 radd rmul x
+   end.
+  Notation "[ x ]" := (gen_phiN x).
 
- Lemma same_genN : forall x, [x] == gen_phiN1 x.
- Proof.
-   intros x;destruct x;simpl.
-   - reflexivity.
-   - now rewrite (same_gen Rsth Reqe ARth).
- Qed.
+  Lemma same_genN : forall x, [x] == gen_phiN1 x.
+  Proof.
+    intros x;destruct x;simpl.
+    - reflexivity.
+    - now rewrite (same_gen Rsth Reqe ARth).
+  Qed.
 
- Lemma gen_phiN_add : forall x y, [x + y] == [x] + [y].
- Proof.
-  intros x y;repeat rewrite same_genN.
-  destruct x;destruct y;simpl;norm.
-  apply (ARgen_phiPOS_add Rsth Reqe ARth).
- Qed.
+  Lemma gen_phiN_add : forall x y, [x + y] == [x] + [y].
+  Proof.
+    intros x y;repeat rewrite same_genN.
+    destruct x;destruct y;simpl;norm.
+    apply (ARgen_phiPOS_add Rsth Reqe ARth).
+  Qed.
 
- Lemma gen_phiN_mult : forall x y, [x * y] == [x] * [y].
- Proof.
-  intros x y;repeat rewrite same_genN.
-  destruct x;destruct y;simpl;norm.
-  apply (ARgen_phiPOS_mult Rsth Reqe ARth).
- Qed.
+  Lemma gen_phiN_mult : forall x y, [x * y] == [x] * [y].
+  Proof.
+    intros x y;repeat rewrite same_genN.
+    destruct x;destruct y;simpl;norm.
+    apply (ARgen_phiPOS_mult Rsth Reqe ARth).
+  Qed.
 
- Lemma gen_phiN_sub : forall x y, [Nsub x y] == [x] - [y].
- Proof. exact gen_phiN_add. Qed.
+  Lemma gen_phiN_sub : forall x y, [Nsub x y] == [x] - [y].
+  Proof. exact gen_phiN_add. Qed.
 
-(*gen_phiN satisfies morphism specifications*)
- Lemma gen_phiN_morph : ring_morph 0 1 radd rmul rsub ropp req
-                           0%N 1%N N.add N.mul Nsub Nopp N.eqb gen_phiN.
- Proof.
-  constructor; simpl; try reflexivity.
-  - apply gen_phiN_add.
-  - apply gen_phiN_sub.
-  - apply gen_phiN_mult.
-  - intros x y EQ. apply N.eqb_eq in EQ. now subst.
- Qed.
+ (*gen_phiN satisfies morphism specifications*)
+  Lemma gen_phiN_morph : ring_morph 0 1 radd rmul rsub ropp req
+                            0%N 1%N N.add N.mul Nsub Nopp N.eqb gen_phiN.
+  Proof.
+    constructor; simpl; try reflexivity.
+    - apply gen_phiN_add.
+    - apply gen_phiN_sub.
+    - apply gen_phiN_mult.
+    - intros x y EQ. apply N.eqb_eq in EQ. now subst.
+  Qed.
 
 End NMORPHISM.
 
@@ -409,269 +409,269 @@ Fixpoint Nweq_bool (w1 w2 : Nword) {struct w1} : bool :=
   end.
 
 Section NWORDMORPHISM.
- Variable R : Type.
- Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R -> R).
- Variable req : R -> R -> Prop.
-  Notation "0" := rO.  Notation "1" := rI.
-  Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
-  Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
-  Notation "x == y" := (req x y).
-  Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-      as R_setoid5.
-     Ltac rrefl := gen_reflexivity Rsth.
- Variable Reqe : ring_eq_ext radd rmul ropp req.
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext5.
-   Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext5.
-   Proof. exact (Rmul_ext Reqe). Qed.
-   Add Morphism ropp with signature (req ==> req) as ropp_ext5.
-   Proof. exact (Ropp_ext Reqe). Qed.
+   Variable R : Type.
+   Variable (rO rI : R) (radd rmul rsub: R->R->R) (ropp : R -> R).
+   Variable req : R -> R -> Prop.
+    Notation "0" := rO.  Notation "1" := rI.
+    Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
+    Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
+    Notation "x == y" := (req x y).
+    Variable Rsth : Setoid_Theory R req.
+       Add Parametric Relation : R req
+         reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
+         symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
+         transitivity proved by (@Equivalence_Transitive _ _ Rsth)
+        as R_setoid5.
+       Ltac rrefl := gen_reflexivity Rsth.
+   Variable Reqe : ring_eq_ext radd rmul ropp req.
+     Add Morphism radd with signature (req ==> req ==> req) as radd_ext5.
+     Proof. exact (Radd_ext Reqe). Qed.
+     Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext5.
+     Proof. exact (Rmul_ext Reqe). Qed.
+     Add Morphism ropp with signature (req ==> req) as ropp_ext5.
+     Proof. exact (Ropp_ext Reqe). Qed.
 
- Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext7.
-   Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
-   Ltac norm := gen_srewrite Rsth Reqe ARth.
-   Ltac add_push := gen_add_push radd Rsth Reqe ARth.
+   Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
+     Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext7.
+     Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+     Ltac norm := gen_srewrite Rsth Reqe ARth.
+     Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
- Fixpoint gen_phiNword (w : Nword) : R :=
-  match w with
-  | nil => 0
-  | n :: nil => gen_phiN rO rI radd rmul n
-  | N0 :: w' => - gen_phiNword w'
-  | n::w' => gen_phiN rO rI radd rmul n - gen_phiNword w'
-  end.
+   Fixpoint gen_phiNword (w : Nword) : R :=
+    match w with
+    | nil => 0
+    | n :: nil => gen_phiN rO rI radd rmul n
+    | N0 :: w' => - gen_phiNword w'
+    | n::w' => gen_phiN rO rI radd rmul n - gen_phiNword w'
+    end.
 
- Lemma gen_phiNword0_ok : forall w, Nw_is0 w = true -> gen_phiNword w == 0.
-Proof.
-intros w; induction w as [|a w IHw]; simpl; intros; auto.
-- reflexivity.
+   Lemma gen_phiNword0_ok : forall w, Nw_is0 w = true -> gen_phiNword w == 0.
+  Proof.
+    intros w; induction w as [|a w IHw]; simpl; intros; auto.
+    - reflexivity.
 
-- destruct a.
-  + destruct w.
-    * reflexivity.
+    - destruct a.
+      + destruct w.
+        * reflexivity.
 
-    * rewrite IHw; trivial.
-      apply (ARopp_zero Rsth Reqe ARth).
+        * rewrite IHw; trivial.
+          apply (ARopp_zero Rsth Reqe ARth).
 
-  + discriminate.
-Qed.
-
-  Lemma gen_phiNword_cons : forall w n,
-    gen_phiNword (n::w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
-Proof.
-intros w; induction w.
-- intros n; destruct n; simpl; norm.
-
-- intros n.
-  destruct n; norm.
+      + discriminate.
   Qed.
 
-  Lemma gen_phiNword_Nwcons : forall w n,
-    gen_phiNword (Nwcons n w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
-Proof.
-intros w; destruct w; intros n0.
-- destruct n0; norm.
+    Lemma gen_phiNword_cons : forall w n,
+      gen_phiNword (n::w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
+  Proof.
+    intros w; induction w.
+    - intros n; destruct n; simpl; norm.
 
-- unfold Nwcons.
-  rewrite gen_phiNword_cons.
-  reflexivity.
+    - intros n.
+      destruct n; norm.
   Qed.
 
- Lemma gen_phiNword_ok : forall w1 w2,
-   Nweq_bool w1 w2 = true -> gen_phiNword w1 == gen_phiNword w2.
-Proof.
-intros w1; induction w1 as [|a w1 IHw1]; intros w2 H.
-- simpl.
-  rewrite (gen_phiNword0_ok _ H).
-  reflexivity.
+    Lemma gen_phiNword_Nwcons : forall w n,
+      gen_phiNword (Nwcons n w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
+  Proof.
+    intros w; destruct w; intros n0.
+    - destruct n0; norm.
 
-- rewrite gen_phiNword_cons.
-  destruct w2 as [|n w2].
-  + simpl in H.
-    destruct a; try  discriminate.
-    rewrite (gen_phiNword0_ok _ H).
-    norm.
+    - unfold Nwcons.
+      rewrite gen_phiNword_cons.
+      reflexivity.
+  Qed.
 
-  + simpl in H.
-    rewrite gen_phiNword_cons.
-    case_eq (N.eqb a n); intros H0.
-    * rewrite H0 in H.
-      apply N.eqb_eq in H0. rewrite <- H0.
-      rewrite (IHw1 _ H).
+   Lemma gen_phiNword_ok : forall w1 w2,
+     Nweq_bool w1 w2 = true -> gen_phiNword w1 == gen_phiNword w2.
+  Proof.
+    intros w1; induction w1 as [|a w1 IHw1]; intros w2 H.
+    - simpl.
+      rewrite (gen_phiNword0_ok _ H).
       reflexivity.
 
-    * rewrite H0 in H;  discriminate H.
- Qed.
+    - rewrite gen_phiNword_cons.
+      destruct w2 as [|n w2].
+      + simpl in H.
+        destruct a; try  discriminate.
+        rewrite (gen_phiNword0_ok _ H).
+        norm.
+
+      + simpl in H.
+        rewrite gen_phiNword_cons.
+        case_eq (N.eqb a n); intros H0.
+        * rewrite H0 in H.
+          apply N.eqb_eq in H0. rewrite <- H0.
+          rewrite (IHw1 _ H).
+          reflexivity.
+
+        * rewrite H0 in H;  discriminate H.
+  Qed.
 
 
-Lemma Nwadd_ok : forall x y,
-   gen_phiNword (Nwadd x y) == gen_phiNword x + gen_phiNword y.
-Proof.
-intros x; induction x as [|n x IHx]; intros y.
-- simpl.
-  norm.
+  Lemma Nwadd_ok : forall x y,
+     gen_phiNword (Nwadd x y) == gen_phiNword x + gen_phiNword y.
+  Proof.
+    intros x; induction x as [|n x IHx]; intros y.
+    - simpl.
+      norm.
 
-- destruct y.
-  + simpl Nwadd; norm.
+    - destruct y.
+      + simpl Nwadd; norm.
 
-  + simpl Nwadd.
-    repeat rewrite gen_phiNword_cons.
-    rewrite (fun sreq => gen_phiN_add Rsth sreq (ARth_SRth ARth)) by
-      (destruct Reqe; constructor; trivial).
+      + simpl Nwadd.
+        repeat rewrite gen_phiNword_cons.
+        rewrite (fun sreq => gen_phiN_add Rsth sreq (ARth_SRth ARth)) by
+          (destruct Reqe; constructor; trivial).
 
-    rewrite IHx.
-    norm.
-    add_push (- gen_phiNword x); reflexivity.
-Qed.
+        rewrite IHx.
+        norm.
+        add_push (- gen_phiNword x); reflexivity.
+  Qed.
 
-Lemma Nwopp_ok : forall x, gen_phiNword (Nwopp x) == - gen_phiNword x.
-Proof.
-simpl.
-unfold Nwopp; simpl.
-intros.
-rewrite gen_phiNword_Nwcons; norm.
-Qed.
+  Lemma Nwopp_ok : forall x, gen_phiNword (Nwopp x) == - gen_phiNword x.
+  Proof.
+    simpl.
+    unfold Nwopp; simpl.
+    intros.
+    rewrite gen_phiNword_Nwcons; norm.
+  Qed.
 
-Lemma Nwscal_ok : forall n x,
-  gen_phiNword (Nwscal n x) == gen_phiN rO rI radd rmul n * gen_phiNword x.
-Proof.
-intros n x; induction x as [|a x IHx]; intros.
-- norm.
+  Lemma Nwscal_ok : forall n x,
+    gen_phiNword (Nwscal n x) == gen_phiN rO rI radd rmul n * gen_phiNword x.
+  Proof.
+    intros n x; induction x as [|a x IHx]; intros.
+    - norm.
 
-- simpl Nwscal.
-  repeat rewrite gen_phiNword_cons.
-  rewrite (fun sreq => gen_phiN_mult Rsth sreq (ARth_SRth ARth))
-    by (destruct Reqe; constructor; trivial).
+    - simpl Nwscal.
+      repeat rewrite gen_phiNword_cons.
+      rewrite (fun sreq => gen_phiN_mult Rsth sreq (ARth_SRth ARth))
+        by (destruct Reqe; constructor; trivial).
 
-  rewrite IHx.
-  norm.
-Qed.
+      rewrite IHx.
+      norm.
+  Qed.
 
-Lemma Nwmul_ok : forall x y,
-   gen_phiNword (Nwmul x y) == gen_phiNword x * gen_phiNword y.
-Proof.
-intros x; induction x as [|a x IHx]; intros.
-- norm.
+  Lemma Nwmul_ok : forall x y,
+     gen_phiNword (Nwmul x y) == gen_phiNword x * gen_phiNword y.
+  Proof.
+    intros x; induction x as [|a x IHx]; intros.
+    - norm.
 
-- destruct a.
-  + simpl Nwmul.
-    rewrite Nwopp_ok.
-    rewrite IHx.
-    rewrite gen_phiNword_cons.
-    norm.
+    - destruct a.
+      + simpl Nwmul.
+        rewrite Nwopp_ok.
+        rewrite IHx.
+        rewrite gen_phiNword_cons.
+        norm.
 
-  + simpl Nwmul.
-    unfold Nwsub.
-    rewrite Nwadd_ok.
-    rewrite Nwscal_ok.
-    rewrite Nwopp_ok.
-    rewrite IHx.
-    rewrite gen_phiNword_cons.
-    norm.
-Qed.
+      + simpl Nwmul.
+        unfold Nwsub.
+        rewrite Nwadd_ok.
+        rewrite Nwscal_ok.
+        rewrite Nwopp_ok.
+        rewrite IHx.
+        rewrite gen_phiNword_cons.
+        norm.
+  Qed.
 
-(* Proof that [.] satisfies morphism specifications *)
- Lemma gen_phiNword_morph :
-  ring_morph 0 1 radd rmul rsub ropp req
-   NwO NwI Nwadd Nwmul Nwsub Nwopp Nweq_bool gen_phiNword.
-Proof.
-constructor.
-- reflexivity.
+  (* Proof that [.] satisfies morphism specifications *)
+   Lemma gen_phiNword_morph :
+    ring_morph 0 1 radd rmul rsub ropp req
+     NwO NwI Nwadd Nwmul Nwsub Nwopp Nweq_bool gen_phiNword.
+  Proof.
+    constructor.
+    - reflexivity.
 
-- reflexivity.
+    - reflexivity.
 
-- exact Nwadd_ok.
+    - exact Nwadd_ok.
 
-- intros.
-  unfold Nwsub.
-  rewrite Nwadd_ok.
-  rewrite Nwopp_ok.
-  norm.
+    - intros.
+      unfold Nwsub.
+      rewrite Nwadd_ok.
+      rewrite Nwopp_ok.
+      norm.
 
-- exact Nwmul_ok.
+    - exact Nwmul_ok.
 
-- exact Nwopp_ok.
+    - exact Nwopp_ok.
 
-- exact gen_phiNword_ok.
- Qed.
+    - exact gen_phiNword_ok.
+  Qed.
 
 End NWORDMORPHISM.
 
 Section GEN_DIV.
 
-  Variables  (R : Type) (rO : R) (rI : R) (radd : R -> R -> R)
-              (rmul : R -> R -> R) (rsub : R -> R -> R) (ropp : R -> R)
-              (req : R -> R -> Prop) (C : Type) (cO : C) (cI : C)
-              (cadd : C -> C -> C) (cmul : C -> C -> C) (csub : C -> C -> C)
-              (copp : C -> C) (ceqb : C -> C -> bool) (phi : C -> R).
- Variable Rsth : Setoid_Theory R req.
- Variable Reqe : ring_eq_ext radd rmul ropp req.
- Variable ARth : almost_ring_theory rO rI radd rmul rsub ropp req.
- Variable morph : ring_morph rO rI radd rmul rsub ropp req cO cI cadd cmul csub copp ceqb phi.
+   Variables  (R : Type) (rO : R) (rI : R) (radd : R -> R -> R)
+               (rmul : R -> R -> R) (rsub : R -> R -> R) (ropp : R -> R)
+               (req : R -> R -> Prop) (C : Type) (cO : C) (cI : C)
+               (cadd : C -> C -> C) (cmul : C -> C -> C) (csub : C -> C -> C)
+               (copp : C -> C) (ceqb : C -> C -> bool) (phi : C -> R).
+  Variable Rsth : Setoid_Theory R req.
+  Variable Reqe : ring_eq_ext radd rmul ropp req.
+  Variable ARth : almost_ring_theory rO rI radd rmul rsub ropp req.
+  Variable morph : ring_morph rO rI radd rmul rsub ropp req cO cI cadd cmul csub copp ceqb phi.
 
-  (* Useful tactics *)
-  Add Parametric Relation : R req
-    reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-    symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-    transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-   as R_set1.
- Ltac rrefl := gen_reflexivity Rsth.
-  Add Morphism radd with signature (req ==> req ==> req) as radd_ext.
-  Proof. exact (Radd_ext Reqe). Qed.
-  Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext.
-  Proof. exact (Rmul_ext Reqe). Qed.
-  Add Morphism ropp with signature (req ==> req) as ropp_ext.
-  Proof. exact (Ropp_ext Reqe). Qed.
-  Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext.
-  Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
- Ltac rsimpl := gen_srewrite Rsth Reqe ARth.
+   (* Useful tactics *)
+   Add Parametric Relation : R req
+     reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
+     symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
+     transitivity proved by (@Equivalence_Transitive _ _ Rsth)
+    as R_set1.
+  Ltac rrefl := gen_reflexivity Rsth.
+   Add Morphism radd with signature (req ==> req ==> req) as radd_ext.
+   Proof. exact (Radd_ext Reqe). Qed.
+   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext.
+   Proof. exact (Rmul_ext Reqe). Qed.
+   Add Morphism ropp with signature (req ==> req) as ropp_ext.
+   Proof. exact (Ropp_ext Reqe). Qed.
+   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext.
+   Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+  Ltac rsimpl := gen_srewrite Rsth Reqe ARth.
 
- Definition triv_div x y :=
-   if ceqb x y then (cI, cO)
-   else (cO, x).
+  Definition triv_div x y :=
+    if ceqb x y then (cI, cO)
+    else (cO, x).
 
- Ltac Esimpl :=repeat (progress (
-   match goal with
-   | |- context [phi cO] => rewrite (morph0 morph)
-   | |- context [phi cI] => rewrite (morph1 morph)
-   | |- context [phi (cadd ?x  ?y)] => rewrite ((morph_add morph) x y)
-   | |- context [phi (cmul ?x  ?y)] => rewrite ((morph_mul morph) x y)
-   | |- context [phi (csub ?x  ?y)] => rewrite ((morph_sub morph) x y)
-   | |- context [phi (copp ?x)] => rewrite ((morph_opp morph) x)
-   end)).
+  Ltac Esimpl :=repeat (progress (
+    match goal with
+    | |- context [phi cO] => rewrite (morph0 morph)
+    | |- context [phi cI] => rewrite (morph1 morph)
+    | |- context [phi (cadd ?x  ?y)] => rewrite ((morph_add morph) x y)
+    | |- context [phi (cmul ?x  ?y)] => rewrite ((morph_mul morph) x y)
+    | |- context [phi (csub ?x  ?y)] => rewrite ((morph_sub morph) x y)
+    | |- context [phi (copp ?x)] => rewrite ((morph_opp morph) x)
+    end)).
 
- Lemma triv_div_th : Ring_theory.div_theory  req cadd cmul phi triv_div.
- Proof.
-  constructor.
-  intros a b;unfold triv_div.
-  assert (X:= morph_eq morph a b);destruct (ceqb a b).
-  - Esimpl.
-    rewrite X; trivial.
-    rsimpl.
-  - Esimpl;  rsimpl.
- Qed.
+  Lemma triv_div_th : Ring_theory.div_theory  req cadd cmul phi triv_div.
+  Proof.
+    constructor.
+    intros a b;unfold triv_div.
+    assert (X:= morph_eq morph a b);destruct (ceqb a b).
+    - Esimpl.
+      rewrite X; trivial.
+      rsimpl.
+    - Esimpl;  rsimpl.
+  Qed.
 
- Variable zphi : Z -> R.
+  Variable zphi : Z -> R.
 
- Lemma Ztriv_div_th : div_theory req Z.add Z.mul zphi Z.quotrem.
- Proof.
-  constructor.
-  intros a b; generalize (Z.quotrem_eq a b); case Z.quotrem; intros; subst.
-  rewrite Z.mul_comm; rsimpl.
- Qed.
+  Lemma Ztriv_div_th : div_theory req Z.add Z.mul zphi Z.quotrem.
+  Proof.
+    constructor.
+    intros a b; generalize (Z.quotrem_eq a b); case Z.quotrem; intros; subst.
+    rewrite Z.mul_comm; rsimpl.
+  Qed.
 
- Variable nphi : N -> R.
+  Variable nphi : N -> R.
 
- Lemma Ntriv_div_th : div_theory req N.add N.mul nphi N.div_eucl.
- Proof.
-  constructor.
-  intros a b; generalize (N.div_eucl_spec a b); case N.div_eucl; intros; subst.
-  rewrite N.mul_comm; rsimpl.
- Qed.
+  Lemma Ntriv_div_th : div_theory req N.add N.mul nphi N.div_eucl.
+  Proof.
+    constructor.
+    intros a b; generalize (N.div_eucl_spec a b); case N.div_eucl; intros; subst.
+    rewrite N.mul_comm; rsimpl.
+  Qed.
 
 End GEN_DIV.
 

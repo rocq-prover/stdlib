@@ -23,15 +23,15 @@ Qed.
 Definition Reqb r1 r2 := if Req_dec r1 r2 then true else false.
 Lemma Reqb_eq : forall r1 r2, Reqb r1 r2 = true <-> r1=r2.
 Proof.
- intros; unfold Reqb; destruct Req_dec as [EQ|NEQ]; auto with *.
- split; try discriminate. intro EQ; elim NEQ; auto.
+  intros; unfold Reqb; destruct Req_dec as [EQ|NEQ]; auto with *.
+  split; try discriminate. intro EQ; elim NEQ; auto.
 Qed.
 
 Module R_as_UBE <: UsualBoolEq.
- Definition t := R.
- Definition eq := @eq R.
- Definition eqb := Reqb.
- Definition eqb_eq := Reqb_eq.
+  Definition t := R.
+  Definition eq := @eq R.
+  Definition eqb := Reqb.
+  Definition eqb_eq := Reqb_eq.
 End R_as_UBE.
 
 Module R_as_DT <: UsualDecidableTypeFull := Make_UDTF R_as_UBE.
@@ -59,28 +59,28 @@ Definition Rcompare x y :=
 
 Lemma Rcompare_spec : forall x y, CompareSpec (x=y) (x<y) (y<x) (Rcompare x y).
 Proof.
- intros. unfold Rcompare.
- destruct total_order_T as [[H|H]|H]; auto.
+  intros. unfold Rcompare.
+  destruct total_order_T as [[H|H]|H]; auto.
 Qed.
 
 Module R_as_OT <: OrderedTypeFull.
- Include R_as_DT.
- Definition lt := Rlt.
- Definition le := Rle.
- Definition compare := Rcompare.
+   Include R_as_DT.
+   Definition lt := Rlt.
+   Definition le := Rle.
+   Definition compare := Rcompare.
 
-#[global]
- Instance lt_strorder : StrictOrder Rlt.
- Proof. split; [ exact Rlt_irrefl | exact Rlt_trans ]. Qed.
+  #[global]
+   Instance lt_strorder : StrictOrder Rlt.
+   Proof. split; [ exact Rlt_irrefl | exact Rlt_trans ]. Qed.
 
-#[global]
- Instance lt_compat : Proper (Logic.eq==>Logic.eq==>iff) Rlt.
- Proof. repeat red; intros; subst; auto. Qed.
+  #[global]
+   Instance lt_compat : Proper (Logic.eq==>Logic.eq==>iff) Rlt.
+   Proof. repeat red; intros; subst; auto. Qed.
 
- Lemma le_lteq : forall x y, x <= y <-> x < y \/ x = y.
- Proof. unfold Rle; auto with *. Qed.
+   Lemma le_lteq : forall x y, x <= y <-> x < y \/ x = y.
+   Proof. unfold Rle; auto with *. Qed.
 
- Definition compare_spec := Rcompare_spec.
+   Definition compare_spec := Rcompare_spec.
 
 End R_as_OT.
 

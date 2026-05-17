@@ -52,16 +52,16 @@ Qed.
 Lemma get_set_same_default A (t : array A) (i : int) :
   t.[i <- default t].[i] = default t.
 Proof.
- case_eq (i <? length t); intros.
- - rewrite get_set_same; trivial.
- - rewrite get_out_of_bounds, default_set; trivial.
-   rewrite length_set; trivial.
+  case_eq (i <? length t); intros.
+  - rewrite get_set_same; trivial.
+  - rewrite get_out_of_bounds, default_set; trivial.
+    rewrite length_set; trivial.
 Qed.
 
 Lemma get_not_default_lt A (t:array A) x :
  t.[x] <> default t -> (x <? length t) = true.
 Proof.
- intros Hd.
- case_eq (x <? length t); intros Heq; [trivial | ].
- elim Hd; rewrite get_out_of_bounds; trivial.
+  intros Hd.
+  case_eq (x <? length t); intros Heq; [trivial | ].
+  elim Hd; rewrite get_out_of_bounds; trivial.
 Qed.

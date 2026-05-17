@@ -545,107 +545,107 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   Section lt_spec.
 
-  Inductive ct: comparison -> comparison -> comparison -> Prop :=
-  | ct_xxx: forall x, ct x  x  x
-  | ct_xex: forall x, ct x  Eq x
-  | ct_exx: forall x, ct Eq x  x
-  | ct_glx: forall x, ct Gt Lt x
-  | ct_lgx: forall x, ct Lt Gt x.
+    Inductive ct: comparison -> comparison -> comparison -> Prop :=
+    | ct_xxx: forall x, ct x  x  x
+    | ct_xex: forall x, ct x  Eq x
+    | ct_exx: forall x, ct Eq x  x
+    | ct_glx: forall x, ct Gt Lt x
+    | ct_lgx: forall x, ct Lt Gt x.
 
-  Lemma ct_cxe: forall x, ct (CompOpp x) x Eq.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_cxe: forall x, ct (CompOpp x) x Eq.
+    Proof. destruct x; constructor. Qed.
 
-  Lemma ct_xce: forall x, ct x (CompOpp x) Eq.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_xce: forall x, ct x (CompOpp x) Eq.
+    Proof. destruct x; constructor. Qed.
 
-  Lemma ct_lxl: forall x, ct Lt x Lt.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_lxl: forall x, ct Lt x Lt.
+    Proof. destruct x; constructor. Qed.
 
-  Lemma ct_gxg: forall x, ct Gt x Gt.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_gxg: forall x, ct Gt x Gt.
+    Proof. destruct x; constructor. Qed.
 
-  Lemma ct_xll: forall x, ct x Lt Lt.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_xll: forall x, ct x Lt Lt.
+    Proof. destruct x; constructor. Qed.
 
-  Lemma ct_xgg: forall x, ct x Gt Gt.
-  Proof. destruct x; constructor. Qed.
+    Lemma ct_xgg: forall x, ct x Gt Gt.
+    Proof. destruct x; constructor. Qed.
 
-  #[local] Hint Constructors ct: ct.
-  #[local] Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
-  Ltac ct := trivial with ct.
+    #[local] Hint Constructors ct: ct.
+    #[local] Hint Resolve ct_cxe ct_xce ct_lxl ct_xll ct_gxg ct_xgg: ct.
+    Ltac ct := trivial with ct.
 
-  Lemma ct_lex: forall u v w u' v' w',
-    ct u v w -> ct u' v' w' -> ct (lex u u') (lex v v') (lex w w').
-  Proof.
-    intros u v w u' v' w' H H'.
-    inversion_clear H; inversion_clear H'; ct; destruct w; ct; destruct w'; ct.
-  Qed.
+    Lemma ct_lex: forall u v w u' v' w',
+      ct u v w -> ct u' v' w' -> ct (lex u u') (lex v v') (lex w w').
+    Proof.
+      intros u v w u' v' w' H H'.
+      inversion_clear H; inversion_clear H'; ct; destruct w; ct; destruct w'; ct.
+    Qed.
 
-  Lemma ct_compare_bool:
-    forall a b c, ct (compare_bool a b) (compare_bool b c) (compare_bool a c).
-  Proof.
-    intros [|] [|] [|]; constructor.
-  Qed.
+    Lemma ct_compare_bool:
+      forall a b c, ct (compare_bool a b) (compare_bool b c) (compare_bool a c).
+    Proof.
+      intros [|] [|] [|]; constructor.
+    Qed.
 
-  Lemma compare_x_Leaf: forall s,
-    compare_fun s Leaf = if is_empty s then Eq else Gt.
-  Proof.
-    intros. rewrite compare_inv. simpl. case (is_empty s); reflexivity.
-  Qed.
+    Lemma compare_x_Leaf: forall s,
+      compare_fun s Leaf = if is_empty s then Eq else Gt.
+    Proof.
+      intros. rewrite compare_inv. simpl. case (is_empty s); reflexivity.
+    Qed.
 
-  Lemma compare_empty_x: forall a, is_empty a = true ->
-    forall b, compare_fun a b = if is_empty b then Eq else Lt.
-  Proof.
-    induction a as [|l IHl o r IHr]; trivial.
-    destruct o.
-    - intro; discriminate.
-    - simpl is_empty. rewrite <- andb_lazy_alt, andb_true_iff.
-      intros [Hl Hr].
-      destruct b as [|l' [|] r']; simpl compare_fun; trivial.
-      + rewrite Hl, Hr. trivial.
-      + rewrite (IHl Hl), (IHr Hr). simpl.
-        case (is_empty l'); case (is_empty r'); trivial.
-  Qed.
+    Lemma compare_empty_x: forall a, is_empty a = true ->
+      forall b, compare_fun a b = if is_empty b then Eq else Lt.
+    Proof.
+      induction a as [|l IHl o r IHr]; trivial.
+      destruct o.
+      - intro; discriminate.
+      - simpl is_empty. rewrite <- andb_lazy_alt, andb_true_iff.
+        intros [Hl Hr].
+        destruct b as [|l' [|] r']; simpl compare_fun; trivial.
+        + rewrite Hl, Hr. trivial.
+        + rewrite (IHl Hl), (IHr Hr). simpl.
+          case (is_empty l'); case (is_empty r'); trivial.
+    Qed.
 
-  Lemma compare_x_empty: forall a, is_empty a = true ->
-    forall b, compare_fun b a = if is_empty b then Eq else Gt.
-  Proof.
-    setoid_rewrite <- compare_x_Leaf.
-    intros. rewrite 2(compare_inv b), (compare_empty_x _ H). reflexivity.
-  Qed.
+    Lemma compare_x_empty: forall a, is_empty a = true ->
+      forall b, compare_fun b a = if is_empty b then Eq else Gt.
+    Proof.
+      setoid_rewrite <- compare_x_Leaf.
+      intros. rewrite 2(compare_inv b), (compare_empty_x _ H). reflexivity.
+    Qed.
 
-  Lemma ct_compare_fun:
-    forall a b c, ct (compare_fun a b) (compare_fun b c) (compare_fun a c).
-  Proof.
-    induction a as [|l IHl o r IHr]; intros s' s''.
-    - destruct s' as [|l' o' r']; destruct s'' as [|l'' o'' r'']; ct.
-      + rewrite compare_inv. ct.
-      + unfold compare_fun at 1. case_eq (is_empty (Node l' o' r')); intro H'.
-        * rewrite (compare_empty_x _ H'). ct.
-        * unfold compare_fun at 2. case_eq (is_empty (Node l'' o'' r'')); intro H''.
-          -- rewrite (compare_x_empty _ H''), H'. ct.
-          -- ct.
+    Lemma ct_compare_fun:
+      forall a b c, ct (compare_fun a b) (compare_fun b c) (compare_fun a c).
+    Proof.
+      induction a as [|l IHl o r IHr]; intros s' s''.
+      - destruct s' as [|l' o' r']; destruct s'' as [|l'' o'' r'']; ct.
+        + rewrite compare_inv. ct.
+        + unfold compare_fun at 1. case_eq (is_empty (Node l' o' r')); intro H'.
+          * rewrite (compare_empty_x _ H'). ct.
+          * unfold compare_fun at 2. case_eq (is_empty (Node l'' o'' r'')); intro H''.
+            -- rewrite (compare_x_empty _ H''), H'. ct.
+            -- ct.
 
-    - destruct s' as [|l' o' r']; destruct s'' as [|l'' o'' r''].
-      + ct.
-      + unfold compare_fun at 2. rewrite compare_x_Leaf.
-        case_eq (is_empty (Node l o r)); intro H.
-        * rewrite (compare_empty_x _ H). ct.
-        * case_eq (is_empty (Node l'' o'' r'')); intro H''.
-          -- rewrite (compare_x_empty _ H''), H. ct.
-          -- ct.
+      - destruct s' as [|l' o' r']; destruct s'' as [|l'' o'' r''].
+        + ct.
+        + unfold compare_fun at 2. rewrite compare_x_Leaf.
+          case_eq (is_empty (Node l o r)); intro H.
+          * rewrite (compare_empty_x _ H). ct.
+          * case_eq (is_empty (Node l'' o'' r'')); intro H''.
+            -- rewrite (compare_x_empty _ H''), H. ct.
+            -- ct.
 
-      + rewrite 2 compare_x_Leaf.
-        case_eq (is_empty (Node l o r)); intro H.
-        * rewrite compare_inv, (compare_x_empty _ H). ct.
-        * case_eq (is_empty (Node l' o' r')); intro H'.
-          -- rewrite (compare_x_empty _ H'), H. ct.
-          -- ct.
+        + rewrite 2 compare_x_Leaf.
+          case_eq (is_empty (Node l o r)); intro H.
+          * rewrite compare_inv, (compare_x_empty _ H). ct.
+          * case_eq (is_empty (Node l' o' r')); intro H'.
+            -- rewrite (compare_x_empty _ H'), H. ct.
+            -- ct.
 
-      + simpl compare_fun. apply ct_lex.
-        * apply ct_compare_bool.
-        * apply ct_lex; trivial.
-  Qed.
+        + simpl compare_fun. apply ct_lex.
+          * apply ct_compare_bool.
+          * apply ct_lex; trivial.
+    Qed.
 
   End lt_spec.
 
@@ -1093,16 +1093,16 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   Lemma min_elt_1: forall s x, min_elt s = Some x -> In x s.
   Proof.
-   unfold In.
-   induction s as [| l IHl o r IHr]; simpl.
-   - intros. discriminate.
-   - intros x. destruct (min_elt l); intros.
-     + injection H as [= <-]. apply IHl. reflexivity.
-     + destruct o; simpl.
-       * injection H as [= <-]. reflexivity.
-       * destruct (min_elt r); simpl in *.
-         -- injection H as [= <-]. apply IHr. reflexivity.
-         -- discriminate.
+    unfold In.
+    induction s as [| l IHl o r IHr]; simpl.
+    - intros. discriminate.
+    - intros x. destruct (min_elt l); intros.
+      + injection H as [= <-]. apply IHl. reflexivity.
+      + destruct o; simpl.
+        * injection H as [= <-]. reflexivity.
+        * destruct (min_elt r); simpl in *.
+          -- injection H as [= <-]. apply IHr. reflexivity.
+          -- discriminate.
   Qed.
 
   Lemma min_elt_3: forall s, min_elt s = None -> Empty s.
@@ -1146,16 +1146,16 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   Lemma max_elt_1: forall s x, max_elt s = Some x -> In x s.
   Proof.
-   unfold In.
-   induction s as [| l IHl o r IHr]; simpl.
-   - intros. discriminate.
-   - intros x. destruct (max_elt r); intros.
-     + injection H as [= <-]. apply IHr. reflexivity.
-     + destruct o; simpl.
-       * injection H as [= <-]. reflexivity.
-       * destruct (max_elt l); simpl in *.
-         -- injection H as [= <-]. apply IHl. reflexivity.
-         -- discriminate.
+    unfold In.
+    induction s as [| l IHl o r IHr]; simpl.
+    - intros. discriminate.
+    - intros x. destruct (max_elt r); intros.
+      + injection H as [= <-]. apply IHr. reflexivity.
+      + destruct o; simpl.
+        * injection H as [= <-]. reflexivity.
+        * destruct (max_elt l); simpl in *.
+          -- injection H as [= <-]. apply IHl. reflexivity.
+          -- discriminate.
   Qed.
 
   Lemma max_elt_3: forall s, max_elt s = None -> Empty s.

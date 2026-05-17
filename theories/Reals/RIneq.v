@@ -954,11 +954,11 @@ Hint Resolve Rinv_neq_0_compat: real.
 
 Lemma Rinv_inv r : / / r = r.
 Proof.
-destruct (Req_dec r 0) as [-> | H].
-- now rewrite Rinv_0, Rinv_0.
-- symmetry; apply Rmult_inv_r_uniq.
-  * now apply Rinv_neq_0_compat.
-  * now rewrite Rinv_l.
+  destruct (Req_dec r 0) as [-> | H].
+  - now rewrite Rinv_0, Rinv_0.
+  - symmetry; apply Rmult_inv_r_uniq.
+    * now apply Rinv_neq_0_compat.
+    * now rewrite Rinv_l.
 Qed.
 #[global]
 Hint Resolve Rinv_inv: real.
@@ -968,14 +968,14 @@ Proof. now intros r1 r2 H%Rinv_eq_compat; rewrite !Rinv_inv in H. Qed.
 
 Lemma Rinv_mult r1 r2 : / (r1 * r2) = / r1 * / r2.
 Proof.
-destruct (Req_dec r1 0) as [-> | H1].
-- now rewrite Rinv_0, 2!Rmult_0_l, Rinv_0.
-- destruct (Req_dec r2 0) as [-> | H2].
-  + now rewrite Rinv_0, 2!Rmult_0_r, Rinv_0.
-  + symmetry; apply Rmult_inv_r_uniq.
-    { now apply Rmult_integral_contrapositive_currified. }
-    rewrite (Rmult_comm r1), Rmult_assoc, <-(Rmult_assoc r1).
-    now rewrite Rinv_r, Rmult_1_l, Rinv_r.
+  destruct (Req_dec r1 0) as [-> | H1].
+  - now rewrite Rinv_0, 2!Rmult_0_l, Rinv_0.
+  - destruct (Req_dec r2 0) as [-> | H2].
+    + now rewrite Rinv_0, 2!Rmult_0_r, Rinv_0.
+    + symmetry; apply Rmult_inv_r_uniq.
+      { now apply Rmult_integral_contrapositive_currified. }
+      rewrite (Rmult_comm r1), Rmult_assoc, <-(Rmult_assoc r1).
+      now rewrite Rinv_r, Rmult_1_l, Rinv_r.
 Qed.
 
 Lemma Rinv_opp r : / - r = - / r.

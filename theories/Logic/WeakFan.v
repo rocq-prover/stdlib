@@ -56,16 +56,16 @@ Fixpoint Y P (l:list bool) :=
 
 Lemma Y_unique : forall P l1 l2, length l1 = length l2 -> Y P l1 -> Y P l2 -> l1 = l2.
 Proof.
-induction l1, l2.
-- trivial.
-- discriminate.
-- discriminate.
-- intros H (HY1,H1) (HY2,H2).
-  injection H as [= H].
-  pose proof (IHl1 l2 H HY1 HY2). clear HY1 HY2 H IHl1.
-  subst l1.
-  f_equal.
-  destruct a, b; firstorder.
+  induction l1, l2.
+  - trivial.
+  - discriminate.
+  - discriminate.
+  - intros H (HY1,H1) (HY2,H2).
+    injection H as [= H].
+    pose proof (IHl1 l2 H HY1 HY2). clear HY1 HY2 H IHl1.
+    subst l1.
+    f_equal.
+    destruct a, b; firstorder.
 Qed.
 
 (** [X] is the translation of [Y] as a predicate *)
@@ -74,28 +74,28 @@ Definition X P n := exists l, length l = n /\ Y P (true::l).
 
 Lemma Y_approx : forall P l, approx (X P) l -> Y P l.
 Proof.
-induction l.
-- trivial.
-- intros (H,Hb). split.
-  + auto.
-  + unfold X in Hb.
-    destruct a.
-    * destruct Hb as (l',(Hl',(HYl',HY))).
-      rewrite <- (Y_unique P l' l Hl'); auto.
-    * firstorder.
+  induction l.
+  - trivial.
+  - intros (H,Hb). split.
+    + auto.
+    + unfold X in Hb.
+      destruct a.
+      * destruct Hb as (l',(Hl',(HYl',HY))).
+        rewrite <- (Y_unique P l' l Hl'); auto.
+      * firstorder.
 Qed.
 
 Theorem WeakFanTheorem : forall P, barred P -> inductively_barred P nil.
 Proof.
-intros P Hbar.
-destruct Hbar with (X P) as (l,(Hd%Y_approx,HP)).
-assert (inductively_barred P l) by (apply (now P l), HP).
-clear Hbar HP.
-induction l as [|a l].
-- assumption.
-- destruct Hd as (Hd,HX).
-  apply (IHl Hd). clear IHl.
-  destruct a; unfold X in HX; simpl in HX.
-  + apply propagate; assumption.
-  + exfalso; destruct (HX H).
+  intros P Hbar.
+  destruct Hbar with (X P) as (l,(Hd%Y_approx,HP)).
+  assert (inductively_barred P l) by (apply (now P l), HP).
+  clear Hbar HP.
+  induction l as [|a l].
+  - assumption.
+  - destruct Hd as (Hd,HX).
+    apply (IHl Hd). clear IHl.
+    destruct a; unfold X in HX; simpl in HX.
+    + apply propagate; assumption.
+    + exfalso; destruct (HX H).
 Qed.

@@ -42,7 +42,7 @@ Register JMeq_hom as core.JMeq.hom.
 
 Lemma JMeq_sym : forall (A B:Type) (x:A) (y:B), JMeq x y -> JMeq y x.
 Proof.
-intros A B x y H; destruct H; trivial.
+  intros A B x y H; destruct H; trivial.
 Qed.
 
 #[global]
@@ -53,7 +53,7 @@ Register JMeq_sym as core.JMeq.sym.
 Lemma JMeq_trans :
  forall (A B C:Type) (x:A) (y:B) (z:C), JMeq x y -> JMeq y z -> JMeq x z.
 Proof.
-destruct 2; trivial.
+  destruct 2; trivial.
 Qed.
 
 Register JMeq_trans as core.JMeq.trans.
@@ -68,7 +68,7 @@ Qed.
 Lemma JMeq_ind : forall (A:Type) (x:A) (P:A -> Prop),
   P x -> forall y, JMeq x y -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
 Qed.
 
 Register JMeq_ind as core.JMeq.ind.
@@ -76,37 +76,37 @@ Register JMeq_ind as core.JMeq.ind.
 Lemma JMeq_rec : forall (A:Type) (x:A) (P:A -> Set),
   P x -> forall y, JMeq x y -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
 Qed.
 
 Lemma JMeq_rect : forall (A:Type) (x:A) (P:A->Type),
   P x -> forall y, JMeq x y -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := H'); trivial.
 Qed.
 
 Lemma JMeq_ind_r : forall (A:Type) (x:A) (P:A -> Prop),
    P x -> forall y, JMeq y x -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
 Qed.
 
 Lemma JMeq_rec_r : forall (A:Type) (x:A) (P:A -> Set),
    P x -> forall y, JMeq y x -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
 Qed.
 
 Lemma JMeq_rect_r : forall (A:Type) (x:A) (P:A -> Type),
    P x -> forall y, JMeq y x -> P y.
 Proof.
-intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
+  intros A x P H y H'; case JMeq_eq with (1 := JMeq_sym H'); trivial.
 Qed.
 
 Lemma JMeq_congr :
  forall (A:Type) (x:A) (B:Type) (f:A->B) (y:A), JMeq x y -> f x = f y.
 Proof.
-intros A x B f y H; case JMeq_eq with (1 := H); trivial.
+  intros A x B f y H; case JMeq_eq with (1 := H); trivial.
 Qed.
 
 Register JMeq_congr as core.JMeq.congr.
@@ -118,15 +118,15 @@ From Stdlib Require Import Eqdep.
 Lemma JMeq_eq_dep_id :
  forall (A B:Type) (x:A) (y:B), JMeq x y -> eq_dep Type (fun X => X) A x B y.
 Proof.
-destruct 1.
-apply eq_dep_intro.
+  destruct 1.
+  apply eq_dep_intro.
 Qed.
 
 Lemma eq_dep_id_JMeq :
  forall (A B:Type) (x:A) (y:B), eq_dep Type (fun X => X) A x B y -> JMeq x y.
 Proof.
-destruct 1.
-apply JMeq_refl.
+  destruct 1.
+  apply JMeq_refl.
 Qed.
 
 (** [eq_dep U P p x q y] is strictly finer than [JMeq (P p) x (P q) y] *)
@@ -134,20 +134,20 @@ Qed.
 Lemma eq_dep_JMeq :
  forall U P p x q y, eq_dep U P p x q y -> JMeq x y.
 Proof.
-destruct 1.
-apply JMeq_refl.
+  destruct 1.
+  apply JMeq_refl.
 Qed.
 
 Lemma eq_dep_strictly_stronger_JMeq :
  exists U P p q x y, JMeq x y /\ ~ eq_dep U P p x q y.
 Proof.
-exists bool. exists (fun _ => True). exists true. exists false.
-exists I. exists I.
-split.
-- trivial.
-- intro H.
-  assert (true=false) by (destruct H; reflexivity).
-  discriminate.
+  exists bool. exists (fun _ => True). exists true. exists false.
+  exists I. exists I.
+  split.
+  - trivial.
+  - intro H.
+    assert (true=false) by (destruct H; reflexivity).
+    discriminate.
 Qed.
 
 (** However, when the dependencies are equal, [JMeq (P p) x (P q) y]
@@ -157,10 +157,10 @@ Lemma JMeq_eq_dep :
   forall U (P:U->Type) p q (x:P p) (y:P q),
   p = q -> JMeq x y -> eq_dep U P p x q y.
 Proof.
-intros U P p q x y H H0.
-destruct H.
-apply JMeq_eq in H0 as ->.
-reflexivity.
+  intros U P p q x y H H0.
+  destruct H.
+  apply JMeq_eq in H0 as ->.
+  reflexivity.
 Qed.
 
 

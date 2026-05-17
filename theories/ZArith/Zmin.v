@@ -33,7 +33,7 @@ Notation Zpos_min := Pos2Z.inj_min (only parsing).
 Lemma Zmin_spec x y :
   x <= y /\ Z.min x y = x  \/  x > y /\ Z.min x y = y.
 Proof.
- Z.swap_greater. rewrite Z.min_comm. destruct (Z.min_spec y x); auto.
+  Z.swap_greater. rewrite Z.min_comm. destruct (Z.min_spec y x); auto.
 Qed.
 
 Lemma Zmin_irreducible n m : Z.min n m = n \/ Z.min n m = m.
@@ -46,5 +46,5 @@ Proof. apply Z.min_case; auto. Qed.
 
 Lemma Zpos_min_1 p : Z.min 1 (Zpos p) = 1.
 Proof.
- now destruct p.
+  now destruct p.
 Qed.

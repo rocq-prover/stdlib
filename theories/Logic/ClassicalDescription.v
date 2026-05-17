@@ -28,23 +28,23 @@ From Stdlib Require Import ChoiceFacts.
 
 Theorem excluded_middle_informative : forall P:Prop, {P} + {~ P}.
 Proof.
-apply
-  (constructive_definite_descr_excluded_middle
-   constructive_definite_description classic).
+  apply
+    (constructive_definite_descr_excluded_middle
+     constructive_definite_description classic).
 Qed.
 
 Theorem classical_definite_description :
   forall (A : Type) (P : A->Prop), inhabited A ->
   { x : A | (exists! x : A, P x) -> P x }.
 Proof.
-intros A P i.
-destruct (excluded_middle_informative (exists! x, P x)) as [Hex|HnonP].
-- apply constructive_definite_description with (P:= fun x => (exists! x : A, P x) -> P x).
-  destruct Hex as (x,(Hx,Huni)).
-  exists x; split.
-  + intros _; exact Hx.
-  + firstorder.
-- exists i; tauto.
+  intros A P i.
+  destruct (excluded_middle_informative (exists! x, P x)) as [Hex|HnonP].
+  - apply constructive_definite_description with (P:= fun x => (exists! x : A, P x) -> P x).
+    destruct Hex as (x,(Hx,Huni)).
+    exists x; split.
+    + intros _; exact Hx.
+    + firstorder.
+  - exists i; tauto.
 Qed.
 
 (** Church's iota operator *)
@@ -62,12 +62,12 @@ Theorem dependent_unique_choice :
     (forall x:A, exists! y : B x, R x y) ->
     (exists f : (forall x:A, B x), forall x:A, R x (f x)).
 Proof.
-intros A B R H.
-assert (Hexuni:forall x, exists! y, R x y).
-- intro x. apply H.
-- exists (fun x => proj1_sig (constructive_definite_description (R x) (Hexuni x))).
-  intro x.
-  apply (proj2_sig (constructive_definite_description (R x) (Hexuni x))).
+  intros A B R H.
+  assert (Hexuni:forall x, exists! y, R x y).
+  - intro x. apply H.
+  - exists (fun x => proj1_sig (constructive_definite_description (R x) (Hexuni x))).
+    intro x.
+    apply (proj2_sig (constructive_definite_description (R x) (Hexuni x))).
 Qed.
 
 Theorem unique_choice :
@@ -75,8 +75,8 @@ Theorem unique_choice :
     (forall x:A,  exists! y : B, R x y) ->
     (exists f : A -> B, forall x:A, R x (f x)).
 Proof.
-intros A B.
-apply dependent_unique_choice with (B:=fun _:A => B).
+  intros A B.
+  apply dependent_unique_choice with (B:=fun _:A => B).
 Qed.
 
 (** Compatibility lemmas *)

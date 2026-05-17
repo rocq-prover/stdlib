@@ -175,7 +175,7 @@ Add Zify BinOp Op_nat_ltb.
 
 Lemma b2n_b2z x : Z.of_nat (Nat.b2n x) = Z.b2z x.
 Proof.
-destruct x ; reflexivity.
+  destruct x ; reflexivity.
 Qed.
 
 #[global]

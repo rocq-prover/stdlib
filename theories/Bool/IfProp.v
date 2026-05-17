@@ -19,39 +19,39 @@ Hint Resolve Iftrue Iffalse: bool.
 
 Lemma Iftrue_inv : forall (A B:Prop) (b:bool), IfProp A B b -> b = true -> A.
 Proof.
-destruct 1; intros; auto with bool.
-case diff_true_false; auto with bool.
+  destruct 1; intros; auto with bool.
+  case diff_true_false; auto with bool.
 Qed.
 
 Lemma Iffalse_inv :
  forall (A B:Prop) (b:bool), IfProp A B b -> b = false -> B.
 Proof.
-destruct 1; intros; auto with bool.
-case diff_true_false; trivial with bool.
+  destruct 1; intros; auto with bool.
+  case diff_true_false; trivial with bool.
 Qed.
 
 Lemma IfProp_true : forall A B:Prop, IfProp A B true -> A.
 Proof.
-intros A B H.
-inversion H.
-assumption.
+  intros A B H.
+  inversion H.
+  assumption.
 Qed.
 
 Lemma IfProp_false : forall A B:Prop, IfProp A B false -> B.
 Proof.
-intros A B H.
-inversion H.
-assumption.
+  intros A B H.
+  inversion H.
+  assumption.
 Qed.
 
 Lemma IfProp_or : forall (A B:Prop) (b:bool), IfProp A B b -> A \/ B.
 Proof.
-destruct 1; auto with bool.
+  destruct 1; auto with bool.
 Qed.
 
 Lemma IfProp_sum : forall (A B:Prop) (b:bool), IfProp A B b -> {A} + {B}.
 Proof.
-intros A B b; destruct b; intro H.
-- left; inversion H; auto with bool.
-- right; inversion H; auto with bool.
+  intros A B b; destruct b; intro H.
+  - left; inversion H; auto with bool.
+  - right; inversion H; auto with bool.
 Qed.

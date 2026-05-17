@@ -397,31 +397,31 @@ Theorem UIP_shift : forall U, UIP_refl_ U -> forall x:U, UIP_refl_ (x = x).
 Proof.
     exact (fun U UIP_refl x =>
          @UIP_shift_on U x (UIP_refl x)).
-  Qed.
+Qed.
 
 Section Corollaries.
 
-  Variable U:Type.
+   Variable U:Type.
 
-  (** UIP implies the injectivity of equality on dependent pairs in Type *)
+   (** UIP implies the injectivity of equality on dependent pairs in Type *)
 
 
- Definition Inj_dep_pair_on (P : U -> Type) (p : U) (x : P p) :=
-   forall (y : P p), existT P p x = existT P p y -> x = y.
- Definition Inj_dep_pair := forall P p x, Inj_dep_pair_on P p x.
+  Definition Inj_dep_pair_on (P : U -> Type) (p : U) (x : P p) :=
+    forall (y : P p), existT P p x = existT P p y -> x = y.
+  Definition Inj_dep_pair := forall P p x, Inj_dep_pair_on P p x.
 
- Lemma eq_dep_eq_on__inj_pair2_on (P : U -> Type) (p : U) (x : P p) :
-   Eq_dep_eq_on U P p x -> Inj_dep_pair_on P p x.
- Proof.
-   intro eq_dep_eq; red; intros.
-   apply eq_dep_eq.
-   apply eq_sigT_eq_dep.
-   assumption.
- Qed.
- Lemma eq_dep_eq__inj_pair2 : Eq_dep_eq U -> Inj_dep_pair.
- Proof.
-    exact (fun eq_dep_eq P p x =>
-          @eq_dep_eq_on__inj_pair2_on P p x (eq_dep_eq P p x)).
+  Lemma eq_dep_eq_on__inj_pair2_on (P : U -> Type) (p : U) (x : P p) :
+    Eq_dep_eq_on U P p x -> Inj_dep_pair_on P p x.
+  Proof.
+    intro eq_dep_eq; red; intros.
+    apply eq_dep_eq.
+    apply eq_sigT_eq_dep.
+    assumption.
+  Qed.
+  Lemma eq_dep_eq__inj_pair2 : Eq_dep_eq U -> Inj_dep_pair.
+  Proof.
+     exact (fun eq_dep_eq P p x =>
+           @eq_dep_eq_on__inj_pair2_on P p x (eq_dep_eq P p x)).
   Qed.
 
 End Corollaries.
@@ -444,61 +444,61 @@ End EqdepElimination.
 
 Module EqdepTheory (M:EqdepElimination).
 
-  Section Axioms.
+    Section Axioms.
 
-    Variable U:Type.
+          Variable U:Type.
 
-(** Invariance by Substitution of Reflexive Equality Proofs *)
+      (** Invariance by Substitution of Reflexive Equality Proofs *)
 
-Lemma eq_rect_eq :
-  forall (p:U) (Q:U -> Type) (x:Q p) (h:p = p), x = eq_rect p Q x p h.
-Proof.
-  exact (M.eq_rect_eq U).
-Qed.
+      Lemma eq_rect_eq :
+        forall (p:U) (Q:U -> Type) (x:Q p) (h:p = p), x = eq_rect p Q x p h.
+      Proof.
+        exact (M.eq_rect_eq U).
+      Qed.
 
-Lemma eq_rec_eq :
-  forall (p:U) (Q:U -> Set) (x:Q p) (h:p = p), x = eq_rec p Q x p h.
-Proof. exact (fun p Q => M.eq_rect_eq U p Q). Qed.
+      Lemma eq_rec_eq :
+        forall (p:U) (Q:U -> Set) (x:Q p) (h:p = p), x = eq_rec p Q x p h.
+      Proof. exact (fun p Q => M.eq_rect_eq U p Q). Qed.
 
-(** Injectivity of Dependent Equality *)
+      (** Injectivity of Dependent Equality *)
 
-Lemma eq_dep_eq : forall (P:U->Type) (p:U) (x y:P p), eq_dep p x p y -> x = y.
-Proof. exact (eq_rect_eq__eq_dep_eq U eq_rect_eq). Qed.
+      Lemma eq_dep_eq : forall (P:U->Type) (p:U) (x y:P p), eq_dep p x p y -> x = y.
+      Proof. exact (eq_rect_eq__eq_dep_eq U eq_rect_eq). Qed.
 
-(** Uniqueness of Identity Proofs (UIP) is a consequence of *)
-(** Injectivity of Dependent Equality *)
+      (** Uniqueness of Identity Proofs (UIP) is a consequence of *)
+      (** Injectivity of Dependent Equality *)
 
-Lemma UIP : forall (x y:U) (p1 p2:x = y), p1 = p2.
-Proof. exact (eq_dep_eq__UIP U eq_dep_eq). Qed.
+      Lemma UIP : forall (x y:U) (p1 p2:x = y), p1 = p2.
+      Proof. exact (eq_dep_eq__UIP U eq_dep_eq). Qed.
 
-(** Uniqueness of Reflexive Identity Proofs is a direct instance of UIP *)
+      (** Uniqueness of Reflexive Identity Proofs is a direct instance of UIP *)
 
-Lemma UIP_refl : forall (x:U) (p:x = x), p = eq_refl x.
-Proof.
-  exact (UIP__UIP_refl U UIP).
-Qed.
+      Lemma UIP_refl : forall (x:U) (p:x = x), p = eq_refl x.
+      Proof.
+        exact (UIP__UIP_refl U UIP).
+      Qed.
 
-(** Streicher's axiom K is a direct consequence of Uniqueness of
+      (** Streicher's axiom K is a direct consequence of Uniqueness of
     Reflexive Identity Proofs *)
 
-Lemma Streicher_K :
-  forall (x:U) (P:x = x -> Prop), P (eq_refl x) -> forall p:x = x, P p.
-Proof.
-  exact (UIP_refl__Streicher_K U UIP_refl).
-Qed.
+      Lemma Streicher_K :
+        forall (x:U) (P:x = x -> Prop), P (eq_refl x) -> forall p:x = x, P p.
+      Proof.
+        exact (UIP_refl__Streicher_K U UIP_refl).
+      Qed.
 
-End Axioms.
+    End Axioms.
 
-(** UIP implies the injectivity of equality on dependent pairs in Type *)
+  (** UIP implies the injectivity of equality on dependent pairs in Type *)
 
-Lemma inj_pair2 :
- forall (U:Type) (P:U -> Type) (p:U) (x y:P p),
-   existT P p x = existT P p y -> x = y.
-Proof.
-  exact (fun U => eq_dep_eq__inj_pair2 U (eq_dep_eq U)).
-Qed.
+  Lemma inj_pair2 :
+   forall (U:Type) (P:U -> Type) (p:U) (x y:P p),
+     existT P p x = existT P p y -> x = y.
+  Proof.
+    exact (fun U => eq_dep_eq__inj_pair2 U (eq_dep_eq U)).
+  Qed.
 
-Notation inj_pairT2 := inj_pair2.
+  Notation inj_pairT2 := inj_pair2.
 
 End EqdepTheory.
 
@@ -508,20 +508,20 @@ Lemma f_eq_dep :
   forall U (P:U->Type) R p q x y (f:forall p, P p -> R p),
     eq_dep p x q y -> eq_dep p (f p x) q (f q y).
 Proof.
-intros * []. reflexivity.
+  intros * []. reflexivity.
 Qed.
 
 Lemma eq_dep_non_dep :
   forall U P p q x y, @eq_dep U (fun _ => P) p x q y -> x = y.
 Proof.
-intros * []. reflexivity.
+  intros * []. reflexivity.
 Qed.
 
 Lemma f_eq_dep_non_dep :
   forall U (P:U->Type) R p q x y (f:forall p, P p -> R),
     eq_dep p x q y -> f p x = f q y.
 Proof.
-intros * []. reflexivity.
+  intros * []. reflexivity.
 Qed.
 
 Arguments eq_dep  U P p x q _ : clear implicits.

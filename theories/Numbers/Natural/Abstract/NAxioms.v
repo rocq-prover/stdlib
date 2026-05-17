@@ -15,7 +15,7 @@ From Stdlib Require Export Bool NZAxioms NZParity NZPow NZSqrt NZLog NZDiv NZGcd
 (** From [NZ], we obtain natural numbers just by stating that [pred 0] == 0 *)
 
 Module Type NAxiom (Import NZ : NZDomainSig').
- Axiom pred_0 : P 0 == 0.
+  Axiom pred_0 : P 0 == 0.
 End NAxiom.
 
 Module Type NAxiomsMiniSig := NZOrdAxiomsSig <+ NAxiom.
@@ -27,7 +27,7 @@ Module Type NAxiomsMiniSig' := NZOrdAxiomsSig' <+ NAxiom.
     and add to that a N-specific constraint. *)
 
 Module Type NDivSpecific (Import N : NAxiomsMiniSig')(Import DM : DivMod' N).
- Axiom mod_upper_bound : forall a b, b ~= 0 -> a mod b < b.
+  Axiom mod_upper_bound : forall a b, b ~= 0 -> a mod b < b.
 End NDivSpecific.
 
 (** For all other functions, the NZ axiomatizations are enough. *)
@@ -47,19 +47,19 @@ Module Type NAxiomsSig' := NAxiomsMiniSig' <+ OrderFunctions'
 
 Module Type NAxiomsRec (Import NZ : NZDomainSig').
 
-Parameter Inline recursion : forall {A : Type}, A -> (t -> A -> A) -> t -> A.
+  Parameter Inline recursion : forall {A : Type}, A -> (t -> A -> A) -> t -> A.
 
-#[global]
-Declare Instance recursion_wd {A : Type} (Aeq : relation A) :
- Proper (Aeq ==> (eq==>Aeq==>Aeq) ==> eq ==> Aeq) recursion.
+  #[global]
+  Declare Instance recursion_wd {A : Type} (Aeq : relation A) :
+   Proper (Aeq ==> (eq==>Aeq==>Aeq) ==> eq ==> Aeq) recursion.
 
-Axiom recursion_0 :
-  forall {A} (a : A) (f : t -> A -> A), recursion a f 0 = a.
+  Axiom recursion_0 :
+    forall {A} (a : A) (f : t -> A -> A), recursion a f 0 = a.
 
-Axiom recursion_succ :
-  forall {A} (Aeq : relation A) (a : A) (f : t -> A -> A),
-    Aeq a a -> Proper (eq==>Aeq==>Aeq) f ->
-      forall n, Aeq (recursion a f (S n)) (f n (recursion a f n)).
+  Axiom recursion_succ :
+    forall {A} (Aeq : relation A) (a : A) (f : t -> A -> A),
+      Aeq a a -> Proper (eq==>Aeq==>Aeq) f ->
+        forall n, Aeq (recursion a f (S n)) (f n (recursion a f n)).
 
 End NAxiomsRec.
 

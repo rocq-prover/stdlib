@@ -92,7 +92,7 @@ Qed.
 
 Lemma inject_Z_injective (a b: Z): inject_Z a == inject_Z b <-> a = b.
 Proof.
- unfold Qeq; simpl; rewrite !Z.mul_1_r; reflexivity.
+  unfold Qeq; simpl; rewrite !Z.mul_1_r; reflexivity.
 Qed.
 
 (** Another approach : using Qcompare for defining order relations. *)
@@ -102,27 +102,27 @@ Notation "p ?= q" := (Qcompare p q) : Q_scope.
 
 Lemma Qeq_alt p q : (p == q) <-> (p ?= q) = Eq.
 Proof.
-symmetry. apply Z.compare_eq_iff.
+  symmetry. apply Z.compare_eq_iff.
 Qed.
 
 Lemma Qlt_alt p q : (p<q) <-> ((p?=q) = Lt).
 Proof.
-reflexivity.
+  reflexivity.
 Qed.
 
 Lemma Qgt_alt p q : (p>q) <-> ((p?=q) = Gt).
 Proof.
-symmetry. apply Z.gt_lt_iff.
+  symmetry. apply Z.gt_lt_iff.
 Qed.
 
 Lemma Qle_alt p q : (p<=q) <-> ((p?=q) <> Gt).
 Proof.
-reflexivity.
+  reflexivity.
 Qed.
 
 Lemma Qge_alt p q : (p>=q) <-> ((p?=q) <> Lt).
 Proof.
-symmetry. apply Z.ge_le_iff.
+  symmetry. apply Z.ge_le_iff.
 Qed.
 
 #[global]
@@ -132,31 +132,31 @@ Hint Extern 5 (?X1 <> ?X2) => intro; discriminate: qarith.
 
 Lemma Qcompare_antisym x y : CompOpp (x ?= y) = (y ?= x).
 Proof.
- symmetry. apply Z.compare_antisym.
+  symmetry. apply Z.compare_antisym.
 Qed.
 
 Lemma Qcompare_spec x y : CompareSpec (x==y) (x<y) (y<x) (x ?= y).
 Proof.
- unfold Qeq, Qlt, Qcompare. case Z.compare_spec; now constructor.
+  unfold Qeq, Qlt, Qcompare. case Z.compare_spec; now constructor.
 Qed.
 
 (** * Properties of equality. *)
 
 Theorem Qeq_refl x : x == x.
 Proof.
- auto with qarith.
+  auto with qarith.
 Qed.
 
 Theorem Qeq_sym x y : x == y -> y == x.
 Proof.
- auto with qarith.
+  auto with qarith.
 Qed.
 
 Theorem Qeq_trans x y z : x == y -> y == z -> x == z.
 Proof.
-unfold Qeq; intros XY YZ.
-apply Z.mul_reg_r with (QDen y); [auto with qarith|].
-now rewrite Z.mul_shuffle0, XY, Z.mul_shuffle0, YZ, Z.mul_shuffle0.
+  unfold Qeq; intros XY YZ.
+  apply Z.mul_reg_r with (QDen y); [auto with qarith|].
+  now rewrite Z.mul_shuffle0, XY, Z.mul_shuffle0, YZ, Z.mul_shuffle0.
 Qed.
 
 #[global]
@@ -174,7 +174,7 @@ Proof. split; red; eauto with qarith. Qed.
 
 Theorem Qeq_dec x y : {x==y} + {~ x==y}.
 Proof.
- apply Z.eq_dec.
+  apply Z.eq_dec.
 Defined.
 
 Definition Qeq_bool x y :=
@@ -211,12 +211,12 @@ Qed.
 
 Theorem Qnot_eq_sym x y : ~x == y -> ~y == x.
 Proof.
- auto with qarith.
+  auto with qarith.
 Qed.
 
 Lemma Qeq_bool_comm x y: Qeq_bool x y = Qeq_bool y x.
 Proof.
- apply eq_true_iff_eq. rewrite !Qeq_bool_iff. now symmetry.
+  apply eq_true_iff_eq. rewrite !Qeq_bool_iff. now symmetry.
 Qed.
 
 Lemma Qeq_bool_refl x: Qeq_bool x x = true.
@@ -458,7 +458,7 @@ Number Notation Q of_number to_number (via IQ
 
 Lemma Qmake_Qdiv a b : a#b==inject_Z a/inject_Z (Zpos b).
 Proof.
-unfold Qeq. simpl. ring.
+  unfold Qeq. simpl. ring.
 Qed.
 
 (** * Setoid compatibility results *)
@@ -566,15 +566,15 @@ Qed.
 #[global]
 Instance Qeqb_comp : Proper (Qeq==>Qeq==>eq) Qeq_bool.
 Proof.
- intros p q H r s H'; apply eq_true_iff_eq.
- rewrite 2 Qeq_bool_iff, H, H'; split; auto with qarith.
+  intros p q H r s H'; apply eq_true_iff_eq.
+  rewrite 2 Qeq_bool_iff, H, H'; split; auto with qarith.
 Qed.
 
 #[global]
 Instance Qleb_comp : Proper (Qeq==>Qeq==>eq) Qle_bool.
 Proof.
- intros p q H r s H'; apply eq_true_iff_eq.
- rewrite 2 Qle_bool_iff, H, H'; split; auto with qarith.
+  intros p q H r s H'; apply eq_true_iff_eq.
+  rewrite 2 Qle_bool_iff, H, H'; split; auto with qarith.
 Qed.
 
 
@@ -634,19 +634,19 @@ Qed.
 Lemma Qplus_inj_r (x y z: Q):
   x + z == y + z <-> x == y.
 Proof.
- split; intro E.
- - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y).
-   rewrite <- (Qplus_opp_r z); auto.
-   do 2 rewrite Qplus_assoc.
-   rewrite E. reflexivity.
- - rewrite E. reflexivity.
+  split; intro E.
+  - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y).
+    rewrite <- (Qplus_opp_r z); auto.
+    do 2 rewrite Qplus_assoc.
+    rewrite E. reflexivity.
+  - rewrite E. reflexivity.
 Qed.
 
 Lemma Qplus_inj_l (x y z: Q):
   z + x == z + y <-> x == y.
 Proof.
- rewrite (Qplus_comm z x), (Qplus_comm z y).
- apply Qplus_inj_r.
+  rewrite (Qplus_comm z x), (Qplus_comm z y).
+  apply Qplus_inj_r.
 Qed.
 
 
@@ -727,7 +727,7 @@ Qed.
 
 Lemma inject_Z_plus (x y: Z): inject_Z (x + y) = inject_Z x + inject_Z y.
 Proof.
- unfold Qplus, inject_Z. simpl. f_equal. ring.
+  unfold Qplus, inject_Z. simpl. f_equal. ring.
 Qed.
 
 Lemma inject_Z_mult (x y: Z): inject_Z (x * y) = inject_Z x * inject_Z y.
@@ -741,7 +741,7 @@ Proof. reflexivity. Qed.
 
 Lemma Qinv_involutive : forall q, (/ / q) == q.
 Proof.
-intros [[|n|n] d]; red; simpl; reflexivity.
+  intros [[|n|n] d]; red; simpl; reflexivity.
 Qed.
 
 Theorem Qmult_inv_r : forall x, ~ x == 0 -> x*(/x) == 1.
@@ -803,19 +803,19 @@ Qed.
 
 Lemma Qmult_inj_r (x y z: Q): ~ z == 0 -> (x * z == y * z <-> x == y).
 Proof.
- intro z_ne_0.
- split; intro E.
- - rewrite <- (Qmult_1_r x), <- (Qmult_1_r y).
-   rewrite <- (Qmult_inv_r z); auto.
-   do 2 rewrite Qmult_assoc.
-   rewrite E. reflexivity.
- - rewrite E. reflexivity.
+  intro z_ne_0.
+  split; intro E.
+  - rewrite <- (Qmult_1_r x), <- (Qmult_1_r y).
+    rewrite <- (Qmult_inv_r z); auto.
+    do 2 rewrite Qmult_assoc.
+    rewrite E. reflexivity.
+  - rewrite E. reflexivity.
 Qed.
 
 Lemma Qmult_inj_l (x y z: Q): ~ z == 0 -> (z * x == z * y <-> x == y).
 Proof.
- rewrite (Qmult_comm z x), (Qmult_comm z y).
- apply Qmult_inj_r.
+  rewrite (Qmult_comm z x), (Qmult_comm z y).
+  apply Qmult_inj_r.
 Qed.
 
 (** * Reduction and construction of Q *)
@@ -965,12 +965,12 @@ Proof. apply Z.lt_neq. Qed.
 
 Lemma Zle_Qle (x y: Z): (x <= y)%Z = (inject_Z x <= inject_Z y).
 Proof.
- unfold Qle. simpl. now rewrite !Z.mul_1_r.
+  unfold Qle. simpl. now rewrite !Z.mul_1_r.
 Qed.
 
 Lemma Zlt_Qlt (x y: Z): (x < y)%Z = (inject_Z x < inject_Z y).
 Proof.
- unfold Qlt. simpl. now rewrite !Z.mul_1_r.
+  unfold Qlt. simpl. now rewrite !Z.mul_1_r.
 Qed.
 
 
@@ -978,8 +978,8 @@ Qed.
 
 Lemma Qle_lteq x y : x<=y <-> x<y \/ x==y.
 Proof.
- rewrite Qeq_alt, Qle_alt, Qlt_alt.
- destruct (x ?= y); intuition; discriminate.
+  rewrite Qeq_alt, Qle_alt, Qlt_alt.
+  destruct (x ?= y); intuition; discriminate.
 Qed.
 
 Lemma Qlt_leneq: forall p q : Q, p < q <-> p <= q /\ ~ (p == q).
@@ -1167,32 +1167,32 @@ Qed.
 
 Lemma Qplus_le_l (x y z: Q): x + z <= y + z <-> x <= y.
 Proof.
- split; intros.
- - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y), <- (Qplus_opp_r z).
-   do 2 rewrite Qplus_assoc.
-   apply Qplus_le_compat; auto with *.
- - apply Qplus_le_compat; auto with *.
+  split; intros.
+  - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y), <- (Qplus_opp_r z).
+    do 2 rewrite Qplus_assoc.
+    apply Qplus_le_compat; auto with *.
+  - apply Qplus_le_compat; auto with *.
 Qed.
 
 Lemma Qplus_le_r (x y z: Q): z + x <= z + y <-> x <= y.
 Proof.
- rewrite (Qplus_comm z x), (Qplus_comm z y).
- apply Qplus_le_l.
+  rewrite (Qplus_comm z x), (Qplus_comm z y).
+  apply Qplus_le_l.
 Qed.
 
 Lemma Qplus_lt_l (x y z: Q): x + z < y + z <-> x < y.
 Proof.
- split; intros.
- - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y), <- (Qplus_opp_r z).
-   do 2 rewrite Qplus_assoc.
-   apply Qplus_lt_le_compat; auto with *.
- - apply Qplus_lt_le_compat; auto with *.
+  split; intros.
+  - rewrite <- (Qplus_0_r x), <- (Qplus_0_r y), <- (Qplus_opp_r z).
+    do 2 rewrite Qplus_assoc.
+    apply Qplus_lt_le_compat; auto with *.
+  - apply Qplus_lt_le_compat; auto with *.
 Qed.
 
 Lemma Qplus_lt_r (x y z: Q): z + x < z + y <-> x < y.
 Proof.
- rewrite (Qplus_comm z x), (Qplus_comm z y).
- apply Qplus_lt_l.
+  rewrite (Qplus_comm z x), (Qplus_comm z y).
+  apply Qplus_lt_l.
 Qed.
 
 Lemma Qplus_lt_compat : forall x y z t : Q,
@@ -1233,15 +1233,15 @@ Qed.
 
 Lemma Qmult_le_r (x y z: Q): 0 < z -> (x*z <= y*z <-> x <= y).
 Proof.
- split; intro.
- - now apply Qmult_lt_0_le_reg_r with z.
- - apply Qmult_le_compat_r; auto with qarith.
+  split; intro.
+  - now apply Qmult_lt_0_le_reg_r with z.
+  - apply Qmult_le_compat_r; auto with qarith.
 Qed.
 
 Lemma Qmult_le_l (x y z: Q): 0 < z -> (z*x <= z*y <-> x <= y).
 Proof.
- rewrite (Qmult_comm z x), (Qmult_comm z y).
- apply Qmult_le_r.
+  rewrite (Qmult_comm z x), (Qmult_comm z y).
+  apply Qmult_le_r.
 Qed.
 
 Lemma Qmult_lt_compat_r : forall x y z, 0 < z  -> x < y -> x*z < y*z.
@@ -1258,31 +1258,31 @@ Qed.
 
 Lemma Qmult_lt_r: forall x y z, 0 < z -> (x*z < y*z <-> x < y).
 Proof.
- Open Scope Z_scope.
- intros (a1,a2) (b1,b2) (c1,c2).
- unfold Qle, Qlt; simpl.
- simpl_mult.
- rewrite Z.mul_shuffle1, (Z.mul_shuffle1 b1).
- rewrite Z.mul_1_r.
- intro LT. rewrite <- Z.mul_lt_mono_pos_r.
- - reflexivity.
- - now apply Z.mul_pos_pos.
-   Close Scope Z_scope.
+  Open Scope Z_scope.
+  intros (a1,a2) (b1,b2) (c1,c2).
+  unfold Qle, Qlt; simpl.
+  simpl_mult.
+  rewrite Z.mul_shuffle1, (Z.mul_shuffle1 b1).
+  rewrite Z.mul_1_r.
+  intro LT. rewrite <- Z.mul_lt_mono_pos_r.
+  - reflexivity.
+  - now apply Z.mul_pos_pos.
+    Close Scope Z_scope.
 Qed.
 
 Lemma Qmult_lt_l (x y z: Q): 0 < z -> (z*x < z*y <-> x < y).
 Proof.
- rewrite (Qmult_comm z x), (Qmult_comm z y).
- apply Qmult_lt_r.
+  rewrite (Qmult_comm z x), (Qmult_comm z y).
+  apply Qmult_lt_r.
 Qed.
 
 Lemma Qmult_le_0_compat : forall a b, 0 <= a -> 0 <= b -> 0 <= a*b.
 Proof.
-intros a b Ha Hb.
-unfold Qle in *.
-simpl in *.
-rewrite Z.mul_1_r in *.
-auto using Z.mul_nonneg_nonneg.
+  intros a b Ha Hb.
+  unfold Qle in *.
+  simpl in *.
+  rewrite Z.mul_1_r in *.
+  auto using Z.mul_nonneg_nonneg.
 Qed.
 
 Lemma Qmult_lt_0_compat : forall a b : Q, 0 < a -> 0 < b -> 0 < a * b.
@@ -1362,98 +1362,98 @@ Qed.
 
 Lemma Qinv_le_0_compat : forall a, 0 <= a -> 0 <= /a.
 Proof.
-intros [[|n|n] d] Ha; assumption.
+  intros [[|n|n] d] Ha; assumption.
 Qed.
 
 Lemma Qle_shift_div_l : forall a b c,
  0 < c -> a*c <= b -> a <= b/c.
 Proof.
-intros a b c Hc H.
-apply Qmult_lt_0_le_reg_r with (c).
-- assumption.
-- setoid_replace (b/c*c) with (c*(b/c)) by apply Qmult_comm.
-  rewrite Qmult_div_r; try assumption.
-  auto with *.
+  intros a b c Hc H.
+  apply Qmult_lt_0_le_reg_r with (c).
+  - assumption.
+  - setoid_replace (b/c*c) with (c*(b/c)) by apply Qmult_comm.
+    rewrite Qmult_div_r; try assumption.
+    auto with *.
 Qed.
 
 Lemma Qle_shift_inv_l : forall a c,
  0 < c -> a*c <= 1 -> a <= /c.
 Proof.
-intros a c Hc H.
-setoid_replace (/c) with (1*/c) by (symmetry; apply Qmult_1_l).
-change (a <= 1/c).
-apply Qle_shift_div_l; assumption.
+  intros a c Hc H.
+  setoid_replace (/c) with (1*/c) by (symmetry; apply Qmult_1_l).
+  change (a <= 1/c).
+  apply Qle_shift_div_l; assumption.
 Qed.
 
 Lemma Qle_shift_div_r : forall a b c,
  0 < b -> a <= c*b -> a/b <= c.
 Proof.
-intros a b c Hc H.
-apply Qmult_lt_0_le_reg_r with b.
-- assumption.
-- setoid_replace (a/b*b) with (b*(a/b)) by apply Qmult_comm.
-  rewrite Qmult_div_r; try assumption.
-  auto with *.
+  intros a b c Hc H.
+  apply Qmult_lt_0_le_reg_r with b.
+  - assumption.
+  - setoid_replace (a/b*b) with (b*(a/b)) by apply Qmult_comm.
+    rewrite Qmult_div_r; try assumption.
+    auto with *.
 Qed.
 
 Lemma Qle_shift_inv_r : forall b c,
  0 < b -> 1 <= c*b -> /b <= c.
 Proof.
-intros b c Hc H.
-setoid_replace (/b) with (1*/b) by (symmetry; apply Qmult_1_l).
-change (1/b <= c).
-apply Qle_shift_div_r; assumption.
+  intros b c Hc H.
+  setoid_replace (/b) with (1*/b) by (symmetry; apply Qmult_1_l).
+  change (1/b <= c).
+  apply Qle_shift_div_r; assumption.
 Qed.
 
 Lemma Qinv_lt_0_compat : forall a, 0 < a -> 0 < /a.
 Proof.
-intros [[|n|n] d] Ha; assumption.
+  intros [[|n|n] d] Ha; assumption.
 Qed.
 
 Lemma Qlt_shift_div_l : forall a b c,
  0 < c -> a*c < b -> a < b/c.
 Proof.
-intros a b c Hc H.
-apply Qnot_le_lt.
-intros H0.
-apply (Qlt_not_le _ _ H).
-apply Qmult_lt_0_le_reg_r with (/c).
-- apply Qinv_lt_0_compat.
-  assumption.
-- setoid_replace (a*c/c) with (a) by (apply Qdiv_mult_l; auto with * ).
-  assumption.
+  intros a b c Hc H.
+  apply Qnot_le_lt.
+  intros H0.
+  apply (Qlt_not_le _ _ H).
+  apply Qmult_lt_0_le_reg_r with (/c).
+  - apply Qinv_lt_0_compat.
+    assumption.
+  - setoid_replace (a*c/c) with (a) by (apply Qdiv_mult_l; auto with * ).
+    assumption.
 Qed.
 
 Lemma Qlt_shift_inv_l : forall a c,
  0 < c -> a*c < 1 -> a < /c.
 Proof.
-intros a c Hc H.
-setoid_replace (/c) with (1*/c) by (symmetry; apply Qmult_1_l).
-change (a < 1/c).
-apply Qlt_shift_div_l; assumption.
+  intros a c Hc H.
+  setoid_replace (/c) with (1*/c) by (symmetry; apply Qmult_1_l).
+  change (a < 1/c).
+  apply Qlt_shift_div_l; assumption.
 Qed.
 
 Lemma Qlt_shift_div_r : forall a b c,
  0 < b -> a < c*b -> a/b < c.
 Proof.
-intros a b c Hc H.
-apply Qnot_le_lt.
-intros H0.
-apply (Qlt_not_le _ _ H).
-apply Qmult_lt_0_le_reg_r with (/b).
-- apply Qinv_lt_0_compat.
-  assumption.
-- setoid_replace (c*b/b) with (c) by (apply Qdiv_mult_l; auto with * ).
-  assumption.
+  intros a b c Hc H.
+  apply Qnot_le_lt.
+  intros H0.
+  apply (Qlt_not_le _ _ H).
+  apply Qmult_lt_0_le_reg_r with (/b).
+  - apply Qinv_lt_0_compat.
+    assumption.
+  - setoid_replace (c*b/b) with (c) by (apply Qdiv_mult_l; auto with * ).
+    assumption.
 Qed.
 
 Lemma Qlt_shift_inv_r : forall b c,
  0 < b -> 1 < c*b -> /b < c.
 Proof.
-intros b c Hc H.
-setoid_replace (/b) with (1*/b) by (symmetry; apply Qmult_1_l).
-change (1/b < c).
-apply Qlt_shift_div_r; assumption.
+  intros b c Hc H.
+  setoid_replace (/b) with (1*/b) by (symmetry; apply Qmult_1_l).
+  change (1/b < c).
+  apply Qlt_shift_div_r; assumption.
 Qed.
 
 Lemma Qinv_lt_contravar : forall a b : Q,
@@ -1487,12 +1487,12 @@ Definition Qpower_positive : Q -> positive -> Q :=
 #[global]
 Instance Qpower_positive_comp : Proper (Qeq==>eq==>Qeq) Qpower_positive.
 Proof.
-intros x x' Hx y y' Hy. rewrite <-Hy; clear y' Hy.
-unfold Qpower_positive.
-induction y as [y IHy|y IHy|]; simpl;
-try rewrite IHy;
-try rewrite Hx;
-reflexivity.
+  intros x x' Hx y y' Hy. rewrite <-Hy; clear y' Hy.
+  unfold Qpower_positive.
+  induction y as [y IHy|y IHy|]; simpl;
+  try rewrite IHy;
+  try rewrite Hx;
+  reflexivity.
 Qed.
 
 Definition Qpower (q:Q) (z:Z) :=
@@ -1509,6 +1509,6 @@ Register Qpower as  rat.Q.Qpower.
 #[global]
 Instance Qpower_comp : Proper (Qeq==>eq==>Qeq) Qpower.
 Proof.
-intros x x' Hx y y' Hy. rewrite <- Hy; clear y' Hy.
-destruct y; simpl; rewrite ?Hx; auto with *.
+  intros x x' Hx y y' Hy. rewrite <- Hy; clear y' Hy.
+  destruct y; simpl; rewrite ?Hx; auto with *.
 Qed.

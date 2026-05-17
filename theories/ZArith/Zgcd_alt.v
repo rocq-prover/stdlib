@@ -231,41 +231,41 @@ Open Scope Z_scope.
 
  Lemma Zgcd_bound_opp a : Zgcd_bound (-a) = Zgcd_bound a.
  Proof.
-  now destruct a.
+   now destruct a.
  Qed.
 
  Lemma Zgcdn_opp n a b : Zgcdn n (-a) b = Zgcdn n a b.
  Proof.
-  induction n; simpl; auto.
-  destruct a; simpl; auto.
+   induction n; simpl; auto.
+   destruct a; simpl; auto.
  Qed.
 
  Lemma Zgcdn_is_gcd_pos n a b : (Zgcd_bound (Zpos a) <= n)%nat ->
    Zis_gcd (Zpos a) b (Zgcdn n (Zpos a) b).
  Proof.
-  intros H.
-  generalize (Zgcd_bound_fibonacci (Zpos a)).
-  simpl Zgcd_bound in *.
-  remember (Pos.size_nat a+Pos.size_nat a)%nat as m eqn:Heqm.
-  assert (1 < m)%nat as H0.
-  { rewrite Heqm; destruct a; simpl; rewrite 1? Nat.add_comm;
-    auto with arith. }
-  destruct m as [ |m]; [inversion H0; auto| ].
-  destruct n as [ |n]; [inversion H; auto| ].
-  simpl Zgcdn.
-  unfold Z.modulo.
-  generalize (Z_div_mod b (Zpos a) (eq_refl Gt)).
-  destruct (Z.div_eucl b (Zpos a)) as (q,r).
-  intros (->,(H1,H2)) H3.
-  apply Private_Zis_gcd_for_euclid2.
-  Z.le_elim H1.
-  + apply Zgcdn_ok_before_fibonacci; auto.
-    apply Z.lt_le_trans with (fibonacci (S m));
-    [ lia | apply fibonacci_incr; auto].
-  + subst r; simpl.
-    destruct m as [ |m]; [ lia | ].
-    destruct n as [ |n]; [ lia | ].
-    simpl; apply Zis_gcd_sym; apply Zis_gcd_0.
+   intros H.
+   generalize (Zgcd_bound_fibonacci (Zpos a)).
+   simpl Zgcd_bound in *.
+   remember (Pos.size_nat a+Pos.size_nat a)%nat as m eqn:Heqm.
+   assert (1 < m)%nat as H0.
+   { rewrite Heqm; destruct a; simpl; rewrite 1? Nat.add_comm;
+     auto with arith. }
+   destruct m as [ |m]; [inversion H0; auto| ].
+   destruct n as [ |n]; [inversion H; auto| ].
+   simpl Zgcdn.
+   unfold Z.modulo.
+   generalize (Z_div_mod b (Zpos a) (eq_refl Gt)).
+   destruct (Z.div_eucl b (Zpos a)) as (q,r).
+   intros (->,(H1,H2)) H3.
+   apply Private_Zis_gcd_for_euclid2.
+   Z.le_elim H1.
+   + apply Zgcdn_ok_before_fibonacci; auto.
+     apply Z.lt_le_trans with (fibonacci (S m));
+     [ lia | apply fibonacci_incr; auto].
+   + subst r; simpl.
+     destruct m as [ |m]; [ lia | ].
+     destruct n as [ |n]; [ lia | ].
+     simpl; apply Zis_gcd_sym; apply Zis_gcd_0.
  Qed.
 
  Lemma Zgcdn_is_gcd n a b :
@@ -284,5 +284,5 @@ Open Scope Z_scope.
  Lemma Zgcd_is_gcd :
    forall a b, Zis_gcd a b (Zgcd_alt a b).
  Proof.
-  unfold Zgcd_alt; intros; apply Zgcdn_is_gcd; auto.
+   unfold Zgcd_alt; intros; apply Zgcdn_is_gcd; auto.
  Qed.

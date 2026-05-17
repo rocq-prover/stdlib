@@ -63,8 +63,8 @@ Lemma derivable_pt_id_interv : forall (lb ub x:R),
        lb <= x <= ub ->
        derivable_pt id x.
 Proof.
-intros.
- reg.
+  intros.
+   reg.
 Qed.
 
 Lemma pr_nu_var2_interv : forall (f g : R -> R) (lb ub x : R) (pr1 : derivable_pt f x)
@@ -628,11 +628,11 @@ Lemma continuity_pt_recip_interv : forall (f g:R->R) (lb ub : R) (Pr1:lb < ub),
        f lb < b < f ub ->
        continuity_pt g b.
 Proof.
-intros f g lb ub lb_lt_ub f_incr_interv f_eq_g g_wf.
-assert (g_eq_f_prelim := leftinv_is_rightinv_interv f g lb ub f_incr_interv f_eq_g).
-assert (g_eq_f : forall x, lb <= x <= ub -> (comp g f) x = id x).
-{ intro x ; apply g_eq_f_prelim ; assumption. }
-apply (continuity_pt_recip_prelim f g lb ub lb_lt_ub f_incr_interv g_eq_f).
+  intros f g lb ub lb_lt_ub f_incr_interv f_eq_g g_wf.
+  assert (g_eq_f_prelim := leftinv_is_rightinv_interv f g lb ub f_incr_interv f_eq_g).
+  assert (g_eq_f : forall x, lb <= x <= ub -> (comp g f) x = id x).
+  { intro x ; apply g_eq_f_prelim ; assumption. }
+  apply (continuity_pt_recip_prelim f g lb ub lb_lt_ub f_incr_interv g_eq_f).
 Qed.
 
 (** *   Derivability of the reciprocal function        *)
@@ -825,10 +825,10 @@ Lemma derivable_pt_recip_interv_prelim0 : forall (f g : R -> R) (lb ub x : R)
        derive_pt f (g x) (Prf (g x) Prg_incr) <> 0 ->
        derivable_pt g x.
 Proof.
-intros f g lb ub x Prf g_cont_pt lb_lt_ub x_encad Prg_incr f_eq_g Df_neq.
-unfold derivable_pt, derivable_pt_abs.
-exists (1 / derive_pt f (g x) (Prf (g x) Prg_incr)).
-apply derivable_pt_lim_recip_interv ; assumption.
+  intros f g lb ub x Prf g_cont_pt lb_lt_ub x_encad Prg_incr f_eq_g Df_neq.
+  unfold derivable_pt, derivable_pt_abs.
+  exists (1 / derive_pt f (g x) (Prf (g x) Prg_incr)).
+  apply derivable_pt_lim_recip_interv ; assumption.
 Qed.
 
 Lemma derivable_pt_recip_interv_prelim1 : forall (f g:R->R) (lb ub x : R),
@@ -912,36 +912,36 @@ Lemma derivable_pt_recip_interv_decr (f g:R->R) (lb ub x : R)
     <> 0 ->
     derivable_pt g x.
 Proof.
-  intros.
-  apply derivable_pt_opp_rev.
-  unshelve eapply (derivable_pt_recip_interv (mirr_fct f) (opp_fct g) (-ub) (-lb) (x)).
-- lra.
-- unfold mirr_fct; repeat rewrite Ropp_involutive; lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2; unfold opp_fct.
-  rewrite Ropp_involutive in H1,H2.
-  pose proof g_wf x0 as g_wfs; lra.
-- intros x0 H1.
-  apply derivable_pt_mirr, f_derivable; lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
-  rewrite Ropp_involutive in H1,H2 |-*.
-  apply f_eq_g; lra.
-- intros x0 y0 H1 H2 H3.
-  unfold mirr_fct.
-  apply f_decr; lra.
-- (* In order to rewrite with derive_pt_mirr the term must have the form
+    intros.
+    apply derivable_pt_opp_rev.
+    unshelve eapply (derivable_pt_recip_interv (mirr_fct f) (opp_fct g) (-ub) (-lb) (x)).
+  - lra.
+  - unfold mirr_fct; repeat rewrite Ropp_involutive; lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2; unfold opp_fct.
+    rewrite Ropp_involutive in H1,H2.
+    pose proof g_wf x0 as g_wfs; lra.
+  - intros x0 H1.
+    apply derivable_pt_mirr, f_derivable; lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
+    rewrite Ropp_involutive in H1,H2 |-*.
+    apply f_eq_g; lra.
+  - intros x0 y0 H1 H2 H3.
+    unfold mirr_fct.
+    apply f_decr; lra.
+  - (* In order to rewrite with derive_pt_mirr the term must have the form
      derive_pt (mirr_fct f) _ (derivable_pt_mirr ...
      pr_nu is a sort of proof irrelevance lemma for derive_pt equalities *)
-  unshelve erewrite (pr_nu _ _ _).
-  + apply derivable_pt_mirr.
-    unfold opp_fct; rewrite Ropp_involutive.
-    apply f_derivable; apply g_wf; lra.
-  + rewrite derive_pt_mirr.
-    unfold opp_fct; rewrite Ropp_involutive.
-    match goal with H:context[derive_pt _ _ ?pr] |- _ => rewrite (pr_nu f (g x) _ pr) end.
-    apply Ropp_neq_0_compat.
-    assumption.
+    unshelve erewrite (pr_nu _ _ _).
+    + apply derivable_pt_mirr.
+      unfold opp_fct; rewrite Ropp_involutive.
+      apply f_derivable; apply g_wf; lra.
+    + rewrite derive_pt_mirr.
+      unfold opp_fct; rewrite Ropp_involutive.
+      match goal with H:context[derive_pt _ _ ?pr] |- _ => rewrite (pr_nu f (g x) _ pr) end.
+      apply Ropp_neq_0_compat.
+      assumption.
 Qed.
 
 (****************************************************)
@@ -980,11 +980,11 @@ Lemma derive_pt_recip_interv_prelim1_0 : forall (f g:R->R) (lb ub x:R),
        (forall x, f lb <= x -> x <= f ub -> (comp f g) x = id x) ->
        lb < g x < ub.
 Proof.
-intros f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g.
- assert (Temp:= f_incr_implies_g_incr_interv f g lb ub lb_lt_ub f_incr f_eq_g g_wf).
- assert (Left_inv := leftinv_is_rightinv_interv f g lb ub f_incr f_eq_g g_wf).
- unfold comp, id in Left_inv.
- split ; [rewrite <- Left_inv with (x:=lb) | rewrite <- Left_inv ];intuition.
+  intros f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g.
+   assert (Temp:= f_incr_implies_g_incr_interv f g lb ub lb_lt_ub f_incr f_eq_g g_wf).
+   assert (Left_inv := leftinv_is_rightinv_interv f g lb ub f_incr f_eq_g g_wf).
+   unfold comp, id in Left_inv.
+   split ; [rewrite <- Left_inv with (x:=lb) | rewrite <- Left_inv ];intuition.
 Qed.
 
 Lemma derive_pt_recip_interv_prelim1_1 : forall (f g:R->R) (lb ub x:R),
@@ -995,9 +995,9 @@ Lemma derive_pt_recip_interv_prelim1_1 : forall (f g:R->R) (lb ub x:R),
        (forall x, f lb <= x -> x <= f ub -> (comp f g) x = id x) ->
        lb <= g x <= ub.
 Proof.
-intros f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g.
- assert (Temp := derive_pt_recip_interv_prelim1_0 f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g).
- split ; apply Rlt_le ; intuition.
+  intros f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g.
+   assert (Temp := derive_pt_recip_interv_prelim1_0 f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g).
+   split ; apply Rlt_le ; intuition.
 Qed.
 
 Lemma derive_pt_recip_interv_prelim1_1_decr : forall (f g:R->R) (lb ub x:R),
@@ -1008,22 +1008,22 @@ Lemma derive_pt_recip_interv_prelim1_1_decr : forall (f g:R->R) (lb ub x:R),
        (forall x, f ub <= x -> x <= f lb -> (comp f g) x = id x) ->
        lb <= g x <= ub.
 Proof.
-  intros f g lb ub x lb_lt_ub x_encad f_decr g_wf f_eq_g.
-  enough (-ub <= - g x <= - lb) by lra.
-  unshelve eapply (derive_pt_recip_interv_prelim1_1 (mirr_fct f) (opp_fct g) (-ub) (-lb) (x)).
-- lra.
-- unfold mirr_fct; repeat rewrite Ropp_involutive; lra.
-- intros x0 y0 H1 H2 H3.
-  unfold mirr_fct.
-  apply f_decr; lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2; unfold opp_fct.
-  rewrite Ropp_involutive in H1,H2.
-  pose proof g_wf x0 as g_wfs; lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
-  rewrite Ropp_involutive in H1,H2 |-*.
-  apply f_eq_g; lra.
+    intros f g lb ub x lb_lt_ub x_encad f_decr g_wf f_eq_g.
+    enough (-ub <= - g x <= - lb) by lra.
+    unshelve eapply (derive_pt_recip_interv_prelim1_1 (mirr_fct f) (opp_fct g) (-ub) (-lb) (x)).
+  - lra.
+  - unfold mirr_fct; repeat rewrite Ropp_involutive; lra.
+  - intros x0 y0 H1 H2 H3.
+    unfold mirr_fct.
+    apply f_decr; lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2; unfold opp_fct.
+    rewrite Ropp_involutive in H1,H2.
+    pose proof g_wf x0 as g_wfs; lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
+    rewrite Ropp_involutive in H1,H2 |-*.
+    apply f_eq_g; lra.
 Qed.
 
 Lemma derive_pt_recip_interv : forall (f g:R->R) (lb ub x:R)
@@ -1040,16 +1040,16 @@ Lemma derive_pt_recip_interv : forall (f g:R->R) (lb ub x:R)
        1 / (derive_pt f (g x) (Prf (g x) (derive_pt_recip_interv_prelim1_1 f g lb ub x
        lb_lt_ub x_encad f_incr g_wf f_eq_g))).
 Proof.
-intros.
- assert(g_incr := (derive_pt_recip_interv_prelim1_1 f g lb ub x lb_lt_ub
-        x_encad f_incr g_wf f_eq_g)).
- apply derive_pt_recip_interv_prelim0 with (lb:=f lb) (ub:=f ub) ;
- [intuition |assumption | intuition |].
- intro Hfalse ; apply Df_neq.  rewrite pr_nu_var2_interv with (g:=f) (lb:=lb) (ub:=ub)
-        (pr2:= (Prf (g x) (derive_pt_recip_interv_prelim1_1 f g lb ub x lb_lt_ub x_encad
-                 f_incr g_wf f_eq_g))) ;
- [intuition | intuition | | intuition].
- exact (derive_pt_recip_interv_prelim1_0 f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g).
+  intros.
+   assert(g_incr := (derive_pt_recip_interv_prelim1_1 f g lb ub x lb_lt_ub
+          x_encad f_incr g_wf f_eq_g)).
+   apply derive_pt_recip_interv_prelim0 with (lb:=f lb) (ub:=f ub) ;
+   [intuition |assumption | intuition |].
+   intro Hfalse ; apply Df_neq.  rewrite pr_nu_var2_interv with (g:=f) (lb:=lb) (ub:=ub)
+          (pr2:= (Prf (g x) (derive_pt_recip_interv_prelim1_1 f g lb ub x lb_lt_ub x_encad
+                   f_incr g_wf f_eq_g))) ;
+   [intuition | intuition | | intuition].
+   exact (derive_pt_recip_interv_prelim1_0 f g lb ub x lb_lt_ub x_encad f_incr g_wf f_eq_g).
 Qed.
 
 Lemma derive_pt_recip_interv_decr : forall (f g:R->R) (lb ub x:R)
@@ -1067,57 +1067,57 @@ Lemma derive_pt_recip_interv_decr : forall (f g:R->R) (lb ub x:R)
        1 / (derive_pt f (g x) (Prf (g x) (derive_pt_recip_interv_prelim1_1_decr f g lb ub x
        lb_lt_ub x_encad f_decr g_wf f_eq_g))).
 Proof.
-  (* This proof based on derive_pt_recip_interv looks fairly long compared to the direct proof above,
+    (* This proof based on derive_pt_recip_interv looks fairly long compared to the direct proof above,
      but the direct proof needs a lot of lengthy preparation lemmas e.g. derivable_pt_lim_recip_interv. *)
-  intros.
-  (* Note: here "unshelve epose" with proving the premises first does not work.
+    intros.
+    (* Note: here "unshelve epose" with proving the premises first does not work.
      The more abstract form with the unbound evars has less issues with dependent rewriting. *)
-  epose proof (derive_pt_recip_interv (mirr_fct f) (opp_fct g) (-ub) (-lb) (x) _ _ _ _ _ _ _).
-  rewrite derive_pt_mirr_rev in H.
-  rewrite derive_pt_opp_rev in H.
-  unfold opp_fct in H.
-  match goal with
-  | H:context[derive_pt ?f ?x1 ?pr1] |- context[derive_pt ?f ?x2 ?pr2] =>
-      rewrite (pr_nu_xeq f x1 x2 pr1 pr2 (Ropp_involutive x2)) in H
-  end.
-  match goal with
-  | H:context[derive_pt ?f ?x ?pr1] |- context[derive_pt ?f ?x ?pr2] =>
-      rewrite (pr_nu f x pr1 pr2) in H
-  end.
-  apply Ropp_eq_compat in H; rewrite Ropp_involutive in H.
-  rewrite H; field.
-  pose proof Df_neq as Df_neq'.
-  match goal with
-  | H:context[derive_pt ?f ?x ?pr1] |- context[derive_pt ?f ?x ?pr2] =>
-      rewrite (pr_nu f x pr1 pr2) in H
-  end.
-  assumption.
+    epose proof (derive_pt_recip_interv (mirr_fct f) (opp_fct g) (-ub) (-lb) (x) _ _ _ _ _ _ _).
+    rewrite derive_pt_mirr_rev in H.
+    rewrite derive_pt_opp_rev in H.
+    unfold opp_fct in H.
+    match goal with
+    | H:context[derive_pt ?f ?x1 ?pr1] |- context[derive_pt ?f ?x2 ?pr2] =>
+        rewrite (pr_nu_xeq f x1 x2 pr1 pr2 (Ropp_involutive x2)) in H
+    end.
+    match goal with
+    | H:context[derive_pt ?f ?x ?pr1] |- context[derive_pt ?f ?x ?pr2] =>
+        rewrite (pr_nu f x pr1 pr2) in H
+    end.
+    apply Ropp_eq_compat in H; rewrite Ropp_involutive in H.
+    rewrite H; field.
+    pose proof Df_neq as Df_neq'.
+    match goal with
+    | H:context[derive_pt ?f ?x ?pr1] |- context[derive_pt ?f ?x ?pr2] =>
+        rewrite (pr_nu f x pr1 pr2) in H
+    end.
+    assumption.
 
-Unshelve.
-- abstract lra.
-- unfold mirr_fct; repeat rewrite Ropp_involutive; abstract lra.
-- intros x0 y0 H1 H2 H3.
-  unfold mirr_fct.
-  apply f_decr; abstract lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2; unfold opp_fct.
-  rewrite Ropp_involutive in H1,H2.
-  pose proof g_wf x0 as g_wfs; abstract lra.
-- intros x0 H1.
-  apply derivable_pt_mirr, Prf; abstract lra.
-- intros x0 H1 H2.
-  unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
-  rewrite Ropp_involutive in H1,H2 |-*.
-  apply f_eq_g; abstract lra.
-- unshelve erewrite (pr_nu _ _ _).
-  { apply derivable_pt_mirr.
+  Unshelve.
+  - abstract lra.
+  - unfold mirr_fct; repeat rewrite Ropp_involutive; abstract lra.
+  - intros x0 y0 H1 H2 H3.
+    unfold mirr_fct.
+    apply f_decr; abstract lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2; unfold opp_fct.
+    rewrite Ropp_involutive in H1,H2.
+    pose proof g_wf x0 as g_wfs; abstract lra.
+  - intros x0 H1.
+    apply derivable_pt_mirr, Prf; abstract lra.
+  - intros x0 H1 H2.
+    unfold mirr_fct in H1,H2 |-*; unfold opp_fct, comp.
+    rewrite Ropp_involutive in H1,H2 |-*.
+    apply f_eq_g; abstract lra.
+  - unshelve erewrite (pr_nu _ _ _).
+    { apply derivable_pt_mirr.
+      unfold opp_fct; rewrite Ropp_involutive.
+      apply Prf; apply g_wf; abstract lra. }
+    rewrite derive_pt_mirr.
     unfold opp_fct; rewrite Ropp_involutive.
-    apply Prf; apply g_wf; abstract lra. }
-  rewrite derive_pt_mirr.
-  unfold opp_fct; rewrite Ropp_involutive.
-  apply Ropp_neq_0_compat.
-  erewrite (pr_nu _ _ _).
-  apply Df_neq.
+    apply Ropp_neq_0_compat.
+    erewrite (pr_nu _ _ _).
+    apply Df_neq.
 Qed.
 
 (****************************************************)
@@ -1127,13 +1127,13 @@ Qed.
 (* begin hide *)
 Lemma ub_lt_2_pos : forall x ub lb, lb < x -> x < ub -> 0 < (ub-lb)/2.
 Proof.
-intros x ub lb lb_lt_x x_lt_ub.
-lra.
+  intros x ub lb lb_lt_x x_lt_ub.
+  lra.
 Qed.
 
 Definition mkposreal_lb_ub (x lb ub:R) (lb_lt_x:lb<x) (x_lt_ub:x<ub) : posreal.
 Proof.
- apply (mkposreal ((ub-lb)/2) (ub_lt_2_pos x ub lb lb_lt_x x_lt_ub)).
+  apply (mkposreal ((ub-lb)/2) (ub_lt_2_pos x ub lb lb_lt_x x_lt_ub)).
 Defined.
 (* end hide *)
 

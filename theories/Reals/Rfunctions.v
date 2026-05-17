@@ -85,11 +85,11 @@ Qed.
 
 Lemma Rpow_mult_distr : forall (x y:R) (n:nat), (x * y) ^ n = x^n * y^n.
 Proof.
-intros x y n ; induction n.
-- field.
-- simpl.
-  repeat (rewrite Rmult_assoc) ; apply Rmult_eq_compat_l.
-  rewrite IHn ; field.
+  intros x y n ; induction n.
+  - field.
+  - simpl.
+    repeat (rewrite Rmult_assoc) ; apply Rmult_eq_compat_l.
+    rewrite IHn ; field.
 Qed.
 
 Lemma pow_nonzero : forall (x:R) (n:nat), x <> 0 -> x ^ n <> 0.
@@ -285,16 +285,16 @@ Qed.
 
 Lemma pow_inv x n : (/ x)^n = / x^n.
 Proof.
-induction n as [|n IH] ; simpl.
-- apply eq_sym, Rinv_1.
-- rewrite Rinv_mult.
-  now apply f_equal.
+  induction n as [|n IH] ; simpl.
+  - apply eq_sym, Rinv_1.
+  - rewrite Rinv_mult.
+    now apply f_equal.
 Qed.
 
 Lemma Rinv_pow_depr : forall (x:R) (n:nat), x <> 0 -> / x ^ n = (/ x) ^ n.
 Proof.
-intros x n _.
-apply eq_sym, pow_inv.
+  intros x n _.
+  apply eq_sym, pow_inv.
 Qed.
 
 #[deprecated(since="8.16",note="Use pow_inv.")]
@@ -524,7 +524,7 @@ Qed.
 
 Lemma Rsqr_pow2 : forall x, Rsqr x = x ^ 2.
 Proof.
-intros; unfold Rsqr; simpl; rewrite Rmult_1_r; reflexivity.
+  intros; unfold Rsqr; simpl; rewrite Rmult_1_r; reflexivity.
 Qed.
 
 
@@ -535,236 +535,236 @@ Qed.
 
 Section PowerRZ.
 
-#[local] Coercion Z_of_nat : nat >-> Z.
+  #[local] Coercion Z_of_nat : nat >-> Z.
 
-(* the following section should probably be somewhere else, but not sure where *)
-Section Z_compl.
+  (* the following section should probably be somewhere else, but not sure where *)
+  Section Z_compl.
 
-#[local] Open Scope Z_scope.
+    #[local] Open Scope Z_scope.
 
-(* Provides a way to reason directly on Z in terms of nats instead of positive *)
-Inductive Z_spec (x : Z) : Z -> Type :=
-| ZintNull : x = 0 -> Z_spec x 0
-| ZintPos (n : nat) : x = n -> Z_spec x n
-| ZintNeg (n : nat) : x = - n -> Z_spec x (- n).
+    (* Provides a way to reason directly on Z in terms of nats instead of positive *)
+    Inductive Z_spec (x : Z) : Z -> Type :=
+    | ZintNull : x = 0 -> Z_spec x 0
+    | ZintPos (n : nat) : x = n -> Z_spec x n
+    | ZintNeg (n : nat) : x = - n -> Z_spec x (- n).
 
-Lemma intP (x : Z) : Z_spec x x.
-Proof.
-  destruct x as [|p|p].
-  - now apply ZintNull.
-  - rewrite <-positive_nat_Z at 2.
-    apply ZintPos.
-    now rewrite positive_nat_Z.
-  - rewrite <-Pos2Z.opp_pos.
-    rewrite <-positive_nat_Z at 2.
-    apply ZintNeg.
-    now rewrite positive_nat_Z.
-Qed.
+    Lemma intP (x : Z) : Z_spec x x.
+    Proof.
+      destruct x as [|p|p].
+      - now apply ZintNull.
+      - rewrite <-positive_nat_Z at 2.
+        apply ZintPos.
+        now rewrite positive_nat_Z.
+      - rewrite <-Pos2Z.opp_pos.
+        rewrite <-positive_nat_Z at 2.
+        apply ZintNeg.
+        now rewrite positive_nat_Z.
+    Qed.
 
-End Z_compl.
+  End Z_compl.
 
-Definition powerRZ (x:R) (n:Z) :=
-  match n with
-    | Z0 => 1
-    | Zpos p => x ^ Pos.to_nat p
-    | Zneg p => / x ^ Pos.to_nat p
-  end.
+  Definition powerRZ (x:R) (n:Z) :=
+    match n with
+      | Z0 => 1
+      | Zpos p => x ^ Pos.to_nat p
+      | Zneg p => / x ^ Pos.to_nat p
+    end.
 
-#[local] Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
+  #[local] Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
 
-Lemma Zpower_NR0 :
-  forall (x:Z) (n:nat), (0 <= x)%Z -> (0 <= Zpower_nat x n)%Z.
-Proof.
-  induction n; unfold Zpower_nat; simpl; auto with zarith.
-Qed.
+  Lemma Zpower_NR0 :
+    forall (x:Z) (n:nat), (0 <= x)%Z -> (0 <= Zpower_nat x n)%Z.
+  Proof.
+    induction n; unfold Zpower_nat; simpl; auto with zarith.
+  Qed.
 
-Lemma powerRZ_O : forall x:R, x ^Z 0 = 1.
-Proof.
-  reflexivity.
-Qed.
+  Lemma powerRZ_O : forall x:R, x ^Z 0 = 1.
+  Proof.
+    reflexivity.
+  Qed.
 
-Lemma powerRZ_1 : forall x:R, x ^Z Z.succ 0 = x.
-Proof.
-  simpl; auto with real.
-Qed.
+  Lemma powerRZ_1 : forall x:R, x ^Z Z.succ 0 = x.
+  Proof.
+    simpl; auto with real.
+  Qed.
 
-Lemma powerRZ_NOR : forall (x:R) (z:Z), x <> 0 -> x ^Z z <> 0.
-Proof.
-  destruct z; simpl; auto with real.
-Qed.
+  Lemma powerRZ_NOR : forall (x:R) (z:Z), x <> 0 -> x ^Z z <> 0.
+  Proof.
+    destruct z; simpl; auto with real.
+  Qed.
 
-Lemma powerRZ_pos_sub (x:R) (n m:positive) : x <> 0 ->
-   x ^Z (Z.pos_sub n m) = x ^ Pos.to_nat n * / x ^ Pos.to_nat m.
-Proof.
- intro Hx.
- rewrite Z.pos_sub_spec.
- case Pos.compare_spec; intro H; simpl.
- - subst; symmetry; auto with real.
- - rewrite Pos2Nat.inj_sub by trivial.
-   rewrite Pos2Nat.inj_lt in H.
-   rewrite (pow_RN_plus x _ (Pos.to_nat n)) by auto with real.
-   rewrite Nat.sub_add; [ | apply Nat.lt_le_incl; assumption ].
-   rewrite Rinv_mult, Rinv_inv; auto with real.
- - rewrite Pos2Nat.inj_sub by trivial.
-   rewrite Pos2Nat.inj_lt in H.
-   rewrite (pow_RN_plus x _ (Pos.to_nat m)) by auto with real.
-   rewrite Nat.sub_add; [ reflexivity | apply Nat.lt_le_incl; assumption ].
-Qed.
+  Lemma powerRZ_pos_sub (x:R) (n m:positive) : x <> 0 ->
+     x ^Z (Z.pos_sub n m) = x ^ Pos.to_nat n * / x ^ Pos.to_nat m.
+  Proof.
+    intro Hx.
+    rewrite Z.pos_sub_spec.
+    case Pos.compare_spec; intro H; simpl.
+    - subst; symmetry; auto with real.
+    - rewrite Pos2Nat.inj_sub by trivial.
+      rewrite Pos2Nat.inj_lt in H.
+      rewrite (pow_RN_plus x _ (Pos.to_nat n)) by auto with real.
+      rewrite Nat.sub_add; [ | apply Nat.lt_le_incl; assumption ].
+      rewrite Rinv_mult, Rinv_inv; auto with real.
+    - rewrite Pos2Nat.inj_sub by trivial.
+      rewrite Pos2Nat.inj_lt in H.
+      rewrite (pow_RN_plus x _ (Pos.to_nat m)) by auto with real.
+      rewrite Nat.sub_add; [ reflexivity | apply Nat.lt_le_incl; assumption ].
+  Qed.
 
-Lemma powerRZ_add :
-  forall (x:R) (n m:Z), x <> 0 -> x ^Z (n + m) = x ^Z n * x ^Z m.
-Proof.
-  intros x [|n|n] [|m|m]; simpl; intros; auto with real.
-  - (* + + *)
-    rewrite Pos2Nat.inj_add; auto with real.
-  - (* + - *)
-    now apply powerRZ_pos_sub.
-  - (* - + *)
-    rewrite Rmult_comm. now apply powerRZ_pos_sub.
-  - (* - - *)
-    rewrite Pos2Nat.inj_add; auto with real.
-    rewrite pow_add; auto with real.
-    apply Rinv_mult.
-Qed.
-#[local]
-Hint Resolve powerRZ_O powerRZ_1 powerRZ_NOR powerRZ_add: real.
+  Lemma powerRZ_add :
+    forall (x:R) (n m:Z), x <> 0 -> x ^Z (n + m) = x ^Z n * x ^Z m.
+  Proof.
+    intros x [|n|n] [|m|m]; simpl; intros; auto with real.
+    - (* + + *)
+      rewrite Pos2Nat.inj_add; auto with real.
+    - (* + - *)
+      now apply powerRZ_pos_sub.
+    - (* - + *)
+      rewrite Rmult_comm. now apply powerRZ_pos_sub.
+    - (* - - *)
+      rewrite Pos2Nat.inj_add; auto with real.
+      rewrite pow_add; auto with real.
+      apply Rinv_mult.
+  Qed.
+  #[local]
+  Hint Resolve powerRZ_O powerRZ_1 powerRZ_NOR powerRZ_add: real.
 
-Lemma Zpower_nat_powerRZ :
-  forall n m:nat, IZR (Zpower_nat (Z.of_nat n) m) = INR n ^Z Z.of_nat m.
-Proof.
-  intros n m; elim m; simpl; auto with real.
-  intros m1 H'; rewrite SuccNat2Pos.id_succ; simpl.
-  replace (Zpower_nat (Z.of_nat n) (S m1)) with
-  (Z.of_nat n * Zpower_nat (Z.of_nat n) m1)%Z.
-  - rewrite mult_IZR; auto with real.
-    repeat rewrite <- INR_IZR_INZ; simpl.
-    rewrite H'; simpl.
-    case m1; simpl; auto with real.
-    intros m2; rewrite SuccNat2Pos.id_succ; auto.
-  - unfold Zpower_nat; auto.
-Qed.
+  Lemma Zpower_nat_powerRZ :
+    forall n m:nat, IZR (Zpower_nat (Z.of_nat n) m) = INR n ^Z Z.of_nat m.
+  Proof.
+    intros n m; elim m; simpl; auto with real.
+    intros m1 H'; rewrite SuccNat2Pos.id_succ; simpl.
+    replace (Zpower_nat (Z.of_nat n) (S m1)) with
+    (Z.of_nat n * Zpower_nat (Z.of_nat n) m1)%Z.
+    - rewrite mult_IZR; auto with real.
+      repeat rewrite <- INR_IZR_INZ; simpl.
+      rewrite H'; simpl.
+      case m1; simpl; auto with real.
+      intros m2; rewrite SuccNat2Pos.id_succ; auto.
+    - unfold Zpower_nat; auto.
+  Qed.
 
-Lemma Zpower_pos_powerRZ :
-  forall n m, IZR (Z.pow_pos n m) = IZR n ^Z Zpos m.
-Proof.
-  intros.
-  rewrite Zpower_pos_nat; simpl.
-  induction (Pos.to_nat m).
-  - easy.
-  - unfold Zpower_nat; simpl.
-    rewrite mult_IZR.
-    now rewrite <- IHn0.
-Qed.
+  Lemma Zpower_pos_powerRZ :
+    forall n m, IZR (Z.pow_pos n m) = IZR n ^Z Zpos m.
+  Proof.
+    intros.
+    rewrite Zpower_pos_nat; simpl.
+    induction (Pos.to_nat m).
+    - easy.
+    - unfold Zpower_nat; simpl.
+      rewrite mult_IZR.
+      now rewrite <- IHn0.
+  Qed.
 
-Lemma powerRZ_lt : forall (x:R) (z:Z), 0 < x -> 0 < x ^Z z.
-Proof.
-  intros x z; case z; simpl; auto with real.
-Qed.
-#[local]
-Hint Resolve powerRZ_lt: real.
+  Lemma powerRZ_lt : forall (x:R) (z:Z), 0 < x -> 0 < x ^Z z.
+  Proof.
+    intros x z; case z; simpl; auto with real.
+  Qed.
+  #[local]
+  Hint Resolve powerRZ_lt: real.
 
-Lemma powerRZ_le : forall (x:R) (z:Z), 0 < x -> 0 <= x ^Z z.
-Proof.
-  intros x z H'; apply Rlt_le; auto with real.
-Qed.
-#[local]
-Hint Resolve powerRZ_le: real.
+  Lemma powerRZ_le : forall (x:R) (z:Z), 0 < x -> 0 <= x ^Z z.
+  Proof.
+    intros x z H'; apply Rlt_le; auto with real.
+  Qed.
+  #[local]
+  Hint Resolve powerRZ_le: real.
 
-Lemma Zpower_nat_powerRZ_absolu :
-  forall n m:Z, (0 <= m)%Z -> IZR (Zpower_nat n (Z.abs_nat m)) = IZR n ^Z m.
-Proof.
-  intros n m; case m; simpl; auto with zarith.
-  - intros p H'; elim (Pos.to_nat p); simpl; auto with zarith.
-    intros n0 H'0; rewrite <- H'0; simpl; auto with zarith.
-    rewrite <- mult_IZR; auto.
-  - intros p H'; absurd (0 <= Zneg p)%Z; auto with zarith.
-Qed.
+  Lemma Zpower_nat_powerRZ_absolu :
+    forall n m:Z, (0 <= m)%Z -> IZR (Zpower_nat n (Z.abs_nat m)) = IZR n ^Z m.
+  Proof.
+    intros n m; case m; simpl; auto with zarith.
+    - intros p H'; elim (Pos.to_nat p); simpl; auto with zarith.
+      intros n0 H'0; rewrite <- H'0; simpl; auto with zarith.
+      rewrite <- mult_IZR; auto.
+    - intros p H'; absurd (0 <= Zneg p)%Z; auto with zarith.
+  Qed.
 
-Lemma powerRZ_R1 : forall n:Z, 1 ^Z n = 1.
-Proof.
-  intros n; case n; simpl; auto.
-  - intros p; elim (Pos.to_nat p); simpl; auto; intros n0 H'; rewrite H';
-      ring.
-  - intros p; elim (Pos.to_nat p); simpl.
-    + exact Rinv_1.
-    + intros n1 H'; rewrite Rinv_mult; try rewrite Rinv_1; try rewrite H';
-        auto with real.
-Qed.
+  Lemma powerRZ_R1 : forall n:Z, 1 ^Z n = 1.
+  Proof.
+    intros n; case n; simpl; auto.
+    - intros p; elim (Pos.to_nat p); simpl; auto; intros n0 H'; rewrite H';
+        ring.
+    - intros p; elim (Pos.to_nat p); simpl.
+      + exact Rinv_1.
+      + intros n1 H'; rewrite Rinv_mult; try rewrite Rinv_1; try rewrite H';
+          auto with real.
+  Qed.
 
-#[local] Open Scope Z_scope.
+  #[local] Open Scope Z_scope.
 
-Lemma pow_powerRZ (r : R) (n : nat) :
-  (r ^ n)%R = powerRZ r (Z_of_nat n).
-Proof.
-  induction n; [easy|simpl].
-  now rewrite SuccNat2Pos.id_succ.
-Qed.
+  Lemma pow_powerRZ (r : R) (n : nat) :
+    (r ^ n)%R = powerRZ r (Z_of_nat n).
+  Proof.
+    induction n; [easy|simpl].
+    now rewrite SuccNat2Pos.id_succ.
+  Qed.
 
-Lemma powerRZ_ind (P : Z -> R -> R -> Prop) :
-  (forall x, P 0 x 1%R) ->
-  (forall x n, P (Z.of_nat n) x (x ^ n)%R) ->
-  (forall x n, P ((-(Z.of_nat n))%Z) x (Rinv (x ^ n))) ->
-  forall x (m : Z), P m x (powerRZ x m)%R.
-Proof.
-  intros ? ? ? x m.
-  destruct (intP m) as [Hm|n Hm|n Hm].
-  - easy.
-  - now rewrite <- pow_powerRZ.
-  - unfold powerRZ.
-    destruct n as [|n]; [ easy |].
-    rewrite Nat2Z.inj_succ, <- Zpos_P_of_succ_nat, Pos2Z.opp_pos.
-    now rewrite <- Pos2Z.opp_pos, <- positive_nat_Z.
-Qed.
+  Lemma powerRZ_ind (P : Z -> R -> R -> Prop) :
+    (forall x, P 0 x 1%R) ->
+    (forall x n, P (Z.of_nat n) x (x ^ n)%R) ->
+    (forall x n, P ((-(Z.of_nat n))%Z) x (Rinv (x ^ n))) ->
+    forall x (m : Z), P m x (powerRZ x m)%R.
+  Proof.
+    intros ? ? ? x m.
+    destruct (intP m) as [Hm|n Hm|n Hm].
+    - easy.
+    - now rewrite <- pow_powerRZ.
+    - unfold powerRZ.
+      destruct n as [|n]; [ easy |].
+      rewrite Nat2Z.inj_succ, <- Zpos_P_of_succ_nat, Pos2Z.opp_pos.
+      now rewrite <- Pos2Z.opp_pos, <- positive_nat_Z.
+  Qed.
 
-Lemma powerRZ_inv' x alpha : powerRZ (/ x) alpha = Rinv (powerRZ x alpha).
-Proof.
-  destruct (intP alpha).
-  - now simpl; rewrite Rinv_1.
-  - now rewrite <-!pow_powerRZ, ?pow_inv, ?pow_powerRZ.
-  - unfold powerRZ.
-    destruct (- n).
-    + now rewrite Rinv_1.
-    + apply pow_inv.
-    + now rewrite pow_inv.
-Qed.
+  Lemma powerRZ_inv' x alpha : powerRZ (/ x) alpha = Rinv (powerRZ x alpha).
+  Proof.
+    destruct (intP alpha).
+    - now simpl; rewrite Rinv_1.
+    - now rewrite <-!pow_powerRZ, ?pow_inv, ?pow_powerRZ.
+    - unfold powerRZ.
+      destruct (- n).
+      + now rewrite Rinv_1.
+      + apply pow_inv.
+      + now rewrite pow_inv.
+  Qed.
 
-Lemma powerRZ_inv_depr x alpha : (x <> 0)%R -> powerRZ (/ x) alpha = Rinv (powerRZ x alpha).
-Proof.
-  intros _.
-  apply powerRZ_inv'.
-Qed.
+  Lemma powerRZ_inv_depr x alpha : (x <> 0)%R -> powerRZ (/ x) alpha = Rinv (powerRZ x alpha).
+  Proof.
+    intros _.
+    apply powerRZ_inv'.
+  Qed.
 
-Lemma powerRZ_neg' x : forall alpha, powerRZ x (- alpha) = Rinv (powerRZ x alpha).
-Proof.
-  intros [|n|n] ; simpl.
-  - apply eq_sym, Rinv_1.
-  - easy.
-  - now rewrite Rinv_inv.
-Qed.
+  Lemma powerRZ_neg' x : forall alpha, powerRZ x (- alpha) = Rinv (powerRZ x alpha).
+  Proof.
+    intros [|n|n] ; simpl.
+    - apply eq_sym, Rinv_1.
+    - easy.
+    - now rewrite Rinv_inv.
+  Qed.
 
-Lemma powerRZ_neg_depr x : forall alpha, x <> R0 -> powerRZ x (- alpha) = powerRZ (/ x) alpha.
-Proof.
-  intros alpha _.
-  rewrite powerRZ_neg'.
-  apply eq_sym, powerRZ_inv'.
-Qed.
+  Lemma powerRZ_neg_depr x : forall alpha, x <> R0 -> powerRZ x (- alpha) = powerRZ (/ x) alpha.
+  Proof.
+    intros alpha _.
+    rewrite powerRZ_neg'.
+    apply eq_sym, powerRZ_inv'.
+  Qed.
 
-Lemma powerRZ_mult m x y : (powerRZ (x*y) m = powerRZ x m * powerRZ y m)%R.
-Proof.
-  destruct (intP m) as [ | | n Hm ].
-  - now simpl; rewrite Rmult_1_l.
-  - now rewrite <- !pow_powerRZ, Rpow_mult_distr.
-  - rewrite !powerRZ_neg', <- Rinv_mult.
-    now rewrite <- !pow_powerRZ, Rpow_mult_distr.
-Qed.
+  Lemma powerRZ_mult m x y : (powerRZ (x*y) m = powerRZ x m * powerRZ y m)%R.
+  Proof.
+    destruct (intP m) as [ | | n Hm ].
+    - now simpl; rewrite Rmult_1_l.
+    - now rewrite <- !pow_powerRZ, Rpow_mult_distr.
+    - rewrite !powerRZ_neg', <- Rinv_mult.
+      now rewrite <- !pow_powerRZ, Rpow_mult_distr.
+  Qed.
 
-Lemma powerRZ_mult_distr_depr :
-  forall m x y, ((0 <= m)%Z \/ (x * y <> 0)%R) ->
-           (powerRZ (x*y) m = powerRZ x m * powerRZ y m)%R.
-Proof.
-  intros m x y _.
-  apply powerRZ_mult.
-Qed.
+  Lemma powerRZ_mult_distr_depr :
+    forall m x y, ((0 <= m)%Z \/ (x * y <> 0)%R) ->
+             (powerRZ (x*y) m = powerRZ x m * powerRZ y m)%R.
+  Proof.
+    intros m x y _.
+    apply powerRZ_mult.
+  Qed.
 
 End PowerRZ.
 
@@ -914,8 +914,8 @@ Qed.
 Lemma Rdist_mult_l : forall a b c,
   Rdist (a * b) (a * c) = Rabs a * Rdist b c.
 Proof.
-unfold Rdist.
-intros a b c; rewrite <- Rmult_minus_distr_l, Rabs_mult; reflexivity.
+  unfold Rdist.
+  intros a b c; rewrite <- Rmult_minus_distr_l, Rabs_mult; reflexivity.
 Qed.
 
 Notation R_dist := Rdist (only parsing).

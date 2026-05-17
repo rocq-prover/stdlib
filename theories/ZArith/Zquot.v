@@ -185,13 +185,13 @@ Qed.
 Theorem Zquot_unique_full a b q r :
   Remainder a b r -> a = b*q + r -> q = a÷b.
 Proof.
- intros; destruct (Zquot_mod_unique_full a b q r); auto.
+  intros; destruct (Zquot_mod_unique_full a b q r); auto.
 Qed.
 
 Theorem Zrem_unique_full a b q r :
   Remainder a b r -> a = b*q + r -> r = Z.rem a b.
 Proof.
- intros; destruct (Zquot_mod_unique_full a b q r); auto.
+  intros; destruct (Zquot_mod_unique_full a b q r); auto.
 Qed.
 
 (** * Order results about Zrem and Zquot *)
@@ -282,22 +282,22 @@ Proof. intros. zero_or_not b. apply Z.quot_mul_cancel_r; auto. Qed.
 Lemma Zquot_mult_cancel_l : forall a b c:Z,
  c<>0 -> (c*a)÷(c*b) = a÷b.
 Proof.
- intros. rewrite (Z.mul_comm c b). zero_or_not b.
- rewrite (Z.mul_comm b c). apply Z.quot_mul_cancel_l; auto.
+  intros. rewrite (Z.mul_comm c b). zero_or_not b.
+  rewrite (Z.mul_comm b c). apply Z.quot_mul_cancel_l; auto.
 Qed.
 
 Lemma Zmult_rem_distr_l: forall a b c,
   Z.rem (c*a) (c*b) = c * (Z.rem a b).
 Proof.
- intros. zero_or_not c. rewrite (Z.mul_comm c b). zero_or_not b.
- rewrite (Z.mul_comm b c). apply Z.mul_rem_distr_l; auto.
+  intros. zero_or_not c. rewrite (Z.mul_comm c b). zero_or_not b.
+  rewrite (Z.mul_comm b c). apply Z.mul_rem_distr_l; auto.
 Qed.
 
 Lemma Zmult_rem_distr_r: forall a b c,
   Z.rem (a*c) (b*c) = (Z.rem a b) * c.
 Proof.
- intros. zero_or_not b. rewrite (Z.mul_comm b c). zero_or_not c.
- rewrite (Z.mul_comm c b). apply Z.mul_rem_distr_r; auto.
+  intros. zero_or_not b. rewrite (Z.mul_comm b c). zero_or_not c.
+  rewrite (Z.mul_comm c b). apply Z.mul_rem_distr_r; auto.
 Qed.
 
 (** Operations modulo. *)
@@ -331,8 +331,8 @@ Lemma Zplus_rem_idemp_r: forall a b n,
  0 <= a*b ->
  Z.rem (b + Z.rem a n) n = Z.rem (b + a) n.
 Proof.
- intros. zero_or_not n. apply Z.add_rem_idemp_r; auto.
- rewrite Z.mul_comm; auto.
+  intros. zero_or_not n. apply Z.add_rem_idemp_r; auto.
+  rewrite Z.mul_comm; auto.
 Qed.
 
 Lemma Zmult_rem_idemp_l: forall a b n, Z.rem (Z.rem a n * b) n = Z.rem (a * b) n.
@@ -345,8 +345,8 @@ Proof. intros. zero_or_not n. apply Z.mul_rem_idemp_r; auto. Qed.
 
 Lemma Zquot_Zquot : forall a b c, (a÷b)÷c = a÷(b*c).
 Proof.
- intros. zero_or_not b. rewrite Z.mul_comm. zero_or_not c.
- rewrite Z.mul_comm. apply Z.quot_quot; auto.
+  intros. zero_or_not b. rewrite Z.mul_comm. zero_or_not c.
+  rewrite Z.mul_comm. apply Z.quot_quot; auto.
 Qed.
 
 (** A last inequality: *)
@@ -360,10 +360,10 @@ Proof. intros. zero_or_not b. apply Z.quot_mul_le; lia. Qed.
 Lemma Zrem_divides : forall a b,
  Z.rem a b = 0 <-> exists c, a = b*c.
 Proof.
- intros. zero_or_not b.
- - firstorder idtac.
- - rewrite Z.rem_divide; trivial.
-   split; intros (c,Hc); exists c; lia.
+  intros. zero_or_not b.
+  - firstorder idtac.
+  - rewrite Z.rem_divide; trivial.
+    split; intros (c,Hc); exists c; lia.
 Qed.
 
 (** Particular case : dividing by 2 is related with parity *)
@@ -376,27 +376,27 @@ Qed.
 
 Lemma Zrem_odd : forall a, Z.rem a 2 = if Z.odd a then Z.sgn a else 0.
 Proof.
- intros. symmetry.
- apply Zrem_unique_full with (Z.quot2 a).
- - apply Zquot2_odd_remainder.
- - apply Zeven.Zquot2_odd_eqn.
+  intros. symmetry.
+  apply Zrem_unique_full with (Z.quot2 a).
+  - apply Zquot2_odd_remainder.
+  - apply Zeven.Zquot2_odd_eqn.
 Qed.
 
 Lemma Zrem_even : forall a, Z.rem a 2 = if Z.even a then 0 else Z.sgn a.
 Proof.
- intros a. rewrite Zrem_odd, <-Z.negb_even. now destruct Z.even.
+  intros a. rewrite Zrem_odd, <-Z.negb_even. now destruct Z.even.
 Qed.
 
 Lemma Zeven_rem : forall a, Z.even a = Z.eqb (Z.rem a 2) 0.
 Proof.
- intros a. rewrite Zrem_even.
- destruct a as [ |p|p]; trivial; now destruct p.
+  intros a. rewrite Zrem_even.
+  destruct a as [ |p|p]; trivial; now destruct p.
 Qed.
 
 Lemma Zodd_rem : forall a, Z.odd a = negb (Z.eqb (Z.rem a 2) 0).
 Proof.
- intros a. rewrite Zrem_odd.
- destruct a as [ |p|p]; trivial; now destruct p.
+  intros a. rewrite Zrem_odd.
+  destruct a as [ |p|p]; trivial; now destruct p.
 Qed.
 
 (** * Interaction with "historic" Zdiv *)
@@ -417,16 +417,16 @@ Qed.
 Theorem Zquot_Zdiv_pos : forall a b, 0 <= a -> 0 <= b ->
   a÷b = a/b.
 Proof.
- intros a b Ha Hb. Z.le_elim Hb.
- - generalize (Zquotrem_Zdiv_eucl_pos a b Ha Hb); intuition.
- - subst; now rewrite Zquot_0_r, Z.div_0_r.
+  intros a b Ha Hb. Z.le_elim Hb.
+  - generalize (Zquotrem_Zdiv_eucl_pos a b Ha Hb); intuition.
+  - subst; now rewrite Zquot_0_r, Z.div_0_r.
 Qed.
 
 Theorem Zrem_Zmod_pos : forall a b, 0 <= a -> 0 < b ->
   Z.rem a b = a mod b.
 Proof.
- intros a b Ha Hb; generalize (Zquotrem_Zdiv_eucl_pos a b Ha Hb);
- intuition.
+  intros a b Ha Hb; generalize (Zquotrem_Zdiv_eucl_pos a b Ha Hb);
+  intuition.
 Qed.
 
 (** Modulos are null at the same places *)
@@ -434,6 +434,6 @@ Qed.
 Theorem Zrem_Zmod_zero : forall a b, b<>0 ->
  (Z.rem a b = 0 <-> a mod b = 0).
 Proof.
- intros.
- rewrite Zrem_divides, Zmod_divides; intuition.
+  intros.
+  rewrite Zrem_divides, Zmod_divides; intuition.
 Qed.

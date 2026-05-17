@@ -26,9 +26,9 @@ Notation Zpower_Ppow := Pos2Z.inj_pow (only parsing).
 #[deprecated(since="Stdlib 9.1", note="Use setoid_ring.ZArithRing.Zpower_theory")]
 Lemma Zpower_theory : power_theory 1 Z.mul (@eq Z) Z.of_N Z.pow.
 Proof.
- constructor. intros z n.
- destruct n as [|p];simpl;trivial.
- unfold Z.pow_pos.
- rewrite <- (Z.mul_1_r (pow_pos _ _ _)). generalize 1.
- induction p as [p IHp|p IHp|]; simpl; intros; rewrite ?IHp, ?Z.mul_assoc; trivial.
+  constructor. intros z n.
+  destruct n as [|p];simpl;trivial.
+  unfold Z.pow_pos.
+  rewrite <- (Z.mul_1_r (pow_pos _ _ _)). generalize 1.
+  induction p as [p IHp|p IHp|]; simpl; intros; rewrite ?IHp, ?Z.mul_assoc; trivial.
 Qed.

@@ -52,135 +52,135 @@ Qed.
 
 Lemma new_var : forall x : Z, exists y : Z, x = y.
 Proof.
-intros x; now exists x.
+  intros x; now exists x.
 Qed.
 
 Lemma OMEGA1 x y : x = y -> 0 <= x -> 0 <= y.
 Proof.
-now intros ->.
+  now intros ->.
 Qed.
 
 Lemma OMEGA2 x y : 0 <= x -> 0 <= y -> 0 <= x + y.
 Proof.
-Z.order_pos.
+  Z.order_pos.
 Qed.
 
 Lemma OMEGA3 x y k : k > 0 -> x = y * k -> x = 0 -> y = 0.
 Proof.
-intros LT -> EQ. apply Z.mul_eq_0 in EQ. destruct EQ; now subst.
+  intros LT -> EQ. apply Z.mul_eq_0 in EQ. destruct EQ; now subst.
 Qed.
 
 Lemma OMEGA4 x y z : x > 0 -> y > x -> z * y + x <> 0.
 Proof.
-Z.swap_greater. intros Hx Hxy.
-rewrite Z.add_move_0_l, <- Z.mul_opp_l.
-destruct (Z.lt_trichotomy (-z) 1) as [LT|[->|GT]].
-- intro. revert LT. apply Z.le_ngt, (Z.le_succ_l 0).
-  apply Z.mul_pos_cancel_r with y; Z.order.
-- Z.nzsimpl. Z.order.
-- rewrite (Z.mul_lt_mono_pos_r y), Z.mul_1_l in GT; Z.order.
+  Z.swap_greater. intros Hx Hxy.
+  rewrite Z.add_move_0_l, <- Z.mul_opp_l.
+  destruct (Z.lt_trichotomy (-z) 1) as [LT|[->|GT]].
+  - intro. revert LT. apply Z.le_ngt, (Z.le_succ_l 0).
+    apply Z.mul_pos_cancel_r with y; Z.order.
+  - Z.nzsimpl. Z.order.
+  - rewrite (Z.mul_lt_mono_pos_r y), Z.mul_1_l in GT; Z.order.
 Qed.
 
 Lemma OMEGA5 x y z : x = 0 -> y = 0 -> x + y * z = 0.
 Proof.
-now intros -> ->.
+  now intros -> ->.
 Qed.
 
 Lemma OMEGA6 x y z : 0 <= x -> y = 0 -> 0 <= x + y * z.
 Proof.
-intros H ->. now Z.nzsimpl.
+  intros H ->. now Z.nzsimpl.
 Qed.
 
 Lemma OMEGA7 x y z t :
  z > 0 -> t > 0 -> 0 <= x -> 0 <= y -> 0 <= x * z + y * t.
 Proof.
-intros. Z.swap_greater. Z.order_pos.
+  intros. Z.swap_greater. Z.order_pos.
 Qed.
 
 Lemma OMEGA8 x y : 0 <= x -> 0 <= y -> x = - y -> x = 0.
 Proof.
-intros H1 H2 H3. rewrite <- Z.opp_nonpos_nonneg in H2. Z.order.
+  intros H1 H2 H3. rewrite <- Z.opp_nonpos_nonneg in H2. Z.order.
 Qed.
 
 Lemma OMEGA9 x y z t : y = 0 -> x = z -> y + (- x + z) * t = 0.
 Proof.
-intros. subst. now rewrite Z.add_opp_diag_l.
+  intros. subst. now rewrite Z.add_opp_diag_l.
 Qed.
 
 Lemma OMEGA10 v c1 c2 l1 l2 k1 k2 :
  (v * c1 + l1) * k1 + (v * c2 + l2) * k2 =
  v * (c1 * k1 + c2 * k2) + (l1 * k1 + l2 * k2).
 Proof.
-rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
-rewrite <- !Z.add_assoc. f_equal. apply Z.add_shuffle3.
+  rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
+  rewrite <- !Z.add_assoc. f_equal. apply Z.add_shuffle3.
 Qed.
 
 Lemma OMEGA11 v1 c1 l1 l2 k1 :
  (v1 * c1 + l1) * k1 + l2 = v1 * (c1 * k1) + (l1 * k1 + l2).
 Proof.
-rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
-now rewrite Z.add_assoc.
+  rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
+  now rewrite Z.add_assoc.
 Qed.
 
 Lemma OMEGA12 v2 c2 l1 l2 k2 :
  l1 + (v2 * c2 + l2) * k2 = v2 * (c2 * k2) + (l1 + l2 * k2).
 Proof.
-rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
-apply Z.add_shuffle3.
+  rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
+  apply Z.add_shuffle3.
 Qed.
 
 Lemma OMEGA13 (v l1 l2 : Z) (x : positive) :
  v * Zpos x + l1 + (v * Zneg x + l2) = l1 + l2.
 Proof.
- rewrite Z.add_shuffle1.
- rewrite <- Z.mul_add_distr_l, <- Pos2Z.opp_neg, Z.add_opp_diag_r.
- now Z.nzsimpl.
+  rewrite Z.add_shuffle1.
+  rewrite <- Z.mul_add_distr_l, <- Pos2Z.opp_neg, Z.add_opp_diag_r.
+  now Z.nzsimpl.
 Qed.
 
 Lemma OMEGA14 (v l1 l2 : Z) (x : positive) :
  v * Zneg x + l1 + (v * Zpos x + l2) = l1 + l2.
 Proof.
- rewrite Z.add_shuffle1.
- rewrite <- Z.mul_add_distr_l, <- Pos2Z.opp_neg, Z.add_opp_diag_r.
- now Z.nzsimpl.
+  rewrite Z.add_shuffle1.
+  rewrite <- Z.mul_add_distr_l, <- Pos2Z.opp_neg, Z.add_opp_diag_r.
+  now Z.nzsimpl.
 Qed.
 
 Lemma OMEGA15 v c1 c2 l1 l2 k2 :
  v * c1 + l1 + (v * c2 + l2) * k2 = v * (c1 + c2 * k2) + (l1 + l2 * k2).
 Proof.
- rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
- apply Z.add_shuffle1.
+  rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
+  apply Z.add_shuffle1.
 Qed.
 
 Lemma OMEGA16 v c l k : (v * c + l) * k = v * (c * k) + l * k.
 Proof.
- now rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
+  now rewrite ?Z.mul_add_distr_r, ?Z.mul_add_distr_l, ?Z.mul_assoc.
 Qed.
 
 Lemma OMEGA17 x y z : Zne x 0 -> y = 0 -> Zne (x + y * z) 0.
 Proof.
- unfold Zne, not. intros NE EQ. subst. now Z.nzsimpl.
+  unfold Zne, not. intros NE EQ. subst. now Z.nzsimpl.
 Qed.
 
 Lemma OMEGA18 x y k : x = y * k -> Zne x 0 -> Zne y 0.
 Proof.
- unfold Zne, not. intros. subst; auto.
+  unfold Zne, not. intros. subst; auto.
 Qed.
 
 Lemma OMEGA19 x : Zne x 0 -> 0 <= x + -1 \/ 0 <= x * -1 + -1.
 Proof.
- unfold Zne. intros Hx. apply Z.lt_gt_cases in Hx.
- destruct Hx as [LT|GT].
- - right. change (-1) with (-(1)).
-   rewrite Z.mul_opp_r, <- Z.opp_add_distr. Z.nzsimpl.
-   rewrite Z.opp_nonneg_nonpos. now apply Z.le_succ_l.
- - left. now apply Z.lt_le_pred.
+  unfold Zne. intros Hx. apply Z.lt_gt_cases in Hx.
+  destruct Hx as [LT|GT].
+  - right. change (-1) with (-(1)).
+    rewrite Z.mul_opp_r, <- Z.opp_add_distr. Z.nzsimpl.
+    rewrite Z.opp_nonneg_nonpos. now apply Z.le_succ_l.
+  - left. now apply Z.lt_le_pred.
 Qed.
 
 Lemma OMEGA20 x y z : Zne x 0 -> y = 0 -> Zne (x + y * z) 0.
 Proof.
- unfold Zne, not. intros H1 H2 H3; apply H1; rewrite H2 in H3;
- simpl in H3; rewrite Z.add_0_r in H3; trivial with arith.
+  unfold Zne, not. intros H1 H2 H3; apply H1; rewrite H2 in H3;
+  simpl in H3; rewrite Z.add_0_r in H3; trivial with arith.
 Qed.
 
 Definition fast_Zplus_comm (x y : Z) (P : Z -> Prop)

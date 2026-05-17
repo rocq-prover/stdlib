@@ -51,11 +51,11 @@ Proof. apply Z.eqb_eq. Qed.
 
 Lemma Zpower_theory : power_theory 1%Z Z.mul (@eq Z) Z.of_N Z.pow.
 Proof.
- constructor. intros z n.
- destruct n as [|p];simpl;trivial.
- unfold Z.pow_pos.
- rewrite <- (Z.mul_1_r (pow_pos _ _ _)). generalize 1%Z.
- induction p as [p IHp|p IHp|]; simpl; intros; rewrite ?IHp, ?Z.mul_assoc; trivial.
+  constructor. intros z n.
+  destruct n as [|p];simpl;trivial.
+  unfold Z.pow_pos.
+  rewrite <- (Z.mul_1_r (pow_pos _ _ _)). generalize 1%Z.
+  induction p as [p IHp|p IHp|]; simpl; intros; rewrite ?IHp, ?Z.mul_assoc; trivial.
 Qed.
 
 Add Ring Zr : Zth

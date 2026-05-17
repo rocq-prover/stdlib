@@ -323,13 +323,13 @@ Defined.
 
 Lemma orb_prop : forall a b:bool, a || b = true -> a = true \/ b = true.
 Proof.
- intros; apply orb_true_iff; trivial.
+  intros; apply orb_true_iff; trivial.
 Qed.
 
 Lemma orb_true_intro :
   forall b1 b2:bool, b1 = true \/ b2 = true -> b1 || b2 = true.
 Proof.
- intros; apply orb_true_iff; trivial.
+  intros; apply orb_true_iff; trivial.
 Qed.
 #[global]
 Hint Resolve orb_true_intro: bool.
@@ -337,7 +337,7 @@ Hint Resolve orb_true_intro: bool.
 Lemma orb_false_intro :
   forall b1 b2:bool, b1 = false -> b2 = false -> b1 || b2 = false.
 Proof.
- intros. subst. reflexivity.
+  intros. subst. reflexivity.
 Qed.
 #[global]
 Hint Resolve orb_false_intro: bool.
@@ -350,7 +350,7 @@ Qed.
 
 Lemma orb_diag : forall b, b || b = b.
 Proof.
- destr_bool.
+  destr_bool.
 Qed.
 
 (** [true] is a zero for [orb] *)
@@ -470,7 +470,7 @@ Notation andb_false_b := andb_false_l (only parsing).
 
 Lemma andb_diag : forall b, b && b = b.
 Proof.
- destr_bool.
+  destr_bool.
 Qed.
 
 (** [true] is neutral for [andb] *)
@@ -1025,12 +1025,12 @@ Notation ReflectF := Datatypes.ReflectF (only parsing).
 
 Lemma reflect_iff : forall P b, reflect P b -> (P<->b=true).
 Proof.
- destruct 1; intuition; discriminate.
+  destruct 1; intuition; discriminate.
 Qed.
 
 Lemma iff_reflect : forall P b, (P<->b=true) -> reflect P b.
 Proof.
- destr_bool; intuition.
+  destr_bool; intuition.
 Defined.
 
 (** It would be nice to join [reflect_iff] and [iff_reflect]
@@ -1041,7 +1041,7 @@ Defined.
 
 Lemma reflect_dec : forall P b, reflect P b -> {P}+{~P}.
 Proof.
- destruct 1; auto.
+  destruct 1; auto.
 Defined.
 
 (** Reciprocally, from a decidability, we could state a
@@ -1051,13 +1051,13 @@ Defined.
 
 Lemma eqb_spec (b b' : bool) : reflect (b = b') (eqb b b').
 Proof.
- destruct b, b'; now constructor.
+  destruct b, b'; now constructor.
 Defined.
 
 (** Notations *)
 Module BoolNotations.
-Infix "<=" := le : bool_scope.
-Infix "<" := lt : bool_scope.
-Infix "?=" := compare (at level 70) : bool_scope.
-Infix "=?" := eqb (at level 70) : bool_scope.
+  Infix "<=" := le : bool_scope.
+  Infix "<" := lt : bool_scope.
+  Infix "?=" := compare (at level 70) : bool_scope.
+  Infix "=?" := eqb (at level 70) : bool_scope.
 End BoolNotations.

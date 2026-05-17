@@ -32,9 +32,9 @@ Module Type NExtraProp (N:NAxiomsSig)(P:NBasicProp N) :=
  NExtraPreProp N P <+ NDivProp N P <+ NLcmProp N P <+ NBitsProp N P.
 
 Module Type NExtraProp0 (N:NAxiomsSig)(P:NBasicProp N)(D0:NZDivSpec0 N N N)(E:NExtraPreProp N P).
- Module Private_NDivProp := Nop <+ NDivProp N P.
- Include NDivProp0 N P D0.
- Module Private_NLcmProp := Nop <+ NLcmProp N P Private_NDivProp E.
- Include NLcmProp0 N P D0 E.
- Include NBitsProp N P E E Private_NDivProp E.
+  Module Private_NDivProp := Nop <+ NDivProp N P.
+  Include NDivProp0 N P D0.
+  Module Private_NLcmProp := Nop <+ NLcmProp N P Private_NDivProp E.
+  Include NLcmProp0 N P D0 E.
+  Include NBitsProp N P E E Private_NDivProp E.
 End NExtraProp0.

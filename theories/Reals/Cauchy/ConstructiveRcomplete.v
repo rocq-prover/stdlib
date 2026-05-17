@@ -495,8 +495,8 @@ Qed.
 Lemma Qabs_Qgt_condition: forall x y : Q,
   (x < Qabs y)%Q <-> (x < y \/ x < -y)%Q.
 Proof.
- intros x y.
- apply Qabs_case; lra.
+  intros x y.
+  apply Qabs_case; lra.
 Qed.
 
 Lemma CReal_from_cauchy_seq_bound :

@@ -14,150 +14,150 @@ From Stdlib Require Import BinPos BinNat PeanoNat Pnat.
 
 Module N2Nat.
 
-(** [N.to_nat] is a bijection between [N] and [nat],
+  (** [N.to_nat] is a bijection between [N] and [nat],
     with [N.of_nat] as reciprocal.
     See [Nat2N.id] below for the dual equation. *)
 
-Lemma id a : N.of_nat (N.to_nat a) = a.
-Proof.
- destruct a as [| p]; simpl; trivial.
- destruct (Pos2Nat.is_succ p) as (n,H). rewrite H. simpl. f_equal.
- apply Pos2Nat.inj. rewrite H. apply SuccNat2Pos.id_succ.
-Qed.
+  Lemma id a : N.of_nat (N.to_nat a) = a.
+  Proof.
+    destruct a as [| p]; simpl; trivial.
+    destruct (Pos2Nat.is_succ p) as (n,H). rewrite H. simpl. f_equal.
+    apply Pos2Nat.inj. rewrite H. apply SuccNat2Pos.id_succ.
+  Qed.
 
-(** [N.to_nat] is hence injective *)
+  (** [N.to_nat] is hence injective *)
 
-Lemma inj a a' : N.to_nat a = N.to_nat a' -> a = a'.
-Proof.
- intro H. rewrite <- (id a), <- (id a'). now f_equal.
-Qed.
+  Lemma inj a a' : N.to_nat a = N.to_nat a' -> a = a'.
+  Proof.
+    intro H. rewrite <- (id a), <- (id a'). now f_equal.
+  Qed.
 
-Lemma inj_iff a a' : N.to_nat a = N.to_nat a' <-> a = a'.
-Proof.
-  split.
-  - apply inj.
-  - intros; now subst.
-Qed.
+  Lemma inj_iff a a' : N.to_nat a = N.to_nat a' <-> a = a'.
+  Proof.
+    split.
+    - apply inj.
+    - intros; now subst.
+  Qed.
 
-(** Interaction of this translation and usual operations. *)
+  (** Interaction of this translation and usual operations. *)
 
-Lemma inj_0 : N.to_nat 0 = 0.
-Proof. reflexivity. Qed.
+  Lemma inj_0 : N.to_nat 0 = 0.
+  Proof. reflexivity. Qed.
 
-Lemma inj_double a : N.to_nat (N.double a) = 2*(N.to_nat a).
-Proof.
- destruct a; simpl N.to_nat; trivial. apply Pos2Nat.inj_xO.
-Qed.
+  Lemma inj_double a : N.to_nat (N.double a) = 2*(N.to_nat a).
+  Proof.
+    destruct a; simpl N.to_nat; trivial. apply Pos2Nat.inj_xO.
+  Qed.
 
-Lemma inj_succ_double a : N.to_nat (N.succ_double a) = S (2*(N.to_nat a)).
-Proof.
- destruct a; simpl N.to_nat; trivial. apply Pos2Nat.inj_xI.
-Qed.
+  Lemma inj_succ_double a : N.to_nat (N.succ_double a) = S (2*(N.to_nat a)).
+  Proof.
+    destruct a; simpl N.to_nat; trivial. apply Pos2Nat.inj_xI.
+  Qed.
 
-Lemma inj_succ a : N.to_nat (N.succ a) = S (N.to_nat a).
-Proof.
- destruct a; simpl; trivial. apply Pos2Nat.inj_succ.
-Qed.
+  Lemma inj_succ a : N.to_nat (N.succ a) = S (N.to_nat a).
+  Proof.
+    destruct a; simpl; trivial. apply Pos2Nat.inj_succ.
+  Qed.
 
-Lemma inj_add a a' :
-  N.to_nat (a + a') = N.to_nat a + N.to_nat a'.
-Proof.
- destruct a, a'; simpl; trivial. apply Pos2Nat.inj_add.
-Qed.
+  Lemma inj_add a a' :
+    N.to_nat (a + a') = N.to_nat a + N.to_nat a'.
+  Proof.
+    destruct a, a'; simpl; trivial. apply Pos2Nat.inj_add.
+  Qed.
 
-Lemma inj_mul a a' :
-  N.to_nat (a * a') = N.to_nat a * N.to_nat a'.
-Proof.
- destruct a, a'; simpl; trivial. apply Pos2Nat.inj_mul.
-Qed.
+  Lemma inj_mul a a' :
+    N.to_nat (a * a') = N.to_nat a * N.to_nat a'.
+  Proof.
+    destruct a, a'; simpl; trivial. apply Pos2Nat.inj_mul.
+  Qed.
 
-Lemma inj_sub a a' :
-  N.to_nat (a - a') = N.to_nat a - N.to_nat a'.
-Proof.
- destruct a as [|a], a' as [|a']; simpl; rewrite ?Nat.sub_0_r; trivial.
- destruct (Pos.compare_spec a a') as [H|H|H].
- - subst. now rewrite Pos.sub_mask_diag, Nat.sub_diag.
- - rewrite Pos.sub_mask_neg; trivial. apply Pos2Nat.inj_lt in H.
-   simpl; symmetry; apply Nat.sub_0_le. now apply Nat.lt_le_incl.
- - destruct (Pos.sub_mask_pos' _ _ H) as (q & -> & Hq).
-   simpl; symmetry; apply Nat.add_sub_eq_l. now rewrite <- Hq, Pos2Nat.inj_add.
-Qed.
+  Lemma inj_sub a a' :
+    N.to_nat (a - a') = N.to_nat a - N.to_nat a'.
+  Proof.
+    destruct a as [|a], a' as [|a']; simpl; rewrite ?Nat.sub_0_r; trivial.
+    destruct (Pos.compare_spec a a') as [H|H|H].
+    - subst. now rewrite Pos.sub_mask_diag, Nat.sub_diag.
+    - rewrite Pos.sub_mask_neg; trivial. apply Pos2Nat.inj_lt in H.
+      simpl; symmetry; apply Nat.sub_0_le. now apply Nat.lt_le_incl.
+    - destruct (Pos.sub_mask_pos' _ _ H) as (q & -> & Hq).
+      simpl; symmetry; apply Nat.add_sub_eq_l. now rewrite <- Hq, Pos2Nat.inj_add.
+  Qed.
 
-Lemma inj_pred a : N.to_nat (N.pred a) = Nat.pred (N.to_nat a).
-Proof.
- rewrite <- Nat.sub_1_r, N.pred_sub. apply inj_sub.
-Qed.
+  Lemma inj_pred a : N.to_nat (N.pred a) = Nat.pred (N.to_nat a).
+  Proof.
+    rewrite <- Nat.sub_1_r, N.pred_sub. apply inj_sub.
+  Qed.
 
-Lemma inj_div2 a : N.to_nat (N.div2 a) = Nat.div2 (N.to_nat a).
-Proof.
- destruct a as [|[p|p| ]]; trivial.
- - unfold N.div2, N.to_nat. now rewrite Pos2Nat.inj_xI, Nat.div2_succ_double.
- - unfold N.div2, N.to_nat. now rewrite Pos2Nat.inj_xO, Nat.div2_double.
-Qed.
+  Lemma inj_div2 a : N.to_nat (N.div2 a) = Nat.div2 (N.to_nat a).
+  Proof.
+    destruct a as [|[p|p| ]]; trivial.
+    - unfold N.div2, N.to_nat. now rewrite Pos2Nat.inj_xI, Nat.div2_succ_double.
+    - unfold N.div2, N.to_nat. now rewrite Pos2Nat.inj_xO, Nat.div2_double.
+  Qed.
 
-Lemma inj_compare a a' :
- (a ?= a')%N = (N.to_nat a ?= N.to_nat a').
-Proof.
- destruct a as [|p], a' as [|p']; simpl; trivial.
- - now destruct (Pos2Nat.is_succ p') as (n,->).
- - now destruct (Pos2Nat.is_succ p) as (n,->).
- - apply Pos2Nat.inj_compare.
-Qed.
+  Lemma inj_compare a a' :
+   (a ?= a')%N = (N.to_nat a ?= N.to_nat a').
+  Proof.
+    destruct a as [|p], a' as [|p']; simpl; trivial.
+    - now destruct (Pos2Nat.is_succ p') as (n,->).
+    - now destruct (Pos2Nat.is_succ p) as (n,->).
+    - apply Pos2Nat.inj_compare.
+  Qed.
 
-Lemma inj_div n m :
-  N.to_nat (n / m) = N.to_nat n / N.to_nat m.
-Proof.
-  destruct m as [|m]; [now destruct n|].
-  apply Nat.div_unique with (N.to_nat (n mod (N.pos m))).
-  - apply Nat.compare_lt_iff. rewrite <- inj_compare.
-    now apply N.mod_lt.
-  - now rewrite <- inj_mul, <- inj_add, <- N.div_mod.
-Qed.
+  Lemma inj_div n m :
+    N.to_nat (n / m) = N.to_nat n / N.to_nat m.
+  Proof.
+    destruct m as [|m]; [now destruct n|].
+    apply Nat.div_unique with (N.to_nat (n mod (N.pos m))).
+    - apply Nat.compare_lt_iff. rewrite <- inj_compare.
+      now apply N.mod_lt.
+    - now rewrite <- inj_mul, <- inj_add, <- N.div_mod.
+  Qed.
 
-Lemma inj_mod a a' :
-  N.to_nat (a mod a') = N.to_nat a mod N.to_nat a'.
-Proof.
-  destruct a' as [|a']; [now destruct a|].
-  apply Nat.mod_unique with (N.to_nat (a / (N.pos a'))).
-  - apply Nat.compare_lt_iff. rewrite <- inj_compare.
-    now apply N.mod_lt.
-  - now rewrite <- inj_mul, <- inj_add, <- N.div_mod.
-Qed.
+  Lemma inj_mod a a' :
+    N.to_nat (a mod a') = N.to_nat a mod N.to_nat a'.
+  Proof.
+    destruct a' as [|a']; [now destruct a|].
+    apply Nat.mod_unique with (N.to_nat (a / (N.pos a'))).
+    - apply Nat.compare_lt_iff. rewrite <- inj_compare.
+      now apply N.mod_lt.
+    - now rewrite <- inj_mul, <- inj_add, <- N.div_mod.
+  Qed.
 
-Lemma inj_pow a a' :
-  N.to_nat (a ^ a') = N.to_nat a ^ N.to_nat a'.
-Proof.
-  destruct a, a'; [easy| |easy|apply Pos2Nat.inj_pow].
-  now rewrite N.pow_0_l, Nat.pow_0_l; [|rewrite <- inj_0; intros ? %inj|].
-Qed.
+  Lemma inj_pow a a' :
+    N.to_nat (a ^ a') = N.to_nat a ^ N.to_nat a'.
+  Proof.
+    destruct a, a'; [easy| |easy|apply Pos2Nat.inj_pow].
+    now rewrite N.pow_0_l, Nat.pow_0_l; [|rewrite <- inj_0; intros ? %inj|].
+  Qed.
 
-Lemma inj_max a a' :
-  N.to_nat (N.max a a') = Nat.max (N.to_nat a) (N.to_nat a').
-Proof.
- unfold N.max. rewrite inj_compare; symmetry.
- case Nat.compare_spec; intros.
- - now apply Nat.max_r, Nat.eq_le_incl.
- - now apply Nat.max_r, Nat.lt_le_incl.
- - now apply Nat.max_l, Nat.lt_le_incl.
-Qed.
+  Lemma inj_max a a' :
+    N.to_nat (N.max a a') = Nat.max (N.to_nat a) (N.to_nat a').
+  Proof.
+    unfold N.max. rewrite inj_compare; symmetry.
+    case Nat.compare_spec; intros.
+    - now apply Nat.max_r, Nat.eq_le_incl.
+    - now apply Nat.max_r, Nat.lt_le_incl.
+    - now apply Nat.max_l, Nat.lt_le_incl.
+  Qed.
 
-Lemma inj_min a a' :
-  N.to_nat (N.min a a') = Nat.min (N.to_nat a) (N.to_nat a').
-Proof.
-  unfold N.min; rewrite inj_compare. symmetry.
-  case Nat.compare_spec; intros.
- - now apply Nat.min_l, Nat.eq_le_incl.
- - now apply Nat.min_l, Nat.lt_le_incl.
- - now apply Nat.min_r, Nat.lt_le_incl.
-Qed.
+  Lemma inj_min a a' :
+    N.to_nat (N.min a a') = Nat.min (N.to_nat a) (N.to_nat a').
+  Proof.
+     unfold N.min; rewrite inj_compare. symmetry.
+     case Nat.compare_spec; intros.
+    - now apply Nat.min_l, Nat.eq_le_incl.
+    - now apply Nat.min_l, Nat.lt_le_incl.
+    - now apply Nat.min_r, Nat.lt_le_incl.
+  Qed.
 
-Lemma inj_iter a {A} (f:A->A) (x:A) :
-  N.iter a f x = Nat.iter (N.to_nat a) f x.
-Proof.
-  destruct a as [|a].
-  - trivial.
-  - apply Pos2Nat.inj_iter.
-Qed.
+  Lemma inj_iter a {A} (f:A->A) (x:A) :
+    N.iter a f x = Nat.iter (N.to_nat a) f x.
+  Proof.
+    destruct a as [|a].
+    - trivial.
+    - apply Pos2Nat.inj_iter.
+  Qed.
 
 End N2Nat.
 
@@ -173,85 +173,85 @@ End N2Nat.
 
 Module Nat2N.
 
-(** [N.of_nat] is an bijection between [nat] and [N],
+  (** [N.of_nat] is an bijection between [nat] and [N],
     with [N.to_nat] as reciprocal.
     See [N2Nat.id] above for the dual equation. *)
 
-Lemma id n : N.to_nat (N.of_nat n) = n.
-Proof.
- induction n; simpl; trivial. apply SuccNat2Pos.id_succ.
-Qed.
+  Lemma id n : N.to_nat (N.of_nat n) = n.
+  Proof.
+    induction n; simpl; trivial. apply SuccNat2Pos.id_succ.
+  Qed.
 
-#[global] Hint Rewrite id : Nnat.
-Ltac nat2N := apply N2Nat.inj; now autorewrite with Nnat.
+  #[global] Hint Rewrite id : Nnat.
+  Ltac nat2N := apply N2Nat.inj; now autorewrite with Nnat.
 
-(** [N.of_nat] is hence injective *)
+  (** [N.of_nat] is hence injective *)
 
-Lemma inj n n' : N.of_nat n = N.of_nat n' -> n = n'.
-Proof.
- intros H. rewrite <- (id n), <- (id n'). now f_equal.
-Qed.
+  Lemma inj n n' : N.of_nat n = N.of_nat n' -> n = n'.
+  Proof.
+    intros H. rewrite <- (id n), <- (id n'). now f_equal.
+  Qed.
 
-Lemma inj_iff n n' : N.of_nat n = N.of_nat n' <-> n = n'.
-Proof.
-  split.
-  - apply inj.
-  - intros; now subst.
-Qed.
+  Lemma inj_iff n n' : N.of_nat n = N.of_nat n' <-> n = n'.
+  Proof.
+    split.
+    - apply inj.
+    - intros; now subst.
+  Qed.
 
-(** Interaction of this translation and usual operations. *)
+  (** Interaction of this translation and usual operations. *)
 
-Lemma inj_double n : N.of_nat (2*n) = N.double (N.of_nat n).
-Proof. nat2N. Qed.
+  Lemma inj_double n : N.of_nat (2*n) = N.double (N.of_nat n).
+  Proof. nat2N. Qed.
 
-Lemma inj_succ_double n : N.of_nat (S (2*n)) = N.succ_double (N.of_nat n).
-Proof. nat2N. Qed.
+  Lemma inj_succ_double n : N.of_nat (S (2*n)) = N.succ_double (N.of_nat n).
+  Proof. nat2N. Qed.
 
-Lemma inj_succ n : N.of_nat (S n) = N.succ (N.of_nat n).
-Proof. nat2N. Qed.
+  Lemma inj_succ n : N.of_nat (S n) = N.succ (N.of_nat n).
+  Proof. nat2N. Qed.
 
-Lemma inj_pred n : N.of_nat (Nat.pred n) = N.pred (N.of_nat n).
-Proof. nat2N. Qed.
+  Lemma inj_pred n : N.of_nat (Nat.pred n) = N.pred (N.of_nat n).
+  Proof. nat2N. Qed.
 
-Lemma inj_add n n' : N.of_nat (n+n') = (N.of_nat n + N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_add n n' : N.of_nat (n+n') = (N.of_nat n + N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_sub n n' : N.of_nat (n-n') = (N.of_nat n - N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_sub n n' : N.of_nat (n-n') = (N.of_nat n - N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_mul n n' : N.of_nat (n*n') = (N.of_nat n * N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_mul n n' : N.of_nat (n*n') = (N.of_nat n * N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_div2 n : N.of_nat (Nat.div2 n) = N.div2 (N.of_nat n).
-Proof. nat2N. Qed.
+  Lemma inj_div2 n : N.of_nat (Nat.div2 n) = N.div2 (N.of_nat n).
+  Proof. nat2N. Qed.
 
-Lemma inj_compare n n' :
-  (n ?= n') = (N.of_nat n ?= N.of_nat n')%N.
-Proof. now rewrite N2Nat.inj_compare, !id. Qed.
+  Lemma inj_compare n n' :
+    (n ?= n') = (N.of_nat n ?= N.of_nat n')%N.
+  Proof. now rewrite N2Nat.inj_compare, !id. Qed.
 
-Lemma inj_div n n' :
-  N.of_nat (n / n') = (N.of_nat n / N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_div n n' :
+    N.of_nat (n / n') = (N.of_nat n / N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_mod n n' :
-  N.of_nat (n mod n') = (N.of_nat n mod N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_mod n n' :
+    N.of_nat (n mod n') = (N.of_nat n mod N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_pow n n' :
-  N.of_nat (n ^ n') = (N.of_nat n ^ N.of_nat n')%N.
-Proof. nat2N. Qed.
+  Lemma inj_pow n n' :
+    N.of_nat (n ^ n') = (N.of_nat n ^ N.of_nat n')%N.
+  Proof. nat2N. Qed.
 
-Lemma inj_min n n' :
-  N.of_nat (Nat.min n n') = N.min (N.of_nat n) (N.of_nat n').
-Proof. nat2N. Qed.
+  Lemma inj_min n n' :
+    N.of_nat (Nat.min n n') = N.min (N.of_nat n) (N.of_nat n').
+  Proof. nat2N. Qed.
 
-Lemma inj_max n n' :
-  N.of_nat (Nat.max n n') = N.max (N.of_nat n) (N.of_nat n').
-Proof. nat2N. Qed.
+  Lemma inj_max n n' :
+    N.of_nat (Nat.max n n') = N.max (N.of_nat n) (N.of_nat n').
+  Proof. nat2N. Qed.
 
-Lemma inj_iter n {A} (f:A->A) (x:A) :
-  Nat.iter n f x = N.iter (N.of_nat n) f x.
-Proof. now rewrite N2Nat.inj_iter, !id. Qed.
+  Lemma inj_iter n {A} (f:A->A) (x:A) :
+    Nat.iter n f x = N.iter (N.of_nat n) f x.
+  Proof. now rewrite N2Nat.inj_iter, !id. Qed.
 
 End Nat2N.
 

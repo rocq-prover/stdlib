@@ -71,17 +71,17 @@ Proof. destr_bool; intuition. Qed.
 #[global]
 Instance le_preorder : PreOrder Bool.le.
 Proof.
-split.
-- intros b; apply le_refl.
-- intros b1 b2 b3; apply le_trans.
+  split.
+  - intros b; apply le_refl.
+  - intros b1 b2 b3; apply le_trans.
 Qed.
 
 #[global]
 Instance lt_strorder : StrictOrder Bool.lt.
 Proof.
-split.
-- intros b; apply lt_irrefl.
-- intros b1 b2 b3; apply lt_trans.
+  split.
+  - intros b; apply lt_irrefl.
+  - intros b1 b2 b3; apply lt_trans.
 Qed.
 
 (* Module structure *)

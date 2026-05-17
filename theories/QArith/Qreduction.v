@@ -76,10 +76,10 @@ Qed.
 
 Lemma Qred_eq_iff q q' : Qred q = Qred q' <-> q == q'.
 Proof.
- split.
- - intros E. rewrite <- (Qred_correct q), <- (Qred_correct q').
-   now rewrite E.
- - apply Qred_complete.
+  split.
+  - intros E. rewrite <- (Qred_correct q), <- (Qred_correct q').
+    now rewrite E.
+  - apply Qred_complete.
 Qed.
 
 Add Morphism Qred with signature (Qeq ==> Qeq) as Qred_comp.

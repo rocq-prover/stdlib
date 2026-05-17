@@ -98,7 +98,7 @@ Qed.
 
 Lemma sqrt_pow2 : forall x, 0 <= x -> sqrt (x ^ 2) = x.
 Proof.
-intros; simpl; rewrite Rmult_1_r, sqrt_square; auto.
+  intros; simpl; rewrite Rmult_1_r, sqrt_square; auto.
 Qed.
 
 Lemma pow2_sqrt x : 0 <= x -> sqrt x ^ 2 = x.
@@ -161,20 +161,20 @@ Qed.
 
 Lemma Rlt_mult_inv_pos : forall x y:R, 0 < x -> 0 < y -> 0 < x * / y.
 Proof.
-intros x y H H0; try assumption.
-replace 0 with (x * 0).
-- apply Rmult_lt_compat_l; auto with real.
-- ring.
+  intros x y H H0; try assumption.
+  replace 0 with (x * 0).
+  - apply Rmult_lt_compat_l; auto with real.
+  - ring.
 Qed.
 
 Lemma Rle_mult_inv_pos : forall x y:R, 0 <= x -> 0 < y -> 0 <= x * / y.
 Proof.
-intros x y H H0; try assumption.
-case H; intros.
-- red; left.
-  apply Rlt_mult_inv_pos; auto with real.
-- rewrite <- H1.
-  red; right; ring.
+  intros x y H H0; try assumption.
+  case H; intros.
+  - red; left.
+    apply Rlt_mult_inv_pos; auto with real.
+  - rewrite <- H1.
+    red; right; ring.
 Qed.
 
 Lemma sqrt_div_alt :
@@ -341,29 +341,29 @@ Qed.
 
 Lemma sqrt_inv x : sqrt (/ x) = / sqrt x.
 Proof.
-destruct (Rlt_or_le 0 x) as [H|H].
-- assert (sqrt x <> 0).
-  + apply Rgt_not_eq.
-    now apply sqrt_lt_R0.
-  + apply Rmult_eq_reg_r with (sqrt x); auto.
-    rewrite Rinv_l; auto.
-    rewrite <- sqrt_mult_alt.
-    * now rewrite -> Rinv_l, sqrt_1; auto with real.
-    * apply Rlt_le.
-      now apply Rinv_0_lt_compat.
-- rewrite sqrt_neg_0 with (1 := H).
-  rewrite sqrt_neg_0.
-  + apply eq_sym, Rinv_0.
-  + destruct H as [H| ->].
-    * now apply Rlt_le, Rinv_lt_0_compat.
-    * rewrite Rinv_0.
-      apply Rle_refl.
+  destruct (Rlt_or_le 0 x) as [H|H].
+  - assert (sqrt x <> 0).
+    + apply Rgt_not_eq.
+      now apply sqrt_lt_R0.
+    + apply Rmult_eq_reg_r with (sqrt x); auto.
+      rewrite Rinv_l; auto.
+      rewrite <- sqrt_mult_alt.
+      * now rewrite -> Rinv_l, sqrt_1; auto with real.
+      * apply Rlt_le.
+        now apply Rinv_0_lt_compat.
+  - rewrite sqrt_neg_0 with (1 := H).
+    rewrite sqrt_neg_0.
+    + apply eq_sym, Rinv_0.
+    + destruct H as [H| ->].
+      * now apply Rlt_le, Rinv_lt_0_compat.
+      * rewrite Rinv_0.
+        apply Rle_refl.
 Qed.
 
 Lemma inv_sqrt_depr x : 0 < x -> / sqrt x = sqrt (/ x).
 Proof.
-intros _.
-apply eq_sym, sqrt_inv.
+  intros _.
+  apply eq_sym, sqrt_inv.
 Qed.
 
 #[deprecated(since="8.16",note="Use sqrt_inv.")]

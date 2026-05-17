@@ -139,117 +139,117 @@ Module Type WSfun (E : DecidableType).
 
   Section Spec.
 
-  Variable s s' s'': t.
-  Variable x y : elt.
+    Variable s s' s'': t.
+    Variable x y : elt.
 
-  (** Specification of [In] *)
-  Parameter In_1 : E.eq x y -> In x s -> In y s.
+    (** Specification of [In] *)
+    Parameter In_1 : E.eq x y -> In x s -> In y s.
 
-  (** Specification of [eq] *)
-  Parameter eq_refl : eq s s.
-  Parameter eq_sym : eq s s' -> eq s' s.
-  Parameter eq_trans : eq s s' -> eq s' s'' -> eq s s''.
+    (** Specification of [eq] *)
+    Parameter eq_refl : eq s s.
+    Parameter eq_sym : eq s s' -> eq s' s.
+    Parameter eq_trans : eq s s' -> eq s' s'' -> eq s s''.
 
-  (** Specification of [mem] *)
-  Parameter mem_1 : In x s -> mem x s = true.
-  Parameter mem_2 : mem x s = true -> In x s.
+    (** Specification of [mem] *)
+    Parameter mem_1 : In x s -> mem x s = true.
+    Parameter mem_2 : mem x s = true -> In x s.
 
-  (** Specification of [equal] *)
-  Parameter equal_1 : Equal s s' -> equal s s' = true.
-  Parameter equal_2 : equal s s' = true -> Equal s s'.
+    (** Specification of [equal] *)
+    Parameter equal_1 : Equal s s' -> equal s s' = true.
+    Parameter equal_2 : equal s s' = true -> Equal s s'.
 
-  (** Specification of [subset] *)
-  Parameter subset_1 : Subset s s' -> subset s s' = true.
-  Parameter subset_2 : subset s s' = true -> Subset s s'.
+    (** Specification of [subset] *)
+    Parameter subset_1 : Subset s s' -> subset s s' = true.
+    Parameter subset_2 : subset s s' = true -> Subset s s'.
 
-  (** Specification of [empty] *)
-  Parameter empty_1 : Empty empty.
+    (** Specification of [empty] *)
+    Parameter empty_1 : Empty empty.
 
-  (** Specification of [is_empty] *)
-  Parameter is_empty_1 : Empty s -> is_empty s = true.
-  Parameter is_empty_2 : is_empty s = true -> Empty s.
+    (** Specification of [is_empty] *)
+    Parameter is_empty_1 : Empty s -> is_empty s = true.
+    Parameter is_empty_2 : is_empty s = true -> Empty s.
 
-  (** Specification of [add] *)
-  Parameter add_1 : E.eq x y -> In y (add x s).
-  Parameter add_2 : In y s -> In y (add x s).
-  Parameter add_3 : ~ E.eq x y -> In y (add x s) -> In y s.
+    (** Specification of [add] *)
+    Parameter add_1 : E.eq x y -> In y (add x s).
+    Parameter add_2 : In y s -> In y (add x s).
+    Parameter add_3 : ~ E.eq x y -> In y (add x s) -> In y s.
 
-  (** Specification of [remove] *)
-  Parameter remove_1 : E.eq x y -> ~ In y (remove x s).
-  Parameter remove_2 : ~ E.eq x y -> In y s -> In y (remove x s).
-  Parameter remove_3 : In y (remove x s) -> In y s.
+    (** Specification of [remove] *)
+    Parameter remove_1 : E.eq x y -> ~ In y (remove x s).
+    Parameter remove_2 : ~ E.eq x y -> In y s -> In y (remove x s).
+    Parameter remove_3 : In y (remove x s) -> In y s.
 
-  (** Specification of [singleton] *)
-  Parameter singleton_1 : In y (singleton x) -> E.eq x y.
-  Parameter singleton_2 : E.eq x y -> In y (singleton x).
+    (** Specification of [singleton] *)
+    Parameter singleton_1 : In y (singleton x) -> E.eq x y.
+    Parameter singleton_2 : E.eq x y -> In y (singleton x).
 
-  (** Specification of [union] *)
-  Parameter union_1 : In x (union s s') -> In x s \/ In x s'.
-  Parameter union_2 : In x s -> In x (union s s').
-  Parameter union_3 : In x s' -> In x (union s s').
+    (** Specification of [union] *)
+    Parameter union_1 : In x (union s s') -> In x s \/ In x s'.
+    Parameter union_2 : In x s -> In x (union s s').
+    Parameter union_3 : In x s' -> In x (union s s').
 
-  (** Specification of [inter] *)
-  Parameter inter_1 : In x (inter s s') -> In x s.
-  Parameter inter_2 : In x (inter s s') -> In x s'.
-  Parameter inter_3 : In x s -> In x s' -> In x (inter s s').
+    (** Specification of [inter] *)
+    Parameter inter_1 : In x (inter s s') -> In x s.
+    Parameter inter_2 : In x (inter s s') -> In x s'.
+    Parameter inter_3 : In x s -> In x s' -> In x (inter s s').
 
-  (** Specification of [diff] *)
-  Parameter diff_1 : In x (diff s s') -> In x s.
-  Parameter diff_2 : In x (diff s s') -> ~ In x s'.
-  Parameter diff_3 : In x s -> ~ In x s' -> In x (diff s s').
+    (** Specification of [diff] *)
+    Parameter diff_1 : In x (diff s s') -> In x s.
+    Parameter diff_2 : In x (diff s s') -> ~ In x s'.
+    Parameter diff_3 : In x s -> ~ In x s' -> In x (diff s s').
 
-  (** Specification of [fold] *)
-  Parameter fold_1 : forall (A : Type) (i : A) (f : elt -> A -> A),
-      fold f s i = fold_left (fun a e => f e a) (elements s) i.
+    (** Specification of [fold] *)
+    Parameter fold_1 : forall (A : Type) (i : A) (f : elt -> A -> A),
+        fold f s i = fold_left (fun a e => f e a) (elements s) i.
 
-  (** Specification of [cardinal] *)
-  Parameter cardinal_1 : cardinal s = length (elements s).
+    (** Specification of [cardinal] *)
+    Parameter cardinal_1 : cardinal s = length (elements s).
 
-  Section Filter.
+    Section Filter.
 
-  Variable f : elt -> bool.
+      Variable f : elt -> bool.
 
-  (** Specification of [filter] *)
-  Parameter filter_1 : compat_bool E.eq f -> In x (filter f s) -> In x s.
-  Parameter filter_2 : compat_bool E.eq f -> In x (filter f s) -> f x = true.
-  Parameter filter_3 :
-      compat_bool E.eq f -> In x s -> f x = true -> In x (filter f s).
+      (** Specification of [filter] *)
+      Parameter filter_1 : compat_bool E.eq f -> In x (filter f s) -> In x s.
+      Parameter filter_2 : compat_bool E.eq f -> In x (filter f s) -> f x = true.
+      Parameter filter_3 :
+          compat_bool E.eq f -> In x s -> f x = true -> In x (filter f s).
 
-  (** Specification of [for_all] *)
-  Parameter for_all_1 :
-      compat_bool E.eq f ->
-      For_all (fun x => f x = true) s -> for_all f s = true.
-  Parameter for_all_2 :
-      compat_bool E.eq f ->
-      for_all f s = true -> For_all (fun x => f x = true) s.
+      (** Specification of [for_all] *)
+      Parameter for_all_1 :
+          compat_bool E.eq f ->
+          For_all (fun x => f x = true) s -> for_all f s = true.
+      Parameter for_all_2 :
+          compat_bool E.eq f ->
+          for_all f s = true -> For_all (fun x => f x = true) s.
 
-  (** Specification of [exists] *)
-  Parameter exists_1 :
-      compat_bool E.eq f ->
-      Exists (fun x => f x = true) s -> exists_ f s = true.
-  Parameter exists_2 :
-      compat_bool E.eq f ->
-      exists_ f s = true -> Exists (fun x => f x = true) s.
+      (** Specification of [exists] *)
+      Parameter exists_1 :
+          compat_bool E.eq f ->
+          Exists (fun x => f x = true) s -> exists_ f s = true.
+      Parameter exists_2 :
+          compat_bool E.eq f ->
+          exists_ f s = true -> Exists (fun x => f x = true) s.
 
-  (** Specification of [partition] *)
-  Parameter partition_1 :
-      compat_bool E.eq f -> Equal (fst (partition f s)) (filter f s).
-  Parameter partition_2 :
-      compat_bool E.eq f ->
-      Equal (snd (partition f s)) (filter (fun x => negb (f x)) s).
+      (** Specification of [partition] *)
+      Parameter partition_1 :
+          compat_bool E.eq f -> Equal (fst (partition f s)) (filter f s).
+      Parameter partition_2 :
+          compat_bool E.eq f ->
+          Equal (snd (partition f s)) (filter (fun x => negb (f x)) s).
 
-  End Filter.
+    End Filter.
 
-  (** Specification of [elements] *)
-  Parameter elements_1 : In x s -> InA E.eq x (elements s).
-  Parameter elements_2 : InA E.eq x (elements s) -> In x s.
-  (** When compared with ordered sets, here comes the only
+    (** Specification of [elements] *)
+    Parameter elements_1 : In x s -> InA E.eq x (elements s).
+    Parameter elements_2 : InA E.eq x (elements s) -> In x s.
+    (** When compared with ordered sets, here comes the only
       property that is really weaker: *)
-  Parameter elements_3w : NoDupA E.eq (elements s).
+    Parameter elements_3w : NoDupA E.eq (elements s).
 
-  (** Specification of [choose] *)
-  Parameter choose_1 : choose s = Some x -> In x s.
-  Parameter choose_2 : choose s = None -> Empty s.
+    (** Specification of [choose] *)
+    Parameter choose_1 : choose s = Some x -> In x s.
+    Parameter choose_2 : choose s = None -> Empty s.
 
   End Spec.
 
@@ -308,34 +308,34 @@ Module Type Sfun (E : OrderedType).
 
   Section Spec.
 
-  Variable s s' s'' : t.
-  Variable x y : elt.
+    Variable s s' s'' : t.
+    Variable x y : elt.
 
-  (** Specification of [lt] *)
-  Parameter lt_trans : lt s s' -> lt s' s'' -> lt s s''.
-  Parameter lt_not_eq : lt s s' -> ~ eq s s'.
+    (** Specification of [lt] *)
+    Parameter lt_trans : lt s s' -> lt s' s'' -> lt s s''.
+    Parameter lt_not_eq : lt s s' -> ~ eq s s'.
 
-  (** Additional specification of [elements] *)
-  Parameter elements_3 : sort E.lt (elements s).
+    (** Additional specification of [elements] *)
+    Parameter elements_3 : sort E.lt (elements s).
 
-  (** Remark: since [fold] is specified via [elements], this stronger
+    (** Remark: since [fold] is specified via [elements], this stronger
    specification of [elements] has an indirect impact on [fold],
    which can now be proved to receive elements in increasing order.
   *)
 
-  (** Specification of [min_elt] *)
-  Parameter min_elt_1 : min_elt s = Some x -> In x s.
-  Parameter min_elt_2 : min_elt s = Some x -> In y s -> ~ E.lt y x.
-  Parameter min_elt_3 : min_elt s = None -> Empty s.
+    (** Specification of [min_elt] *)
+    Parameter min_elt_1 : min_elt s = Some x -> In x s.
+    Parameter min_elt_2 : min_elt s = Some x -> In y s -> ~ E.lt y x.
+    Parameter min_elt_3 : min_elt s = None -> Empty s.
 
-  (** Specification of [max_elt] *)
-  Parameter max_elt_1 : max_elt s = Some x -> In x s.
-  Parameter max_elt_2 : max_elt s = Some x -> In y s -> ~ E.lt x y.
-  Parameter max_elt_3 : max_elt s = None -> Empty s.
+    (** Specification of [max_elt] *)
+    Parameter max_elt_1 : max_elt s = Some x -> In x s.
+    Parameter max_elt_2 : max_elt s = Some x -> In y s -> ~ E.lt x y.
+    Parameter max_elt_3 : max_elt s = None -> Empty s.
 
-  (** Additional specification of [choose] *)
-  Parameter choose_3 : choose s = Some x -> choose s' = Some y ->
-    Equal s s' -> E.eq x y.
+    (** Additional specification of [choose] *)
+    Parameter choose_3 : choose s = Some x -> choose s' = Some y ->
+      Equal s s' -> E.eq x y.
 
   End Spec.
 

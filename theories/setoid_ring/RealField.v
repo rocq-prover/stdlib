@@ -21,50 +21,50 @@ From Stdlib Require Import Raxioms.
 
 Lemma RTheory : ring_theory 0 1 Rplus Rmult Rminus Ropp (eq (A:=R)).
 Proof.
-constructor.
-- intro; apply Rplus_0_l.
-- exact Rplus_comm.
-- symmetry ; apply Rplus_assoc.
-- intro; apply Rmult_1_l.
-- exact Rmult_comm.
-- symmetry ; apply Rmult_assoc.
-- intros m n p.
-  rewrite Rmult_comm.
-  rewrite (Rmult_comm n p).
-  rewrite (Rmult_comm m p).
-  apply Rmult_plus_distr_l.
-- reflexivity.
-- exact Rplus_opp_r.
+  constructor.
+  - intro; apply Rplus_0_l.
+  - exact Rplus_comm.
+  - symmetry ; apply Rplus_assoc.
+  - intro; apply Rmult_1_l.
+  - exact Rmult_comm.
+  - symmetry ; apply Rmult_assoc.
+  - intros m n p.
+    rewrite Rmult_comm.
+    rewrite (Rmult_comm n p).
+    rewrite (Rmult_comm m p).
+    apply Rmult_plus_distr_l.
+  - reflexivity.
+  - exact Rplus_opp_r.
 Qed.
 
 Lemma Rfield : field_theory 0 1 Rplus Rmult Rminus Ropp Rdiv Rinv (eq(A:=R)).
 Proof.
-constructor.
-- exact RTheory.
-- exact R1_neq_R0.
-- reflexivity.
-- exact Rinv_l.
+  constructor.
+  - exact RTheory.
+  - exact R1_neq_R0.
+  - reflexivity.
+  - exact Rinv_l.
 Qed.
 
 Lemma Rlt_n_Sn : forall x, x < x + 1.
 Proof.
-intro.
-elim archimed with x; intros.
-destruct H0.
-- apply Rlt_trans with (IZR (up x)); trivial.
-  replace (IZR (up x)) with (x + (IZR (up x) - x))%R.
-  + apply Rplus_lt_compat_l; trivial.
-  + unfold Rminus.
+  intro.
+  elim archimed with x; intros.
+  destruct H0.
+  - apply Rlt_trans with (IZR (up x)); trivial.
+    replace (IZR (up x)) with (x + (IZR (up x) - x))%R.
+    + apply Rplus_lt_compat_l; trivial.
+    + unfold Rminus.
+      rewrite (Rplus_comm (IZR (up x)) (- x)).
+      rewrite <- Rplus_assoc.
+      rewrite Rplus_opp_r.
+      apply Rplus_0_l.
+  - elim H0.
+    unfold Rminus.
     rewrite (Rplus_comm (IZR (up x)) (- x)).
     rewrite <- Rplus_assoc.
     rewrite Rplus_opp_r.
-    apply Rplus_0_l.
-- elim H0.
-  unfold Rminus.
-  rewrite (Rplus_comm (IZR (up x)) (- x)).
-  rewrite <- Rplus_assoc.
-  rewrite Rplus_opp_r.
-  rewrite Rplus_0_l; trivial.
+    rewrite Rplus_0_l; trivial.
 Qed.
 
 Notation Rset := (Eqsth R).
@@ -72,46 +72,46 @@ Notation Rext := (Eq_ext Rplus Rmult Ropp).
 
 Lemma Rlt_0_2 : 0 < 2.
 Proof.
-apply Rlt_trans with (0 + 1).
-- apply Rlt_n_Sn.
-- rewrite Rplus_comm.
-  apply Rplus_lt_compat_l.
-  replace R1 with (0 + 1).
-  + apply Rlt_n_Sn.
-  + apply Rplus_0_l.
+  apply Rlt_trans with (0 + 1).
+  - apply Rlt_n_Sn.
+  - rewrite Rplus_comm.
+    apply Rplus_lt_compat_l.
+    replace R1 with (0 + 1).
+    + apply Rlt_n_Sn.
+    + apply Rplus_0_l.
 Qed.
 
 Lemma Rgen_phiPOS : forall x, InitialRing.gen_phiPOS1 1 Rplus Rmult x > 0.
 Proof.
-unfold Rgt.
-induction x; simpl; intros.
-- apply Rlt_trans with (1 + 0).
-  + rewrite Rplus_comm.
-    apply Rlt_n_Sn.
-  + apply Rplus_lt_compat_l.
-    rewrite <- (Rmul_0_l Rset Rext RTheory 2).
+  unfold Rgt.
+  induction x; simpl; intros.
+  - apply Rlt_trans with (1 + 0).
+    + rewrite Rplus_comm.
+      apply Rlt_n_Sn.
+    + apply Rplus_lt_compat_l.
+      rewrite <- (Rmul_0_l Rset Rext RTheory 2).
+      rewrite Rmult_comm.
+      apply Rmult_lt_compat_l.
+      * apply Rlt_0_2.
+      * trivial.
+  - rewrite <- (Rmul_0_l Rset Rext RTheory 2).
     rewrite Rmult_comm.
     apply Rmult_lt_compat_l.
-    * apply Rlt_0_2.
-    * trivial.
-- rewrite <- (Rmul_0_l Rset Rext RTheory 2).
-  rewrite Rmult_comm.
-  apply Rmult_lt_compat_l.
-  + apply Rlt_0_2.
-  + trivial.
-- replace 1 with (0 + 1).
-  + apply Rlt_n_Sn.
-  + apply Rplus_0_l.
+    + apply Rlt_0_2.
+    + trivial.
+  - replace 1 with (0 + 1).
+    + apply Rlt_n_Sn.
+    + apply Rplus_0_l.
 Qed.
 
 
 Lemma Rgen_phiPOS_not_0 :
   forall x, InitialRing.gen_phiPOS1 1 Rplus Rmult x <> 0.
 Proof.
-red; intros.
-specialize (Rgen_phiPOS x).
-rewrite H; intro.
-apply (Rlt_asym 0 0); trivial.
+  red; intros.
+  specialize (Rgen_phiPOS x).
+  rewrite H; intro.
+  apply (Rlt_asym 0 0); trivial.
 Qed.
 
 Lemma Zeq_bool_complete : forall x y,

@@ -102,7 +102,7 @@ Hint Resolve Z.divide_add_r Zdivide_opp_r Zdivide_opp_r_rev Zdivide_opp_l
 #[deprecated(use=Z.eq_mul_1_nonneg, since="Stdlib 9.1")]
 Lemma Zmult_one x y : x >= 0 -> x * y = 1 -> x = 1.
 Proof.
- Z.swap_greater. apply Z.eq_mul_1_nonneg.
+  Z.swap_greater. apply Z.eq_mul_1_nonneg.
 Qed.
 
 (** Only [1] and [-1] divide [1]. *)
@@ -120,26 +120,26 @@ Notation Zdivide_bounds := Z.absle_divide (only parsing).
 #[deprecated(use=Z.mod0_divide, since="Stdlib 9.1")]
 Lemma Zmod_divide : forall a b, b<>0 -> a mod b = 0 -> (b | a).
 Proof.
- apply Z.mod_divide.
+  apply Z.mod_divide.
 Qed.
 
 #[deprecated(use=Z.mod0_divide, since="Stdlib 9.1")]
 Lemma Zdivide_mod : forall a b, (b | a) -> a mod b = 0.
 Proof.
- intros a b (c,->); apply Z_mod_mult.
+  intros a b (c,->); apply Z_mod_mult.
 Qed.
 
 (** [Z.divide] is hence decidable *)
 #[deprecated(use=Z.BoolSpec_divide, since="Stdlib 9.1")]
 Lemma Zdivide_dec a b : {(a | b)} + {~ (a | b)}.
 Proof.
- destruct (Z.eq_dec a 0) as [Ha|Ha].
- - destruct (Z.eq_dec b 0) as [Hb|Hb].
-   + left; subst; apply Z.divide_0_r.
-   + right. subst. contradict Hb. now apply Z.divide_0_l.
- - destruct (Z.eq_dec (b mod a) 0).
-   + left. now apply Z.mod_divide.
-   + right. now rewrite <- Z.mod_divide.
+  destruct (Z.eq_dec a 0) as [Ha|Ha].
+  - destruct (Z.eq_dec b 0) as [Hb|Hb].
+    + left; subst; apply Z.divide_0_r.
+    + right. subst. contradict Hb. now apply Z.divide_0_l.
+  - destruct (Z.eq_dec (b mod a) 0).
+    + left. now apply Z.mod_divide.
+    + right. now rewrite <- Z.mod_divide.
 Defined.
 
 #[deprecated(use=Z.lt_neq, since="Stdlib 9.1")]
@@ -148,25 +148,25 @@ Proof. auto using Z.lt_neq, Z.neq_sym. Qed.
 
 Theorem Zdivide_Zdiv_eq a b : 0 < a -> (a | b) ->  b = a * (b / a).
 Proof.
- intros Ha H.
- rewrite (Z.div_mod b a) at 1.
- + rewrite Zdivide_mod; auto with zarith.
- + auto using Z_lt_neq.
+  intros Ha H.
+  rewrite (Z.div_mod b a) at 1.
+  + rewrite Zdivide_mod; auto with zarith.
+  + auto using Z_lt_neq.
 Qed.
 
 Theorem Zdivide_Zdiv_eq_2 a b c :
  0 < a -> (a | b) -> (c * b) / a = c * (b / a).
 Proof.
- intros. apply Z.divide_div_mul_exact.
- + now apply Z_lt_neq.
- + auto with zarith.
+  intros. apply Z.divide_div_mul_exact.
+  + now apply Z_lt_neq.
+  + auto with zarith.
 Qed.
 
 #[deprecated(use=Z.divide_pos_le, since="Stdlib 9.1")]
 Theorem Zdivide_le: forall a b : Z,
  0 <= a -> 0 < b -> (a | b) ->  a <= b.
 Proof.
- intros. now apply Z.divide_pos_le.
+  intros. now apply Z.divide_pos_le.
 Qed.
 
 Theorem Zdivide_Zdiv_lt_pos a b :
@@ -228,10 +228,10 @@ Inductive Zis_gcd (a b g:Z) : Prop :=
 #[deprecated(use=Z.gcd, since="Stdlib 9.1")]
 Lemma Zgcd_is_gcd : forall a b, Zis_gcd a b (Z.gcd a b).
 Proof.
- constructor.
- - apply Z.gcd_divide_l.
- - apply Z.gcd_divide_r.
- - apply Z.gcd_greatest.
+  constructor.
+  - apply Z.gcd_divide_l.
+  - apply Z.gcd_divide_r.
+  - apply Z.gcd_greatest.
 Qed.
 
 (** Trivial properties of [gcd] *)
@@ -283,10 +283,10 @@ Hint Resolve Zis_gcd_sym Zis_gcd_0 Zis_gcd_minus Zis_gcd_opp: zarith.
 Theorem Zis_gcd_unique: forall a b c d : Z,
  Zis_gcd a b c -> Zis_gcd a b d ->  c = d \/ c = (- d).
 Proof.
-intros a b c d [Hc1 Hc2 Hc3] [Hd1 Hd2 Hd3].
-assert (c|d) by auto.
-assert (d|c) by auto.
-apply Z.divide_antisym; auto.
+  intros a b c d [Hc1 Hc2 Hc3] [Hd1 Hd2 Hd3].
+  assert (c|d) by auto.
+  assert (d|c) by auto.
+  apply Z.divide_antisym; auto.
 Qed.
 
 
@@ -596,8 +596,8 @@ Inductive prime (p:Z) : Prop :=
 #[deprecated(note="Use lia", since="Stdlib 9.1")]
 Lemma Z_0_1_more x : 0<=x -> x=0 \/ x=1 \/ 1<x.
 Proof.
- intros H. Z.le_elim H; auto.
- apply Z.le_succ_l in H. change (1 <= x) in H. Z.le_elim H; auto.
+  intros H. Z.le_elim H; auto.
+  apply Z.le_succ_l in H. change (1 <= x) in H. Z.le_elim H; auto.
 Qed.
 
 Theorem prime_alt p : Z.prime p <-> prime p.
@@ -719,7 +719,7 @@ Qed.
 Theorem Zdivide_Zgcd: forall p q r : Z,
  (p | q) -> (p | r) -> (p | Z.gcd q r).
 Proof.
- intros. now apply Z.gcd_greatest.
+  intros. now apply Z.gcd_greatest.
 Qed.
 
 #[deprecated(use=Z.gcd, since="Stdlib 9.1")]
@@ -775,7 +775,7 @@ Qed.
 #[deprecated(use=Z.gcd_assoc, since="Stdlib 9.1")]
 Lemma Zgcd_ass a b c : Z.gcd (Z.gcd a b) c = Z.gcd a (Z.gcd b c).
 Proof.
- symmetry. apply Z.gcd_assoc.
+  symmetry. apply Z.gcd_assoc.
 Qed.
 
 #[deprecated(use=Z.gcd_abs_l, since="Stdlib 9.1")]

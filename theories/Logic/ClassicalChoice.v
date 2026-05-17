@@ -34,9 +34,9 @@ Theorem singleton_choice :
   forall (A : Type) (P : A->Prop),
   (exists x : A, P x) -> exists P' : A->Prop, subset P' P /\ exists! x, P' x.
 Proof.
-intros A P H.
-destruct (relational_choice unit A (fun _ => P) (fun _ => H)) as (R',(Hsub,HR')).
-exists (R' tt); firstorder.
+  intros A P H.
+  destruct (relational_choice unit A (fun _ => P) (fun _ => H)) as (R',(Hsub,HR')).
+  exists (R' tt); firstorder.
 Qed.
 
 Theorem choice :
@@ -44,8 +44,8 @@ Theorem choice :
    (forall x : A, exists y : B, R x y) ->
     exists f : A->B, (forall x : A, R x (f x)).
 Proof.
-intros A B.
-apply description_rel_choice_imp_funct_choice.
-- exact (unique_choice A B).
-- exact (relational_choice A B).
+  intros A B.
+  apply description_rel_choice_imp_funct_choice.
+  - exact (unique_choice A B).
+  - exact (relational_choice A B).
 Qed.
