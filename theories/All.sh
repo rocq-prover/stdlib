@@ -10,5 +10,9 @@ if [ "$1" = "-unsorted" ]; then
 else
   rocqdep="xargs rocq dep -Q . Stdlib -sort"
 fi
-find . -regex '.*/[^.][^/]*[.]v' ! -path ./All.v | sort | $rocqdep | \
-  sed -e 's#\./#From Stdlib Require Export #g' -e 's#\.v\s*#.\n#g' -e 's#/#.#g'
+for f in $(find . -regex '.*/[^.][^/]*[.]v' ! -path ./All.v | sort | $rocqdep); do
+  f=${f%.v}
+  f=${f#./}
+  f=${f//"/"/.}
+  printf 'From Stdlib Require Export %s.\n' "${f}"
+done
