@@ -20,10 +20,12 @@ Section Wf_Transitive_Closure.
   Notation trans_clos := (clos_trans A R).
 
   Lemma incl_clos_trans : inclusion A R trans_clos.
+  Proof.
     red; auto with sets.
   Qed.
 
   Lemma Acc_clos_trans : forall x:A, Acc R x -> Acc trans_clos x.
+  Proof.
     induction 1 as [x0 _ H1].
     apply Acc_intro.
     intros y H2.

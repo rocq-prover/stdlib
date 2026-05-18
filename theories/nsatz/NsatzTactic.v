@@ -31,6 +31,7 @@ Section nsatz1.
 Context {R:Type}`{Rid:Integral_domain R}.
 
 Lemma psos_r1b: forall x y:R, x - y == 0 -> x == y.
+Proof.
 intros x y H; setoid_replace x with ((x - y) + y); simpl;
   [setoid_rewrite H | idtac]; simpl.
 - cring.
@@ -38,10 +39,12 @@ intros x y H; setoid_replace x with ((x - y) + y); simpl;
 Qed.
 
 Lemma psos_r1: forall x y, x == y -> x - y == 0.
+Proof.
 intros x y H; simpl; setoid_rewrite H; simpl; cring.
 Qed.
 
 Lemma nsatzR_diff: forall x y:R, not (x == y) -> not (x - y == 0).
+Proof.
 intros.
 intro; apply H.
 simpl; setoid_replace x with ((x - y) + y).
@@ -108,10 +111,12 @@ constructor; solve_proper.
 Qed.
 
 Lemma Rset : Setoid_Theory R _==_.
+Proof.
 apply ring_setoid.
 Qed.
 
 Definition Rtheory:ring_theory ring0 ring1 add mul sub opp _==_.
+Proof.
 apply mk_rt.
 - apply ring_add_0_l.
 - apply ring_add_comm.
@@ -142,6 +147,7 @@ Qed.
 
 Lemma R_power_theory
      : Ring_theory.power_theory ring1 mul _==_ N.to_nat pow.
+Proof.
 apply Ring_theory.mkpow_th. unfold pow. intros. rewrite Nnat.N2Nat.id.
 reflexivity. Qed.
 

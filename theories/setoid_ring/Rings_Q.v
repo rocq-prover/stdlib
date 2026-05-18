@@ -20,6 +20,7 @@ Defined.
 
 #[global]
 Instance Qri : (Ring (Ro:=Qops)).
+Proof.
 constructor.
 - apply Q_Setoid.
 - apply Qplus_comp.
@@ -40,13 +41,16 @@ Defined.
 
 #[global]
 Instance Qcri: (Cring (Rr:=Qri)).
+Proof.
 red. exact Qmult_comm. Defined.
 
 Lemma Q_one_zero: not (Qeq 1%Q 0%Q).
+Proof.
 unfold Qeq. simpl. auto with *. Qed.
 
 #[global]
 Instance Qdi : (Integral_domain (Rcr:=Qcri)).
+Proof.
 constructor.
 - exact Qmult_integral.
 - exact Q_one_zero.

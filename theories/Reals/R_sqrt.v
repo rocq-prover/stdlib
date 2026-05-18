@@ -97,6 +97,7 @@ Proof.
 Qed.
 
 Lemma sqrt_pow2 : forall x, 0 <= x -> sqrt (x ^ 2) = x.
+Proof.
 intros; simpl; rewrite Rmult_1_r, sqrt_square; auto.
 Qed.
 
@@ -159,6 +160,7 @@ Proof.
 Qed.
 
 Lemma Rlt_mult_inv_pos : forall x y:R, 0 < x -> 0 < y -> 0 < x * / y.
+Proof.
 intros x y H H0; try assumption.
 replace 0 with (x * 0).
 - apply Rmult_lt_compat_l; auto with real.
@@ -166,6 +168,7 @@ replace 0 with (x * 0).
 Qed.
 
 Lemma Rle_mult_inv_pos : forall x y:R, 0 <= x -> 0 < y -> 0 <= x * / y.
+Proof.
 intros x y H H0; try assumption.
 case H; intros.
 - red; left.

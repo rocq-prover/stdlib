@@ -392,6 +392,7 @@ Lemma Riemann_integrable_ext :
   forall f g a b,
     (forall x, Rmin a b <= x <= Rmax a b -> f x = g x) ->
     Riemann_integrable f a b -> Riemann_integrable g a b.
+Proof.
 intros f g a b fg rif eps; destruct (rif eps) as [phi [psi [P1 P2]]].
 exists phi; exists psi;split;[ | assumption ].
 intros t intt; rewrite <- fg;[ | assumption].
@@ -3134,6 +3135,7 @@ Lemma RiemannInt_const_bound :
   forall f a b l u (h : Riemann_integrable f a b), a <= b ->
     (forall x, a < x < b -> l <= f x <= u) ->
     l * (b - a) <= RiemannInt h <= u * (b - a).
+Proof.
 intros f a b l u ri ab intf.
 rewrite <- !(fun l => RiemannInt_P15 (RiemannInt_P14 a b l)).
 split; apply RiemannInt_P19; try assumption;
@@ -3144,6 +3146,7 @@ Lemma Riemann_integrable_scal :
   forall f a b k,
      Riemann_integrable f a b ->
      Riemann_integrable (fun x => k * f x) a b.
+Proof.
 intros f a b k ri.
 apply Riemann_integrable_ext with
    (f := fun x => 0 + k * f x).
@@ -3156,6 +3159,7 @@ Arguments Riemann_integrable_scal [f a b] k _ eps.
 Lemma Riemann_integrable_Ropp :
   forall f a b, Riemann_integrable f a b ->
     Riemann_integrable (fun x => - f x) a b.
+Proof.
 intros ff a b h.
 apply Riemann_integrable_ext with (f := fun x => (-1) * ff x).
 { intros; ring. }

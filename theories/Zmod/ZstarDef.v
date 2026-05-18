@@ -19,6 +19,7 @@ Arguments Private_to_Z {m}.
 Coercion to_Zmod {m : Z} (a : Zstar m) : Zmod m := Zmod.of_small_Z m (Private_to_Z a).
 
 Definition of_coprime_Zmod_dep {m} (a : Zmod m) (H : True -> Z.gcd a m = 1) : Zstar m.
+Proof.
   refine (mk m (Zmod.to_Z a) (transparent_Is_true' _ (fun _ => _))).
   abstract (
     specialize (H I); specialize (Zmod.Private_range _ a); fold (@to_Z m a);
@@ -27,6 +28,7 @@ Definition of_coprime_Zmod_dep {m} (a : Zmod m) (H : True -> Z.gcd a m = 1) : Zs
 Defined.
 
 Definition of_Zmod {m} (x : Zmod m) : Zstar m.
+Proof.
   refine (of_coprime_Zmod_dep (if Z.eqb (Z.gcd x m) 1 then x else Zmod.one) (fun _ => _)).
 abstract (
   case Z.eqb_spec; intros;
@@ -46,6 +48,7 @@ Definition opp {m} (x : Zstar m) : Zstar m := of_Zmod (Zmod.opp x).
 Definition abs {m} (x : Zstar m) : Zstar m := of_Zmod (Zmod.abs x).
 
 Definition mul {m} (a b : Zstar m) : Zstar m.
+Proof.
   refine (of_coprime_Zmod_dep (Zmod.mul a b) (fun _ => _)).
 abstract (
   case a as [a Ha], b as [b Hb] in *;

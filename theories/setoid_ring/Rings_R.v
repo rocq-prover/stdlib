@@ -16,6 +16,7 @@ From Stdlib Require Import Reals.
 From Stdlib Require Import RealField.
 
 Lemma Rsth : Setoid_Theory R (@eq R).
+Proof.
 constructor;red;intros;subst;trivial.
 Qed.
 
@@ -25,6 +26,7 @@ Defined.
 
 #[global]
 Instance Rri : (Ring (Ro:=Rops)).
+Proof.
 constructor;
 try (try apply Rsth;
    try (unfold respectful, Proper; unfold equality; unfold eq_notation in *;
@@ -47,11 +49,13 @@ red. exact Rmult_comm.
 Defined.
 
 Lemma R_one_zero: 1%R <> 0%R.
+Proof.
 discrR.
 Qed.
 
 #[global]
 Instance Rdi : (Integral_domain (Rcr:=Rcri)).
+Proof.
 constructor.
 - exact Rmult_integral.
 - exact R_one_zero.

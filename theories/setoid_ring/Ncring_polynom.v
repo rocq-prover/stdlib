@@ -47,8 +47,8 @@ Inductive Pol : Type :=
   | Pc : C -> Pol
   | PX : Pol -> positive -> positive -> Pol -> Pol.
     (* PX P i n Q represents P * X_i^n + Q *)
-Definition cO:C . exact ring0. Defined.
-Definition cI:C . exact ring1. Defined.
+Definition cO:C. Proof. exact ring0. Defined.
+Definition cI:C. Proof. exact ring1. Defined.
 
 Definition P0 := Pc 0.
 Definition P1 := Pc 1.

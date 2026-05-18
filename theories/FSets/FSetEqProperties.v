@@ -937,6 +937,7 @@ Qed.
 Lemma sum_compat :
   forall f g, Proper (E.eq==>Logic.eq) f -> Proper (E.eq==>Logic.eq) g ->
   forall s, (forall x, In x s -> f x=g x) -> sum f s=sum g s.
+Proof.
 intros.
 unfold sum; apply (fold_compat _ (@Logic.eq nat)); auto with fset.
 - intros x x' Hx y y' Hy. rewrite Hx, Hy; auto.

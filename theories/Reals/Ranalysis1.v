@@ -85,6 +85,7 @@ Arguments continuity f%_F.
 Lemma continuity_pt_locally_ext :
   forall f g a x, 0 < a -> (forall y, Rdist y x < a -> f y = g y) ->
   continuity_pt f x -> continuity_pt g x.
+Proof.
 intros f g a x a0 q cf eps ep.
 destruct (cf eps ep) as [a' [a'p Pa']].
 exists (Rmin a a'); split.
@@ -503,6 +504,7 @@ Qed.
 
 Lemma derivable_pt_lim_ext : forall f g x l, (forall z, f z = g z) ->
   derivable_pt_lim f x l -> derivable_pt_lim g x l.
+Proof.
 intros f g x l fg df e ep; destruct (df e ep) as [d pd]; exists d; intros h;
 rewrite <- !fg; apply pd.
 Qed.
@@ -513,6 +515,7 @@ Lemma derivable_pt_lim_locally_ext : forall f g x a b l,
   a < x < b ->
   (forall z, a < z < b -> f z = g z) ->
   derivable_pt_lim f x l -> derivable_pt_lim g x l.
+Proof.
 intros f g x a b l axb fg df e ep.
 destruct (df e ep) as [d pd].
 assert (d'h : 0 < Rmin d (Rmin (b - x) (x - a))).
@@ -701,6 +704,7 @@ Lemma derivable_pt_lim_plus :
   forall f1 f2 (x l1 l2:R),
     derivable_pt_lim f1 x l1 ->
     derivable_pt_lim f2 x l2 -> derivable_pt_lim (f1 + f2) x (l1 + l2).
+Proof.
   intros.
   apply uniqueness_step3.
   assert (H1 := uniqueness_step2 _ _ _ H).
@@ -801,6 +805,7 @@ Qed.
 Lemma derivable_pt_lim_div_scal :
   forall f x l a, derivable_pt_lim f x l ->
      derivable_pt_lim (fun y => f y / a) x (l / a).
+Proof.
 intros f x l a df;
   apply (derivable_pt_lim_ext (fun y => /a * f y)).
 - intros z; rewrite Rmult_comm; reflexivity.
@@ -810,6 +815,7 @@ Qed.
 Lemma derivable_pt_lim_scal_right :
   forall f x l a, derivable_pt_lim f x l ->
      derivable_pt_lim (fun y => f y * a) x (l * a).
+Proof.
 intros f x l a df;
   apply (derivable_pt_lim_ext (fun y => a * f y)).
 - intros z; rewrite Rmult_comm; reflexivity.

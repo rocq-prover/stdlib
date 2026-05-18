@@ -462,6 +462,7 @@ Qed.
 
   Lemma gen_phiNword_cons : forall w n,
     gen_phiNword (n::w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
+Proof.
 intros w; induction w.
 - intros n; destruct n; simpl; norm.
 
@@ -471,6 +472,7 @@ intros w; induction w.
 
   Lemma gen_phiNword_Nwcons : forall w n,
     gen_phiNword (Nwcons n w) == gen_phiN rO rI radd rmul n - gen_phiNword w.
+Proof.
 intros w; destruct w; intros n0.
 - destruct n0; norm.
 
@@ -481,6 +483,7 @@ intros w; destruct w; intros n0.
 
  Lemma gen_phiNword_ok : forall w1 w2,
    Nweq_bool w1 w2 = true -> gen_phiNword w1 == gen_phiNword w2.
+Proof.
 intros w1; induction w1 as [|a w1 IHw1]; intros w2 H.
 - simpl.
   rewrite (gen_phiNword0_ok _ H).
@@ -507,6 +510,7 @@ intros w1; induction w1 as [|a w1 IHw1]; intros w2 H.
 
 Lemma Nwadd_ok : forall x y,
    gen_phiNword (Nwadd x y) == gen_phiNword x + gen_phiNword y.
+Proof.
 intros x; induction x as [|n x IHx]; intros y.
 - simpl.
   norm.
@@ -525,6 +529,7 @@ intros x; induction x as [|n x IHx]; intros y.
 Qed.
 
 Lemma Nwopp_ok : forall x, gen_phiNword (Nwopp x) == - gen_phiNword x.
+Proof.
 simpl.
 unfold Nwopp; simpl.
 intros.
@@ -533,6 +538,7 @@ Qed.
 
 Lemma Nwscal_ok : forall n x,
   gen_phiNword (Nwscal n x) == gen_phiN rO rI radd rmul n * gen_phiNword x.
+Proof.
 intros n x; induction x as [|a x IHx]; intros.
 - norm.
 
@@ -547,6 +553,7 @@ Qed.
 
 Lemma Nwmul_ok : forall x y,
    gen_phiNword (Nwmul x y) == gen_phiNword x * gen_phiNword y.
+Proof.
 intros x; induction x as [|a x IHx]; intros.
 - norm.
 
@@ -571,6 +578,7 @@ Qed.
  Lemma gen_phiNword_morph :
   ring_morph 0 1 radd rmul rsub ropp req
    NwO NwI Nwadd Nwmul Nwsub Nwopp Nweq_bool gen_phiNword.
+Proof.
 constructor.
 - reflexivity.
 
@@ -659,6 +667,7 @@ Section GEN_DIV.
  Variable nphi : N -> R.
 
  Lemma Ntriv_div_th : div_theory req N.add N.mul nphi N.div_eucl.
+ Proof.
   constructor.
   intros a b; generalize (N.div_eucl_spec a b); case N.div_eucl; intros; subst.
   rewrite N.mul_comm; rsimpl.

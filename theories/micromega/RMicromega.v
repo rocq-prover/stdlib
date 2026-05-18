@@ -233,6 +233,7 @@ Fixpoint R_of_Rcst (r : Rcst) : R :=
   end.
 
 Add Morphism Q2R with signature Qeq ==> @eq R as Q2R_m.
+Proof.
   exact Qeq_eqR.
 Qed.
 

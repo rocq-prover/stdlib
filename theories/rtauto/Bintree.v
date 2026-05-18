@@ -40,6 +40,7 @@ Arguments Lget [A] n l.
 
 Lemma map_app : forall (A B:Set) (f:A -> B) l m,
 List.map  f (l ++ m) = List.map  f  l ++ List.map  f  m.
+Proof.
 induction l.
 - reflexivity.
 - simpl.
@@ -48,6 +49,7 @@ Qed.
 
 Lemma length_map : forall (A B:Set) (f:A -> B) l,
 length (List.map  f l) = length l.
+Proof.
 induction l.
 - reflexivity.
 - simpl; apply f_equal;apply IHl.
@@ -57,6 +59,7 @@ Lemma Lget_map : forall (A B:Set) (f:A -> B) i l,
 Lget i (List.map  f l) =
 match Lget i l with Some a =>
 Some (f a) | None => None end.
+Proof.
 induction i;intros [ | x l ] ;trivial.
 simpl;auto.
 Qed.
@@ -74,6 +77,7 @@ Qed.
 Lemma Lget_app_Some : forall (A:Set) l delta i (a: A),
 Lget i l = Some a ->
 Lget i (l ++ delta) = Some a.
+Proof.
 induction l;destruct i;simpl;try congruence;auto.
 Qed.
 
@@ -160,6 +164,7 @@ Fixpoint Tremove (p:positive) (T:Tree) {struct p}: Tree :=
 
 
 Theorem Tget_Tempty: forall (p : positive), Tget p (Tempty) = PNone.
+Proof.
 destruct p;reflexivity.
 Qed.
 
@@ -194,6 +199,7 @@ mkStore (Pos.succ (index S)) (Tadd (index S) a (contents S)).
 Definition get i S := Tget i (contents S).
 
 Lemma get_empty : forall i, get i empty = PNone.
+Proof.
 intro i; case i; unfold empty,get; simpl;reflexivity.
 Qed.
 
@@ -214,6 +220,7 @@ intros S W;induction W.
 Qed.
 
 Theorem get_Full_Eq : forall S, Full S -> get (index S) S = PNone.
+Proof.
 intros [index0 contents0] F.
 case F.
 - unfold empty,index,get,contents;intros;apply Tget_Tempty.
@@ -266,6 +273,7 @@ case_eq (i ?= index S);intro test.
 Qed.
 
 Lemma Full_index_one_empty : forall S, Full S -> index S = 1 -> S=empty.
+Proof.
 intros [ind cont] F one; inversion F.
 - reflexivity.
 - simpl @index in one;assert (h:=Pos.succ_not_1 (index S)).
@@ -273,6 +281,7 @@ intros [ind cont] F one; inversion F.
 Qed.
 
 Lemma push_not_empty: forall a S, (push a S) <> empty.
+Proof.
 intros a [ind cont];unfold push,empty.
 intros [= H%Pos.succ_not_1]. assumption.
 Qed.
@@ -285,6 +294,7 @@ end.
 
 Lemma get_In : forall (x:A) (S:Store) (F:Full S) i ,
 get i S = PSome x -> In x S F.
+Proof.
 induction F.
 - intro i;rewrite get_empty; congruence.
 - intro i;rewrite get_push_Full;trivial.
@@ -344,11 +354,13 @@ end.
 Lemma Tget_Tmap: forall T i,
 Tget i (Tmap T)= match Tget i T with PNone => PNone
 | PSome a => PSome (f a) end.
+Proof.
 induction T;intro i;case i;simpl;auto.
 Defined.
 
 Lemma Tmap_Tadd: forall i a T,
 Tmap (Tadd i a T) = Tadd i (f a) (Tmap T).
+Proof.
 induction i;intros a T;case T;simpl;intros;try (rewrite IHi);simpl;reflexivity.
 Defined.
 
@@ -358,11 +370,13 @@ mkStore (index S) (Tmap (contents S)).
 Lemma get_map: forall i S,
 get i (map S)= match get i S with PNone => PNone
 | PSome a => PSome (f a) end.
+Proof.
 destruct S;unfold get,map,contents,index;apply Tget_Tmap.
 Defined.
 
 Lemma map_push: forall a S,
 map (push a S) = push (f a) (map S).
+Proof.
 intros a S.
 case S.
 unfold push,map,contents,index.
@@ -370,6 +384,7 @@ intros;rewrite Tmap_Tadd;reflexivity.
 Defined.
 
 Theorem Full_map : forall S, Full S -> Full (map S).
+Proof.
 intros S F.
 induction F.
 - exact F_empty.

@@ -96,6 +96,7 @@ Section Partial_order_facts.
   Qed.
 
   Lemma Strict_Rel_Transitive : Transitive U (Strict_Rel_of U D).
+  Proof.
     red.
     intros x y z H' H'0.
     apply Strict_Rel_Transitive_with_Rel with (y := y);

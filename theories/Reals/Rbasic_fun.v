@@ -639,12 +639,14 @@ Proof.
 Qed.
 
 Lemma Ropp_Rmax : forall x y, - Rmax x y = Rmin (-x) (-y).
+Proof.
 intros x y; apply Rmax_case_strong.
 - now intros w; rewrite Rmin_left;[ | apply Rge_le, Ropp_le_ge_contravar].
 - now intros w; rewrite Rmin_right; [ | apply Rge_le, Ropp_le_ge_contravar].
 Qed.
 
 Lemma Ropp_Rmin : forall x y, - Rmin x y = Rmax (-x) (-y).
+Proof.
 intros x y; apply Rmin_case_strong.
 - now intros w; rewrite Rmax_left;[ | apply Rge_le, Ropp_le_ge_contravar].
 - now intros w; rewrite Rmax_right; [ | apply Rge_le, Ropp_le_ge_contravar].

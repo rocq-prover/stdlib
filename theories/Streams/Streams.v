@@ -60,6 +60,7 @@ Hint Resolve tl_nth_tl: datatypes.
 Lemma Str_nth_tl_plus :
  forall (n m:nat) (s:Stream),
    Str_nth_tl n (Str_nth_tl m s) = Str_nth_tl (n + m) s.
+Proof.
 simple induction n; simpl; intros; auto with datatypes.
 rewrite <- H.
 rewrite tl_nth_tl; trivial with datatypes.
@@ -67,6 +68,7 @@ Qed.
 
 Lemma Str_nth_plus :
  forall (n m:nat) (s:Stream), Str_nth n (Str_nth_tl m s) = Str_nth (n + m) s.
+Proof.
 intros; unfold Str_nth; rewrite Str_nth_tl_plus;
  trivial with datatypes.
 Qed.
@@ -87,11 +89,13 @@ Ltac coinduction proof :=
 (** Extensional equality is an equivalence relation *)
 
 Theorem EqSt_reflex : forall s:Stream, EqSt s s.
+Proof.
 coinduction EqSt_reflex.
 reflexivity.
 Qed.
 
 Theorem sym_EqSt : forall s1 s2:Stream, EqSt s1 s2 -> EqSt s2 s1.
+Proof.
 coinduction Eq_sym.
 + case H; intros; symmetry ; assumption.
 + case H; intros; assumption.
@@ -100,6 +104,7 @@ Qed.
 
 Theorem trans_EqSt :
  forall s1 s2 s3:Stream, EqSt s1 s2 -> EqSt s2 s3 -> EqSt s1 s3.
+Proof.
 coinduction Eq_trans.
 - transitivity (hd s2).
   + case H; intros; assumption.
@@ -114,6 +119,7 @@ Qed.
 
 Theorem eqst_ntheq :
  forall (n:nat) (s1 s2:Stream), EqSt s1 s2 -> Str_nth n s1 = Str_nth n s2.
+Proof.
 unfold Str_nth; simple induction n.
 - intros s1 s2 H; case H; trivial with datatypes.
 - intros m hypind.
@@ -126,6 +132,7 @@ Qed.
 Theorem ntheq_eqst :
  forall s1 s2:Stream,
    (forall n:nat, Str_nth n s1 = Str_nth n s2) -> EqSt s1 s2.
+Proof.
 coinduction Equiv2.
 - apply (H 0).
 - intros n; apply (H (S n)).
@@ -164,6 +171,7 @@ Hypothesis InvThenP : forall x:Stream, Inv x -> P x.
 Hypothesis InvIsStable : forall x:Stream, Inv x -> Inv (tl x).
 
 Theorem ForAll_coind : forall x:Stream, Inv x -> ForAll x.
+Proof.
 coinduction ForAll_coind; auto.
 Qed.
 End Co_Induction_ForAll.

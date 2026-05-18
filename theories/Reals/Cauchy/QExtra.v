@@ -127,10 +127,10 @@ Definition Qbound_lt_ZExp2 (q : Q) : Z :=
   | Zpos p => Z.pos_sub (Pos.succ (Pos_log2floor_plus1 p)) (Pos_log2floor_plus1 (Qden q))
   end.
 
-Remark Qbound_lt_ZExp2_test_1 : Qbound_lt_ZExp2 (4#4) = 1%Z. reflexivity. Qed.
-Remark Qbound_lt_ZExp2_test_2 : Qbound_lt_ZExp2 (5#4) = 1%Z. reflexivity. Qed.
-Remark Qbound_lt_ZExp2_test_3 : Qbound_lt_ZExp2 (4#5) = 1%Z. reflexivity. Qed.
-Remark Qbound_lt_ZExp2_test_4 : Qbound_lt_ZExp2 (7#5) = 1%Z. reflexivity. Qed.
+Remark Qbound_lt_ZExp2_test_1 : Qbound_lt_ZExp2 (4#4) = 1%Z. Proof. reflexivity. Qed.
+Remark Qbound_lt_ZExp2_test_2 : Qbound_lt_ZExp2 (5#4) = 1%Z. Proof. reflexivity. Qed.
+Remark Qbound_lt_ZExp2_test_3 : Qbound_lt_ZExp2 (4#5) = 1%Z. Proof. reflexivity. Qed.
+Remark Qbound_lt_ZExp2_test_4 : Qbound_lt_ZExp2 (7#5) = 1%Z. Proof. reflexivity. Qed.
 
 Lemma Qbound_lt_ZExp2_spec : forall (q : Q),
   (q < 2^(Qbound_lt_ZExp2 q))%Q.

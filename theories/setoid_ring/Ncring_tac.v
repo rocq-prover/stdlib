@@ -198,6 +198,7 @@ Ltac reify_goal lvar lexpr lterm:=
 
 Lemma comm: forall (R:Type)`{Ring R}(c : Z) (x : R),
   x * (gen_phiZ c) == (gen_phiZ c) * x.
+Proof.
   induction c.
   - intros. simpl. gen_rewrite.
   - simpl. intros.

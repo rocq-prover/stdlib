@@ -51,6 +51,7 @@ Defined.
 
 Lemma cring_almost_ring_theory:
    almost_ring_theory (R:=R) zero one _+_ _*_ _-_ -_ _==_.
+Proof.
 intros. apply mk_art ;intros.
 - rewrite ring_add_0_l; reflexivity.
 - rewrite ring_add_comm; reflexivity.
@@ -69,6 +70,7 @@ Lemma cring_morph:
   ring_morph zero one _+_ _*_ _-_ -_ _==_
              0%Z 1%Z Z.add Z.mul Z.sub Z.opp Z.eqb
              Ncring_initial.gen_phiZ.
+Proof.
 intros. apply mkmorph ; intros; simpl; try reflexivity.
 - rewrite Ncring_initial.gen_phiZ_add; reflexivity.
 - rewrite ring_sub_def. unfold Z.sub. rewrite Ncring_initial.gen_phiZ_add.
@@ -81,10 +83,12 @@ Defined.
 Lemma cring_power_theory :
   @Ring_theory.power_theory R one _*_ _==_ N (fun n:N => n)
   (@Ring_theory.pow_N _  1 multiplication).
+Proof.
 intros; apply Ring_theory.mkpow_th. reflexivity. Defined.
 
 Lemma cring_div_theory:
   div_theory _==_ Z.add Z.mul Ncring_initial.gen_phiZ Z.quotrem.
+Proof.
 intros. apply InitialRing.Ztriv_div_th. unfold Setoid_Theory.
 simpl.   apply ring_setoid. Defined.
 
@@ -134,6 +138,7 @@ Ltac cring:=
 
 #[global]
 Instance Zcri: (Cring (Rr:=Zr)).
+Proof.
 red. exact Z.mul_comm. Defined.
 
 (* Cring_simplify *)

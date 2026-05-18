@@ -750,6 +750,7 @@ Qed.
 Lemma Rpower_mult_distr :
   forall x y z, 0 < x -> 0 < y ->
    Rpower x z * Rpower y z = Rpower (x * y) z.
+Proof.
 intros x y z x0 y0; unfold Rpower.
 rewrite <- exp_plus, ln_mult, Rmult_plus_distr_l; auto.
 Qed.
@@ -776,6 +777,7 @@ Qed.
 Definition arcsinh x := ln (x + sqrt (x ^ 2 + 1)).
 
 Lemma arcsinh_sinh : forall x, arcsinh (sinh x) = x.
+Proof.
 intros x; unfold sinh, arcsinh.
 assert (Rminus_eq_0 : forall r, r - r = 0) by (intros; ring).
 rewrite <- exp_0, <- (Rminus_eq_0 x); unfold Rminus.
@@ -791,6 +793,7 @@ rewrite ln_exp; reflexivity.
 Qed.
 
 Lemma sinh_arcsinh x : sinh (arcsinh x) = x.
+Proof.
 unfold sinh, arcsinh.
 assert (cmp : 0 < x + sqrt (x ^ 2 + 1)). {
  destruct (Rle_dec x 0).
@@ -819,6 +822,7 @@ Qed.
 
 Lemma derivable_pt_lim_arcsinh :
   forall x, derivable_pt_lim arcsinh x (/sqrt (x ^ 2 + 1)).
+Proof.
 intros x; unfold arcsinh.
 assert (0 < x + sqrt (x ^ 2 + 1)). {
  destruct (Rle_dec x 0);
@@ -859,6 +863,7 @@ apply (derivable_pt_lim_comp (fun x => x + sqrt (x ^ 2 + 1)) ln).
 Qed.
 
 Lemma arcsinh_lt : forall x y, x < y -> arcsinh x < arcsinh y.
+Proof.
 intros x y xy.
 case (Rle_dec (arcsinh y) (arcsinh x));[ | apply Rnot_le_lt ].
 intros abs; case (Rlt_not_le _ _ xy).
@@ -868,12 +873,14 @@ apply Rlt_le, sinh_lt; assumption.
 Qed.
 
 Lemma arcsinh_le : forall x y, x <= y -> arcsinh x <= arcsinh y.
+Proof.
 intros x y [xy | xqy].
 - apply Rlt_le, arcsinh_lt; assumption.
 - rewrite xqy; apply Rle_refl.
 Qed.
 
 Lemma arcsinh_0 : arcsinh 0 = 0.
+ Proof.
  unfold arcsinh; rewrite pow_ne_zero, !Rplus_0_l, sqrt_1, ln_1;
   [reflexivity | discriminate].
 Qed.
