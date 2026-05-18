@@ -10,5 +10,7 @@ if [ "$1" = "-unsorted" ]; then
 else
   rocqdep="xargs rocq dep -Q . Stdlib -sort"
 fi
-find . -regex '.*/[^.][^/]*[.]v' ! -path ./All.v | sort | $rocqdep | \
+find . -regex '.*/[^.][^/]*[.]v' ! -path ./All.v ! -path ./Version.v | sort | $rocqdep | \
   sed -e 's#\./#From Stdlib Require Export #g' -e 's#\.v\s*#.\n#g' -e 's#/#.#g'
+
+printf 'From Stdlib Require Export Version.\n'
