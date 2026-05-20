@@ -1007,6 +1007,9 @@ Section ListOps.
     rewrite !rev_involutive in H. assumption.
   Qed.
 
+  Lemma rev_cons (a : A) l : rev (cons a l) = rev l ++ [a].
+  Proof. apply rev_inj. rewrite rev_unit, !rev_involutive; trivial. Qed.
+
   Lemma rev_eq_app : forall l l1 l2, rev l = l1 ++ l2 -> l = rev l2 ++ rev l1.
   Proof.
     intros l l1 l2 Heq.
