@@ -22,7 +22,7 @@ equal.) This decouples the two aspects above, making it easy to write
 code in Gallina and develop proofs with tactics.
 
 Such an implementation can be found for instance in
-https://github.com/math-comp/math-comp/blob/master/mathcomp/ssreflect/tuple.v
+https://github.com/math-comp/math-comp/blob/master/boot/tuple.v
 One can read more about this tuple type in section 7.1 of this book:
 https://doi.org/10.5281/zenodo.4282710 .
 In particular, this implementation comes with coercion and canonical
@@ -69,7 +69,7 @@ Check rev t : tuple_of n T.
 ]]
 
 Thus lemmas about lists are enough in most cases. *)
-Attributes warn(cats="stdlib vector", note="Using Vector.t is known to be technically difficult, see <https://github.com/coq/stdlib/blob/master/theories/Vectors/Vector.v>.").
+Attributes warn(cats="stdlib vector", note="Using Vector.t is known to be technically difficult, see <https://github.com/rocq-prover/stdlib/blob/master/theories/Vectors/Vector.v>.").
 
 (** Vectors.
 
