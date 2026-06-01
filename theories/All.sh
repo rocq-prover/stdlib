@@ -3,6 +3,7 @@ set -e
 set -o pipefail
 cd "$(dirname "$0")"
 
+printf '(* DO NOT EDIT, use theories/All.sh to regenerate this file *)\n'
 printf 'Set Warnings "-deprecated-library-file,-warn-library-file,-notation-incompatible-prefix,-notation-overridden,-overwriting-delimiting-key".\n'
 
 if [ "$1" = "-unsorted" ]; then

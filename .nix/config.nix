@@ -300,6 +300,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       mathcomp.override.version = "master";
       mathcomp-bigenough.override.version = "master";
       mathcomp-finmap.override.version = "master";
+      stdlib-all.job = true;  # check that theories/All.v is up to date
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "master";
       coq-elpi.override.version = "master";
