@@ -310,6 +310,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       mathcomp.override.version = "master";
       mathcomp-bigenough.override.version = "master";
       mathcomp-finmap.override.version = "master";
+      mathcomp-algebra-tactics.job = false;  # no longer in Rocq CI since Rocq 9.3
     }; };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
