@@ -99,7 +99,12 @@ Module Z.
   Ltac euclidean_division_equations_cleanup :=
     repeat
       (repeat match goal with
-         | [ H : 0 <= ?x < _ |- _ ] => destruct H
+         | [ H : 0 <= ?x < _ |- _ ] =>
+            destruct H;
+            try (lazymatch type of H with (* matching on the type of H *after* the destruct, if H still present *)
+              | 0 <= x < _ => clear H (* H was a section variable, destruct didn't clear it, which would lead to an infinite loop *)
+            end)
+            (* tryif is_section_var H then destruct H; clear H else destruct H (* Cleaner version for Rocq >= 9.3 *) *)
          end;
        repeat match goal with
          | [ H : ?x <> ?x -> _ |- _ ] => clear H
