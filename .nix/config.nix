@@ -266,7 +266,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       validsdp.job = false;  # not in Rocq CI
       verified-extraction.job = false;  # not in Rocq CI
       wasmcert.job = false;  # not in Rocq CI
-      metarocq-translations.job = false;  # not in Rocq CI
       hierarchy-builder.job = false;  # not a reverse dependency of Stdlib
       mathcomp-order.job = false;  # not a reverse dependency of Stdlib
       mathcomp-fingroup.job = false;  # not a reverse dependency of Stdlib
