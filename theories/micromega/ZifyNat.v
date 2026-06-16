@@ -23,14 +23,14 @@ Existing Instance Inj_nat_Z.
 #[global]
 Instance Op_mod : BinOp Nat.modulo :=
   {| TBOp := Z.modulo ; TBOpInj := Nat2Z.inj_mod |}.
-Add Zify BinOp Op_mod.
+Add Tify BinOp Op_mod.
 
 #[global]
 Instance Op_div : BinOp Nat.div :=
   {| TBOp := Z.div ; TBOpInj := Nat2Z.inj_div |}.
-Add Zify BinOp Op_div.
+Add Tify BinOp Op_div.
 
 #[global]
 Instance Op_pow : BinOp Nat.pow :=
   {| TBOp := Z.pow ; TBOpInj := Nat2Z.inj_pow |}.
-Add Zify BinOp Op_pow.
+Add Tify BinOp Op_pow.
