@@ -1,5 +1,4 @@
-with builtins; with (import <nixpkgs> {}).lib;
-{
+with builtins; with (import <nixpkgs> {}).lib; {
   ## DO NOT CHANGE THIS
   format = "1.0.0";
   ## unless you made an automated or manual update
@@ -104,15 +103,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       "aac-tactics"
       "argosy"
       "async-test"
-      "atbr"
       "autosubst"
-      "bbv"
       "bedrock2"
       "bignums"
       "bignums-test"
       "category-theory"
       "ceres"
-      "Cheerios"
       "coinduction"
       "CoLoR"
       "compcert"
@@ -125,7 +121,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "coq-performance-tests"
       # "coq-tools"  # overlay
       "corn"
-      "cross-crypto"
       "deriving"
       "engine-bench"
       "fcsl-pcm"
@@ -135,14 +130,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       "flocq"
       "hierarchy-builder"
       "http"
-      "InfSeqExt"
       "iris"
       "iris-examples"
       "itauto"
       "ITree"
       "itree-io"
       "json"
-      "kami"
       "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-reals"
@@ -158,17 +151,12 @@ with builtins; with (import <nixpkgs> {}).lib;
       "quickchick-test"
       "relation-algebra"
       "rewriter"
-      "riscvcoq"
       "rocq-lean-import"
       "rupicola"
       "sf"
       "simple-io"
-      "stalmarck-tactic"
       "stdpp"
-      "StructTact"
       "unicoq"
-      "Verdi"
-      "VerdiRaft"
       "VST"
     ];
     coq-master = [
@@ -193,7 +181,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       "coq-performance-tests"
       "coq-tools"
       "corn"
-      "cross-crypto"
       "engine-bench"
       "fiat-crypto"
       "fiat-crypto-ocaml"
@@ -222,9 +209,7 @@ with builtins; with (import <nixpkgs> {}).lib;
       "metarocq-translations"
       "metarocq-test"
       "rewriter"
-      "riscvcoq"
       "rupicola"
-      "VerdiRaft"
     ];
     coq-common-bundles = listToAttrs (forEach rocq-master (p:
       { name = p; value.override.version = "master"; }))
@@ -235,7 +220,6 @@ with builtins; with (import <nixpkgs> {}).lib;
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
-      tlc.override.version = "master-for-coq-ci";
       coq-tools.override.version = "proux01:coq_19955";
       stdlib-refman-html.job = true;
       rocq-elpi.job = true;
@@ -340,12 +324,10 @@ with builtins; with (import <nixpkgs> {}).lib;
       QuickChick.job = false;  # no release for 9.2 yet
       quickchick-test.job = false;  # no release for 9.2 yet
       relation-algebra.job = false;  # no release for 9.2 yet
-      Verdi.job = false;  # no release for 9.2 yet
     }; coqPackages = coq-common-bundles // {
       coq.override.version = "9.2";
       # plugin pins, from v9.2 branch of Rocq
       aac-tactics.override.version = "4f796a7b0ee88330162727fc6ea988a7e0ea46e3";
-      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       itauto.job = false;  # broken
       coinduction.override.version = "9502ae09e9f87518330f37c08bc19a8c452dcd91";
@@ -363,7 +345,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
       rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
       smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
-      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
       waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
       compcert.job = false;  # broken
@@ -379,7 +360,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       coq.override.version = "9.1";
       # plugin pins, from v9.1 branch of Rocq
       aac-tactics.override.version = "e68d028cef838f5821d184fed0caea9eedd5538a";
-      atbr.override.version = "47ac8fb6bf244d9a4049e04c01e561191490f543";
       bignums.override.version = "9f9855536bd4167af6986f826819e32354b7da22";
       itauto.job = false;  # broken
       coinduction.override.version = "823b424778feff8fbd9759bc3a044435ea4902d1";
@@ -397,7 +377,6 @@ with builtins; with (import <nixpkgs> {}).lib;
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
       smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
-      stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
       waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
       compcert.job = false;  # broken

@@ -8,7 +8,7 @@ let
     };
 in
 
-{ lib, python3, mkCoqDerivation, coq, kami, riscvcoq, version ? null }@args:
+{ lib, python3, mkCoqDerivation, coq, coqutil, version ? null }@args:
 
 mkCoqDerivation {
   pname = "bedrock2";
@@ -17,9 +17,14 @@ mkCoqDerivation {
   defaultVersion = null;  # no released version
 
   nativeBuildInputs = [ python3 ];
-  propagatedBuildInputs = [ kami riscvcoq ];
+  propagatedBuildInputs = [ coqutil ];
 
-  makeFlags = [ "EXTERNAL_COQUTIL=1" "EXTERNAL_RISCV_COQ=1" "EXTERNAL_KAMI=1" ];
+  makeFlags = [
+    "EXTERNAL_COQUTIL=1" "EXTERNAL_RISCV_COQ=1" "EXTERNAL_KAMI=1"
+    "bedrock2_ex" "LiveVerif_ex" "LiveVerifEx64"
+  ];
+
+  installTargets = [ "install_bedrock2_ex" ];
 
   preBuild = ''
     for f in $(find . -name "*.sh") ; do patchShebangs $f ; done
