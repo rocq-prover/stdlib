@@ -156,6 +156,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "sf"
       "simple-io"
       "stdpp"
+      "trakt"
       "unicoq"
       "VST"
     ];
@@ -268,8 +269,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
       sf.job = false;  # temporarily disactivated in Rocq CI
-      trakt.job = false;  # temporarily disactivated in Rocq CI
-      smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
       { name = p; value.override.version = "master"; }));
