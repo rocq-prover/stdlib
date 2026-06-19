@@ -156,6 +156,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "sf"
       "simple-io"
       "stdpp"
+      "trakt"
       "unicoq"
       "VST"
     ];
@@ -186,6 +187,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "fiat-crypto-ocaml"
       "iris"
       "iris-examples"
+      "jasmin"
       "metacoq"
       "metacoq-common"
       "metacoq-erasure"
@@ -224,7 +226,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       stdlib-refman-html.job = true;
       rocq-elpi.job = true;
       iris-examples.job = false;  # Currently broken
-      jasmin.job = false;  # Currently broken, c.f., https://github.com/rocq-prover/rocq/pull/20589
       CakeMLExtraction.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
       CertiRocq.job = false;  # not in Rocq CI
@@ -268,8 +269,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       # * <github_login>:<branch> is such that this will use the branch <branch>
       #   from https://github.com/<github_login>/<repository>
       sf.job = false;  # temporarily disactivated in Rocq CI
-      trakt.job = false;  # temporarily disactivated in Rocq CI
-      smtcoq-trakt.job = false;  # temporarily disactivated in Rocq CI
     };
     common-bundles = listToAttrs (forEach rocq-master (p:
       { name = p; value.override.version = "master"; }));
