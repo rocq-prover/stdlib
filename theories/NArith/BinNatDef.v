@@ -342,6 +342,32 @@ Definition to_num_int n := Number.IntDecimal (to_int n).
 
 Definition to_num_hex_int n := Number.IntHexadecimal (to_hex_int n).
 
+(** ** Little-endian conversions (least significant digit first) *)
+
+Definition of_luint (d:Decimal.luint) := Pos.of_luint d.
+Definition of_hex_luint (d:Hexadecimal.luint) := Pos.of_hex_luint d.
+
+Definition of_num_luint (d:Number.luint) :=
+  match d with
+  | Number.LUIntDecimal d => of_luint d
+  | Number.LUIntHexadecimal d => of_hex_luint d
+  end.
+
+Definition to_luint n :=
+  match n with
+  | 0 => {| Decimal.luint_IsLittleEndian := Decimal.zero |}
+  | pos p => Pos.to_luint p
+  end.
+
+Definition to_hex_luint n :=
+  match n with
+  | 0 => {| Hexadecimal.luint_IsLittleEndian := Hexadecimal.zero |}
+  | pos p => Pos.to_hex_luint p
+  end.
+
+Definition to_num_luint n := Number.LUIntDecimal (to_luint n).
+Definition to_num_hex_luint n := Number.LUIntHexadecimal (to_hex_luint n).
+
 Number Notation N of_num_uint to_num_hex_uint : hex_N_scope.
 Number Notation N of_num_uint to_num_uint : N_scope.
 

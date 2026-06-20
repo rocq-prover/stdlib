@@ -375,6 +375,56 @@ Definition to_num_int n := Number.IntDecimal (to_int n).
 
 Definition to_num_hex_int n := Number.IntHexadecimal (to_hex_int n).
 
+(** ** Little-endian conversions (least significant digit first) *)
+
+Definition of_luint (d:Decimal.luint) :=
+  of_uint (Decimal.rev (Decimal.luint_IsLittleEndian d)).
+
+Definition of_hex_luint (d:Hexadecimal.luint) :=
+  of_hex_uint (Hexadecimal.rev (Hexadecimal.luint_IsLittleEndian d)).
+
+Definition of_num_luint (d:Number.luint) : N :=
+  match d with
+  | Number.LUIntDecimal d => of_luint d
+  | Number.LUIntHexadecimal d => of_hex_luint d
+  end.
+
+Definition of_lint (d:Decimal.lint) : option positive :=
+  of_int (match Decimal.lint_IsLittleEndian d with
+          | Decimal.Pos u => Decimal.Pos (Decimal.rev u)
+          | Decimal.Neg u => Decimal.Neg (Decimal.rev u)
+          end).
+
+Definition of_hex_lint (d:Hexadecimal.lint) : option positive :=
+  of_hex_int (match Hexadecimal.lint_IsLittleEndian d with
+              | Hexadecimal.Pos u => Hexadecimal.Pos (Hexadecimal.rev u)
+              | Hexadecimal.Neg u => Hexadecimal.Neg (Hexadecimal.rev u)
+              end).
+
+Definition of_num_lint (d:Number.lint) : option positive :=
+  match d with
+  | Number.LIntDecimal d => of_lint d
+  | Number.LIntHexadecimal d => of_hex_lint d
+  end.
+
+Definition to_luint p :=
+  {| Decimal.luint_IsLittleEndian := to_little_uint p |}.
+
+Definition to_hex_luint p :=
+  {| Hexadecimal.luint_IsLittleEndian := to_little_hex_uint p |}.
+
+Definition to_num_luint p := Number.LUIntDecimal (to_luint p).
+Definition to_num_hex_luint p := Number.LUIntHexadecimal (to_hex_luint p).
+
+Definition to_lint n :=
+  {| Decimal.lint_IsLittleEndian := Decimal.Pos (to_little_uint n) |}.
+
+Definition to_hex_lint p :=
+  {| Hexadecimal.lint_IsLittleEndian := Hexadecimal.Pos (to_little_hex_uint p) |}.
+
+Definition to_num_lint n := Number.LIntDecimal (to_lint n).
+Definition to_num_hex_lint n := Number.LIntHexadecimal (to_hex_lint n).
+
 Number Notation positive of_num_int to_num_hex_uint : hex_positive_scope.
 Number Notation positive of_num_int to_num_uint : positive_scope.
 
