@@ -304,6 +304,48 @@ Definition ldiff a b :=
    | neg a, neg b => of_N (N.ldiff (Pos.pred_N b) (Pos.pred_N a))
  end.
 
+(** ** Little-endian conversions (least significant digit first) *)
+
+Definition of_luint (d:Decimal.luint) := of_N (Pos.of_luint d).
+Definition of_hex_luint (d:Hexadecimal.luint) := of_N (Pos.of_hex_luint d).
+
+Definition of_lint (d:Decimal.lint) :=
+  of_int (match Decimal.lint_IsLittleEndian d with
+          | Decimal.Pos u => Decimal.Pos (Decimal.rev u)
+          | Decimal.Neg u => Decimal.Neg (Decimal.rev u)
+          end).
+
+Definition of_hex_lint (d:Hexadecimal.lint) :=
+  of_hex_int (match Hexadecimal.lint_IsLittleEndian d with
+              | Hexadecimal.Pos u => Hexadecimal.Pos (Hexadecimal.rev u)
+              | Hexadecimal.Neg u => Hexadecimal.Neg (Hexadecimal.rev u)
+              end).
+
+Definition of_num_lint (d:Number.lint) :=
+  match d with
+  | Number.LIntDecimal d => of_lint d
+  | Number.LIntHexadecimal d => of_hex_lint d
+  end.
+
+Definition to_lint n :=
+  {| Decimal.lint_IsLittleEndian :=
+    match n with
+    | 0 => Decimal.Pos Decimal.zero
+    | pos p => Decimal.Pos (Pos.to_little_uint p)
+    | neg p => Decimal.Neg (Pos.to_little_uint p)
+    end |}.
+
+Definition to_hex_lint n :=
+  {| Hexadecimal.lint_IsLittleEndian :=
+    match n with
+    | 0 => Hexadecimal.Pos Hexadecimal.zero
+    | pos p => Hexadecimal.Pos (Pos.to_little_hex_uint p)
+    | neg p => Hexadecimal.Neg (Pos.to_little_hex_uint p)
+    end |}.
+
+Definition to_num_lint n := Number.LIntDecimal (to_lint n).
+Definition to_num_hex_lint n := Number.LIntHexadecimal (to_hex_lint n).
+
 Number Notation Z of_num_int to_num_hex_int : hex_Z_scope.
 Number Notation Z of_num_int to_num_int : Z_scope.
 
