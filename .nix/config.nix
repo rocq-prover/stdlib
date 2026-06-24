@@ -102,14 +102,12 @@ with builtins; with (import <nixpkgs> {}).lib; {
     master = [
       "aac-tactics"
       "argosy"
-      "async-test"
       "atbr"
       "autosubst"
       "bedrock2"
       "bignums"
       "bignums-test"
       "category-theory"
-      "ceres"
       "coinduction"
       "CoLoR"
       "compcert"
@@ -130,13 +128,10 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "fiat-parsers"
       "flocq"
       "hierarchy-builder"
-      "http"
       "iris"
       "iris-examples"
       "itauto"
       "ITree"
-      "itree-io"
-      "json"
       "mathcomp-algebra-tactics"
       "mathcomp-analysis"
       "mathcomp-reals"
@@ -147,7 +142,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "neural-net-coq-interp"
       "paco"
       "paramcoq-test"
-      "parsec"
       "QuickChick"
       "quickchick-test"
       "relation-algebra"
@@ -229,6 +223,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       rocq-elpi.job = true;
       iris-examples.job = false;  # Currently broken
       CakeMLExtraction.job = false;  # not in Rocq CI
+      ceres.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
       CertiRocq.job = false;  # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
@@ -237,8 +232,10 @@ with builtins; with (import <nixpkgs> {}).lib; {
       extructures.job = false;  # not in Rocq CI
       gaia.job = false;  # not in Rocq CI
       graph-theory.job = false;  # not in Rocq CI
+      json.job = false;  # not in Rocq CI
       libvalidsdp.job = false;  # not in Rocq CI
       Ordinal.job = false;  # not in Rocq CI
+      parsec.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
       parseque.job = false;  # not in Rocq CI
@@ -304,12 +301,10 @@ with builtins; with (import <nixpkgs> {}).lib; {
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       stdlib-test.job = false;
       autosubst.job = false;  # no release for 9.2 yet
-      async-test.job = false;  # no release for 9.2 yet
       coquelicot.job = false;  # no release for 9.2 yet
       deriving.job = false;  # no release for 9.2 yet
       fcsl-pcm.job = false;  # no release for 9.2 yet
       hierarchy-builder.job = false;  # no release for 9.2 yet
-      http.job = false;  # no release for 9.2 yet
       mathcomp.job = false;  # no release for 9.2 yet
       mathcomp-algebra.job = false;  # no release for 9.2 yet
       mathcomp-algebra-tactics.job = false;  # no release for 9.2 yet
