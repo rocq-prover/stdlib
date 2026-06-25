@@ -27,12 +27,14 @@ Extraction Blacklist Z Big_int_Z.
     emulate the matching, see documentation of [Extract Inductive]. *)
 
 Extract Inductive positive => "Big_int_Z.big_int"
- [ "(fun x -> Big_int_Z.succ_big_int (Big_int_Z.mult_int_big_int 2 x))"
-   "Big_int_Z.mult_int_big_int 2" "Big_int_Z.unit_big_int" ]
+ [ "(fun p -> Big_int_Z.succ_big_int (Big_int_Z.shift_left_big_int p 1))"
+   "(fun p -> Big_int_Z.shift_left_big_int p 1)" "Big_int_Z.unit_big_int" ]
  "(fun f2p1 f2p f1 p ->
   if Big_int_Z.le_big_int p Big_int_Z.unit_big_int then f1 () else
-  let (q,r) = Big_int_Z.quomod_big_int p (Big_int_Z.big_int_of_int 2) in
-  if Big_int_Z.eq_big_int r Big_int_Z.zero_big_int then f2p q else f2p1 q)".
+  let q = Big_int_Z.shift_right_big_int p 1 in
+  if Big_int_Z.eq_big_int (Big_int_Z.and_big_int p Big_int_Z.unit_big_int)
+       Big_int_Z.unit_big_int
+  then f2p1 q else f2p q)".
 
 Extract Inductive Z => "Big_int_Z.big_int"
  [ "Big_int_Z.zero_big_int" "" "Big_int_Z.minus_big_int" ]
