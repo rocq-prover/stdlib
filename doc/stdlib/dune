@@ -29,7 +29,7 @@
  (action
   (progn
    (run mkdir -p coqdoc-html)
-   (bash "%{bin:coqdoc} -q -d coqdoc-html --with-header %{header} --with-footer %{footer} --multi-index --html -g --coqlib_url ../corelib -Q %{project_root}/theories Stdlib $(find %{project_root}/theories -name *.v)")
+   (bash "%{bin:rocq} doc -q -d coqdoc-html --with-header %{header} --with-footer %{footer} --multi-index --html -g --coqlib_url ../corelib -Q %{project_root}/theories Stdlib $(find %{project_root}/theories -name *.v)")
    )))
 
 (rule

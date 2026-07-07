@@ -23,6 +23,7 @@ homepage: "https://coq.inria.fr/"
 doc: "https://coq.github.io/doc/"
 bug-reports: "https://github.com/coq/stdlib/issues"
 dev-repo: "git+https://github.com/coq/stdlib.git"
+x-maintenance-intent: ["(latest)"]
 depends: [
   "rocq-runtime"
   "rocq-core" {>= "9.1"}

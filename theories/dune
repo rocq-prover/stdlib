@@ -1,10 +1,11 @@
 (include_subdirs qualified)
-(coq.theory
+(rocq.theory
  (name Stdlib)
+ (generate_project_file)
  (package rocq-stdlib))
 
 (env
  (dev
-  (coq
+  (rocq
    ;; see theories/_CoqProject for details
    (flags :standard -w -notation-for-abbreviation -w -ltac2-notation-for-abbreviation -w -implicit-create-hint-db -w -implicit-create-rewrite-hint-db -w -register-all -w -scheme-rewriting))))
