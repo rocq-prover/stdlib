@@ -1,11 +1,13 @@
+(rule
+ (action
+  (with-stdout-to rocq-flags
+  (pipe-stdout
+   (cat rocq-flags.conf)
+   (bash "grep '^[^#]\\+' || true")))))
+
 (include_subdirs qualified)
 (rocq.theory
  (name Stdlib)
  (generate_project_file)
+ (flags :standard %{read-lines:rocq-flags})
  (package rocq-stdlib))
-
-(env
- (dev
-  (rocq
-   ;; see theories/_CoqProject for details
-   (flags :standard -w -notation-for-abbreviation -w -ltac2-notation-for-abbreviation -w -implicit-create-hint-db -w -implicit-create-rewrite-hint-db -w -register-all -w -scheme-rewriting))))
