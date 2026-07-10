@@ -133,6 +133,7 @@ ide/coqide/index_urls.txt
 .nra.cache
 theories/Makefile.coq
 theories/Makefile.coq.conf
+META.*
 
 # emacs save files
 *~
