@@ -11,9 +11,6 @@ dune:
 dune-install:
 	$(DUNE) install --root . rocq-stdlib
 
-build-% install-%:
-	+$(MAKE) -C theories $@
-
 # Make of individual .vo
 theories/%.vo:
 	+$(MAKE) -C theories $*.vo
