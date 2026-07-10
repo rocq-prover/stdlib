@@ -3,7 +3,7 @@ DUNE=dev/with-rocq-wrap.sh dune
 .PHONY: clean all install dune dune-install test-suite
 
 all install:
-	+$(MAKE) -j -C theories $@
+	+$(MAKE) -C theories $@
 
 dune:
 	$(DUNE) build -p rocq-stdlib @install
