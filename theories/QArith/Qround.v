@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import QArith_base.
+From Stdlib Require Import QArith_base Qfield.
 From Stdlib Require Import Zdiv Zquot.
 
 (************)
@@ -341,4 +341,42 @@ Proof.
  - rewrite <- Z.opp_eq_mul_m1.
    rewrite <- (Z.opp_involutive (Zpos p)).
    now rewrite Zdiv_opp_opp.
+Qed.
+
+(** Properties about how [Qfloor] and [Qceiling] interact with [Qplus] *)
+
+Lemma Qfloor_add_Z_r : forall (x:Q) (z:Z), Qfloor (x + inject_Z z) = (Qfloor x + z)%Z.
+Proof.
+intros [n d] z.
+unfold Qfloor.
+simpl.
+rewrite (Z.mul_1_r n), (Pos.mul_1_r d).
+now rewrite Z_div_plus_full.
+Qed.
+
+Lemma Qfloor_add_Z_l : forall (z:Z) (x:Q), Qfloor (inject_Z z + x) = (z + Qfloor x)%Z.
+Proof.
+intros z x.
+rewrite (Qplus_comm (inject_Z z) x).
+rewrite (Z.add_comm z (Qfloor x)).
+apply Qfloor_add_Z_r.
+Qed.
+
+Lemma Qceiling_add_Z_r : forall (x:Q) (z:Z), Qceiling (x + inject_Z z) = (Qceiling x + z)%Z.
+Proof.
+intros x z.
+unfold Qceiling.
+rewrite (Qopp_plus x (inject_Z z)).
+rewrite <- (inject_Z_opp z).
+rewrite Qfloor_add_Z_r.
+rewrite Z.opp_add_distr.
+now rewrite Z.opp_involutive.
+Qed.
+
+Lemma Qceiling_add_Z_l : forall (z:Z) (x:Q), Qceiling (inject_Z z + x) = (z + Qceiling x)%Z.
+Proof.
+intros z x.
+rewrite (Qplus_comm (inject_Z z) x).
+rewrite (Z.add_comm z (Qceiling x)).
+apply Qceiling_add_Z_r.
 Qed.
