@@ -9,7 +9,7 @@
 (************************************************************************)
 
 From Stdlib Require Import QArith_base.
-From Stdlib Require Import Zdiv.
+From Stdlib Require Import Zdiv Zquot.
 
 (************)
 
@@ -19,6 +19,12 @@ From Stdlib Require Import Zdiv.
     Put another way, this rounds [x] towards negative infinity. *)
 
 Definition Qfloor (x:Q) := let (n,d) := x in Z.div n (Zpos d).
+
+(** [Qfloor_frac_part x] returns a fraction [f] such that [0 <= f < 1] and
+    [x = Qfloor x + f]. For example, [Qfloor_frac_part 1.6 = 0.6] and
+    [Qfloor_frac_part (-1.6) = 0.4]. *)
+
+Definition Qfloor_frac_part (x:Q) := let (n,d) := x in Z.modulo n (Zpos d) # d.
 
 (** [Qceiling x] returns the smaller integer [i] such that [x <= i].
     Put another way, this rounds [x] towards positive infinity. *)
@@ -34,6 +40,12 @@ Definition Qtruncate (x:Q) :=
   if Qle_bool 0 x
     then Qfloor x
     else Qceiling x.
+
+(** [Qtruncate_frac_part x] returns a fraction [f] such that [Z.abs f < 1] and
+    [x = Qtruncate x + f]. For example, [Qtruncate_frac_part 1.6 = 0.6] and
+    [Qtruncate_frac_part (-1.6) = -0.6]. *)
+
+Definition Qtruncate_frac_part (x:Q) := let (n,d) := x in Z.rem n (Zpos d) # d.
 
 (** An equivalent definition of [Qtruncate] in terms of [Z.quot]. *)
 
@@ -61,6 +73,85 @@ destruct (Qle_bool 0 (n # d)) eqn:H0.
   + contradiction.
   + rewrite H2.
     now rewrite (Z.sgn_neg n H1).
+Qed.
+
+(** [Qfloor_frac_part] and [Qtrunc_frac_part] properties *)
+
+Lemma Qfloor_proper_fraction : forall x, x = inject_Z (Qfloor x) + Qfloor_frac_part x.
+Proof.
+intros [n d].
+unfold Qfloor, Qfloor_frac_part, Qplus.
+simpl.
+rewrite (Z.mul_1_r (Z.modulo n (Z.pos d))).
+rewrite (Z.mul_comm (Z.div n (Z.pos d)) (Z.pos d)).
+now rewrite <- (Z.div_mod n (Z.pos d)).
+Qed.
+
+Lemma Qtruncate_proper_fraction : forall x, x = inject_Z (Qtruncate x) + Qtruncate_frac_part x.
+Proof.
+intros [n d].
+rewrite Qtruncate_quot.
+unfold Qtruncate_frac_part, Qplus.
+simpl.
+rewrite (Z.mul_1_r (Z.rem n (Z.pos d))).
+rewrite (Z.mul_comm (Z.quot n (Z.pos d)) (Z.pos d)).
+now rewrite <- (Z.quot_rem n (Z.pos d)).
+Qed.
+
+Lemma Qfloor_floor_frac_part : forall x, Qfloor (Qfloor_frac_part x) = 0%Z.
+Proof.
+intros [n d].
+simpl.
+apply Zmod_div.
+Qed.
+
+Lemma Qceiling_floor_frac_part : forall x, Qfloor_frac_part x == 0 \/ Qceiling (Qfloor_frac_part x) = 1%Z.
+Proof.
+intros x.
+destruct (Qeq_dec (Qfloor_frac_part x) 0) as [Hl|Hr].
+- left.
+  exact Hl.
+- right.
+  destruct x as [n d].
+  unfold Qceiling, Qfloor_frac_part, Qfloor in *.
+  simpl in *.
+  unfold Qeq in Hr.
+  simpl in Hr.
+  rewrite Z.mul_1_r in Hr.
+  change 1%Z with (- - 1)%Z.
+  f_equal.
+  rewrite Z_div_nz_opp_full.
+  + now rewrite Zmod_div.
+  + discriminate.
+  + rewrite Zmod_mod.
+    exact Hr.
+Qed.
+
+Lemma Qfloor_frac_part_bounds : forall x, 0 <= Qfloor_frac_part x < 1.
+Proof.
+intros [n d].
+unfold Qfloor_frac_part, Qle, Qlt.
+simpl.
+rewrite (Z.mul_1_r (Z.modulo n (Z.pos d))).
+now apply Z.mod_pos_bound.
+Qed.
+
+Lemma Qtruncate_frac_part_bounds : forall x, -1 < Qtruncate_frac_part x < 1.
+Proof.
+intros [n d].
+unfold Qtruncate_frac_part, Qlt.
+simpl.
+rewrite (Z.mul_1_r (Z.rem n (Z.pos d))).
+destruct (ZArith_dec.Z_lt_le_dec n 0) as [H|H].
+- apply Z.lt_le_incl in H.
+  destruct (Zrem_lt_neg_pos n (Z.pos d) H eq_refl) as [X Y].
+  split.
+  + apply X.
+  + apply (Z.le_lt_trans (Z.rem n (Z.pos d)) 0 (Z.pos d) Y eq_refl).
+- destruct (Zrem_lt_pos_pos n (Z.pos d) H eq_refl) as [X Y].
+  split.
+  + apply (Z.lt_le_trans (Z.neg d) 0 (Z.rem n (Z.pos d)) eq_refl X).
+  + apply Y.
 Qed.
 
 Lemma Qfloor_Z : forall z:Z, Qfloor z = z.
