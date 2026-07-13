@@ -15,7 +15,14 @@ From Stdlib Require Import Zdiv.
 
 #[local] Coercion inject_Z : Z >-> Q.
 
+(** [Qfloor x] returns the greatest integer [i] such that [i <= x].
+    Put another way, this rounds [x] towards negative infinity. *)
+
 Definition Qfloor (x:Q) := let (n,d) := x in Z.div n (Zpos d).
+
+(** [Qceiling x] returns the smaller integer [i] such that [x <= i].
+    Put another way, this rounds [x] towards positive infinity. *)
+
 Definition Qceiling (x:Q) := (-(Qfloor (-x)))%Z.
 
 Lemma Qfloor_Z : forall z:Z, Qfloor z = z.
