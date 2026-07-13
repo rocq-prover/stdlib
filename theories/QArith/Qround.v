@@ -25,6 +25,44 @@ Definition Qfloor (x:Q) := let (n,d) := x in Z.div n (Zpos d).
 
 Definition Qceiling (x:Q) := (-(Qfloor (-x)))%Z.
 
+(** [Qtruncate x] returns the nearest integer between [0] and [x].
+    For non-negative [x] values, this is equivalent to [Qfloor x].
+    For negative [x] values, this is equivalent to [Qceiling x].
+    Put another way, this rounds [x] towards zero. *)
+
+Definition Qtruncate (x:Q) :=
+  if Qle_bool 0 x
+    then Qfloor x
+    else Qceiling x.
+
+(** An equivalent definition of [Qtruncate] in terms of [Z.quot]. *)
+
+Lemma Qtruncate_quot : forall x, Qtruncate x = let (n,d) := x in Z.quot n (Zpos d).
+Proof.
+intros x.
+destruct x as [n d].
+unfold Qtruncate.
+destruct (Qle_bool 0 (n # d)) eqn:H0.
+- apply Qle_bool_imp_le in H0.
+  change (0 <= n # d)%Q with (inject_Z 0 <= inject_Z n) in H0.
+  rewrite <- (Zle_Qle 0 n) in H0.
+  now rewrite (Z.quot_div_nonneg n (Z.pos d) H0 eq_refl).
+- unfold Qceiling, Qfloor.
+  simpl.
+  rewrite (Z.quot_div n (Z.pos d) ltac:(discriminate)).
+  simpl.
+  rewrite (Z.mul_1_r (Z.sgn n)).
+  change (Qle_bool 0 (n # d) = false) with (Qle_bool 0 (inject_Z n) = false) in H0.
+  unfold Qle_bool in H0.
+  simpl in H0.
+  rewrite (Z.mul_1_r n) in H0.
+  rewrite Z.leb_nle in H0.
+  destruct (Z.abs_spec n) as [[H1 H2]|[H1 H2]].
+  + contradiction.
+  + rewrite H2.
+    now rewrite (Z.sgn_neg n H1).
+Qed.
+
 Lemma Qfloor_Z : forall z:Z, Qfloor z = z.
 Proof.
 intros z.
@@ -39,6 +77,15 @@ unfold Qceiling.
 simpl.
 rewrite Z.div_1_r.
 apply Z.opp_involutive.
+Qed.
+
+Lemma Qtruncate_Z : forall z:Z, Qtruncate z = z.
+Proof.
+intros z.
+unfold Qtruncate.
+destruct (Qle_bool 0 z).
+- apply Qfloor_Z.
+- apply Qceiling_Z.
 Qed.
 
 Lemma Qfloor_le : forall x, Qfloor x <= x.
@@ -71,6 +118,24 @@ Hint Resolve Qle_ceiling : qarith.
 Lemma Qle_floor_ceiling : forall x, Qfloor x <= Qceiling x.
 Proof.
 eauto with qarith.
+Qed.
+
+Lemma Qle_floor_truncate : forall x, Qfloor x <= Qtruncate x.
+Proof.
+intros x.
+unfold Qtruncate.
+destruct (Qle_bool 0 x).
+- apply Qle_refl.
+- apply Qle_floor_ceiling.
+Qed.
+
+Lemma Qle_truncate_ceiling : forall x, Qtruncate x <= Qceiling x.
+Proof.
+intros x.
+unfold Qtruncate.
+destruct (Qle_bool 0 x).
+- apply Qle_floor_ceiling.
+- apply Qle_refl.
 Qed.
 
 Lemma Qlt_floor : forall x, x < (Qfloor x+1)%Z.
@@ -129,6 +194,29 @@ Qed.
 #[global]
 Hint Resolve Qceiling_resp_le : qarith.
 
+Lemma Qtruncate_resp_le : forall x y, x <= y -> (Qtruncate x <= Qtruncate y)%Z.
+Proof.
+intros x y Hxy.
+unfold Qtruncate.
+destruct (Qle_bool 0 x) eqn:Hx, (Qle_bool 0 y) eqn:Hy.
+- now apply Qfloor_resp_le.
+- apply Qle_bool_imp_le in Hx.
+  apply Qle_bool_imp_gt in Hy.
+  apply (Qle_trans 0 x y Hx) in Hxy.
+  apply (Qle_lt_trans 0 y 0 Hxy) in Hy.
+  discriminate Hy.
+- apply Qle_bool_imp_gt in Hx.
+  apply Qle_bool_imp_le in Hy.
+  apply Qlt_le_weak in Hx.
+  apply Qceiling_resp_le in Hx.
+  apply Qfloor_resp_le in Hy.
+  apply (Z.le_trans _ _ _ Hx Hy).
+- now apply Qceiling_resp_le.
+Qed.
+
+#[global]
+Hint Resolve Qtruncate_resp_le : qarith.
+
 Add Morphism Qfloor with signature Qeq ==> eq as Qfloor_comp.
 Proof.
 intros x y H.
@@ -138,6 +226,14 @@ apply Z.le_antisymm.
 Qed.
 
 Add Morphism Qceiling with signature Qeq ==> eq as Qceiling_comp.
+Proof.
+intros x y H.
+apply Z.le_antisymm.
+- auto with *.
+- symmetry in H; auto with *.
+Qed.
+
+Add Morphism Qtruncate with signature Qeq ==> eq as Qtruncate_comp.
 Proof.
 intros x y H.
 apply Z.le_antisymm.
