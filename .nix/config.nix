@@ -158,7 +158,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
     ];
     coq-master = [
       "dpdgraph-test"
-      "smtcoq"
       "waterproof"
     ];
     main = [
@@ -242,6 +241,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       LibHyps.job = false;  # not in Rocq CI
       reglang.job = false;  # not in Rocq CI
       ssprove.job = false;  # not in Rocq CI
+      smtcoq.override.version = "rocq-master";  # can't use rocq-master above as it isn't actually a rocq package yet
       TypedExtraction.job = false;  # not in Rocq CI
       TypedExtraction-common.job = false;  # not in Rocq CI
       TypedExtraction-elm.job = false;  # not in Rocq CI
@@ -341,7 +341,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       relation-algebra.override.version = "ba3db5783060d9e25d1db5e377fc9d71338a5160";
       rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
       rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
-      smtcoq.override.version = "cff0a8cdb7c73b6c59965a749a4304f3c4ac01bf";
+      smtcoq.job = false;
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
       waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
@@ -375,7 +375,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       relation-algebra.override.version = "4db15229396abfd8913685be5ffda4f0fdb593d9";
       rewriter.override.version = "9496defb8b236f442d11372f6e0b5e48aa38acfc";
       rocq-lean-import.override.version = "c3546102f242aaa1e9af921c78bdb1132522e444";
-      smtcoq.override.version = "5c6033c906249fcf98a48b4112f6996053124514";
+      smtcoq.job = false;
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
       unicoq.override.version = "28ec18aef35877829535316fc09825a25be8edf1";
       waterproof.override.version = "dd712eb0b7f5c205870dbd156736a684d40eeb9a";
