@@ -3,8 +3,6 @@ Import ZArith.
 
 Declare Scope uint_scope.
 Declare Scope sint_scope.
-Delimit Scope uint_scope with uint.
-Delimit Scope sint_scope with sint.
 
 Record uint := wrapu { unwrapu : int }.
 Record sint := wraps { unwraps : int }.
