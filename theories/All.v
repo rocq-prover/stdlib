@@ -7,6 +7,10 @@ From Stdlib Require Export ssr.ssrfun.
 From Stdlib Require Export ssr.ssreflect.
 From Stdlib Require Export ssr.ssrclasses.
 From Stdlib Require Export ssr.ssrbool.
+From Stdlib Require Export setoid_ring.ring_eval.
+From Stdlib Require Export setoid_ring.ring_checker.
+From Stdlib Require Export setoid_ring.field_eval.
+From Stdlib Require Export setoid_ring.field_checker.
 From Stdlib Require Export Numbers.BinNums.
 From Stdlib Require Export Logic.EqdepFacts.
 From Stdlib Require Export Logic.Eqdep_dec.
@@ -67,7 +71,6 @@ From Stdlib Require Export BinNums.PosDef.
 From Stdlib Require Export PArith.BinPosDef.
 From Stdlib Require Export PArith.BinPos.
 From Stdlib Require Export PArith.Pnat.
-From Stdlib Require Export BinNums.NatDef.
 From Stdlib Require Export NArith.BinNatDef.
 From Stdlib Require Export NArith.BinNat.
 From Stdlib Require Export Numbers.Integer.Abstract.ZAxioms.
@@ -109,6 +112,7 @@ From Stdlib Require Export setoid_ring.Ncring_tac.
 From Stdlib Require Export setoid_ring.Cring.
 From Stdlib Require Export setoid_ring.Integral_domain.
 From Stdlib Require Export setoid_ring.Rings_Z.
+From Stdlib Require Export BinNums.RatDef.
 From Stdlib Require Export ZArith.Zcompare.
 From Stdlib Require Export Init.Sumbool.
 From Stdlib Require Export Arith.Factorial.
@@ -302,6 +306,7 @@ From Stdlib Require Export micromega.ZifyNat.
 From Stdlib Require Export micromega.ZifyN.
 From Stdlib Require Export micromega.ZifyComparison.
 From Stdlib Require Export micromega.ZCoeff.
+From Stdlib Require Export micromega.Tify.
 From Stdlib Require Export micromega.Psatz.
 From Stdlib Require Export extraction.Extraction.
 From Stdlib Require Export funind.FunInd.
@@ -580,5 +585,6 @@ From Stdlib Require Export Classes.CEquivalence.
 From Stdlib Require Export Bool.IfProp.
 From Stdlib Require Export Bool.DecBool.
 From Stdlib Require Export Bool.BoolEq.
+From Stdlib Require Export BinNums.NatDef.
 From Stdlib Require Export Arith.Cantor.
 From Stdlib Require Export Arith.Bool_nat.
