@@ -8,6 +8,70 @@ Recent changes
 
    .. include:: ../unreleased.rst
 
+Version 9.2
+-----------
+
+Changes in 9.2.0
+~~~~~~~~~~~~~~~~
+
+.. contents::
+   :local:
+
+Changed
+^^^^^^^
+
+- in `RelationPairs.v`
+
+  + changed notations `_ @@1` and `_ @@2` from level 30 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `FMapAVL.v`
+
+  + changed notations `_ #1`, `_ #2`, `_ #l`, `_ #o` and `_ #r` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `MSetAVL.v`
+
+  + changed notations `_ #1`, `_ #2`, `_ #l`, `_ #b` and `_ #r` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `ZNatPairs.v`
+
+  + changed notations `_ #1` and `_ #2` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `NZBits.v`
+
+  + changed notation `_ .[ _ ]` from level 5 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `NZDomain.v`
+
+  + changed notation `[ _ ]` from level 7 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `theories/Zmod/Bits.v`
+
+  + Fixed lemma `bits.skipn_app` to actually describe the interaction between
+    the titular functions. Developments relying on the previous tautological
+    statement can restore it by adding that version of the lemma to the codebase
+    (`#258 <https://github.com/coq/stdlib/pull/258>`_,
+    by Andres Erbsen).
+
 Version 9.1
 -----------
 
@@ -17,6 +81,61 @@ Changes in 9.1.0
 .. contents::
    :local:
 
+Changed
+^^^^^^^
+
+
+- in `RelationPairs.v`
+
+  + changed notations `_ @@1` and `_ @@2` from level 30 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `FMapAVL.v`
+
+  + changed notations `_ #1`, `_ #2`, `_ #l`, `_ #o` and `_ #r` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `MSetAVL.v`
+
+  + changed notations `_ #1`, `_ #2`, `_ #l`, `_ #b` and `_ #r` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+  + changed notation `<< _ , _ , _ >>` from level 9 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `ZNatPairs.v`
+
+  + changed notations `_ #1` and `_ #2` from level 9 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `NZBits.v`
+
+  + changed notation `_ .[ _ ]` from level 5 to level 1
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `NZDomain.v`
+
+  + changed notation `[ _ ]` from level 7 to level 0
+    (`#235 <https://github.com/coq/stdlib/pull/235>`_,
+    by Pierre Roux).
+
+- in `theories/Zmod/Bits.v`
+
+  + Fixed lemma `bits.skipn_app` to actually describe the interaction between
+    the titular functions. Developments relying on the previous tautological
+    statement can resore it by adding that version of the lemma to the codebase
+    (`#258 <https://github.com/coq/stdlib/pull/258>`_,
+    by Andres Erbsen).
 
 Changed
 ^^^^^^^
