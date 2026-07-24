@@ -293,6 +293,66 @@ with builtins; with (import <nixpkgs> {}).lib; {
       mathcomp-finmap.override.version = "master";
       mathcomp-algebra-tactics.job = false;  # no longer in Rocq CI since Rocq 9.3
     }; };
+    "rocq-9.3" = { rocqPackages = common-bundles // {
+      rocq-core.override.version = "9.3";
+      # check that we compile without warnings on last release of Rocq
+      # stdlib-warnings.job = true;
+      rocq-elpi.override.version = "master";
+      rocq-elpi-test.override.version = "master";
+      # plugin pins, from v9.3 branch of Rocq
+      bignums.override.version = "36cd7009759b797b9b248ca91959e11494e89a4a";
+      stdlib-test.job = false;
+      autosubst.job = false;  # no release for 9.3 yet
+      coquelicot.job = false;  # no release for 9.3 yet
+      deriving.job = false;  # no release for 9.3 yet
+      fcsl-pcm.job = false;  # no release for 9.3 yet
+      hierarchy-builder.job = false;  # no release for 9.3 yet
+      mathcomp.job = false;  # no release for 9.3 yet
+      mathcomp-algebra.job = false;  # no release for 9.3 yet
+      mathcomp-algebra-tactics.job = false;  # no release for 9.3 yet
+      mathcomp-analysis.job = false;  # no release for 9.3 yet
+      mathcomp-analysis-stdlib.job = false;  # no release for 9.3 yet
+      mathcomp-field.job = false;  # no release for 9.3 yet
+      mathcomp-reals.job = false;  # no release for 9.3 yet
+      mathcomp-reals-stdlib.job = false;  # no release for 9.3 yet
+      mathcomp-word.job = false;  # no release for 9.3 yet
+      mathcomp-zify.job = false;  # no release for 9.3 yet
+      mathcomp-finmap.job = false;  # no release for 9.3 yet
+      mathcomp-bigenough.job = false;  # no release for 9.3 yet
+      QuickChick.job = false;  # no release for 9.3 yet
+      quickchick-test.job = false;  # no release for 9.3 yet
+      relation-algebra.job = false;  # no release for 9.3 yet
+    }; coqPackages = coq-common-bundles // {
+      coq.override.version = "9.3";
+      coq-elpi.override.version = "master";
+      # plugin pins, from v9.3 branch of Rocq
+      aac-tactics.override.version = "09523f9910891dcc2072f2b87fee658a62feb484";
+      atbr.override.version = "1806f95dd68b953312cbee44224ea1e96de9f35f";
+      bignums.override.version = "36cd7009759b797b9b248ca91959e11494e89a4a";
+      itauto.job = false;  # broken
+      coinduction.override.version = "81ecd5f1ffa3e46b696d9461c88ad6ca9be5cfc7";
+      dpdgraph-test.override.version = "86433889a23298cb946175df9578434ec20990a2";
+      coq-hammer.override.version = "810ee0b644022104de2dae3a4f397c08c9681b9d";
+      coq-hammer-tactics.override.version = "810ee0b644022104de2dae3a4f397c08c9681b9d";
+      equations.override.version = "d562d8c413f4b0d2a837ef742d08fa59d14107e6";
+      equations-test.job = false;
+      fiat-parsers.job = false;  # broken
+      metarocq.override.version = "9242c14bc377611a56d45283977ea754fd499c47";
+      metarocq-test.override.version = "9242c14bc377611a56d45283977ea754fd499c47";
+      mtac2.override.version = "b229396fbfe474c0b9c5a7732dd5988454cb291a";
+      paramcoq-test.override.version = "eba83b1cc03bb1ef4dc4384129a975e4286736db";
+      relation-algebra.override.version = "2d2af3631929399bbac56f57b3e15302d8697e1c";
+      rewriter.override.version = "bed456b1068058c0f80e559a845e0e40aad5dc73";
+      rocq-lean-import.override.version = "38fb4791bc7a3bc49995526448778c6e5555aaf1";
+      smtcoq.job = false;
+      stalmarck-tactic.override.version = "698fb18415d10bfef07af3a3935acf551a829322";
+      unicoq.override.version = "afff890feb05adfae6362344ba8b088c40059706";
+      waterproof.override.version = "f49b8305b74eeddc039282de6f610b34ca941713";
+      compcert.job = false;  # broken
+      trakt.job = false;  # not available yet
+      VST.job = false;  # depends on compcert
+    } // listToAttrs (forEach lighten-released (p:
+      { name = p; value.job = false; })); };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
       # check that we compile without warnings on last release of Rocq
@@ -304,19 +364,9 @@ with builtins; with (import <nixpkgs> {}).lib; {
       coquelicot.job = false;  # no release for 9.2 yet
       deriving.job = false;  # no release for 9.2 yet
       fcsl-pcm.job = false;  # no release for 9.2 yet
-      hierarchy-builder.job = false;  # no release for 9.2 yet
-      mathcomp.job = false;  # no release for 9.2 yet
-      mathcomp-algebra.job = false;  # no release for 9.2 yet
       mathcomp-algebra-tactics.job = false;  # no release for 9.2 yet
-      mathcomp-analysis.job = false;  # no release for 9.2 yet
-      mathcomp-analysis-stdlib.job = false;  # no release for 9.2 yet
-      mathcomp-field.job = false;  # no release for 9.2 yet
-      mathcomp-reals.job = false;  # no release for 9.2 yet
-      mathcomp-reals-stdlib.job = false;  # no release for 9.2 yet
       mathcomp-word.job = false;  # no release for 9.2 yet
       mathcomp-zify.job = false;  # no release for 9.2 yet
-      mathcomp-finmap.job = false;  # no release for 9.2 yet
-      mathcomp-bigenough.job = false;  # no release for 9.2 yet
       QuickChick.job = false;  # no release for 9.2 yet
       quickchick-test.job = false;  # no release for 9.2 yet
       relation-algebra.job = false;  # no release for 9.2 yet
@@ -336,14 +386,14 @@ with builtins; with (import <nixpkgs> {}).lib; {
       fiat-parsers.job = false;  # broken
       metarocq.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
       metarocq-test.override.version = "e8f8078e756cc378b830eb5a8e4637df43d481af";
-      mtac2.override.version = "fe8b6049835caa793436e277a64ee7e4910f7b04";
+      mtac2.job = false;  # not available for 9.2
       paramcoq-test.override.version = "f8026210f37faf6c4031de24ada9fdded29d67e5";
       relation-algebra.override.version = "ba3db5783060d9e25d1db5e377fc9d71338a5160";
       rewriter.override.version = "dd37fb28ed7f01a3b7edc0675a86b95dd3eb1545";
       rocq-lean-import.override.version = "b8291b9dae4f5ed780112e95eea484e435199b46";
       smtcoq.job = false;
       stalmarck-tactic.override.version = "d32acd3c477c57b48dd92bdd96d53fb8fa628512";
-      unicoq.override.version = "d52374ca86e3885197f114555e742420fa9bbe94";
+      unicoq.job = false;  # not available for 9.2
       waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
       compcert.job = false;  # broken
       VST.job = false;  # depends on compcert
