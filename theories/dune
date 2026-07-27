@@ -8,4 +8,4 @@
  (dev
   (rocq
    ;; see theories/_CoqProject for details
-   (flags :standard -w -ltac2-notation-for-abbreviation -w -implicit-create-hint-db -w -implicit-create-rewrite-hint-db -w -register-all -w -scheme-rewriting -w -non-boolean-if))))
+   (flags :standard -w -implicit-create-hint-db -w -implicit-create-rewrite-hint-db -w -register-all -w -scheme-rewriting -w -non-boolean-if))))
