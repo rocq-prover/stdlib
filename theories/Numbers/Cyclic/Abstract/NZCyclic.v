@@ -29,7 +29,7 @@ Module NZCyclicAxiomsMod (Import Cyclic : CyclicType) <: NZAxiomsSig.
 
 #[local] Open Scope Z_scope.
 
-#[local] Notation wB := (base ZnZ.digits).
+#[local] Abbreviation wB := (base ZnZ.digits).
 
 #[local] Notation "[| x |]" := (ZnZ.to_Z x) (at level 0, x at level 99).
 
@@ -45,8 +45,8 @@ Definition mul := ZnZ.mul.
 
 #[local] Infix "=="  := eq (at level 70).
 #[local] Notation "0" := zero.
-#[local] Notation S := succ.
-#[local] Notation P := pred.
+#[local] Abbreviation S := succ.
+#[local] Abbreviation P := pred.
 #[local] Infix "+" := add.
 #[local] Infix "-" := sub.
 #[local] Infix "*" := mul.

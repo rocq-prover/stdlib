@@ -18,15 +18,15 @@ From Stdlib Require Import BinInt Zcompare Zorder.
 
 (** Exact compatibility *)
 
-Notation Zle_min_compat_r := Z.min_le_compat_r (only parsing).
-Notation Zle_min_compat_l := Z.min_le_compat_l (only parsing).
-Notation Zmin_idempotent := Z.min_id (only parsing).
-Notation Zmin_n_n := Z.min_id (only parsing).
-Notation Zmin_irreducible_inf := Z.min_dec (only parsing).
-Notation Zmin_SS := Z.succ_min_distr (only parsing).
-Notation Zplus_min_distr_r := Z.add_min_distr_r (only parsing).
-Notation Zmin_plus := Z.add_min_distr_r (only parsing).
-Notation Zpos_min := Pos2Z.inj_min (only parsing).
+Abbreviation Zle_min_compat_r := Z.min_le_compat_r (only parsing).
+Abbreviation Zle_min_compat_l := Z.min_le_compat_l (only parsing).
+Abbreviation Zmin_idempotent := Z.min_id (only parsing).
+Abbreviation Zmin_n_n := Z.min_id (only parsing).
+Abbreviation Zmin_irreducible_inf := Z.min_dec (only parsing).
+Abbreviation Zmin_SS := Z.succ_min_distr (only parsing).
+Abbreviation Zplus_min_distr_r := Z.add_min_distr_r (only parsing).
+Abbreviation Zmin_plus := Z.add_min_distr_r (only parsing).
+Abbreviation Zpos_min := Pos2Z.inj_min (only parsing).
 
 (** Slightly different lemmas *)
 
@@ -39,7 +39,7 @@ Qed.
 Lemma Zmin_irreducible n m : Z.min n m = n \/ Z.min n m = m.
 Proof. destruct (Z.min_dec n m); auto. Qed.
 
-Notation Zmin_or := Zmin_irreducible (only parsing).
+Abbreviation Zmin_or := Zmin_irreducible (only parsing).
 
 Lemma Zmin_le_prime_inf n m p : Z.min n m <= p -> {n <= p} + {m <= p}.
 Proof. apply Z.min_case; auto. Qed.

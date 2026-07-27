@@ -27,6 +27,9 @@ This gives the following lemmas:
 *)
 From Stdlib.Numbers.NatInt Require Import NZAxioms NZBase.
 
+Create Rewrite HintDb nz.
+Create Rewrite HintDb nz'.
+
 Module Type NZAddProp (Import NZ : NZBasicFunsSig')(Import NZBase : NZBaseProp NZ).
 
 #[global] Hint Rewrite

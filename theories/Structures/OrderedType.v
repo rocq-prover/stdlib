@@ -222,10 +222,10 @@ Module OrderedTypeFacts (Import O: OrderedType).
 
 Section ForNotations.
 
-Notation In:=(InA eq).
-Notation Inf:=(lelistA lt).
-Notation Sort:=(sort lt).
-Notation NoDup:=(NoDupA eq).
+Abbreviation In:=(InA eq).
+Abbreviation Inf:=(lelistA lt).
+Abbreviation Sort:=(sort lt).
+Abbreviation NoDup:=(NoDupA eq).
 
 Lemma In_eq : forall l x y, eq x y -> In x l -> In y l.
 Proof. exact (InA_eqA eq_equiv). Qed.
@@ -271,7 +271,7 @@ Module KeyOrderedType(O:OrderedType).
 
  Section Elt.
  Variable elt : Type.
- Notation key:=t.
+ Abbreviation key:=t.
 
   Definition eqk (p p':key*elt) := eq (fst p) (fst p').
   Definition eqke (p p':key*elt) :=
@@ -392,8 +392,8 @@ Module KeyOrderedType(O:OrderedType).
 
   Definition MapsTo (k:key)(e:elt):= InA eqke (k,e).
   Definition In k m := exists e:elt, MapsTo k e m.
-  Notation Sort := (sort ltk).
-  Notation Inf := (lelistA ltk).
+  Abbreviation Sort := (sort ltk).
+  Abbreviation Inf := (lelistA ltk).
 
   #[local]
   Hint Unfold MapsTo In : ordered_type.

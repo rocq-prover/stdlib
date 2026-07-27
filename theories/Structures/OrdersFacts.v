@@ -16,6 +16,8 @@ Unset Strict Implicit.
 
 (** * Properties of [compare] *)
 
+Create Rewrite HintDb order.
+
 Module Type CompareFacts (Import O:DecStrOrder').
 
  #[local] Infix "?=" := compare (at level 70, no associativity).
@@ -166,8 +168,8 @@ Module OrderedTypeFacts (Import O: OrderedType').
   Definition lt_irrefl (x:t) : ~x<x := StrictOrder_Irreflexive x.
 
   Include CompareFacts O.
-  Notation compare_le_iff := compare_ngt_iff (only parsing).
-  Notation compare_ge_iff := compare_nlt_iff (only parsing).
+  Abbreviation compare_le_iff := compare_ngt_iff (only parsing).
+  Abbreviation compare_ge_iff := compare_nlt_iff (only parsing).
 
   (** For compatibility reasons *)
   Definition eq_dec := eq_dec.

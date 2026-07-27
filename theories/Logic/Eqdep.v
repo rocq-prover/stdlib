@@ -35,6 +35,7 @@ Export EqdepTheory.
 
 (** Exported hints *)
 
+Create HintDb eqdep.
 #[global]
 Hint Resolve eq_dep_eq: eqdep.
 #[global]

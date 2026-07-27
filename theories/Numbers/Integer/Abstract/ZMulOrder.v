@@ -50,7 +50,7 @@ Proof.
 intros; rewrite mul_comm; now apply mul_nonneg_nonpos.
 Qed.
 
-Notation mul_pos := lt_0_mul (only parsing).
+Abbreviation mul_pos := lt_0_mul (only parsing).
 
 Theorem lt_mul_0 :
   forall n m, n * m < 0 <-> n < 0 /\ m > 0 \/ n > 0 /\ m < 0.
@@ -69,7 +69,7 @@ intros n m; split; [intro H | intros [[H1 H2] | [H1 H2]]].
 - now apply mul_pos_neg.
 Qed.
 
-Notation mul_neg := lt_mul_0 (only parsing).
+Abbreviation mul_neg := lt_mul_0 (only parsing).
 
 Theorem le_0_mul :
   forall n m, 0 <= n * m -> 0 <= n /\ 0 <= m \/ n <= 0 /\ m <= 0.
@@ -80,7 +80,7 @@ rewrite lt_0_mul, eq_mul_0.
 pose proof (lt_trichotomy n 0); pose proof (lt_trichotomy m 0). tauto.
 Qed.
 
-Notation mul_nonneg := le_0_mul (only parsing).
+Abbreviation mul_nonneg := le_0_mul (only parsing).
 
 Theorem le_mul_0 :
   forall n m, n * m <= 0 -> 0 <= n /\ m <= 0 \/ n <= 0 /\ 0 <= m.
@@ -91,9 +91,9 @@ rewrite lt_mul_0, eq_mul_0.
 pose proof (lt_trichotomy n 0); pose proof (lt_trichotomy m 0). tauto.
 Qed.
 
-Notation mul_nonpos := le_mul_0 (only parsing).
+Abbreviation mul_nonpos := le_mul_0 (only parsing).
 
-Notation le_0_square := square_nonneg (only parsing).
+Abbreviation le_0_square := square_nonneg (only parsing).
 
 Theorem nlt_square_0 : forall n, ~ n * n < 0.
 Proof.

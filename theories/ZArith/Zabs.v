@@ -29,13 +29,13 @@ From Stdlib Require Import ZArith_dec.
 (**********************************************************************)
 (** * Properties of absolute value *)
 
-Notation Zabs_non_eq := Z.abs_neq (only parsing).
-Notation Zabs_Zopp := Z.abs_opp (only parsing).
-Notation Zabs_pos := Z.abs_nonneg (only parsing).
-Notation Zabs_eq_case := Z.abs_eq_cases (only parsing).
-Notation Zsgn_Zabs := Z.sgn_abs (only parsing).
-Notation Zabs_Zsgn := Z.abs_sgn (only parsing).
-Notation Zabs_Zmult := Z.abs_mul (only parsing).
+Abbreviation Zabs_non_eq := Z.abs_neq (only parsing).
+Abbreviation Zabs_Zopp := Z.abs_opp (only parsing).
+Abbreviation Zabs_pos := Z.abs_nonneg (only parsing).
+Abbreviation Zabs_eq_case := Z.abs_eq_cases (only parsing).
+Abbreviation Zsgn_Zabs := Z.sgn_abs (only parsing).
+Abbreviation Zabs_Zsgn := Z.abs_sgn (only parsing).
+Abbreviation Zabs_Zmult := Z.abs_mul (only parsing).
 
 (** * Proving a property of the absolute value by cases *)
 
@@ -66,11 +66,11 @@ Qed.
 
 (** * Some results about the sign function. *)
 
-Notation Zsgn_Zmult := Z.sgn_mul (only parsing).
-Notation Zsgn_Zopp := Z.sgn_opp (only parsing).
-Notation Zsgn_pos := Z.sgn_pos_iff (only parsing).
-Notation Zsgn_neg := Z.sgn_neg_iff (only parsing).
-Notation Zsgn_null := Z.sgn_null_iff (only parsing).
+Abbreviation Zsgn_Zmult := Z.sgn_mul (only parsing).
+Abbreviation Zsgn_Zopp := Z.sgn_opp (only parsing).
+Abbreviation Zsgn_pos := Z.sgn_pos_iff (only parsing).
+Abbreviation Zsgn_neg := Z.sgn_neg_iff (only parsing).
+Abbreviation Zsgn_null := Z.sgn_null_iff (only parsing).
 
 (** A characterization of the sign function: *)
 
@@ -84,13 +84,13 @@ Qed.
 
 (** Compatibility *)
 
-Notation inj_Zabs_nat := Zabs2Nat.id_abs (only parsing).
-Notation Zabs_nat_Z_of_nat := Zabs2Nat.id (only parsing).
-Notation Zabs_nat_mult := Zabs2Nat.inj_mul (only parsing).
-Notation Zabs_nat_Zsucc := Zabs2Nat.inj_succ (only parsing).
-Notation Zabs_nat_Zplus := Zabs2Nat.inj_add (only parsing).
-Notation Zabs_nat_Zminus := (fun n m => Zabs2Nat.inj_sub m n) (only parsing).
-Notation Zabs_nat_compare := Zabs2Nat.inj_compare (only parsing).
+Abbreviation inj_Zabs_nat := Zabs2Nat.id_abs (only parsing).
+Abbreviation Zabs_nat_Z_of_nat := Zabs2Nat.id (only parsing).
+Abbreviation Zabs_nat_mult := Zabs2Nat.inj_mul (only parsing).
+Abbreviation Zabs_nat_Zsucc := Zabs2Nat.inj_succ (only parsing).
+Abbreviation Zabs_nat_Zplus := Zabs2Nat.inj_add (only parsing).
+Abbreviation Zabs_nat_Zminus := (fun n m => Zabs2Nat.inj_sub m n) (only parsing).
+Abbreviation Zabs_nat_compare := Zabs2Nat.inj_compare (only parsing).
 
 Lemma Zabs_nat_le n m : 0 <= n <= m -> (Z.abs_nat n <= Z.abs_nat m)%nat.
 Proof.

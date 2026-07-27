@@ -30,7 +30,7 @@ Definition t := N.
 
 (** ** Nicer name [N.pos] for constructor [Npos] *)
 
-#[global] Notation pos := Npos.
+#[global] Abbreviation pos := Npos.
 
 (** ** Constants *)
 

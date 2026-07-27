@@ -48,7 +48,7 @@ Section Integers_sect.
 
   Lemma le_reflexive : Reflexive nat le.
   Proof.
-    red; auto with arith.
+    red; auto.
   Qed.
 
   Lemma le_antisym : Antisymmetric nat le.
@@ -74,7 +74,7 @@ Section Integers_sect.
   Definition nat_po : PO nat.
   Proof.
     apply Definition_of_PO with (Carrier_of := Integers) (Rel_of := le);
-      auto with sets arith.
+      auto with sets.
     - apply Inhabited_intro with (x := 0).
       apply Integers_defn.
     - exact le_Order.
@@ -86,7 +86,7 @@ Section Integers_sect.
     simpl.
     intros H' x y H'0.
     elim Nat.le_gt_cases with (n := x) (m := y).
-    - intro H'1; left; auto with sets arith.
+    - intro H'1; left; auto with sets.
     - intro H'1; right.
       apply Nat.lt_le_incl; assumption.
   Qed.
@@ -105,7 +105,7 @@ Section Integers_sect.
       elim le_total_order.
       simpl.
       intro H'1; try assumption.
-      lapply H'1; [ intro H'4; idtac | try assumption ]; auto with sets arith.
+      lapply H'1; [ intro H'4; idtac | try assumption ]; auto with sets.
       generalize (H'4 x0 x).
       clear H'4.
       clear H'1.
@@ -121,7 +121,7 @@ Section Integers_sect.
              intro H'4; red in H'4.
              intros x1 H'6; try assumption.
              apply H'4 with (y := x0).
-             ++ elim H'3; simpl; auto with sets arith.
+             ++ elim H'3; simpl; auto with sets.
              ++ trivial.
           -- intros x1 H'4; elim H'4. unfold nat_po; simpl; trivial.
       + exists x0.
@@ -129,8 +129,8 @@ Section Integers_sect.
         * unfold nat_po. simpl. apply triv_nat.
         * intros y H'1; elim H'1.
           -- intros x1 H'4; try assumption.
-             elim H'3; simpl; auto with sets arith.
-          -- intros x1 H'4; elim H'4; auto with sets arith.
+             elim H'3; simpl; auto with sets.
+          -- intros x1 H'4; elim H'4; auto with sets.
       + red.
         intros x1 H'1; elim H'1; apply triv_nat.
   Qed.
@@ -154,7 +154,7 @@ Section Integers_sect.
     generalize Integers_has_no_ub.
     intro H'; red; intro H'0; try exact H'0.
     apply H'.
-    apply Finite_subset_has_lub; auto with sets arith.
+    apply Finite_subset_has_lub; auto with sets.
   Qed.
 
 End Integers_sect.

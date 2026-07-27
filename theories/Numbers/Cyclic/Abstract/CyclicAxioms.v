@@ -24,6 +24,8 @@ From Stdlib Require Import DoubleType.
 
 #[local] Open Scope Z_scope.
 
+Create Rewrite HintDb cyclic.
+
 (** First, a description via an operator record and a spec record. *)
 
 Module ZnZ.
@@ -347,7 +349,7 @@ Definition eq (n m : t) := [| n |] = [| m |].
 #[local] Infix "-" := ZnZ.sub.
 #[local] Notation "- x" := (ZnZ.opp x).
 #[local] Infix "*" := ZnZ.mul.
-#[local] Notation wB := (base ZnZ.digits).
+#[local] Abbreviation wB := (base ZnZ.digits).
 
 #[global] Hint Rewrite ZnZ.spec_0 ZnZ.spec_1 ZnZ.spec_add ZnZ.spec_mul
  ZnZ.spec_opp ZnZ.spec_sub

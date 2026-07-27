@@ -569,4 +569,4 @@ Qed.
 (* End: *)
 
 #[deprecated(since="Stdlib 9.0")]
-Notation to_nat := N.to_nat.
+Abbreviation to_nat := N.to_nat.

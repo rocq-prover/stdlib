@@ -176,7 +176,7 @@ Lemma Private_Zeqb_ok: forall x y : Z, Z.eqb x y = true -> x == y.
 Proof. intros x y ->%Z.eqb_eq. reflexivity. Qed.
 
 #[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
-Notation Zeqb_ok := Private_Zeqb_ok (only parsing).
+Abbreviation Zeqb_ok := Private_Zeqb_ok (only parsing).
 
 
 Ltac reify_goal lvar lexpr lterm:=

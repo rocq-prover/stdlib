@@ -24,27 +24,27 @@ Qed.
 
 Lemma mod_unsigned [m] (x : Zmod m) : x mod m = x.
 Proof. case x as [x H]; apply small_iff, H. Qed.
-Notation mod_to_Z := mod_unsigned (only parsing).
+Abbreviation mod_to_Z := mod_unsigned (only parsing).
 
 Lemma unsigned_range [m] (x : Zmod m) : 0 <= x < m \/ m = 0 \/ m < x <= 0.
 Proof. apply Z.mod_id_iff, mod_to_Z. Qed.
-Notation to_Z_range := unsigned_range (only parsing).
+Abbreviation to_Z_range := unsigned_range (only parsing).
 
 Lemma unsigned_pos_bound [m] (x : Zmod m) : 0 < m -> 0 <= x < m.
 Proof. rewrite <-mod_to_Z. apply Z.mod_pos_bound. Qed.
-Notation to_Z_pos_bound := unsigned_pos_bound (only parsing).
+Abbreviation to_Z_pos_bound := unsigned_pos_bound (only parsing).
 
 Lemma unsigned_neg_bound [m] (x : Zmod m) : m < 0 -> m < x <= 0.
 Proof. rewrite <-mod_to_Z. apply Z.mod_neg_bound. Qed.
-Notation to_Z_neg_bound := unsigned_neg_bound (only parsing).
+Abbreviation to_Z_neg_bound := unsigned_neg_bound (only parsing).
 
 Lemma unsigned_inj m (x y : Zmod m) : to_Z x = to_Z y -> x = y.
 Proof. cbv [to_Z Private_to_Z]; destruct x, y, 1; apply f_equal, Is_true_hprop. Defined.
-Notation to_Z_inj := unsigned_inj (only parsing).
+Abbreviation to_Z_inj := unsigned_inj (only parsing).
 
 Lemma unsigned_inj_iff [m] (x y : Zmod m) : to_Z x = to_Z y <-> x = y.
 Proof. split; try apply to_Z_inj; congruence. Qed.
-Notation to_Z_inj_iff := unsigned_inj_iff (only parsing).
+Abbreviation to_Z_inj_iff := unsigned_inj_iff (only parsing).
 
 Lemma unsigned_of_small_Z [m] z (H : z mod m = z) : to_Z (of_small_Z m z) = z.
 Proof.
@@ -52,36 +52,36 @@ Proof.
   specialize (small_iff z m); case ZmodDef.Zmod.small; intuition idtac.
   inversion H0.
 Qed.
-Notation to_Z_of_small_Z := unsigned_of_small_Z (only parsing).
+Abbreviation to_Z_of_small_Z := unsigned_of_small_Z (only parsing).
 
 Lemma unsigned_of_Z [m] z : to_Z (of_Z m z) = z mod m.
 Proof. apply to_Z_of_small_Z, Zmod_mod. Qed.
-Notation to_Z_of_Z := unsigned_of_Z (only parsing).
+Abbreviation to_Z_of_Z := unsigned_of_Z (only parsing).
 
 Lemma of_small_Z_ok [m] z (H : z mod m = z) : of_small_Z m z = of_Z m z.
 Proof. apply to_Z_inj. rewrite to_Z_of_small_Z, to_Z_of_Z; auto. Qed.
 
 Lemma of_Z_unsigned [m] x : of_Z m (unsigned x) = x.
 Proof. apply to_Z_inj. rewrite to_Z_of_Z, mod_to_Z; trivial. Qed.
-Notation of_Z_to_Z := of_Z_unsigned (only parsing).
+Abbreviation of_Z_to_Z := of_Z_unsigned (only parsing).
 
 Lemma unsigned_of_Z_id_iff [m] n :
   to_Z (of_Z m n) = n <-> 0 <= n < m \/ m = 0 \/ m < n <= 0.
 Proof. rewrite to_Z_of_Z; apply Z.mod_id_iff. Qed.
-Notation to_Z_of_Z_id_iff := unsigned_of_Z_id_iff.
+Abbreviation to_Z_of_Z_id_iff := unsigned_of_Z_id_iff.
 
 Lemma unsigned_of_Z_id [m] n (H : 0 <= n < m \/ m = 0 \/ m < n <= 0) :
   to_Z (of_Z m n) = n.
 Proof. apply to_Z_of_Z_id_iff, H. Qed.
-Notation to_Z_of_Z_id := unsigned_of_Z_id .
+Abbreviation to_Z_of_Z_id := unsigned_of_Z_id .
 
 Lemma unsigned_of_Z_mod0 n : to_Z (of_Z 0 n) = n.
 Proof. apply to_Z_of_Z_id; intuition idtac. Qed.
-Notation  to_Z_of_Z_mod0 := unsigned_of_Z_mod0 (only parsing).
+Abbreviation  to_Z_of_Z_mod0 := unsigned_of_Z_mod0 (only parsing).
 
 Lemma unsigned_of_Z_small [m] n (H : 0 <= n < m) : to_Z (of_Z m n) = n.
 Proof. rewrite to_Z_of_Z, Z.mod_small; trivial. Qed.
-Notation to_Z_of_Z_small := unsigned_of_Z_small.
+Abbreviation to_Z_of_Z_small := unsigned_of_Z_small.
 
 Lemma of_Z_mod [m] x : of_Z m (x mod m) = of_Z m x.
 Proof. apply to_Z_inj. rewrite ?to_Z_of_Z, ?Zmod_mod; trivial. Qed.
@@ -219,7 +219,7 @@ Proof.
   cbv [signed] in *; case (Z.ltb_spec (Z.double (Z.abs x)) (Z.abs m)) as [];
     intuition try lia.
 Qed.
-Notation to_Z_pos := unsigned_pos (only parsing).
+Abbreviation to_Z_pos := unsigned_pos (only parsing).
 
 Lemma unsigned_neg [m] (x : Zmod m) (Hm : 0 <= m) (H : signed x < 0) : unsigned x = m + signed x.
 Proof.
@@ -227,7 +227,7 @@ Proof.
   cbv [signed] in *; case (Z.ltb_spec (Z.double (Z.abs x)) (Z.abs m)) as [];
     intuition try lia.
 Qed.
-Notation to_Z_neg := unsigned_neg (only parsing).
+Abbreviation to_Z_neg := unsigned_neg (only parsing).
 
 Lemma signed_neg_iff [m] (x : Zmod m) :
   signed x < 0 <-> 0 < m <= 2*x \/ m = 0 /\ x < 0 \/ m < 2*x < 0.
@@ -248,11 +248,11 @@ Proof. pose proof to_Z_range x; rewrite signed_eq_unsigned_iff; lia. Qed.
 (** ** Constants *)
 
 Lemma unsigned_0 m : @to_Z m zero = 0. Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_0 := unsigned_0 (only parsing).
+Abbreviation to_Z_0 := unsigned_0 (only parsing).
 
 Lemma unsigned_0_iff [m] x : @to_Z m x = 0 <-> x = zero.
 Proof. rewrite <-to_Z_inj_iff, to_Z_0; trivial. Qed.
-Notation to_Z_0_iff := unsigned_0_iff (only parsing).
+Abbreviation to_Z_0_iff := unsigned_0_iff (only parsing).
 
 Lemma of_Z_0 m : of_Z m 0 = zero. Proof. apply of_small_Z_ok, Zmod_0_l. Qed.
 
@@ -266,18 +266,18 @@ Lemma of_Z_1 m : of_Z m 1 = one. Proof. apply to_Z_inj. trivial. Qed.
 
 Lemma unsigned_1 m : @to_Z m one = 1 mod m.
 Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_1 := unsigned_1 (only parsing).
+Abbreviation to_Z_1 := unsigned_1 (only parsing).
 
 Lemma unsigned_1_pos [m] (Hm : 2 <= m) : @to_Z m one = 1.
 Proof. cbv [one]; rewrite to_Z_of_Z_small; lia. Qed.
-Notation to_Z_1_pos := unsigned_1_pos (only parsing).
+Abbreviation to_Z_1_pos := unsigned_1_pos (only parsing).
 
 Lemma unsigned_1_1 : @to_Z 1 one = 0. Proof. trivial. Qed.
-Notation to_Z_1_1 := unsigned_1_1 (only parsing).
+Abbreviation to_Z_1_1 := unsigned_1_1 (only parsing).
 
 Lemma unsigned_1_neg [m] (Hm : m <= 0) : @to_Z m one = m+1.
 Proof. cbv [one]; rewrite to_Z_of_Z, (Z.mod_diveq (-1)); try lia. Qed.
-Notation to_Z_1_neg := unsigned_1_neg (only parsing).
+Abbreviation to_Z_1_neg := unsigned_1_neg (only parsing).
 
 Lemma unsigned_1_cases m : @to_Z m one =
   if 2 <=? m then 1 else if m =? 1 then 0 else m+1.
@@ -286,7 +286,7 @@ Proof.
   case (Z.eqb_spec m 1) as [->|]; auto using unsigned_1_pos.
   intros; rewrite unsigned_1_neg; lia.
 Qed.
-Notation to_Z_1_cases := unsigned_1_cases (only parsing).
+Abbreviation to_Z_1_cases := unsigned_1_cases (only parsing).
 
 Lemma gcd_1_m m : Z.coprime (@one m) m.
 Proof. cbv [one]; rewrite Zmod.to_Z_of_Z. apply Z.coprime_mod_l_iff, Z.coprime_1_l. Qed.
@@ -303,7 +303,7 @@ Lemma signed_1_2 : @signed 2 one = -1. Proof. trivial. Qed.
 
 Lemma unsigned_nz [m] (x : Zmod m) (H : x <> zero) : to_Z x <> 0.
 Proof. intros X; apply H, to_Z_inj. rewrite to_Z_0; trivial. Qed.
-Notation to_Z_nz := unsigned_nz (only parsing).
+Abbreviation to_Z_nz := unsigned_nz (only parsing).
 
 Lemma one_eq_zero_mod_1 : @one 1 = zero. Proof. trivial. Qed.
 
@@ -335,11 +335,11 @@ Qed.
 
 Lemma unsigned_Zmod1 (a : Zmod 1) : to_Z a = 0.
 Proof. pose proof to_Z_range a; lia. Qed.
-Notation to_Z_Zmod1 := unsigned_Zmod1 (only parsing).
+Abbreviation to_Z_Zmod1 := unsigned_Zmod1 (only parsing).
 
 Lemma unsigned_Zmodm1 (a : Zmod (-1)) : to_Z a = 0.
 Proof. pose proof to_Z_range a; lia. Qed.
-Notation to_Z_Zmodm1 := unsigned_Zmodm1 (only parsing).
+Abbreviation to_Z_Zmodm1 := unsigned_Zmodm1 (only parsing).
 
 Lemma signed_Zmod1 (a : Zmod 1) : signed a = 0.
 Proof. pose proof signed_pos_bound a; lia. Qed.
@@ -377,7 +377,7 @@ Proof.
   case (Z.ltb_spec (Z.abs (x + y)) (Z.abs m)) as [?|?]; trivial.
   rewrite ?(Z.mod_diveq 0), ?(Z.mod_diveq 1) by lia; lia.
 Qed.
-Notation to_Z_add := unsigned_add (only parsing).
+Abbreviation to_Z_add := unsigned_add (only parsing).
 
 Lemma eqb_spec [m] (x y : Zmod m) : BoolSpec (x = y) (x <> y) (eqb x y).
 Proof.
@@ -406,7 +406,7 @@ Proof.
   rewrite of_small_Z_ok, to_Z_of_Z by (case Z.eqb eqn:?; rewrite Z.mod_id_iff; lia).
   case Z.eqb eqn:?; rewrite ?(Z.mod_diveq 0), ?(Z.mod_diveq (-1)) by lia; lia.
 Qed.
-Notation to_Z_sub := unsigned_sub (only parsing).
+Abbreviation to_Z_sub := unsigned_sub (only parsing).
 
 Lemma signed_sub [m] x y : signed (@sub m x y) = Z.smodulo (signed x-signed y) m.
 Proof. rewrite <-!smod_unsigned, to_Z_sub, Z.smod_mod, Z.smod_idemp_sub; trivial. Qed.
@@ -419,7 +419,7 @@ Qed.
 
 Lemma unsigned_opp [m] (x : Zmod m) : to_Z (opp x) = (- to_Z x) mod m.
 Proof. cbv [opp]. rewrite to_Z_sub, to_Z_0, Z.sub_0_l; trivial. Qed.
-Notation to_Z_opp := unsigned_opp (only parsing).
+Abbreviation to_Z_opp := unsigned_opp (only parsing).
 
 Lemma signed_opp [m] x : signed (@opp m x) = Z.smodulo (-signed x) m.
 Proof. rewrite <-!smod_unsigned, to_Z_opp, Z.smod_mod, Z.smod_idemp_opp; trivial. Qed.
@@ -429,17 +429,17 @@ Proof. rewrite to_Z_opp, to_Z_1. apply (Z.mod_opp_mod_opp (-1)). Qed.
 
 Lemma unsigned_m1_pos [m : Z] (H : 2 <= m) : @to_Z m (opp one) = m-1.
 Proof. rewrite to_Z_opp, Z_mod_nz_opp_full; rewrite mod_to_Z, ?to_Z_1_pos; lia. Qed.
-Notation to_Z_m1_pos := unsigned_m1_pos (only parsing).
+Abbreviation to_Z_m1_pos := unsigned_m1_pos (only parsing).
 
 Lemma unsigned_m1_1 : @to_Z 1 (opp one) = 0. Proof. trivial. Qed.
-Notation to_Z_m1_1 := unsigned_m1_1 (only parsing).
+Abbreviation to_Z_m1_1 := unsigned_m1_1 (only parsing).
 
 Lemma unsigned_m1_m1 : @to_Z (-1) (opp one) = 0. Proof. trivial. Qed.
-Notation to_Z_m1_m1 := unsigned_m1_m1 (only parsing).
+Abbreviation to_Z_m1_m1 := unsigned_m1_m1 (only parsing).
 
 Lemma unsigned_m1_neg [m : Z] (H : m <= -2) : @to_Z m (opp one) = -1.
 Proof. rewrite to_Z_opp, to_Z_1_neg, (Z.mod_diveq (-1)); lia. Qed.
-Notation to_Z_m1_neg := unsigned_m1_neg (only parsing).
+Abbreviation to_Z_m1_neg := unsigned_m1_neg (only parsing).
 
 Lemma unsigned_m1_cases m : @to_Z m (opp one) =
   if (m <=? -2) || (m =? 0) then -1
@@ -452,7 +452,7 @@ Proof.
   { assert (m = 1 \/ m = -1) as [->| ->] by lia; trivial. }
   apply to_Z_m1_pos; lia.
 Qed.
-Notation to_Z_m1_cases := unsigned_m1_cases (only parsing).
+Abbreviation to_Z_m1_cases := unsigned_m1_cases (only parsing).
 
 Lemma of_Z_m1 m : @of_Z m (-1) = opp one.
 Proof.
@@ -501,7 +501,7 @@ Qed.
 
 Lemma unsigned_mul [m] (x y : Zmod m) : to_Z (x * y) = (to_Z x * to_Z y) mod m.
 Proof. cbv [mul]; rewrite ?to_Z_of_Z; trivial. Qed.
-Notation to_Z_mul := unsigned_mul (only parsing).
+Abbreviation to_Z_mul := unsigned_mul (only parsing).
 
 Lemma signed_mul [m] x y : signed (@mul m x y) = Z.smodulo (signed x*signed y) m.
 Proof. rewrite <-!smod_unsigned, to_Z_mul, Z.smod_mod, Z.smod_idemp_mul; trivial. Qed.
@@ -589,7 +589,7 @@ Proof.
   rewrite (Z.mod_diveq (-1)); Z.to_euclidean_division_equations; nia.
   rewrite (Z.mod_diveq 0); Z.to_euclidean_division_equations; nia.
 Qed.
-Notation to_Z_udiv := unsigned_udiv (only parsing).
+Abbreviation to_Z_udiv := unsigned_udiv (only parsing).
 
 Lemma unsigned_udiv_nonneg [m] (x y : Zmod m) (Hm : 0 <= m) (Hy : y <> 0 :> Z) : to_Z (@udiv m x y) = Z.div x y.
 Proof.
@@ -599,7 +599,7 @@ Proof.
   destruct m as [|m|m]; [apply Z.mod_0_r| |lia].
   apply Z.mod_small; Z.to_euclidean_division_equations; nia.
 Qed.
-Notation to_Z_udiv_nonneg := unsigned_udiv_nonneg (only parsing).
+Abbreviation to_Z_udiv_nonneg := unsigned_udiv_nonneg (only parsing).
 
 Lemma of_Z_div_small [m] (x y : Z) (Hx : 0 <= x < m) (Hy : 0 < y < m) :
   of_Z m (x / y) = udiv (of_Z _ x) (of_Z _ y).
@@ -613,7 +613,7 @@ Proof.
   pose proof unsigned_range x; pose proof unsigned_range y.
   apply to_Z_of_small_Z, Z.mod_id_iff; zify; Z.to_euclidean_division_equations; nia.
 Qed.
-Notation to_Z_umod := unsigned_umod (only parsing).
+Abbreviation to_Z_umod := unsigned_umod (only parsing).
 
 Lemma of_Z_umod_small [m] (x y : Z) (Hx : 0 <= x < m) (Hy : 0 <= y < m) :
   of_Z m (x mod y) = umod (of_Z _ x) (of_Z _ y).
@@ -670,14 +670,14 @@ Qed.
 
 Lemma unsigned_inv [m] x : to_Z (@inv m x) = Z.invmod x m.
 Proof. apply to_Z_of_small_Z, Z.mod_invmod. Qed.
-Notation to_Z_inv := unsigned_inv (only parsing).
+Abbreviation to_Z_inv := unsigned_inv (only parsing).
 
 Lemma inv_0 m : @inv m zero = zero.
 Proof. apply to_Z_inj. rewrite to_Z_inv, to_Z_0, Z.invmod_0_l; trivial. Qed.
 
 Lemma unsigned_mdiv [m] x y : to_Z (@mdiv m x y) = x * Z.invmod y m mod m.
 Proof. cbv [mdiv]. rewrite to_Z_mul, to_Z_inv; trivial. Qed.
-Notation to_Z_mdiv := unsigned_mdiv (only parsing).
+Abbreviation to_Z_mdiv := unsigned_mdiv (only parsing).
 
 Lemma mdiv_0_r [m] x : @mdiv m x zero = zero.
 Proof. cbv [mdiv]. rewrite inv_0, mul_0_r; trivial. Qed.
@@ -691,7 +691,7 @@ Proof. rewrite mul_comm, mul_inv_l; trivial. Qed.
 (** ** Bitwise operations *)
 Lemma unsigned_and [m] x y : @to_Z m (and x y) = Z.land x y mod m.
 Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_and := unsigned_and (only parsing).
+Abbreviation to_Z_and := unsigned_and (only parsing).
 
 Lemma unsigned_and_small [m] (Hm : 0 <= m) x y : @to_Z m (and x y) = Z.land x y.
 Proof.
@@ -703,11 +703,11 @@ Proof.
   pose proof N2Z.inj_land (Z.to_N x) (Z.to_N y).
   rewrite 2Z2N.id in *; try apply to_Z_range; intuition try lia.
 Qed.
-Notation to_Z_and_small := unsigned_and_small (only parsing).
+Abbreviation to_Z_and_small := unsigned_and_small (only parsing).
 
 Lemma unsigned_ndn [m] x y : @to_Z m (ndn x y) = Z.ldiff x y mod m.
 Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_ndn  := unsigned_ndn (only parsing).
+Abbreviation to_Z_ndn  := unsigned_ndn (only parsing).
 
 Lemma unsigned_ndn_small [m] x y (Hm : 0 <= m) : @to_Z m (ndn x y) = Z.ldiff x y.
 Proof.
@@ -719,13 +719,13 @@ Proof.
   pose proof N2Z.inj_ldiff (Z.to_N x) (Z.to_N y).
   rewrite 2Z2N.id in *; try apply to_Z_range; intuition try lia.
 Qed.
-Notation to_Z_ndn_small := unsigned_ndn_small (only parsing).
+Abbreviation to_Z_ndn_small := unsigned_ndn_small (only parsing).
 
 (** ** Shifts *)
 
 Lemma unsigned_slu [m] x n : @to_Z m (slu x n) = Z.shiftl x n mod m.
 Proof. cbv [slu]; rewrite to_Z_of_Z; trivial. Qed.
-Notation to_Z_slu := unsigned_slu (only parsing).
+Abbreviation to_Z_slu := unsigned_slu (only parsing).
 
 Lemma unsigned_sru [m] x n (Hn : 0 <= n) : @to_Z m (sru x n) = Z.shiftr x n.
 Proof.
@@ -734,7 +734,7 @@ Proof.
   apply Z.mod_id_iff; pose proof (to_Z_range x).
   rewrite Z.shiftr_div_pow2; Z.to_euclidean_division_equations; nia.
 Qed.
-Notation to_Z_sru := unsigned_sru (only parsing).
+Abbreviation to_Z_sru := unsigned_sru (only parsing).
 
 Lemma signed_srs [m] x n (Hn : 0 <= n) : @signed m (srs x n) = Z.shiftr (signed x) n.
 Proof.
@@ -746,7 +746,7 @@ Qed.
 
 Lemma unsigned_srs [m] x n (Hn : 0 <= n) : @to_Z m (srs x n) = Z.shiftr (signed x) n mod m.
 Proof. rewrite <-mod_to_Z, <-Z.mod_smod, <-signed_srs, <-signed_of_Z, of_Z_to_Z; trivial. Qed.
-Notation to_Z_srs := unsigned_srs (only parsing).
+Abbreviation to_Z_srs := unsigned_srs (only parsing).
 
 Lemma sru_neg_r [m] (x :Zmod m) n (Hn : n <= 0) : sru x n = slu x (-n).
 Proof. cbv [sru slu]; rewrite of_Z_inj, Z.shiftl_opp_r. trivial. Qed.
@@ -764,7 +764,7 @@ Qed.
 Lemma unsigned_inj_dep [m] (a : Zmod m) [n] (b : Zmod n) :
   m = n -> to_Z a = to_Z b -> existT _ _ a = existT _ _ b.
 Proof. destruct 1; auto using f_equal, to_Z_inj. Qed.
-Notation to_Z_inj_dep := unsigned_inj_dep (only parsing).
+Abbreviation to_Z_inj_dep := unsigned_inj_dep (only parsing).
 
 Lemma unsigned_inj_dep_iff [m] (a : Zmod m) [n] (b : Zmod n) :
   m = n /\ to_Z a = to_Z b <-> existT _ _ a = existT _ _ b.
@@ -772,11 +772,11 @@ Proof.
   split. { intros []; auto using to_Z_inj_dep. }
   intros H; inversion_sigma; subst; auto.
 Qed.
-Notation to_Z_inj_dep_iff := unsigned_inj_dep_iff (only parsing).
+Abbreviation to_Z_inj_dep_iff := unsigned_inj_dep_iff (only parsing).
 
 Lemma unsigned_eq_rect [m] (a : Zmod m) n p : to_Z (eq_rect _ _ a n p) = to_Z a.
 Proof. case p; trivial. Qed.
-Notation to_Z_eq_rect := unsigned_eq_rect (only parsing).
+Abbreviation to_Z_eq_rect := unsigned_eq_rect (only parsing).
 
 Lemma signed_inj_dep [m] (a : Zmod m) [n] (b : Zmod n) :
   m = n -> signed a = signed b -> existT _ _ a = existT _ _ b.
@@ -806,7 +806,7 @@ Proof. trivial. Qed.
 Lemma pow_2_r [m] x : @pow m x 2 = mul x x.
 Proof. trivial. Qed.
 
-#[local] Notation pow_N := ZmodDef.Zmod.Private_pow_N.
+#[local] Abbreviation pow_N := ZmodDef.Zmod.Private_pow_N.
 
 Lemma Private_pow_nonneg [m] (x : Zmod m) z (Hz : 0 <= z) : pow x z = pow_N x (Z.to_N z).
 Proof. cbv [pow]; case (Z.ltb_spec z 0) as []; trivial; lia. Qed.
@@ -832,7 +832,7 @@ Proof.
   case (Z.ltb_spec (Z.succ n) 0), (Z.ltb_spec n 0); try lia.
   rewrite Z2N.inj_succ, Private_pow_N_succ_r; trivial; lia.
 Qed.
-Notation pow_succ_r_nonneg := pow_succ_nonneg_r.
+Abbreviation pow_succ_r_nonneg := pow_succ_nonneg_r.
 
 Lemma pow_add_r_nonneg [m] (x : Zmod m) a b (Ha : 0 <= a) (Hb : 0 <= b) :
   pow x (a+b) = mul (x^a) (x^b).
@@ -864,20 +864,20 @@ Qed.
 
 Lemma unsigned_pow_nonneg_r [m] x z (Hz : 0 <= z) : @to_Z m (pow x z) = x^z mod m.
 Proof. rewrite Private_pow_nonneg, Private_to_Z_pow_N; f_equal; f_equal; lia. Qed.
-Notation to_Z_pow_nonneg_r := unsigned_pow_nonneg_r (only parsing).
+Abbreviation to_Z_pow_nonneg_r := unsigned_pow_nonneg_r (only parsing).
 
 Lemma unsigned_pow_neg_r [m] x z (Hz : z < 0) : @to_Z m (pow x z) = Z.invmod (to_Z x^(-z)) m.
 Proof.
   rewrite pow_neg, to_Z_inv, to_Z_pow_nonneg_r by lia.
   rewrite Z.invmod_mod_l; f_equal; f_equal; lia.
 Qed.
-Notation to_Z_pow_neg_r := unsigned_pow_neg_r (only parsing).
+Abbreviation to_Z_pow_neg_r := unsigned_pow_neg_r (only parsing).
 
 Lemma signed_pow_nonneg_r [m] x z (Hz : 0 <= z) : @signed m (pow x z) = Z.smodulo (signed x ^ z) m.
 Proof.
   rewrite <-!smod_unsigned, to_Z_pow_nonneg_r, Z.smod_mod, Z.smod_pow_l; trivial.
 Qed.
-Notation signed_pow_nonneg := signed_pow_nonneg_r.
+Abbreviation signed_pow_nonneg := signed_pow_nonneg_r.
 
 Lemma of_Z_pow [m] x n (H : 0 <= n) : of_Z m (x ^ n) = pow (of_Z m x) n.
 Proof.

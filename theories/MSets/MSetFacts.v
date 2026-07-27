@@ -16,6 +16,7 @@
   Moreover, we prove that [E.Eq] and [Equal] are setoid equalities.
 *)
 
+From Stdlib Require Export FSetInterface.
 From Stdlib Require Import DecidableTypeEx.
 From Stdlib Require Export MSetInterface.
 Set Implicit Arguments.
@@ -27,7 +28,7 @@ Unset Strict Implicit.
 
 Module WFactsOn (Import E : DecidableType)(Import M : WSetsOn E).
 
-Notation eq_dec := E.eq_dec.
+Abbreviation eq_dec := E.eq_dec.
 Definition eqb x y := if eq_dec x y then true else false.
 
 (** * Specifications written using implications :
@@ -101,7 +102,7 @@ Lemma diff_3 : In x s -> ~ In x s' -> In x (diff s s').
 Proof. rewrite diff_spec; auto. Qed.
 
 Variable f : elt -> bool.
-Notation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
+Abbreviation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
 
 Lemma filter_1 : compatb f -> In x (filter f s) -> In x s.
 Proof. intros P; rewrite filter_spec; intuition. Qed.
@@ -132,14 +133,14 @@ Proof. intros; apply -> elements_spec1; auto. Qed.
 
 End ImplSpec.
 
-Notation empty_1 := empty_spec (only parsing).
-Notation fold_1 := fold_spec (only parsing).
-Notation cardinal_1 := cardinal_spec (only parsing).
-Notation partition_1 := partition_spec1 (only parsing).
-Notation partition_2 := partition_spec2 (only parsing).
-Notation choose_1 := choose_spec1 (only parsing).
-Notation choose_2 := choose_spec2 (only parsing).
-Notation elements_3w := elements_spec2w (only parsing).
+Abbreviation empty_1 := empty_spec (only parsing).
+Abbreviation fold_1 := fold_spec (only parsing).
+Abbreviation cardinal_1 := cardinal_spec (only parsing).
+Abbreviation partition_1 := partition_spec1 (only parsing).
+Abbreviation partition_2 := partition_spec2 (only parsing).
+Abbreviation choose_1 := choose_spec1 (only parsing).
+Abbreviation choose_2 := choose_spec2 (only parsing).
+Abbreviation elements_3w := elements_spec2w (only parsing).
 
 #[global]
 Hint Resolve mem_1 equal_1 subset_1 empty_1
@@ -217,10 +218,10 @@ Proof. apply iff_sym, elements_spec1. Qed.
 
 End IffSpec.
 
-Notation union_iff := union_spec (only parsing).
-Notation inter_iff := inter_spec (only parsing).
-Notation diff_iff := diff_spec (only parsing).
-Notation filter_iff := filter_spec (only parsing).
+Abbreviation union_iff := union_spec (only parsing).
+Abbreviation inter_iff := inter_spec (only parsing).
+Abbreviation diff_iff := diff_spec (only parsing).
+Abbreviation filter_iff := filter_spec (only parsing).
 
 (** Useful tactic for simplifying expressions like [In y (add x (union s s'))] *)
 

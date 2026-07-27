@@ -87,4 +87,4 @@ Definition negatives m :=
 
 End Zstar.
 
-Notation Zstar := Zstar.Zstar.
+Abbreviation Zstar := Zstar.Zstar.

@@ -180,4 +180,5 @@ intros; rewrite Q2R_mult.
 rewrite Q2R_inv; auto.
 Qed.
 
+Create Rewrite HintDb q2r_simpl.
 #[global] Hint Rewrite Q2R_plus Q2R_mult Q2R_opp Q2R_minus Q2R_inv Q2R_div : q2r_simpl.

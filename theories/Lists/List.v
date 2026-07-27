@@ -8,6 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Import Datatypes.
 From Stdlib Require Import PeanoNat.
 From Stdlib Require Import Morphisms.
 From Stdlib Require Export ListDef.
@@ -412,7 +413,7 @@ Section Elts.
   (** ** Nth element of a list *)
   (*****************************)
 
-  #[local] Notation nth := (@nth A).
+  #[local] Abbreviation nth := (@nth A).
 
   Fixpoint nth_ok (n:nat) (l:list A) (default:A) {struct l} : bool :=
     match n, l with
@@ -961,7 +962,7 @@ Section Elts.
   Qed.
 
 End Elts.
-Notation nth := nth.
+Abbreviation nth := nth.
 
 (*******************************)
 (** * Manipulating whole lists *)
@@ -1167,7 +1168,7 @@ Section Map.
   Variables (A : Type) (B : Type).
   Variable f : A -> B.
 
-  #[local] Notation map := (@map A B f).
+  #[local] Abbreviation map := (@map A B f).
 
   Lemma map_cons (x:A)(l:list A) : map (x::l) = (f x) :: (map l).
   Proof.
@@ -1279,7 +1280,7 @@ Section Map.
   Qed.
 
 End Map.
-Notation map := map.
+Abbreviation map := map.
 
 (*****************)
 (** ** Flat Map  *)
@@ -2182,8 +2183,8 @@ Section Cutting.
 
   Variable A : Type.
 
-  #[local] Notation firstn := (@firstn A).
-  #[local] Notation skipn := (@skipn A).
+  #[local] Abbreviation firstn := (@firstn A).
+  #[local] Abbreviation skipn := (@skipn A).
 
   Lemma firstn_nil n: firstn n [] = [].
   Proof. induction n; now simpl. Qed.
@@ -2419,8 +2420,8 @@ Section Cutting.
   Qed.
 
 End Cutting.
-Notation firstn := firstn.
-Notation skipn := skipn.
+Abbreviation firstn := firstn.
+Abbreviation skipn := skipn.
 
 Section CuttingMap.
   Variables A B : Type.
@@ -2914,7 +2915,7 @@ Section NatSeq.
   Qed.
 
 End NatSeq.
-Notation seq := seq.
+Abbreviation seq := seq.
 
 (***********************)
 (** ** List comparison *)
@@ -2925,7 +2926,7 @@ Section Compare.
   Variable A : Type.
   Variable cmp : A -> A -> comparison.
 
-  #[local] Notation list_compare := (@list_compare A cmp).
+  #[local] Abbreviation list_compare := (@list_compare A cmp).
 
   Section Lemmas.
 
@@ -3102,7 +3103,7 @@ Section Compare.
   End Lemmas.
 
 End Compare.
-Notation list_compare := list_compare.
+Abbreviation list_compare := list_compare.
 
 Section Exists_Forall.
 
@@ -3195,7 +3196,7 @@ Section Exists_Forall.
     #[local]
     Hint Constructors Forall : core.
 
-    #[local] Notation Forall := (@Forall A P).
+    #[local] Abbreviation Forall := (@Forall A P).
 
     Lemma Forall_inv : forall (a:A) l, Forall (a :: l) -> P a.
     Proof.
@@ -3291,7 +3292,7 @@ Section Exists_Forall.
     Qed.
 
   End One_predicate.
-  #[local] Notation Forall := (@Forall A).
+  #[local] Abbreviation Forall := (@Forall A).
 
   Lemma map_ext_Forall B : forall (f g : A -> B) l,
     Forall (fun x => f x = g x) l -> map f l = map g l.
@@ -3389,9 +3390,9 @@ Section Exists_Forall.
   Proof. now rewrite Forall_forall; split. Qed.
 
 End Exists_Forall.
-Notation Forall := Forall.
-Notation Forall_nil := ListDef.Forall_nil (only parsing).
-Notation Forall_cons := ListDef.Forall_cons (only parsing).
+Abbreviation Forall := Forall.
+Abbreviation Forall_nil := ListDef.Forall_nil (only parsing).
+Abbreviation Forall_cons := ListDef.Forall_cons (only parsing).
 
 #[global]
 Hint Constructors Exists : core.
@@ -3684,7 +3685,7 @@ Section Repeat.
 
   Variable A : Type.
 
-  #[local] Notation repeat := (@repeat A).
+  #[local] Abbreviation repeat := (@repeat A).
 
   Theorem repeat_length x n:
     length (repeat x n) = n.
@@ -3819,7 +3820,7 @@ Section Repeat.
   Qed.
 
 End Repeat.
-Notation repeat := repeat.
+Abbreviation repeat := repeat.
 
 Lemma repeat_to_concat A n (a:A) :
   repeat a n = concat (repeat [a] n).
@@ -3856,7 +3857,7 @@ Proof.
   erewrite map_app, map_map, map_ext, map_const; eauto using f_equal2.
 Qed.
 #[deprecated(use = fst_list_prod)]
-Notation map_fst_list_prod := fst_list_prod (only parsing).
+Abbreviation map_fst_list_prod := fst_list_prod (only parsing).
 
 Lemma snd_list_prod [A B] l l' : map snd (@list_prod A B l l') =
   concat (repeat l' (length l)).
@@ -3865,7 +3866,7 @@ Proof.
   erewrite map_app, map_map, map_ext, map_id; eauto using f_equal2.
 Qed.
 #[deprecated(use = snd_list_prod)]
-Notation map_snd_list_prod := snd_list_prod (only parsing).
+Abbreviation map_snd_list_prod := snd_list_prod (only parsing).
 
 (** Sum of elements of a list of [nat]: [list_sum] *)
 
@@ -3972,7 +3973,7 @@ Ltac invlist f :=
 
 (** * Exporting hints and tactics *)
 
-
+Create Rewrite HintDb list.
 #[global] Hint Rewrite
   rev_involutive (* rev (rev l) = l *)
   rev_unit (* rev (l ++ a :: nil) = a :: rev l *)
@@ -3989,72 +3990,72 @@ Ltac ssimpl_list := autorewrite with list using simpl.
 
 (* begin hide *)
 (* Compatibility notations after the migration of [list] to [Datatypes] *)
-Notation list := list (only parsing).
-Notation list_rect := list_rect (only parsing).
-Notation list_rec := list_rec (only parsing).
-Notation list_ind := list_ind (only parsing).
-Notation nil := nil (only parsing).
-Notation cons := cons (only parsing).
-Notation length := length (only parsing).
-Notation app := app (only parsing).
+Abbreviation list := list (only parsing).
+Abbreviation list_rect := list_rect (only parsing).
+Abbreviation list_rec := list_rec (only parsing).
+Abbreviation list_ind := list_ind (only parsing).
+Abbreviation nil := nil (only parsing).
+Abbreviation cons := cons (only parsing).
+Abbreviation length := length (only parsing).
+Abbreviation app := app (only parsing).
 (* Compatibility Names *)
-Notation tail := tl (only parsing).
-Notation head := hd_error (only parsing).
-Notation head_nil := hd_error_nil (only parsing).
-Notation head_cons := hd_error_cons (only parsing).
+Abbreviation tail := tl (only parsing).
+Abbreviation head := hd_error (only parsing).
+Abbreviation head_nil := hd_error_nil (only parsing).
+Abbreviation head_cons := hd_error_cons (only parsing).
 #[deprecated(since = "8.18", use = app_assoc)]
-Notation ass_app := app_assoc (only parsing).
+Abbreviation ass_app := app_assoc (only parsing).
 #[deprecated(since = "8.18", use = app_assoc)]
-Notation app_ass := app_assoc_reverse_deprecated (only parsing).
-Notation In_split := in_split (only parsing).
-Notation In_rev := in_rev (only parsing).
-Notation In_dec := in_dec (only parsing).
-Notation distr_rev := rev_app_distr (only parsing).
-Notation rev_acc := rev_append (only parsing).
-Notation rev_acc_rev := rev_append_rev (only parsing).
-Notation AllS := Forall (only parsing). (* was formerly in TheoryList *)
+Abbreviation app_ass := app_assoc_reverse_deprecated (only parsing).
+Abbreviation In_split := in_split (only parsing).
+Abbreviation In_rev := in_rev (only parsing).
+Abbreviation In_dec := in_dec (only parsing).
+Abbreviation distr_rev := rev_app_distr (only parsing).
+Abbreviation rev_acc := rev_append (only parsing).
+Abbreviation rev_acc_rev := rev_append_rev (only parsing).
+Abbreviation AllS := Forall (only parsing). (* was formerly in TheoryList *)
 
 #[deprecated(since = "8.18", use = app_nil_r)]
-Notation app_nil_end := app_nil_end_deprecated (only parsing).
+Abbreviation app_nil_end := app_nil_end_deprecated (only parsing).
 #[deprecated(since = "8.18", use = app_assoc)]
-Notation app_assoc_reverse := app_assoc_reverse_deprecated (only parsing).
+Abbreviation app_assoc_reverse := app_assoc_reverse_deprecated (only parsing).
 #[deprecated(since = "8.20", use = nth_error_cons_succ)]
-Notation nth_error_cons_S := nth_error_cons_succ.
+Abbreviation nth_error_cons_S := nth_error_cons_succ.
 
 #[global]
 Hint Resolve app_nil_end_deprecated : datatypes.
 
 #[deprecated(since = "8.20", use = length_app)]
-Notation app_length := length_app (only parsing).
+Abbreviation app_length := length_app (only parsing).
 #[deprecated(since = "8.20", use = length_rev)]
-Notation rev_length := length_rev (only parsing).
+Abbreviation rev_length := length_rev (only parsing).
 #[deprecated(since = "8.20", use = length_map)]
-Notation map_length := length_map (only parsing).
+Abbreviation map_length := length_map (only parsing).
 #[deprecated(since = "8.20", use = fold_left_S_0)]
-Notation fold_left_length := fold_left_S_0 (only parsing).
+Abbreviation fold_left_length := fold_left_S_0 (only parsing).
 #[deprecated(since = "8.20", use = length_fst_split)]
-Notation split_length_l := length_fst_split (only parsing).
+Abbreviation split_length_l := length_fst_split (only parsing).
 #[deprecated(since = "8.20", use = length_snd_split)]
-Notation split_length_r := length_snd_split (only parsing).
+Abbreviation split_length_r := length_snd_split (only parsing).
 #[deprecated(since = "8.20", use = length_combine)]
-Notation combine_length := length_combine (only parsing).
+Abbreviation combine_length := length_combine (only parsing).
 #[deprecated(since = "8.20", use = length_prod)]
-Notation prod_length := length_prod (only parsing).
+Abbreviation prod_length := length_prod (only parsing).
 #[deprecated(since = "8.20", use = length_firstn)]
-Notation firstn_length := length_firstn (only parsing).
+Abbreviation firstn_length := length_firstn (only parsing).
 #[deprecated(since = "8.20", use = length_skipn)]
-Notation skipn_length := length_skipn (only parsing).
+Abbreviation skipn_length := length_skipn (only parsing).
 #[deprecated(since = "8.20", use = length_seq)]
-Notation seq_length := length_seq (only parsing).
+Abbreviation seq_length := length_seq (only parsing).
 #[deprecated(since = "8.20", use = length_concat)]
-Notation concat_length := length_concat (only parsing).
+Abbreviation concat_length := length_concat (only parsing).
 #[deprecated(since = "8.20", use = length_flat_map)]
-Notation flat_map_length := length_flat_map (only parsing).
+Abbreviation flat_map_length := length_flat_map (only parsing).
 #[deprecated(since = "8.20", use = length_list_power)]
-Notation nth_error_O := nth_error_0 (only parsing).
-Notation firstn_O := firstn_0 (only parsing).
-Notation skipn_O := skipn_0 (only parsing).
-Notation list_power_length := length_list_power (only parsing).
+Abbreviation nth_error_O := nth_error_0 (only parsing).
+Abbreviation firstn_O := firstn_0 (only parsing).
+Abbreviation skipn_O := skipn_0 (only parsing).
+Abbreviation list_power_length := length_list_power (only parsing).
 (* end hide *)
 
 

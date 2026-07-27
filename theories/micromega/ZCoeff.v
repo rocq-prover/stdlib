@@ -98,8 +98,8 @@ Ltac le_equal := rewrite (Rle_lt_eq sor); right; try reflexivity; try assumption
 Definition gen_order_phi_Z : Z -> R := gen_phiZ 0 1 rplus rtimes ropp.
 Declare Equivalent Keys gen_order_phi_Z gen_phiZ.
 
-Notation phi_pos := (gen_phiPOS 1 rplus rtimes).
-Notation phi_pos1 := (gen_phiPOS1 1 rplus rtimes).
+Abbreviation phi_pos := (gen_phiPOS 1 rplus rtimes).
+Abbreviation phi_pos1 := (gen_phiPOS1 1 rplus rtimes).
 
 Notation "[ x ]" := (gen_order_phi_Z x).
 

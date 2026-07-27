@@ -245,53 +245,53 @@ End ChoiceSchemes.
 
 (** Generalized schemes *)
 
-Notation RelationalChoice :=
+Abbreviation RelationalChoice :=
   (forall A B : Type, RelationalChoice_on A B).
-Notation FunctionalChoice :=
+Abbreviation FunctionalChoice :=
   (forall A B : Type, FunctionalChoice_on A B).
-Notation DependentFunctionalChoice :=
+Abbreviation DependentFunctionalChoice :=
   (forall A (B:A->Type), DependentFunctionalChoice_on B).
-Notation InhabitedForallCommute :=
+Abbreviation InhabitedForallCommute :=
   (forall A (B : A -> Type), InhabitedForallCommute_on B).
-Notation FunctionalDependentChoice :=
+Abbreviation FunctionalDependentChoice :=
   (forall A : Type, FunctionalDependentChoice_on A).
-Notation FunctionalCountableChoice :=
+Abbreviation FunctionalCountableChoice :=
   (forall A : Type, FunctionalCountableChoice_on A).
-Notation FunctionalChoiceOnInhabitedSet :=
+Abbreviation FunctionalChoiceOnInhabitedSet :=
   (forall A B : Type, inhabited B -> FunctionalChoice_on A B).
-Notation FunctionalRelReification :=
+Abbreviation FunctionalRelReification :=
   (forall A B : Type, FunctionalRelReification_on A B).
-Notation DependentFunctionalRelReification :=
+Abbreviation DependentFunctionalRelReification :=
   (forall A (B:A->Type), DependentFunctionalRelReification_on B).
-Notation RepresentativeFunctionalChoice :=
+Abbreviation RepresentativeFunctionalChoice :=
   (forall A : Type, RepresentativeFunctionalChoice_on A).
-Notation SetoidFunctionalChoice :=
+Abbreviation SetoidFunctionalChoice :=
   (forall A  B: Type, SetoidFunctionalChoice_on A B).
-Notation GeneralizedSetoidFunctionalChoice :=
+Abbreviation GeneralizedSetoidFunctionalChoice :=
   (forall A B : Type, GeneralizedSetoidFunctionalChoice_on A B).
-Notation SimpleSetoidFunctionalChoice :=
+Abbreviation SimpleSetoidFunctionalChoice :=
   (forall A B : Type, SimpleSetoidFunctionalChoice_on A B).
 
-Notation GuardedRelationalChoice :=
+Abbreviation GuardedRelationalChoice :=
   (forall A B : Type, GuardedRelationalChoice_on A B).
-Notation GuardedFunctionalChoice :=
+Abbreviation GuardedFunctionalChoice :=
   (forall A B : Type, GuardedFunctionalChoice_on A B).
-Notation GuardedFunctionalRelReification :=
+Abbreviation GuardedFunctionalRelReification :=
   (forall A B : Type, GuardedFunctionalRelReification_on A B).
 
-Notation OmniscientRelationalChoice :=
+Abbreviation OmniscientRelationalChoice :=
   (forall A B : Type, OmniscientRelationalChoice_on A B).
-Notation OmniscientFunctionalChoice :=
+Abbreviation OmniscientFunctionalChoice :=
   (forall A B : Type, OmniscientFunctionalChoice_on A B).
 
-Notation ConstructiveDefiniteDescription :=
+Abbreviation ConstructiveDefiniteDescription :=
   (forall A : Type, ConstructiveDefiniteDescription_on A).
-Notation ConstructiveIndefiniteDescription :=
+Abbreviation ConstructiveIndefiniteDescription :=
   (forall A : Type, ConstructiveIndefiniteDescription_on A).
 
-Notation IotaStatement :=
+Abbreviation IotaStatement :=
   (forall A : Type, IotaStatement_on A).
-Notation EpsilonStatement :=
+Abbreviation EpsilonStatement :=
   (forall A : Type, EpsilonStatement_on A).
 
 (** Subclassical schemes *)
@@ -321,19 +321,19 @@ Definition ExcludedMiddle :=
 (** Extensional schemes *)
 
 (** Ext_prop_repr = choice of a representative among extensional propositions *)
-#[local] Notation ExtensionalPropositionRepresentative :=
+#[local] Abbreviation ExtensionalPropositionRepresentative :=
   (forall (A:Type),
    exists h : Prop -> Prop,
    forall P : Prop, (P <-> h P) /\ forall Q, (P <-> Q) -> h P = h Q).
 
 (** Ext_pred_repr = choice of a representative among extensional predicates *)
-#[local] Notation ExtensionalPredicateRepresentative :=
+#[local] Abbreviation ExtensionalPredicateRepresentative :=
   (forall (A:Type),
    exists h : (A->Prop) -> (A->Prop),
    forall (P : A -> Prop), (forall x, P x <-> h P x) /\ forall Q, (forall x, P x <-> Q x) -> h P = h Q).
 
 (** Ext_fun_repr = choice of a representative among extensional functions *)
-#[local] Notation ExtensionalFunctionRepresentative :=
+#[local] Abbreviation ExtensionalFunctionRepresentative :=
   (forall (A B:Type),
    exists h : (A->B) -> (A->B),
    forall (f : A -> B), (forall x, f x = h f x) /\ forall g, (forall x, f x = g x) -> h f = h g).
@@ -1313,12 +1313,12 @@ Qed.
 
 (**********************************************************************)
 (** * Compatibility notations *)
-Notation description_rel_choice_imp_funct_choice :=
+Abbreviation description_rel_choice_imp_funct_choice :=
   functional_rel_reification_and_rel_choice_imp_fun_choice (only parsing).
 
-Notation funct_choice_imp_rel_choice := fun_choice_imp_rel_choice (only parsing).
+Abbreviation funct_choice_imp_rel_choice := fun_choice_imp_rel_choice (only parsing).
 
-Notation FunChoice_Equiv_RelChoice_and_ParamDefinDescr :=
+Abbreviation FunChoice_Equiv_RelChoice_and_ParamDefinDescr :=
  fun_choice_iff_rel_choice_and_functional_rel_reification (only parsing).
 
-Notation funct_choice_imp_description := fun_choice_imp_functional_rel_reification (only parsing).
+Abbreviation funct_choice_imp_description := fun_choice_imp_functional_rel_reification (only parsing).

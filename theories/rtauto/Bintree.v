@@ -96,8 +96,8 @@ Section Store.
 
 Variable A:Type.
 
-Notation Poption := (Poption A).
-Notation Tree := (Tree A).
+Abbreviation Poption := (Poption A).
+Abbreviation Tree := (Tree A).
 
 
 Fixpoint Tget (p:positive) (T:Tree) {struct p} : Poption :=

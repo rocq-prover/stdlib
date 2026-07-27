@@ -91,4 +91,4 @@ apply classic_set_in_prop_context.
 Qed.
 
 (* Compatibility *)
-Notation classic_set := not_not_classic_set (only parsing).
+Abbreviation classic_set := not_not_classic_set (only parsing).

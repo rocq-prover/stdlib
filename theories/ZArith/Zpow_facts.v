@@ -34,17 +34,17 @@ Proof. now apply (Z.pow_0_l (Zpos p)). Qed.
 Lemma Zpower_pos_pos x p : 0 < x -> 0 < Z.pow_pos x p.
 Proof. intros. now apply (Z.pow_pos_nonneg x (Zpos p)). Qed.
 
-Notation Zpower_1_r := Z.pow_1_r (only parsing).
-Notation Zpower_1_l := Z.pow_1_l (only parsing).
-Notation Zpower_0_l := Z.pow_0_l' (only parsing).
-Notation Zpower_0_r := Z.pow_0_r (only parsing).
-Notation Zpower_2 := Z.pow_2_r (only parsing).
-Notation Zpower_gt_0 := Z.pow_pos_nonneg (only parsing).
-Notation Zpower_ge_0 := Z.pow_nonneg (only parsing).
-Notation Zpower_Zabs := Z.abs_pow (only parsing).
-Notation Zpower_Zsucc := Z.pow_succ_r (only parsing).
-Notation Zpower_mult := Z.pow_mul_r (only parsing).
-Notation Zpower_le_monotone2 := Z.pow_le_mono_r (only parsing).
+Abbreviation Zpower_1_r := Z.pow_1_r (only parsing).
+Abbreviation Zpower_1_l := Z.pow_1_l (only parsing).
+Abbreviation Zpower_0_l := Z.pow_0_l' (only parsing).
+Abbreviation Zpower_0_r := Z.pow_0_r (only parsing).
+Abbreviation Zpower_2 := Z.pow_2_r (only parsing).
+Abbreviation Zpower_gt_0 := Z.pow_pos_nonneg (only parsing).
+Abbreviation Zpower_ge_0 := Z.pow_nonneg (only parsing).
+Abbreviation Zpower_Zabs := Z.abs_pow (only parsing).
+Abbreviation Zpower_Zsucc := Z.pow_succ_r (only parsing).
+Abbreviation Zpower_mult := Z.pow_mul_r (only parsing).
+Abbreviation Zpower_le_monotone2 := Z.pow_le_mono_r (only parsing).
 
 Theorem Zpower_le_monotone a b c :
  0 < a -> 0 <= b <= c -> a^b <= a^c.
@@ -75,7 +75,7 @@ Proof.
  apply Z.lt_le_trans with (a^b); trivial. now apply Z.pow_gt_1.
 Qed.
 
-Notation Zpower_nat_Zpower := Zpower_nat_Zpower (only parsing).
+Abbreviation Zpower_nat_Zpower := Zpower_nat_Zpower (only parsing).
 
 Theorem Zpower2_lt_lin n : 0 <= n -> n < 2^n.
 Proof. intros. now apply Z.pow_gt_lin_r. Qed.
@@ -231,6 +231,6 @@ Qed.
 (** * Z.square: a direct definition of [z^2] *)
 
 #[deprecated(use=Pos.square_spec, since="Stdlib 9.1")]
-Notation Psquare_correct := Pos.square_spec (only parsing).
+Abbreviation Psquare_correct := Pos.square_spec (only parsing).
 #[deprecated(use=Z.square_spec, since="Stdlib 9.1")]
-Notation Zsquare_correct := Z.square_spec (only parsing).
+Abbreviation Zsquare_correct := Z.square_spec (only parsing).

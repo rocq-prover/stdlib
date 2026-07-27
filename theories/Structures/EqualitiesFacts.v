@@ -17,7 +17,7 @@ Set Implicit Arguments.
 Module KeyDecidableType(D:DecidableType).
 
  #[local] Open Scope signature_scope.
- #[local] Notation key := D.t.
+ #[local] Abbreviation key := D.t.
 
  Definition eqk {elt} : relation (key*elt) := D.eq @@1.
  Definition eqke {elt} : relation (key*elt) := D.eq * Logic.eq.

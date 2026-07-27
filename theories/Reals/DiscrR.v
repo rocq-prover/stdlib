@@ -17,7 +17,7 @@ Proof.
 change 2 with (INR 2); apply lt_INR_0; apply PeanoNat.Nat.lt_0_succ.
 Qed.
 
-Notation Rplus_lt_pos := Rplus_lt_0_compat (only parsing).
+Abbreviation Rplus_lt_pos := Rplus_lt_0_compat (only parsing).
 
 Lemma IZR_eq : forall z1 z2:Z, z1 = z2 -> IZR z1 = IZR z2.
 Proof.

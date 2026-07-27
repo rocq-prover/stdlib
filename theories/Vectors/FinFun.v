@@ -43,7 +43,7 @@ Definition bSurjective n (f:nat->nat) :=
 
 Module Fin2Restrict.
 
-Notation n2f := Fin.of_nat_lt.
+Abbreviation n2f := Fin.of_nat_lt.
 Definition f2n {n} (x:Fin.t n) := proj1_sig (Fin.to_nat x).
 Definition f2n_ok n (x:Fin.t n) : f2n x < n := proj2_sig (Fin.to_nat x).
 Definition n2f_f2n : forall n x, n2f (f2n_ok x) = x := @Fin.of_nat_to_nat_inv.

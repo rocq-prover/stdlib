@@ -355,7 +355,7 @@ Module DecidableEqDepSet (M:DecidableSet).
   (** Injectivity of equality on dependent pairs with second component
       in [Type] *)
 
-  Notation inj_pairT2 := inj_pair2.
+  Abbreviation inj_pairT2 := inj_pair2.
 
 End DecidableEqDepSet.
 

@@ -10,7 +10,7 @@
 
 (** Well-founded relations and natural numbers *)
 
-From Stdlib Require Import PeanoNat.
+From Stdlib Require Import PeanoNat Peano_dec.
 
 #[local] Open Scope nat_scope.
 
@@ -272,4 +272,4 @@ Qed.
 
 Unset Implicit Arguments.
 
-Notation iter_nat n A f x := (nat_rect (fun _ => A) x (fun _ => f) n) (only parsing).
+Abbreviation iter_nat n A f x := (nat_rect (fun _ => A) x (fun _ => f) n) (only parsing).

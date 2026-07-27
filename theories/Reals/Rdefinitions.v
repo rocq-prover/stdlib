@@ -89,13 +89,13 @@ End RbaseSymbolsImpl.
 Export RbaseSymbolsImpl.
 
 (* Keep the same names as before *)
-Notation R := RbaseSymbolsImpl.R (only parsing).
-Notation R0 := RbaseSymbolsImpl.R0 (only parsing).
-Notation R1 := RbaseSymbolsImpl.R1 (only parsing).
-Notation Rplus := RbaseSymbolsImpl.Rplus (only parsing).
-Notation Rmult := RbaseSymbolsImpl.Rmult (only parsing).
-Notation Ropp := RbaseSymbolsImpl.Ropp (only parsing).
-Notation Rlt := RbaseSymbolsImpl.Rlt (only parsing).
+Abbreviation R := RbaseSymbolsImpl.R (only parsing).
+Abbreviation R0 := RbaseSymbolsImpl.R0 (only parsing).
+Abbreviation R1 := RbaseSymbolsImpl.R1 (only parsing).
+Abbreviation Rplus := RbaseSymbolsImpl.Rplus (only parsing).
+Abbreviation Rmult := RbaseSymbolsImpl.Rmult (only parsing).
+Abbreviation Ropp := RbaseSymbolsImpl.Ropp (only parsing).
+Abbreviation Rlt := RbaseSymbolsImpl.Rlt (only parsing).
 
 (* Automatically open scope R_scope for arguments of type R *)
 Bind Scope R_scope with R.
@@ -209,7 +209,7 @@ Module RinvImpl : RinvSig.
              end.
   Definition Rinv_def := fun x => eq_refl (Rinv x).
 End RinvImpl.
-Notation Rinv := RinvImpl.Rinv (only parsing).
+Abbreviation Rinv := RinvImpl.Rinv (only parsing).
 
 Notation "/ x" := (Rinv x) : R_scope.
 

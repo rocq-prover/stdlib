@@ -53,7 +53,7 @@ Definition pos_mod p x :=
     (x << p) >> p
   else x.
 
-Notation pos_mod_int := pos_mod.
+Abbreviation pos_mod_int := pos_mod.
 
 Import ZnZ.
 

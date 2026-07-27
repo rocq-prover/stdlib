@@ -86,6 +86,7 @@ Definition equivlistA l l' := forall x, InA x l <-> InA x l'.
 
 Lemma incl_nil l : inclA nil l.
 Proof. intros a H. inversion H. Qed.
+Create HintDb list.
 #[local]
 Hint Resolve incl_nil : list.
 
@@ -809,8 +810,8 @@ Let sotrans := (@StrictOrder_Transitive _ _ ltA_strorder).
 #[local]
 Hint Resolve sotrans : core.
 
-Notation InfA:=(lelistA ltA).
-Notation SortA:=(sort ltA).
+Abbreviation InfA:=(lelistA ltA).
+Abbreviation SortA:=(sort ltA).
 
 #[local]
 Hint Constructors lelistA sort : core.

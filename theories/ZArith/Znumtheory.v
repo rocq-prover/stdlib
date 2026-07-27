@@ -44,25 +44,25 @@ Definition Zdivide_intro a b q (H:b=q*a) : Z.divide a b := ex_intro _ q H.
 (** Results concerning divisibility*)
 
 #[deprecated(use=Z.divide_1_l, since="Stdlib 9.1")]
-Notation Zone_divide := Z.divide_1_l (only parsing).
+Abbreviation Zone_divide := Z.divide_1_l (only parsing).
 #[deprecated(use=Z.divide_0_r, since="Stdlib 9.1")]
-Notation Zdivide_0 := Z.divide_0_r (only parsing).
+Abbreviation Zdivide_0 := Z.divide_0_r (only parsing).
 #[deprecated(use=Z.mul_divide_mono_l, since="Stdlib 9.1")]
-Notation Zmult_divide_compat_l := Z.mul_divide_mono_l (only parsing).
+Abbreviation Zmult_divide_compat_l := Z.mul_divide_mono_l (only parsing).
 #[deprecated(use=Z.mul_divide_mono_r, since="Stdlib 9.1")]
-Notation Zmult_divide_compat_r := Z.mul_divide_mono_r (only parsing).
+Abbreviation Zmult_divide_compat_r := Z.mul_divide_mono_r (only parsing).
 #[deprecated(use=Z.divide_add_r, since="Stdlib 9.1")]
-Notation Zdivide_plus_r := Z.divide_add_r (only parsing).
+Abbreviation Zdivide_plus_r := Z.divide_add_r (only parsing).
 #[deprecated(use=Z.divide_sub_r, since="Stdlib 9.1")]
-Notation Zdivide_minus_l := Z.divide_sub_r (only parsing).
+Abbreviation Zdivide_minus_l := Z.divide_sub_r (only parsing).
 #[deprecated(use=Z.divide_mul_l, since="Stdlib 9.1")]
-Notation Zdivide_mult_l := Z.divide_mul_l (only parsing).
+Abbreviation Zdivide_mult_l := Z.divide_mul_l (only parsing).
 #[deprecated(use=Z.divide_mul_r, since="Stdlib 9.1")]
-Notation Zdivide_mult_r := Z.divide_mul_r (only parsing).
+Abbreviation Zdivide_mult_r := Z.divide_mul_r (only parsing).
 #[deprecated(use=Z.divide_factor_l, since="Stdlib 9.1")]
-Notation Zdivide_factor_r := Z.divide_factor_l (only parsing).
+Abbreviation Zdivide_factor_r := Z.divide_factor_l (only parsing).
 #[deprecated(use=Z.divide_factor_r, since="Stdlib 9.1")]
-Notation Zdivide_factor_l := Z.divide_factor_r (only parsing).
+Abbreviation Zdivide_factor_l := Z.divide_factor_r (only parsing).
 
 #[deprecated(use=Z.divide_opp_r, since="Stdlib 9.1")]
 Lemma Zdivide_opp_r a b : (a | b) -> (a | - b).
@@ -108,12 +108,12 @@ Qed.
 (** Only [1] and [-1] divide [1]. *)
 
 #[deprecated(use=Z.divide_1_r, since="Stdlib 9.1")]
-Notation Zdivide_1 := Z.divide_1_r (only parsing).
+Abbreviation Zdivide_1 := Z.divide_1_r (only parsing).
 
 (** If [a] divides [b] and [b<>0] then [|a| <= |b|]. *)
 
 #[deprecated(use=Z.absle_divide, since="Stdlib 9.1")]
-Notation Zdivide_bounds := Z.absle_divide (only parsing).
+Abbreviation Zdivide_bounds := Z.absle_divide (only parsing).
 
 (** [Z.divide] can be expressed using [Z.modulo]. *)
 
@@ -301,7 +301,7 @@ Proof.
   - ring.
 Qed.
 #[deprecated(since="8.17")]
-Notation Zis_gcd_for_euclid := deprecated_Zis_gcd_for_euclid (only parsing).
+Abbreviation Zis_gcd_for_euclid := deprecated_Zis_gcd_for_euclid (only parsing).
 
 (* this lemma is still used below and in Zgcd_alt *)
 #[deprecated(since="Stdlib 9.1")]
@@ -316,10 +316,10 @@ Proof.
 Qed.
 
 #[deprecated(use=Z.extgcd, since="Stdlib 9.1")]
-Notation extgcd := Z.extgcd (only parsing).
+Abbreviation extgcd := Z.extgcd (only parsing).
 
 #[deprecated(use=Z.extgcd_correct, since="Stdlib 9.1")]
-Notation extgcd_correct := Z.extgcd_correct (only parsing).
+Abbreviation extgcd_correct := Z.extgcd_correct (only parsing).
 
 Section extended_euclid_algorithm.
 
@@ -344,13 +344,13 @@ Section extended_euclid_algorithm.
 End extended_euclid_algorithm.
 
 #[deprecated(since="8.17", note="Use Coq.ZArith.Znumtheory.extgcd")]
-Notation Euclid := deprecated_Euclid (only parsing).
+Abbreviation Euclid := deprecated_Euclid (only parsing).
 #[deprecated(since="8.17", note="Use Coq.ZArith.Znumtheory.extgcd")]
-Notation Euclid_intro := deprecated_Euclid_intro (only parsing).
+Abbreviation Euclid_intro := deprecated_Euclid_intro (only parsing).
 #[deprecated(since="8.17", note="Use Coq.ZArith.Znumtheory.extgcd")]
-Notation euclid := deprecated_euclid (only parsing).
+Abbreviation euclid := deprecated_euclid (only parsing).
 #[deprecated(since="8.17", note="Use Coq.ZArith.Znumtheory.extgcd")]
-Notation euclid_rec := deprecated_euclid_rec (only parsing).
+Abbreviation euclid_rec := deprecated_euclid_rec (only parsing).
 
 #[deprecated(use=Z.gcd_unique, since="Stdlib 9.1")]
 Theorem Zis_gcd_uniqueness_apart_sign :
@@ -369,9 +369,9 @@ Inductive Bezout_deprecated (a b d:Z) : Prop :=
   Bezout_deprecated_intro : forall u v:Z, u * a + v * b = d -> Bezout_deprecated a b d.
 
 #[deprecated(use=Z.Bezout, since="Stdlib 9.1")]
-Notation Bezout := Bezout_deprecated (only parsing).
+Abbreviation Bezout := Bezout_deprecated (only parsing).
 #[deprecated(use=ex_intro, since="Stdlib 9.1")]
-Notation Bezout_intro := Bezout_deprecated_intro (only parsing).
+Abbreviation Bezout_intro := Bezout_deprecated_intro (only parsing).
 
 (** Existence of Bezout's coefficients for the [gcd] of [a] and [b] *)
 #[deprecated(use=Z.Bezout_coprime_iff, since="Stdlib 9.1")]
@@ -692,7 +692,7 @@ Theorem prime_ge_2 p : prime p ->  2 <= p.
 Proof. rewrite <-prime_alt. apply Z.prime_ge_2. Qed.
 
 #[deprecated(use=Z.prime, since="Stdlib 9.1")]
-Notation prime' := Z.prime (only parsing).
+Abbreviation prime' := Z.prime (only parsing).
 
 #[deprecated(use=Z.not_prime_square, since="Stdlib 9.1")]
 Theorem square_not_prime: forall a, ~ prime (a * a).
@@ -706,7 +706,7 @@ Proof.
 Qed.
 
 #[deprecated(use=Z.gcd_nonneg , since="Stdlib 9.1")]
-Notation Zgcd_is_pos := Z.gcd_nonneg (only parsing).
+Abbreviation Zgcd_is_pos := Z.gcd_nonneg (only parsing).
 
 #[deprecated(since="Stdlib 9.1")]
 Theorem Zgcd_spec : forall x y : Z, {z : Z | Zis_gcd x y z /\ 0 <= z}.
@@ -738,9 +738,9 @@ Proof.
 Qed.
 
 #[deprecated(use=Z.gcd_eq_0_l , since="Stdlib 9.1")]
-Notation Zgcd_inv_0_l := Z.gcd_eq_0_l (only parsing).
+Abbreviation Zgcd_inv_0_l := Z.gcd_eq_0_l (only parsing).
 #[deprecated(use=Z.gcd_eq_0_r , since="Stdlib 9.1")]
-Notation Zgcd_inv_0_r := Z.gcd_eq_0_r (only parsing).
+Abbreviation Zgcd_inv_0_r := Z.gcd_eq_0_r (only parsing).
 
 #[deprecated(use=Z.gcd_div_swap, since="Stdlib 9.1")]
 Theorem Zgcd_div_swap0 : forall a b : Z,
@@ -779,11 +779,11 @@ Proof.
 Qed.
 
 #[deprecated(use=Z.gcd_abs_l, since="Stdlib 9.1")]
-Notation Zgcd_Zabs := Z.gcd_abs_l (only parsing).
+Abbreviation Zgcd_Zabs := Z.gcd_abs_l (only parsing).
 #[deprecated(use=Z.gcd_0_r, since="Stdlib 9.1")]
-Notation Zgcd_0 := Z.gcd_0_r (only parsing).
+Abbreviation Zgcd_0 := Z.gcd_0_r (only parsing).
 #[deprecated(use=Z.gcd_1_r, since="Stdlib 9.1")]
-Notation Zgcd_1 := Z.gcd_1_r (only parsing).
+Abbreviation Zgcd_1 := Z.gcd_1_r (only parsing).
 
 #[global]
 Hint Resolve Z.gcd_0_r Z.gcd_1_r : zarith.

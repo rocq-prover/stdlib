@@ -40,6 +40,8 @@ From Stdlib Require Import Bool List BinPos Pnat Setoid SetoidList PeanoNat.
    only when needed *)
 #[local] Unset Elimination Schemes.
 
+Create Rewrite HintDb rb.
+
 (** An extra function not (yet?) in MSetInterface.S *)
 
 Module Type MSetRemoveMin (Import M:MSetInterface.S).
@@ -75,8 +77,8 @@ Module Ops (X:Orders.OrderedType) <: MSetInterface.Ops X.
 Include MSetGenTree.Ops X Color.
 
 Definition t := tree.
-#[local] Notation Rd := (Node Red).
-#[local] Notation Bk := (Node Black).
+#[local] Abbreviation Rd := (Node Red).
+#[local] Abbreviation Bk := (Node Black).
 
 (** ** Basic tree *)
 
@@ -253,7 +255,7 @@ Definition remove_min t : option (elt * tree) :=
 
 Definition bogus : tree * list elt := (Leaf, nil).
 
-Notation treeify_t := (list elt -> tree * list elt).
+Abbreviation treeify_t := (list elt -> tree * list elt).
 
 Definition treeify_zero : treeify_t :=
  fun acc => (Leaf,acc).
@@ -447,8 +449,8 @@ Include Ops X.
 
 Include MSetGenTree.Props X Color.
 
-#[local] Notation Rd := (Node Red).
-#[local] Notation Bk := (Node Black).
+#[local] Abbreviation Rd := (Node Red).
+#[local] Abbreviation Bk := (Node Black).
 
 #[local] Hint Immediate MX.eq_sym : core.
 #[local] Hint Unfold In lt_tree gt_tree Ok : core.
@@ -528,7 +530,7 @@ Definition rrcase {A} f g t : A :=
  | _ => g t
  end.
 
-Notation notredred := (rrcase (fun _ _ _ _ _ => False) (fun _ => True)).
+Abbreviation notredred := (rrcase (fun _ _ _ _ _ => False) (fun _ => True)).
 
 Inductive rrspec {A} f g : tree -> A -> Prop :=
  | rrleft a x b y c : rrspec f g (Rd (Rd a x b) y c) (f a x b y c)
@@ -962,7 +964,7 @@ Qed.
 
 (** ** Treeify *)
 
-Notation ifpred p n := (if p then pred n else n%nat).
+Abbreviation ifpred p n := (if p then pred n else n%nat).
 
 Definition treeify_invariant size (f:treeify_t) :=
  forall acc,
@@ -1483,8 +1485,8 @@ End MakeRaw.
 
 Module BalanceProps(X:Orders.OrderedType)(Import M : MakeRaw X).
 
-#[local] Notation Rd := (Node Red).
-#[local] Notation Bk := (Node Black).
+#[local] Abbreviation Rd := (Node Red).
+#[local] Abbreviation Bk := (Node Black).
 Import M.MX.
 
 (** ** Red-Black invariants *)

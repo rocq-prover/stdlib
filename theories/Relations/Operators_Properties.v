@@ -429,33 +429,33 @@ End Properties.
 
 (* begin hide *)
 (* Compatibility *)
-Notation trans_tn1 := clos_trans_tn1 (only parsing).
-Notation tn1_trans := clos_tn1_trans (only parsing).
-Notation tn1_trans_equiv := clos_trans_tn1_iff (only parsing).
+Abbreviation trans_tn1 := clos_trans_tn1 (only parsing).
+Abbreviation tn1_trans := clos_tn1_trans (only parsing).
+Abbreviation tn1_trans_equiv := clos_trans_tn1_iff (only parsing).
 
-Notation trans_t1n := clos_trans_t1n (only parsing).
-Notation t1n_trans := clos_t1n_trans (only parsing).
-Notation t1n_trans_equiv := clos_trans_t1n_iff (only parsing).
+Abbreviation trans_t1n := clos_trans_t1n (only parsing).
+Abbreviation t1n_trans := clos_t1n_trans (only parsing).
+Abbreviation t1n_trans_equiv := clos_trans_t1n_iff (only parsing).
 
-Notation R_rtn1 := clos_rtn1_step (only parsing).
-Notation trans_rt1n := clos_rt_rt1n (only parsing).
-Notation rt1n_trans := clos_rt1n_rt (only parsing).
-Notation rt1n_trans_equiv := clos_rt_rt1n_iff (only parsing).
+Abbreviation R_rtn1 := clos_rtn1_step (only parsing).
+Abbreviation trans_rt1n := clos_rt_rt1n (only parsing).
+Abbreviation rt1n_trans := clos_rt1n_rt (only parsing).
+Abbreviation rt1n_trans_equiv := clos_rt_rt1n_iff (only parsing).
 
-Notation R_rt1n := clos_rt1n_step (only parsing).
-Notation trans_rtn1 := clos_rt_rtn1 (only parsing).
-Notation rtn1_trans := clos_rtn1_rt (only parsing).
-Notation rtn1_trans_equiv := clos_rt_rtn1_iff (only parsing).
+Abbreviation R_rt1n := clos_rt1n_step (only parsing).
+Abbreviation trans_rtn1 := clos_rt_rtn1 (only parsing).
+Abbreviation rtn1_trans := clos_rtn1_rt (only parsing).
+Abbreviation rtn1_trans_equiv := clos_rt_rtn1_iff (only parsing).
 
-Notation rts1n_rts := clos_rst1n_rst (only parsing).
-Notation rts_1n_trans := clos_rst1n_trans (only parsing).
-Notation rts1n_sym := clos_rst1n_sym (only parsing).
-Notation rts_rts1n := clos_rst_rst1n (only parsing).
-Notation rts_rts1n_equiv := clos_rst_rst1n_iff (only parsing).
+Abbreviation rts1n_rts := clos_rst1n_rst (only parsing).
+Abbreviation rts_1n_trans := clos_rst1n_trans (only parsing).
+Abbreviation rts1n_sym := clos_rst1n_sym (only parsing).
+Abbreviation rts_rts1n := clos_rst_rst1n (only parsing).
+Abbreviation rts_rts1n_equiv := clos_rst_rst1n_iff (only parsing).
 
-Notation rtsn1_rts := clos_rstn1_rst (only parsing).
-Notation rtsn1_trans := clos_rstn1_trans (only parsing).
-Notation rtsn1_sym := clos_rstn1_sym (only parsing).
-Notation rts_rtsn1 := clos_rst_rstn1 (only parsing).
-Notation rts_rtsn1_equiv := clos_rst_rstn1_iff (only parsing).
+Abbreviation rtsn1_rts := clos_rstn1_rst (only parsing).
+Abbreviation rtsn1_trans := clos_rstn1_trans (only parsing).
+Abbreviation rtsn1_sym := clos_rstn1_sym (only parsing).
+Abbreviation rts_rtsn1 := clos_rst_rstn1 (only parsing).
+Abbreviation rts_rtsn1_equiv := clos_rst_rstn1_iff (only parsing).
 (* end hide *)

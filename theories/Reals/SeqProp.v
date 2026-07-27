@@ -102,10 +102,10 @@ Definition glb (Un:nat -> R) (pr:has_lb Un) : R :=
   let (a,_) := lb_to_glb Un pr in - a.
 
 (* Compatibility with previous unappropriate terminology *)
-Notation maj_sup := ub_to_lub (only parsing).
-Notation min_inf := lb_to_glb (only parsing).
-Notation majorant := lub (only parsing).
-Notation minorant := glb (only parsing).
+Abbreviation maj_sup := ub_to_lub (only parsing).
+Abbreviation min_inf := lb_to_glb (only parsing).
+Abbreviation majorant := lub (only parsing).
+Abbreviation minorant := glb (only parsing).
 
 Lemma maj_ss :
   forall (Un:nat -> R) (k:nat),
@@ -150,8 +150,8 @@ Definition sequence_lb (Un:nat -> R) (pr:has_lb Un)
   (i:nat) : R := glb (fun k:nat => Un (i + k)%nat) (min_ss Un i pr).
 
 (* Compatibility *)
-Notation sequence_majorant := sequence_ub (only parsing).
-Notation sequence_minorant := sequence_lb (only parsing).
+Abbreviation sequence_majorant := sequence_ub (only parsing).
+Abbreviation sequence_minorant := sequence_lb (only parsing).
 
 Lemma Wn_decreasing :
   forall (Un:nat -> R) (pr:has_ub Un), Un_decreasing (sequence_ub Un pr).
@@ -984,7 +984,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.16",note="Use cv_infty_cv_0.")]
-Notation cv_infty_cv_R0 := cv_infty_cv_R0_depr.
+Abbreviation cv_infty_cv_R0 := cv_infty_cv_R0_depr.
 
 (**********)
 Lemma decreasing_prop :

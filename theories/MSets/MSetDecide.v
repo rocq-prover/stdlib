@@ -17,7 +17,10 @@
 (** This file implements a decision procedure for a certain
     class of propositions involving finite sets.  *)
 
-From Stdlib Require Import Decidable Setoid DecidableTypeEx MSetFacts.
+From Stdlib Require Import Decidable Setoid DecidableTypeEx MSetFacts FSetDecide.
+
+Create HintDb MSet_Prop.
+Create HintDb MSet_decidability.
 
 (** First, a version for Weak Sets in functorial presentation *)
 

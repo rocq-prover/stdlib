@@ -156,7 +156,7 @@ Register not_gt as num.nat.not_gt.
     See now [Nat.compare] and its properties.
     In scope [nat_scope], the notation for [Nat.compare] is "?=" *)
 
-Notation nat_compare_S := Nat.compare_succ (only parsing).
+Abbreviation nat_compare_S := Nat.compare_succ (only parsing).
 
 Lemma nat_compare_lt n m : n<m <-> (n ?= m) = Lt.
 Proof.
@@ -217,9 +217,9 @@ Qed.
     See now [Nat.leb] and its properties.
     In scope [nat_scope], the notation for [Nat.leb] is "<=?" *)
 
-Notation leb := Nat.leb (only parsing).
+Abbreviation leb := Nat.leb (only parsing).
 
-Notation leb_iff := Nat.leb_le (only parsing).
+Abbreviation leb_iff := Nat.leb_le (only parsing).
 
 Lemma leb_iff_conv m n : (n <=? m) = false <-> m < n.
 Proof.

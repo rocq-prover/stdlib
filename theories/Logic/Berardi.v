@@ -151,6 +151,6 @@ Qed.
 
 
 #[deprecated(since = "8.8", note = "Use classical_proof_irrelevance instead.")]
-Notation classical_proof_irrelevence := classical_proof_irrelevance.
+Abbreviation classical_proof_irrelevence := classical_proof_irrelevance.
 
 End Berardis_paradox.

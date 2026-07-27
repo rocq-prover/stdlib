@@ -126,6 +126,7 @@ Lemma Rplus_comm : forall r1 r2:R, r1 + r2 = r2 + r1.
 Proof.
   intros. apply Rquot1. do 2 rewrite Rrepr_plus. apply CReal_plus_comm.
 Qed.
+Create HintDb real.
 #[global]
 Hint Resolve Rplus_comm: real.
 

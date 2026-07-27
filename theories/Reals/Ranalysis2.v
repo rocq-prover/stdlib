@@ -52,7 +52,7 @@ Proof.
 Qed.
 
 (* begin hide *)
-Notation Rmin_pos := Rmin_pos (only parsing). (* compat *)
+Abbreviation Rmin_pos := Rmin_pos (only parsing). (* compat *)
 (* end hide *)
 
 Lemma maj_term1 :
@@ -349,7 +349,7 @@ Proof.
 Qed.
 
 (* begin hide *)
-Notation Rmin_2 := Rmin_glb_lt (only parsing).
+Abbreviation Rmin_2 := Rmin_glb_lt (only parsing).
 (* end hide *)
 
 Lemma quadruple : forall x:R, 4 * x = x + x + x + x.

@@ -165,5 +165,5 @@ Qed.
 
 
 (* Compatibility *)
-Notation sym_JMeq := JMeq_sym (only parsing).
-Notation trans_JMeq := JMeq_trans (only parsing).
+Abbreviation sym_JMeq := JMeq_sym (only parsing).
+Abbreviation trans_JMeq := JMeq_trans (only parsing).

@@ -10,7 +10,7 @@
 
 (* G. Huet 1-9-95 *)
 
-From Stdlib Require Import PeanoNat Permut Setoid.
+From Stdlib Require Import Datatypes PeanoNat Permut Setoid.
 
 Set Implicit Arguments.
 

@@ -15,6 +15,7 @@
 Set Implicit Arguments.
 From Stdlib Require Import Setoid Morphisms Env BinPos BinNat BinInt.
 From Stdlib Require Export Ring_theory.
+From Stdlib Require Import Ring_polynom.
 
 #[local] Open Scope positive_scope.
 Import RingSyntax.
@@ -149,8 +150,8 @@ Section MakeRingPol.
     match goal with |- ?t == _ => mul_permut_rec t end).
 
 
- Notation PExpr := (PExpr C).
- Notation Pol := (Pol C).
+ Abbreviation PExpr := (PExpr C).
+ Abbreviation Pol := (Pol C).
 
  Implicit Types pe : PExpr.
  Implicit Types P : Pol.
@@ -626,7 +627,7 @@ Qed.
  Lemma pow_pos_add x i j : x^(j + i) == x^i * x^j.
  Proof.
   rewrite Pos.add_comm.
-  apply (pow_pos_add Rsth (Rmul_ext Reqe) (ARmul_assoc ARth)).
+  apply (Ring_theory.pow_pos_add Rsth (Rmul_ext Reqe) (ARmul_assoc ARth)).
  Qed.
 
  Lemma ceqb_spec c c' : BoolSpec ([c] == [c']) True (c ?=! c').

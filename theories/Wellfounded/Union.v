@@ -18,7 +18,7 @@ Section WfUnion.
   Variable A : Type.
   Variables R1 R2 : relation A.
 
-  Notation Union := (union A R1 R2).
+  Abbreviation Union := (union A R1 R2).
 
   Remark strip_commut :
     commut A R1 R2 ->

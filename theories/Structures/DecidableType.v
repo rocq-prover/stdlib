@@ -32,7 +32,7 @@ Module KeyDecidableType(D:DecidableType).
 
  Section Elt.
  Variable elt : Type.
- Notation key:=t.
+ Abbreviation key:=t.
 
   Definition eqk (p p':key*elt) := eq (fst p) (fst p').
   Definition eqke (p p':key*elt) :=

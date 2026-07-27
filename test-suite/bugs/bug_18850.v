@@ -2,7 +2,7 @@ From Stdlib Require Import
   Fin
   SetoidClass. (* comment out for different error message *)
 
-Notation fin := t.
+Abbreviation fin := t.
 
 Succeed Program Definition next_fin {n}: fin (S n) -> fin (S n) :=
   fix loop (f : fin (S n)) : fin (S n) :=

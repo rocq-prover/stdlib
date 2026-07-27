@@ -188,11 +188,11 @@ Qed.
 
 (** Compatibility notations *)
 
-Notation Zcompare_Eq_eq := Z.compare_eq (only parsing).
-Notation Zcompare_Eq_iff_eq := Z.compare_eq_iff (only parsing).
-Notation Zabs_non_eq := Z.abs_neq (only parsing).
-Notation Zsgn_0 := Z.sgn_null (only parsing).
-Notation Zsgn_1 := Z.sgn_pos (only parsing).
-Notation Zsgn_m1 := Z.sgn_neg (only parsing).
+Abbreviation Zcompare_Eq_eq := Z.compare_eq (only parsing).
+Abbreviation Zcompare_Eq_iff_eq := Z.compare_eq_iff (only parsing).
+Abbreviation Zabs_non_eq := Z.abs_neq (only parsing).
+Abbreviation Zsgn_0 := Z.sgn_null (only parsing).
+Abbreviation Zsgn_1 := Z.sgn_pos (only parsing).
+Abbreviation Zsgn_m1 := Z.sgn_neg (only parsing).
 
 (** Not kept: Zcompare_egal_dec *)

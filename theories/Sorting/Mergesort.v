@@ -111,7 +111,7 @@ Definition sort := iter_merge [].
 
 (** The proof of correctness *)
 
-#[local] Notation Sorted := (LocallySorted leb) (only parsing).
+#[local] Abbreviation Sorted := (LocallySorted leb) (only parsing).
 
 Fixpoint SortedStack stack :=
   match stack with

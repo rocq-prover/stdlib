@@ -24,7 +24,7 @@ Lemma Pdiv_eucl_remainder a b :
   snd (Pdiv_eucl a b) < Npos b.
 Proof. now apply (N.pos_div_eucl_remainder a (Npos b)). Qed.
 
-Notation Nmod := N.modulo (only parsing).
+Abbreviation Nmod := N.modulo (only parsing).
 
-Notation Ndiv_eucl_correct := N.div_eucl_spec (only parsing).
-Notation Ndiv_mod_eq := N.div_mod' (only parsing).
+Abbreviation Ndiv_eucl_correct := N.div_eucl_spec (only parsing).
+Abbreviation Ndiv_mod_eq := N.div_mod' (only parsing).

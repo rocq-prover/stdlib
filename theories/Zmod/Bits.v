@@ -13,12 +13,12 @@ Import ZmodDef.Zmod ZmodBase.Zmod ZmodDef.bits.
 
 (** ** Specialized versions of [Zmod] lemmas *)
 
-Notation to_Z_0 := to_Z_0 (only parsing).
-Notation unsigned_0 := unsigned_0 (only parsing).
+Abbreviation to_Z_0 := to_Z_0 (only parsing).
+Abbreviation unsigned_0 := unsigned_0 (only parsing).
 
 Lemma unsigned_1 [n : Z] (Hm : 1 <= n) : @to_Z (2^n) one = 1.
 Proof. apply to_Z_1_pos; pose (Z.pow_le_mono_r 2 1 n); lia. Qed.
-Notation to_Z_1 := unsigned_1 (only parsing).
+Abbreviation to_Z_1 := unsigned_1 (only parsing).
 
 Lemma signed_1 [n] (Hm : 2 <= n) : @signed (2^n) one = 1.
 Proof. apply signed_1. transitivity (2^2); try apply Z.pow_le_mono_r; lia. Qed.
@@ -30,7 +30,7 @@ Proof.
     rewrite ?Bool.orb_false_r, ?Bool.orb_false_r, ?Z.ones_equiv, ?H; cbn; lia.
   rewrite to_Z_m1_pos, Z.ones_equiv; trivial.
 Qed.
-Notation to_Z_m1 := unsigned_m1 (only parsing).
+Abbreviation to_Z_m1 := unsigned_m1 (only parsing).
 
 Lemma signed_m1 [n] (Hm : 1 <= n) : @signed (2^n) (opp one) = -1.
 Proof.
@@ -43,22 +43,22 @@ Proof. apply one_neq_zero. pose proof (Z.pow_le_mono_r 2 1 n); lia. Qed.
 
 Lemma unsigned_of_Z [n] (z : Z) : to_Z (of_Z n z) = z mod 2^n.
 Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_of_Z := unsigned_of_Z.
+Abbreviation to_Z_of_Z := unsigned_of_Z.
 
 Lemma unsigned_of_Z_small [n] z (H : 0 <= z < 2^n) : to_Z (bits.of_Z n z) = z.
 Proof. apply to_Z_of_Z_small, H. Qed.
-Notation to_Z_of_Z_small := unsigned_of_Z_small (only parsing).
+Abbreviation to_Z_of_Z_small := unsigned_of_Z_small (only parsing).
 
 Lemma unsigned_of_Z_mod0 [n] (Hn : n < 0) x : unsigned (of_Z n x) = x.
 Proof. rewrite Z.pow_neg_r; trivial using to_Z_of_Z_mod0. Qed.
 
 Lemma unsigned_width [n] (Hn : 0 <= n) : unsigned (bits.of_Z n n) = n.
 Proof. apply to_Z_of_Z_small. pose proof Z.pow_gt_lin_r 2 n; lia. Qed.
-Notation to_Z_width := unsigned_width.
+Abbreviation to_Z_width := unsigned_width.
 
 Lemma unsigned_range [n] (x : bits n) (Hn : 0 <= n) : 0 <= x < 2^n.
 Proof. apply Zmod.unsigned_pos_bound. lia. Qed.
-Notation to_Z_range := unsigned_range.
+Abbreviation to_Z_range := unsigned_range.
 
 Lemma signed_of_Z [n] z : signed (of_Z n z) = Z.smodulo z (2^n).
 Proof. apply signed_of_Z. Qed.
@@ -74,7 +74,7 @@ Qed.
 
 Lemma unsigned_width0 (a : bits 0) : to_Z a = 0.
 Proof. pose proof to_Z_range a ltac:(lia); lia. Qed.
-Notation to_Z_width0 := unsigned_width0 (only parsing).
+Abbreviation to_Z_width0 := unsigned_width0 (only parsing).
 
 Lemma signed_width0 (a : bits 0) : signed a = 0.
 Proof. pose proof Zmod.signed_pos_bound a; lia. Qed.
@@ -124,30 +124,30 @@ Proof. rewrite signed_pos_iff; lia. Qed.
 
 Lemma unsigned_opp [n] (x : bits n) : to_Z (opp x) = (- to_Z x) mod 2^n.
 Proof. rewrite to_Z_opp; trivial. Qed.
-Notation to_Z_opp := unsigned_opp (only parsing).
+Abbreviation to_Z_opp := unsigned_opp (only parsing).
 Lemma signed_opp [n] (x : bits n) : signed (opp x) = Z.smodulo (-signed x) (2^n).
 Proof. rewrite signed_opp; trivial. Qed.
 Lemma unsigned_add [n] (x y : bits n) : to_Z (add x y) = (to_Z x + to_Z y) mod 2^n.
 Proof. rewrite to_Z_add; trivial. Qed.
-Notation to_Z_add := unsigned_add (only parsing).
+Abbreviation to_Z_add := unsigned_add (only parsing).
 Lemma signed_add [n] (x y : bits n) : signed (add x y) = Z.smodulo (signed x+signed y) (2^n).
 Proof. rewrite signed_add; trivial. Qed.
 Lemma unsigned_sub [n] (x y : bits n) : to_Z (sub x y) = (to_Z x - to_Z y) mod 2^n.
 Proof. rewrite to_Z_sub; trivial. Qed.
-Notation to_Z_sub := unsigned_sub (only parsing).
+Abbreviation to_Z_sub := unsigned_sub (only parsing).
 Lemma signed_sub [n] (x y : bits n) : signed (sub x y) = Z.smodulo (signed x-signed y) (2^n).
 Proof. rewrite signed_sub; trivial. Qed.
 Lemma unsigned_mul [n] (x y : bits n) : to_Z (mul x y) = (to_Z x * to_Z y) mod 2^n.
 Proof. rewrite to_Z_mul; trivial. Qed.
-Notation to_Z_mul := unsigned_mul (only parsing).
+Abbreviation to_Z_mul := unsigned_mul (only parsing).
 Lemma signed_mul [n] (x y : bits n) : signed (mul x y) = Z.smodulo (signed x*signed y) (2^n).
 Proof. rewrite signed_mul; trivial. Qed.
 Lemma unsigned_slu [n] (x : bits n) y : to_Z (slu x y) = Z.shiftl x y mod 2^n.
 Proof. rewrite to_Z_slu; trivial. Qed.
-Notation to_Z_slu := unsigned_slu (only parsing).
+Abbreviation to_Z_slu := unsigned_slu (only parsing).
 Lemma unsigned_srs [n] (x : bits n) y (Hy : 0 <= y) : to_Z (srs x y) = Z.shiftr (signed x) y mod 2^n.
 Proof. rewrite unsigned_srs; trivial. Qed.
-Notation to_Z_srs := unsigned_srs (only parsing).
+Abbreviation to_Z_srs := unsigned_srs (only parsing).
 Lemma signed_srs [n] (x : bits n) y (Hy : 0 <= y) : signed (srs x y) = Z.shiftr (signed x) y.
 Proof. apply signed_srs; trivial. Qed.
 Lemma of_Z_div [n] (x y : Z) (Hx : 0 <= x < 2^n) (Hy : 0 < y < 2^n) :
@@ -158,13 +158,13 @@ Lemma of_Z_umod [n] (x y : Z) (Hx : 0 <= x < 2^n) (Hy : 0 <= y < 2^n) :
 Proof. rewrite of_Z_umod_small; trivial. Qed.
 Lemma unsigned_mdiv [n] (x y : bits n) : to_Z (mdiv x y) = x * Z.invmod y (2^n) mod 2^n.
 Proof. rewrite to_Z_mdiv; trivial. Qed.
-Notation to_Z_mdiv := unsigned_mdiv (only parsing).
+Abbreviation to_Z_mdiv := unsigned_mdiv (only parsing).
 Lemma unsigned_pow_nonneg_r [n] (x : bits n) z (Hz : 0 <= z) : to_Z (pow x z) = x^z mod 2^n.
 Proof. rewrite to_Z_pow_nonneg_r; trivial. Qed.
-Notation to_Z_pow_nonneg := unsigned_pow_nonneg_r (only parsing).
+Abbreviation to_Z_pow_nonneg := unsigned_pow_nonneg_r (only parsing).
 Lemma signed_pow_nonneg_r [n] (x z : bits n) (Hz : 0 <= z) : signed (pow x z) = Z.smodulo (signed x ^ z) (2^n).
 Proof. rewrite signed_pow_nonneg_r; trivial. Qed.
-Notation signed_pow_nonneg := signed_pow_nonneg_r.
+Abbreviation signed_pow_nonneg := signed_pow_nonneg_r.
 
 Lemma of_Z_nz [n] (x : bits n) (H : (x mod 2^n <> 0)%Z) : bits.of_Z n x <> zero.
 Proof. apply of_Z_nz. trivial. Qed.
@@ -254,7 +254,7 @@ Proof.
   apply Z.bits_inj; intros i; destruct (Z.ltb_spec i n);
   repeat rewrite ?Z.lor_spec, ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?testbit_high by lia; trivial.
 Qed.
-Notation to_Z_or := unsigned_or (only parsing).
+Abbreviation to_Z_or := unsigned_or (only parsing).
 
 Lemma unsigned_xor [n] (x y : bits n) : to_Z (xor x y) = Z.lxor x y.
 Proof.
@@ -263,7 +263,7 @@ Proof.
   apply Z.bits_inj; intros i; destruct (Z.ltb_spec i n);
   repeat rewrite ?Z.lxor_spec, ?Z.mod_pow2_bits_low, ?Z.mod_pow2_bits_high, ?testbit_high by lia; trivial.
 Qed.
-Notation to_Z_xor := unsigned_xor (only parsing).
+Abbreviation to_Z_xor := unsigned_xor (only parsing).
 
 Lemma xor_zero_iff [n] (x y : bits n) : xor x y = zero <-> x = y.
 Proof.
@@ -299,7 +299,7 @@ Proof.
     ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial; try lia.
 Qed.
-#[local] Notation to_Z_not := unsigned_not (only parsing).
+#[local] Abbreviation to_Z_not := unsigned_not (only parsing).
 
 Lemma unsigned_not' [n] (x : bits n) : to_Z (not x) = Z.ones n - x.
 Proof.
@@ -311,7 +311,7 @@ Proof.
     ?(proj2 (Z.ltb_lt _ _)), ?(proj2 (Z.leb_le _ _)), ?Z.ones_neg, ?Z.bits_m1
     by lia; trivial.
 Qed.
-#[local] Notation to_Z_not' := unsigned_not' (only parsing).
+#[local] Abbreviation to_Z_not' := unsigned_not' (only parsing).
 
 Lemma of_Z_lnot [n] z : bits.of_Z n (Z.lnot z) = not (bits.of_Z n z).
 Proof.
@@ -358,11 +358,11 @@ Proof.
   pose proof Z.lor_nonneg a (b * 2^n). pose proof Z.land_nonneg a (b * 2^n).
   pose proof Z.add_lor_land a (b * 2^n). nia.
 Qed.
-Notation to_Z_app := unsigned_app (only parsing).
+Abbreviation to_Z_app := unsigned_app (only parsing).
 
 Lemma unsigned_firstn [n m] a : to_Z (@firstn n m a) = a mod 2^n.
 Proof. apply to_Z_of_Z. Qed.
-Notation to_Z_firstn := unsigned_firstn (only parsing).
+Abbreviation to_Z_firstn := unsigned_firstn (only parsing).
 
 Lemma unsigned_skipn [n m] a (Hn : 0 <= n) : to_Z (@skipn n m a) = a/2^n.
 Proof.
@@ -373,12 +373,12 @@ Proof.
   apply Zdiv_lt_upper_bound; [lia|].
   rewrite <-Z.pow_add_r, Z.sub_add; lia.
 Qed.
-Notation to_Z_skipn := unsigned_skipn (only parsing).
+Abbreviation to_Z_skipn := unsigned_skipn (only parsing).
 
 Lemma unsigned_slice start pastend [w] (a : bits w) (H : 0 <= start <= pastend) :
   to_Z (slice start pastend a) = a/2^start mod 2^(pastend-start).
 Proof. cbv [slice]. rewrite to_Z_firstn, to_Z_skipn; lia. Qed.
-Notation to_Z_slice := unsigned_slice (only parsing).
+Abbreviation to_Z_slice := unsigned_slice (only parsing).
 
 (** This lemma holds with [~(-n <= m < 0)] but no use case is known. *)
 

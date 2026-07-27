@@ -17,6 +17,8 @@ From Stdlib Require Export Ring_theory.
 Import RingSyntax.
 (* Set Universe Polymorphism. *)
 
+Create Rewrite HintDb Esimpl.
+
 Section MakeRingPol.
 
  (* Ring elements *)
@@ -500,7 +502,7 @@ Section MakeRingPol.
 
  (** Evaluation of a polynomial towards R *)
 
- #[local] Notation hd := (List.hd 0).
+ #[local] Abbreviation hd := (List.hd 0).
 
  Fixpoint Pphi(l:list R) (P:Pol) : R :=
   match P with

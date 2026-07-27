@@ -44,6 +44,8 @@ Unset Strict Implicit.
     Weak sets are sets without ordering on base elements, only
     a decidable equality. *)
 
+Create HintDb set.
+
 Module Type WSfun (E : DecidableType).
 
   Definition elt := E.t.

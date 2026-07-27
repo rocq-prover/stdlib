@@ -153,7 +153,7 @@ Variable betaU1 : forall F (f:forall A:U1, El1 (F A)) A,
 (** *** Small universe *)
 (** The small universe is an element of the large one. *)
 Variable u0 : U1.
-Notation U0 := (El1 u0).
+Abbreviation U0 := (El1 u0).
 Variable El0 : U0 -> Type.
 (** **** Closure by small product *)
 (** [U0] does not need reduction rules *)

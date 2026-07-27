@@ -45,7 +45,7 @@ Unset Strict Implicit.
 
 Module Ops (Import I:Int)(X:OrderedType) <: MSetInterface.Ops X.
 #[local] Open Scope Int_scope.
-#[local] Notation int := I.t.
+#[local] Abbreviation int := I.t.
 
 (** ** Generic trees instantiated with integer height *)
 

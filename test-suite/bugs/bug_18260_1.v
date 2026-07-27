@@ -14,7 +14,7 @@ Module Export word.
   Arguments word : clear implicits.
 
 End word.
-Notation word := word.word.
+Abbreviation word := word.word.
 #[global] Coercion word.rep : word >-> Sortclass.
 
 
@@ -27,7 +27,7 @@ Module map.
   #[global] Coercion rep : map >-> Sortclass.
 
 End map.
-#[local] Notation map := map.map.
+#[local] Abbreviation map := map.map.
 #[global] Coercion map.rep : map >-> Sortclass.
 
 Definition SuchThat(R: Type)(P: R -> Prop) := R.

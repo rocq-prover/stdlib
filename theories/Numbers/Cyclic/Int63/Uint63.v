@@ -19,61 +19,61 @@ From Stdlib Require ZArith.
 Import Znumtheory.
 From Stdlib Require Export PrimInt63 Uint63Axioms.
 
-Notation int := int (only parsing).
-Notation lsl := lsl (only parsing).
-Notation lsr := lsr (only parsing).
-Notation land := land (only parsing).
-Notation lor := lor (only parsing).
-Notation lxor := lxor (only parsing).
-Notation add := add (only parsing).
-Notation sub := sub (only parsing).
-Notation mul := mul (only parsing).
-Notation mulc := mulc (only parsing).
-Notation div := div (only parsing).
-Notation mod := mod (only parsing).
-Notation eqb := eqb (only parsing).
-Notation ltb := ltb (only parsing).
-Notation leb := leb (only parsing).
+Abbreviation int := int (only parsing).
+Abbreviation lsl := lsl (only parsing).
+Abbreviation lsr := lsr (only parsing).
+Abbreviation land := land (only parsing).
+Abbreviation lor := lor (only parsing).
+Abbreviation lxor := lxor (only parsing).
+Abbreviation add := add (only parsing).
+Abbreviation sub := sub (only parsing).
+Abbreviation mul := mul (only parsing).
+Abbreviation mulc := mulc (only parsing).
+Abbreviation div := div (only parsing).
+Abbreviation mod := mod (only parsing).
+Abbreviation eqb := eqb (only parsing).
+Abbreviation ltb := ltb (only parsing).
+Abbreviation leb := leb (only parsing).
 
-Notation size := Uint63Axioms.size (only parsing).
-Notation digits := Uint63Axioms.digits (only parsing).
-Notation max_int := Uint63Axioms.max_int (only parsing).
-Notation get_digit := Uint63Axioms.get_digit (only parsing).
-Notation set_digit := Uint63Axioms.set_digit (only parsing).
-Notation is_zero := Uint63Axioms.is_zero (only parsing).
-Notation is_even := Uint63Axioms.is_even (only parsing).
-Notation bit := Uint63Axioms.bit (only parsing).
-Notation addcarry := Uint63Axioms.addcarry (only parsing).
-Notation to_Z := Uint63Axioms.to_Z (only parsing).
-Notation of_pos := Uint63Axioms.of_pos (only parsing).
-Notation of_Z := Uint63Axioms.of_Z (only parsing).
-Notation wB := Uint63Axioms.wB (only parsing).
-Notation of_to_Z := Uint63Axioms.of_to_Z (only parsing).
-Notation lsl_spec := Uint63Axioms.lsl_spec (only parsing).
-Notation lsr_spec := Uint63Axioms.lsr_spec (only parsing).
-Notation land_spec := Uint63Axioms.land_spec (only parsing).
-Notation lor_spec := Uint63Axioms.lor_spec (only parsing).
-Notation lxor_spec := Uint63Axioms.lxor_spec (only parsing).
-Notation add_spec := Uint63Axioms.add_spec (only parsing).
-Notation sub_spec := Uint63Axioms.sub_spec (only parsing).
-Notation mul_spec := Uint63Axioms.mul_spec (only parsing).
-Notation mulc_spec := Uint63Axioms.mulc_spec (only parsing).
-Notation div_spec := Uint63Axioms.div_spec (only parsing).
-Notation mod_spec := Uint63Axioms.mod_spec (only parsing).
-Notation eqb_correct := Uint63Axioms.eqb_correct (only parsing).
-Notation eqb_refl := Uint63Axioms.eqb_refl (only parsing).
-Notation ltb_spec := Uint63Axioms.ltb_spec (only parsing).
-Notation leb_spec := Uint63Axioms.leb_spec (only parsing).
-Notation compare_def_spec := Uint63Axioms.compare_def_spec (only parsing).
-Notation head0_spec := Uint63Axioms.head0_spec (only parsing).
-Notation tail0_spec := Uint63Axioms.tail0_spec (only parsing).
-Notation addc_def_spec := Uint63Axioms.addc_def_spec (only parsing).
-Notation addcarryc_def_spec := Uint63Axioms.addcarryc_def_spec (only parsing).
-Notation subc_def_spec := Uint63Axioms.subc_def_spec (only parsing).
-Notation subcarryc_def_spec := Uint63Axioms.subcarryc_def_spec (only parsing).
-Notation diveucl_def_spec := Uint63Axioms.diveucl_def_spec (only parsing).
-Notation diveucl_21_spec := Uint63Axioms.diveucl_21_spec (only parsing).
-Notation addmuldiv_def_spec := Uint63Axioms.addmuldiv_def_spec (only parsing).
+Abbreviation size := Uint63Axioms.size (only parsing).
+Abbreviation digits := Uint63Axioms.digits (only parsing).
+Abbreviation max_int := Uint63Axioms.max_int (only parsing).
+Abbreviation get_digit := Uint63Axioms.get_digit (only parsing).
+Abbreviation set_digit := Uint63Axioms.set_digit (only parsing).
+Abbreviation is_zero := Uint63Axioms.is_zero (only parsing).
+Abbreviation is_even := Uint63Axioms.is_even (only parsing).
+Abbreviation bit := Uint63Axioms.bit (only parsing).
+Abbreviation addcarry := Uint63Axioms.addcarry (only parsing).
+Abbreviation to_Z := Uint63Axioms.to_Z (only parsing).
+Abbreviation of_pos := Uint63Axioms.of_pos (only parsing).
+Abbreviation of_Z := Uint63Axioms.of_Z (only parsing).
+Abbreviation wB := Uint63Axioms.wB (only parsing).
+Abbreviation of_to_Z := Uint63Axioms.of_to_Z (only parsing).
+Abbreviation lsl_spec := Uint63Axioms.lsl_spec (only parsing).
+Abbreviation lsr_spec := Uint63Axioms.lsr_spec (only parsing).
+Abbreviation land_spec := Uint63Axioms.land_spec (only parsing).
+Abbreviation lor_spec := Uint63Axioms.lor_spec (only parsing).
+Abbreviation lxor_spec := Uint63Axioms.lxor_spec (only parsing).
+Abbreviation add_spec := Uint63Axioms.add_spec (only parsing).
+Abbreviation sub_spec := Uint63Axioms.sub_spec (only parsing).
+Abbreviation mul_spec := Uint63Axioms.mul_spec (only parsing).
+Abbreviation mulc_spec := Uint63Axioms.mulc_spec (only parsing).
+Abbreviation div_spec := Uint63Axioms.div_spec (only parsing).
+Abbreviation mod_spec := Uint63Axioms.mod_spec (only parsing).
+Abbreviation eqb_correct := Uint63Axioms.eqb_correct (only parsing).
+Abbreviation eqb_refl := Uint63Axioms.eqb_refl (only parsing).
+Abbreviation ltb_spec := Uint63Axioms.ltb_spec (only parsing).
+Abbreviation leb_spec := Uint63Axioms.leb_spec (only parsing).
+Abbreviation compare_def_spec := Uint63Axioms.compare_def_spec (only parsing).
+Abbreviation head0_spec := Uint63Axioms.head0_spec (only parsing).
+Abbreviation tail0_spec := Uint63Axioms.tail0_spec (only parsing).
+Abbreviation addc_def_spec := Uint63Axioms.addc_def_spec (only parsing).
+Abbreviation addcarryc_def_spec := Uint63Axioms.addcarryc_def_spec (only parsing).
+Abbreviation subc_def_spec := Uint63Axioms.subc_def_spec (only parsing).
+Abbreviation subcarryc_def_spec := Uint63Axioms.subcarryc_def_spec (only parsing).
+Abbreviation diveucl_def_spec := Uint63Axioms.diveucl_def_spec (only parsing).
+Abbreviation diveucl_21_spec := Uint63Axioms.diveucl_21_spec (only parsing).
+Abbreviation addmuldiv_def_spec := Uint63Axioms.addmuldiv_def_spec (only parsing).
 
 #[local] Open Scope uint63_scope.
 
@@ -119,13 +119,13 @@ Register Inline subcarry.
 
 (** Exact arithmetic operations *)
 
-Notation addc := addc (only parsing).
-Notation addcarryc := addcarryc (only parsing).
-Notation subc := subc (only parsing).
-Notation subcarryc := subcarryc (only parsing).
-Notation diveucl := diveucl (only parsing).
-Notation diveucl_21 := diveucl_21 (only parsing).
-Notation addmuldiv := addmuldiv (only parsing).
+Abbreviation addc := addc (only parsing).
+Abbreviation addcarryc := addcarryc (only parsing).
+Abbreviation subc := subc (only parsing).
+Abbreviation subcarryc := subcarryc (only parsing).
+Abbreviation diveucl := diveucl (only parsing).
+Abbreviation diveucl_21 := diveucl_21 (only parsing).
+Abbreviation addmuldiv := addmuldiv (only parsing).
 
 Module Import Uint63NotationsInternalC.
 Notation "- x" := (opp x) : uint63_scope.
@@ -142,12 +142,12 @@ Register Inline succc.
 Definition predc i := i -c 1.
 Register Inline predc.
 
-Notation compare := compare (only parsing).
+Abbreviation compare := compare (only parsing).
 
 Import Bool ZArith.
 
-Notation to_nat i := (Z.to_nat (to_Z i)).
-Notation of_nat n := (of_Z (Z.of_nat n)).
+Abbreviation to_nat i := (Z.to_nat (to_Z i)).
+Abbreviation of_nat n := (of_Z (Z.of_nat n)).
 
 Module Import Uint63NotationsInternalD.
 Notation "n ?= m" := (compare n m) (at level 70, no associativity) : uint63_scope.
@@ -226,8 +226,8 @@ Lemma to_Z_inj x y : φ x = φ y → x = y.
 Proof. exact (λ e, can_inj of_to_Z e). Qed.
 
 (** I should add the definition (like for compare) *)
-Notation head0 := head0 (only parsing).
-Notation tail0 := tail0 (only parsing).
+Abbreviation head0 := head0 (only parsing).
+Abbreviation tail0 := tail0 (only parsing).
 
 (** Square root functions using newton iteration **)
 #[local] Open Scope uint63_scope.

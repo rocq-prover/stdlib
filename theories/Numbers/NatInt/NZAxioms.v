@@ -116,8 +116,8 @@ End ZeroSuccPred.
 
 Module Type ZeroSuccPredNotation (T:Typ)(Import NZ:ZeroSuccPred T).
  Notation "0" := zero.
- Notation S := succ.
- Notation P := pred.
+ Abbreviation S := succ.
+ Abbreviation P := pred.
 End ZeroSuccPredNotation.
 
 Module Type ZeroSuccPred' (T:Typ) :=

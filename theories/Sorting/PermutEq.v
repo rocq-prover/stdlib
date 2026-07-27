@@ -23,8 +23,8 @@ Section Perm.
   Variable A : Type.
   Hypothesis eq_dec : forall x y:A, {x=y} + {~ x=y}.
 
-  Notation permutation := (permutation _ eq_dec).
-  Notation list_contents := (list_contents _ eq_dec).
+  Abbreviation permutation := (permutation _ eq_dec).
+  Abbreviation list_contents := (list_contents _ eq_dec).
 
   (** we can use [multiplicity] to define [In] and [NoDup]. *)
 

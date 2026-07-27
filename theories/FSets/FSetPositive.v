@@ -25,6 +25,8 @@ Set Implicit Arguments.
 #[local] Open Scope positive_scope.
 #[local] Unset Elimination Schemes.
 
+Create HintDb ct.
+
 Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   Module E:=PositiveOrderedTypeBits.
@@ -279,7 +281,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   (** lexicographic product, defined using a notation to keep things lazy *)
 
-  Notation lex u v := match u with Eq => v | Lt => Lt | Gt => Gt end.
+  Abbreviation lex u v := match u with Eq => v | Lt => Lt | Gt => Gt end.
 
   Definition compare_bool a b :=
     match a,b with
@@ -913,7 +915,7 @@ Module PositiveSet <: S with Module E:=PositiveOrderedTypeBits.
 
   (** Specification of [elements] *)
 
-  Notation InL := (InA E.eq).
+  Abbreviation InL := (InA E.eq).
 
   Lemma xelements_spec: forall s j acc y,
     InL y (xelements s j acc)

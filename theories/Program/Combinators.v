@@ -40,6 +40,7 @@ Proof.
   reflexivity.
 Qed.
 
+Create Rewrite HintDb core.
 #[global] Hint Rewrite @compose_id_left @compose_id_right : core.
 #[global] Hint Rewrite <- @compose_assoc : core.
 

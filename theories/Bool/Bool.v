@@ -10,6 +10,8 @@
 
 From Stdlib Require Import DecidableClass HLevelsBase.
 
+Create Rewrite HintDb bitwise.
+
 (** The type [bool] is defined in the prelude as
 [[
 Inductive bool : Set := true : bool | false : bool
@@ -40,7 +42,7 @@ Definition transparent_Is_true' (b : bool) : (True -> Is_true b) -> Is_true b :=
   | false => fun H => False_rect _ (H I)
   end.
 
-Notation transparent_Is_true b pf := (transparent_Is_true' b (fun _ => pf)).
+Abbreviation transparent_Is_true b pf := (transparent_Is_true' b (fun _ => pf)).
 
 (**
 <<
@@ -258,8 +260,8 @@ Proof.
   destr_bool.
 Qed.
 
-Notation negb_elim := negb_involutive (only parsing).
-Notation negb_intro := negb_involutive_reverse (only parsing).
+Abbreviation negb_elim := negb_involutive (only parsing).
+Abbreviation negb_intro := negb_involutive_reverse (only parsing).
 
 Lemma negb_sym : forall b b':bool, b' = negb b -> b = negb b'.
 Proof.
@@ -367,8 +369,8 @@ Proof.
   reflexivity.
 Qed.
 
-Notation orb_b_true := orb_true_r (only parsing).
-Notation orb_true_b := orb_true_l (only parsing).
+Abbreviation orb_b_true := orb_true_r (only parsing).
+Abbreviation orb_true_b := orb_true_l (only parsing).
 
 (** [false] is neutral for [orb] *)
 
@@ -386,8 +388,8 @@ Qed.
 #[global]
 Hint Resolve orb_false_l: bool.
 
-Notation orb_b_false := orb_false_r (only parsing).
-Notation orb_false_b := orb_false_l (only parsing).
+Abbreviation orb_b_false := orb_false_r (only parsing).
+Abbreviation orb_false_b := orb_false_l (only parsing).
 
 (** Complementation *)
 
@@ -403,7 +405,7 @@ Proof.
   destr_bool.
 Qed.
 
-Notation orb_neg_b := orb_negb_r (only parsing).
+Abbreviation orb_neg_b := orb_negb_r (only parsing).
 
 (** Commutativity *)
 
@@ -465,8 +467,8 @@ Proof.
   reflexivity.
 Qed.
 
-Notation andb_b_false := andb_false_r (only parsing).
-Notation andb_false_b := andb_false_l (only parsing).
+Abbreviation andb_b_false := andb_false_r (only parsing).
+Abbreviation andb_false_b := andb_false_l (only parsing).
 
 Lemma andb_diag : forall b, b && b = b.
 Proof.
@@ -485,8 +487,8 @@ Proof.
   reflexivity.
 Qed.
 
-Notation andb_b_true := andb_true_r (only parsing).
-Notation andb_true_b := andb_true_l (only parsing).
+Abbreviation andb_b_true := andb_true_r (only parsing).
+Abbreviation andb_true_b := andb_true_l (only parsing).
 
 Lemma andb_false_elim :
   forall b1 b2:bool, b1 && b2 = false -> {b1 = false} + {b2 = false}.
@@ -510,7 +512,7 @@ Proof.
   destr_bool.
 Qed.
 
-Notation andb_neg_b := andb_negb_r (only parsing).
+Abbreviation andb_neg_b := andb_negb_r (only parsing).
 
 (** Commutativity *)
 
@@ -560,10 +562,10 @@ Proof.
 Qed.
 
 (* Compatibility *)
-Notation demorgan1 := andb_orb_distrib_r (only parsing).
-Notation demorgan2 := andb_orb_distrib_l (only parsing).
-Notation demorgan3 := orb_andb_distrib_r (only parsing).
-Notation demorgan4 := orb_andb_distrib_l (only parsing).
+Abbreviation demorgan1 := andb_orb_distrib_r (only parsing).
+Abbreviation demorgan2 := andb_orb_distrib_l (only parsing).
+Abbreviation demorgan3 := orb_andb_distrib_r (only parsing).
+Abbreviation demorgan4 := orb_andb_distrib_l (only parsing).
 
 (** Absorption *)
 
@@ -579,8 +581,8 @@ Qed.
 
 (* begin hide *)
 (* Compatibility *)
-Notation absoption_andb := absorption_andb (only parsing).
-Notation absoption_orb := absorption_orb (only parsing).
+Abbreviation absoption_andb := absorption_andb (only parsing).
+Abbreviation absoption_orb := absorption_orb (only parsing).
 (* end hide *)
 
 (****************************)
@@ -678,8 +680,8 @@ Proof.
   destr_bool.
 Qed.
 
-Notation xorb_false := xorb_false_r (only parsing).
-Notation false_xorb := xorb_false_l (only parsing).
+Abbreviation xorb_false := xorb_false_r (only parsing).
+Abbreviation false_xorb := xorb_false_l (only parsing).
 
 (** [true] is "complementing" for [xorb] *)
 
@@ -693,8 +695,8 @@ Proof.
   reflexivity.
 Qed.
 
-Notation xorb_true := xorb_true_r (only parsing).
-Notation true_xorb := xorb_true_l (only parsing).
+Abbreviation xorb_true := xorb_true_r (only parsing).
+Abbreviation true_xorb := xorb_true_l (only parsing).
 
 (** Nilpotency (alternatively: identity is a inverse for [xorb]) *)
 
@@ -718,7 +720,7 @@ Proof.
   destr_bool.
 Qed.
 
-Notation xorb_assoc := xorb_assoc_reverse (only parsing). (* Compatibility *)
+Abbreviation xorb_assoc := xorb_assoc_reverse (only parsing). (* Compatibility *)
 
 Lemma xorb_eq : forall b b':bool, xorb b b' = false -> b = b'.
 Proof.
@@ -780,7 +782,7 @@ Definition transparent_eq_true' b : (True -> eq_true b) -> eq_true b :=
   | _ => fun H => False_rect _ (not_eqtrue_false (H I))
   end.
 
-Notation transparent_eq_true b pf := (transparent_eq_true' b (fun _ => pf)).
+Abbreviation transparent_eq_true b pf := (transparent_eq_true' b (fun _ => pf)).
 
 Definition eq_any_transparent_eq_true b pf' : forall pf, transparent_eq_true b pf = pf'
   := match pf' with is_eq_true => fun _ => eq_refl end.
@@ -804,14 +806,14 @@ Proof.
   apply eq_iff_eq_true.
 Qed.
 
-Notation bool_1 := eq_true_iff_eq (only parsing). (* Compatibility *)
+Abbreviation bool_1 := eq_true_iff_eq (only parsing). (* Compatibility *)
 
 Lemma eq_true_negb_classical : forall b:bool, negb b <> true -> b = true.
 Proof.
   destr_bool; intuition.
 Qed.
 
-Notation bool_3 := eq_true_negb_classical (only parsing). (* Compatibility *)
+Abbreviation bool_3 := eq_true_negb_classical (only parsing). (* Compatibility *)
 
 Lemma eq_true_negb_classical_iff : forall b:bool, negb b <> true <-> b = true.
 Proof.
@@ -828,7 +830,7 @@ Proof.
   destr_bool; intuition.
 Qed.
 
-Notation bool_6 := eq_true_not_negb (only parsing). (* Compatibility *)
+Abbreviation bool_6 := eq_true_not_negb (only parsing). (* Compatibility *)
 
 #[global]
 Hint Resolve eq_true_not_negb : bool.
@@ -883,7 +885,7 @@ Proof.
   intros; subst; auto with bool.
 Qed.
 
-Notation Is_true_eq_true2 := Is_true_eq_right (only parsing).
+Abbreviation Is_true_eq_true2 := Is_true_eq_right (only parsing).
 
 #[global]
 Hint Immediate Is_true_eq_right Is_true_eq_left: bool.
@@ -906,7 +908,7 @@ Proof.
   destr_bool; tauto.
 Qed.
 
-Notation orb_prop2 := orb_prop_elim (only parsing).
+Abbreviation orb_prop2 := orb_prop_elim (only parsing).
 
 Lemma orb_prop_intro :
   forall a b:bool, Is_true a \/ Is_true b -> Is_true (a || b).
@@ -922,7 +924,7 @@ Qed.
 #[global]
 Hint Resolve andb_prop_intro: bool.
 
-Notation andb_true_intro2 :=
+Abbreviation andb_true_intro2 :=
   (fun b1 b2 H1 H2 => andb_prop_intro b1 b2 (conj H1 H2))
   (only parsing).
 
@@ -934,7 +936,7 @@ Qed.
 #[global]
 Hint Resolve andb_prop_elim: bool.
 
-Notation andb_prop2 := andb_prop_elim (only parsing).
+Abbreviation andb_prop2 := andb_prop_elim (only parsing).
 
 Lemma eq_bool_prop_intro :
   forall b1 b2, (Is_true b1 <-> Is_true b2) -> b1 = b2.
@@ -1013,9 +1015,9 @@ Qed.
     as popularized by the Ssreflect library.    *)
 (************************************************)
 
-Notation reflect := Datatypes.reflect (only parsing).
-Notation ReflectT := Datatypes.ReflectT (only parsing).
-Notation ReflectF := Datatypes.ReflectF (only parsing).
+Abbreviation reflect := Datatypes.reflect (only parsing).
+Abbreviation ReflectT := Datatypes.ReflectT (only parsing).
+Abbreviation ReflectF := Datatypes.ReflectF (only parsing).
 
 (** Interest: a case on a reflect lemma or hyp performs clever
     unification, and leave the goal in a convenient shape

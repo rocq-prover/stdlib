@@ -149,15 +149,15 @@ Hint Constructors Sorted : core.
 
 (* begin hide *)
 (* Compatibility with deprecated file Sorting.v *)
-Notation lelistA := HdRel (only parsing).
-Notation nil_leA := HdRel_nil (only parsing).
-Notation cons_leA := HdRel_cons (only parsing).
+Abbreviation lelistA := HdRel (only parsing).
+Abbreviation nil_leA := HdRel_nil (only parsing).
+Abbreviation cons_leA := HdRel_cons (only parsing).
 
-Notation sort := Sorted (only parsing).
-Notation nil_sort := Sorted_nil (only parsing).
-Notation cons_sort := Sorted_cons (only parsing).
+Abbreviation sort := Sorted (only parsing).
+Abbreviation nil_sort := Sorted_nil (only parsing).
+Abbreviation cons_sort := Sorted_cons (only parsing).
 
-Notation lelistA_inv := HdRel_inv (only parsing).
-Notation sort_inv := Sorted_inv (only parsing).
-Notation sort_rect := Sorted_rect (only parsing).
+Abbreviation lelistA_inv := HdRel_inv (only parsing).
+Abbreviation sort_inv := Sorted_inv (only parsing).
+Abbreviation sort_rect := Sorted_rect (only parsing).
 (* end hide *)

@@ -30,13 +30,13 @@ Definition t (elt:Type) := list (X.t * elt).
 Section Elt.
 Variable elt : Type.
 
-Notation eqk := (eqk (elt:=elt)).
-Notation eqke := (eqke (elt:=elt)).
-Notation ltk := (ltk (elt:=elt)).
-Notation MapsTo := (MapsTo (elt:=elt)).
-Notation In := (In (elt:=elt)).
-Notation Sort := (sort ltk).
-Notation Inf := (lelistA (ltk)).
+Abbreviation eqk := (eqk (elt:=elt)).
+Abbreviation eqke := (eqke (elt:=elt)).
+Abbreviation ltk := (ltk (elt:=elt)).
+Abbreviation MapsTo := (MapsTo (elt:=elt)).
+Abbreviation In := (In (elt:=elt)).
+Abbreviation Sort := (sort ltk).
+Abbreviation Inf := (lelistA (ltk)).
 
 (** * [empty] *)
 
@@ -667,7 +667,7 @@ Fixpoint map2 (m : t elt) : t elt' -> t elt'' :=
         end
   end.
 
-Notation oee' := (option elt * option elt')%type.
+Abbreviation oee' := (option elt * option elt')%type.
 
 Fixpoint combine (m : t elt) : t elt' -> t oee' :=
   match m with

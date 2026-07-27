@@ -320,7 +320,7 @@ of our searching algorithm. *)
 
 Let R (x y : nat) : Prop := x = S y /\ ~ P y.
 
-#[local] Notation acc x := (Acc R x).
+#[local] Abbreviation acc x := (Acc R x).
 
 Lemma P_implies_acc : forall x : nat, P x -> acc x.
 Proof.
@@ -434,18 +434,18 @@ End ConstructiveGroundEpsilon.
 (* Compatibility: the qualificative "ground" was absent from the initial
 names of the results in this file but this had introduced confusion
 with the similarly named statement in Description.v *)
-Notation constructive_indefinite_description_nat :=
+Abbreviation constructive_indefinite_description_nat :=
   constructive_indefinite_ground_description_nat (only parsing).
-Notation constructive_epsilon_spec_nat :=
+Abbreviation constructive_epsilon_spec_nat :=
   constructive_ground_epsilon_spec_nat (only parsing).
-Notation constructive_epsilon_nat :=
+Abbreviation constructive_epsilon_nat :=
   constructive_ground_epsilon_nat (only parsing).
-Notation constructive_indefinite_description :=
+Abbreviation constructive_indefinite_description :=
   constructive_indefinite_ground_description (only parsing).
-Notation constructive_definite_description :=
+Abbreviation constructive_definite_description :=
   constructive_definite_ground_description (only parsing).
-Notation constructive_epsilon_spec :=
+Abbreviation constructive_epsilon_spec :=
   constructive_ground_epsilon_spec (only parsing).
-Notation constructive_epsilon :=
+Abbreviation constructive_epsilon :=
   constructive_ground_epsilon (only parsing).
 (* end hide *)

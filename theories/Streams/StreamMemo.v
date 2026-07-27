@@ -83,7 +83,7 @@ Section DependentMemoFunction.
 Variable A: nat -> Type.
 Variable f: forall n, A n.
 
-Notation memo_val := (memo_val A).
+Abbreviation memo_val := (memo_val A).
 
 Fixpoint is_eq (n m : nat) : {n = m} + {True} :=
   match n, m return {n = m} + {True} with

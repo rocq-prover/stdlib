@@ -8,7 +8,7 @@ Inductive Comp : Type -> Type :=
 | Return : forall A, A -> Comp A
 | Bind : forall A B, Comp A -> (A -> Comp B) -> Comp B
 | Pick : forall A, Ensemble A -> Comp A.
-Notation ret := Return.
+Abbreviation ret := Return.
 Notation "x <- y ; z" := (Bind y%comp (fun x => z%comp))
                            (at level 81, right associativity,
                             format "'[v' x  <-  y ; '/' z ']'") : comp_scope.

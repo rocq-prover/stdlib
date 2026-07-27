@@ -8,6 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
+From Stdlib Require Import Datatypes.
+
 Set Implicit Arguments.
 
 (** Streams *)
@@ -18,7 +20,7 @@ CoInductive Stream (A : Type) :=
 Section Streams.
   Variable A : Type.
 
-  Notation Stream := (Stream A).
+  Abbreviation Stream := (Stream A).
 
 
 Definition hd (x:Stream) := match x with

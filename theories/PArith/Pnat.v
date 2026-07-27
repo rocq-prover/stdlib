@@ -423,36 +423,36 @@ End SuccNat2Pos.
 
 (** For compatibility, old names and old-style lemmas *)
 
-Notation Psucc_S := Pos2Nat.inj_succ (only parsing).
-Notation Pplus_plus := Pos2Nat.inj_add (only parsing).
-Notation Pmult_mult := Pos2Nat.inj_mul (only parsing).
-Notation Pcompare_nat_compare := Pos2Nat.inj_compare (only parsing).
-Notation nat_of_P_xH := Pos2Nat.inj_1 (only parsing).
-Notation nat_of_P_xO := Pos2Nat.inj_xO (only parsing).
-Notation nat_of_P_xI := Pos2Nat.inj_xI (only parsing).
-Notation nat_of_P_is_S := Pos2Nat.is_succ (only parsing).
-Notation nat_of_P_pos := Pos2Nat.is_pos (only parsing).
-Notation nat_of_P_inj_iff := Pos2Nat.inj_iff (only parsing).
-Notation nat_of_P_inj := Pos2Nat.inj (only parsing).
-Notation Plt_lt := Pos2Nat.inj_lt (only parsing).
-Notation Pgt_gt := Pos2Nat.inj_gt (only parsing).
-Notation Ple_le := Pos2Nat.inj_le (only parsing).
-Notation Pge_ge := Pos2Nat.inj_ge (only parsing).
-Notation Pminus_minus := Pos2Nat.inj_sub (only parsing).
-Notation iter_nat_of_P := @Pos2Nat.inj_iter (only parsing).
+Abbreviation Psucc_S := Pos2Nat.inj_succ (only parsing).
+Abbreviation Pplus_plus := Pos2Nat.inj_add (only parsing).
+Abbreviation Pmult_mult := Pos2Nat.inj_mul (only parsing).
+Abbreviation Pcompare_nat_compare := Pos2Nat.inj_compare (only parsing).
+Abbreviation nat_of_P_xH := Pos2Nat.inj_1 (only parsing).
+Abbreviation nat_of_P_xO := Pos2Nat.inj_xO (only parsing).
+Abbreviation nat_of_P_xI := Pos2Nat.inj_xI (only parsing).
+Abbreviation nat_of_P_is_S := Pos2Nat.is_succ (only parsing).
+Abbreviation nat_of_P_pos := Pos2Nat.is_pos (only parsing).
+Abbreviation nat_of_P_inj_iff := Pos2Nat.inj_iff (only parsing).
+Abbreviation nat_of_P_inj := Pos2Nat.inj (only parsing).
+Abbreviation Plt_lt := Pos2Nat.inj_lt (only parsing).
+Abbreviation Pgt_gt := Pos2Nat.inj_gt (only parsing).
+Abbreviation Ple_le := Pos2Nat.inj_le (only parsing).
+Abbreviation Pge_ge := Pos2Nat.inj_ge (only parsing).
+Abbreviation Pminus_minus := Pos2Nat.inj_sub (only parsing).
+Abbreviation iter_nat_of_P := @Pos2Nat.inj_iter (only parsing).
 
-Notation nat_of_P_of_succ_nat := SuccNat2Pos.id_succ (only parsing).
-Notation P_of_succ_nat_of_P := Pos2SuccNat.id_succ (only parsing).
+Abbreviation nat_of_P_of_succ_nat := SuccNat2Pos.id_succ (only parsing).
+Abbreviation P_of_succ_nat_of_P := Pos2SuccNat.id_succ (only parsing).
 
-Notation nat_of_P_succ_morphism := Pos2Nat.inj_succ (only parsing).
-Notation nat_of_P_plus_morphism := Pos2Nat.inj_add (only parsing).
-Notation nat_of_P_mult_morphism := Pos2Nat.inj_mul (only parsing).
-Notation nat_of_P_compare_morphism := Pos2Nat.inj_compare (only parsing).
-Notation lt_O_nat_of_P := Pos2Nat.is_pos (only parsing).
-Notation ZL4 := Pos2Nat.is_succ (only parsing).
-Notation nat_of_P_o_P_of_succ_nat_eq_succ := SuccNat2Pos.id_succ (only parsing).
-Notation P_of_succ_nat_o_nat_of_P_eq_succ := Pos2SuccNat.id_succ (only parsing).
-Notation pred_o_P_of_succ_nat_o_nat_of_P_eq_id := Pos2SuccNat.pred_id (only parsing).
+Abbreviation nat_of_P_succ_morphism := Pos2Nat.inj_succ (only parsing).
+Abbreviation nat_of_P_plus_morphism := Pos2Nat.inj_add (only parsing).
+Abbreviation nat_of_P_mult_morphism := Pos2Nat.inj_mul (only parsing).
+Abbreviation nat_of_P_compare_morphism := Pos2Nat.inj_compare (only parsing).
+Abbreviation lt_O_nat_of_P := Pos2Nat.is_pos (only parsing).
+Abbreviation ZL4 := Pos2Nat.is_succ (only parsing).
+Abbreviation nat_of_P_o_P_of_succ_nat_eq_succ := SuccNat2Pos.id_succ (only parsing).
+Abbreviation P_of_succ_nat_o_nat_of_P_eq_succ := Pos2SuccNat.id_succ (only parsing).
+Abbreviation pred_o_P_of_succ_nat_o_nat_of_P_eq_id := Pos2SuccNat.pred_id (only parsing).
 
 Lemma nat_of_P_minus_morphism p q :
  Pos.compare_cont Eq p q = Gt ->

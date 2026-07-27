@@ -29,7 +29,7 @@ Hint Extern 1 (Equivalence _) => constructor; congruence : core.
 
 Module WFacts_fun (E:DecidableType)(Import M:WSfun E).
 
-Notation eq_dec := E.eq_dec.
+Abbreviation eq_dec := E.eq_dec.
 Definition eqb x y := if eq_dec x y then true else false.
 
 Lemma eq_bool_alt : forall b b', b=b' <-> (b=true <-> b'=true).
@@ -734,7 +734,7 @@ Qed.
 (* Later: Add Morphism cardinal *)
 
 (* old name: *)
-Notation not_find_mapsto_iff := not_find_in_iff.
+Abbreviation not_find_mapsto_iff := not_find_in_iff.
 
 End WFacts_fun.
 
@@ -779,8 +779,8 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
     + now rewrite add_neq_o, H0, add_neq_o, add_neq_o, add_neq_o by assumption.
   Qed.
 
-  Notation eqke := (@eq_key_elt elt).
-  Notation eqk := (@eq_key elt).
+  Abbreviation eqke := (@eq_key_elt elt).
+  Abbreviation eqk := (@eq_key elt).
 
   Instance eqk_equiv : Equivalence eqk.
   Proof. unfold eq_key; split; eauto. Qed.
@@ -1862,12 +1862,12 @@ Module OrdProperties (M:S).
  Section Elt.
   Variable elt:Type.
 
-  Notation eqke := (@eqke elt).
-  Notation eqk := (@eqk elt).
-  Notation ltk := (@ltk elt).
-  Notation cardinal := (@cardinal elt).
-  Notation Equal := (@Equal elt).
-  Notation Add := (@Add elt).
+  Abbreviation eqke := (@eqke elt).
+  Abbreviation eqk := (@eqk elt).
+  Abbreviation ltk := (@ltk elt).
+  Abbreviation cardinal := (@cardinal elt).
+  Abbreviation Equal := (@Equal elt).
+  Abbreviation Add := (@Add elt).
 
   Definition Above x (m:t elt) := forall y, In y m -> E.lt y x.
   Definition Below x (m:t elt) := forall y, In y m -> E.lt x y.

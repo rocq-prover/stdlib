@@ -2,7 +2,7 @@ From Stdlib Require Import List Permutation Morphisms ZArith Lia.
 Import ListNotations.
 
 Module Import List.
-Notation map_snoc := map_last.
+Abbreviation map_snoc := map_last.
 
 Lemma seq_mul_r s n c :
   seq s (n*c) = concat (map (fun i => seq (s + i*c) c) (seq O n)).
@@ -27,7 +27,7 @@ Qed.
 Lemma seq_as_seq0 s l : seq s l = map (Nat.add s) (seq 0 l).
 Proof. rewrite map_add_seq, Nat.add_0_r; trivial. Qed.
 
-Notation map_concat := concat_map.
+Abbreviation map_concat := concat_map.
 
 Lemma concat_map_map_const_r {A B C} (f : A -> B -> C) l l' :
   concat (map (fun x => map (f x) l) l') = map (uncurry f) (list_prod l' l).

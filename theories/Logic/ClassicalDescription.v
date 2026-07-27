@@ -22,7 +22,7 @@ From Stdlib Require Export Classical.   (* Axiomatize classical reasoning *)
 From Stdlib Require Export Description. (* Axiomatize constructive form of Church's iota *)
 From Stdlib Require Import ChoiceFacts.
 
-#[local] Notation inhabited A := A (only parsing).
+#[local] Abbreviation inhabited A := A (only parsing).
 
 (** The idea for the following proof comes from [ChicliPottierSimpson02] *)
 

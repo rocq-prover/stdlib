@@ -45,28 +45,28 @@ Proof.
 intros n m. now rewrite (add_lt_mono_r _ _ n), add_0_l, sub_simpl_r.
 Qed.
 
-Notation sub_pos := lt_0_sub (only parsing).
+Abbreviation sub_pos := lt_0_sub (only parsing).
 
 Theorem le_0_sub : forall n m, 0 <= m - n <-> n <= m.
 Proof.
 intros n m. now rewrite (add_le_mono_r _ _ n), add_0_l, sub_simpl_r.
 Qed.
 
-Notation sub_nonneg := le_0_sub (only parsing).
+Abbreviation sub_nonneg := le_0_sub (only parsing).
 
 Theorem lt_sub_0 : forall n m, n - m < 0 <-> n < m.
 Proof.
 intros n m. now rewrite (add_lt_mono_r _ _ m), add_0_l, sub_simpl_r.
 Qed.
 
-Notation sub_neg := lt_sub_0 (only parsing).
+Abbreviation sub_neg := lt_sub_0 (only parsing).
 
 Theorem le_sub_0 : forall n m, n - m <= 0 <-> n <= m.
 Proof.
 intros n m. now rewrite (add_le_mono_r _ _ m), add_0_l, sub_simpl_r.
 Qed.
 
-Notation sub_nonpos := le_sub_0 (only parsing).
+Abbreviation sub_nonpos := le_sub_0 (only parsing).
 
 Theorem opp_lt_mono : forall n m, n < m <-> - m < - n.
 Proof.

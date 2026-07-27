@@ -365,7 +365,7 @@ Proof.
     case (Rlt_not_eq (tan b) (tan a)) ; [|symmetry] ; assumption.
 Qed.
 
-Notation tan_is_inj := tan_inj (only parsing). (* compat *)
+Abbreviation tan_is_inj := tan_inj (only parsing). (* compat *)
 
 Lemma exists_atan_in_frame : forall lb ub y,
   lb < ub -> -PI/2 < lb -> ub < PI/2 ->
@@ -560,7 +560,7 @@ Proof.
 intros x; unfold atan; destruct (pre_atan x) as [v [_ q]]; exact q.
 Qed.
 
-Notation atan_right_inv := tan_atan (only parsing). (* compat *)
+Abbreviation atan_right_inv := tan_atan (only parsing). (* compat *)
 
 Lemma atan_opp : forall x,
   atan (- x) = - atan x.
