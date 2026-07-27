@@ -539,6 +539,7 @@ Qed.
 
 (** NB: narrow_interval_upper_bound is Zdiv.Zdiv_le_lower_bound *)
 
+#[warning="-register-all"]  (* Handle when Corelib gets fixed (not before Rocq 9.4) *)
 Inductive ZArithProof :=
 | DoneProof
 | RatProof : ZWitness -> ZArithProof -> ZArithProof

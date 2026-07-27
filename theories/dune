@@ -8,4 +8,4 @@
  (dev
   (rocq
    ;; see theories/_CoqProject for details
-   (flags :standard -w -register-all -w -scheme-rewriting -w -non-boolean-if))))
+   (flags :standard -w -scheme-rewriting -w -non-boolean-if))))
