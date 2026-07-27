@@ -12,8 +12,8 @@
 
 From Stdlib Require Export QArith_base.
 
-Notation Z2P := Z.to_pos (only parsing).
-Notation Z2P_correct := Z2Pos.id (only parsing).
+Abbreviation Z2P := Z.to_pos (only parsing).
+Abbreviation Z2P_correct := Z2Pos.id (only parsing).
 
 #[local] Coercion Z.pos : positive >-> Z.
 

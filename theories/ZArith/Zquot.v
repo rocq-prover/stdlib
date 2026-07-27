@@ -34,11 +34,11 @@ From Stdlib Require Zeven.
       exploiting the arbitrary value of division by 0).
 *)
 
-Notation Ndiv_Zquot := N2Z.inj_quot (only parsing).
-Notation Nmod_Zrem := N2Z.inj_rem (only parsing).
-Notation Z_quot_rem_eq := Z.quot_rem' (only parsing).
-Notation Zrem_lt := Z.rem_bound_abs (only parsing).
-Notation Z_quot_mult := Z.quot_mul (only parsing).
+Abbreviation Ndiv_Zquot := N2Z.inj_quot (only parsing).
+Abbreviation Nmod_Zrem := N2Z.inj_rem (only parsing).
+Abbreviation Z_quot_rem_eq := Z.quot_rem' (only parsing).
+Abbreviation Zrem_lt := Z.rem_bound_abs (only parsing).
+Abbreviation Z_quot_mult := Z.quot_mul (only parsing).
 
 (** Particular values taken for [a÷0] and [(Z.rem a 0)].
     We avise to not rely on these arbitrary values. *)

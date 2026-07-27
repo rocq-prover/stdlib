@@ -839,8 +839,8 @@ Section Sum.
 (** Adding a valuation function on all elements of a set. *)
 
 Definition sum (f:elt -> nat)(s:t) := fold (fun x => plus (f x)) s 0.
-Notation compat_opL := (Proper (E.eq==>Logic.eq==>Logic.eq)).
-Notation transposeL := (transpose Logic.eq).
+Abbreviation compat_opL := (Proper (E.eq==>Logic.eq==>Logic.eq)).
+Abbreviation transposeL := (transpose Logic.eq).
 
 Lemma sum_plus :
   forall f g,

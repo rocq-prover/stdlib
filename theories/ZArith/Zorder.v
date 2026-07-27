@@ -40,9 +40,9 @@ Qed.
 (**********************************************************************)
 (** * Decidability of equality and order on Z *)
 
-Notation dec_eq := Z.eq_decidable (only parsing).
-Notation dec_Zle := Z.le_decidable (only parsing).
-Notation dec_Zlt := Z.lt_decidable (only parsing).
+Abbreviation dec_eq := Z.eq_decidable (only parsing).
+Abbreviation dec_Zle := Z.le_decidable (only parsing).
+Abbreviation dec_Zlt := Z.lt_decidable (only parsing).
 
 Theorem dec_Zne n m : decidable (Zne n m).
 Proof.
@@ -66,8 +66,8 @@ Qed.
 
 (** * Relating strict and large orders *)
 
-Notation Zgt_iff_lt := Z.gt_lt_iff (only parsing).
-Notation Zge_iff_le := Z.ge_le_iff (only parsing).
+Abbreviation Zgt_iff_lt := Z.gt_lt_iff (only parsing).
+Abbreviation Zge_iff_le := Z.ge_le_iff (only parsing).
 
 Lemma Zle_not_lt n m : n <= m -> ~ m < n.
 Proof.
@@ -119,18 +119,18 @@ Qed.
 
 (** Reflexivity *)
 
-Notation Zeq_le := Z.eq_le_incl (only parsing).
+Abbreviation Zeq_le := Z.eq_le_incl (only parsing).
 
 #[global]
 Hint Resolve Z.le_refl: zarith.
 
 (** Antisymmetry *)
 
-Notation Zle_antisym := Z.le_antisymm (only parsing).
+Abbreviation Zle_antisym := Z.le_antisymm (only parsing).
 
 (** Asymmetry *)
 
-Notation Zlt_asym := Z.lt_asymm (only parsing).
+Abbreviation Zlt_asym := Z.lt_asymm (only parsing).
 
 Lemma Zgt_asym n m : n > m -> ~ m > n.
 Proof.
@@ -139,7 +139,7 @@ Qed.
 
 (** Irreflexivity *)
 
-Notation Zlt_not_eq := Z.lt_neq (only parsing).
+Abbreviation Zlt_not_eq := Z.lt_neq (only parsing).
 
 Lemma Zgt_irrefl n : ~ n > n.
 Proof.
@@ -148,8 +148,8 @@ Qed.
 
 (** Large = strict or equal *)
 
-Notation Zlt_le_weak := Z.lt_le_incl (only parsing).
-Notation Zle_lt_or_eq_iff := Z.lt_eq_cases (only parsing).
+Abbreviation Zlt_le_weak := Z.lt_le_incl (only parsing).
+Abbreviation Zle_lt_or_eq_iff := Z.lt_eq_cases (only parsing).
 
 Lemma Zle_lt_or_eq n m : n <= m -> n < m \/ n = m.
 Proof.
@@ -158,7 +158,7 @@ Qed.
 
 (** Dichotomy *)
 
-Notation Zle_or_lt := Z.le_gt_cases (only parsing).
+Abbreviation Zle_or_lt := Z.le_gt_cases (only parsing).
 
 (** Transitivity of strict orders *)
 
@@ -232,8 +232,8 @@ Qed.
 
 (** Special base instances of order *)
 
-Notation Zlt_succ := Z.lt_succ_diag_r (only parsing).
-Notation Zlt_pred := Z.lt_pred_l (only parsing).
+Abbreviation Zlt_succ := Z.lt_succ_diag_r (only parsing).
+Abbreviation Zlt_pred := Z.lt_pred_l (only parsing).
 
 Lemma Zgt_succ n : Z.succ n > n.
 Proof.
@@ -284,10 +284,10 @@ Qed.
 
 (** Weakening order *)
 
-Notation Zle_succ := Z.le_succ_diag_r (only parsing).
-Notation Zle_pred := Z.le_pred_l (only parsing).
-Notation Zlt_lt_succ := Z.lt_lt_succ_r (only parsing).
-Notation Zle_le_succ := Z.le_le_succ_r (only parsing).
+Abbreviation Zle_succ := Z.le_succ_diag_r (only parsing).
+Abbreviation Zle_pred := Z.le_pred_l (only parsing).
+Abbreviation Zlt_lt_succ := Z.lt_lt_succ_r (only parsing).
+Abbreviation Zle_le_succ := Z.le_le_succ_r (only parsing).
 
 Lemma Zle_succ_le n m : Z.succ n <= m -> n <= m.
 Proof.
@@ -366,10 +366,10 @@ Qed.
 (** ** Addition *)
 (** Compatibility of addition wrt to order *)
 
-Notation Zplus_lt_le_compat := Z.add_lt_le_mono (only parsing).
-Notation Zplus_le_lt_compat := Z.add_le_lt_mono (only parsing).
-Notation Zplus_le_compat := Z.add_le_mono (only parsing).
-Notation Zplus_lt_compat := Z.add_lt_mono (only parsing).
+Abbreviation Zplus_lt_le_compat := Z.add_lt_le_mono (only parsing).
+Abbreviation Zplus_le_lt_compat := Z.add_le_lt_mono (only parsing).
+Abbreviation Zplus_le_compat := Z.add_le_mono (only parsing).
+Abbreviation Zplus_lt_compat := Z.add_lt_mono (only parsing).
 
 Lemma Zplus_gt_compat_l n m p : n > m -> p + n > p + m.
 Proof.
@@ -403,7 +403,7 @@ Qed.
 
 (** Compatibility of addition wrt to being positive *)
 
-Notation Zplus_le_0_compat := Z.add_nonneg_nonneg (only parsing).
+Abbreviation Zplus_le_0_compat := Z.add_nonneg_nonneg (only parsing).
 
 (** Simplification of addition wrt to order *)
 
@@ -561,9 +561,9 @@ Qed.
 
 (** Compatibility of multiplication by a positive wrt to being positive *)
 
-Notation Zmult_le_0_compat := Z.mul_nonneg_nonneg (only parsing).
-Notation Zmult_lt_0_compat := Z.mul_pos_pos (only parsing).
-Notation Zmult_lt_O_compat := Z.mul_pos_pos (only parsing).
+Abbreviation Zmult_le_0_compat := Z.mul_nonneg_nonneg (only parsing).
+Abbreviation Zmult_lt_0_compat := Z.mul_pos_pos (only parsing).
+Abbreviation Zmult_lt_O_compat := Z.mul_pos_pos (only parsing).
 
 Lemma Zmult_gt_0_compat n m : n > 0 -> m > 0 -> n * m > 0.
 Proof.
@@ -616,9 +616,9 @@ Qed.
 
 (** * Equivalence between inequalities *)
 
-Notation Zle_plus_swap := Z.le_add_le_sub_r (only parsing).
-Notation Zlt_plus_swap := Z.lt_add_lt_sub_r (only parsing).
-Notation Zlt_minus_simpl_swap := Z.lt_sub_pos (only parsing).
+Abbreviation Zle_plus_swap := Z.le_add_le_sub_r (only parsing).
+Abbreviation Zlt_plus_swap := Z.lt_add_lt_sub_r (only parsing).
+Abbreviation Zlt_minus_simpl_swap := Z.lt_sub_pos (only parsing).
 
 Lemma Zeq_plus_swap n m p : n + p = m <-> n = m - p.
 Proof.
@@ -641,4 +641,4 @@ Proof.
 Qed.
 
 (** For compatibility *)
-Notation Zlt_O_minus_lt := Zlt_0_minus_lt (only parsing).
+Abbreviation Zlt_O_minus_lt := Zlt_0_minus_lt (only parsing).

@@ -120,7 +120,7 @@ induction p; intros; simpl Qpower_positive; rewrite ?IHp.
 Qed.
 
 (* This notation will be deprecated with a planned larger rework of Q lemma naming *)
-Notation Qpower_decomp := Qpower_decomp_positive (only parsing).
+Abbreviation Qpower_decomp := Qpower_decomp_positive (only parsing).
 
 (** * Properties of Qpower *)
 
@@ -173,7 +173,7 @@ Proof.
 Qed.
 
 (* This notation will be deprecated with a planned larger rework of Q lemma naming *)
-Notation Qpower_pos := Qpower_0_le (only parsing).
+Abbreviation Qpower_pos := Qpower_0_le (only parsing).
 
 Lemma Qpower_0_lt: forall (a : Q) (z : Z), 0 < a -> 0 < Qpower a z.
 Proof.

@@ -66,8 +66,8 @@ Qed.
 
 (** Boolean tests of parity (now in BinInt.Z) *)
 
-Notation Zeven_bool := Z.even (only parsing).
-Notation Zodd_bool := Z.odd (only parsing).
+Abbreviation Zeven_bool := Z.even (only parsing).
+Abbreviation Zodd_bool := Z.odd (only parsing).
 
 Lemma Zeven_bool_iff n : Z.even n = true <-> Zeven n.
 Proof.
@@ -139,10 +139,10 @@ Qed.
 #[global]
 Hint Unfold Zeven Zodd: zarith.
 
-Notation Zeven_bool_succ := Z.even_succ (only parsing).
-Notation Zeven_bool_pred := Z.even_pred (only parsing).
-Notation Zodd_bool_succ := Z.odd_succ (only parsing).
-Notation Zodd_bool_pred := Z.odd_pred (only parsing).
+Abbreviation Zeven_bool_succ := Z.even_succ (only parsing).
+Abbreviation Zeven_bool_pred := Z.even_pred (only parsing).
+Abbreviation Zodd_bool_succ := Z.odd_succ (only parsing).
+Abbreviation Zodd_bool_pred := Z.odd_pred (only parsing).
 
 (******************************************************************)
 (** * Definition of [Z.quot2], [Z.div2] and properties wrt [Zeven]

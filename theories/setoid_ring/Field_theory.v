@@ -144,7 +144,7 @@ Declare Scope PE_scope.
 Bind Scope PE_scope with PExpr.
 Delimit Scope PE_scope with poly.
 
-Notation NPEeval := (PEeval rO rI radd rmul rsub ropp phi Cp_phi rpow).
+Abbreviation NPEeval := (PEeval rO rI radd rmul rsub ropp phi Cp_phi rpow).
 Notation "P @ l" := (NPEeval l P) (at level 10, no associativity).
 
 Arguments PEc _ _%_coef.
@@ -171,11 +171,11 @@ Proof.
  intros l l' <- e e' He. now rewrite (He l).
 Qed.
 
-Notation Nnorm :=
+Abbreviation Nnorm :=
   (norm_subst cO cI cadd cmul csub copp ceqb cdiv).
-Notation NPphi_dev :=
+Abbreviation NPphi_dev :=
   (Pphi_dev rO rI radd rmul rsub ropp cO cI ceqb phi get_sign).
-Notation NPphi_pow :=
+Abbreviation NPphi_pow :=
   (Pphi_pow rO rI radd rmul rsub ropp cO cI ceqb phi Cp_phi rpow get_sign).
 
 (* add abstract semi-ring to help with some proofs *)
@@ -955,9 +955,9 @@ Record rsplit : Type := mk_rsplit {
    rsplit_right : PExpr C}.
 
 (* Stupid name clash *)
-Notation left := rsplit_left.
-Notation right := rsplit_right.
-Notation common := rsplit_common.
+Abbreviation left := rsplit_left.
+Abbreviation right := rsplit_right.
+Abbreviation common := rsplit_common.
 
 Fixpoint split_aux e1 p e2 {struct e1}: rsplit :=
   match e1 with
@@ -1210,9 +1210,9 @@ apply cross_product_eq; trivial;
 Qed.
 
 (* Correctness lemmas of reflexive tactics *)
-Notation Ninterp_PElist :=
+Abbreviation Ninterp_PElist :=
   (interp_PElist rO rI radd rmul rsub ropp req phi Cp_phi rpow).
-Notation Nmk_monpol_list :=
+Abbreviation Nmk_monpol_list :=
   (mk_monpol_list cO cI cadd cmul csub copp ceqb cdiv).
 
 Theorem Fnorm_ok:
@@ -1231,13 +1231,13 @@ apply rdiv8.
   apply (Peq_ok Rsth Reqe CRmorph); trivial.
 Qed.
 
-Notation ring_rw_correct :=
+Abbreviation ring_rw_correct :=
  (ring_rw_correct Rsth Reqe ARth CRmorph pow_th cdiv_th get_sign_spec).
 
-Notation ring_rw_pow_correct :=
+Abbreviation ring_rw_pow_correct :=
  (ring_rw_pow_correct Rsth Reqe ARth CRmorph pow_th cdiv_th get_sign_spec).
 
-Notation ring_correct :=
+Abbreviation ring_correct :=
  (ring_correct Rsth Reqe ARth CRmorph pow_th cdiv_th).
 
 (* simplify a field expression into a fraction *)

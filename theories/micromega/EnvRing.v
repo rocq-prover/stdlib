@@ -149,8 +149,8 @@ Section MakeRingPol.
     match goal with |- ?t == _ => mul_permut_rec t end).
 
 
- Notation PExpr := (PExpr C).
- Notation Pol := (Pol C).
+ Abbreviation PExpr := (PExpr C).
+ Abbreviation Pol := (Pol C).
 
  Implicit Types pe : PExpr.
  Implicit Types P : Pol.

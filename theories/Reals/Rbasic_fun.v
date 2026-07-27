@@ -183,7 +183,7 @@ Proof.
 Qed.
 
 (* begin hide *)
-Notation RmaxSym := Rmax_comm (only parsing).
+Abbreviation RmaxSym := Rmax_comm (only parsing).
 (* end hide *)
 
 (*********)
@@ -201,8 +201,8 @@ Proof.
 Qed.
 
 (* begin hide *)
-Notation RmaxLess1 := Rmax_l (only parsing).
-Notation RmaxLess2 := Rmax_r (only parsing).
+Abbreviation RmaxLess1 := Rmax_l (only parsing).
+Abbreviation RmaxLess2 := Rmax_r (only parsing).
 (* end hide *)
 
 (*********)
@@ -462,7 +462,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.16",note="Use Rabs_inv.")]
-Notation Rabs_Rinv := Rabs_Rinv_depr.
+Abbreviation Rabs_Rinv := Rabs_Rinv_depr.
 
 Lemma Rabs_Ropp : forall x:R, Rabs (- x) = Rabs x.
 Proof.

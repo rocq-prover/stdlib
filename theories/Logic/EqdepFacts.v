@@ -141,7 +141,7 @@ Proof.
   split; auto using eq_sigT_eq_dep, eq_dep_eq_sigT.
 Qed.
 
-Notation equiv_eqex_eqdep := eq_sigT_iff_eq_dep (only parsing). (* Compat *)
+Abbreviation equiv_eqex_eqdep := eq_sigT_iff_eq_dep (only parsing). (* Compat *)
 
 Lemma eq_sig_eq_dep :
   forall (U:Type) (P:U -> Prop) (p q:U) (x:P p) (y:P q),
@@ -426,9 +426,9 @@ Section Corollaries.
 
 End Corollaries.
 
-Notation Inj_dep_pairS := Inj_dep_pair.
-Notation Inj_dep_pairT := Inj_dep_pair.
-Notation eq_dep_eq__inj_pairT2 := eq_dep_eq__inj_pair2.
+Abbreviation Inj_dep_pairS := Inj_dep_pair.
+Abbreviation Inj_dep_pairT := Inj_dep_pair.
+Abbreviation eq_dep_eq__inj_pairT2 := eq_dep_eq__inj_pair2.
 
 
 (************************************************************************)
@@ -498,7 +498,7 @@ Proof.
   exact (fun U => eq_dep_eq__inj_pair2 U (eq_dep_eq U)).
 Qed.
 
-Notation inj_pairT2 := inj_pair2.
+Abbreviation inj_pairT2 := inj_pair2.
 
 End EqdepTheory.
 

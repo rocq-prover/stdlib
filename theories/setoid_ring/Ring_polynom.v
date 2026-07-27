@@ -500,7 +500,7 @@ Section MakeRingPol.
 
  (** Evaluation of a polynomial towards R *)
 
- #[local] Notation hd := (List.hd 0).
+ #[local] Abbreviation hd := (List.hd 0).
 
  Fixpoint Pphi(l:list R) (P:Pol) : R :=
   match P with

@@ -549,7 +549,7 @@ Inductive ZArithProof :=
 (*ExProof x : exists z t, x = z - t /\ z >= 0 /\ t >= 0 *)
 .
 #[deprecated(since="Stdlib 9.1")]
-Notation EnumProof := deprecated_EnumProof (only parsing).
+Abbreviation EnumProof := deprecated_EnumProof (only parsing).
 
 
 Register ZArithProof as micromega.ZArithProof.type.
@@ -585,7 +585,7 @@ Proof.
 Qed.
 
 #[deprecated(since="Stdlib 9.1")]
-Notation isZ0 := deprecated_isZ0 (only parsing).
+Abbreviation isZ0 := deprecated_isZ0 (only parsing).
 
 Definition ZgcdM (x y : Z) := Z.max (Z.gcd x y) 1.
 
@@ -1389,7 +1389,7 @@ Definition eval := eval_formula.
 Definition prod_pos_nat := prod positive nat.
 
 #[deprecated(use=Z.to_N, since="Stdlib 9.0")]
-Notation n_of_Z := Z.to_N (only parsing).
+Abbreviation n_of_Z := Z.to_N (only parsing).
 
 Require Import PeanoNat Wf_nat.
 

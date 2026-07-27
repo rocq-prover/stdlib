@@ -40,7 +40,7 @@ Fixpoint hlist@{i j k} (argts : list@{j} Type@{i}) : Type@{k} :=
   end.
 
 Definition tuple A n := hlist (repeat A n).
-  Notation byte := (Corelib.Init.Byte.byte: Type).
+  Abbreviation byte := (Corelib.Init.Byte.byte: Type).
 Import BinInt.
 #[local] Open Scope Z_scope.
 
@@ -204,7 +204,7 @@ Class MachineWidth(t: Type) := {
 #[global] Instance MachineWidth_XLEN{width}{_: Bitwidth width}{word: word width}: MachineWidth word.
 Admitted.
 
-Notation Register := BinInt.Z (only parsing).
+Abbreviation Register := BinInt.Z (only parsing).
 
 Inductive InstructionSet : Type :=
   | RV32I : InstructionSet
@@ -284,7 +284,7 @@ Module Export Naive.
 
 Definition word width: word.word width.
 Admitted.
-Notation word64 := (word 64%Z).
+Abbreviation word64 := (word 64%Z).
 
 End Naive.
 #[global] Instance word: word.word 64.

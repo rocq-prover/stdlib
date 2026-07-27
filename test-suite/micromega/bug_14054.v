@@ -10,7 +10,7 @@ From Stdlib.Init Require Byte.
 From Stdlib.Strings Require Byte.
 From Stdlib Require Import ZifyClasses Lia.
 
-Notation byte := Corelib.Init.Byte.byte.
+Abbreviation byte := Corelib.Init.Byte.byte.
 
 Module byte.
   Definition unsigned(b: byte): Z := Z.of_N (Byte.to_N b).

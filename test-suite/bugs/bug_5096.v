@@ -3,7 +3,7 @@ From Stdlib Require Import FMapPositive BinPos List.
 
 Set Asymmetric Patterns.
 
-Notation eta x := (fst x, snd x).
+Abbreviation eta x := (fst x, snd x).
 
 Inductive expr {var : Type} : Type :=
 | Const : expr
@@ -82,8 +82,8 @@ End internal.
 Section language5.
   Context (Name : Type).
 
-  #[local] Notation expr := (@bug_5096.expr Name).
-  #[local] Notation nexpr := (@Named.expr Name).
+  #[local] Abbreviation expr := (@bug_5096.expr Name).
+  #[local] Abbreviation nexpr := (@Named.expr Name).
 
   Fixpoint ocompile (e : expr) (ls : list (option Name)) {struct e}
     : option (nexpr)
@@ -151,7 +151,7 @@ Definition Let_In {A P} (x : A) (f : forall a : A, P a) : P x := let y := x in f
 Section language7.
   Context {Context : Context unit (positive)}.
 
-  #[local] Notation nexpr := (@Named.expr unit).
+  #[local] Abbreviation nexpr := (@Named.expr unit).
 
   Definition CompileAndEliminateDeadCode (e : Expr) (ls : list unit)
     : option (nexpr)

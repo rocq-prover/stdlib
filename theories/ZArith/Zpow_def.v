@@ -16,12 +16,12 @@ From Stdlib Require Import BinInt Ring_theory.
 (** Nota : this file is mostly deprecated. The definition of [Z.pow]
     and its usual properties are now provided by module [BinInt.Z]. *)
 
-Notation Zpower_pos := Z.pow_pos (only parsing).
-Notation Zpower := Z.pow (only parsing).
-Notation Zpower_0_r := Z.pow_0_r (only parsing).
-Notation Zpower_succ_r := Z.pow_succ_r (only parsing).
-Notation Zpower_neg_r := Z.pow_neg_r (only parsing).
-Notation Zpower_Ppow := Pos2Z.inj_pow (only parsing).
+Abbreviation Zpower_pos := Z.pow_pos (only parsing).
+Abbreviation Zpower := Z.pow (only parsing).
+Abbreviation Zpower_0_r := Z.pow_0_r (only parsing).
+Abbreviation Zpower_succ_r := Z.pow_succ_r (only parsing).
+Abbreviation Zpower_neg_r := Z.pow_neg_r (only parsing).
+Abbreviation Zpower_Ppow := Pos2Z.inj_pow (only parsing).
 
 #[deprecated(since="Stdlib 9.1", note="Use setoid_ring.ZArithRing.Zpower_theory")]
 Lemma Zpower_theory : power_theory 1 Z.mul (@eq Z) Z.of_N Z.pow.

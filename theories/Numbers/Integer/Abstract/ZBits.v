@@ -1732,10 +1732,10 @@ Qed.
 
 (** Bitwise operations and arithmetical operations *)
 
-#[local] Notation xor3 a b c := (xorb (xorb a b) c).
-#[local] Notation lxor3 a b c := (lxor (lxor a b) c).
-#[local] Notation nextcarry a b c := ((a&&b) || (c && (a||b))).
-#[local] Notation lnextcarry a b c := (lor (land a b) (land c (lor a b))).
+#[local] Abbreviation xor3 a b c := (xorb (xorb a b) c).
+#[local] Abbreviation lxor3 a b c := (lxor (lxor a b) c).
+#[local] Abbreviation nextcarry a b c := ((a&&b) || (c && (a||b))).
+#[local] Abbreviation lnextcarry a b c := (lor (land a b) (land c (lor a b))).
 
 Lemma add_bit0 : forall a b, (a+b).[0] = xorb a.[0] b.[0].
 Proof.

@@ -76,7 +76,7 @@ intros n m; split; [intro H | intros [H1 H2]].
 - now apply mul_pos_pos.
 Qed.
 
-Notation mul_pos := lt_0_mul' (only parsing).
+Abbreviation mul_pos := lt_0_mul' (only parsing).
 
 Theorem eq_mul_1 : forall n m, n * m == 1 <-> n == 1 /\ m == 1.
 Proof.

@@ -96,8 +96,8 @@ Notation " 1 " := (Q2Qc 1) : Qc_scope.
 
 Definition Qcle (x y : Qc) := (x <= y)%Q.
 Definition Qclt (x y : Qc) := (x < y)%Q.
-Notation Qcgt := (fun x y : Qc => Qlt y x).
-Notation Qcge := (fun x y : Qc => Qle y x).
+Abbreviation Qcgt := (fun x y : Qc => Qlt y x).
+Abbreviation Qcge := (fun x y : Qc => Qle y x).
 Infix "<" := Qclt : Qc_scope.
 Infix "<=" := Qcle : Qc_scope.
 Infix ">" := Qcgt : Qc_scope.

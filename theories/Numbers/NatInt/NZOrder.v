@@ -115,7 +115,7 @@ Proof.
 intros n m. generalize (le_gt_cases n m); rewrite lt_eq_cases; tauto.
 Qed.
 
-Notation lt_eq_gt_cases := lt_trichotomy (only parsing).
+Abbreviation lt_eq_gt_cases := lt_trichotomy (only parsing).
 
 (** *** Asymmetry and transitivity. *)
 
@@ -132,7 +132,7 @@ intros n m; nzinduct n m.
     * rewrite <- H1 in H2. false_hyp H2 nlt_succ_diag_l.
 Qed.
 
-Notation lt_ngt := lt_asymm (only parsing).
+Abbreviation lt_ngt := lt_asymm (only parsing).
 
 Theorem lt_trans : forall n m p, n < m -> m < p -> n < p.
 Proof.

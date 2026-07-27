@@ -42,11 +42,11 @@ Lemma Z_one_zero: 1%Z <> 0%Z.
 Proof. discriminate. Qed.
 
 #[deprecated(since="Stdlib 9.1", use=Q_apart_0_1)]
-Notation Q_one_zero := Q_apart_0_1 (only parsing).
+Abbreviation Q_one_zero := Q_apart_0_1 (only parsing).
 
 #[deprecated(since="Stdlib 9.1", use=eq_equivalence)]
 Lemma Rsth : Setoid_Theory R (@eq R).
 Proof. cbv [Setoid_Theory]. exact _. Qed.
 
 #[deprecated(since="Stdlib 9.1", use=R1_neq_R0)]
-Notation R_one_zero := R1_neq_R0 (only parsing).
+Abbreviation R_one_zero := R1_neq_R0 (only parsing).

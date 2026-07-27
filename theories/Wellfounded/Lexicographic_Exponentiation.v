@@ -26,12 +26,12 @@ Section Wf_Lexicographic_Exponentiation.
   Variable A : Set.
   Variable leA : A -> A -> Prop.
 
-  Notation Power := (Pow A leA).
-  Notation Lex_Exp := (lex_exp A leA).
-  Notation ltl := (Ltl A leA).
-  Notation Descl := (Desc A leA).
+  Abbreviation Power := (Pow A leA).
+  Abbreviation Lex_Exp := (lex_exp A leA).
+  Abbreviation ltl := (Ltl A leA).
+  Abbreviation Descl := (Desc A leA).
 
-  Notation List := (list A).
+  Abbreviation List := (list A).
   Notation "<< x , y >>" := (exist Descl x y) (at level 0, x, y at level 100).
 
   (* Hint Resolve d_one d_nil t_step. *)

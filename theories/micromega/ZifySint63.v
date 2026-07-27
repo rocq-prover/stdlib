@@ -91,7 +91,7 @@ Instance Op_eq : BinRel (@eq int) :=
   {| TR := @eq Z; TRInj := eq_int_inj |}.
 Add Zify BinRel Op_eq.
 
-Notation cmodwB x :=
+Abbreviation cmodwB x :=
   ((x + 4611686018427387904) mod 9223372036854775808 - 4611686018427387904)%Z.
 
 #[global]

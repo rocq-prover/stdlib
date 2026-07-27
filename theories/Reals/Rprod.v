@@ -26,7 +26,7 @@ Fixpoint prod_f_R0 (f:nat -> R) (N:nat) : R :=
     | S p => prod_f_R0 f p * f (S p)
   end.
 
-Notation prod_f_SO := (fun An N => prod_f_R0 (fun n => An (S n)) N).
+Abbreviation prod_f_SO := (fun An N => prod_f_R0 (fun n => An (S n)) N).
 
 (**********)
 Lemma prod_SO_split :

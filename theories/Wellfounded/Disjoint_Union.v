@@ -19,7 +19,7 @@ Section Wf_Disjoint_Union.
   Variable leA : A -> A -> Prop.
   Variable leB : B -> B -> Prop.
 
-  Notation Le_AsB := (le_AsB A B leA leB).
+  Abbreviation Le_AsB := (le_AsB A B leA leB).
 
   Lemma acc_A_sum : forall x:A, Acc leA x -> Acc Le_AsB (inl B x).
   Proof.

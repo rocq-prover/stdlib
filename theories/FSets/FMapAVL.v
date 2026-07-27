@@ -38,7 +38,7 @@ Module Raw (Import I:Int)(X: OrderedType).
 #[local] Open Scope pair_scope.
 #[local] Open Scope lazy_bool_scope.
 #[local] Open Scope Int_scope.
-#[local] Notation int := I.t.
+#[local] Abbreviation int := I.t.
 
 Definition key := X.t.
 #[global]
@@ -60,7 +60,7 @@ Section Elt.
 
 Variable elt : Type.
 
-Notation t := (tree elt).
+Abbreviation t := (tree elt).
 
 Implicit Types m : t.
 
@@ -339,7 +339,7 @@ Definition equal_end e2 := match e2 with End => true | _ => false end.
 Definition equal m1 m2 := equal_cont m1 equal_end (cons m2 End).
 
 End Elt.
-Notation t := tree.
+Abbreviation t := tree.
 Arguments Leaf : clear implicits.
 Arguments Node [elt].
 
@@ -1595,9 +1595,9 @@ Qed.
 
 (** * Elements *)
 
-Notation eqk := (PX.eqk (elt:= elt)).
-Notation eqke := (PX.eqke (elt:= elt)).
-Notation ltk := (PX.ltk (elt:= elt)).
+Abbreviation eqk := (PX.eqk (elt:= elt)).
+Abbreviation eqke := (PX.eqke (elt:= elt)).
+Abbreviation ltk := (PX.ltk (elt:= elt)).
 
 Lemma elements_aux_mapsto : forall (s:t elt) acc x e,
  InA eqke (x,e) (elements_aux acc s) <-> MapsTo x e s \/ InA eqke (x,e) acc.
@@ -1979,7 +1979,7 @@ Hypothesis mapr_f0 : forall x m', bst m' ->
   match find x m' with Some d' => f0 x None (Some d') | None => None end.
 Hypothesis f0_compat : forall x x' o o', X.eq x x' -> f0 x o o' = f0 x' o o'.
 
-Notation map2_opt := (map2_opt f mapl mapr).
+Abbreviation map2_opt := (map2_opt f mapl mapr).
 
 Lemma map2_opt_2 : forall m m' y, bst m -> bst m' ->
   In y (map2_opt m m') -> In y m \/ In y m'.

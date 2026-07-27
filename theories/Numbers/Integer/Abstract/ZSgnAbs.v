@@ -149,7 +149,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.19", note="Use abs_idemp")]
-Notation abs_involutive := abs_idemp.
+Abbreviation abs_involutive := abs_idemp.
 
 Lemma abs_spec : forall n,
   (0 <= n /\ abs n == n) \/ (n < 0 /\ abs n == -n).

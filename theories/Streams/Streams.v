@@ -18,7 +18,7 @@ CoInductive Stream (A : Type) :=
 Section Streams.
   Variable A : Type.
 
-  Notation Stream := (Stream A).
+  Abbreviation Stream := (Stream A).
 
 
 Definition hd (x:Stream) := match x with

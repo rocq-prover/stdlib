@@ -298,7 +298,7 @@ apply eq_sym, pow_inv.
 Qed.
 
 #[deprecated(since="8.16",note="Use pow_inv.")]
-Notation Rinv_pow := Rinv_pow_depr.
+Abbreviation Rinv_pow := Rinv_pow_depr.
 
 Lemma pow_lt_1_zero :
   forall x:R,
@@ -769,13 +769,13 @@ Qed.
 End PowerRZ.
 
 #[deprecated(since="8.16",note="Use powerRZ_inv'.")]
-Notation powerRZ_inv := powerRZ_inv_depr.
+Abbreviation powerRZ_inv := powerRZ_inv_depr.
 
 #[deprecated(since="8.16",note="Use powerRZ_neg' and powerRZ_inv'.")]
-Notation powerRZ_neg := powerRZ_neg_depr.
+Abbreviation powerRZ_neg := powerRZ_neg_depr.
 
 #[deprecated(since="8.16",note="Use powerRZ_mult.")]
-Notation powerRZ_mult_distr := powerRZ_mult_distr_depr.
+Abbreviation powerRZ_mult_distr := powerRZ_mult_distr_depr.
 
 #[local] Infix "^Z" := powerRZ (at level 30, right associativity) : R_scope.
 
@@ -918,14 +918,14 @@ unfold Rdist.
 intros a b c; rewrite <- Rmult_minus_distr_l, Rabs_mult; reflexivity.
 Qed.
 
-Notation R_dist := Rdist (only parsing).
-Notation R_dist_pos := Rdist_pos (only parsing).
-Notation R_dist_sym := Rdist_sym (only parsing).
-Notation R_dist_refl := Rdist_refl (only parsing).
-Notation R_dist_eq := Rdist_eq (only parsing).
-Notation R_dist_tri := Rdist_tri (only parsing).
-Notation R_dist_plus := Rdist_plus (only parsing).
-Notation R_dist_mult_l := Rdist_mult_l (only parsing).
+Abbreviation R_dist := Rdist (only parsing).
+Abbreviation R_dist_pos := Rdist_pos (only parsing).
+Abbreviation R_dist_sym := Rdist_sym (only parsing).
+Abbreviation R_dist_refl := Rdist_refl (only parsing).
+Abbreviation R_dist_eq := Rdist_eq (only parsing).
+Abbreviation R_dist_tri := Rdist_tri (only parsing).
+Abbreviation R_dist_plus := Rdist_plus (only parsing).
+Abbreviation R_dist_mult_l := Rdist_mult_l (only parsing).
 
 (*******************************)
 (** *     Infinite Sum          *)
@@ -938,4 +938,4 @@ Definition infinite_sum (s:nat -> R) (l:R) : Prop :=
       (forall n:nat, (n >= N)%nat -> Rdist (sum_f_R0 s n) l < eps).
 
 (** Compatibility with previous versions *)
-Notation infinit_sum := infinite_sum (only parsing).
+Abbreviation infinit_sum := infinite_sum (only parsing).

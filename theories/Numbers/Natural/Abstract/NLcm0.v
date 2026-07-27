@@ -123,22 +123,22 @@ End Lcm0.
     in favor of Lcm0 statements. *)
 
 #[deprecated(since="8.17",note="Use Lcm0.mod_divide instead.")]
-Notation mod_divide := mod_divide (only parsing).
+Abbreviation mod_divide := mod_divide (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.divide_div_mul_exact instead.")]
-Notation divide_div_mul_exact := divide_div_mul_exact (only parsing).
+Abbreviation divide_div_mul_exact := divide_div_mul_exact (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.gcd_div_factor instead.")]
-Notation gcd_div_factor := gcd_div_factor (only parsing).
+Abbreviation gcd_div_factor := gcd_div_factor (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.gcd_mod instead.")]
-Notation gcd_mod := gcd_mod (only parsing).
+Abbreviation gcd_mod := gcd_mod (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.gcd_mod instead.")]
-Notation lcm_equiv1 := lcm_equiv1 (only parsing).
+Abbreviation lcm_equiv1 := lcm_equiv1 (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.lcm_equiv2 instead.")]
-Notation lcm_equiv2 := lcm_equiv2 (only parsing).
+Abbreviation lcm_equiv2 := lcm_equiv2 (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.divide_div instead.")]
-Notation divide_div := divide_div (only parsing).
+Abbreviation divide_div := divide_div (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.lcm_unique instead.")]
-Notation lcm_unique := lcm_unique (only parsing).
+Abbreviation lcm_unique := lcm_unique (only parsing).
 #[deprecated(since="8.17",note="Use Lcm0.lcm_unique_alt instead.")]
-Notation lcm_unique_alt := lcm_unique_alt (only parsing).
+Abbreviation lcm_unique_alt := lcm_unique_alt (only parsing).
 
 End NLcmProp0.

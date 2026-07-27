@@ -226,9 +226,9 @@ Module MakeRaw (X: OrderedType) <: RawSets X.
    | x::l => inf x l && isok l
    end.
 
-  Notation Sort l := (isok l = true).
-  Notation Inf := (lelistA X.lt).
-  Notation In := (InA X.eq).
+  Abbreviation Sort l := (isok l = true).
+  Abbreviation Inf := (lelistA X.lt).
+  Abbreviation In := (InA X.eq).
 
   Existing Instance X.eq_equiv.
   #[local]

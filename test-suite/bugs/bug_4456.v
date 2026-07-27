@@ -495,9 +495,9 @@ Section recursive_descent_parser.
           {rdata : @parser_removal_dataT' _ G _}
           {gvalid : grammar_valid G}.
 
-  #[local] Notation dec T := (T + (T -> False))%type (only parsing).
+  #[local] Abbreviation dec T := (T + (T -> False))%type (only parsing).
 
-  #[local] Notation iffT x y := ((x -> y) * (y -> x))%type (only parsing).
+  #[local] Abbreviation iffT x y := ((x -> y) * (y -> x))%type (only parsing).
 
   Lemma dec_prod {A B} (HA : dec A) (HB : dec B) : dec (A * B).
 admit.

@@ -237,7 +237,7 @@ Fixpoint of_nat (n:nat) : positive :=
 
 (** ** Conversion with a decimal representation for printing/parsing *)
 
-#[local] Notation ten := 1~0~1~0.
+#[local] Abbreviation ten := 1~0~1~0.
 
 Fixpoint of_uint_acc (d:Decimal.uint)(acc:positive) :=
   match d with
@@ -269,7 +269,7 @@ Fixpoint of_uint (d:Decimal.uint) : N :=
   | Decimal.D9 l => Npos (of_uint_acc l 1~0~0~1)
   end.
 
-#[local] Notation sixteen := 1~0~0~0~0.
+#[local] Abbreviation sixteen := 1~0~0~0~0.
 
 Fixpoint of_hex_uint_acc (d:Hexadecimal.uint)(acc:positive) :=
   match d with

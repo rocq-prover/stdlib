@@ -21,14 +21,14 @@ From Stdlib Require Import Wf_Z Zbool ZArithRing Zcomplements Setoid Morphisms.
     specifications and properties are in [BinInt]. *)
 
 #[deprecated(since="8.17",note="Use Coq.ZArith.BinIntDef.Z.pos_div_eucl instead")]
-Notation Zdiv_eucl_POS := Z.pos_div_eucl (only parsing).
+Abbreviation Zdiv_eucl_POS := Z.pos_div_eucl (only parsing).
 
 #[deprecated(since="8.17",note="Use BinInt.Z.pos_div_eucl_bound instead")]
-Notation Zmod_POS_bound := Z.pos_div_eucl_bound (only parsing).
+Abbreviation Zmod_POS_bound := Z.pos_div_eucl_bound (only parsing).
 #[deprecated(since="8.17",note="Use Coq.ZArith.BinInt.Z.mod_pos_bound instead")]
-Notation Zmod_pos_bound := Z.mod_pos_bound (only parsing).
+Abbreviation Zmod_pos_bound := Z.mod_pos_bound (only parsing).
 #[deprecated(since="8.17",note="Use Coq.ZArith.BinInt.Z.mod_neg_bound instead")]
-Notation Zmod_neg_bound := Z.mod_neg_bound (only parsing).
+Abbreviation Zmod_neg_bound := Z.mod_neg_bound (only parsing).
 
 (** * Main division theorems *)
 

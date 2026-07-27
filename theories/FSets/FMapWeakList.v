@@ -29,11 +29,11 @@ Section Elt.
 
 Variable elt : Type.
 
-Notation eqk := (eqk (elt:=elt)).
-Notation eqke := (eqke (elt:=elt)).
-Notation MapsTo := (MapsTo (elt:=elt)).
-Notation In := (In (elt:=elt)).
-Notation NoDupA := (NoDupA eqk).
+Abbreviation eqk := (eqk (elt:=elt)).
+Abbreviation eqke := (eqke (elt:=elt)).
+Abbreviation MapsTo := (MapsTo (elt:=elt)).
+Abbreviation In := (In (elt:=elt)).
+Abbreviation NoDupA := (NoDupA eqk).
 
 (** * [empty] *)
 
@@ -604,7 +604,7 @@ Section Elt3.
 
 Variable elt elt' elt'' : Type.
 
-Notation oee' := (option elt * option elt')%type.
+Abbreviation oee' := (option elt * option elt')%type.
 
 Definition combine_l (m:t elt)(m':t elt') : t oee' :=
   mapi (fun k e => (Some e, find k m')) m.

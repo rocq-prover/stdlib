@@ -13,4 +13,4 @@ From Stdlib Require Import BinNat.
 (** Obsolete file, see [BinNat] now,
     only compatibility notations remain here. *)
 
-Notation Nsqrt_spec := (fun n => N.sqrt_spec n (N.le_0_l n)) (only parsing).
+Abbreviation Nsqrt_spec := (fun n => N.sqrt_spec n (N.le_0_l n)) (only parsing).

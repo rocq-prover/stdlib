@@ -342,8 +342,8 @@ Module WPropertiesOn (Import E : DecidableType)(M : WSetsOn E).
 
   Section Fold.
 
-  Notation NoDup := (NoDupA E.eq).
-  Notation InA := (InA E.eq).
+  Abbreviation NoDup := (NoDupA E.eq).
+  Abbreviation InA := (InA E.eq).
 
   (** Alternative specification via [fold_right] *)
 

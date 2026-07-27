@@ -13,14 +13,14 @@ From Stdlib Require Import ZArith.
 From Stdlib Require Export Uint63 Sint63Axioms.
 From Stdlib Require Import Lia.
 
-Notation min_int := Sint63Axioms.min_int (only parsing).
-Notation to_Z := Sint63Axioms.to_Z (only parsing).
-Notation asr_spec := Sint63Axioms.asr_spec (only parsing).
-Notation div_spec := Sint63Axioms.div_spec (only parsing).
-Notation mod_spec := Sint63Axioms.mod_spec (only parsing).
-Notation ltb_spec := Sint63Axioms.ltb_spec (only parsing).
-Notation leb_spec := Sint63Axioms.leb_spec (only parsing).
-Notation compare_spec := Sint63Axioms.compare_spec (only parsing).
+Abbreviation min_int := Sint63Axioms.min_int (only parsing).
+Abbreviation to_Z := Sint63Axioms.to_Z (only parsing).
+Abbreviation asr_spec := Sint63Axioms.asr_spec (only parsing).
+Abbreviation div_spec := Sint63Axioms.div_spec (only parsing).
+Abbreviation mod_spec := Sint63Axioms.mod_spec (only parsing).
+Abbreviation ltb_spec := Sint63Axioms.ltb_spec (only parsing).
+Abbreviation leb_spec := Sint63Axioms.leb_spec (only parsing).
+Abbreviation compare_spec := Sint63Axioms.compare_spec (only parsing).
 
 Declare Scope sint63_scope.
 Definition printer (x : int_wrapper) : pos_neg_int63 :=
@@ -427,12 +427,12 @@ Proof.
 Qed.
 
 
-Notation asr := asr (only parsing).
-Notation div := divs (only parsing).
-Notation rem := mods (only parsing).
-Notation ltb := ltsb (only parsing).
-Notation leb := lesb (only parsing).
-Notation compare := compares (only parsing).
+Abbreviation asr := asr (only parsing).
+Abbreviation div := divs (only parsing).
+Abbreviation rem := mods (only parsing).
+Abbreviation ltb := ltsb (only parsing).
+Abbreviation leb := lesb (only parsing).
+Abbreviation compare := compares (only parsing).
 
 Module Export Sint63Notations.
   Export Sint63NotationsInternalA.

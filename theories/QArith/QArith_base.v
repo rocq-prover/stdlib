@@ -43,13 +43,13 @@ Notation "a # b" := (Qmake a b) (at level 55, no associativity) : Q_scope.
 Definition inject_Z (x : Z) := Qmake x 1.
 Arguments inject_Z x%_Z.
 
-Notation QDen p := (Zpos (Qden p)).
+Abbreviation QDen p := (Zpos (Qden p)).
 
 Definition Qeq (p q : Q) := (Qnum p * QDen q)%Z = (Qnum q * QDen p)%Z.
 Definition Qle (x y : Q) := (Qnum x * QDen y <= Qnum y * QDen x)%Z.
 Definition Qlt (x y : Q) := (Qnum x * QDen y < Qnum y * QDen x)%Z.
-Notation Qgt a b := (Qlt b a) (only parsing).
-Notation Qge a b := (Qle b a) (only parsing).
+Abbreviation Qgt a b := (Qlt b a) (only parsing).
+Abbreviation Qge a b := (Qle b a) (only parsing).
 
 Infix "==" := Qeq (at level 70, no associativity) : Q_scope.
 Infix "<" := Qlt : Q_scope.

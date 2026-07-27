@@ -12,7 +12,7 @@
 
 #[local] Open Scope nat_scope.
 
-Notation not_eq_sym := not_eq_sym (only parsing).
+Abbreviation not_eq_sym := not_eq_sym (only parsing).
 
 Implicit Types m n p q : nat.
 

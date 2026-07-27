@@ -60,7 +60,7 @@ Qed.
 
 (* Check naming in with bindings: do not rename *)
 
-Notation S':=S (only parsing).
+Abbreviation S':=S (only parsing).
 Goal (forall S, S = S' S) -> (forall S, S = S' S).
 intros.
 apply H with (S := S).

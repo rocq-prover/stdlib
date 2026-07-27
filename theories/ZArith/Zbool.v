@@ -51,7 +51,7 @@ Proof.
  apply Z.leb_le.
 Qed.
 
-Notation Zle_bool_refl := Z.leb_refl (only parsing).
+Abbreviation Zle_bool_refl := Z.leb_refl (only parsing).
 
 Lemma Zle_bool_antisym n m :
  (n <=? m) = true -> (m <=? n) = true -> n = m.
@@ -153,19 +153,19 @@ Definition Zeven_odd_bool (x:Z) := bool_of_sumbool (Zeven_odd_dec x).
 (** * Boolean comparisons of binary integers *)
 
 #[deprecated(use=Z.leb, since="Stdlib 9.0")]
-Notation Zle_bool := Z.leb (only parsing).
+Abbreviation Zle_bool := Z.leb (only parsing).
 #[deprecated(use=Z.geb, since="Stdlib 9.0")]
-Notation Zge_bool := Z.geb (only parsing).
+Abbreviation Zge_bool := Z.geb (only parsing).
 #[deprecated(use=Z.ltb, since="Stdlib 9.0")]
-Notation Zlt_bool := Z.ltb (only parsing).
+Abbreviation Zlt_bool := Z.ltb (only parsing).
 #[deprecated(use=Z.gtb, since="Stdlib 9.0")]
-Notation Zgt_bool := Z.gtb (only parsing).
+Abbreviation Zgt_bool := Z.gtb (only parsing).
 
 (** We now provide a direct [Z.eqb] that doesn't refer to [Z.compare].
    The old [Zeq_bool] is kept for compatibility. *)
 
 #[deprecated(use=Z.eqb, since="Stdlib 9.0")]
-Notation Zeq_bool := Z.eqb.
+Abbreviation Zeq_bool := Z.eqb.
 
 #[deprecated(use=Z.eqb_eq, since="Stdlib 9.0")]
 Lemma Zeq_is_eq_bool x y : x = y <-> Zeq_bool x y = true.

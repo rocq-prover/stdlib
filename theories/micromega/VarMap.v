@@ -42,7 +42,7 @@ Section MakeVarMap.
   Variable A : Type.
   Variable default : A.
 
-  Notation t := (t A).
+  Abbreviation t := (t A).
 
   Fixpoint find (vm : t) (p:positive) {struct vm} : A :=
     match vm with

@@ -128,7 +128,7 @@ Qed.
 
 *)
 
-#[local] Notation inhabited A := A (only parsing).
+#[local] Abbreviation inhabited A := A (only parsing).
 
 Lemma prop_ext_A_eq_A_imp_A :
   prop_extensionality -> forall A:Prop, inhabited A -> (A -> A) = A.
@@ -412,8 +412,8 @@ Section Proof_irrelevance_WEM_CC.
 
   Hypothesis wem : forall A:Prop, or (~~A) (~ A).
 
-  #[local] Notation NProp := NoRetractToNegativeProp.NProp.
-  #[local] Notation El := NoRetractToNegativeProp.El.
+  #[local] Abbreviation NProp := NoRetractToNegativeProp.NProp.
+  #[local] Abbreviation El := NoRetractToNegativeProp.El.
 
   Variable B : Prop.
   Variables b1 b2 : B.
@@ -851,7 +851,7 @@ End Example_of_undecidable_predicate_with_the_minimization_property.
 
 From Stdlib Require Import RelationClasses.
 
-#[local] Notation representative_boolean_partition :=
+#[local] Abbreviation representative_boolean_partition :=
   (forall R:bool->bool->Prop,
     Equivalence R -> exists f, forall x, R x (f x) /\ forall y, R x y -> f x = f y).
 

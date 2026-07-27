@@ -21,7 +21,7 @@ From Stdlib Require Zeven.
 (** About parity *)
 
 #[deprecated(since="Stdlib 9.0")]
-Notation two_or_two_plus_one := Zeven.Z_modulo_2 (only parsing).
+Abbreviation two_or_two_plus_one := Zeven.Z_modulo_2 (only parsing).
 
 (**********************************************************************)
 (** The biggest power of 2 that is stricly less than [a]

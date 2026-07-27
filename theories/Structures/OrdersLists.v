@@ -17,10 +17,10 @@ Unset Strict Implicit.
 
 Module OrderedTypeLists (O:OrderedType).
 
-#[local] Notation In:=(InA O.eq).
-#[local] Notation Inf:=(lelistA O.lt).
-#[local] Notation Sort:=(sort O.lt).
-#[local] Notation NoDup:=(NoDupA O.eq).
+#[local] Abbreviation In:=(InA O.eq).
+#[local] Abbreviation Inf:=(lelistA O.lt).
+#[local] Abbreviation Sort:=(sort O.lt).
+#[local] Abbreviation NoDup:=(NoDupA O.eq).
 
 Lemma In_eq : forall l x y, eq x y -> In x l -> In y l.
 Proof. intros. rewrite <- H; auto. Qed.
@@ -63,7 +63,7 @@ End OrderedTypeLists.
 Module KeyOrderedType(O:OrderedType).
  Include KeyDecidableType(O). (* provides eqk, eqke *)
 
- #[local] Notation key:=O.t.
+ #[local] Abbreviation key:=O.t.
  #[local] Open Scope signature_scope.
 
  Definition ltk {elt} : relation (key*elt) := O.lt @@1.
@@ -107,8 +107,8 @@ Module KeyOrderedType(O:OrderedType).
   elim (StrictOrder_Irreflexive _ LT).
   Qed.
 
-  Notation Sort := (sort ltk).
-  Notation Inf := (lelistA ltk).
+  Abbreviation Sort := (sort ltk).
+  Abbreviation Inf := (lelistA ltk).
 
   Lemma Inf_eq l x x' : eqk x x' -> Inf x' l -> Inf x l.
   Proof. now intros <-. Qed.

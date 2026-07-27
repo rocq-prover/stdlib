@@ -1679,81 +1679,81 @@ End Z2Pos.
 
 (** Compatibility Notations *)
 
-Notation Zdouble_plus_one := Z.succ_double (only parsing).
-Notation Zdouble_minus_one := Z.pred_double (only parsing).
-Notation ZPminus := Z.pos_sub (only parsing).
-Notation Zplus := Z.add (only parsing). (* Slightly incompatible *)
-Notation Zminus := Z.sub (only parsing).
-Notation Zmult := Z.mul (only parsing).
-Notation Z_of_nat := Z.of_nat (only parsing).
-Notation Z_of_N := Z.of_N (only parsing).
+Abbreviation Zdouble_plus_one := Z.succ_double (only parsing).
+Abbreviation Zdouble_minus_one := Z.pred_double (only parsing).
+Abbreviation ZPminus := Z.pos_sub (only parsing).
+Abbreviation Zplus := Z.add (only parsing). (* Slightly incompatible *)
+Abbreviation Zminus := Z.sub (only parsing).
+Abbreviation Zmult := Z.mul (only parsing).
+Abbreviation Z_of_nat := Z.of_nat (only parsing).
+Abbreviation Z_of_N := Z.of_N (only parsing).
 
-Notation Zind := Z.peano_ind (only parsing).
-Notation Zplus_0_l := Z.add_0_l (only parsing).
-Notation Zplus_0_r := Z.add_0_r (only parsing).
-Notation Zplus_comm := Z.add_comm (only parsing).
-Notation Zopp_plus_distr := Z.opp_add_distr (only parsing).
-Notation Zplus_opp_r := Z.add_opp_diag_r (only parsing).
-Notation Zplus_opp_l := Z.add_opp_diag_l (only parsing).
-Notation Zplus_assoc := Z.add_assoc (only parsing).
-Notation Zplus_permute := Z.add_shuffle3 (only parsing).
-Notation Zplus_reg_l := Z.add_reg_l (only parsing).
-Notation Zplus_succ_l := Z.add_succ_l (only parsing).
-Notation Zplus_succ_comm := Z.add_succ_comm (only parsing).
-Notation Zsucc_discr := Z.neq_succ_diag_r (only parsing).
-Notation Zsucc'_discr := Z.neq_succ_diag_r (only parsing).
-Notation Zminus_0_r := Z.sub_0_r (only parsing).
-Notation Zminus_diag := Z.sub_diag (only parsing).
-Notation Zminus_plus_distr := Z.sub_add_distr (only parsing).
-Notation Zminus_succ_r := Z.sub_succ_r (only parsing).
-Notation Zminus_plus := Z.add_simpl_l (only parsing).
-Notation Zmult_0_l := Z.mul_0_l (only parsing).
-Notation Zmult_0_r := Z.mul_0_r (only parsing).
-Notation Zmult_1_l := Z.mul_1_l (only parsing).
-Notation Zmult_1_r := Z.mul_1_r (only parsing).
-Notation Zmult_comm := Z.mul_comm (only parsing).
-Notation Zmult_assoc := Z.mul_assoc (only parsing).
-Notation Zmult_permute := Z.mul_shuffle3 (only parsing).
-Notation Zmult_1_inversion_l := Z.mul_eq_1 (only parsing).
-Notation Zdouble_mult := Z.double_spec (only parsing).
-Notation Zdouble_plus_one_mult := Z.succ_double_spec (only parsing).
-Notation Zopp_mult_distr_l_reverse := Z.mul_opp_l (only parsing).
-Notation Zmult_opp_opp := Z.mul_opp_opp (only parsing).
-Notation Zmult_opp_comm := Z.mul_opp_comm (only parsing).
-Notation Zopp_eq_mult_neg_1 := Z.opp_eq_mul_m1 (only parsing).
-Notation Zmult_plus_distr_r := Z.mul_add_distr_l (only parsing).
-Notation Zmult_plus_distr_l := Z.mul_add_distr_r (only parsing).
-Notation Zmult_minus_distr_r := Z.mul_sub_distr_r (only parsing).
-Notation Zmult_reg_l := Z.mul_reg_l (only parsing).
-Notation Zmult_reg_r := Z.mul_reg_r (only parsing).
-Notation Zmult_succ_l := Z.mul_succ_l (only parsing).
-Notation Zmult_succ_r := Z.mul_succ_r (only parsing).
+Abbreviation Zind := Z.peano_ind (only parsing).
+Abbreviation Zplus_0_l := Z.add_0_l (only parsing).
+Abbreviation Zplus_0_r := Z.add_0_r (only parsing).
+Abbreviation Zplus_comm := Z.add_comm (only parsing).
+Abbreviation Zopp_plus_distr := Z.opp_add_distr (only parsing).
+Abbreviation Zplus_opp_r := Z.add_opp_diag_r (only parsing).
+Abbreviation Zplus_opp_l := Z.add_opp_diag_l (only parsing).
+Abbreviation Zplus_assoc := Z.add_assoc (only parsing).
+Abbreviation Zplus_permute := Z.add_shuffle3 (only parsing).
+Abbreviation Zplus_reg_l := Z.add_reg_l (only parsing).
+Abbreviation Zplus_succ_l := Z.add_succ_l (only parsing).
+Abbreviation Zplus_succ_comm := Z.add_succ_comm (only parsing).
+Abbreviation Zsucc_discr := Z.neq_succ_diag_r (only parsing).
+Abbreviation Zsucc'_discr := Z.neq_succ_diag_r (only parsing).
+Abbreviation Zminus_0_r := Z.sub_0_r (only parsing).
+Abbreviation Zminus_diag := Z.sub_diag (only parsing).
+Abbreviation Zminus_plus_distr := Z.sub_add_distr (only parsing).
+Abbreviation Zminus_succ_r := Z.sub_succ_r (only parsing).
+Abbreviation Zminus_plus := Z.add_simpl_l (only parsing).
+Abbreviation Zmult_0_l := Z.mul_0_l (only parsing).
+Abbreviation Zmult_0_r := Z.mul_0_r (only parsing).
+Abbreviation Zmult_1_l := Z.mul_1_l (only parsing).
+Abbreviation Zmult_1_r := Z.mul_1_r (only parsing).
+Abbreviation Zmult_comm := Z.mul_comm (only parsing).
+Abbreviation Zmult_assoc := Z.mul_assoc (only parsing).
+Abbreviation Zmult_permute := Z.mul_shuffle3 (only parsing).
+Abbreviation Zmult_1_inversion_l := Z.mul_eq_1 (only parsing).
+Abbreviation Zdouble_mult := Z.double_spec (only parsing).
+Abbreviation Zdouble_plus_one_mult := Z.succ_double_spec (only parsing).
+Abbreviation Zopp_mult_distr_l_reverse := Z.mul_opp_l (only parsing).
+Abbreviation Zmult_opp_opp := Z.mul_opp_opp (only parsing).
+Abbreviation Zmult_opp_comm := Z.mul_opp_comm (only parsing).
+Abbreviation Zopp_eq_mult_neg_1 := Z.opp_eq_mul_m1 (only parsing).
+Abbreviation Zmult_plus_distr_r := Z.mul_add_distr_l (only parsing).
+Abbreviation Zmult_plus_distr_l := Z.mul_add_distr_r (only parsing).
+Abbreviation Zmult_minus_distr_r := Z.mul_sub_distr_r (only parsing).
+Abbreviation Zmult_reg_l := Z.mul_reg_l (only parsing).
+Abbreviation Zmult_reg_r := Z.mul_reg_r (only parsing).
+Abbreviation Zmult_succ_l := Z.mul_succ_l (only parsing).
+Abbreviation Zmult_succ_r := Z.mul_succ_r (only parsing).
 
-Notation Zpos_xI := Pos2Z.inj_xI (only parsing).
-Notation Zpos_xO := Pos2Z.inj_xO (only parsing).
-Notation Zneg_xI := Pos2Z.neg_xI (only parsing).
-Notation Zneg_xO := Pos2Z.neg_xO (only parsing).
-Notation Zopp_neg := Pos2Z.opp_neg (only parsing).
-Notation Zpos_succ_morphism := Pos2Z.inj_succ (only parsing).
-Notation Zpos_mult_morphism := Pos2Z.inj_mul (only parsing).
-Notation Zpos_minus_morphism := Pos2Z.inj_sub (only parsing).
-Notation Zpos_eq_rev := Pos2Z.inj (only parsing).
-Notation Zpos_plus_distr := Pos2Z.inj_add (only parsing).
-Notation Zneg_plus_distr := Pos2Z.add_neg_neg (only parsing).
+Abbreviation Zpos_xI := Pos2Z.inj_xI (only parsing).
+Abbreviation Zpos_xO := Pos2Z.inj_xO (only parsing).
+Abbreviation Zneg_xI := Pos2Z.neg_xI (only parsing).
+Abbreviation Zneg_xO := Pos2Z.neg_xO (only parsing).
+Abbreviation Zopp_neg := Pos2Z.opp_neg (only parsing).
+Abbreviation Zpos_succ_morphism := Pos2Z.inj_succ (only parsing).
+Abbreviation Zpos_mult_morphism := Pos2Z.inj_mul (only parsing).
+Abbreviation Zpos_minus_morphism := Pos2Z.inj_sub (only parsing).
+Abbreviation Zpos_eq_rev := Pos2Z.inj (only parsing).
+Abbreviation Zpos_plus_distr := Pos2Z.inj_add (only parsing).
+Abbreviation Zneg_plus_distr := Pos2Z.add_neg_neg (only parsing).
 
-Notation Z := Z (only parsing).
-Notation Z_rect := Z_rect (only parsing).
-Notation Z_rec := Z_rec (only parsing).
-Notation Z_ind := Z_ind (only parsing).
-Notation Z0 := Z0 (only parsing).
-Notation Zpos := Zpos (only parsing).
-Notation Zneg := Zneg (only parsing).
+Abbreviation Z := Z (only parsing).
+Abbreviation Z_rect := Z_rect (only parsing).
+Abbreviation Z_rec := Z_rec (only parsing).
+Abbreviation Z_ind := Z_ind (only parsing).
+Abbreviation Z0 := Z0 (only parsing).
+Abbreviation Zpos := Zpos (only parsing).
+Abbreviation Zneg := Zneg (only parsing).
 
 Section LocalNotations.
 
-Notation SYM1 lem := (fun n => eq_sym (lem n)).
-Notation SYM2 lem := (fun n m => eq_sym (lem n m)).
-Notation SYM3 lem := (fun n m p => eq_sym (lem n m p)).
+Abbreviation SYM1 lem := (fun n => eq_sym (lem n)).
+Abbreviation SYM2 lem := (fun n m => eq_sym (lem n m)).
+Abbreviation SYM3 lem := (fun n m p => eq_sym (lem n m p)).
 
 (** Compatibility lemmas. These could be notations,
     but scope information would be lost.
@@ -1767,7 +1767,7 @@ Lemma Zplus_succ_r_reverse : forall n m, Z.succ (n+m) = n+Z.succ m.
 Proof.
   exact (SYM2 Z.add_succ_r).
 Qed.
-Notation Zplus_succ_r := Zplus_succ_r_reverse (only parsing).
+Abbreviation Zplus_succ_r := Zplus_succ_r_reverse (only parsing).
 Lemma Zplus_0_r_reverse : forall n, n = n + 0.
 Proof.
   exact (SYM1 Z.add_0_r).
@@ -1872,11 +1872,11 @@ Qed.
 End LocalNotations.
 
 #[deprecated(since="Stdlib 9.0")]
-Notation SYM1 lem := (fun n => eq_sym (lem n)) (only parsing).
+Abbreviation SYM1 lem := (fun n => eq_sym (lem n)) (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation SYM2 lem := (fun n m => eq_sym (lem n m)) (only parsing).
+Abbreviation SYM2 lem := (fun n m => eq_sym (lem n m)) (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation SYM3 lem := (fun n m p => eq_sym (lem n m p)) (only parsing).
+Abbreviation SYM3 lem := (fun n m p => eq_sym (lem n m p)) (only parsing).
 
 #[global]
 Hint Immediate Zsucc_pred: zarith.

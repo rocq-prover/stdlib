@@ -155,7 +155,7 @@ Proof.
  apply max_l; order.
 Qed.
 
-Notation max_idempotent := max_id (only parsing).
+Abbreviation max_idempotent := max_id (only parsing).
 
 Lemma max_assoc m n p : max m (max n p) == max (max m n) p.
 Proof.
@@ -298,7 +298,7 @@ Proof.
  apply min_l; order.
 Qed.
 
-Notation min_idempotent := min_id (only parsing).
+Abbreviation min_idempotent := min_id (only parsing).
 
 Lemma min_assoc m n p : min m (min n p) == min (min m n) p.
 Proof.
@@ -548,10 +548,10 @@ Module MinMaxProperties (Import O:OrderedTypeFull')(Import M:HasMinMax O).
  Definition max_r := max_r.
  Definition min_l := min_l.
  Definition min_r := min_r.
- Notation max_monotone := max_mono.
- Notation min_monotone := min_mono.
- Notation max_min_antimonotone := max_min_antimono.
- Notation min_max_antimonotone := min_max_antimono.
+ Abbreviation max_monotone := max_mono.
+ Abbreviation min_monotone := min_mono.
+ Abbreviation max_min_antimonotone := max_min_antimono.
+ Abbreviation min_max_antimonotone := min_max_antimono.
 End MinMaxProperties.
 
 

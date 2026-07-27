@@ -4,27 +4,27 @@ From Stdlib Require Export PrimArray ArrayAxioms.
 #[local] Open Scope uint63_scope.
 #[local] Open Scope array_scope.
 
-Notation array := PrimArray.array (only parsing).
-Notation make := PrimArray.make (only parsing).
-Notation get := PrimArray.get (only parsing).
-Notation default := PrimArray.default (only parsing).
-Notation set := PrimArray.set (only parsing).
-Notation length := PrimArray.length (only parsing).
-Notation copy := PrimArray.copy (only parsing).
+Abbreviation array := PrimArray.array (only parsing).
+Abbreviation make := PrimArray.make (only parsing).
+Abbreviation get := PrimArray.get (only parsing).
+Abbreviation default := PrimArray.default (only parsing).
+Abbreviation set := PrimArray.set (only parsing).
+Abbreviation length := PrimArray.length (only parsing).
+Abbreviation copy := PrimArray.copy (only parsing).
 
-Notation max_length := PrimArray.max_length (only parsing).
+Abbreviation max_length := PrimArray.max_length (only parsing).
 
-Notation get_out_of_bounds := ArrayAxioms.get_out_of_bounds (only parsing).
-Notation get_set_same := ArrayAxioms.get_set_same (only parsing).
-Notation get_set_other := ArrayAxioms.get_set_other (only parsing).
-Notation default_set := ArrayAxioms.default_set (only parsing).
-Notation get_make := ArrayAxioms.get_make (only parsing).
-Notation leb_length := ArrayAxioms.leb_length (only parsing).
-Notation length_make := ArrayAxioms.length_make (only parsing).
-Notation length_set := ArrayAxioms.length_set (only parsing).
-Notation get_copy := ArrayAxioms.get_copy (only parsing).
-Notation length_copy := ArrayAxioms.length_copy (only parsing).
-Notation array_ext := ArrayAxioms.array_ext (only parsing).
+Abbreviation get_out_of_bounds := ArrayAxioms.get_out_of_bounds (only parsing).
+Abbreviation get_set_same := ArrayAxioms.get_set_same (only parsing).
+Abbreviation get_set_other := ArrayAxioms.get_set_other (only parsing).
+Abbreviation default_set := ArrayAxioms.default_set (only parsing).
+Abbreviation get_make := ArrayAxioms.get_make (only parsing).
+Abbreviation leb_length := ArrayAxioms.leb_length (only parsing).
+Abbreviation length_make := ArrayAxioms.length_make (only parsing).
+Abbreviation length_set := ArrayAxioms.length_set (only parsing).
+Abbreviation get_copy := ArrayAxioms.get_copy (only parsing).
+Abbreviation length_copy := ArrayAxioms.length_copy (only parsing).
+Abbreviation array_ext := ArrayAxioms.array_ext (only parsing).
 
 (* Lemmas *)
 

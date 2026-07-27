@@ -118,8 +118,8 @@ Module MakeRaw (X:DecidableType) <: WRawSets X.
   Include Ops X.
 
   Section ForNotations.
-  Notation NoDup := (NoDupA X.eq).
-  Notation In := (InA X.eq).
+  Abbreviation NoDup := (NoDupA X.eq).
+  Abbreviation In := (InA X.eq).
 
   (* TODO: modify proofs in order to avoid these hints *)
   Let eqr:= (@Equivalence_Reflexive _ _ X.eq_equiv).

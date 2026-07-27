@@ -21,7 +21,7 @@ Proof.
   - left; exists n; auto.
 Defined.
 
-Notation eq_nat_dec := Nat.eq_dec (only parsing).
+Abbreviation eq_nat_dec := Nat.eq_dec (only parsing).
 
 #[global]
 Hint Resolve O_or_S eq_nat_dec: arith.

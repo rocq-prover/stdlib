@@ -113,7 +113,7 @@ End Int.
 (** * Facts and  tactics using [Int] *)
 
 Module MoreInt (Import I:Int).
-  #[local] Notation int := I.t.
+  #[local] Abbreviation int := I.t.
 
   Lemma eqb_eq n p : (n =? p) = true <-> n == p.
   Proof.
@@ -457,7 +457,7 @@ Module Z_as_Int <: Int.
   Proof. reflexivity. Qed.
 
   (** Compatibility notations for Coq v8.4 *)
-  Notation plus := add (only parsing).
-  Notation minus := sub (only parsing).
-  Notation mult := mul (only parsing).
+  Abbreviation plus := add (only parsing).
+  Abbreviation minus := sub (only parsing).
+  Abbreviation mult := mul (only parsing).
 End Z_as_Int.

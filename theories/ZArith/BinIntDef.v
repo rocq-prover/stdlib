@@ -33,8 +33,8 @@ Definition t := Z.
 
 (** ** Nicer names [Z.pos] and [Z.neg] for constructors *)
 
-#[global] Notation pos := Zpos.
-#[global] Notation neg := Zneg.
+#[global] Abbreviation pos := Zpos.
+#[global] Abbreviation neg := Zneg.
 
 (** ** Constants *)
 

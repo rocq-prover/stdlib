@@ -22,7 +22,7 @@ Section WellOrdering.
   Variable A : Type.
   Variable B : A -> Type.
 
-  Notation WO := (WO A B).
+  Abbreviation WO := (WO A B).
 
   Inductive le_WO : WO -> WO -> Prop :=
     le_sup : forall (a:A) (f:B a -> WO) (v:B a), le_WO (f v) (sup _ _ a f).

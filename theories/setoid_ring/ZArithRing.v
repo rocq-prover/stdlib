@@ -28,7 +28,7 @@ Ltac isZpow_coef t :=
   | _ => constr:(false)
   end.
 
-Notation N_of_Z := Z.to_N (only parsing).
+Abbreviation N_of_Z := Z.to_N (only parsing).
 
 Ltac Zpow_tac t :=
  match isZpow_coef t with

@@ -295,9 +295,9 @@ Qed.
 
 (* Some alternative names: *)
 
-Notation mul_eq_0 := eq_mul_0.
-Notation mul_eq_0_l := eq_mul_0_l.
-Notation mul_eq_0_r := eq_mul_0_r.
+Abbreviation mul_eq_0 := eq_mul_0.
+Abbreviation mul_eq_0_l := eq_mul_0_l.
+Abbreviation mul_eq_0_r := eq_mul_0_r.
 
 Theorem lt_0_mul n m : 0 < n * m <-> (0 < n /\ 0 < m) \/ (m < 0 /\ n < 0).
 Proof.

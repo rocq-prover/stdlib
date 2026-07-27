@@ -79,7 +79,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.16",note="Use Rsqr_div'.")]
-Notation Rsqr_div := Rsqr_div_depr.
+Abbreviation Rsqr_div := Rsqr_div_depr.
 
 Lemma Rsqr_eq_0 : forall x:R, Rsqr x = 0 -> x = 0.
 Proof.
@@ -332,7 +332,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.16",note="Use Rsqr_inv'.")]
-Notation Rsqr_inv := Rsqr_inv_depr.
+Abbreviation Rsqr_inv := Rsqr_inv_depr.
 
 Lemma canonical_Rsqr :
   forall (a:nonzeroreal) (b c x:R),

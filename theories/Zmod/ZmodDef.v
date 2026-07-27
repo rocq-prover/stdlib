@@ -35,7 +35,7 @@ Defined.
 Definition of_Z (m : Z) (z : Z) : Zmod m := of_small_Z m (z mod m).
 
 Coercion unsigned {m} (x : Zmod m) := Private_to_Z x.
-Notation to_Z := unsigned (only parsing).
+Abbreviation to_Z := unsigned (only parsing).
 
 Definition signed {m} (x : Zmod m) : Z :=
   if Z.ltb (Z.double (Z.abs x)) (Z.abs m) then x else x-m.
@@ -118,7 +118,7 @@ Definition srs {m} x n := of_Z m (Z.shiftr (@signed m x) n).
    common-denominator modulus. See the four variants of [skipn_app] and
    [app_assoc], for a taste of the challenges. *)
 
-#[local] Notation bits n := (Zmod (2^n)).
+#[local] Abbreviation bits n := (Zmod (2^n)).
 
 Definition app {n m} (a : bits n) (b : bits m) : bits (n+m) :=
   of_Z _ (Z.lor a (Z.shiftl b n)).
@@ -150,12 +150,12 @@ Definition invertibles m : list (Zmod m) :=
 
 End Zmod.
 
-Notation Zmod := Zmod.Zmod.
+Abbreviation Zmod := Zmod.Zmod.
 
-Notation bits n := (Zmod (2^n)).
+Abbreviation bits n := (Zmod (2^n)).
 
 Module bits.
-  Notation of_Z n z := (Zmod.of_Z (2^n) z).
+  Abbreviation of_Z n z := (Zmod.of_Z (2^n) z).
 End bits.
 
 Declare Scope Zmod_scope.

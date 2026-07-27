@@ -31,7 +31,7 @@ From Stdlib Require Import Arith.Factorial.
 
 Definition P_Rmin_stt (P:R -> Prop) x y := Rmin_case x y P.
 #[deprecated(since="8.16", note="Use Rmin_case instead.")]
-Notation P_Rmin := P_Rmin_stt.
+Abbreviation P_Rmin := P_Rmin_stt.
 
 Lemma exp_le_3 : exp 1 <= 3.
 Proof.
@@ -611,7 +611,7 @@ Proof.
 Qed.
 
 #[deprecated(since="8.16",note="Use Rinv_div.")]
-Notation Rinv_Rdiv := Rinv_Rdiv_depr.
+Abbreviation Rinv_Rdiv := Rinv_Rdiv_depr.
 
 Theorem Dln : forall y:R, 0 < y -> D_in ln Rinv (fun x:R => 0 < x) y.
 Proof.

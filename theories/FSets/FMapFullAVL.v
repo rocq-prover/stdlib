@@ -420,7 +420,7 @@ Variable mapr : t elt' -> t elt''.
 Hypothesis mapl_avl : forall m, avl m -> avl (mapl m).
 Hypothesis mapr_avl : forall m', avl m' -> avl (mapr m').
 
-Notation map2_opt := (map2_opt f mapl mapr).
+Abbreviation map2_opt := (map2_opt f mapl mapr).
 
 Lemma map2_opt_avl : forall m1 m2, avl m1 -> avl m2 ->
  avl (map2_opt m1 m2).

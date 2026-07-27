@@ -154,7 +154,7 @@ Module Type WSetsOn (E : DecidableType).
   Variable s s': t.
   Variable x y : elt.
   Variable f : elt -> bool.
-  Notation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
+  Abbreviation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
 
   Parameter mem_spec : mem x s = true <-> In x s.
   Parameter equal_spec : equal s s' = true <-> s[=]s'.
@@ -401,7 +401,7 @@ Module Type WRawSets (E : DecidableType).
   Variable s s': t.
   Variable x y : elt.
   Variable f : elt -> bool.
-  Notation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
+  Abbreviation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
 
   Parameter mem_spec : forall `{Ok s}, mem x s = true <-> In x s.
   Parameter equal_spec : forall `{Ok s, Ok s'},
@@ -510,7 +510,7 @@ Module WRaw2SetsOn (E:DecidableType)(M:WRawSets E) <: WSetsOn E.
   Variable s s' : t.
   Variable x y : elt.
   Variable f : elt -> bool.
-  Notation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
+  Abbreviation compatb := (Proper (E.eq==>Logic.eq)) (only parsing).
 
   Lemma mem_spec : mem x s = true <-> In x s.
   Proof. exact (@M.mem_spec _ _ _). Qed.
@@ -903,8 +903,8 @@ End MakeSetOrdering.
 Module MakeListOrdering (O:OrderedType).
  Module MO:=OrderedTypeFacts O.
 
- #[local] Notation t := (list O.t).
- #[local] Notation In := (InA O.eq).
+ #[local] Abbreviation t := (list O.t).
+ #[local] Abbreviation In := (InA O.eq).
 
  Definition eq s s' := forall x, In x s <-> In x s'.
 

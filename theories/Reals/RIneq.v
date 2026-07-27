@@ -2722,51 +2722,51 @@ Definition posreal_half := mkposreal (/ 2) pos_half_prf.
 
 (** * Compatibility *)
 
-Notation prod_neq_R0 := Rmult_integral_contrapositive_currified (only parsing).
-Notation minus_Rgt := Rminus_gt (only parsing).
-Notation minus_Rge := Rminus_ge (only parsing).
-Notation plus_le_is_le := Rplus_le_reg_pos_r (only parsing).
-Notation plus_lt_is_lt := Rplus_lt_reg_pos_r (only parsing).
-Notation INR_lt_1 := lt_1_INR (only parsing).
-Notation lt_INR_0 := lt_0_INR (only parsing).
-Notation not_nm_INR := not_INR (only parsing).
-Notation INR_pos := pos_INR_nat_of_P (only parsing).
-Notation not_INR_O := INR_not_0 (only parsing).
-Notation not_O_INR := not_0_INR (only parsing).
-Notation not_O_IZR := not_0_IZR (only parsing).
-Notation le_O_IZR := le_0_IZR (only parsing).
-Notation lt_O_IZR := lt_0_IZR (only parsing).
+Abbreviation prod_neq_R0 := Rmult_integral_contrapositive_currified (only parsing).
+Abbreviation minus_Rgt := Rminus_gt (only parsing).
+Abbreviation minus_Rge := Rminus_ge (only parsing).
+Abbreviation plus_le_is_le := Rplus_le_reg_pos_r (only parsing).
+Abbreviation plus_lt_is_lt := Rplus_lt_reg_pos_r (only parsing).
+Abbreviation INR_lt_1 := lt_1_INR (only parsing).
+Abbreviation lt_INR_0 := lt_0_INR (only parsing).
+Abbreviation not_nm_INR := not_INR (only parsing).
+Abbreviation INR_pos := pos_INR_nat_of_P (only parsing).
+Abbreviation not_INR_O := INR_not_0 (only parsing).
+Abbreviation not_O_INR := not_0_INR (only parsing).
+Abbreviation not_O_IZR := not_0_IZR (only parsing).
+Abbreviation le_O_IZR := le_0_IZR (only parsing).
+Abbreviation lt_O_IZR := lt_0_IZR (only parsing).
 
-Notation tech_Rplus := Rplus_le_lt_0_neq_0 (only parsing).
-Notation tech_Rgt_minus := Rgt_minus_pos (only parsing).
-Notation le_epsilon := Rle_plus_epsilon (only parsing).
-Notation completeness_weak := upper_bound_thm (only parsing).
-Notation Req_EM_T := Req_dec_T (only parsing).
-Notation Rinv_r_simpl_r := Rmult_inv_m_id_r (only parsing).
-Notation Rinv_r_simpl_l := Rmult_inv_r_id_l (only parsing).
-Notation Rinv_r_simpl_m := Rmult_inv_r_id_m (only parsing).
-Notation Rplus_eq_R0 := Rplus_eq_0 (only parsing).
+Abbreviation tech_Rplus := Rplus_le_lt_0_neq_0 (only parsing).
+Abbreviation tech_Rgt_minus := Rgt_minus_pos (only parsing).
+Abbreviation le_epsilon := Rle_plus_epsilon (only parsing).
+Abbreviation completeness_weak := upper_bound_thm (only parsing).
+Abbreviation Req_EM_T := Req_dec_T (only parsing).
+Abbreviation Rinv_r_simpl_r := Rmult_inv_m_id_r (only parsing).
+Abbreviation Rinv_r_simpl_l := Rmult_inv_r_id_l (only parsing).
+Abbreviation Rinv_r_simpl_m := Rmult_inv_r_id_m (only parsing).
+Abbreviation Rplus_eq_R0 := Rplus_eq_0 (only parsing).
 
 Lemma Rinv_involutive_depr : forall r, r <> 0 -> / / r = r.
 Proof. now intros r _; apply Rinv_inv.  Qed.
 #[deprecated(since="8.16",note="Use Rinv_inv.")]
-Notation Rinv_involutive := Rinv_involutive_depr (only parsing).
+Abbreviation Rinv_involutive := Rinv_involutive_depr (only parsing).
 
 Lemma Rinv_mult_distr_depr :
   forall r1 r2, r1 <> 0 -> r2 <> 0 -> / (r1 * r2) = / r1 * / r2.
 Proof. now intros r1 r2 _ _; apply Rinv_mult. Qed.
 #[deprecated(since="8.16",note="Use Rinv_mult.")]
-Notation Rinv_mult_distr := Rinv_mult_distr_depr (only parsing).
+Abbreviation Rinv_mult_distr := Rinv_mult_distr_depr (only parsing).
 
 Lemma Ropp_inv_permute_depr : forall r, r <> 0 -> - / r = / - r.
 Proof. now intros r H; apply eq_sym, Rinv_opp. Qed.
 #[deprecated(since="8.16",note="Use Rinv_opp.")]
-Notation Ropp_inv_permute := Ropp_inv_permute_depr (only parsing).
+Abbreviation Ropp_inv_permute := Ropp_inv_permute_depr (only parsing).
 
 Lemma Ropp_div_den_depr : forall x y, y <> 0 -> x / - y = - (x / y).
 Proof. now intros r1 r2 _; apply Ropp_div_distr_r. Qed.
 #[deprecated(since="8.16",note="Use Rdiv_opp_r.")]
-Notation Ropp_div_den := Ropp_div_den_depr (only parsing).
+Abbreviation Ropp_div_den := Ropp_div_den_depr (only parsing).
 
 Lemma inser_trans_R_depr :
   forall r1 r2 r3 r4, r1 <= r2 < r3 -> {r1 <= r2 < r4} + {r4 <= r2 < r3}.
@@ -2776,15 +2776,15 @@ Proof.
   - now right.
 Qed.
 #[deprecated(since="8.19")]
-Notation inser_trans_R := inser_trans_R_depr (only parsing).
+Abbreviation inser_trans_R := inser_trans_R_depr (only parsing).
 
 Lemma Ropp_minus_distr'_depr : forall r1 r2, - (r2 - r1) = r1 - r2.
 Proof. now intros r1 r2; apply Ropp_minus_distr. Qed.
 #[deprecated(since="8.19",note="Use Ropp_minus_distr instead.")]
-Notation Ropp_minus_distr' := (fun r1 r2 => (Ropp_minus_distr r2 r1)) (only parsing).
+Abbreviation Ropp_minus_distr' := (fun r1 r2 => (Ropp_minus_distr r2 r1)) (only parsing).
 
 #[deprecated(since="8.19",note="Use Rminus_diag instead.")]
-Notation Rminus_eq_0 := (fun x => Rminus_diag x) (only parsing).
+Abbreviation Rminus_eq_0 := (fun x => Rminus_diag x) (only parsing).
 
 Lemma sum_inequa_Rle_lt_depr :
   forall a x b c y d:R,
@@ -2795,21 +2795,21 @@ Proof.
   - apply Rlt_le_trans with (b + y); auto with real.
 Qed.
 #[deprecated(since="8.19")]
-Notation sum_inequa_Rle_lt := sum_inequa_Rle_lt_depr (only parsing).
+Abbreviation sum_inequa_Rle_lt := sum_inequa_Rle_lt_depr (only parsing).
 
 Lemma Rle_Rinv_depr : forall x y:R, 0 < x -> 0 < y -> x <= y -> / y <= / x.
 Proof. now intros r1 r2 H _; apply Rinv_le_contravar. Qed.
 #[deprecated(since="8.19",note="Use Rinv_le_contravar.")]
-Notation Rle_Rinv := Rle_Rinv_depr (only parsing).
+Abbreviation Rle_Rinv := Rle_Rinv_depr (only parsing).
 
 #[deprecated(since="8.19",note="Use the bidirectional version Rlt_0_minus instead.")]
-Notation Rlt_Rminus := (fun a b => proj2 (Rlt_0_minus a b)) (only parsing).
+Abbreviation Rlt_Rminus := (fun a b => proj2 (Rlt_0_minus a b)) (only parsing).
 
 #[deprecated(since="8.19",note="Use the bidirectional version Rlt_0_minus instead.")]
-Notation Rminus_gt_0_lt := (fun a b => proj1 (Rlt_0_minus a b)) (only parsing).
+Abbreviation Rminus_gt_0_lt := (fun a b => proj1 (Rlt_0_minus a b)) (only parsing).
 
 #[deprecated(since="8.19",note="Use Rdiv_opp_l.")]
-Notation Ropp_div := (fun x y => Rdiv_opp_l x y) (only parsing).
+Abbreviation Ropp_div := (fun x y => Rdiv_opp_l x y) (only parsing).
 
 Lemma Rplus_sqr_eq_0_l_depr : forall r1 r2, Rsqr r1 + Rsqr r2 = 0 -> r1 = 0.
 Proof.
@@ -2817,16 +2817,16 @@ Proof.
     apply Rle_0_sqr.
 Qed.
 #[deprecated(since="8.19",note="Use Rplus_sqr_eq_0.")]
-Notation Rplus_sqr_eq_0_l := Rplus_sqr_eq_0_l_depr (only parsing).
+Abbreviation Rplus_sqr_eq_0_l := Rplus_sqr_eq_0_l_depr (only parsing).
 
 #[deprecated(since="8.19",note="Use Rplus_diag.")]
-Notation double := (fun r1 => eq_sym (Rplus_diag r1)) (only parsing).
+Abbreviation double := (fun r1 => eq_sym (Rplus_diag r1)) (only parsing).
 
 #[deprecated(since="8.19",note="Use Rplus_half_diag.")]
-Notation double_var := (fun r1 => eq_sym (Rplus_half_diag r1)) (only parsing).
+Abbreviation double_var := (fun r1 => eq_sym (Rplus_half_diag r1)) (only parsing).
 
 #[deprecated(since="8.19",note="Use eq_IZR_contrapositive.")]
-Notation IZR_neq := (fun z1 z2 => (eq_IZR_contrapositive z1 z2)) (only parsing).
+Abbreviation IZR_neq := (fun z1 z2 => (eq_IZR_contrapositive z1 z2)) (only parsing).
 
 Lemma S_O_plus_INR_depr : forall n, INR (1 + n) = INR 1 + INR n.
 Proof.
@@ -2835,14 +2835,14 @@ Proof.
   - rewrite Rplus_comm; reflexivity.
 Qed.
 #[deprecated(since="8.19")]
-Notation S_O_plus_INR := S_O_plus_INR_depr (only parsing).
+Abbreviation S_O_plus_INR := S_O_plus_INR_depr (only parsing).
 
 Lemma single_z_r_R1_depr :
   forall r (n m:Z),
     r < IZR n -> IZR n <= r + 1 -> r < IZR m -> IZR m <= r + 1 -> n = m.
 Proof. now intros r n m Hlt Hle Hlt' Hle'; apply (one_IZR_r_R1 r). Qed.
 #[deprecated(since="8.19")]
-Notation single_z_r_R1 := single_z_r_R1_depr (only parsing).
+Abbreviation single_z_r_R1 := single_z_r_R1_depr (only parsing).
 
 Lemma tech_single_z_r_R1_depr :
   forall r (n:Z),
@@ -2851,7 +2851,7 @@ Lemma tech_single_z_r_R1_depr :
     (exists s : Z, s <> n /\ r < IZR s /\ IZR s <= r + 1) -> False.
 Proof. now intros r z H1 H2 [s [H3 [H4 H5]]]; apply H3, (one_IZR_r_R1 r). Qed.
 #[deprecated(since="8.19")]
-Notation tech_single_z_r_R1 := tech_single_z_r_R1_depr (only parsing).
+Abbreviation tech_single_z_r_R1 := tech_single_z_r_R1_depr (only parsing).
 
 Lemma Rinv_mult_simpl_depr :
   forall r1 r2 r3, r1 <> 0 -> r1 * / r2 * (r3 * / r1) = r3 * / r2.
@@ -2862,4 +2862,4 @@ Proof.
   now rewrite Rinv_r, Rmult_1_l.
 Qed.
 #[deprecated(since="8.19")]
-Notation Rinv_mult_simpl := Rinv_mult_simpl_depr.
+Abbreviation Rinv_mult_simpl := Rinv_mult_simpl_depr.

@@ -267,8 +267,8 @@ Hint Immediate rst_sym: sets.
 
 (* begin hide *)
 (* Compatibility *)
-Notation rts1n_refl := rst1n_refl (only parsing).
-Notation rts1n_trans := rst1n_trans (only parsing).
-Notation rtsn1_refl := rstn1_refl (only parsing).
-Notation rtsn1_trans := rstn1_trans (only parsing).
+Abbreviation rts1n_refl := rst1n_refl (only parsing).
+Abbreviation rts1n_trans := rst1n_trans (only parsing).
+Abbreviation rtsn1_refl := rstn1_refl (only parsing).
+Abbreviation rtsn1_trans := rstn1_trans (only parsing).
 (* end hide *)

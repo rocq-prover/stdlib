@@ -20,7 +20,7 @@ Proof.
   cbv [Zmod.to_Z Zmod.Private_to_Z to_Zmod Private_to_Z Zmod.of_small_Z].
   case ZmodDef.Zmod.small, (Z.eqb_spec (Z.gcd a m) 1); cbn; intuition trivial.
 Qed.
-Notation to_Zmod_range := coprime_to_Zmod (only parsing).
+Abbreviation to_Zmod_range := coprime_to_Zmod (only parsing).
 
 Lemma to_Zmod_inj [m] (x y : Zstar m) : to_Zmod x = to_Zmod y -> x = y.
 Proof.

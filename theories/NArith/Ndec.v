@@ -21,9 +21,9 @@ From Stdlib Require Import Nnat.
 (** Obsolete results about boolean comparisons over [N],
     kept for compatibility with IntMap and SMC. *)
 
-Notation Peqb_correct := Pos.eqb_refl (only parsing).
-Notation Neqb_correct := N.eqb_refl (only parsing).
-Notation Neqb_comm := N.eqb_sym (only parsing).
+Abbreviation Peqb_correct := Pos.eqb_refl (only parsing).
+Abbreviation Neqb_correct := N.eqb_refl (only parsing).
+Abbreviation Neqb_comm := N.eqb_sym (only parsing).
 
 Lemma Peqb_complete p p' : Pos.eqb p p' = true -> p = p'.
 Proof. now apply Pos.eqb_eq. Qed.
@@ -280,7 +280,7 @@ Qed.
 
 (* Old results about [N.min] *)
 
-Notation Nmin_choice := N.min_dec (only parsing).
+Abbreviation Nmin_choice := N.min_dec (only parsing).
 
 Lemma Nmin_le_1 a b : Nleb (N.min a b) a = true.
 Proof. rewrite Nleb_Nle. apply N.le_min_l. Qed.

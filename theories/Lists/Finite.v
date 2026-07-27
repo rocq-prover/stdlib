@@ -67,7 +67,7 @@ Proof.
  - intros (l & _ & F). now exists l.
 Qed.
 #[deprecated(since="8.17", note="Use Finite_dec instead.")]
-Notation Finite_alt := Finite_alt_deprecated.
+Abbreviation Finite_alt := Finite_alt_deprecated.
 
 (** Injections characterized in term of lists *)
 

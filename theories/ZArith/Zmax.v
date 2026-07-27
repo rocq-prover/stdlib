@@ -18,23 +18,23 @@ From Stdlib Require Export BinInt Zcompare Zorder.
 
 (** Exact compatibility *)
 
-Notation Zmax_right := Z.max_r (only parsing).
-Notation Zle_max_compat_r := Z.max_le_compat_r (only parsing).
-Notation Zle_max_compat_l := Z.max_le_compat_l (only parsing).
-Notation Zmax_idempotent := Z.max_id (only parsing).
-Notation Zmax_n_n := Z.max_id (only parsing).
-Notation Zmax_irreducible_dec := Z.max_dec (only parsing).
-Notation Zmax_le_prime := Z.max_le (only parsing).
-Notation Zmax_SS := Z.succ_max_distr (only parsing).
-Notation Zplus_max_distr_l := Z.add_max_distr_l (only parsing).
-Notation Zplus_max_distr_r := Z.add_max_distr_r (only parsing).
-Notation Zmax_plus := Z.add_max_distr_r (only parsing).
-Notation Zmax1 := Z.le_max_l (only parsing).
-Notation Zmax2 := Z.le_max_r (only parsing).
-Notation Zmax_irreducible_inf := Z.max_dec (only parsing).
-Notation Zmax_le_prime_inf := Z.max_le (only parsing).
-Notation Zpos_max := Pos2Z.inj_max (only parsing).
-Notation Zpos_minus := Pos2Z.inj_sub_max (only parsing).
+Abbreviation Zmax_right := Z.max_r (only parsing).
+Abbreviation Zle_max_compat_r := Z.max_le_compat_r (only parsing).
+Abbreviation Zle_max_compat_l := Z.max_le_compat_l (only parsing).
+Abbreviation Zmax_idempotent := Z.max_id (only parsing).
+Abbreviation Zmax_n_n := Z.max_id (only parsing).
+Abbreviation Zmax_irreducible_dec := Z.max_dec (only parsing).
+Abbreviation Zmax_le_prime := Z.max_le (only parsing).
+Abbreviation Zmax_SS := Z.succ_max_distr (only parsing).
+Abbreviation Zplus_max_distr_l := Z.add_max_distr_l (only parsing).
+Abbreviation Zplus_max_distr_r := Z.add_max_distr_r (only parsing).
+Abbreviation Zmax_plus := Z.add_max_distr_r (only parsing).
+Abbreviation Zmax1 := Z.le_max_l (only parsing).
+Abbreviation Zmax2 := Z.le_max_r (only parsing).
+Abbreviation Zmax_irreducible_inf := Z.max_dec (only parsing).
+Abbreviation Zmax_le_prime_inf := Z.max_le (only parsing).
+Abbreviation Zpos_max := Pos2Z.inj_max (only parsing).
+Abbreviation Zpos_minus := Pos2Z.inj_sub_max (only parsing).
 
 (** Slightly different lemmas *)
 

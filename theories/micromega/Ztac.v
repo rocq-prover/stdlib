@@ -76,15 +76,15 @@ Inductive proof_deprecated :=
 .
 
 #[deprecated(since="Stdlib 9.0")]
-Notation proof := proof_deprecated (only parsing).
+Abbreviation proof := proof_deprecated (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation Hyp := Hyp_deprecated (only parsing).
+Abbreviation Hyp := Hyp_deprecated (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation Add := Add_deprecated (only parsing).
+Abbreviation Add := Add_deprecated (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation Mul := Mul_deprecated (only parsing).
+Abbreviation Mul := Mul_deprecated (only parsing).
 #[deprecated(since="Stdlib 9.0")]
-Notation Cst := Cst_deprecated (only parsing).
+Abbreviation Cst := Cst_deprecated (only parsing).
 
 #[deprecated(use=Z.add_nonneg_nonneg, since="Stdlib 9.0")]
 Lemma add_le : forall e1 e2, 0 <= e1 -> 0 <= e2 -> 0 <= e1+e2.

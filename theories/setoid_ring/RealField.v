@@ -67,8 +67,8 @@ destruct H0.
   rewrite Rplus_0_l; trivial.
 Qed.
 
-Notation Rset := (Eqsth R).
-Notation Rext := (Eq_ext Rplus Rmult Ropp).
+Abbreviation Rset := (Eqsth R).
+Abbreviation Rext := (Eq_ext Rplus Rmult Ropp).
 
 Lemma Rlt_0_2 : 0 < 2.
 Proof.

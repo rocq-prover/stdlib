@@ -2,8 +2,8 @@ Require Import TestSuite.admit.
 From Stdlib Require Import Setoid.
 From Stdlib Require Import Morphisms.
 From Stdlib Require Vector.
-Notation vector := Vector.t.
-Notation Vcons n t := (@Vector.cons _ n _ t).
+Abbreviation vector := Vector.t.
+Abbreviation Vcons n t := (@Vector.cons _ n _ t).
 
 Class Equiv A := equiv : A -> A -> Prop.
 Class Setoid A `{Equiv A} := setoid_equiv :: Equivalence (equiv).

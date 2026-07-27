@@ -809,8 +809,8 @@ Let sotrans := (@StrictOrder_Transitive _ _ ltA_strorder).
 #[local]
 Hint Resolve sotrans : core.
 
-Notation InfA:=(lelistA ltA).
-Notation SortA:=(sort ltA).
+Abbreviation InfA:=(lelistA ltA).
+Abbreviation SortA:=(sort ltA).
 
 #[local]
 Hint Constructors lelistA sort : core.

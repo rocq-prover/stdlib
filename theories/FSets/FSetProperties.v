@@ -350,8 +350,8 @@ Module WProperties_fun (Import E : DecidableType)(M : WSfun E).
    rewrite fold_1. symmetry. apply fold_left_rev_right.
   Qed.
 
-  Notation NoDup := (NoDupA E.eq).
-  Notation InA := (InA E.eq).
+  Abbreviation NoDup := (NoDupA E.eq).
+  Abbreviation InA := (InA E.eq).
 
   (** ** Induction principles for fold (contributed by S. Lescuyer) *)
 

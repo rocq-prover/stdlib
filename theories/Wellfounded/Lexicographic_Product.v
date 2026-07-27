@@ -28,7 +28,7 @@ Section WfLexicographic_Product.
   Variable leA : A -> A -> Prop.
   Variable leB : forall x : A, B x -> B x -> Prop.
 
-  Notation LexProd := (lexprod A B leA leB).
+  Abbreviation LexProd := (lexprod A B leA leB).
 
   Lemma acc_A_B_lexprod :
     forall x : A,
@@ -82,7 +82,7 @@ Section WfSimple_Lexicographic_Product.
   Variable leA : A -> A -> Prop.
   Variable leB : B -> B -> Prop.
 
-  Notation LexProd := (slexprod A B leA leB).
+  Abbreviation LexProd := (slexprod A B leA leB).
 
   Theorem wf_slexprod :
     well_founded leA -> well_founded leB -> well_founded LexProd.
@@ -100,7 +100,7 @@ Section Wf_Symmetric_Product.
   Variable leA : A -> A -> Prop.
   Variable leB : B -> B -> Prop.
 
-  Notation Symprod := (symprod A B leA leB).
+  Abbreviation Symprod := (symprod A B leA leB).
 
   Lemma Acc_symprod :
     forall x:A, Acc leA x -> forall y:B, Acc leB y -> Acc Symprod (x, y).
@@ -130,7 +130,7 @@ Section Swap.
   Variable A : Type.
   Variable R : A -> A -> Prop.
 
-  Notation SwapProd := (swapprod A R).
+  Abbreviation SwapProd := (swapprod A R).
 
 
   Lemma swap_Acc : forall x y:A, Acc SwapProd (x, y) -> Acc SwapProd (y, x).

@@ -701,7 +701,7 @@ End ParserImplementation.
 
 Section implementation.
   Context {Char} {ls : list (String.string * productions Char)}.
-  #[local] Notation G := (list_to_grammar (nil::nil) ls) (only parsing).
+  #[local] Abbreviation G := (list_to_grammar (nil::nil) ls) (only parsing).
   Context (splitter : Splitter G).
 
   #[local] Instance parser_data : @boolean_parser_dataT Char _ := parser_data splitter.

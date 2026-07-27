@@ -77,7 +77,7 @@ Qed.
 
 Section squeeze.
   Context {A:Type} (x:A).
-  Notation vec := (Vector.t A).
+  Abbreviation vec := (Vector.t A).
 
   Fixpoint squeeze {n} (v:vec n) (i:Fin.t (S n)) {struct i} : vec (S n) :=
     match i in Fin.t (S _n) return vec _n -> vec (S _n)
