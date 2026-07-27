@@ -296,7 +296,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
     "rocq-9.3" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.3";
       # check that we compile without warnings on last release of Rocq
-      # stdlib-warnings.job = true;
+      stdlib-warnings.job = true;
       rocq-elpi.override.version = "master";
       rocq-elpi-test.override.version = "master";
       # plugin pins, from v9.3 branch of Rocq
@@ -355,8 +355,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       { name = p; value.job = false; })); };
     "rocq-9.2" = { rocqPackages = common-bundles // {
       rocq-core.override.version = "9.2";
-      # check that we compile without warnings on last release of Rocq
-      stdlib-warnings.job = true;
       # plugin pins, from v9.2 branch of Rocq
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       stdlib-test.job = false;
