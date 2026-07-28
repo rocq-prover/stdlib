@@ -71,7 +71,7 @@ output c =
     unsafeCoerce
       ((Prelude.==) :: Prelude.Char -> Prelude.Char -> Prelude.Bool)}
 
-type Coq__IO a = GHC.Base.IO a
+type Rocq__IO a = GHC.Base.IO a
 
 main :: GHC.Base.IO ()
 main =

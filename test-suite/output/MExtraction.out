@@ -47,7 +47,7 @@ let compOpp = function
 | Lt -> Gt
 | Gt -> Lt
 
-module Coq__1 = struct
+module Rocq__1 = struct
  (** val add : nat -> nat -> nat **)
 
  let rec add n0 m =
@@ -55,7 +55,7 @@ module Coq__1 = struct
    | O -> m
    | S p -> S (add p m)
 end
-include Coq__1
+include Rocq__1
 
 (** val map : ('a1 -> 'a2) -> 'a1 list -> 'a2 list **)
 
@@ -227,7 +227,7 @@ module Pos =
   | S x -> succ (of_succ_nat x)
  end
 
-module Coq_Pos =
+module Rocq_Pos =
  struct
   (** val succ : positive -> positive **)
 
@@ -426,7 +426,7 @@ module Coq_Pos =
   (** val gcd : positive -> positive -> positive **)
 
   let gcd a b =
-    gcdn (Coq__1.add (size_nat a) (size_nat b)) a b
+    gcdn (Rocq__1.add (size_nat a) (size_nat b)) a b
  end
 
 module N =
@@ -674,13 +674,13 @@ module Z =
     | Zpos a0 ->
       (match b with
        | Z0 -> abs a
-       | Zpos b0 -> Zpos (Coq_Pos.gcd a0 b0)
-       | Zneg b0 -> Zpos (Coq_Pos.gcd a0 b0))
+       | Zpos b0 -> Zpos (Rocq_Pos.gcd a0 b0)
+       | Zneg b0 -> Zpos (Rocq_Pos.gcd a0 b0))
     | Zneg a0 ->
       (match b with
        | Z0 -> abs a
-       | Zpos b0 -> Zpos (Coq_Pos.gcd a0 b0)
-       | Zneg b0 -> Zpos (Coq_Pos.gcd a0 b0))
+       | Zpos b0 -> Zpos (Rocq_Pos.gcd a0 b0)
+       | Zneg b0 -> Zpos (Rocq_Pos.gcd a0 b0))
  end
 
 (** val pow_pos0 : ('a1 -> 'a1 -> 'a1) -> 'a1 -> positive -> 'a1 **)
@@ -1438,14 +1438,14 @@ let rec peq ceqb p p' =
   | Pinj (j, q0) ->
     (match p' with
      | Pinj (j', q') ->
-       (match Coq_Pos.compare j j' with
+       (match Rocq_Pos.compare j j' with
         | Eq -> peq ceqb q0 q'
         | _ -> false)
      | _ -> false)
   | PX (p2, i, q0) ->
     (match p' with
      | PX (p'0, i', q') ->
-       (match Coq_Pos.compare i i' with
+       (match Rocq_Pos.compare i i' with
         | Eq -> if peq ceqb p2 p'0 then peq ceqb q0 q' else false
         | _ -> false)
      | _ -> false)
@@ -1454,7 +1454,7 @@ let rec peq ceqb p p' =
 
 let mkPinj j p = match p with
 | Pc _ -> p
-| Pinj (j', q0) -> Pinj ((Coq_Pos.add j j'), q0)
+| Pinj (j', q0) -> Pinj ((Rocq_Pos.add j j'), q0)
 | PX (_, _, _) -> Pinj (j, p)
 
 (** val mkPinj_pred : positive -> 'a1 pol -> 'a1 pol **)
@@ -1462,7 +1462,7 @@ let mkPinj j p = match p with
 let mkPinj_pred j p =
   match j with
   | XI j0 -> Pinj ((XO j0), p)
-  | XO j0 -> Pinj ((Coq_Pos.pred_double j0), p)
+  | XO j0 -> Pinj ((Rocq_Pos.pred_double j0), p)
   | XH -> p
 
 (** val mkPX :
@@ -1474,7 +1474,7 @@ let mkPX cO ceqb p i q0 =
   | Pinj (_, _) -> PX (p, i, q0)
   | PX (p', i', q') ->
     if peq ceqb q' (p0 cO)
-    then PX (p', (Coq_Pos.add i' i), q0)
+    then PX (p', (Rocq_Pos.add i' i), q0)
     else PX (p, i, q0)
 
 (** val mkXi : 'a1 -> 'a1 -> positive -> 'a1 pol **)
@@ -1524,7 +1524,7 @@ let rec paddI cadd pop q0 j = function
 | PX (p2, i, q') ->
   (match j with
    | XI j0 -> PX (p2, i, (paddI cadd pop q0 (XO j0) q'))
-   | XO j0 -> PX (p2, i, (paddI cadd pop q0 (Coq_Pos.pred_double j0) q'))
+   | XO j0 -> PX (p2, i, (paddI cadd pop q0 (Rocq_Pos.pred_double j0) q'))
    | XH -> PX (p2, i, (pop q' q0)))
 
 (** val psubI :
@@ -1541,7 +1541,8 @@ let rec psubI cadd copp pop q0 j = function
 | PX (p2, i, q') ->
   (match j with
    | XI j0 -> PX (p2, i, (psubI cadd copp pop q0 (XO j0) q'))
-   | XO j0 -> PX (p2, i, (psubI cadd copp pop q0 (Coq_Pos.pred_double j0) q'))
+   | XO j0 ->
+     PX (p2, i, (psubI cadd copp pop q0 (Rocq_Pos.pred_double j0) q'))
    | XH -> PX (p2, i, (pop q' q0)))
 
 (** val paddX :
@@ -1553,7 +1554,7 @@ let rec paddX cO ceqb pop p' i' p = match p with
 | Pinj (j, q') ->
   (match j with
    | XI j0 -> PX (p', i', (Pinj ((XO j0), q')))
-   | XO j0 -> PX (p', i', (Pinj ((Coq_Pos.pred_double j0), q')))
+   | XO j0 -> PX (p', i', (Pinj ((Rocq_Pos.pred_double j0), q')))
    | XH -> PX (p', i', q'))
 | PX (p2, i, q') ->
   (match Z.pos_sub i i' with
@@ -1570,7 +1571,7 @@ let rec psubX cO copp ceqb pop p' i' p = match p with
 | Pinj (j, q') ->
   (match j with
    | XI j0 -> PX ((popp copp p'), i', (Pinj ((XO j0), q')))
-   | XO j0 -> PX ((popp copp p'), i', (Pinj ((Coq_Pos.pred_double j0), q')))
+   | XO j0 -> PX ((popp copp p'), i', (Pinj ((Rocq_Pos.pred_double j0), q')))
    | XH -> PX ((popp copp p'), i', q'))
 | PX (p2, i, q') ->
   (match Z.pos_sub i i' with
@@ -1593,7 +1594,7 @@ let rec padd cO cadd ceqb p = function
       | XI j0 -> PX (p'0, i', (padd cO cadd ceqb (Pinj ((XO j0), q0)) q'))
       | XO j0 ->
         PX (p'0, i',
-          (padd cO cadd ceqb (Pinj ((Coq_Pos.pred_double j0), q0)) q'))
+          (padd cO cadd ceqb (Pinj ((Rocq_Pos.pred_double j0), q0)) q'))
       | XH -> PX (p'0, i', (padd cO cadd ceqb q0 q')))
    | PX (p2, i, q0) ->
      (match Z.pos_sub i i' with
@@ -1623,7 +1624,7 @@ let rec psub cO cadd csub copp ceqb p = function
           (psub cO cadd csub copp ceqb (Pinj ((XO j0), q0)) q'))
       | XO j0 ->
         PX ((popp copp p'0), i',
-          (psub cO cadd csub copp ceqb (Pinj ((Coq_Pos.pred_double j0), q0))
+          (psub cO cadd csub copp ceqb (Pinj ((Rocq_Pos.pred_double j0), q0))
             q'))
       | XH -> PX ((popp copp p'0), i', (psub cO cadd csub copp ceqb q0 q')))
    | PX (p2, i, q0) ->
@@ -1677,7 +1678,7 @@ let rec pmulI cO cI cmul ceqb pmul0 q0 j = function
        (pmulI cO cI cmul ceqb pmul0 q0 (XO j') q')
    | XO j' ->
      mkPX cO ceqb (pmulI cO cI cmul ceqb pmul0 q0 j p') i'
-       (pmulI cO cI cmul ceqb pmul0 q0 (Coq_Pos.pred_double j') q')
+       (pmulI cO cI cmul ceqb pmul0 q0 (Rocq_Pos.pred_double j') q')
    | XH ->
      mkPX cO ceqb (pmulI cO cI cmul ceqb pmul0 q0 XH p') i' (pmul0 q' q0))
 
@@ -1696,7 +1697,7 @@ let rec pmul cO cI cadd cmul ceqb p p'' = match p'' with
        match j with
        | XI j0 -> pmul cO cI cadd cmul ceqb (Pinj ((XO j0), q0)) q'
        | XO j0 ->
-         pmul cO cI cadd cmul ceqb (Pinj ((Coq_Pos.pred_double j0), q0)) q'
+         pmul cO cI cadd cmul ceqb (Pinj ((Rocq_Pos.pred_double j0), q0)) q'
        | XH -> pmul cO cI cadd cmul ceqb q0 q'
      in
      mkPX cO ceqb (pmul cO cI cadd cmul ceqb p p') i' qQ'
@@ -2057,10 +2058,10 @@ let cnf_negate cO cI cplus ctimes cminus copp ceqb cleb t0 tg =
 
 let rec xdenorm jmp = function
 | Pc c -> PEc c
-| Pinj (j, p2) -> xdenorm (Coq_Pos.add j jmp) p2
+| Pinj (j, p2) -> xdenorm (Rocq_Pos.add j jmp) p2
 | PX (p2, j, q0) ->
   PEadd ((PEmul ((xdenorm jmp p2), (PEpow ((PEX jmp), (Npos j))))),
-    (xdenorm (Coq_Pos.succ jmp) q0))
+    (xdenorm (Rocq_Pos.succ jmp) q0))
 
 (** val denorm : 'a1 pol -> 'a1 pExpr **)
 
@@ -2380,14 +2381,14 @@ let mk_eq_pos x y t0 =
 
 let rec max_var jmp = function
 | Pc _ -> jmp
-| Pinj (j, p2) -> max_var (Coq_Pos.add j jmp) p2
+| Pinj (j, p2) -> max_var (Rocq_Pos.add j jmp) p2
 | PX (p2, _, q0) ->
-  Coq_Pos.max (max_var jmp p2) (max_var (Coq_Pos.succ jmp) q0)
+  Rocq_Pos.max (max_var jmp p2) (max_var (Rocq_Pos.succ jmp) q0)
 
 (** val max_var_nformulae : z nFormula list -> positive **)
 
 let max_var_nformulae l =
-  fold_left (fun acc f -> Coq_Pos.max acc (max_var XH (fst f))) l XH
+  fold_left (fun acc f -> Rocq_Pos.max acc (max_var XH (fst f))) l XH
 
 (** val zChecker : z nFormula list -> zArithProof -> bool **)
 
@@ -2414,9 +2415,9 @@ let rec zChecker l = function
    | None -> false)
 | ExProof (x, prf) ->
   let fr = max_var_nformulae l in
-  if Coq_Pos.leb x fr
-  then let z0 = Coq_Pos.succ fr in
-       let t0 = Coq_Pos.succ z0 in
+  if Rocq_Pos.leb x fr
+  then let z0 = Rocq_Pos.succ fr in
+       let t0 = Rocq_Pos.succ z0 in
        let nfx = xnnormalise (mk_eq_pos x z0 t0) in
        let posz = xnnormalise (bound_var z0) in
        let post = xnnormalise (bound_var t0) in
@@ -2446,12 +2447,12 @@ let qle_bool x y =
 
 let qplus x y =
   { qnum = (Z.add (Z.mul x.qnum (Zpos y.qden)) (Z.mul y.qnum (Zpos x.qden)));
-    qden = (Coq_Pos.mul x.qden y.qden) }
+    qden = (Rocq_Pos.mul x.qden y.qden) }
 
 (** val qmult : q -> q -> q **)
 
 let qmult x y =
-  { qnum = (Z.mul x.qnum y.qnum); qden = (Coq_Pos.mul x.qden y.qden) }
+  { qnum = (Z.mul x.qnum y.qnum); qden = (Rocq_Pos.mul x.qden y.qden) }
 
 (** val qopp : q -> q **)
 
