@@ -27,7 +27,7 @@ Module Bug12647.
 End Bug12647.
 
 Module WithCoercions.
-  Search headconcl:(_ + _) inside Datatypes.
+  Search headconcl:(_ + _) inside Corelib.Init.Datatypes.
   Coercion Some_nat := @Some nat.
   Axiom f : None = 0.
   Search (None = 0).

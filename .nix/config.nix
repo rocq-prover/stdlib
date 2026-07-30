@@ -218,6 +218,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       { name = p; value.override.version = "main"; }))
     // {
       coq-tools.override.version = "proux01:coq_19955";
+      stdlib-html.job = true;
       stdlib-refman-html.job = true;
       rocq-elpi.job = true;
       iris-examples.job = false;  # Currently broken
