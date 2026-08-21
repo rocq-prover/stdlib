@@ -7,215 +7,215 @@ Goal False.
   let sugar := constr:( 0%Z ) in
   let nparams := constr:( (-1)%Z ) in
   let reified_goal := constr:(
-  (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-     (Ring_polynom.PEmul
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-              (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-        (Ring_polynom.PEX Z 6))) ) in
+  (PEsub (PEc 1%Z)
+     (PEmul
+        (PEmul
+           (PEmul
+              (PEmul (PEX Z 4) (PEX Z 2))
+              (PEX Z 5)) (PEX Z 3))
+        (PEX Z 6))) ) in
   let power := constr:( N.one ) in
   let reified_givens := constr:(
-  (Ring_polynom.PEmul
-     (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-                 (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-           (Ring_polynom.PEX Z 6)))
-     (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-                 (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-           (Ring_polynom.PEX Z 6)))
-   :: Ring_polynom.PEsub
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                          (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))
-                    (Ring_polynom.PEX Z 3)) (Ring_polynom.PEX Z 6)))
-           (Ring_polynom.PEX Z 10)) (Ring_polynom.PEc 1%Z)
-      :: Ring_polynom.PEsub
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                             (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))
-                       (Ring_polynom.PEX Z 3)) (Ring_polynom.PEX Z 6)))
-              (Ring_polynom.PEX Z 9)) (Ring_polynom.PEc 1%Z)
-         :: Ring_polynom.PEsub
-              (Ring_polynom.PEadd
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 7)
-                       (Ring_polynom.PEX Z 7)))
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 8) (Ring_polynom.PEX Z 8)))
-              (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 7)
-                          (Ring_polynom.PEX Z 7)))
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 8)
-                       (Ring_polynom.PEX Z 8))))
-            :: Ring_polynom.PEsub
-                 (Ring_polynom.PEadd
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 5)
-                          (Ring_polynom.PEX Z 5)))
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 6)
-                       (Ring_polynom.PEX Z 6)))
-                 (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 5)
-                             (Ring_polynom.PEX Z 5)))
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 6)
-                          (Ring_polynom.PEX Z 6))))
-               :: Ring_polynom.PEsub
-                    (Ring_polynom.PEadd
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 2)
-                             (Ring_polynom.PEX Z 2)))
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 3)
-                          (Ring_polynom.PEX Z 3)))
-                    (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                       (Ring_polynom.PEmul
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 2)
-                                (Ring_polynom.PEX Z 2)))
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 3)
-                             (Ring_polynom.PEX Z 3)))) :: nil)%list ) in
+  (PEmul
+     (PEadd (PEc 1%Z)
+        (PEmul
+           (PEmul
+              (PEmul
+                 (PEmul (PEX Z 4) (PEX Z 2))
+                 (PEX Z 5)) (PEX Z 3))
+           (PEX Z 6)))
+     (PEsub (PEc 1%Z)
+        (PEmul
+           (PEmul
+              (PEmul
+                 (PEmul (PEX Z 4) (PEX Z 2))
+                 (PEX Z 5)) (PEX Z 3))
+           (PEX Z 6)))
+   :: PEsub
+        (PEmul
+           (PEadd (PEc 1%Z)
+              (PEmul
+                 (PEmul
+                    (PEmul
+                       (PEmul (PEX Z 4)
+                          (PEX Z 2)) (PEX Z 5))
+                    (PEX Z 3)) (PEX Z 6)))
+           (PEX Z 10)) (PEc 1%Z)
+      :: PEsub
+           (PEmul
+              (PEsub (PEc 1%Z)
+                 (PEmul
+                    (PEmul
+                       (PEmul
+                          (PEmul (PEX Z 4)
+                             (PEX Z 2)) (PEX Z 5))
+                       (PEX Z 3)) (PEX Z 6)))
+              (PEX Z 9)) (PEc 1%Z)
+         :: PEsub
+              (PEadd
+                 (PEmul (PEX Z 1)
+                    (PEmul (PEX Z 7)
+                       (PEX Z 7)))
+                 (PEmul (PEX Z 8) (PEX Z 8)))
+              (PEadd (PEc 1%Z)
+                 (PEmul
+                    (PEmul (PEX Z 4)
+                       (PEmul (PEX Z 7)
+                          (PEX Z 7)))
+                    (PEmul (PEX Z 8)
+                       (PEX Z 8))))
+            :: PEsub
+                 (PEadd
+                    (PEmul (PEX Z 1)
+                       (PEmul (PEX Z 5)
+                          (PEX Z 5)))
+                    (PEmul (PEX Z 6)
+                       (PEX Z 6)))
+                 (PEadd (PEc 1%Z)
+                    (PEmul
+                       (PEmul (PEX Z 4)
+                          (PEmul (PEX Z 5)
+                             (PEX Z 5)))
+                       (PEmul (PEX Z 6)
+                          (PEX Z 6))))
+               :: PEsub
+                    (PEadd
+                       (PEmul (PEX Z 1)
+                          (PEmul (PEX Z 2)
+                             (PEX Z 2)))
+                       (PEmul (PEX Z 3)
+                          (PEX Z 3)))
+                    (PEadd (PEc 1%Z)
+                       (PEmul
+                          (PEmul (PEX Z 4)
+                             (PEmul (PEX Z 2)
+                                (PEX Z 2)))
+                          (PEmul (PEX Z 3)
+                             (PEX Z 3)))) :: nil)%list ) in
     NsatzTactic.nsatz_compute
-          (@cons _ (@Ring_polynom.PEc _ sugar) (@cons _ (@Ring_polynom.PEc _ nparams) (@cons _ (@Ring_polynom.PEpow _ reified_goal power) reified_givens))).
+          (@cons _ (@PEc _ sugar) (@cons _ (@PEc _ nparams) (@cons _ (@PEpow _ reified_goal power) reified_givens))).
 
   let sugar := constr:( 0%Z ) in
   let nparams := constr:( (-1)%Z ) in
   let reified_goal := constr:(
-  (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-     (Ring_polynom.PEmul
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-              (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-        (Ring_polynom.PEX Z 6))) ) in
+  (PEsub (PEc 1%Z)
+     (PEmul
+        (PEmul
+           (PEmul
+              (PEmul (PEX Z 4) (PEX Z 2))
+              (PEX Z 5)) (PEX Z 3))
+        (PEX Z 6))) ) in
   let power := constr:( N.one ) in
   let reified_givens := constr:(
-  (Ring_polynom.PEmul
-     (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-                 (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-           (Ring_polynom.PEX Z 6)))
-     (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 4) (Ring_polynom.PEX Z 2))
-                 (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-           (Ring_polynom.PEX Z 6)))
-   :: Ring_polynom.PEadd
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                          (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))
-                    (Ring_polynom.PEX Z 3)) (Ring_polynom.PEX Z 6)))
-           (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                          (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))
-                    (Ring_polynom.PEX Z 3)) (Ring_polynom.PEX Z 6))))
-        (Ring_polynom.PEmul
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                    (Ring_polynom.PEadd
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 2)
-                          (Ring_polynom.PEX Z 6))
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 3)
-                          (Ring_polynom.PEX Z 5)))) (Ring_polynom.PEX Z 7))
-              (Ring_polynom.PEsub
-                 (Ring_polynom.PEmul (Ring_polynom.PEX Z 3) (Ring_polynom.PEX Z 6))
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                       (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))))
-           (Ring_polynom.PEX Z 8))
-      :: Ring_polynom.PEsub
-           (Ring_polynom.PEmul
-              (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                 (Ring_polynom.PEmul
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                             (Ring_polynom.PEX Z 2)) (Ring_polynom.PEX Z 5))
-                       (Ring_polynom.PEX Z 3)) (Ring_polynom.PEX Z 6)))
-              (Ring_polynom.PEX Z 10)) (Ring_polynom.PEc 1%Z)
-         :: Ring_polynom.PEsub
-              (Ring_polynom.PEmul
-                 (Ring_polynom.PEsub (Ring_polynom.PEc 1%Z)
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul
-                          (Ring_polynom.PEmul
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                                (Ring_polynom.PEX Z 2))
-                             (Ring_polynom.PEX Z 5)) (Ring_polynom.PEX Z 3))
-                       (Ring_polynom.PEX Z 6))) (Ring_polynom.PEX Z 9))
-              (Ring_polynom.PEc 1%Z)
-            :: Ring_polynom.PEsub
-                 (Ring_polynom.PEadd
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 7)
-                          (Ring_polynom.PEX Z 7)))
-                    (Ring_polynom.PEmul (Ring_polynom.PEX Z 8)
-                       (Ring_polynom.PEX Z 8)))
-                 (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                    (Ring_polynom.PEmul
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 7)
-                             (Ring_polynom.PEX Z 7)))
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 8)
-                          (Ring_polynom.PEX Z 8))))
-               :: Ring_polynom.PEsub
-                    (Ring_polynom.PEadd
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 5)
-                             (Ring_polynom.PEX Z 5)))
-                       (Ring_polynom.PEmul (Ring_polynom.PEX Z 6)
-                          (Ring_polynom.PEX Z 6)))
-                    (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                       (Ring_polynom.PEmul
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 5)
-                                (Ring_polynom.PEX Z 5)))
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 6)
-                             (Ring_polynom.PEX Z 6))))
-                  :: Ring_polynom.PEsub
-                       (Ring_polynom.PEadd
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 1)
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 2)
-                                (Ring_polynom.PEX Z 2)))
-                          (Ring_polynom.PEmul (Ring_polynom.PEX Z 3)
-                             (Ring_polynom.PEX Z 3)))
-                       (Ring_polynom.PEadd (Ring_polynom.PEc 1%Z)
-                          (Ring_polynom.PEmul
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 4)
-                                (Ring_polynom.PEmul (Ring_polynom.PEX Z 2)
-                                   (Ring_polynom.PEX Z 2)))
-                             (Ring_polynom.PEmul (Ring_polynom.PEX Z 3)
-                                (Ring_polynom.PEX Z 3)))) :: nil)%list ) in
+  (PEmul
+     (PEadd (PEc 1%Z)
+        (PEmul
+           (PEmul
+              (PEmul
+                 (PEmul (PEX Z 4) (PEX Z 2))
+                 (PEX Z 5)) (PEX Z 3))
+           (PEX Z 6)))
+     (PEsub (PEc 1%Z)
+        (PEmul
+           (PEmul
+              (PEmul
+                 (PEmul (PEX Z 4) (PEX Z 2))
+                 (PEX Z 5)) (PEX Z 3))
+           (PEX Z 6)))
+   :: PEadd
+        (PEmul
+           (PEadd (PEc 1%Z)
+              (PEmul
+                 (PEmul
+                    (PEmul
+                       (PEmul (PEX Z 4)
+                          (PEX Z 2)) (PEX Z 5))
+                    (PEX Z 3)) (PEX Z 6)))
+           (PEsub (PEc 1%Z)
+              (PEmul
+                 (PEmul
+                    (PEmul
+                       (PEmul (PEX Z 4)
+                          (PEX Z 2)) (PEX Z 5))
+                    (PEX Z 3)) (PEX Z 6))))
+        (PEmul
+           (PEmul
+              (PEmul
+                 (PEmul (PEX Z 4)
+                    (PEadd
+                       (PEmul (PEX Z 2)
+                          (PEX Z 6))
+                       (PEmul (PEX Z 3)
+                          (PEX Z 5)))) (PEX Z 7))
+              (PEsub
+                 (PEmul (PEX Z 3) (PEX Z 6))
+                 (PEmul
+                    (PEmul (PEX Z 1)
+                       (PEX Z 2)) (PEX Z 5))))
+           (PEX Z 8))
+      :: PEsub
+           (PEmul
+              (PEadd (PEc 1%Z)
+                 (PEmul
+                    (PEmul
+                       (PEmul
+                          (PEmul (PEX Z 4)
+                             (PEX Z 2)) (PEX Z 5))
+                       (PEX Z 3)) (PEX Z 6)))
+              (PEX Z 10)) (PEc 1%Z)
+         :: PEsub
+              (PEmul
+                 (PEsub (PEc 1%Z)
+                    (PEmul
+                       (PEmul
+                          (PEmul
+                             (PEmul (PEX Z 4)
+                                (PEX Z 2))
+                             (PEX Z 5)) (PEX Z 3))
+                       (PEX Z 6))) (PEX Z 9))
+              (PEc 1%Z)
+            :: PEsub
+                 (PEadd
+                    (PEmul (PEX Z 1)
+                       (PEmul (PEX Z 7)
+                          (PEX Z 7)))
+                    (PEmul (PEX Z 8)
+                       (PEX Z 8)))
+                 (PEadd (PEc 1%Z)
+                    (PEmul
+                       (PEmul (PEX Z 4)
+                          (PEmul (PEX Z 7)
+                             (PEX Z 7)))
+                       (PEmul (PEX Z 8)
+                          (PEX Z 8))))
+               :: PEsub
+                    (PEadd
+                       (PEmul (PEX Z 1)
+                          (PEmul (PEX Z 5)
+                             (PEX Z 5)))
+                       (PEmul (PEX Z 6)
+                          (PEX Z 6)))
+                    (PEadd (PEc 1%Z)
+                       (PEmul
+                          (PEmul (PEX Z 4)
+                             (PEmul (PEX Z 5)
+                                (PEX Z 5)))
+                          (PEmul (PEX Z 6)
+                             (PEX Z 6))))
+                  :: PEsub
+                       (PEadd
+                          (PEmul (PEX Z 1)
+                             (PEmul (PEX Z 2)
+                                (PEX Z 2)))
+                          (PEmul (PEX Z 3)
+                             (PEX Z 3)))
+                       (PEadd (PEc 1%Z)
+                          (PEmul
+                             (PEmul (PEX Z 4)
+                                (PEmul (PEX Z 2)
+                                   (PEX Z 2)))
+                             (PEmul (PEX Z 3)
+                                (PEX Z 3)))) :: nil)%list ) in
     NsatzTactic.nsatz_compute
-          (@cons _ (@Ring_polynom.PEc _ sugar) (@cons _ (@Ring_polynom.PEc _ nparams) (@cons _ (@Ring_polynom.PEpow _ reified_goal power) reified_givens))).
+          (@cons _ (@PEc _ sugar) (@cons _ (@PEc _ nparams) (@cons _ (@PEpow _ reified_goal power) reified_givens))).
 Abort.

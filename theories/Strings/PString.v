@@ -14,7 +14,7 @@ From Stdlib Require Import ZArith.
 
 #[local] Instance Op_max_length : ZifyClasses.CstOp max_length :=
   { TCst := 16777211%Z ; TCstInj := eq_refl }.
-Add Zify CstOp Op_max_length.
+Add Tify CstOp Op_max_length.
 
 #[local] Ltac case_if :=
   lazymatch goal with
