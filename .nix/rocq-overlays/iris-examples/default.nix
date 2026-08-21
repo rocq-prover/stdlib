@@ -11,8 +11,8 @@ mkCoqDerivation {
   propagatedBuildInputs = [ iris autosubst ];
 
   preBuild = ''
-    if [[ -f coq-lint.sh ]]
-    then patchShebangs coq-lint.sh
+    if [[ -f rocq-lint.sh ]]
+    then patchShebangs rocq-lint.sh
     fi
   '';
 }
