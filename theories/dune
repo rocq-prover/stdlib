@@ -2,7 +2,8 @@
 (rocq.theory
  (name Stdlib)
  (generate_project_file)
- (package rocq-stdlib))
+ (package rocq-stdlib)
+ (theories micromega_plugin))
 
 (env
  (dev

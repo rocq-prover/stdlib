@@ -24,7 +24,8 @@
  (name rocq-stdlib)
  (depends
   rocq-runtime
-  (rocq-core (= :version)))
+  (rocq-core (>= "9.2"))
+  (rocq-micromega-plugin (= "dev")))
  (synopsis "The Rocq Proof Assistant -- Standard Library")
  (description "Rocq is a formal proof management system. It provides
 a formal language to write mathematical definitions, executable
