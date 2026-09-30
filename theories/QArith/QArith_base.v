@@ -210,6 +210,11 @@ Proof.
   apply Qle_bool_iff.
 Qed.
 
+Lemma Qle_bool_imp_gt x y : Qle_bool x y = false -> x > y.
+Proof.
+  apply Z.leb_gt.
+Qed.
+
 Theorem Qnot_eq_sym x y : ~x == y -> ~y == x.
 Proof.
  auto with qarith.

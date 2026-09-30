@@ -8,15 +8,170 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-From Stdlib Require Import QArith_base.
-From Stdlib Require Import Zdiv.
+From Stdlib Require Import QArith_base Qfield.
+From Stdlib Require Import Zdiv Zquot.
 
 (************)
 
 #[local] Coercion inject_Z : Z >-> Q.
 
+(** [Qfloor x] returns the greatest integer [i] such that [i <= x].
+    Put another way, this rounds [x] towards negative infinity. *)
+
 Definition Qfloor (x:Q) := let (n,d) := x in Z.div n (Zpos d).
+
+(** [Qfloor_frac_part x] returns a fraction [f] such that [0 <= f < 1] and
+    [x = Qfloor x + f]. For example, [Qfloor_frac_part 1.6 = 0.6] and
+    [Qfloor_frac_part (-1.6) = 0.4]. *)
+
+Definition Qfloor_frac_part (x:Q) := let (n,d) := x in Z.modulo n (Zpos d) # d.
+
+(** [Qceiling x] returns the smaller integer [i] such that [x <= i].
+    Put another way, this rounds [x] towards positive infinity. *)
+
 Definition Qceiling (x:Q) := (-(Qfloor (-x)))%Z.
+
+(** [Qtruncate x] returns the nearest integer between [0] and [x].
+    For non-negative [x] values, this is equivalent to [Qfloor x].
+    For negative [x] values, this is equivalent to [Qceiling x].
+    Put another way, this rounds [x] towards zero. *)
+
+Definition Qtruncate (x:Q) :=
+  if Qle_bool 0 x
+    then Qfloor x
+    else Qceiling x.
+
+(** [Qtruncate_frac_part x] returns a fraction [f] such that [Z.abs f < 1] and
+    [x = Qtruncate x + f]. For example, [Qtruncate_frac_part 1.6 = 0.6] and
+    [Qtruncate_frac_part (-1.6) = -0.6]. *)
+
+Definition Qtruncate_frac_part (x:Q) := let (n,d) := x in Z.rem n (Zpos d) # d.
+
+(** [Qround_away x] returns the nearest integer, with ties broken away from zero.
+    For non-negative [x] values, this is equivalent to [Qfloor (x + 0.5)].
+    For negative [x] values, this is equivalent to [Qceiling (x - 0.5)]. *)
+
+Definition Qround_away (x:Q) :=
+  if Qle_bool 0 x
+    then Qfloor (x + 0.5)
+    else Qceiling (x - 0.5).
+
+(** [Qround_away x] returns the nearest integer, with ties broken to the
+    nearest even integer. *)
+
+Definition Qround_to_even (x:Q) :=
+  match Qcompare (Qfloor_frac_part x) 0.5 with
+  | Lt => Qfloor x
+  | Gt => Qceiling x
+  | Eq => if Z.even (Qfloor x) then Qfloor x else Qceiling x
+  end.
+
+(** An equivalent definition of [Qtruncate] in terms of [Z.quot]. *)
+
+Lemma Qtruncate_quot : forall x, Qtruncate x = let (n,d) := x in Z.quot n (Zpos d).
+Proof.
+intros x.
+destruct x as [n d].
+unfold Qtruncate.
+destruct (Qle_bool 0 (n # d)) eqn:H0.
+- apply Qle_bool_imp_le in H0.
+  change (0 <= n # d)%Q with (inject_Z 0 <= inject_Z n) in H0.
+  rewrite <- (Zle_Qle 0 n) in H0.
+  now rewrite (Z.quot_div_nonneg n (Z.pos d) H0 eq_refl).
+- unfold Qceiling, Qfloor.
+  simpl.
+  rewrite (Z.quot_div n (Z.pos d) ltac:(discriminate)).
+  simpl.
+  rewrite (Z.mul_1_r (Z.sgn n)).
+  change (Qle_bool 0 (n # d) = false) with (Qle_bool 0 (inject_Z n) = false) in H0.
+  unfold Qle_bool in H0.
+  simpl in H0.
+  rewrite (Z.mul_1_r n) in H0.
+  rewrite Z.leb_nle in H0.
+  destruct (Z.abs_spec n) as [[H1 H2]|[H1 H2]].
+  + contradiction.
+  + rewrite H2.
+    now rewrite (Z.sgn_neg n H1).
+Qed.
+
+(** [Qfloor_frac_part] and [Qtrunc_frac_part] properties *)
+
+Lemma Qfloor_proper_fraction : forall x, x = inject_Z (Qfloor x) + Qfloor_frac_part x.
+Proof.
+intros [n d].
+unfold Qfloor, Qfloor_frac_part, Qplus.
+simpl.
+rewrite (Z.mul_1_r (Z.modulo n (Z.pos d))).
+rewrite (Z.mul_comm (Z.div n (Z.pos d)) (Z.pos d)).
+now rewrite <- (Z.div_mod n (Z.pos d)).
+Qed.
+
+Lemma Qtruncate_proper_fraction : forall x, x = inject_Z (Qtruncate x) + Qtruncate_frac_part x.
+Proof.
+intros [n d].
+rewrite Qtruncate_quot.
+unfold Qtruncate_frac_part, Qplus.
+simpl.
+rewrite (Z.mul_1_r (Z.rem n (Z.pos d))).
+rewrite (Z.mul_comm (Z.quot n (Z.pos d)) (Z.pos d)).
+now rewrite <- (Z.quot_rem n (Z.pos d)).
+Qed.
+
+Lemma Qfloor_floor_frac_part : forall x, Qfloor (Qfloor_frac_part x) = 0%Z.
+Proof.
+intros [n d].
+simpl.
+apply Zmod_div.
+Qed.
+
+Lemma Qceiling_floor_frac_part : forall x, Qfloor_frac_part x == 0 \/ Qceiling (Qfloor_frac_part x) = 1%Z.
+Proof.
+intros x.
+destruct (Qeq_dec (Qfloor_frac_part x) 0) as [Hl|Hr].
+- left.
+  exact Hl.
+- right.
+  destruct x as [n d].
+  unfold Qceiling, Qfloor_frac_part, Qfloor in *.
+  simpl in *.
+  unfold Qeq in Hr.
+  simpl in Hr.
+  rewrite Z.mul_1_r in Hr.
+  change 1%Z with (- - 1)%Z.
+  f_equal.
+  rewrite Z_div_nz_opp_full.
+  + now rewrite Zmod_div.
+  + discriminate.
+  + rewrite Zmod_mod.
+    exact Hr.
+Qed.
+
+Lemma Qfloor_frac_part_bounds : forall x, 0 <= Qfloor_frac_part x < 1.
+Proof.
+intros [n d].
+unfold Qfloor_frac_part, Qle, Qlt.
+simpl.
+rewrite (Z.mul_1_r (Z.modulo n (Z.pos d))).
+now apply Z.mod_pos_bound.
+Qed.
+
+Lemma Qtruncate_frac_part_bounds : forall x, -1 < Qtruncate_frac_part x < 1.
+Proof.
+intros [n d].
+unfold Qtruncate_frac_part, Qlt.
+simpl.
+rewrite (Z.mul_1_r (Z.rem n (Z.pos d))).
+destruct (ZArith_dec.Z_lt_le_dec n 0) as [H|H].
+- apply Z.lt_le_incl in H.
+  destruct (Zrem_lt_neg_pos n (Z.pos d) H eq_refl) as [X Y].
+  split.
+  + apply X.
+  + apply (Z.le_lt_trans (Z.rem n (Z.pos d)) 0 (Z.pos d) Y eq_refl).
+- destruct (Zrem_lt_pos_pos n (Z.pos d) H eq_refl) as [X Y].
+  split.
+  + apply (Z.lt_le_trans (Z.neg d) 0 (Z.rem n (Z.pos d)) eq_refl X).
+  + apply Y.
+Qed.
 
 Lemma Qfloor_Z : forall z:Z, Qfloor z = z.
 Proof.
@@ -32,6 +187,46 @@ unfold Qceiling.
 simpl.
 rewrite Z.div_1_r.
 apply Z.opp_involutive.
+Qed.
+
+Lemma Qtruncate_Z : forall z:Z, Qtruncate z = z.
+Proof.
+intros z.
+unfold Qtruncate.
+destruct (Qle_bool 0 z).
+- apply Qfloor_Z.
+- apply Qceiling_Z.
+Qed.
+
+Lemma Qround_away_Z : forall z:Z, Qround_away z = z.
+Proof.
+intros z.
+unfold Qround_away.
+destruct (Qle_bool 0 z).
+- simpl.
+  rewrite (Z.add_comm (z * 10) 5).
+  now rewrite (Z_div_plus 5 z 10 eq_refl).
+- unfold Qceiling.
+  simpl.
+  rewrite (Z.opp_add_distr (z * 10) (-5)).
+  simpl.
+  rewrite <- (Z.mul_opp_l z 10).
+  rewrite (Z.add_comm (- z * 10) 5).
+  rewrite (Z_div_plus 5 (- z) 10 eq_refl).
+  simpl.
+  apply Z.opp_involutive.
+Qed.
+
+Lemma Qround_to_even_Z : forall z:Z, Qround_to_even z = z.
+Proof.
+intros z.
+unfold Qround_to_even.
+destruct (Qfloor_frac_part z ?= 0.5).
+- destruct (Z.even (Qfloor (inject_Z z))).
+  + apply Qfloor_Z.
+  + apply Qceiling_Z.
+- apply Qfloor_Z.
+- apply Qceiling_Z.
 Qed.
 
 Lemma Qfloor_le : forall x, Qfloor x <= x.
@@ -64,6 +259,48 @@ Hint Resolve Qle_ceiling : qarith.
 Lemma Qle_floor_ceiling : forall x, Qfloor x <= Qceiling x.
 Proof.
 eauto with qarith.
+Qed.
+
+Lemma Qle_floor_truncate : forall x, Qfloor x <= Qtruncate x.
+Proof.
+intros x.
+unfold Qtruncate.
+destruct (Qle_bool 0 x).
+- apply Qle_refl.
+- apply Qle_floor_ceiling.
+Qed.
+
+Lemma Qle_truncate_ceiling : forall x, Qtruncate x <= Qceiling x.
+Proof.
+intros x.
+unfold Qtruncate.
+destruct (Qle_bool 0 x).
+- apply Qle_floor_ceiling.
+- apply Qle_refl.
+Qed.
+
+Lemma Qle_floor_round_to_even : forall x, Qfloor x <= Qround_to_even x.
+Proof.
+intros x.
+unfold Qround_to_even.
+destruct (Qfloor_frac_part x ?= 0.5).
+- destruct (Z.even (Qfloor x)).
+  + apply Qle_refl.
+  + apply Qle_floor_ceiling.
+- apply Qle_refl.
+- apply Qle_floor_ceiling.
+Qed.
+
+Lemma Qle_round_to_even_ceiling : forall x, Qround_to_even x <= Qceiling x.
+Proof.
+intros x.
+unfold Qround_to_even.
+destruct (Qfloor_frac_part x ?= 0.5).
+- destruct (Z.even (Qfloor x)).
+  + apply Qle_floor_ceiling.
+  + apply Qle_refl.
+- apply Qle_floor_ceiling.
+- apply Qle_refl.
 Qed.
 
 Lemma Qlt_floor : forall x, x < (Qfloor x+1)%Z.
@@ -122,6 +359,58 @@ Qed.
 #[global]
 Hint Resolve Qceiling_resp_le : qarith.
 
+Lemma Qtruncate_resp_le : forall x y, x <= y -> (Qtruncate x <= Qtruncate y)%Z.
+Proof.
+intros x y Hxy.
+unfold Qtruncate.
+destruct (Qle_bool 0 x) eqn:Hx, (Qle_bool 0 y) eqn:Hy.
+- now apply Qfloor_resp_le.
+- apply Qle_bool_imp_le in Hx.
+  apply Qle_bool_imp_gt in Hy.
+  apply (Qle_trans 0 x y Hx) in Hxy.
+  apply (Qle_lt_trans 0 y 0 Hxy) in Hy.
+  discriminate Hy.
+- apply Qle_bool_imp_gt in Hx.
+  apply Qle_bool_imp_le in Hy.
+  apply Qlt_le_weak in Hx.
+  apply Qceiling_resp_le in Hx.
+  apply Qfloor_resp_le in Hy.
+  apply (Z.le_trans _ _ _ Hx Hy).
+- now apply Qceiling_resp_le.
+Qed.
+
+#[global]
+Hint Resolve Qtruncate_resp_le : qarith.
+
+Lemma Qround_away_resp_le : forall x y, x <= y -> (Qround_away x <= Qround_away y)%Z.
+Proof.
+intros x y Hxy.
+unfold Qround_away.
+destruct (Qle_bool 0 x) eqn:Hx, (Qle_bool 0 y) eqn:Hy.
+- pose proof (Qplus_le_compat _ _ _ _ Hxy (Qle_refl 0.5)) as HxyHalf.
+  now apply Qfloor_resp_le.
+- apply Qle_bool_imp_le in Hx.
+  apply Qle_bool_imp_gt in Hy.
+  apply (Qle_trans 0 x y Hx) in Hxy.
+  apply (Qle_lt_trans 0 y 0 Hxy) in Hy.
+  discriminate Hy.
+- apply Qle_bool_imp_gt in Hx.
+  apply Qle_bool_imp_le in Hy.
+  apply Qlt_le_weak in Hx.
+  apply (fun g => Qplus_le_compat _ _ _ _ g (Qle_refl (-0.5))) in Hx.
+  apply (fun g => Qplus_le_compat _ _ _ _ g (Qle_refl 0.5)) in Hy.
+  apply Qceiling_resp_le in Hx.
+  apply Qfloor_resp_le in Hy.
+  change (Qceiling (x + -0.5) <= Qceiling (0 + -0.5))%Z with (Qceiling (x - 0.5) <= 0)%Z in Hx.
+  change (Qfloor (0 + 0.5) <= Qfloor (y + 0.5))%Z with (0 <= Qfloor (y + 0.5))%Z in Hy.
+  apply (Z.le_trans _ _ _ Hx Hy).
+- pose proof (Qplus_le_compat _ _ _ _ Hxy (Qle_refl (-0.5))) as HxyHalf.
+  now apply Qceiling_resp_le.
+Qed.
+
+#[global]
+Hint Resolve Qround_away_resp_le : qarith.
+
 Add Morphism Qfloor with signature Qeq ==> eq as Qfloor_comp.
 Proof.
 intros x y H.
@@ -138,6 +427,22 @@ apply Z.le_antisymm.
 - symmetry in H; auto with *.
 Qed.
 
+Add Morphism Qtruncate with signature Qeq ==> eq as Qtruncate_comp.
+Proof.
+intros x y H.
+apply Z.le_antisymm.
+- auto with *.
+- symmetry in H; auto with *.
+Qed.
+
+Add Morphism Qround_away with signature Qeq ==> eq as Qround_away_comp.
+Proof.
+intros x y H.
+apply Z.le_antisymm.
+- auto with *.
+- symmetry in H; auto with *.
+Qed.
+
 Lemma Zdiv_Qdiv (n m: Z): (n / m)%Z = Qfloor (n / m).
 Proof.
  unfold Qfloor. intros. simpl.
@@ -147,4 +452,228 @@ Proof.
  - rewrite <- Z.opp_eq_mul_m1.
    rewrite <- (Z.opp_involutive (Zpos p)).
    now rewrite Zdiv_opp_opp.
+Qed.
+
+(** Properties about how [Qfloor] and [Qceiling] interact with [Qplus] *)
+
+Lemma Qfloor_add_Z_r : forall (x:Q) (z:Z), Qfloor (x + inject_Z z) = (Qfloor x + z)%Z.
+Proof.
+intros [n d] z.
+unfold Qfloor.
+simpl.
+rewrite (Z.mul_1_r n), (Pos.mul_1_r d).
+now rewrite Z_div_plus_full.
+Qed.
+
+Lemma Qfloor_add_Z_l : forall (z:Z) (x:Q), Qfloor (inject_Z z + x) = (z + Qfloor x)%Z.
+Proof.
+intros z x.
+rewrite (Qplus_comm (inject_Z z) x).
+rewrite (Z.add_comm z (Qfloor x)).
+apply Qfloor_add_Z_r.
+Qed.
+
+Lemma Qceiling_add_Z_r : forall (x:Q) (z:Z), Qceiling (x + inject_Z z) = (Qceiling x + z)%Z.
+Proof.
+intros x z.
+unfold Qceiling.
+rewrite (Qopp_plus x (inject_Z z)).
+rewrite <- (inject_Z_opp z).
+rewrite Qfloor_add_Z_r.
+rewrite Z.opp_add_distr.
+now rewrite Z.opp_involutive.
+Qed.
+
+Lemma Qceiling_add_Z_l : forall (z:Z) (x:Q), Qceiling (inject_Z z + x) = (z + Qceiling x)%Z.
+Proof.
+intros z x.
+rewrite (Qplus_comm (inject_Z z) x).
+rewrite (Z.add_comm z (Qceiling x)).
+apply Qceiling_add_Z_r.
+Qed.
+
+Lemma Qle_floor_round_away : forall x, Qfloor x <= Qround_away x.
+Proof.
+intros x.
+unfold Qround_away.
+rewrite <- Zle_Qle.
+destruct (Qle_bool 0 x).
+- apply (Qfloor_resp_le x (x + 0.5)).
+  rewrite <- (Qplus_0_r x) at 1.
+  now apply (Qplus_le_compat _ _ _ _ (Qle_refl x)).
+- rewrite (Qfloor_proper_fraction x).
+  rewrite <- (Qplus_assoc (inject_Z (Qfloor x)) (Qfloor_frac_part x) (-0.5)).
+  rewrite (Qfloor_add_Z_l (Qfloor x) (Qfloor_frac_part x)).
+  rewrite (Qceiling_add_Z_l (Qfloor x) (Qfloor_frac_part x + -0.5)).
+  apply Zorder.Zplus_le_compat_l.
+  rewrite (Qfloor_floor_frac_part x).
+  change 0%Z with (Qceiling (0 + -0.5)).
+  apply Qceiling_resp_le.
+  destruct (Qfloor_frac_part_bounds x) as [Hbounds _].
+  apply (Qplus_le_compat _ _ _ _ Hbounds (Qle_refl (-0.5))).
+Qed.
+
+Lemma Qfloor_ceiling_resp_le : forall x y, x <= y -> (Qfloor x <= Qceiling y)%Z.
+Proof.
+intros x y Hxy.
+transitivity (Qceiling x).
+- rewrite Zle_Qle.
+  apply Qle_floor_ceiling.
+- now apply Qceiling_resp_le.
+Qed.
+
+Lemma Qle_round_away_ceiling : forall x, Qround_away x <= Qceiling x.
+Proof.
+intros x.
+unfold Qround_away.
+rewrite <- Zle_Qle.
+destruct (Qle_bool 0 x).
+- rewrite (Qfloor_proper_fraction x).
+  rewrite <- (Qplus_assoc (inject_Z (Qfloor x)) (Qfloor_frac_part x) 0.5).
+  rewrite (Qceiling_add_Z_l (Qfloor x) (Qfloor_frac_part x)).
+  rewrite (Qfloor_add_Z_l (Qfloor x) (Qfloor_frac_part x + 0.5)).
+  apply Zorder.Zplus_le_compat_l.
+  destruct (Qceiling_floor_frac_part x) as [H|H].
+  + now rewrite H.
+  + rewrite H.
+    change 1%Z with (Qfloor (1 + 0.6)).
+    apply Qfloor_resp_le.
+    apply Qlt_le_weak.
+    destruct (Qfloor_frac_part_bounds x) as [_ Hbounds].
+    now apply (Qplus_lt_compat _ _ _ _ Hbounds).
+- apply (Qceiling_resp_le (x - 0.5) x).
+  rewrite <- (Qplus_0_r x) at 2.
+  now apply (Qplus_le_compat _ _ _ _ (Qle_refl x)).
+Qed.
+
+Lemma Qround_to_even_resp_le : forall x y, x <= y -> (Qround_to_even x <= Qround_to_even y)%Z.
+intros x y Hxy.
+unfold Qround_to_even.
+destruct (Qfloor_frac_part x ?= 0.5) eqn:HxHalf, (Qfloor_frac_part y ?= 0.5) eqn:HyHalf.
+- destruct (Z.even (Qfloor x)) eqn:HxEven, (Z.even (Qfloor y)) eqn:HyEven.
+  + now apply Qfloor_resp_le.
+  + now apply Qfloor_ceiling_resp_le.
+  + rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y).
+    rewrite <- (Qeq_alt (Qfloor_frac_part x) 0.5) in HxHalf.
+    rewrite <- (Qeq_alt (Qfloor_frac_part y) 0.5) in HyHalf.
+    rewrite HxHalf, HyHalf.
+    rewrite Zle_Qle.
+    rewrite (Qceiling_add_Z_l (Qfloor x) 0.5).
+    rewrite (Qfloor_add_Z_l (Qfloor y) 0.5).
+    rewrite <- Z.negb_odd in HxEven.
+    apply (f_equal negb) in HxEven.
+    rewrite negb_involutive in HxEven.
+    change (negb false) with true in HxEven.
+    assert (Hne : Qfloor x <> Qfloor y).
+    { intros X.
+      rewrite X in HxEven.
+      rewrite <- Z.negb_even in HxEven.
+      rewrite <- HyEven in HxEven.
+      apply (no_fixpoint_negb (Z.even (Qfloor y)) HxEven). }
+    change (Qceiling 0.5) with 1%Z.
+    change (Qfloor 0.5) with 0%Z.
+    rewrite (Z.add_0_r (Qfloor y)).
+    rewrite <- Zle_Qle.
+    apply Zorder.Zlt_le_succ.
+    rewrite Z.le_neq.
+    split.
+    * apply Qfloor_resp_le in Hxy.
+      exact Hxy.
+    * exact Hne.
+  + now apply Qceiling_resp_le.
+- destruct (Z.even (Qfloor x)) eqn:HxEven.
+  + now apply Qfloor_resp_le.
+  + rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y).
+    rewrite <- (Qeq_alt (Qfloor_frac_part x) 0.5) in HxHalf.
+    rewrite HxHalf.
+    rewrite Zle_Qle.
+    rewrite (Qceiling_add_Z_l (Qfloor x) 0.5).
+    rewrite (Qfloor_add_Z_l (Qfloor y) (Qfloor_frac_part y)).
+    rewrite Qfloor_floor_frac_part.
+    change (Qceiling 0.5) with 1%Z.
+    rewrite Z.add_0_r.
+    rewrite <- Zle_Qle.
+    apply Zorder.Zlt_le_succ.
+    rewrite Z.le_neq.
+    split.
+    * apply Qfloor_resp_le in Hxy.
+      exact Hxy.
+    * intros H.
+      rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y) in Hxy.
+      rewrite <- H in Hxy.
+      rewrite Qplus_le_r in Hxy.
+      rewrite HxHalf in Hxy.
+      apply Qlt_alt in HyHalf.
+      discriminate (Qle_lt_trans _ _ _ Hxy HyHalf).
+- destruct (Z.even (Qfloor x)) eqn:HxEven.
+  + now apply Qfloor_ceiling_resp_le.
+  + now apply Qceiling_resp_le.
+- destruct (Z.even (Qfloor y)) eqn:HyEven.
+  + now apply Qfloor_resp_le.
+  + now apply Qfloor_ceiling_resp_le.
+- now apply Qfloor_resp_le.
+- now apply Qfloor_ceiling_resp_le.
+- destruct (Z.even (Qfloor y)) eqn:HyEven.
+  + rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y).
+    rewrite <- (Qeq_alt (Qfloor_frac_part y) 0.5) in HyHalf.
+    rewrite HyHalf.
+    rewrite Zle_Qle.
+    rewrite (Qceiling_add_Z_l (Qfloor x) (Qfloor_frac_part x)).
+    rewrite (Qfloor_add_Z_l (Qfloor y) 0.5).
+    change (Qfloor 0.5) with 0%Z.
+    rewrite Z.add_0_r.
+    rewrite <- Zle_Qle.
+    destruct (Qceiling_floor_frac_part x) as [Hceil|Hceil].
+    * rewrite Hceil in HxHalf.
+      discriminate HxHalf.
+    * rewrite Hceil.
+      apply Zorder.Zlt_le_succ.
+      rewrite Z.le_neq.
+      split.
+      -- apply Qfloor_resp_le in Hxy.
+         exact Hxy.
+      -- intros H.
+         rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y) in Hxy.
+         rewrite <- H in Hxy.
+         rewrite Qplus_le_r in Hxy.
+         rewrite HyHalf in Hxy.
+         apply Qgt_alt in HxHalf.
+         discriminate (Qlt_le_trans _ _ _ HxHalf Hxy).
+  + now apply Qceiling_resp_le.
+- rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y).
+  rewrite Zle_Qle.
+  rewrite (Qceiling_add_Z_l (Qfloor x) (Qfloor_frac_part x)).
+  rewrite (Qfloor_add_Z_l (Qfloor y) (Qfloor_frac_part y)).
+  rewrite Qfloor_floor_frac_part.
+  rewrite Z.add_0_r.
+  rewrite <- Zle_Qle.
+  destruct (Qceiling_floor_frac_part x) as [Hceil|Hceil].
+  + rewrite Hceil in HxHalf.
+    discriminate HxHalf.
+  + rewrite Hceil.
+    apply Zorder.Zlt_le_succ.
+    rewrite Z.le_neq.
+    split.
+    * apply Qfloor_resp_le in Hxy.
+      exact Hxy.
+    * intros H.
+      rewrite (Qfloor_proper_fraction x), (Qfloor_proper_fraction y) in Hxy.
+      rewrite <- H in Hxy.
+      rewrite Qplus_le_r in Hxy.
+      apply Qgt_alt in HxHalf.
+      apply Qlt_alt in HyHalf.
+      pose proof (Qlt_le_trans _ _ _ HxHalf Hxy) as HxyHalf.
+      discriminate (Qlt_trans _ _ _ HxyHalf HyHalf).
+- now apply Qceiling_resp_le.
+Qed.
+
+#[global]
+Hint Resolve Qround_to_even_resp_le : qarith.
+
+Add Morphism Qround_to_even with signature Qeq ==> eq as Qround_to_even_comp.
+Proof.
+intros x y H.
+apply Z.le_antisymm.
+- auto with *.
+- symmetry in H; auto with *.
 Qed.

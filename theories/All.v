@@ -143,9 +143,6 @@ From Stdlib Require Export ZArith.Zbool.
 From Stdlib Require Export ZArith.Zabs.
 From Stdlib Require Export ZArith.Zcomplements.
 From Stdlib Require Export ZArith.Zdiv.
-From Stdlib Require Export QArith.Qround.
-From Stdlib Require Export Logic.ConstructiveEpsilon.
-From Stdlib Require Export Classes.CMorphisms.
 From Stdlib Require Export micromega.Refl.
 From Stdlib Require Export micromega.Tauto.
 From Stdlib Require Export micromega.VarMap.
@@ -158,6 +155,10 @@ From Stdlib Require Export micromega.ZifyClasses.
 From Stdlib Require Export micromega.ZifyInst.
 From Stdlib Require Export micromega.Zify.
 From Stdlib Require Export micromega.Lia.
+From Stdlib Require Export ZArith.Zquot.
+From Stdlib Require Export QArith.Qround.
+From Stdlib Require Export Logic.ConstructiveEpsilon.
+From Stdlib Require Export Classes.CMorphisms.
 From Stdlib Require Export micromega.QMicromega.
 From Stdlib Require Export micromega.DeclConstantZ.
 From Stdlib Require Export micromega.DeclConstant.
@@ -358,7 +359,6 @@ From Stdlib Require Export Zmod.Zmod.
 From Stdlib Require Export Zmod.Zstar.
 From Stdlib Require Export Zmod.Bits.
 From Stdlib Require Export ZArith.Zwf.
-From Stdlib Require Export ZArith.Zquot.
 From Stdlib Require Export ZArith.Zpow_alt.
 From Stdlib Require Export Numbers.Integer.Abstract.ZDivEucl.
 From Stdlib Require Export ZArith.Zeuclid.
