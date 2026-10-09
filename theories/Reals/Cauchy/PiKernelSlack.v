@@ -10794,7 +10794,7 @@ Proof.
               == (Qabs ((lw0m_xL m - q)%Q) - 2 * c0)%Q) by ring.
   rewrite E in Hp.
   exact (leibsep_qlt_of_minus _ _ Hp).
-Qed.
+Defined.
 
 Lemma leibsep_gate_open_false : forall (q : Q) (N : nat) (c0 : Q),
   leibsep_gate_open q N c0 = false ->
@@ -11212,7 +11212,7 @@ Proof.
     { exact (leibsep_false_branch_contra q 0 1 s t M0
              (eps0 * (1 # 8))%Q Hq Hq103 Hc8ltT Hj01 Hs Ht HCA HCB). }
     discriminate Hcontra || inversion Hcontra.
-Qed.
+Defined.
 (* ---- Merged segment 1: PiKernelSlack_D1_identity (md5 5c0f7348) ---- *)
 Lemma piL_q_pow_0 : forall x : Q, q_pow x 0 == 1.
 Proof. intros x. reflexivity. Qed.
@@ -16317,7 +16317,7 @@ Proof.
            ++ apply qleT'_refl.
         -- apply qleT'_refl.
       * apply (Htail (Nat.max (Nat.max N2 (Nat.max Nt 4)) N1) HmNt).
-Qed.
+Defined.
 
 Lemma cos_slot_eps0 : forall (eps0 : Q) (N2 Nt : nat) (dtail : Q),
   QltT 0 eps0 -> QltT 0 dtail ->
@@ -16503,7 +16503,7 @@ Proof.
            ++ apply qleT'_refl.
         -- apply qleT'_refl.
       * apply (Htail (Nat.max (Nat.max N2 (Nat.max Nt 4)) N1) HmNt).
-Qed.
+Defined.
 
 End LeibsepDistilled.
 
@@ -16736,7 +16736,7 @@ Proof.
         -- split.
            ++ apply qleT'_refl.
            ++ apply qleT'_refl.
-Qed.
+Defined.
 
 (* ========== Section 4. The separation kernel [leibsep_q_kernel] (carried by the three seed [Section] premises) ========== *)
 
@@ -17059,7 +17059,7 @@ Proof.
         - exact HK1'. }
       exact (leibsep_q_kernel_gate_carrier q eps2 N0g Nv2 s t M0 HEp2 HN0g2
              (fun n Hn => qltw_pw_pc _ _ (HNv2 n Hn)) Hs Ht HP1 HP2).
-Qed.
+Defined.
 
 End KernelDistilled.
 

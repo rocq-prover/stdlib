@@ -351,7 +351,7 @@ Theorem pi_leibniz_appart_all_Q :
 Proof.
   exact (creal_escape_window_apart pi_leibniz lw0m_e
          creal_escape_window_pi_leibniz).
-Qed.
+Defined.
 
 (** The main theorem (the mandated form): the separation of
       [pi_leibniz] from every rational number [a/b] with nonzero
@@ -363,7 +363,7 @@ Theorem pi_leibniz_strong_irrational :
 Proof.
   intros a b _.
   exact (pi_leibniz_appart_all_Q (a / b)).
-Qed.
+Defined.
 
 End PiSeparationSeedCarrier.
 

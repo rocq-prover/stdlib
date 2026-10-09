@@ -209,7 +209,7 @@ Proof.
   - apply Qlt_to_QltT. apply HKs.
     + exact (Nat.le_trans Ks (Nat.max Kc Ks) k (Nat.le_max_r Kc Ks) Hk).
     + exact (Nat.le_trans Ks (Nat.max Kc Ks) m (Nat.le_max_r Kc Ks) Hm).
-Qed.
+Defined.
 
 (* ============================================================ *)
 (* Reserved gate (the final name is deliberately left unused in this

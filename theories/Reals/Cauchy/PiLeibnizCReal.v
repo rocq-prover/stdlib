@@ -950,7 +950,7 @@ Proof.
     + apply nivwin_antitone. exact Hn.
     + exact H05.
   - exact Hmb.
-Qed.
+Defined.
 
 (* Statement provenance: for every statement of this file, the
    source statement of this development that it was migrated from,

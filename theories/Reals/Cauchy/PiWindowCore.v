@@ -920,7 +920,7 @@ Theorem leiblw_dist_set : forall n : nat,
 Proof.
   intros n. exists (S n). intros k Hk.
   apply Qle_to_QleT'. apply leiblw_dist. exact Hk.
-Qed.
+Defined.
 
 (* ============================================================ *)
 (* Section 12. Common-denominator divisibility: [q'_n := (2n+1)!] and [q'_n * S_n] in [Z] (the witness [P_n]) *)
@@ -1291,7 +1291,7 @@ Proof.
       * apply (proj1 (Z.add_le_mono_l 0 1 (Z.of_nat B))).
         apply Z.leb_le. reflexivity.
     + exact (Z.le_trans _ _ _ HZ Hf).
-Qed.
+Defined.
 
 (* ============================================================ *)
 (* Section 15. The margin is unbounded ([Set]-level delivery; the decision procedure replaced by [QltT]) *)
@@ -1414,7 +1414,7 @@ Proof.
       apply Z.mul_le_mono_nonneg_l.
       * apply Z.leb_le. reflexivity.
       * exact Hlow.
-Qed.
+Defined.
 
 (* ============================================================ *)
 (* Section 16. Comparison material for the non-trivialized family theorems (the factorial-family certification window vs. the Leibniz natural window; verbatim at the [Q] level) *)
