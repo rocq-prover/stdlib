@@ -74,7 +74,7 @@ Local Open Scope nat_scope.
    [QltT], and the identity type [Id] they rest on are shared from
    [PiCompareT]. *)
 
-Definition QleT' (x y : Q) : Set := Id (Qle_bool x y) true.
+(* [QleT'] is shared from [PiCompareT]; the local duplicate was removed *)
 
 (* ================= Section 3. Semantic-equivalence self-check of the decisions ================= *)
 
@@ -84,26 +84,14 @@ Definition QleT' (x y : Q) : Set := Id (Qle_bool x y) true.
    equivalence statements; the wrappers and the comparison copies
    coincide under the conversion check. *)
 
-Definition qltw_S02_Qlt_bool (x y : Q) : bool :=
-  match Qcompare x y with Lt => true | _ => false end.
 
-Definition qltw_S02_Qle_bool (x y : Q) : bool :=
-  match Qcompare x y with Gt => false | _ => true end.
 
 (** Strict order: the wrapped Boolean coincides with the three-way
     [Qcompare] split at the conversion level. *)
-Lemma qltw_Qlt_bool_Qcompare :
-  forall x y : Q,
-    Id (Qlt_bool x y) (match Qcompare x y with Lt => true | _ => false end).
-Proof. intros x y. reflexivity. Defined.
 
 (** Non-strict order: the stdlib native [Qle_bool] (the [Z.leb] form)
     coincides with the reflected form of [Qcompare] at the conversion
     level. *)
-Lemma qltw_Qle_bool_Qcompare :
-  forall x y : Q,
-    Id (Qle_bool x y) (match Qcompare x y with Gt => false | _ => true end).
-Proof. intros x y. reflexivity. Defined.
 
 (** Equality: the stdlib native [Qeq_bool] (its [Z.eqb] body is a
     direct two-argument double match that never goes through
@@ -114,69 +102,27 @@ Proof. intros x y. reflexivity. Defined.
     [Z.eqb_refl], the other two branches close directly.  The
     statement level remains [Set]-valued; the equality equation is
     used only inside proofs. *)
-Lemma qltw_Qeq_bool_Qcompare :
-  forall x y : Q,
-    Id (Qeq_bool x y) (match Qcompare x y with Eq => true | _ => false end).
-Proof.
-  intros x y.
-  destruct (Qcompare x y) eqn:E.
-  - unfold Qeq_bool. rewrite (proj1 (Z.compare_eq_iff _ _) E). rewrite Z.eqb_refl.
-    exact (@id_refl bool true).
-  - assert (Hlt : (Qnum x * QDen y < Qnum y * QDen x)%Z)
-      by exact (proj1 (Z.compare_lt_iff _ _) E).
-    assert (Hne : ((Qnum x * QDen y) <> (Qnum y * QDen x))%Z)
-      by (intro Hc; rewrite Hc in Hlt; exact (Z.lt_irrefl _ Hlt)).
-    unfold Qeq_bool. rewrite (proj2 (Z.eqb_neq _ _) Hne).
-    exact (@id_refl bool false).
-  - assert (Hlt : (Qnum y * QDen x < Qnum x * QDen y)%Z)
-      by exact (proj1 (Z.compare_gt_iff _ _) E).
-    assert (Hne : ((Qnum x * QDen y) <> (Qnum y * QDen x))%Z)
-      by (intro Hc; rewrite Hc in Hlt; exact (Z.lt_irrefl _ Hlt)).
-    unfold Qeq_bool. rewrite (proj2 (Z.eqb_neq _ _) Hne).
-    exact (@id_refl bool false).
-Defined.
 
 (** Wrapped Boolean <-> the library original (item by item at the
     [bool] level): strict-order side. *)
-Lemma qltw_Qlt_bool_orig :
-  forall x y : Q, Id (Qlt_bool x y) (qltw_S02_Qlt_bool x y).
-Proof. intros x y. reflexivity. Defined.
 
 (** Wrapped Boolean <-> the library original (item by item at the
     [bool] level): non-strict-order side. *)
-Lemma qltw_Qle_bool_orig :
-  forall x y : Q, Id (Qle_bool x y) (qltw_S02_Qle_bool x y).
-Proof. intros x y. reflexivity. Defined.
 
 (** Statement-level interchange (strict order): this file's [QltT]
     statement and the same-shaped [Id] statement of the original
     imply each other. *)
-Lemma qltw_QltT_orig :
-  forall x y : Q, QltT x y -> Id (qltw_S02_Qlt_bool x y) true.
-Proof. intros x y H. exact (id_trans (@id_refl _ (qltw_S02_Qlt_bool x y)) H). Defined.
 
-Lemma qltw_S02_QltT :
-  forall x y : Q, Id (qltw_S02_Qlt_bool x y) true -> QltT x y.
-Proof. intros x y H. exact (id_trans (@id_refl _ (Qlt_bool x y)) H). Defined.
 
 (** Statement-level interchange (non-strict order): this file's
     [QleT'] statement and the same-shaped [Id] statement of the
     original imply each other. *)
-Lemma qltw_QleT'_orig :
-  forall x y : Q, QleT' x y -> Id (qltw_S02_Qle_bool x y) true.
-Proof. intros x y H. exact (id_trans (@id_refl _ (qltw_S02_Qle_bool x y)) H). Defined.
 
-Lemma qltw_S02_QleT' :
-  forall x y : Q, Id (qltw_S02_Qle_bool x y) true -> QleT' x y.
-Proof. intros x y H. exact (id_trans (@id_refl _ (Qle_bool x y)) H). Defined.
 
 (* ================= Section 4. Concrete numeric spot-check computations ================= *)
 
-Definition qltw_samp_QltT_0_1 : QltT 0 1 := @id_refl bool true.
 
-Definition qltw_samp_QleT'_1_1 : QleT' 1 1 := @id_refl bool true.
 
-Definition qltw_samp_Qeq_bool_2_2 : Id (Qeq_bool 2 2) true := @id_refl bool true.
 
 (* ================= Section 5. The four order bridges ([Id] helpers on [bool] and the two-way bridges) ================= *)
 

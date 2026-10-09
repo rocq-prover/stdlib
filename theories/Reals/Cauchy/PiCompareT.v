@@ -73,6 +73,7 @@ Definition Qlt_bool (x y : Q) : bool :=
 (* Shared comparison type. Canonical definition — PiWindowCore imports from here. *)
 Definition QltT (x y : Q) : Set := Id (Qlt_bool x y) true.
 
+(* Shared comparison reflection. Canonical definition — PiWindowCore imports from here. *)
 Definition QleT' (x y : Q) : Set := Id (Qle_bool x y) true.
 
 (* ================= Section 3. Semantic-equivalence self-check of the decisions ================= *)
