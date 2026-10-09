@@ -27,8 +27,10 @@
       [piL_qabs_sym], [piL_qpow2_neg]); [PiKernelSlack]
       ([NatLe_lift]; the three seeds [piLd3_seed_halfwin],
       [piLd3_seed_dres], [piLd3_seed_dcos] at the [Set] level; the
-      [leibsep_q_kernel] margin supply); [PiCompareT] (the thin
-      decision wrappers; its
+      [leibsep_q_kernel] margin supply); [PiSeedSupplyShell] (the
+      three seed supplies [piLsup_halfwin_supply],
+      [piLsup_dres_supply], [piLsup_dcos_supply]); [PiCompareT] (the
+      thin decision wrappers; its
       [QltT] shares its source with the kernel output form, and the
       window-core down-level bridges are used under qualified names);
       [ConstructiveCauchyRealsSep] (the engine file, built on stdlib
@@ -54,9 +56,10 @@
       procedure; the [CReal] projection names ([seq] and so on) are
       imported directly from stdlib [ConstructiveCauchyReals] (the
       engine file does not [Export] it, as verified);
-      [leibsep_q_kernel] is quantified over three explicit
-      [Set]-typed seed premises (a [Section]-level quantification,
-      assumption-free).
+      [leibsep_q_kernel] carries the three [Set]-typed seeds as
+      explicit premises; this file fills the three slots from
+      [PiSeedSupplyShell], so the mounting piece and the two closing
+      theorems are assumption-free.
 
     Build.  [rocq c -native-compiler no -q -Q . "" PiSeparation.v]
       compiles cleanly (exit 0); the first eight bytes of the
@@ -80,6 +83,7 @@ Require Import ConstructiveCauchyRealsSep.
 Require Import PiCompareT.
 Require Import PiLeibnizCReal.
 Require Import PiKernelSlack.
+Require Import PiSeedSupplyShell.
 
 (* ---------------------------------------------------------------- *)
 (* Section 1. The guarded [Q] chain (the engine-assembly restatement  *)
@@ -279,21 +283,17 @@ Qed.
 (* ---------------------------------------------------------------- *)
 
 (* ---------------------------------------------------------------- *)
-(* Section 1.5. The three-seed premise quantification (a [Section]    *)
-(* quantification, assumption-free)                                   *)
-(*                                                                    *)
-(* The three seed premises of [leibsep_q_kernel] are quantified in    *)
-(* this section as explicit [Set]-typed [Variable]s: after the        *)
-(* section closes, the mounting piece and the two theorems become     *)
-(* the universally quantified forms with the three seeds as           *)
-(* premises.                                                          *)
+(* The three seed supplies: each slot type of [leibsep_q_kernel] is   *)
+(* filled by the corresponding supply of [PiSeedSupplyShell] (the     *)
+(* half-window pair from the occupied seed, the two double-angle      *)
+(* truncation-residual seeds from the band assembly).  With the slots *)
+(* filled, the mounting piece and the two closing theorems below are  *)
+(* assumption-free statements.                                        *)
 (* ---------------------------------------------------------------- *)
 
-Section PiSeparationSeedCarrier.
-
-Variable pi_sep_seed_halfwin : piLd3_seed_halfwin.
-Variable pi_sep_seed_dres : piLd3_seed_dres.
-Variable pi_sep_seed_dcos : piLd3_seed_dcos.
+Definition pi_sep_seed_halfwin : piLd3_seed_halfwin := piLsup_halfwin_supply.
+Definition pi_sep_seed_dres : piLd3_seed_dres := piLsup_dres_supply.
+Definition pi_sep_seed_dcos : piLd3_seed_dcos := piLsup_dcos_supply.
 
 (** The engine mounting piece: for every rational number [q], the
       kernel margin (ingredient 1) and the unified-window vanish
@@ -365,7 +365,6 @@ Proof.
   exact (pi_leibniz_appart_all_Q (a / b)).
 Defined.
 
-End PiSeparationSeedCarrier.
 
 (* Statement provenance: for every statement of this file, the
    source statement of this development that it was migrated from,
