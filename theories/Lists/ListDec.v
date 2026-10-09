@@ -65,7 +65,7 @@ Qed.
 
 Lemma NoDup_list_decidable (l:list A) : NoDup l -> forall x y:A, In x l -> In y l -> decidable (x=y).
 Proof using A.
-  clear dec; intros Hl; induction Hl; firstorder congruence.
+  try clear dec; intros Hl; induction Hl; firstorder congruence.
 Qed.
 
 End Dec_in_Prop.
