@@ -121,13 +121,13 @@ Qed.
       window-core family [id_refl] through the [Qcompare] three-way
       decision. *)
 Lemma pi_sep_qltT_up_wc :
-  forall x y : Q, PiCompareT.QltT x y -> PiWindowCore.QltT x y.
+  forall x y : Q, PiCompareT.QltT x y -> PiCompareT.QltT x y.
 Proof.
   intros x y H.
   unfold PiCompareT.QltT, PiCompareT.Qlt_bool in H.
-  unfold PiWindowCore.QltT, PiWindowCore.Qlt_bool.
+  unfold PiCompareT.QltT, PiCompareT.Qlt_bool.
   destruct (Qcompare x y) eqn:E; try (inversion H).
-  exact (@PiWindowCore.id_refl bool true).
+  exact (@PiCompareT.id_refl bool true).
 Qed.
 
 (* ---------------------------------------------------------------- *)

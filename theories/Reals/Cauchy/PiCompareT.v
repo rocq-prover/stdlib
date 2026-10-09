@@ -66,9 +66,11 @@ Definition id_trans {A : Set} {x y z : A} (p : Id x y) (q : Id y z) : Id x z :=
    order and the equality use the native [QArith_base] Booleans
    directly. *)
 
+(* Shared comparison boolean. Used by PiWindowCore and PiSeparation. *)
 Definition Qlt_bool (x y : Q) : bool :=
   match (x ?= y)%Q with Lt => true | _ => false end.
 
+(* Shared comparison type. Canonical definition — PiWindowCore imports from here. *)
 Definition QltT (x y : Q) : Set := Id (Qlt_bool x y) true.
 
 Definition QleT' (x y : Q) : Set := Id (Qle_bool x y) true.

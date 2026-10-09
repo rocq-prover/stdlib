@@ -50,6 +50,7 @@
 From Stdlib Require Import QArith.QArith QArith.Qabs.
 From Stdlib Require Import Qpower.
 From Stdlib Require Import ZArith.ZArith.
+Require Import PiCompareT.
 Require Import PiWindowCore.
 From Stdlib Require Import Qround.
 From Stdlib Require Import ConstructiveCauchyReals.

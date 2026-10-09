@@ -54,20 +54,14 @@
 
 From Stdlib Require Import QArith.QArith QArith.Qabs.
 From Stdlib Require Import ZArith.ZArith.
+Require Import PiCompareT.
 
 Local Open Scope nat_scope.
 
 (* ================= Section 1. The Set-valued identity type ================= *)
 
-Inductive Id {A : Set} (x : A) : A -> Set :=
-| id_refl : Id x x.
-
-Arguments id_refl {A} {x}.
-
-Definition id_trans {A : Set} {x y z : A} (p : Id x y) (q : Id y z) : Id x z :=
-  match p, q with
-  | id_refl, id_refl => id_refl
-  end.
+(* The [Set]-valued identity type [Id], its constructor [id_refl],
+   and its transitivity [id_trans] are shared from [PiCompareT]. *)
 
 (* ================= Section 2. Thin wrappers for the Q order decisions ================= *)
 
@@ -75,13 +69,10 @@ Definition id_trans {A : Set} {x y z : A} (p : Id x y) (q : Id y z) : Id x z :=
    stdlib [QArith_base] file has no [Qlt_bool] of its own (the single
    same-named item in the stdlib tree lives in a dependency domain
    that this file must not import); the non-strict order and the
-   equality use the native [QArith_base] Booleans directly. *)
-
-Definition Qlt_bool (x y : Q) : bool :=
-  match (x ?= y)%Q with Lt => true | _ => false end.
-(* [(x ?= y)%Q] is the [Qcompare] notation. *)
-
-Definition QltT (x y : Q) : Set := Id (Qlt_bool x y) true.
+   equality use the native [QArith_base] Booleans directly.  The
+   strict-order Boolean [Qlt_bool], the strict-order decision type
+   [QltT], and the identity type [Id] they rest on are shared from
+   [PiCompareT]. *)
 
 Definition QleT' (x y : Q) : Set := Id (Qle_bool x y) true.
 

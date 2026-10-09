@@ -16017,21 +16017,21 @@ Proof.
           - exact HB. }
         exact (QleT'_to_Qle _ _ Henv).
 Qed.
-Lemma qltw_pc_pw : forall x y : Q, QltT x y -> PiWindowCore.QltT x y.
+Lemma qltw_pc_pw : forall x y : Q, QltT x y -> PiCompareT.QltT x y.
 Proof.
   intros x y H.
   exact (match H in Id _ b
-         return PiWindowCore.Id (PiWindowCore.Qlt_bool x y) b with
-         | id_refl => @PiWindowCore.id_refl _ (PiWindowCore.Qlt_bool x y)
+         return PiCompareT.Id (PiCompareT.Qlt_bool x y) b with
+         | id_refl => @PiCompareT.id_refl _ (PiCompareT.Qlt_bool x y)
          end).
 Qed.
 
-Lemma qltw_pw_pc : forall x y : Q, PiWindowCore.QltT x y -> QltT x y.
+Lemma qltw_pw_pc : forall x y : Q, PiCompareT.QltT x y -> QltT x y.
 Proof.
   intros x y H.
-  exact (match H in PiWindowCore.Id _ b
+  exact (match H in PiCompareT.Id _ b
          return Id (PiCompareT.Qlt_bool x y) b with
-         | PiWindowCore.id_refl => @id_refl _ (PiCompareT.Qlt_bool x y)
+         | PiCompareT.id_refl => @id_refl _ (PiCompareT.Qlt_bool x y)
          end).
 Qed.
 
