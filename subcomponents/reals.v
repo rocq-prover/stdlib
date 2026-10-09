@@ -22,6 +22,11 @@ From Stdlib Require Reals.Cauchy.PiCosApproxRoot.
 From Stdlib Require Reals.Cauchy.PiCosApproxRootSet.
 From Stdlib Require Reals.Cauchy.PiCosZeroSeqConv.
 From Stdlib Require Reals.Cauchy.PiCosPartialSeqCauchy.
+From Stdlib Require Reals.Cauchy.PiArctanFixedQ.
+From Stdlib Require Reals.Cauchy.PiBandBound.
+From Stdlib Require Reals.Cauchy.PiCosBandAssemble.
+From Stdlib Require Reals.Cauchy.PiPythBandDonor.
+From Stdlib Require Reals.Cauchy.PiSeedSupplyShell.
 From Stdlib Require Reals.Cauchy.PiExpTrigSeries.
 From Stdlib Require Reals.Cauchy.PiExpArch.
 From Stdlib Require Reals.Cauchy.PiHalfwinSeed.

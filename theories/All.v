@@ -451,7 +451,9 @@ From Stdlib Require Export Reals.Cauchy.QCauchyZeroCos.
 From Stdlib Require Export Reals.Cauchy.PiWindowCore.
 From Stdlib Require Export Reals.Cauchy.PiVertexPolyDiff.
 From Stdlib Require Export Reals.Cauchy.PiSeparation.
+From Stdlib Require Export Reals.Cauchy.PiSeedSupplyShell.
 From Stdlib Require Export Reals.Cauchy.PiRowIdentity.
+From Stdlib Require Export Reals.Cauchy.PiPythBandDonor.
 From Stdlib Require Export Reals.Cauchy.PiPascalResidue.
 From Stdlib Require Export Reals.Cauchy.PiPascalMachine.
 From Stdlib Require Export Reals.Cauchy.PiLeibnizCReal.
@@ -463,9 +465,12 @@ From Stdlib Require Export Reals.Cauchy.PiCosZeroSeqProbe.
 From Stdlib Require Export Reals.Cauchy.PiCosZeroSeqConv.
 From Stdlib Require Export Reals.Cauchy.PiCosTailScan.
 From Stdlib Require Export Reals.Cauchy.PiCosPartialSeqCauchy.
+From Stdlib Require Export Reals.Cauchy.PiCosBandAssemble.
 From Stdlib Require Export Reals.Cauchy.PiCosApproxRootSet.
 From Stdlib Require Export Reals.Cauchy.PiCosApproxRoot.
 From Stdlib Require Export Reals.Cauchy.PiCompareT.
+From Stdlib Require Export Reals.Cauchy.PiBandBound.
+From Stdlib Require Export Reals.Cauchy.PiArctanFixedQ.
 From Stdlib Require Export Reals.Cauchy.ConstructiveCauchyRealsSep.
 From Stdlib Require Export Reals.Abstract.ConstructiveSum.
 From Stdlib Require Export Reals.Abstract.ConstructivePower.
