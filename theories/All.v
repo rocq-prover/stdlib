@@ -447,6 +447,11 @@ From Stdlib Require Export Reals.RNsatz.
 From Stdlib Require Export Reals.Nsatz.
 From Stdlib Require Export Reals.Abstract.ConstructiveRealsMorphisms.
 From Stdlib Require Export Reals.ClassicalConstructiveReals.
+From Stdlib Require Export Reals.Cauchy.PiWindowCore.
+From Stdlib Require Export Reals.Cauchy.PiSeparation.
+From Stdlib Require Export Reals.Cauchy.PiLeibnizCReal.
+From Stdlib Require Export Reals.Cauchy.PiKernelSlack.
+From Stdlib Require Export Reals.Cauchy.PiCompareT.
 From Stdlib Require Export Reals.Cauchy.ConstructiveCauchyRealsSep.
 From Stdlib Require Export Reals.Abstract.ConstructiveSum.
 From Stdlib Require Export Reals.Abstract.ConstructivePower.
