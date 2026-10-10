@@ -609,6 +609,61 @@ Proof.
   rewrite List.length_app, <-!length_spec. lia.
 Qed.
 
+(** A faster implementation (named [of_list_fast]) of [of_list], following the Stdlib implementation of merge sort. *)
+
+Fixpoint cat_stack stack :=
+  match stack with
+  | nil => ""%pstring
+  | None :: stack' => cat_stack stack'
+  | Some str :: stack' => cat (cat_stack stack') str
+  end.
+
+Fixpoint cat_str_to_stack stack str :=
+  match stack with
+  | nil => Some str :: nil
+  | None :: stack' => Some str :: stack'
+  | Some str' :: stack' => None :: cat_str_to_stack stack' (cat str' str)
+  end.
+
+Fixpoint iter_cat stack cs :=
+  match cs with
+  | nil => cat_stack stack
+  | c :: cs' => iter_cat (cat_str_to_stack stack (make 1 c)) cs'
+  end.
+
+Definition of_list_fast := iter_cat nil.
+
+Lemma cat_stack_cat_str_to_stack stack str :
+  cat_stack (cat_str_to_stack stack str) = cat (cat_stack stack) str.
+Proof.
+  revert str. induction stack as [|top stack']; intros str; try reflexivity.
+  destruct top; simpl; try reflexivity.
+  rewrite IHstack'. rewrite cat_assoc. reflexivity.
+Qed.
+
+Lemma iter_cat_spec stack cs :
+  iter_cat stack cs = cat (cat_stack stack) (of_list cs).
+Proof.
+  revert stack. induction cs; intros stack; simpl.
+  - rewrite cat_empty_r. reflexivity.
+  - destruct stack as [|top stack'].
+    + simpl. rewrite IHcs.
+      simpl. rewrite !cat_empty_l. reflexivity.
+    + destruct top as [top|]; simpl.
+      -- rewrite IHcs.
+         simpl. rewrite cat_stack_cat_str_to_stack.
+         rewrite !cat_assoc. reflexivity.
+      -- rewrite IHcs. simpl.
+         rewrite !cat_assoc. reflexivity.
+Qed.
+
+Lemma of_list_fast_spec cs :
+  of_list_fast cs = of_list cs.
+Proof.
+  cbv [of_list_fast]. rewrite iter_cat_spec.
+  simpl. rewrite cat_empty_l. reflexivity.
+Qed.
+
 (** * Ordered type *)
 
 From Stdlib Require OrderedType.
