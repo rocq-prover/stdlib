@@ -44,7 +44,7 @@ End InfoTyp.
 
 (** * Ops : the pure functions *)
 
-Module Type Ops (X:OrderedType)(Info:InfoTyp).
+Module Ops (X:OrderedType)(Info:InfoTyp).
 
 Definition elt := X.t.
 #[global]
@@ -264,9 +264,13 @@ Fixpoint subset s1 s2 : bool := match s1, s2 with
 
 End Ops.
 
+Module Type OpsT (X:OrderedType)(Info:InfoTyp).
+Include Ops X Info.
+End OpsT.
+
 (** * Props : correctness proofs of these generic operations *)
 
-Module Type Props (X:OrderedType)(Info:InfoTyp)(Import M:Ops X Info).
+Module Props (X:OrderedType)(Info:InfoTyp)(Import M:OpsT X Info).
 
 (** ** Occurrence in a tree *)
 

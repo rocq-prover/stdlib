@@ -441,7 +441,7 @@ End Ops.
 
 (** * MakeRaw : the pure functions and their specifications *)
 
-Module Type MakeRaw (X:Orders.OrderedType) <: MSetInterface.RawSets X.
+Module MakeRaw (X:Orders.OrderedType) <: MSetInterface.RawSets X.
 Include Ops X.
 
 (** Generic definition of binary-search-trees and proofs of
@@ -1477,13 +1477,17 @@ Qed.
 
 End MakeRaw.
 
+Module Type MakeRawT (X:Orders.OrderedType).
+Include MakeRaw X.
+End MakeRawT.
+
 (** * Balancing properties
 
     We now prove that all operations preserve a red-black invariant,
     and that trees have hence a logarithmic depth.
 *)
 
-Module BalanceProps(X:Orders.OrderedType)(Import M : MakeRaw X).
+Module BalanceProps(X:Orders.OrderedType)(Import M : MakeRawT X).
 
 #[local] Abbreviation Rd := (Node Red).
 #[local] Abbreviation Bk := (Node Black).

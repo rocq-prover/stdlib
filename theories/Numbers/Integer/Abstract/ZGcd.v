@@ -12,10 +12,10 @@
 
 From Stdlib Require Import ZAxioms ZMulOrder ZSgnAbs NZGcd.
 
-Module Type ZGcdProp
+Module ZGcdProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZSgnAbsProp A B).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
 
  Include NZGcdProp A A B.
 
@@ -285,3 +285,10 @@ Qed.
 (** TODO : more about rel_prime (i.e. gcd == 1), about prime ... *)
 
 End ZGcdProp.
+
+Module Type ZGcdPropT
+ (Import A : ZAxiomsSig')
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
+Include ZGcdProp A B C.
+End ZGcdPropT.

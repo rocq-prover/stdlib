@@ -28,12 +28,12 @@ Module Type NZLog2 (A : NZOrdAxiomsSig)(B : Pow A) := Log2 A <+ NZLog2Spec A B.
 
 (** Derived properties of logarithm *)
 
-Module Type NZLog2Prop
+Module NZLog2Prop
  (Import A : NZOrdAxiomsSig')
  (Import B : NZPow' A)
  (Import C : NZLog2 A B)
- (Import D : NZMulOrderProp A)
- (Import E : NZPowProp A B D).
+ (Import D : NZMulOrderPropT A)
+ (Import E : NZPowPropT A B D).
 
 (** log2 is always non-negative *)
 
@@ -449,13 +449,22 @@ Qed.
 
 End NZLog2Prop.
 
+Module Type NZLog2PropT
+ (Import A : NZOrdAxiomsSig')
+ (Import B : NZPow' A)
+ (Import C : NZLog2 A B)
+ (Import D : NZMulOrderPropT A)
+ (Import E : NZPowPropT A B D).
+Include NZLog2Prop A B C D E.
+End NZLog2PropT.
+
 Module NZLog2UpProp
  (Import A : NZDecOrdAxiomsSig')
  (Import B : NZPow' A)
  (Import C : NZLog2 A B)
- (Import D : NZMulOrderProp A)
- (Import E : NZPowProp A B D)
- (Import F : NZLog2Prop A B C D E).
+ (Import D : NZMulOrderPropT A)
+ (Import E : NZPowPropT A B D)
+ (Import F : NZLog2PropT A B C D E).
 
 (** * [log2_up] : a binary logarithm that rounds up instead of down *)
 

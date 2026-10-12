@@ -43,8 +43,8 @@ Module Type ZEuclid (Z:ZAxiomsSig) := NZDiv.NZDiv Z <+ EuclidSpec Z.
 
 Module ZEuclidProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZSgnAbsProp A B)
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B)
  (Import D : ZEuclid A).
 
  (** We put notations in a scope, to avoid warnings about

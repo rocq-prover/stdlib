@@ -12,7 +12,7 @@
 
 From Stdlib Require Import NAxioms NSub NZSqrt.
 
-Module NSqrtProp (Import A : NAxiomsSig')(Import B : NSubProp A).
+Module NSqrtProp (Import A : NAxiomsSig')(Import B : NSubPropT A).
 
  Module Import Private_NZSqrt := Nop <+ NZSqrtProp A A B.
 

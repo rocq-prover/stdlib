@@ -34,8 +34,8 @@ From Stdlib.Numbers.NatInt Require Import NZAxioms NZBase.
 From Stdlib.Logic Require Import Decidable.
 From Stdlib.Structures Require Import OrdersTac.
 
-Module Type NZOrderProp
- (Import NZ : NZOrdSig')(Import NZBase : NZBaseProp NZ).
+Module NZOrderProp
+ (Import NZ : NZOrdSig')(Import NZBase : NZBasePropT NZ).
 
 (** ** Basic facts about [le], [lt], [eq] and [succ] *)
 

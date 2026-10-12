@@ -12,7 +12,7 @@ From Stdlib Require Import NAxioms NSub NZDiv.
 
 (** Properties of Euclidean Division *)
 
-Module Type NDivProp (Import N : NAxiomsSig')(Import NP : NSubProp N).
+Module NDivProp (Import N : NAxiomsSig')(Import NP : NSubPropT N).
 
 (** We benefit from what already exists for NZ *)
 Module Import Private_NZDiv := Nop <+ NZDivProp N N NP.
@@ -256,3 +256,7 @@ Lemma mod_divides : forall a b, b~=0 ->
 Proof. intros. apply mod_divides; auto'. Qed.
 
 End NDivProp.
+
+Module Type NDivPropT (Import N : NAxiomsSig')(Import NP : NSubPropT N).
+Include NDivProp N NP.
+End NDivPropT.

@@ -41,10 +41,10 @@ Module Type NZPow' (A : NZOrdAxiomsSig) := Pow' A <+ NZPowSpec A.
 
 (** Derived properties of power *)
 
-Module Type NZPowProp
+Module NZPowProp
  (Import A : NZOrdAxiomsSig')
  (Import B : NZPow' A)
- (Import C : NZMulOrderProp A).
+ (Import C : NZMulOrderPropT A).
 
 #[global] Hint Rewrite pow_0_r pow_succ_r : nz.
 
@@ -412,3 +412,10 @@ Proof.
 Qed.
 
 End NZPowProp.
+
+Module Type NZPowPropT
+ (Import A : NZOrdAxiomsSig')
+ (Import B : NZPow' A)
+ (Import C : NZMulOrderPropT A).
+Include NZPowProp A B C.
+End NZPowPropT.

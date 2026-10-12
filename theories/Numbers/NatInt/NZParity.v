@@ -20,10 +20,10 @@ Module Type NZParity (Import A : NZAxiomsSig').
  Axiom odd_spec : forall n, odd n = true <-> Odd n.
 End NZParity.
 
-Module Type NZParityProp
+Module NZParityProp
  (Import A : NZOrdAxiomsSig')
  (Import B : NZParity A)
- (Import C : NZMulOrderProp A).
+ (Import C : NZMulOrderPropT A).
 
 (** Morphisms *)
 

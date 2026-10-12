@@ -26,7 +26,7 @@ The functor type [NZBaseProp] is meant to be [Include]d in a module implementing
 
 From Stdlib.Numbers.NatInt Require Import NZAxioms.
 
-Module Type NZBaseProp (Import NZ : NZDomainSig').
+Module NZBaseProp (Import NZ : NZDomainSig').
 
 (** This functor from [Stdlib.Structures.Equalities] gives
     [eq_refl], [eq_sym] and [eq_trans]. *)
@@ -104,3 +104,7 @@ Tactic Notation "nzinduct" ident(n) constr(u) :=
   induction_maker n ltac:(apply (fun A A_wd => central_induction A A_wd u)).
 
 End NZBaseProp.
+
+Module Type NZBasePropT (Import NZ : NZDomainSig').
+Include NZBaseProp NZ.
+End NZBasePropT.

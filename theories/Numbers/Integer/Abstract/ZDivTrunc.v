@@ -28,10 +28,10 @@ From Stdlib Require Import ZAxioms ZMulOrder ZSgnAbs NZDiv.
     See files [ZDivFloor] and [ZDivEucl] for others conventions.
 *)
 
-Module Type ZQuotProp
+Module ZQuotProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZSgnAbsProp A B).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
 
 (** We benefit from what already exists for NZ *)
 
@@ -666,3 +666,10 @@ Theorem quot_mul_le:
 Proof. exact NZQuot.div_mul_le. Qed.
 
 End ZQuotProp.
+
+Module Type ZQuotPropT
+ (Import A : ZAxiomsSig')
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
+Include ZQuotProp A B C.
+End ZQuotPropT.

@@ -15,7 +15,7 @@ From Stdlib Require Import ZMulOrder.
 (** Since we already have [max], we could have defined [abs]. *)
 
 Module GenericAbs (Import Z : ZAxiomsMiniSig')
-                  (Import ZP : ZMulOrderProp Z) <: HasAbs Z.
+                  (Import ZP : ZMulOrderPropT Z) <: HasAbs Z.
  Definition abs n := max n (-n).
  Lemma abs_eq : forall n, 0<=n -> abs n == n.
  Proof.
@@ -37,7 +37,7 @@ Module Type ZDecAxiomsSig := ZAxiomsMiniSig <+ HasCompare.
 Module Type ZDecAxiomsSig' := ZAxiomsMiniSig' <+ HasCompare.
 
 Module Type GenericSgn (Import Z : ZDecAxiomsSig')
-                       (Import ZP : ZMulOrderProp Z) <: HasSgn Z.
+                       (Import ZP : ZMulOrderPropT Z) <: HasSgn Z.
  Definition sgn n :=
   match compare 0 n with Eq => 0 | Lt => 1 | Gt => -1 end.
  Lemma sgn_null n : n==0 -> sgn n == 0.
@@ -51,8 +51,8 @@ End GenericSgn.
 
 (** Derived properties of [abs] and [sgn] *)
 
-Module Type ZSgnAbsProp (Import Z : ZAxiomsSig')
-                        (Import ZP : ZMulOrderProp Z).
+Module ZSgnAbsProp (Import Z : ZAxiomsSig')
+                        (Import ZP : ZMulOrderPropT Z).
 
 Ltac destruct_max n :=
  destruct (le_ge_cases 0 n);
@@ -378,3 +378,7 @@ Proof.
 Qed.
 
 End ZSgnAbsProp.
+
+Module Type ZSgnAbsPropT (Import Z : ZAxiomsSig') (Import ZP : ZMulOrderPropT Z).
+Include ZSgnAbsProp Z ZP.
+End ZSgnAbsPropT.

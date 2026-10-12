@@ -21,11 +21,11 @@ From Stdlib Require Import NAxioms NSub NDiv NGcd.
   and gcd.
 *)
 
-Module Type NLcmProp
+Module NLcmProp
  (Import A : NAxiomsSig')
- (Import B : NSubProp A)
- (Import C : NDivProp A B)
- (Import D : NGcdProp A B).
+ (Import B : NSubPropT A)
+ (Import C : NDivPropT A B)
+ (Import D : NGcdPropT A B).
 
 (** Divibility and modulo *)
 
@@ -300,3 +300,11 @@ Proof.
 Qed.
 
 End NLcmProp.
+
+Module Type NLcmPropT
+ (Import A : NAxiomsSig')
+ (Import B : NSubPropT A)
+ (Import C : NDivPropT A B)
+ (Import D : NGcdPropT A B).
+Include NLcmProp A B C D.
+End NLcmPropT.

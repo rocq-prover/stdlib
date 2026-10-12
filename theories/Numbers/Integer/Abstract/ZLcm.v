@@ -21,13 +21,13 @@ From Stdlib Require Import ZAxioms ZMulOrder ZSgnAbs ZGcd ZDivTrunc ZDivFloor.
   and quot/rem and gcd.
 *)
 
-Module Type ZLcmProp
+Module ZLcmProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZSgnAbsProp A B)
- (Import D : ZDivProp A B C)
- (Import E : ZQuotProp A B C)
- (Import F : ZGcdProp A B C).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B)
+ (Import D : ZDivPropT A B C)
+ (Import E : ZQuotPropT A B C)
+ (Import F : ZGcdPropT A B C).
 
 (** The two notions of division are equal on non-negative numbers *)
 

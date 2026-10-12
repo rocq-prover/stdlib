@@ -18,7 +18,7 @@ Unset Strict Implicit.
 
 Create Rewrite HintDb order.
 
-Module Type CompareFacts (Import O:DecStrOrder').
+Module CompareFacts (Import O:DecStrOrder').
 
  #[local] Infix "?=" := compare (at level 70, no associativity).
 
@@ -293,7 +293,7 @@ Module Type CompareBasedOrder (Import E:EqLtLe')(Import C:HasCmp E).
  Axiom compare_antisym : forall x y, (y ?= x) = CompOpp (x ?= y).
 End CompareBasedOrder.
 
-Module Type CompareBasedOrderFacts
+Module CompareBasedOrderFacts
  (Import E:EqLtLe')
  (Import C:HasCmp E)
  (Import O:CompareBasedOrder E C).
@@ -362,7 +362,7 @@ End CompareBasedOrderFacts.
 
 (** Basic facts about boolean comparisons *)
 
-Module Type BoolOrderFacts
+Module BoolOrderFacts
  (Import E:EqLtLe')
  (Import C:HasCmp E)
  (Import F:HasBoolOrdFuns' E)

@@ -42,7 +42,7 @@ Module Type NZGcd' (A : NZOrdAxiomsSig) :=
 Module NZGcdProp
  (Import A : NZOrdAxiomsSig')
  (Import B : NZGcd' A)
- (Import C : NZMulOrderProp A).
+ (Import C : NZMulOrderPropT A).
 
 (** Results concerning divisibility*)
 

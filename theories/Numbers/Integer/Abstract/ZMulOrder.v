@@ -12,7 +12,7 @@
 
 From Stdlib Require Export ZAddOrder.
 
-Module Type ZMulOrderProp (Import Z : ZAxiomsMiniSig').
+Module ZMulOrderProp (Import Z : ZAxiomsMiniSig').
 Include ZAddOrderProp Z.
 
 Theorem mul_lt_mono_nonpos :
@@ -219,3 +219,7 @@ Qed.
 Definition mul_eq_1 := eq_mul_1.
 
 End ZMulOrderProp.
+
+Module Type ZMulOrderPropT (Import Z : ZAxiomsMiniSig').
+Include ZMulOrderProp Z.
+End ZMulOrderPropT.

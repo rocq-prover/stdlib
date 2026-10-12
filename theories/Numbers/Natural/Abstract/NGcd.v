@@ -12,9 +12,9 @@
 
 From Stdlib Require Import NAxioms NSub NZGcd.
 
-Module Type NGcdProp
+Module NGcdProp
  (Import A : NAxiomsSig')
- (Import B : NSubProp A).
+ (Import B : NSubPropT A).
 
 Module Import Private_NZGcdProp := NZGcdProp A A B.
 
@@ -258,3 +258,9 @@ Qed.
 (** TODO : more about rel_prime (i.e. gcd == 1), about prime ... *)
 
 End NGcdProp.
+
+Module Type NGcdPropT
+ (Import A : NAxiomsSig')
+ (Import B : NSubPropT A).
+Include NGcdProp A B.
+End NGcdPropT.

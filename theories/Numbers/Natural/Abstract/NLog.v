@@ -12,14 +12,22 @@
 
 From Stdlib Require Import NAxioms NSub NPow NParity NZLog.
 
-Module Type NLog2Prop
+Module NLog2Prop
  (A : NAxiomsSig)
- (B : NSubProp A)
- (C : NParityProp A B)
- (D : NPowProp A B C).
+ (B : NSubPropT A)
+ (C : NParityPropT A B)
+ (D : NPowPropT A B C).
 
  (** For the moment we simply reuse NZ properties *)
 
  Include NZLog2Prop A A A B D.Private_NZPow.
  Include NZLog2UpProp A A A B D.Private_NZPow.
 End NLog2Prop.
+
+Module Type NLog2PropT
+ (A : NAxiomsSig)
+ (B : NSubPropT A)
+ (C : NParityPropT A B)
+ (D : NPowPropT A B C).
+Include NLog2Prop A B C D.
+End NLog2PropT.

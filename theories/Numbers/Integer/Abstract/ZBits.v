@@ -13,14 +13,14 @@ From Stdlib Require Import
 
 (** Derived properties of bitwise operations *)
 
-Module Type ZBitsProp
+Module ZBitsProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZParityProp A B)
- (Import D : ZSgnAbsProp A B)
- (Import E : ZPowProp A B C D)
- (Import F : ZDivProp A B D)
- (Import G : NZLog2Prop A A A B E).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZParityPropT A B)
+ (Import D : ZSgnAbsPropT A B)
+ (Import E : ZPowPropT A B C D)
+ (Import F : ZDivPropT A B D)
+ (Import G : NZLog2PropT A A A B E).
 
 Include BoolEqualityFacts A.
 
