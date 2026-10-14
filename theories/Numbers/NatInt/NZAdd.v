@@ -30,7 +30,7 @@ From Stdlib.Numbers.NatInt Require Import NZAxioms NZBase.
 Create Rewrite HintDb nz.
 Create Rewrite HintDb nz'.
 
-Module Type NZAddProp (Import NZ : NZBasicFunsSig')(Import NZBase : NZBaseProp NZ).
+Module NZAddProp (Import NZ : NZBasicFunsSig')(Import NZBase : NZBasePropT NZ).
 
 #[global] Hint Rewrite
  pred_succ add_0_l add_succ_l mul_0_l mul_succ_l sub_0_r sub_succ_r : nz.

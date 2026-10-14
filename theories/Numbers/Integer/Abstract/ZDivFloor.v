@@ -28,10 +28,10 @@ From Stdlib Require Import ZAxioms ZMulOrder ZSgnAbs NZDiv.
     See files [ZDivTrunc] and [ZDivEucl] for others conventions.
 *)
 
-Module Type ZDivProp
+Module ZDivProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZSgnAbsProp A B).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
 
 (** We benefit from what already exists for NZ *)
 Module Import Private_NZDiv := Nop <+ NZDivProp A A B.
@@ -684,3 +684,10 @@ Theorem div_mul_le:
 Proof. exact div_mul_le. Qed.
 
 End ZDivProp.
+
+Module Type ZDivPropT
+ (Import A : ZAxiomsSig')
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZSgnAbsPropT A B).
+Include ZDivProp A B C.
+End ZDivPropT.

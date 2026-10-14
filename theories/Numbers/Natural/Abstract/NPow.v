@@ -14,10 +14,10 @@ From Stdlib Require Import Bool NAxioms NSub NParity NZPow.
 
 (** Derived properties of power, specialized on natural numbers *)
 
-Module Type NPowProp
+Module NPowProp
  (Import A : NAxiomsSig')
- (Import B : NSubProp A)
- (Import C : NParityProp A B).
+ (Import B : NSubPropT A)
+ (Import C : NParityPropT A B).
 
  Module Import Private_NZPow := Nop <+ NZPowProp A A B.
 
@@ -168,3 +168,10 @@ Proof.
 Qed.
 
 End NPowProp.
+
+Module Type NPowPropT
+ (Import A : NAxiomsSig')
+ (Import B : NSubPropT A)
+ (Import C : NParityPropT A B).
+Include NPowProp A B C.
+End NPowPropT.

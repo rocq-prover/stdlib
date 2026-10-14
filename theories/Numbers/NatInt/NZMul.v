@@ -29,7 +29,7 @@ Notice that [NZMulProp] itself [Include]s [NZAddProp].
 
 From Stdlib.Numbers.NatInt Require Import NZAxioms NZBase NZAdd.
 
-Module Type NZMulProp (Import NZ : NZBasicFunsSig')(Import NZBase : NZBaseProp NZ).
+Module NZMulProp (Import NZ : NZBasicFunsSig')(Import NZBase : NZBasePropT NZ).
 Include NZAddProp NZ NZBase.
 
 Theorem mul_0_r : forall n, n * 0 == 0.

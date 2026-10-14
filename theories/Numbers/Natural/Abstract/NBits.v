@@ -12,13 +12,13 @@ From Stdlib Require Import Bool NAxioms NSub NPow NDiv NParity NLog.
 
 (** Derived properties of bitwise operations *)
 
-Module Type NBitsProp
+Module NBitsProp
  (Import A : NAxiomsSig')
- (Import B : NSubProp A)
- (Import C : NParityProp A B)
- (Import D : NPowProp A B C)
- (Import E : NDivProp A B)
- (Import F : NLog2Prop A B C D).
+ (Import B : NSubPropT A)
+ (Import C : NParityPropT A B)
+ (Import D : NPowPropT A B C)
+ (Import E : NDivPropT A B)
+ (Import F : NLog2PropT A B C D).
 
 Include BoolEqualityFacts A.
 

@@ -12,8 +12,8 @@ From Stdlib Require Import Bool ZMulOrder NZParity.
 
 (** Some more properties of [even] and [odd]. *)
 
-Module Type ZParityProp (Import Z : ZAxiomsSig')
-                        (Import ZP : ZMulOrderProp Z).
+Module ZParityProp (Import Z : ZAxiomsSig')
+                        (Import ZP : ZMulOrderPropT Z).
 
 Include NZParityProp Z Z ZP.
 
@@ -53,3 +53,7 @@ Proof.
 Qed.
 
 End ZParityProp.
+
+Module Type ZParityPropT (Import Z : ZAxiomsSig') (Import ZP : ZMulOrderPropT Z).
+Include ZParityProp Z ZP.
+End ZParityPropT.

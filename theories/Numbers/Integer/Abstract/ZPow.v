@@ -12,11 +12,11 @@
 
 From Stdlib Require Import Bool ZAxioms ZMulOrder ZParity ZSgnAbs NZPow.
 
-Module Type ZPowProp
+Module ZPowProp
  (Import A : ZAxiomsSig')
- (Import B : ZMulOrderProp A)
- (Import C : ZParityProp A B)
- (Import D : ZSgnAbsProp A B).
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZParityPropT A B)
+ (Import D : ZSgnAbsPropT A B).
 
  Include NZPowProp A A B.
 
@@ -139,3 +139,11 @@ Proof.
 Qed.
 
 End ZPowProp.
+
+Module Type ZPowPropT
+ (Import A : ZAxiomsSig')
+ (Import B : ZMulOrderPropT A)
+ (Import C : ZParityPropT A B)
+ (Import D : ZSgnAbsPropT A B).
+Include ZPowProp A B C D.
+End ZPowPropT.

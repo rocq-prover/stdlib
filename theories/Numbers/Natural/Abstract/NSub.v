@@ -12,7 +12,7 @@
 
 From Stdlib Require Export NMulOrder.
 
-Module Type NSubProp (Import N : NAxiomsMiniSig').
+Module NSubProp (Import N : NAxiomsMiniSig').
 Include NMulOrderProp N.
 
 Theorem sub_0_l : forall n, 0 - n == 0.
@@ -378,3 +378,7 @@ Theorem add_dichotomy :
 Proof. exact le_alt_dichotomy. Qed.
 
 End NSubProp.
+
+Module Type NSubPropT (Import N : NAxiomsMiniSig').
+Include NSubProp N.
+End NSubPropT.

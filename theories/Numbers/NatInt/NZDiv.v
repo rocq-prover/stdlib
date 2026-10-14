@@ -49,10 +49,10 @@ End NZDivSpec0.
 Module Type NZDiv (A : NZOrdAxiomsSig) := DivMod A <+ NZDivSpec A.
 Module Type NZDiv' (A : NZOrdAxiomsSig) := NZDiv A <+ DivModNotation A.
 
-Module Type NZDivProp
+Module NZDivProp
  (Import A : NZOrdAxiomsSig')
  (Import B : NZDiv' A)
- (Import C : NZMulOrderProp A).
+ (Import C : NZMulOrderPropT A).
 
 (** Uniqueness theorems *)
 

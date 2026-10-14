@@ -18,4 +18,4 @@ From Stdlib Require Export NZAxioms NZMulOrder.
     subsumes all others.
 *)
 
-Module Type NZProp := NZMulOrderProp.
+Module Type NZProp := NZMulOrderPropT.

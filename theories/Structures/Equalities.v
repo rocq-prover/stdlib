@@ -17,8 +17,11 @@ Unset Strict Implicit.
 (** Structure with nothing inside.
     Used to force a module type T into a module via Nop <+ T. (HACK!) *)
 
-Module Type Nop.
+Module Nop.
 End Nop.
+
+Module Type NopT.
+End NopT.
 
 (** * Structure with just a base type [t] *)
 
@@ -34,7 +37,7 @@ End HasEq.
 
 Module Type Eq := Typ <+ HasEq.
 
-Module Type EqNotation (Import E:Eq).
+Module EqNotation (Import E:Eq).
   Infix "==" := eq (at level 70, no associativity).
   Notation "x ~= y" := (~eq x y) (at level 70, no associativity).
 End EqNotation.
@@ -236,18 +239,18 @@ End BoolEqualityFacts.
    A particular case of [DecidableType] where the equality is
    the usual one of Coq. *)
 
-Module Type HasUsualEq (Import T:Typ) <: HasEq T.
+Module HasUsualEq (Import T:Typ) <: HasEq T.
  Definition eq := @Logic.eq t.
 End HasUsualEq.
 
 Module Type UsualEq <: Eq := Typ <+ HasUsualEq.
 
-Module Type UsualIsEq (E:UsualEq) <: IsEq E.
+Module UsualIsEq (E:UsualEq) <: IsEq E.
  (* No Instance syntax to avoid saturating the Equivalence tables *)
  Definition eq_equiv : Equivalence E.eq := eq_equivalence.
 End UsualIsEq.
 
-Module Type UsualIsEqOrig (E:UsualEq) <: IsEqOrig E.
+Module UsualIsEqOrig (E:UsualEq) <: IsEqOrig E.
  Definition eq_refl := @Logic.eq_refl E.t.
  Definition eq_sym := @Logic.eq_sym E.t.
  Definition eq_trans := @Logic.eq_trans E.t.

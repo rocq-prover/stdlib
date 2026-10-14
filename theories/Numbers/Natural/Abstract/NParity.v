@@ -12,7 +12,7 @@ From Stdlib Require Import Bool NSub NZParity.
 
 (** Some additional properties of [even], [odd]. *)
 
-Module Type NParityProp (Import N : NAxiomsSig')(Import NP : NSubProp N).
+Module NParityProp (Import N : NAxiomsSig')(Import NP : NSubPropT N).
 
 Include NZParityProp N N NP.
 
@@ -64,3 +64,7 @@ Proof.
 Qed.
 
 End NParityProp.
+
+Module Type NParityPropT (Import N : NAxiomsSig')(Import NP : NSubPropT N).
+Include NParityProp N NP.
+End NParityPropT.

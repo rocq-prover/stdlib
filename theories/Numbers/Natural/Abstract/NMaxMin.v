@@ -12,7 +12,7 @@ From Stdlib Require Import NAxioms NSub GenericMinMax.
 
 (** * Properties of minimum and maximum specific to natural numbers *)
 
-Module Type NMaxMinProp (Import N : NAxiomsMiniSig').
+Module NMaxMinProp (Import N : NAxiomsMiniSig').
 Include NSubProp N.
 
 (** Zero *)

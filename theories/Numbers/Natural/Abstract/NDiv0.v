@@ -10,15 +10,15 @@
 
 From Stdlib Require Import NAxioms NSub NDiv.
 
-Module Type NDivPropPrivate (N : NAxiomsSig') (NP : NSubProp N).
-Declare Module Private_NDivProp : NDivProp N NP.
+Module Type NDivPropPrivate (N : NAxiomsSig') (NP : NSubPropT N).
+Declare Module Private_NDivProp : NDivPropT N NP.
 End NDivPropPrivate.
 
 (** Properties of Euclidean Division with a / 0 == 0 and a mod 0 == a *)
 
-Module Type NDivProp0
+Module NDivProp0
   (Import N : NAxiomsSig')
-  (Import NP : NSubProp N)
+  (Import NP : NSubPropT N)
   (Import D0 : NZDivSpec0 N N N)
   (Import P : NDivPropPrivate N NP).
 
@@ -338,3 +338,11 @@ Abbreviation div_mul_le := div_mul_le (only parsing).
 Abbreviation mod_divides := mod_divides (only parsing).
 
 End NDivProp0.
+
+Module Type NDivProp0T
+  (Import N : NAxiomsSig')
+  (Import NP : NSubPropT N)
+  (Import D0 : NZDivSpec0 N N N)
+  (Import P : NDivPropPrivate N NP).
+Include NDivProp0 N NP D0 P.
+End NDivProp0T.

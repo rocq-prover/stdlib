@@ -34,10 +34,10 @@ Module Type NZSqrt' (A : NZOrdAxiomsSig) := Sqrt' A <+ NZSqrtSpec A.
 
 (** Derived properties of power *)
 
-Module Type NZSqrtProp
+Module NZSqrtProp
  (Import A : NZOrdAxiomsSig')
  (Import B : NZSqrt' A)
- (Import C : NZMulOrderProp A).
+ (Import C : NZMulOrderPropT A).
 
 #[local] Notation "a ²" := (a*a) (no associativity, format "a ²").
 
@@ -385,11 +385,18 @@ Qed.
 
 End NZSqrtProp.
 
-Module Type NZSqrtUpProp
+Module Type NZSqrtPropT
+ (Import A : NZOrdAxiomsSig')
+ (Import B : NZSqrt' A)
+ (Import C : NZMulOrderPropT A).
+Include NZSqrtProp A B C.
+End NZSqrtPropT.
+
+Module NZSqrtUpProp
  (Import A : NZDecOrdAxiomsSig')
  (Import B : NZSqrt' A)
- (Import C : NZMulOrderProp A)
- (Import D : NZSqrtProp A B C).
+ (Import C : NZMulOrderPropT A)
+ (Import D : NZSqrtPropT A B C).
 
 (** * [sqrt_up] : a square root that rounds up instead of down *)
 

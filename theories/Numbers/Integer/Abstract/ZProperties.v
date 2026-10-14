@@ -22,9 +22,13 @@ From Stdlib Require Export ZAxioms ZMaxMin ZSgnAbs ZParity ZPow ZDivTrunc ZDivFl
     If necessary, the earlier all-in-one functor [ZProp]
     could be re-obtained via [ZBasicProp <+ ZExtraProp] *)
 
-Module Type ZBasicProp (Z:ZAxiomsMiniSig) := ZMaxMinProp Z.
+Module ZBasicProp (Z:ZAxiomsMiniSig) := ZMaxMinProp Z.
 
-Module Type ZExtraProp (Z:ZAxiomsSig)(P:ZBasicProp Z) :=
+Module Type ZBasicPropT (Z:ZAxiomsMiniSig).
+Include  ZBasicProp Z.
+End ZBasicPropT.
+
+Module ZExtraProp (Z:ZAxiomsSig)(P:ZBasicPropT Z) :=
  ZSgnAbsProp Z P <+ ZParityProp Z P <+ ZPowProp Z P
  <+ NZSqrtProp Z Z P <+ NZSqrtUpProp Z Z P
  <+ NZLog2Prop Z Z Z P <+ NZLog2UpProp Z Z Z P

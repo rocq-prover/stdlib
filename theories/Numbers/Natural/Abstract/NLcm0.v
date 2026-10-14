@@ -11,17 +11,17 @@
 From Stdlib Require Import NAxioms NSub NDiv0 NGcd NLcm.
 
 Module Type NLcmPropPrivate
-  (A : NAxiomsSig') (B : NSubProp A) (C : NDivPropPrivate A B) (D : NGcdProp A B).
-Declare Module Private_NLcmProp : NLcmProp A B (C.Private_NDivProp) D.
+  (A : NAxiomsSig') (B : NSubPropT A) (C : NDivPropPrivate A B) (D : NGcdPropT A B).
+Declare Module Private_NLcmProp : NLcmPropT A B (C.Private_NDivProp) D.
 End NLcmPropPrivate.
 
-Module Type NLcmProp0
+Module NLcmProp0
   (Import A : NAxiomsSig')
-  (Import B : NSubProp A)
+  (Import B : NSubPropT A)
   (Import A' : NZDivSpec0 A A A)
-  (Import D : NGcdProp A B)
+  (Import D : NGcdPropT A B)
   (Import C : NDivPropPrivate A B)
-  (Import C' : NDivProp0 A B A' C)
+  (Import C' : NDivProp0T A B A' C)
   (Import E : NLcmPropPrivate A B C D).
 
 Import Private_NLcmProp.

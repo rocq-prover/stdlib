@@ -28,7 +28,7 @@ Notice that [NZMulOrderProp] [Include]s [NZAddOrderProp].
 From Stdlib Require Import NZAxioms.
 From Stdlib Require Import NZAddOrder.
 
-Module Type NZMulOrderProp (Import NZ : NZOrdAxiomsSig').
+Module NZMulOrderProp (Import NZ : NZOrdAxiomsSig').
 Include NZAddOrderProp NZ.
 
 Theorem mul_lt_pred :
@@ -428,3 +428,7 @@ Proof.
 Qed.
 
 End NZMulOrderProp.
+
+Module Type NZMulOrderPropT (Import NZ : NZOrdAxiomsSig').
+Include NZMulOrderProp NZ.
+End NZMulOrderPropT.

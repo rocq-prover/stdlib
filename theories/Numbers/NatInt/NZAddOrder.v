@@ -20,7 +20,7 @@ This gives important basic compatibility lemmas between [add] and [lt], [le].
 *)
 From Stdlib.Numbers.NatInt Require Import NZAxioms NZBase NZMul NZOrder.
 
-Module Type NZAddOrderProp (Import NZ : NZOrdAxiomsSig').
+Module NZAddOrderProp (Import NZ : NZOrdAxiomsSig').
 Include NZBaseProp NZ <+ NZMulProp NZ <+ NZOrderProp NZ.
 
 Theorem add_lt_mono_l : forall n m p, n < m <-> p + n < p + m.

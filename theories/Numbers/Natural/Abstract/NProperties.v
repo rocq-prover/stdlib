@@ -23,15 +23,27 @@ From Stdlib Require Import NMaxMin NParity NPow NSqrt NLog NDiv NDiv0 NGcd NLcm 
     If necessary, the earlier all-in-one functor [NProp]
     could be re-obtained via [NBasicProp <+ NExtraProp] *)
 
-Module Type NBasicProp (N:NAxiomsMiniSig) := NMaxMinProp N.
+Module NBasicProp (N:NAxiomsMiniSig) := NMaxMinProp N.
 
-Module Type NExtraPreProp (N:NAxiomsSig)(P:NBasicProp N) :=
+Module Type NBasicPropT (N:NAxiomsMiniSig).
+Include NBasicProp N.
+End NBasicPropT.
+
+Module NExtraPreProp (N:NAxiomsSig)(P:NBasicPropT N) :=
  NParityProp N P <+ NPowProp N P <+ NSqrtProp N P <+ NLog2Prop N P <+ NGcdProp N P.
 
-Module Type NExtraProp (N:NAxiomsSig)(P:NBasicProp N) :=
+Module Type NExtraPrePropT (N:NAxiomsSig)(P:NBasicPropT N).
+Include NExtraPreProp N P.
+End NExtraPrePropT.
+
+Module NExtraProp (N:NAxiomsSig)(P:NBasicPropT N) :=
  NExtraPreProp N P <+ NDivProp N P <+ NLcmProp N P <+ NBitsProp N P.
 
-Module Type NExtraProp0 (N:NAxiomsSig)(P:NBasicProp N)(D0:NZDivSpec0 N N N)(E:NExtraPreProp N P).
+Module Type NExtraPropT (N:NAxiomsSig)(P:NBasicPropT N).
+Include NExtraProp N P.
+End NExtraPropT.
+
+Module NExtraProp0 (N:NAxiomsSig)(P:NBasicPropT N)(D0:NZDivSpec0 N N N)(E:NExtraPrePropT N P).
  Module Private_NDivProp := Nop <+ NDivProp N P.
  Include NDivProp0 N P D0.
  Module Private_NLcmProp := Nop <+ NLcmProp N P Private_NDivProp E.
