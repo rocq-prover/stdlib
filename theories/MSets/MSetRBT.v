@@ -964,7 +964,7 @@ Qed.
 
 (** ** Treeify *)
 
-Abbreviation ifpred p n := (if p then pred n else n%nat).
+Abbreviation ifpred p n := (if p then pred n else n%_nat).
 
 Definition treeify_invariant size (f:treeify_t) :=
  forall acc,
