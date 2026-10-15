@@ -27,8 +27,8 @@ Notation "x → y" := (x -> y)
 (* The two following differ in that the second symbol "↔︎" is the
   symbol "↔" from the first line, appended with
   the _text variation selector_, indicating that it must be displayed as text and not emoji. *)
-Notation "x ↔ y" := (x <-> y) (at level 95, no associativity, only parsing): type_scope.
-Notation "x ↔︎ y" := (x <-> y) (at level 95, no associativity): type_scope.
+Notation "x ↔ y" := (x <-> y) (at level 95, no associativity): type_scope.
+Notation "x ↔︎ y" := (x <-> y) (at level 95, no associativity, only parsing): type_scope.
 Notation "¬ x" := (~x) (at level 75, right associativity) : type_scope.
 Notation "x ≠ y" := (x <> y) (at level 70) : type_scope.
 
