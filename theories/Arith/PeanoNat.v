@@ -1253,7 +1253,7 @@ Qed.
 
 Lemma OddT_S_EvenT n : OddT (S n) -> EvenT n.
 Proof.
-  intros [k HO]; rewrite add_1_r in HO; injection HO; intros ->.
+  intros [k HO]; rewrite add_1_r in HO; injection HO as ->.
   exists k; reflexivity.
 Qed.
 
