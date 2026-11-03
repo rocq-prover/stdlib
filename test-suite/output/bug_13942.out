@@ -4,7 +4,7 @@ The following term contains unresolved implicit arguments:
   (fi fu)
 More precisely: 
 - ?A: Cannot infer the implicit parameter A of fi whose type is 
-  "Type" in
+  "Univ" in
   environment:
   K : Type
   M : Type -> Type
@@ -58,7 +58,7 @@ The following term contains unresolved implicit arguments:
   (fi fu)
 More precisely: 
 - ?A: Cannot infer the implicit parameter A of fi whose type is 
-  "Type" in
+  "Univ" in
   environment:
   K : Type
   M : Type -> Type
