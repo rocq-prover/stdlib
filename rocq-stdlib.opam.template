@@ -1,6 +1,7 @@
 depends: [
   "rocq-runtime"
   "rocq-core" {>= "9.2"}
+  "rocq-micromega-plugin" {= "dev"}
 ]
 build: [
   [make "-j" jobs]

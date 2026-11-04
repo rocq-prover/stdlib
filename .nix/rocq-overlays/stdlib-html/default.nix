@@ -13,6 +13,6 @@ rocqPackages.lib.overrideRocqDerivation {
 
   installPhase = ''
     echo "nothing to install"
-    touch $out
+    mkdir $out
   '';
 } stdlib

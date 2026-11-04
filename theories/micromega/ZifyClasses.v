@@ -226,7 +226,7 @@ Proof.
   exact (fun H => proj2 IFF H).
 Qed.
 
-
+#[global] Set Warnings "-zify".
 
 (** Registering constants for use by the plugin *)
 Register eq_iff      as ZifyClasses.eq_iff.

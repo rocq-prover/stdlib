@@ -23,17 +23,17 @@ Existing Instance Inj_N_Z.
 #[global]
 Instance Op_N_div : BinOp N.div :=
   {| TBOp := Z.div ; TBOpInj := N2Z.inj_div |}.
-Add Zify BinOp Op_N_div.
+Add Tify BinOp Op_N_div.
 
 #[global]
 Instance Op_N_mod : BinOp N.modulo :=
   {| TBOp := Z.rem ; TBOpInj := N2Z.inj_rem |}.
-Add Zify BinOp Op_N_mod.
+Add Tify BinOp Op_N_mod.
 
 #[global]
 Instance Op_N_pow : BinOp N.pow :=
   {| TBOp := Z.pow ; TBOpInj := N2Z.inj_pow|}.
-Add Zify BinOp Op_N_pow.
+Add Tify BinOp Op_N_pow.
 
 #[local]
 Open Scope Z_scope.
@@ -64,7 +64,7 @@ Instance SatDiv : Saturate Z.div :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_div_nonneg_nonneg
   |}.
-Add Zify Saturate SatDiv.
+Add Tify Saturate SatDiv.
 
 #[global]
 Instance SatMod : Saturate Z.modulo :=
@@ -74,4 +74,4 @@ Instance SatMod : Saturate Z.modulo :=
     PRes  := fun _ _ r => 0 <= r;
     SatOk := Z_mod_nonneg_nonneg
   |}.
-Add Zify Saturate SatMod.
+Add Tify Saturate SatMod.
