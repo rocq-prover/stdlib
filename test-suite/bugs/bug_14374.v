@@ -26,7 +26,7 @@ Theorem le_S_down {n m} (Hnm : S n <= m) : n <= m.
   apply Peano.le_S.
   auto.
 Defined.
-Notation "↓ p" := (le_S_down p) (at level 40).
+Notation "↓ p" := (le_S_down p) (at level 39, right associativity).
 
 Notation "x .+1" := (S x) (at level 1, left associativity, format "x .+1").
 Notation "x .+2" := (S (S x)) (at level 1, left associativity, format "x .+2").
