@@ -290,8 +290,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       coq.override.version = "9.3";
       # check that we compile without warnings on last release of Rocq
       stdlib-warnings.job = true;
-      rocq-elpi.override.version = "master";
-      rocq-elpi-test.override.version = "master";
       # plugin pins, from v9.3 branch of Rocq
       aac-tactics.override.version = "09523f9910891dcc2072f2b87fee658a62feb484";
       atbr.override.version = "1806f95dd68b953312cbee44224ea1e96de9f35f";
