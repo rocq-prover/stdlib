@@ -216,6 +216,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
       stdlib-html.job = true;
       stdlib-refman-html.job = true;
       rocq-elpi.job = true;
+      actris.job = false;  # not in Rocq CI
+      base64.job = false;  # not in Rocq CI
       CakeMLExtraction.job = false;  # not in Rocq CI
       ceres.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
@@ -247,6 +249,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       TypedExtraction-rust.job = false;  # not in Rocq CI
       validsdp.job = false;  # not in Rocq CI
       verified-extraction.job = false;  # not in Rocq CI
+      vst-ora.job = false;  # not in Rocq CI
       wasmcert.job = false;  # not in Rocq CI
       hierarchy-builder.job = false;  # not a reverse dependency of Stdlib
       mathcomp-order.job = false;  # not a reverse dependency of Stdlib
@@ -290,8 +293,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       coq.override.version = "9.3";
       # check that we compile without warnings on last release of Rocq
       stdlib-warnings.job = true;
-      rocq-elpi.override.version = "master";
-      rocq-elpi-test.override.version = "master";
       # plugin pins, from v9.3 branch of Rocq
       aac-tactics.override.version = "09523f9910891dcc2072f2b87fee658a62feb484";
       atbr.override.version = "1806f95dd68b953312cbee44224ea1e96de9f35f";
@@ -337,7 +338,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       bignums.override.version = "30a45625546da0a88db8689a8009d580aa3f557f";
       stdlib-test.job = false;
       autosubst.job = false;  # no release for 9.2 yet
-      deriving.job = false;  # no release for 9.2 yet
       fcsl-pcm.job = false;  # no release for 9.2 yet
       itauto.job = false;  # broken
       mathcomp-algebra-tactics.job = false;  # no release for 9.2 yet
