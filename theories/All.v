@@ -447,6 +447,7 @@ From Stdlib Require Export Reals.RNsatz.
 From Stdlib Require Export Reals.Nsatz.
 From Stdlib Require Export Reals.Abstract.ConstructiveRealsMorphisms.
 From Stdlib Require Export Reals.ClassicalConstructiveReals.
+From Stdlib Require Export Reals.Cauchy.ConstructiveCauchyRealsSep.
 From Stdlib Require Export Reals.Abstract.ConstructiveSum.
 From Stdlib Require Export Reals.Abstract.ConstructivePower.
 From Stdlib Require Export Reals.Abstract.ConstructiveMinMax.
