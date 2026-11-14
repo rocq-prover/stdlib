@@ -24,7 +24,7 @@ destruct x as [[|xn|xn] xd];
 abstract (compute; discriminate).
 Defined.
 
-Add Morphism Qabs with signature Qeq ==> Qeq as Qabs_wd.
+#[global] Instance Qabs_wd_Proper : Proper (Qeq ==> Qeq) Qabs.
 Proof.
 intros [xn xd] [yn yd] H.
 simpl.
@@ -35,6 +35,9 @@ change (Zpos xd)%Z with (Z.abs (Zpos xd)).
 repeat rewrite <- Z.abs_mul.
 congruence.
 Qed.
+Definition Qabs_wd :
+  forall x y, Qeq x y -> Qeq (Qabs x) (Qabs y) :=
+  @proper_prf _ _ _ Qabs_wd_Proper.
 
 Lemma Qabs_pos : forall x, 0 <= x -> Qabs x == x.
 Proof.

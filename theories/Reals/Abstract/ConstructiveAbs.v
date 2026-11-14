@@ -51,12 +51,13 @@ Proof.
         apply H1. apply CRle_refl.
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRabs R)
-    with signature CReq R ==> CReq R
-      as CRabs_morph_prop.
+#[global] Instance CRabs_morph_prop_Proper {R : ConstructiveReals} : Proper (CReq R ==> CReq R) (CRabs R).
 Proof.
-  intros. apply CRabs_morph, H.
+  intros x y H. apply CRabs_morph, H.
 Qed.
+Definition CRabs_morph_prop (R : ConstructiveReals) :
+  forall x y, CReq R x y -> CReq R (CRabs R x) (CRabs R y) :=
+  @proper_prf _ _ _ (@CRabs_morph_prop_Proper R).
 
 Lemma CRabs_right : forall {R : ConstructiveReals} (x : CRcarrier R),
     0 <= x -> CRabs R x == x.

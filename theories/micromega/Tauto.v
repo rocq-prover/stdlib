@@ -235,35 +235,50 @@ Section S.
     - exact (eiff_trans k).
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eAND k) with signature eiff k ==> eiff k ==> eiff k as eAnd_morph.
+  Instance eAnd_morph_Proper (k: kind) : Morphisms.Proper (eiff k ==> eiff k ==> eiff k) (@eAND k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
+  Definition eAnd_morph (k: kind) :
+    forall x y, eiff k x y -> forall x0 y0, eiff k x0 y0 -> eiff k (@eAND k x x0) (@eAND k y y0) :=
+    @Morphisms.proper_prf _ _ _ (@eAnd_morph_Proper k).
 
-  Add Parametric Morphism (k: kind) : (@eOR k) with signature eiff k ==> eiff k ==> eiff k as eOR_morph.
+  Instance eOR_morph_Proper (k: kind) : Morphisms.Proper (eiff k ==> eiff k ==> eiff k) (@eOR k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
+  Definition eOR_morph (k: kind) :
+    forall x y, eiff k x y -> forall x0 y0, eiff k x0 y0 -> eiff k (@eOR k x x0) (@eOR k y y0) :=
+    @Morphisms.proper_prf _ _ _ (@eOR_morph_Proper k).
 
-  Add Parametric Morphism (k: kind) : (@eIMPL k) with signature eiff k ==> eiff k ==> eiff k as eIMPL_morph.
+  Instance eIMPL_morph_Proper (k: kind) : Morphisms.Proper (eiff k ==> eiff k ==> eiff k) (@eIMPL k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
+  Definition eIMPL_morph (k: kind) :
+    forall x y, eiff k x y -> forall x0 y0, eiff k x0 y0 -> eiff k (@eIMPL k x x0) (@eIMPL k y y0) :=
+    @Morphisms.proper_prf _ _ _ (@eIMPL_morph_Proper k).
 
-  Add Parametric Morphism (k: kind) : (@eIFF k) with signature eiff k ==> eiff k ==> eiff k as eIFF_morph.
+  Instance eIFF_morph_Proper (k: kind) : Morphisms.Proper (eiff k ==> eiff k ==> eiff k) (@eIFF k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
+  Definition eIFF_morph (k: kind) :
+    forall x y, eiff k x y -> forall x0 y0, eiff k x0 y0 -> eiff k (@eIFF k x x0) (@eIFF k y y0) :=
+    @Morphisms.proper_prf _ _ _ (@eIFF_morph_Proper k).
 
-  Add Parametric Morphism (k: kind) : (@eNOT k) with signature eiff k ==> eiff k as eNOT_morph.
+  Instance eNOT_morph_Proper (k: kind) : Morphisms.Proper (eiff k ==> eiff k) (@eNOT k).
   Proof.
-    intros.
+    intros x y H.
     destruct k ; simpl in *; intuition congruence.
   Qed.
+  Definition eNOT_morph (k: kind) :
+    forall x y, eiff k x y -> eiff k (@eNOT k x) (@eNOT k y) :=
+    @Morphisms.proper_prf _ _ _ (@eNOT_morph_Proper k).
 
   Lemma eval_f_morph :
     forall  (ev ev' : forall (k: kind), TA -> rtyp k),

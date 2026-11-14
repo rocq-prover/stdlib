@@ -5,13 +5,12 @@ Module SomeSetoids (Import M:FSetInterface.S).
 Lemma Equal_refl : forall s, s[=]s.
 Proof. red; split; auto. Qed.
 
-Add Relation t Equal
- reflexivity proved by Equal_refl
- symmetry proved by eq_sym
- transitivity proved by eq_trans
- as EqualSetoid.
+#[global] Instance EqualSetoid : @Equivalence t Equal := {
+  Equivalence_Reflexive := Equal_refl;
+  Equivalence_Symmetric := eq_sym;
+  Equivalence_Transitive := eq_trans }.
 
-Add Morphism Empty with signature Equal ==> iff as Empty_m.
+#[global] Instance Empty_m : Proper (Equal ==> iff) Empty.
 Proof.
 unfold Equal, Empty; firstorder.
 Qed.

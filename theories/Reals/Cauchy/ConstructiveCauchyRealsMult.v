@@ -462,12 +462,13 @@ Proof.
   - apply CReal_plus_opp_r.
 Qed.
 
-Add Parametric Morphism : CReal_mult
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_mult_morph.
+#[global] Instance CReal_mult_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_mult.
 Proof.
   apply CReal_isRingExt.
 Qed.
+Definition CReal_mult_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> CRealEq (CReal_mult x x0) (CReal_mult y y0) :=
+  @proper_prf _ _ _ CReal_mult_morph_Proper.
 
 #[global]
 Instance CReal_mult_morph_T
@@ -477,12 +478,13 @@ Proof.
   apply CReal_isRingExt.
 Qed.
 
-Add Parametric Morphism : CReal_opp
-    with signature CRealEq ==> CRealEq
-      as CReal_opp_morph.
+#[global] Instance CReal_opp_morph_Proper : Proper (CRealEq ==> CRealEq) CReal_opp.
 Proof.
   apply (Ropp_ext CReal_isRingExt).
 Qed.
+Definition CReal_opp_morph :
+  forall x y, CRealEq x y -> CRealEq (CReal_opp x) (CReal_opp y) :=
+  @proper_prf _ _ _ CReal_opp_morph_Proper.
 
 #[global]
 Instance CReal_opp_morph_T
@@ -492,12 +494,13 @@ Proof.
   apply CReal_isRingExt.
 Qed.
 
-Add Parametric Morphism : CReal_minus
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_minus_morph.
+#[global] Instance CReal_minus_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_minus.
 Proof.
-  intros. unfold CReal_minus. rewrite H,H0. reflexivity.
+  intros x y H x0 y0 H0. unfold CReal_minus. rewrite H,H0. reflexivity.
 Qed.
+Definition CReal_minus_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> CRealEq (CReal_minus x x0) (CReal_minus y y0) :=
+  @proper_prf _ _ _ CReal_minus_morph_Proper.
 
 #[global]
 Instance CReal_minus_morph_T

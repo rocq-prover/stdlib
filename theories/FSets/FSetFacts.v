@@ -422,10 +422,13 @@ Proof. red; auto. Qed.
 Lemma Subset_trans : forall s s' s'', s[<=]s'->s'[<=]s''->s[<=]s''.
 Proof. unfold Subset; eauto. Qed.
 
-Add Relation t Subset
- reflexivity proved by Subset_refl
- transitivity proved by Subset_trans
- as SubsetSetoid.
+#[global] Instance SubsetSetoid_relation : @RewriteRelation t Subset := {}.
+
+#[global] Instance SubsetSetoid_Reflexive : @Reflexive t Subset := Subset_refl.
+#[global] Instance SubsetSetoid_Transitive : @Transitive t Subset := Subset_trans.
+#[global] Instance SubsetSetoid : @PreOrder t Subset := {
+  PreOrder_Reflexive := Subset_refl;
+  PreOrder_Transitive := Subset_trans }.
 
 #[global]
 Instance In_s_m : Morphisms.Proper (E.eq ==> Subset ++> Basics.impl) In | 1.
@@ -433,40 +436,58 @@ Proof.
   simpl_relation. eauto with set.
 Qed.
 
-Add Morphism Empty with signature Subset --> Basics.impl as Empty_s_m.
+#[global] Instance Empty_s_m_Proper : Proper (Subset --> Basics.impl) Empty.
 Proof.
 unfold Subset, Empty, Basics.impl; firstorder.
 Qed.
+Definition Empty_s_m :
+  forall x y, Basics.flip Subset x y -> Basics.impl (Empty x) (Empty y) :=
+  @proper_prf _ _ _ Empty_s_m_Proper.
 
-Add Morphism add with signature E.eq ==> Subset ++> Subset as add_s_m.
+#[global] Instance add_s_m_Proper : Proper (E.eq ==> Subset ++> Subset) add.
 Proof.
 unfold Subset; intros x y H s s' H0 a.
 do 2 rewrite add_iff; rewrite H; intuition.
 Qed.
+Definition add_s_m :
+  forall x y, E.eq x y -> forall x0 y0, Subset x0 y0 -> Subset (add x x0) (add y y0) :=
+  @proper_prf _ _ _ add_s_m_Proper.
 
-Add Morphism remove with signature E.eq ==> Subset ++> Subset as remove_s_m.
+#[global] Instance remove_s_m_Proper : Proper (E.eq ==> Subset ++> Subset) remove.
 Proof.
 unfold Subset; intros x y H s s' H0 a.
 do 2 rewrite remove_iff; rewrite H; intuition.
 Qed.
+Definition remove_s_m :
+  forall x y, E.eq x y -> forall x0 y0, Subset x0 y0 -> Subset (remove x x0) (remove y y0) :=
+  @proper_prf _ _ _ remove_s_m_Proper.
 
-Add Morphism union with signature Subset ++> Subset ++> Subset as union_s_m.
+#[global] Instance union_s_m_Proper : Proper (Subset ++> Subset ++> Subset) union.
 Proof.
 unfold Equal; intros s s' H s'' s''' H0 a.
 do 2 rewrite union_iff; intuition.
 Qed.
+Definition union_s_m :
+  forall x y, Subset x y -> forall x0 y0, Subset x0 y0 -> Subset (union x x0) (union y y0) :=
+  @proper_prf _ _ _ union_s_m_Proper.
 
-Add Morphism inter with signature Subset ++> Subset ++> Subset as inter_s_m.
+#[global] Instance inter_s_m_Proper : Proper (Subset ++> Subset ++> Subset) inter.
 Proof.
 unfold Equal; intros s s' H s'' s''' H0 a.
 do 2 rewrite inter_iff; intuition.
 Qed.
+Definition inter_s_m :
+  forall x y, Subset x y -> forall x0 y0, Subset x0 y0 -> Subset (inter x x0) (inter y y0) :=
+  @proper_prf _ _ _ inter_s_m_Proper.
 
-Add Morphism diff with signature Subset ++> Subset --> Subset as diff_s_m.
+#[global] Instance diff_s_m_Proper : Proper (Subset ++> Subset --> Subset) diff.
 Proof.
 unfold Subset; intros s s' H s'' s''' H0 a.
 do 2 rewrite diff_iff; intuition.
 Qed.
+Definition diff_s_m :
+  forall x y, Subset x y -> forall x0 y0, Basics.flip Subset x0 y0 -> Subset (diff x x0) (diff y y0) :=
+  @proper_prf _ _ _ diff_s_m_Proper.
 
 (* [fold], [filter], [for_all], [exists_] and [partition] cannot be proved morphism
    without additional hypothesis on [f]. For instance: *)

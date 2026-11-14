@@ -774,10 +774,13 @@ Module WProperties_fun (Import E : DecidableType)(M : WSfun E).
     rewrite (cardinal_2 (s:=remove x s') (s':=s') (x:=x)); eauto with set.
   Qed.
 
-  Add Morphism cardinal with signature (Equal ==> Logic.eq) as cardinal_m.
+  #[global] Instance cardinal_m_Proper : Proper (Equal ==> Logic.eq) cardinal.
   Proof.
   exact Equal_cardinal.
   Qed.
+  Definition cardinal_m :
+    forall x y, Equal x y -> Logic.eq (cardinal x) (cardinal y) :=
+    @proper_prf _ _ _ cardinal_m_Proper.
 
   #[global]
   Hint Resolve Add_add Add_remove Equal_remove cardinal_inv_1 Equal_cardinal : fset.

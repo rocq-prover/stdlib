@@ -648,88 +648,112 @@ Proof.
 constructor; red; [apply Equal_refl | apply Equal_sym | apply Equal_trans].
 Qed.
 
-Add Relation key E.eq
- reflexivity proved by E.eq_refl
- symmetry proved by E.eq_sym
- transitivity proved by E.eq_trans
- as KeySetoid.
+#[global] Instance KeySetoid_relation : @RewriteRelation key E.eq := {}.
+#[global] Instance KeySetoid_Reflexive : @Reflexive key E.eq := E.eq_refl.
+#[global] Instance KeySetoid_Symmetric : @Symmetric key E.eq := E.eq_sym.
+#[global] Instance KeySetoid_Transitive : @Transitive key E.eq := E.eq_trans.
+#[global] Instance KeySetoid : @Equivalence key E.eq := {
+  Equivalence_Reflexive := E.eq_refl;
+  Equivalence_Symmetric := E.eq_sym;
+  Equivalence_Transitive := E.eq_trans }.
 
 Arguments Equal {elt} m m'.
 
-Add Parametric Relation (elt : Type) : (t elt) Equal
- reflexivity proved by (@Equal_refl elt)
- symmetry proved by (@Equal_sym elt)
- transitivity proved by (@Equal_trans elt)
- as EqualSetoid.
+#[global] Instance EqualSetoid_relation (elt : Type) : @RewriteRelation (t elt) Equal := {}.
+#[global] Instance EqualSetoid_Reflexive (elt : Type) : @Reflexive (t elt) Equal := @Equal_refl elt.
+#[global] Instance EqualSetoid_Symmetric (elt : Type) : @Symmetric (t elt) Equal := @Equal_sym elt.
+#[global] Instance EqualSetoid_Transitive (elt : Type) : @Transitive (t elt) Equal := @Equal_trans elt.
+#[global] Instance EqualSetoid (elt : Type) : @Equivalence (t elt) Equal := {
+  Equivalence_Reflexive := (@Equal_refl elt);
+  Equivalence_Symmetric := (@Equal_sym elt);
+  Equivalence_Transitive := (@Equal_trans elt) }.
 
-Add Parametric Morphism elt : (@In elt)
- with signature E.eq ==> Equal ==> iff as In_m.
+#[global] Instance In_m_Proper elt : Proper (E.eq ==> Equal ==> iff) (@In elt).
 Proof.
 unfold Equal; intros k k' Hk m m' Hm.
 rewrite (In_iff m Hk), in_find_iff, in_find_iff, Hm; intuition.
 Qed.
+Definition In_m elt :
+  forall x y, E.eq x y -> forall x0 y0, Equal x0 y0 -> iff (@In elt x x0) (@In elt y y0) :=
+  @proper_prf _ _ _ (@In_m_Proper elt).
 
-Add Parametric Morphism elt : (@MapsTo elt)
- with signature E.eq ==> eq ==> Equal ==> iff as MapsTo_m.
+#[global] Instance MapsTo_m_Proper elt : Proper (E.eq ==> eq ==> Equal ==> iff) (@MapsTo elt).
 Proof.
-unfold Equal; intros k k' Hk e m m' Hm.
+unfold Equal; intros k k' Hk e ? <- m m' Hm.
 rewrite (MapsTo_iff m e Hk), find_mapsto_iff, find_mapsto_iff, Hm;
  intuition.
 Qed.
+Definition MapsTo_m elt :
+  forall x y, E.eq x y -> forall x0 y0, eq x0 y0 -> forall x1 y1, Equal x1 y1 -> iff (@MapsTo elt x x0 x1) (@MapsTo elt y y0 y1) :=
+  @proper_prf _ _ _ (@MapsTo_m_Proper elt).
 
-Add Parametric Morphism elt : (@Empty elt)
- with signature Equal ==> iff as Empty_m.
+#[global] Instance Empty_m_Proper elt : Proper (Equal ==> iff) (@Empty elt).
 Proof.
 unfold Empty; intros m m' Hm. split; intros; intro.
 - rewrite <-Hm in H0; eapply H, H0.
 - rewrite Hm in H0; eapply H, H0.
 Qed.
+Definition Empty_m elt :
+  forall x y, Equal x y -> iff (@Empty elt x) (@Empty elt y) :=
+  @proper_prf _ _ _ (@Empty_m_Proper elt).
 
-Add Parametric Morphism elt : (@is_empty elt)
- with signature Equal ==> eq as is_empty_m.
+#[global] Instance is_empty_m_Proper elt : Proper (Equal ==> eq) (@is_empty elt).
 Proof.
 intros m m' Hm.
 rewrite eq_bool_alt, <-is_empty_iff, <-is_empty_iff, Hm; intuition.
 Qed.
+Definition is_empty_m elt :
+  forall x y, Equal x y -> eq (@is_empty elt x) (@is_empty elt y) :=
+  @proper_prf _ _ _ (@is_empty_m_Proper elt).
 
-Add Parametric Morphism elt : (@mem elt)
- with signature E.eq ==> Equal ==> eq as mem_m.
+#[global] Instance mem_m_Proper elt : Proper (E.eq ==> Equal ==> eq) (@mem elt).
 Proof.
 intros k k' Hk m m' Hm.
 rewrite eq_bool_alt, <- mem_in_iff, <-mem_in_iff, Hk, Hm; intuition.
 Qed.
+Definition mem_m elt :
+  forall x y, E.eq x y -> forall x0 y0, Equal x0 y0 -> eq (@mem elt x x0) (@mem elt y y0) :=
+  @proper_prf _ _ _ (@mem_m_Proper elt).
 
-Add Parametric Morphism elt : (@find elt)
- with signature E.eq ==> Equal ==> eq as find_m.
+#[global] Instance find_m_Proper elt : Proper (E.eq ==> Equal ==> eq) (@find elt).
 Proof.
 intros k k' Hk m m' Hm. rewrite eq_option_alt. intro e.
 rewrite <- 2 find_mapsto_iff, Hk, Hm. split; auto.
 Qed.
+Definition find_m elt :
+  forall x y, E.eq x y -> forall x0 y0, Equal x0 y0 -> eq (@find elt x x0) (@find elt y y0) :=
+  @proper_prf _ _ _ (@find_m_Proper elt).
 
-Add Parametric Morphism elt : (@add elt)
- with signature E.eq ==> eq ==> Equal ==> Equal as add_m.
+#[global] Instance add_m_Proper elt : Proper (E.eq ==> eq ==> Equal ==> Equal) (@add elt).
 Proof.
-intros k k' Hk e m m' Hm y.
+intros k k' Hk e ? <- m m' Hm y.
 rewrite add_o, add_o; do 2 destruct eq_dec as [|?Hnot]; auto.
 - elim Hnot; rewrite <-Hk; auto.
 - elim Hnot; rewrite Hk; auto.
 Qed.
+Definition add_m elt :
+  forall x y, E.eq x y -> forall x0 y0, eq x0 y0 -> forall x1 y1, Equal x1 y1 -> Equal (@add elt x x0 x1) (@add elt y y0 y1) :=
+  @proper_prf _ _ _ (@add_m_Proper elt).
 
-Add Parametric Morphism elt : (@remove elt)
- with signature E.eq ==> Equal ==> Equal as remove_m.
+#[global] Instance remove_m_Proper elt : Proper (E.eq ==> Equal ==> Equal) (@remove elt).
 Proof.
 intros k k' Hk m m' Hm y.
 rewrite remove_o, remove_o; do 2 destruct eq_dec as [|?Hnot]; auto.
 - elim Hnot; rewrite <-Hk; auto.
 - elim Hnot; rewrite Hk; auto.
 Qed.
+Definition remove_m elt :
+  forall x y, E.eq x y -> forall x0 y0, Equal x0 y0 -> Equal (@remove elt x x0) (@remove elt y y0) :=
+  @proper_prf _ _ _ (@remove_m_Proper elt).
 
-Add Parametric Morphism elt elt' : (@map elt elt')
- with signature eq ==> Equal ==> Equal as map_m.
+#[global] Instance map_m_Proper elt elt' : Proper (eq ==> Equal ==> Equal) (@map elt elt').
 Proof.
-intros f m m' Hm y.
+intros f ? <- m m' Hm y.
 rewrite map_o, map_o, Hm; auto.
 Qed.
+Definition map_m elt elt' :
+  forall x y, eq x y -> forall x0 y0, Equal x0 y0 -> Equal (@map elt elt' x x0) (@map elt elt' y y0) :=
+  @proper_prf _ _ _ (@map_m_Proper elt elt').
 
 (* Later: Add Morphism cardinal *)
 
@@ -1770,20 +1794,23 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
 
  End Elt.
 
- Add Parametric Morphism elt : (@cardinal elt)
-   with signature Equal ==> eq as cardinal_m.
- Proof. intros; apply Equal_cardinal; auto. Qed.
+ #[global] Instance cardinal_m_Proper elt : Proper (Equal ==> eq) (@cardinal elt).
+ Proof. intros x y H; apply Equal_cardinal; auto. Qed.
+ Definition cardinal_m elt :
+   forall x y, Equal x y -> eq (@cardinal elt x) (@cardinal elt y) :=
+   @proper_prf _ _ _ (@cardinal_m_Proper elt).
 
- Add Parametric Morphism elt : (@Disjoint elt)
-   with signature Equal ==> Equal ==> iff as Disjoint_m.
+ #[global] Instance Disjoint_m_Proper elt : Proper (Equal ==> Equal ==> iff) (@Disjoint elt).
  Proof.
   intros m1 m1' Hm1 m2 m2' Hm2. unfold Disjoint. split; intros.
   - rewrite <- Hm1, <- Hm2; auto.
   - rewrite Hm1, Hm2; auto.
  Qed.
+ Definition Disjoint_m elt :
+   forall x y, Equal x y -> forall x0 y0, Equal x0 y0 -> iff (@Disjoint elt x x0) (@Disjoint elt y y0) :=
+   @proper_prf _ _ _ (@Disjoint_m_Proper elt).
 
- Add Parametric Morphism elt : (@Partition elt)
-   with signature Equal ==> Equal ==> Equal ==> iff as Partition_m.
+ #[global] Instance Partition_m_Proper elt : Proper (Equal ==> Equal ==> Equal ==> iff) (@Partition elt).
  Proof.
   intros m1 m1' Hm1 m2 m2' Hm2 m3 m3' Hm3. unfold Partition.
   rewrite <- Hm2, <- Hm3.
@@ -1791,9 +1818,11 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
   - rewrite <- Hm1, <- Hm2, <- Hm3; auto.
   - rewrite Hm1, Hm2, Hm3; auto.
  Qed.
+ Definition Partition_m elt :
+   forall x y, Equal x y -> forall x0 y0, Equal x0 y0 -> forall x1 y1, Equal x1 y1 -> iff (@Partition elt x x0 x1) (@Partition elt y y0 y1) :=
+   @proper_prf _ _ _ (@Partition_m_Proper elt).
 
- Add Parametric Morphism elt : (@update elt)
-   with signature Equal ==> Equal ==> Equal as update_m.
+ #[global] Instance update_m_Proper elt : Proper (Equal ==> Equal ==> Equal) (@update elt).
  Proof.
   intros m1 m1' Hm1 m2 m2' Hm2.
   setoid_replace (update m1 m2) with (update m1' m2); unfold update.
@@ -1804,9 +1833,11 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
   - apply fold_init with (eqA:=Equal); auto.
     intros k k' Hk e e' He m m' Hm; rewrite Hk,He,Hm; red; auto.
  Qed.
+ Definition update_m elt :
+   forall x y, Equal x y -> forall x0 y0, Equal x0 y0 -> Equal (@update elt x x0) (@update elt y y0) :=
+   @proper_prf _ _ _ (@update_m_Proper elt).
 
- Add Parametric Morphism elt : (@restrict elt)
-   with signature Equal ==> Equal ==> Equal as restrict_m.
+ #[global] Instance restrict_m_Proper elt : Proper (Equal ==> Equal ==> Equal) (@restrict elt).
  Proof.
   intros m1 m1' Hm1 m2 m2' Hm2.
   setoid_replace (restrict m1 m2) with (restrict m1' m2);
@@ -1823,9 +1854,11 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
       case_eq (mem k m2); case_eq (mem k' m2); intros; auto.
       rewrite !add_o; do 2 destruct eq_dec; auto. elim Hneq; eauto.
  Qed.
+ Definition restrict_m elt :
+   forall x y, Equal x y -> forall x0 y0, Equal x0 y0 -> Equal (@restrict elt x x0) (@restrict elt y y0) :=
+   @proper_prf _ _ _ (@restrict_m_Proper elt).
 
- Add Parametric Morphism elt : (@diff elt)
-   with signature Equal ==> Equal ==> Equal as diff_m.
+ #[global] Instance diff_m_Proper elt : Proper (Equal ==> Equal ==> Equal) (@diff elt).
  Proof.
   intros m1 m1' Hm1 m2 m2' Hm2.
   setoid_replace (diff m1 m2) with (diff m1' m2);
@@ -1842,6 +1875,9 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
       case_eq (mem k m2); case_eq (mem k' m2); intros; simpl; auto.
       rewrite !add_o; do 2 destruct eq_dec; auto. elim Hneq; eauto.
  Qed.
+ Definition diff_m elt :
+   forall x y, Equal x y -> forall x0 y0, Equal x0 y0 -> Equal (@diff elt x x0) (@diff elt y y0) :=
+   @proper_prf _ _ _ (@diff_m_Proper elt).
 
 End WProperties_fun.
 
