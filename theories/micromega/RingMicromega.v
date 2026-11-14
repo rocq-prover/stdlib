@@ -13,7 +13,7 @@
 From Stdlib Require Import PeanoNat.
 From Stdlib Require Import BinPos BinNat NArithRing.
 From Stdlib Require Import Relation_Definitions.
-From Stdlib Require Import Setoid.
+From Stdlib Require Import Setoid Morphisms.
 From Stdlib Require Import Ring.
 (*****)
 From Stdlib Require Import Env.
@@ -82,34 +82,30 @@ Record SORaddon := mk_SOR_addon {
 
 Variable addon : SORaddon.
 
-Add Relation R req
-  reflexivity proved by (@Equivalence_Reflexive _ _ (SORsetoid sor))
-  symmetry proved by (@Equivalence_Symmetric _ _ (SORsetoid sor))
-  transitivity proved by (@Equivalence_Transitive _ _ (SORsetoid sor))
-as micomega_sor_setoid.
+Instance micomega_sor_setoid : @Equivalence R req := SORsetoid sor.
 
-Add Morphism rplus with signature req ==> req ==> req as rplus_morph.
+Instance rplus_morph : Proper (req ==> req ==> req) rplus.
 Proof.
 exact (SORplus_wd sor).
 Qed.
-Add Morphism rtimes with signature req ==> req ==> req as rtimes_morph.
+Instance rtimes_morph : Proper (req ==> req ==> req) rtimes.
 Proof.
 exact (SORtimes_wd sor).
 Qed.
-Add Morphism ropp with signature req ==> req as ropp_morph.
+Instance ropp_morph : Proper (req ==> req) ropp.
 Proof.
 exact (SORopp_wd sor).
 Qed.
-Add Morphism rle with signature req ==> req ==> iff as rle_morph.
+Instance rle_morph : Proper (req ==> req ==> iff) rle.
 Proof.
   exact (SORle_wd sor).
 Qed.
-Add Morphism rlt with signature req ==> req ==> iff as rlt_morph.
+Instance rlt_morph : Proper (req ==> req ==> iff) rlt.
 Proof.
   exact (SORlt_wd sor).
 Qed.
 
-Add Morphism rminus with signature req ==> req ==> req as rminus_morph.
+Instance rminus_morph : Proper (req ==> req ==> req) rminus.
 Proof.
   exact (rminus_morph sor). (* We already proved that minus is a morphism in OrderedRing.v *)
 Qed.

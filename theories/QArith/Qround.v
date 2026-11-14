@@ -122,7 +122,7 @@ Qed.
 #[global]
 Hint Resolve Qceiling_resp_le : qarith.
 
-Add Morphism Qfloor with signature Qeq ==> eq as Qfloor_comp.
+#[global] Instance Qfloor_comp : Proper (Qeq ==> eq) Qfloor.
 Proof.
 intros x y H.
 apply Z.le_antisymm.
@@ -130,7 +130,7 @@ apply Z.le_antisymm.
 - symmetry in H; auto with *.
 Qed.
 
-Add Morphism Qceiling with signature Qeq ==> eq as Qceiling_comp.
+#[global] Instance Qceiling_comp : Proper (Qeq ==> eq) Qceiling.
 Proof.
 intros x y H.
 apply Z.le_antisymm.

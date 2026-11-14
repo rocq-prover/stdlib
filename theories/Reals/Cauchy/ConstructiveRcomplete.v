@@ -646,10 +646,10 @@ Proof.
         pose proof Qpower_0_lt 2 (Z.neg p)%Z; lra.
 
     + (* Solve remaining aux goals *)
-      rewrite <- inject_Q_plus. rewrite (inject_Q_morph _ (1#2*p)).
+      rewrite <- inject_Q_plus. rewrite (inject_Q_morph _ (1#2*p)%Q).
       * apply CRealLe_refl.
       * rewrite Qinv_plus_distr; reflexivity.
-  - rewrite <- inject_Q_plus. rewrite (inject_Q_morph _ (1#p)).
+  - rewrite <- inject_Q_plus. rewrite (inject_Q_morph _ (1#p)%Q).
     + apply CRealLe_refl.
     + rewrite Qinv_plus_distr; reflexivity.
 Qed.

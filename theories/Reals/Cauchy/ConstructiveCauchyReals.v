@@ -358,11 +358,10 @@ Proof.
   - intro contra. destruct (CRealLt_dec _ _ y contra); contradiction.
 Qed.
 
-Add Parametric Relation : CReal CRealEq
-    reflexivity proved by CRealEq_refl
-    symmetry proved by CRealEq_sym
-    transitivity proved by CRealEq_trans
-      as CRealEq_rel.
+#[global] Instance CRealEq_rel : @Equivalence CReal CRealEq := {
+  Equivalence_Reflexive := CRealEq_refl;
+  Equivalence_Symmetric := CRealEq_sym;
+  Equivalence_Transitive := CRealEq_trans }.
 
 #[global]
 Instance CRealEq_relT : CRelationClasses.Equivalence CRealEq.
@@ -421,9 +420,7 @@ Proof.
     + right. rewrite Hx0eqy0, Hxeqy. exact Hy0lty.
 Qed.
 
-Add Parametric Morphism : CRealLtProp
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealLtProp_morph.
+#[global] Instance CRealLtProp_morph : Proper (CRealEq ==> CRealEq ==> iff) CRealLtProp.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   split.
@@ -433,9 +430,7 @@ Proof.
     rewrite Hxeqy, Hx0eqy0. exact Hylty0.
 Qed.
 
-Add Parametric Morphism : CRealLe
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealLe_morph.
+#[global] Instance CRealLe_morph : Proper (CRealEq ==> CRealEq ==> iff) CRealLe.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   split.
@@ -445,9 +440,7 @@ Proof.
     rewrite Hx0eqy0 in Hyley0. rewrite Hxeqy in Hyley0. contradiction.
 Qed.
 
-Add Parametric Morphism : CRealGe
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealGe_morph.
+#[global] Instance CRealGe_morph : Proper (CRealEq ==> CRealEq ==> iff) CRealGe.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   unfold CRealGe. apply CRealLe_morph; assumption.
@@ -556,9 +549,7 @@ Proof.
   all: apply Qabs_Qlt_condition in xcau; lra.
 Qed.
 
-Add Parametric Morphism : inject_Q
-    with signature Qeq ==> CRealEq
-      as inject_Q_morph.
+#[global] Instance inject_Q_morph : Proper (Qeq ==> CRealEq) inject_Q.
 Proof.
   intros x y Heq; split.
   all: intros [n Hapart]; cbn in Hapart; rewrite Heq in Hapart.
@@ -845,9 +836,7 @@ Proof.
     destruct H. contradiction.
 Qed.
 
-Add Parametric Morphism : CReal_plus
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_plus_morph.
+#[global] Instance CReal_plus_morph : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_plus.
 Proof.
   intros x y H z t H0. apply (CRealEq_trans _ (CReal_plus x t)).
   - destruct H0.

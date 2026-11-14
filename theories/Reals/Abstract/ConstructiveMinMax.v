@@ -56,11 +56,9 @@ Proof.
         rewrite CRmult_1_r. apply CRle_refl.
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : CRmin
-    with signature (CReq R) ==> (CReq R) ==> (CReq R)
-      as CRmin_morph.
+#[global] Instance CRmin_morph (R : ConstructiveReals) : Proper ((CReq R) ==> (CReq R) ==> (CReq R)) CRmin.
 Proof.
-  intros. unfold CRmin.
+  intros x y H x0 y0 H0. unfold CRmin.
   apply CRmult_morph. 2: reflexivity.
   unfold CRminus.
   rewrite H, H0. reflexivity.
@@ -365,11 +363,9 @@ Qed.
 Definition CRmax {R : ConstructiveReals} (x y : CRcarrier R) : CRcarrier R
   := (x + y + CRabs _ (y - x)) * CR_of_Q _ (1#2).
 
-Add Parametric Morphism {R : ConstructiveReals} : CRmax
-    with signature (CReq R) ==> (CReq R) ==> (CReq R)
-      as CRmax_morph.
+#[global] Instance CRmax_morph (R : ConstructiveReals) : Proper ((CReq R) ==> (CReq R) ==> (CReq R)) CRmax.
 Proof.
-  intros. unfold CRmax.
+  intros x y H x0 y0 H0. unfold CRmax.
   apply CRmult_morph. 2: reflexivity. unfold CRminus.
   rewrite H, H0. reflexivity.
 Qed.

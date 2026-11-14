@@ -462,9 +462,7 @@ Proof.
   - apply CReal_plus_opp_r.
 Qed.
 
-Add Parametric Morphism : CReal_mult
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_mult_morph.
+#[global] Instance CReal_mult_morph : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_mult.
 Proof.
   apply CReal_isRingExt.
 Qed.
@@ -477,9 +475,7 @@ Proof.
   apply CReal_isRingExt.
 Qed.
 
-Add Parametric Morphism : CReal_opp
-    with signature CRealEq ==> CRealEq
-      as CReal_opp_morph.
+#[global] Instance CReal_opp_morph : Proper (CRealEq ==> CRealEq) CReal_opp.
 Proof.
   apply (Ropp_ext CReal_isRingExt).
 Qed.
@@ -492,11 +488,9 @@ Proof.
   apply CReal_isRingExt.
 Qed.
 
-Add Parametric Morphism : CReal_minus
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_minus_morph.
+#[global] Instance CReal_minus_morph : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_minus.
 Proof.
-  intros. unfold CReal_minus. rewrite H,H0. reflexivity.
+  intros x y H x0 y0 H0. unfold CReal_minus. rewrite H,H0. reflexivity.
 Qed.
 
 #[global]

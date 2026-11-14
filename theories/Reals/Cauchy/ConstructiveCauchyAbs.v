@@ -192,11 +192,9 @@ Proof.
     + exact Hdec.
 Qed.
 
-Add Parametric Morphism : CReal_abs
-    with signature CRealEq ==> CRealEq
-      as CReal_abs_morph.
+#[global] Instance CReal_abs_morph : Proper (CRealEq ==> CRealEq) CReal_abs.
 Proof.
-  intros. split.
+  intros x y H. split.
   - intro abs. destruct (CReal_abs_appart_0 y).
     + apply (CReal_le_lt_trans _ (CReal_abs x)).
       * apply CReal_abs_pos.
@@ -438,19 +436,15 @@ Definition CReal_min (x y : CReal) : CReal
 Definition CReal_max (x y : CReal) : CReal
   := (x + y + CReal_abs (y - x)) * inject_Q (1#2).
 
-Add Parametric Morphism : CReal_min
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_min_morph.
+#[global] Instance CReal_min_morph : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_min.
 Proof.
-  intros. unfold CReal_min.
+  intros x y H x0 y0 H0. unfold CReal_min.
   rewrite H, H0. reflexivity.
 Qed.
 
-Add Parametric Morphism : CReal_max
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_max_morph.
+#[global] Instance CReal_max_morph : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_max.
 Proof.
-  intros. unfold CReal_max.
+  intros x y H x0 y0 H0. unfold CReal_max.
   rewrite H, H0. reflexivity.
 Qed.
 

@@ -774,7 +774,7 @@ Module WProperties_fun (Import E : DecidableType)(M : WSfun E).
     rewrite (cardinal_2 (s:=remove x s') (s':=s') (x:=x)); eauto with set.
   Qed.
 
-  Add Morphism cardinal with signature (Equal ==> Logic.eq) as cardinal_m.
+  #[global] Instance cardinal_m : Proper (Equal ==> Logic.eq) cardinal.
   Proof.
   exact Equal_cardinal.
   Qed.

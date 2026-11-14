@@ -17,7 +17,7 @@
 From Stdlib Require Import List.
 From Stdlib Require Import Refl.
 From Stdlib Require Import Bool.
-From Stdlib Require Import Relation_Definitions Setoid.
+From Stdlib Require Import Relation_Definitions Setoid Morphisms.
 
 Set Implicit Arguments.
 
@@ -235,33 +235,33 @@ Section S.
     - exact (eiff_trans k).
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eAND k) with signature eiff k ==> eiff k ==> eiff k as eAnd_morph.
+  Instance eAnd_morph (k: kind) : Proper (eiff k ==> eiff k ==> eiff k) (@eAND k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eOR k) with signature eiff k ==> eiff k ==> eiff k as eOR_morph.
+  Instance eOR_morph (k: kind) : Proper (eiff k ==> eiff k ==> eiff k) (@eOR k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eIMPL k) with signature eiff k ==> eiff k ==> eiff k as eIMPL_morph.
+  Instance eIMPL_morph (k: kind) : Proper (eiff k ==> eiff k ==> eiff k) (@eIMPL k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eIFF k) with signature eiff k ==> eiff k ==> eiff k as eIFF_morph.
+  Instance eIFF_morph (k: kind) : Proper (eiff k ==> eiff k ==> eiff k) (@eIFF k).
   Proof.
-    intros.
+    intros x y H x0 y0 H0.
     destruct k ; simpl in *; intuition congruence.
   Qed.
 
-  Add Parametric Morphism (k: kind) : (@eNOT k) with signature eiff k ==> eiff k as eNOT_morph.
+  Instance eNOT_morph (k: kind) : Proper (eiff k ==> eiff k) (@eNOT k).
   Proof.
-    intros.
+    intros x y H.
     destruct k ; simpl in *; intuition congruence.
   Qed.
 

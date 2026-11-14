@@ -150,14 +150,10 @@ Coercion ob : Category >-> Sortclass.
 
 Open Scope category_scope.
 
-Add Parametric Relation `(C:Category Ob Hom) (a b : Ob) : (hom a b) (eqv a b)
-  reflexivity proved by (@Equivalence_Reflexive _ _ (eqv_equivalence a b))
-  symmetry proved by (@Equivalence_Symmetric _ _ (eqv_equivalence a b))
-  transitivity proved by (@Equivalence_Transitive _ _ (eqv_equivalence a b))
-  as parametric_relation_eqv.
+#[global] Instance parametric_relation_eqv `(C:Category Ob Hom) (a b : Ob) : @Equivalence (hom a b) (eqv a b) :=
+  eqv_equivalence a b.
 
-Add Parametric Morphism `(C:Category Ob Hom) (c b a : Ob) : (comp c b a)
-  with signature (eqv _ _ ==> eqv _ _ ==> eqv _ _) as parametric_morphism_comp.
+#[global] Instance parametric_morphism_comp `(C:Category Ob Hom) (c b a : Ob) : Proper (eqv _ _ ==> eqv _ _ ==> eqv _ _) (comp c b a).
   intros x y Heq x' y'. apply comp_respects. exact Heq.
   Defined.
 
@@ -172,11 +168,9 @@ Class Functor `(C:Category) `(D:Category) (im : C -> D) := {
 Coercion functor_im : Functor >-> Funclass.
 Arguments fmap [Object Hom C Object0 Hom0 D im] _ [a b].
 
-Add Parametric Morphism `(C:Category) `(D:Category)
-  (Im:C->D) (F:Functor C D Im) (a b:C) : (@fmap _ _ C _ _ D Im F a b)
-  with signature (@eqv C _ C a b ==> @eqv D _ D (Im a) (Im b))
-  as parametric_morphism_fmap.
-intros. apply fmap_respects. assumption. Qed.
+#[global] Instance parametric_morphism_fmap `(C:Category) `(D:Category)
+  (Im:C->D) (F:Functor C D Im) (a b:C) : Proper (@eqv C _ C a b ==> @eqv D _ D (Im a) (Im b)) (@fmap _ _ C _ _ D Im F a b).
+intros x y H. apply fmap_respects. assumption. Qed.
 
 (* HERE IS THE PROBLEMATIC INSTANCE. If we change this to a regular Definition,
    then the problem goes away. *)

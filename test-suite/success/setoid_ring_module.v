@@ -1,4 +1,4 @@
-From Stdlib Require Import Setoid Ring Ring_theory.
+From Stdlib Require Import Setoid Morphisms Ring Ring_theory.
 
 Module abs_ring.
 
@@ -11,18 +11,18 @@ Parameters (Coef:Set)(c0 c1 : Coef)
 (ceq_refl : forall x, ceq x x).
 
 
-Add Relation Coef ceq
-  reflexivity proved by ceq_refl symmetry proved by ceq_sym
-  transitivity proved by ceq_trans
-  as ceq_relation.
+#[global] Instance ceq_relation : @Equivalence Coef ceq := {
+  Equivalence_Reflexive := ceq_refl;
+  Equivalence_Symmetric := ceq_sym;
+  Equivalence_Transitive := ceq_trans }.
 
-Add Morphism cadd with signature ceq ==> ceq ==> ceq as cadd_Morphism.
+#[global] Instance cadd_Morphism : Proper (ceq ==> ceq ==> ceq) cadd.
 Admitted.
 
-Add Morphism cmul with signature ceq ==> ceq ==> ceq as cmul_Morphism.
+#[global] Instance cmul_Morphism : Proper (ceq ==> ceq ==> ceq) cmul.
 Admitted.
 
-Add Morphism copp with signature ceq ==> ceq as copp_Morphism.
+#[global] Instance copp_Morphism : Proper (ceq ==> ceq) copp.
 Admitted.
 
 Definition cRth : ring_theory c0 c1 cadd cmul csub copp ceq.
