@@ -24,7 +24,7 @@ destruct x as [[|xn|xn] xd];
 abstract (compute; discriminate).
 Defined.
 
-Add Morphism Qabs with signature Qeq ==> Qeq as Qabs_wd.
+#[global] Instance Qabs_wd : Proper (Qeq ==> Qeq) Qabs.
 Proof.
 intros [xn xd] [yn yd] H.
 simpl.

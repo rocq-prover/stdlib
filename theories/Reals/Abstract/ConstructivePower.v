@@ -129,7 +129,7 @@ Qed.
 Lemma CR_double : forall {R : ConstructiveReals} (x:CRcarrier R),
     CR_of_Q R 2 * x == x + x.
 Proof.
-  intros R x. rewrite (CR_of_Q_morph R 2 (1+1)).
+  intros R x. rewrite (CR_of_Q_morph R 2%Q (1+1)%Q).
   2: reflexivity. rewrite CR_of_Q_plus.
   rewrite CRmult_plus_distr_r, CRmult_1_l. reflexivity.
 Qed.
@@ -143,7 +143,7 @@ Proof.
       apply CRzero_lt_one.
     - unfold INR. fold (1+n)%nat.
       rewrite Nat2Z.inj_add.
-      rewrite (CR_of_Q_morph R _ ((Z.of_nat 1 # 1) + (Z.of_nat n #1))).
+      rewrite (CR_of_Q_morph R _ ((Z.of_nat 1 # 1) + (Z.of_nat n #1))%Q).
       2: symmetry; apply Qinv_plus_distr.
       rewrite CR_of_Q_plus.
       replace (CRpow (CR_of_Q R 2) (1 + n))
@@ -160,7 +160,7 @@ Proof.
   apply (CRmult_lt_reg_l (CR_of_Q R (Z.pos p # 1))).
   - apply CR_of_Q_lt. reflexivity.
   - rewrite <- CR_of_Q_mult.
-    rewrite (CR_of_Q_morph R ((Z.pos p # 1) * (1 # p)) 1).
+    rewrite (CR_of_Q_morph R ((Z.pos p # 1) * (1 # p))%Q 1%Q).
     2: unfold Qmult, Qeq, Qnum, Qden; ring_simplify; reflexivity.
     apply (CRmult_lt_reg_r (CRpow (CR_of_Q R 2) i)).
     + apply CRpow_gt_zero.
@@ -229,7 +229,7 @@ Proof.
       - apply (CRlt_le_trans _ (CRpow (CR_of_Q R 2) n + 1)).
         + unfold INR.
           rewrite Nat2Z.inj_succ, <- Z.add_1_l.
-          rewrite (CR_of_Q_morph R _ (1 + (Z.of_nat n #1))).
+          rewrite (CR_of_Q_morph R _ (1 + (Z.of_nat n #1))%Q).
           2: symmetry; apply Qinv_plus_distr. rewrite CR_of_Q_plus.
           rewrite CRplus_comm.
           apply CRplus_lt_compat_r, IHn.
@@ -254,7 +254,7 @@ Proof.
               ** apply CR_of_Q_lt. reflexivity.
               ** rewrite CRmult_1_l, CRmult_assoc.
                  rewrite <- CR_of_Q_mult.
-                 rewrite (CR_of_Q_morph R ((1 # n) * (Z.pos n # 1)) 1). 2: reflexivity.
+                 rewrite (CR_of_Q_morph R ((1 # n) * (Z.pos n # 1))%Q 1%Q). 2: reflexivity.
                  rewrite CRmult_1_r. apply (CRle_lt_trans _ (INR i)).
                  2: apply H. apply CR_of_Q_le.
                  unfold Qle, Qnum, Qden. do 2 rewrite Z.mul_1_r. destruct i.

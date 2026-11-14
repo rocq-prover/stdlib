@@ -63,16 +63,16 @@ Section MakeRingPol.
  Infix "?=!" := ceqb. Notation "[ x ]" := (phi x).
 
  (* Useful tactics *)
- Add Morphism radd with signature (req ==> req ==> req) as radd_ext.
+ Instance radd_ext : Proper (req ==> req ==> req) radd.
  Proof. exact (Radd_ext Reqe). Qed.
 
- Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext.
+ Instance rmul_ext : Proper (req ==> req ==> req) rmul.
  Proof. exact (Rmul_ext Reqe). Qed.
 
- Add Morphism ropp with signature (req ==> req) as ropp_ext.
+ Instance ropp_ext : Proper (req ==> req) ropp.
  Proof. exact (Ropp_ext Reqe). Qed.
 
- Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext.
+ Instance rsub_ext : Proper (req ==> req ==> req) rsub.
  Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
 
  Ltac rsimpl := gen_srewrite Rsth Reqe ARth.

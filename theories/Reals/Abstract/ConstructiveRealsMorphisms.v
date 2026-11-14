@@ -679,8 +679,8 @@ Proof.
             1:apply (CRle_trans _ (CR_of_Q R2 ((/ ((r - q) * (1 # A))) * (q - r)))).
             + destruct (CR_of_Q_mult R2 (/ ((r - q) * (1 # A))) (q - r)).
               exact H0.
-            + destruct (CR_of_Q_morph R2 (/ ((r - q) * (1 # A)) * (q - r))
-                                         (-(Z.pos A # 1))).
+            + destruct (CR_of_Q_morph R2 (/ ((r - q) * (1 # A)) * (q - r))%Q
+                                         (-(Z.pos A # 1))%Q).
               * exact diveq.
               * intro H7. apply lt_CR_of_Q in H7.
                 rewrite diveq in H7. exact (Qlt_not_le _ _ H7 (Qle_refl _)).
@@ -713,7 +713,7 @@ Proof.
                       * reflexivity.
                       * exact H4.
                     + destruct (@CR_of_Q_opp R2 1). exact H0.
-                    + destruct (CR_of_Q_morph R2 (-1) (/ ((r - q) * (1 # A)) * ((q - r) * (1 # A)))).
+                    + destruct (CR_of_Q_morph R2 (-1)%Q (/ ((r - q) * (1 # A)) * ((q - r) * (1 # A)))%Q).
                       * field. split.
                         -- intro H4. inversion H4.
                         -- intro H4. apply Qlt_minus_iff in H1.
@@ -848,7 +848,7 @@ Proof.
                        _ (CR_of_Q R2 ((/ ((q - r) * (1 # A))) * ((q - r) * (1 # A))))).
               { exact (proj1 (CR_of_Q_mult R2 (/ ((q - r) * (1 # A))) ((q - r) * (1 # A)))). }
               apply (CRle_trans _ (CR_of_Q R2 1)).
-              { destruct (CR_of_Q_morph R2 (/ ((q - r) * (1 # A)) * ((q - r) * (1 # A))) 1).
+              { destruct (CR_of_Q_morph R2 (/ ((q - r) * (1 # A)) * ((q - r) * (1 # A)))%Q 1%Q).
                 - field_simplify.
                   { reflexivity. }
                   split.
@@ -866,7 +866,7 @@ Proof.
            { exact (proj2 (CRmorph_rat f (Z.pos A # 1))). }
            apply (CRle_trans _ (CR_of_Q R2 ((/ ((q - r) * (1 # A))) * (q - r)))).
            2: exact (proj2 (CR_of_Q_mult R2 (/ ((q - r) * (1 # A))) (q - r))).
-           destruct (CR_of_Q_morph R2 (Z.pos A # 1) (/ ((q - r) * (1 # A)) * (q - r))).
+           destruct (CR_of_Q_morph R2 (Z.pos A # 1) (/ ((q - r) * (1 # A)) * (q - r))%Q).
            { field_simplify. { reflexivity. }
              split.
              - intro H5. inversion H5.
@@ -875,7 +875,7 @@ Proof.
            exact H2.
       * apply (CRle_trans _ (CR_of_Q R2 (r + (q-r)))).
         -- exact (proj1 (CR_of_Q_plus R2 r (q-r))).
-        -- destruct (CR_of_Q_morph R2 (r + (q-r)) q).
+        -- destruct (CR_of_Q_morph R2 (r + (q-r))%Q q).
            ++ ring.
            ++ exact H2.
 Qed.

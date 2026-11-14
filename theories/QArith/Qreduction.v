@@ -82,9 +82,9 @@ Proof.
  - apply Qred_complete.
 Qed.
 
-Add Morphism Qred with signature (Qeq ==> Qeq) as Qred_comp.
+#[global] Instance Qred_comp : Proper (Qeq ==> Qeq) Qred.
 Proof.
-  intros. now rewrite !Qred_correct.
+  intros x y H. now rewrite !Qred_correct.
 Qed.
 
 Definition Qplus' (p q : Q) := Qred (Qplus p q).
@@ -106,19 +106,19 @@ Proof.
   intros; unfold Qminus'; apply Qred_correct; auto.
 Qed.
 
-Add Morphism Qplus' with signature (Qeq ==> Qeq ==> Qeq) as Qplus'_comp.
+#[global] Instance Qplus'_comp : Proper (Qeq ==> Qeq ==> Qeq) Qplus'.
 Proof.
   intros ? ? H ? ? H0; unfold Qplus'.
   rewrite H, H0; auto with qarith.
 Qed.
 
-Add Morphism Qmult' with signature (Qeq ==> Qeq ==> Qeq) as Qmult'_comp.
+#[global] Instance Qmult'_comp : Proper (Qeq ==> Qeq ==> Qeq) Qmult'.
 Proof.
   intros ? ? H ? ? H0; unfold Qmult'.
   rewrite H, H0; auto with qarith.
 Qed.
 
-Add Morphism Qminus' with signature (Qeq ==> Qeq ==> Qeq) as Qminus'_comp.
+#[global] Instance Qminus'_comp : Proper (Qeq ==> Qeq ==> Qeq) Qminus'.
 Proof.
   intros ? ? H ? ? H0; unfold Qminus'.
   rewrite H, H0; auto with qarith.

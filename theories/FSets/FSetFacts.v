@@ -422,10 +422,11 @@ Proof. red; auto. Qed.
 Lemma Subset_trans : forall s s' s'', s[<=]s'->s'[<=]s''->s[<=]s''.
 Proof. unfold Subset; eauto. Qed.
 
-Add Relation t Subset
- reflexivity proved by Subset_refl
- transitivity proved by Subset_trans
- as SubsetSetoid.
+#[global] Instance SubsetSetoid_relation : @RewriteRelation t Subset := {}.
+
+#[global] Instance SubsetSetoid : @PreOrder t Subset := {
+  PreOrder_Reflexive := Subset_refl;
+  PreOrder_Transitive := Subset_trans }.
 
 #[global]
 Instance In_s_m : Morphisms.Proper (E.eq ==> Subset ++> Basics.impl) In | 1.
@@ -433,36 +434,36 @@ Proof.
   simpl_relation. eauto with set.
 Qed.
 
-Add Morphism Empty with signature Subset --> Basics.impl as Empty_s_m.
+#[global] Instance Empty_s_m : Proper (Subset --> Basics.impl) Empty.
 Proof.
 unfold Subset, Empty, Basics.impl; firstorder.
 Qed.
 
-Add Morphism add with signature E.eq ==> Subset ++> Subset as add_s_m.
+#[global] Instance add_s_m : Proper (E.eq ==> Subset ++> Subset) add.
 Proof.
 unfold Subset; intros x y H s s' H0 a.
 do 2 rewrite add_iff; rewrite H; intuition.
 Qed.
 
-Add Morphism remove with signature E.eq ==> Subset ++> Subset as remove_s_m.
+#[global] Instance remove_s_m : Proper (E.eq ==> Subset ++> Subset) remove.
 Proof.
 unfold Subset; intros x y H s s' H0 a.
 do 2 rewrite remove_iff; rewrite H; intuition.
 Qed.
 
-Add Morphism union with signature Subset ++> Subset ++> Subset as union_s_m.
+#[global] Instance union_s_m : Proper (Subset ++> Subset ++> Subset) union.
 Proof.
 unfold Equal; intros s s' H s'' s''' H0 a.
 do 2 rewrite union_iff; intuition.
 Qed.
 
-Add Morphism inter with signature Subset ++> Subset ++> Subset as inter_s_m.
+#[global] Instance inter_s_m : Proper (Subset ++> Subset ++> Subset) inter.
 Proof.
 unfold Equal; intros s s' H s'' s''' H0 a.
 do 2 rewrite inter_iff; intuition.
 Qed.
 
-Add Morphism diff with signature Subset ++> Subset --> Subset as diff_s_m.
+#[global] Instance diff_s_m : Proper (Subset ++> Subset --> Subset) diff.
 Proof.
 unfold Subset; intros s s' H s'' s''' H0 a.
 do 2 rewrite diff_iff; intuition.

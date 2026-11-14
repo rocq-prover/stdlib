@@ -14,12 +14,8 @@ Axiom refine : forall {A} (old : Comp A) (new : Comp A), Prop.
 
 #[global] Instance refine_PreOrder A : PreOrder (@refine A).
 Admitted.
-Add Parametric Morphism A
-: (@Pick A)
-    with signature
-    (pointwise_relation _ (flip impl))
-      ==> (@refine A)
-      as refine_flip_impl_Pick.
+#[global] Instance refine_flip_impl_Pick A
+: Proper ((pointwise_relation _ (flip impl)) ==> (@refine A)) (@Pick A).
   admit.
 Defined.
 Definition remove_forall_eq' A x B (P : A -> B -> Prop) : pointwise_relation _ impl (P x) (fun z => forall y : A, y = x -> P y z).
