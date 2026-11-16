@@ -86,17 +86,62 @@ Proof using A dec.
    + right. contradict IN. apply IN; now left.
 Qed.
 
-Lemma NoDup_dec (l:list A) : {NoDup l}+{~NoDup l}.
-Proof using A dec.
- induction l as [|a l IH].
- - left; now constructor.
- - destruct (In_dec a l).
-   + right. inversion_clear 1. tauto.
-   + destruct IH.
-     * left. now constructor.
-     * right. inversion_clear 1. tauto.
+Fixpoint memb (x : A) (l : list A) :=
+ match l with
+ | nil => false
+ | h :: q => if (dec h x) then true else memb x q
+ end.
+
+Lemma membP (x : A) (l : list A) :
+  reflect (In x l) (memb x l).
+Proof.
+  apply Bool.iff_reflect.
+  induction l as [| h t IH].
+  - simpl; split; [intros [] | intros [=]].
+  - simpl; destruct (dec h x) as [H | H]; simpl.
+    + split; intros _; [reflexivity | left; exact H].
+    + split.
+      * intros [? | membxl]; [contradiction | apply IH; exact membxl].
+      * intros In%IH; right; exact In.
 Qed.
 
+Lemma memb_In (x : A) (l : list A) :
+  memb x l = true <-> In x l.
+Proof. apply iff_sym, Bool.reflect_iff. exact (membP _ _). Qed.
+
+Lemma memb_nIn (x : A) (l : list A) :
+  memb x l = false <-> ~ In x l.
+Proof. apply Bool.reflect_iff_neg; exact (membP _ _). Qed.
+
+Fixpoint nodupb (l : list A) :=
+  match l with
+  | nil => true
+  | h :: q => if (memb h q) then false else nodupb q
+  end.
+
+Lemma nodupbP (l : list A) : reflect (NoDup l) (nodupb l).
+Proof.
+  induction l.
+  - simpl. apply ReflectT. exact (NoDup_nil A).
+  - simpl. destruct (memb a l) eqn:memal.
+    + apply memb_In in memal. apply ReflectF.
+      intros H; inversion H; contradiction.
+    + apply Bool.reflect_iff in IHl.
+      apply memb_nIn in memal; apply Bool.iff_reflect; split.
+      intros [_ ND%IHl]%NoDup_cons_iff; exact ND.
+      intros H%IHl; constructor; assumption.
+Qed.
+
+Lemma nodupb_NoDup (l : list A) :
+  nodupb l = true <-> NoDup l.
+Proof. apply iff_sym, Bool.reflect_iff. exact (nodupbP _). Qed.
+
+Lemma nodupb_nNoDup (l : list A) :
+  nodupb l = false <-> ~ NoDup l.
+Proof. apply Bool.reflect_iff_neg. exact (nodupbP _). Qed.
+
+Lemma NoDup_dec (l:list A) : {NoDup l}+{~NoDup l}.
+Proof. apply Bool.reflect_dec with (1 := (nodupbP l)). Qed.
 End Dec_in_Type.
 
 (** An extra result: thanks to decidability, a list can be purged
