@@ -468,7 +468,7 @@ Defined.
           : bool.
           Proof.
             refine
-              (if lt_dec (length str) (length str0)
+              (if lt_dec (length str) (length str0) is left _
                then
                  parse_productions
                    (@parse_nonterminal
@@ -477,7 +477,7 @@ Defined.
                    (or_intror (reflexivity _))
                    (Lookup G nt)
                else
-                 if Sumbool.sumbool_of_bool (is_valid_nonterminal valid nt)
+                 if Sumbool.sumbool_of_bool (is_valid_nonterminal valid nt) is left _
                  then
                    parse_productions
                      (@parse_nonterminal
