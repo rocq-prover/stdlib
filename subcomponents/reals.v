@@ -7,6 +7,7 @@ From Stdlib Require Reals.Abstract.ConstructivePower.
 From Stdlib Require Reals.Abstract.ConstructiveMinMax.
 From Stdlib Require Reals.Runcountable.
 From Stdlib Require Reals.ClassicalConstructiveReals.
+From Stdlib Require Reals.Cauchy.ConstructiveCauchyRealsSep.
 From Stdlib Require Reals.Machin.
 From Stdlib Require Reals.Rminmax.
 From Stdlib Require Reals.Rlogic.
