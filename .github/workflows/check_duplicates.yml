@@ -1,0 +1,16 @@
+name: Check duplicates
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  check-duplicates:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Check for duplicate files
+      run: dev/tools/check-duplicate-files.sh
