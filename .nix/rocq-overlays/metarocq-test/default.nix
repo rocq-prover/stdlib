@@ -10,14 +10,19 @@ mkCoqDerivation {
 
   propagatedBuildInputs = [ metarocq ];
 
+  useDune = true;
+
   configurePhase = ''
-    patchShebangs ./configure.sh
-    ./configure.sh
+    echo no configuration
   '';
 
-  buildFlags = [ "-C" "test-suite" ];
+  buildPhase = ''
+    dune build ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} @runtest
+  '';
 
   installPhase = ''
-    echo "nothing to install"
+    echo installing nothing
+    # Make an output directory rather than a file, so this is more friendly to buildEnv
+    mkdir $out
   '';
 }
