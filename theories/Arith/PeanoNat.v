@@ -580,15 +580,21 @@ Qed.
 Definition divide x y := exists z, y=z*x.
 Notation "( x | y )" := (divide x y) (at level 0) : nat_scope.
 
+(* The successor equation was convertible before Rocq PR #22579.
+   Resolve the new lemma only if reflexivity does not suffice, so this
+   proof remains compatible with both definitions. *)
+Local Lemma gcd_succ a b : gcd (S a) b = gcd (b mod (S a)) (S a).
+Proof. first [reflexivity | apply gcd_S]. Qed.
+
 Lemma gcd_divide : forall a b, (gcd a b | a) /\ (gcd a b | b).
 Proof.
   fix gcd_divide 1.
-    intros [|a] b; simpl.
+    intros [|a] b.
     - split.
       + now exists 0.
       + exists 1; simpl.
         now rewrite <- plus_n_O.
-    - fold (b mod (S a)).
+    - rewrite gcd_succ.
       destruct (gcd_divide (b mod (S a)) (S a)) as (H,H').
       set (a':=S a) in *.
       split; auto.
@@ -609,8 +615,8 @@ Proof. apply gcd_divide. Qed.
 Lemma gcd_greatest : forall a b c, (c|a) -> (c|b) -> (c|gcd a b).
 Proof.
   fix gcd_greatest 1.
-    intros [|a] b; simpl; auto.
-    fold (b mod (S a)).
+    intros [|a] b; [simpl; auto|].
+    rewrite gcd_succ.
     intros c H H'.
     apply gcd_greatest; auto.
     set (a':=S a) in *.
