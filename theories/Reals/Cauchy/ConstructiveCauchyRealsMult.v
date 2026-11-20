@@ -491,7 +491,7 @@ Instance CReal_opp_morph_T
   : CMorphisms.Proper
       (CMorphisms.respectful CRealEq CRealEq) CReal_opp.
 Proof.
-  apply CReal_isRingExt.
+  apply (Ropp_ext CReal_isRingExt).
 Qed.
 
 #[global] Instance CReal_minus_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_minus.
