@@ -256,11 +256,17 @@ Section ALMOST_RING.
  Section SEMI_RING.
  Variable SReqe : sring_eq_ext radd rmul req.
 
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext1.
+   Instance radd_ext1_Proper : Proper (req ==> req ==> req) radd.
    Proof. exact (SRadd_ext SReqe). Qed.
+   Definition radd_ext1 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+     @proper_prf _ _ _ radd_ext1_Proper.
 
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext1.
+   Instance rmul_ext1_Proper : Proper (req ==> req ==> req) rmul.
    Proof. exact (SRmul_ext SReqe). Qed.
+   Definition rmul_ext1 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+     @proper_prf _ _ _ rmul_ext1_Proper.
 
  Variable SRth : semi_ring_theory 0 1 radd rmul req.
 
@@ -332,14 +338,23 @@ Section ALMOST_RING.
 
  Variable Reqe : ring_eq_ext radd rmul ropp req.
 
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext2.
+   Instance radd_ext2_Proper : Proper (req ==> req ==> req) radd.
    Proof. exact (Radd_ext Reqe). Qed.
+   Definition radd_ext2 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+     @proper_prf _ _ _ radd_ext2_Proper.
 
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext2.
+   Instance rmul_ext2_Proper : Proper (req ==> req ==> req) rmul.
    Proof. exact (Rmul_ext Reqe). Qed.
+   Definition rmul_ext2 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+     @proper_prf _ _ _ rmul_ext2_Proper.
 
-   Add Morphism ropp with signature (req ==> req) as ropp_ext2.
+   Instance ropp_ext2_Proper : Proper (req ==> req) ropp.
    Proof. exact (Ropp_ext Reqe). Qed.
+   Definition ropp_ext2 :
+     forall x y, req x y -> req (ropp x) (ropp y) :=
+     @proper_prf _ _ _ ropp_ext2_Proper.
 
  Section RING.
  Variable Rth : ring_theory 0 1 radd rmul rsub ropp req.
@@ -409,27 +424,42 @@ Section ALMOST_RING.
  Variable Csth : Equivalence ceq.
  Variable Ceqe : ring_eq_ext cadd cmul copp ceq.
 
-   Add Parametric Relation : C ceq
-     reflexivity  proved by (@Equivalence_Reflexive _ _ Csth)
-     symmetry     proved by (@Equivalence_Symmetric _ _ Csth)
-     transitivity proved by (@Equivalence_Transitive _ _ Csth)
-    as C_setoid.
+   Instance C_setoid_relation : @RewriteRelation C ceq := {}.
+   Instance C_setoid_Reflexive : @Reflexive C ceq := @Equivalence_Reflexive _ _ Csth.
+   Instance C_setoid_Symmetric : @Symmetric C ceq := @Equivalence_Symmetric _ _ Csth.
+   Instance C_setoid_Transitive : @Transitive C ceq := @Equivalence_Transitive _ _ Csth.
+   Instance C_setoid : @Equivalence C ceq := {
+     Equivalence_Reflexive := @Equivalence_Reflexive _ _ Csth;
+     Equivalence_Symmetric := @Equivalence_Symmetric _ _ Csth;
+     Equivalence_Transitive := @Equivalence_Transitive _ _ Csth }.
 
-   Add Morphism cadd with signature (ceq ==> ceq ==> ceq) as cadd_ext.
+   Instance cadd_ext_Proper : Proper (ceq ==> ceq ==> ceq) cadd.
    Proof. exact (Radd_ext Ceqe). Qed.
+   Definition cadd_ext :
+     forall x y, ceq x y -> forall x0 y0, ceq x0 y0 -> ceq (cadd x x0) (cadd y y0) :=
+     @proper_prf _ _ _ cadd_ext_Proper.
 
-   Add Morphism cmul with signature (ceq ==> ceq ==> ceq) as cmul_ext.
+   Instance cmul_ext_Proper : Proper (ceq ==> ceq ==> ceq) cmul.
    Proof. exact (Rmul_ext Ceqe). Qed.
+   Definition cmul_ext :
+     forall x y, ceq x y -> forall x0 y0, ceq x0 y0 -> ceq (cmul x x0) (cmul y y0) :=
+     @proper_prf _ _ _ cmul_ext_Proper.
 
-   Add Morphism copp with signature (ceq ==> ceq) as copp_ext.
+   Instance copp_ext_Proper : Proper (ceq ==> ceq) copp.
    Proof. exact (Ropp_ext Ceqe). Qed.
+   Definition copp_ext :
+     forall x y, ceq x y -> ceq (copp x) (copp y) :=
+     @proper_prf _ _ _ copp_ext_Proper.
 
  Variable Cth : ring_theory cO cI cadd cmul csub copp ceq.
  Variable Smorph : semi_morph 0 1 radd rmul req cO cI cadd cmul ceqb phi.
  Variable phi_ext : forall x y, ceq x y -> [x] == [y].
 
-   Add Morphism phi with signature (ceq ==> req) as phi_ext1.
+   Instance phi_ext1_Proper : Proper (ceq ==> req) phi.
    Proof. exact phi_ext. Qed.
+   Definition phi_ext1 :
+     forall x y, ceq x y -> req (phi x) (phi y) :=
+     @proper_prf _ _ _ phi_ext1_Proper.
 
  Lemma Smorph_opp x : [-!x] == -[x].
  Proof.

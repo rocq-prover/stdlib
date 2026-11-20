@@ -358,11 +358,14 @@ Proof.
   - intro contra. destruct (CRealLt_dec _ _ y contra); contradiction.
 Qed.
 
-Add Parametric Relation : CReal CRealEq
-    reflexivity proved by CRealEq_refl
-    symmetry proved by CRealEq_sym
-    transitivity proved by CRealEq_trans
-      as CRealEq_rel.
+#[global] Instance CRealEq_rel_relation : @RewriteRelation CReal CRealEq := {}.
+#[global] Instance CRealEq_rel_Reflexive : @Reflexive CReal CRealEq := CRealEq_refl.
+#[global] Instance CRealEq_rel_Symmetric : @Symmetric CReal CRealEq := CRealEq_sym.
+#[global] Instance CRealEq_rel_Transitive : @Transitive CReal CRealEq := CRealEq_trans.
+#[global] Instance CRealEq_rel : @Equivalence CReal CRealEq := {
+  Equivalence_Reflexive := CRealEq_refl;
+  Equivalence_Symmetric := CRealEq_sym;
+  Equivalence_Transitive := CRealEq_trans }.
 
 #[global]
 Instance CRealEq_relT : CRelationClasses.Equivalence CRealEq.
@@ -421,9 +424,7 @@ Proof.
     + right. rewrite Hx0eqy0, Hxeqy. exact Hy0lty.
 Qed.
 
-Add Parametric Morphism : CRealLtProp
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealLtProp_morph.
+#[global] Instance CRealLtProp_morph_Proper : Proper (CRealEq ==> CRealEq ==> iff) CRealLtProp.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   split.
@@ -432,10 +433,11 @@ Proof.
   - intro Hylty0. apply CRealLtForget. apply CRealLtEpsilon in Hylty0.
     rewrite Hxeqy, Hx0eqy0. exact Hylty0.
 Qed.
+Definition CRealLtProp_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> iff (CRealLtProp x x0) (CRealLtProp y y0) :=
+  @proper_prf _ _ _ CRealLtProp_morph_Proper.
 
-Add Parametric Morphism : CRealLe
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealLe_morph.
+#[global] Instance CRealLe_morph_Proper : Proper (CRealEq ==> CRealEq ==> iff) CRealLe.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   split.
@@ -444,14 +446,18 @@ Proof.
   - intros Hxlex0 Hyley0. unfold CRealLe in Hxlex0.
     rewrite Hx0eqy0 in Hyley0. rewrite Hxeqy in Hyley0. contradiction.
 Qed.
+Definition CRealLe_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> iff (CRealLe x x0) (CRealLe y y0) :=
+  @proper_prf _ _ _ CRealLe_morph_Proper.
 
-Add Parametric Morphism : CRealGe
-    with signature CRealEq ==> CRealEq ==> iff
-      as CRealGe_morph.
+#[global] Instance CRealGe_morph_Proper : Proper (CRealEq ==> CRealEq ==> iff) CRealGe.
 Proof.
   intros x y Hxeqy x0 y0 Hx0eqy0.
   unfold CRealGe. apply CRealLe_morph; assumption.
 Qed.
+Definition CRealGe_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> iff (CRealGe x x0) (CRealGe y y0) :=
+  @proper_prf _ _ _ CRealGe_morph_Proper.
 
 Lemma CRealLt_proper_l : forall x y z : CReal,
     CRealEq x y
@@ -556,14 +562,15 @@ Proof.
   all: apply Qabs_Qlt_condition in xcau; lra.
 Qed.
 
-Add Parametric Morphism : inject_Q
-    with signature Qeq ==> CRealEq
-      as inject_Q_morph.
+#[global] Instance inject_Q_morph_Proper : Proper (Qeq ==> CRealEq) inject_Q.
 Proof.
   intros x y Heq; split.
   all: intros [n Hapart]; cbn in Hapart; rewrite Heq in Hapart.
   all: assert(2^n>0)%Q by (apply Qpower_0_lt; lra); lra.
 Qed.
+Definition inject_Q_morph :
+  forall x y, Qeq x y -> CRealEq (inject_Q x) (inject_Q y) :=
+  @proper_prf _ _ _ inject_Q_morph_Proper.
 
 #[global]
 Instance inject_Q_morph_T
@@ -845,9 +852,7 @@ Proof.
     destruct H. contradiction.
 Qed.
 
-Add Parametric Morphism : CReal_plus
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_plus_morph.
+#[global] Instance CReal_plus_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_plus.
 Proof.
   intros x y H z t H0. apply (CRealEq_trans _ (CReal_plus x t)).
   - destruct H0.
@@ -856,6 +861,9 @@ Proof.
     + intro abs. apply CReal_plus_lt_reg_l in abs. contradiction.
   - apply CReal_plus_proper_r. apply H.
 Qed.
+Definition CReal_plus_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> CRealEq (CReal_plus x x0) (CReal_plus y y0) :=
+  @proper_prf _ _ _ CReal_plus_morph_Proper.
 
 #[global]
 Instance CReal_plus_morph_T

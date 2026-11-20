@@ -232,10 +232,13 @@ Fixpoint R_of_Rcst (r : Rcst) : R :=
     | COpp r       => - (R_of_Rcst r)
   end.
 
-Add Morphism Q2R with signature Qeq ==> @eq R as Q2R_m.
+#[global] Instance Q2R_m_Proper : Proper (Qeq ==> @eq R) Q2R.
 Proof.
   exact Qeq_eqR.
 Qed.
+Definition Q2R_m :
+  forall x y, Qeq x y -> @eq R (Q2R x) (Q2R y) :=
+  @proper_prf _ _ _ Q2R_m_Proper.
 
 Lemma Q2R_pow_pos : forall q p,
     Q2R (pow_pos Qmult q p) = pow_pos Rmult (Q2R q) p.

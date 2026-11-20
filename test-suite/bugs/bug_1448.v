@@ -19,10 +19,9 @@ Axiom Req_refl : reflexive _ Req.
 Axiom Req_sym : symmetric _ Req.
 Axiom Req_trans : transitive _ Req.
 
-Add Relation R Req
-  reflexivity proved by Req_refl
-  symmetry proved by Req_sym
-  transitivity proved by Req_trans
-  as Req_rel.
+#[global] Instance Req_rel : @Equivalence R Req := {
+  Equivalence_Reflexive := Req_refl;
+  Equivalence_Symmetric := Req_sym;
+  Equivalence_Transitive := Req_trans }.
 
 Add Ring my_ring : my_ring_theory (abstract).

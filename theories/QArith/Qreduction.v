@@ -82,10 +82,13 @@ Proof.
  - apply Qred_complete.
 Qed.
 
-Add Morphism Qred with signature (Qeq ==> Qeq) as Qred_comp.
+#[global] Instance Qred_comp_Proper : Proper (Qeq ==> Qeq) Qred.
 Proof.
-  intros. now rewrite !Qred_correct.
+  intros x y H. now rewrite !Qred_correct.
 Qed.
+Definition Qred_comp :
+  forall x y, Qeq x y -> Qeq (Qred x) (Qred y) :=
+  @proper_prf _ _ _ Qred_comp_Proper.
 
 Definition Qplus' (p q : Q) := Qred (Qplus p q).
 Definition Qmult' (p q : Q) := Qred (Qmult p q).
@@ -106,23 +109,32 @@ Proof.
   intros; unfold Qminus'; apply Qred_correct; auto.
 Qed.
 
-Add Morphism Qplus' with signature (Qeq ==> Qeq ==> Qeq) as Qplus'_comp.
+#[global] Instance Qplus'_comp_Proper : Proper (Qeq ==> Qeq ==> Qeq) Qplus'.
 Proof.
   intros ? ? H ? ? H0; unfold Qplus'.
   rewrite H, H0; auto with qarith.
 Qed.
+Definition Qplus'_comp :
+  forall x y, Qeq x y -> forall x0 y0, Qeq x0 y0 -> Qeq (Qplus' x x0) (Qplus' y y0) :=
+  @proper_prf _ _ _ Qplus'_comp_Proper.
 
-Add Morphism Qmult' with signature (Qeq ==> Qeq ==> Qeq) as Qmult'_comp.
+#[global] Instance Qmult'_comp_Proper : Proper (Qeq ==> Qeq ==> Qeq) Qmult'.
 Proof.
   intros ? ? H ? ? H0; unfold Qmult'.
   rewrite H, H0; auto with qarith.
 Qed.
+Definition Qmult'_comp :
+  forall x y, Qeq x y -> forall x0 y0, Qeq x0 y0 -> Qeq (Qmult' x x0) (Qmult' y y0) :=
+  @proper_prf _ _ _ Qmult'_comp_Proper.
 
-Add Morphism Qminus' with signature (Qeq ==> Qeq ==> Qeq) as Qminus'_comp.
+#[global] Instance Qminus'_comp_Proper : Proper (Qeq ==> Qeq ==> Qeq) Qminus'.
 Proof.
   intros ? ? H ? ? H0; unfold Qminus'.
   rewrite H, H0; auto with qarith.
 Qed.
+Definition Qminus'_comp :
+  forall x y, Qeq x y -> forall x0 y0, Qeq x0 y0 -> Qeq (Qminus' x x0) (Qminus' y y0) :=
+  @proper_prf _ _ _ Qminus'_comp_Proper.
 
 Lemma Qred_opp: forall q, Qred (-q) = - (Qred q).
 Proof.

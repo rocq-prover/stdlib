@@ -60,19 +60,31 @@ Section ZMORPHISM.
   Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
   Notation "x == y" := (req x y).
   Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-      as R_setoid3.
+     Instance R_setoid3_relation : @RewriteRelation R req := {}.
+     Instance R_setoid3_Reflexive : @Reflexive R req := @Equivalence_Reflexive _ _ Rsth.
+     Instance R_setoid3_Symmetric : @Symmetric R req := @Equivalence_Symmetric _ _ Rsth.
+     Instance R_setoid3_Transitive : @Transitive R req := @Equivalence_Transitive _ _ Rsth.
+     Instance R_setoid3 : @Equivalence R req := {
+       Equivalence_Reflexive := @Equivalence_Reflexive _ _ Rsth;
+       Equivalence_Symmetric := @Equivalence_Symmetric _ _ Rsth;
+       Equivalence_Transitive := @Equivalence_Transitive _ _ Rsth }.
      Ltac rrefl := gen_reflexivity Rsth.
  Variable Reqe : ring_eq_ext radd rmul ropp req.
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext3.
+   Instance radd_ext3_Proper : Morphisms.Proper (req ==> req ==> req) radd.
    Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext3.
+   Definition radd_ext3 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+     @Morphisms.proper_prf _ _ _ radd_ext3_Proper.
+   Instance rmul_ext3_Proper : Morphisms.Proper (req ==> req ==> req) rmul.
    Proof. exact (Rmul_ext Reqe). Qed.
-   Add Morphism ropp with signature (req ==> req) as ropp_ext3.
+   Definition rmul_ext3 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+     @Morphisms.proper_prf _ _ _ rmul_ext3_Proper.
+   Instance ropp_ext3_Proper : Morphisms.Proper (req ==> req) ropp.
    Proof. exact (Ropp_ext Reqe). Qed.
+   Definition ropp_ext3 :
+     forall x y, req x y -> req (ropp x) (ropp y) :=
+     @Morphisms.proper_prf _ _ _ ropp_ext3_Proper.
 
  Fixpoint gen_phiPOS1 (p:positive) : R :=
   match p with
@@ -122,8 +134,11 @@ Section ZMORPHISM.
 
  Section ALMOST_RING.
  Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext3.
+   Instance rsub_ext3_Proper : Morphisms.Proper (req ==> req ==> req) rsub.
    Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+   Definition rsub_ext3 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rsub x x0) (rsub y y0) :=
+     @Morphisms.proper_prf _ _ _ rsub_ext3_Proper.
    Ltac norm := gen_srewrite Rsth Reqe ARth.
    Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
@@ -172,8 +187,11 @@ Section ZMORPHISM.
 
  Variable Rth : ring_theory 0 1 radd rmul rsub ropp req.
  Let ARth := Rth_ARth Rsth Reqe Rth.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext4.
+   Instance rsub_ext4_Proper : Morphisms.Proper (req ==> req ==> req) rsub.
    Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+   Definition rsub_ext4 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rsub x x0) (rsub y y0) :=
+     @Morphisms.proper_prf _ _ _ rsub_ext4_Proper.
    Ltac norm := gen_srewrite Rsth Reqe ARth.
    Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
@@ -289,11 +307,14 @@ Section NMORPHISM.
   Notation "0" := rO.  Notation "1" := rI.
   Notation "x + y" := (radd x y).  Notation "x * y " := (rmul x y).
  Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-       as R_setoid4.
+     Instance R_setoid4_relation : @RewriteRelation R req := {}.
+     Instance R_setoid4_Reflexive : @Reflexive R req := @Equivalence_Reflexive _ _ Rsth.
+     Instance R_setoid4_Symmetric : @Symmetric R req := @Equivalence_Symmetric _ _ Rsth.
+     Instance R_setoid4_Transitive : @Transitive R req := @Equivalence_Transitive _ _ Rsth.
+     Instance R_setoid4 : @Equivalence R req := {
+       Equivalence_Reflexive := @Equivalence_Reflexive _ _ Rsth;
+       Equivalence_Symmetric := @Equivalence_Symmetric _ _ Rsth;
+       Equivalence_Transitive := @Equivalence_Transitive _ _ Rsth }.
      Ltac rrefl := gen_reflexivity Rsth.
  Variable SReqe : sring_eq_ext radd rmul req.
  Variable SRth : semi_ring_theory 0 1 radd rmul req.
@@ -303,10 +324,16 @@ Section NMORPHISM.
  Let rsub := (@SRsub R radd).
   Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
   Notation "x == y" := (req x y).
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext4.
+   Instance radd_ext4_Proper : Morphisms.Proper (req ==> req ==> req) radd.
    Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext4.
+   Definition radd_ext4 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+     @Morphisms.proper_prf _ _ _ radd_ext4_Proper.
+   Instance rmul_ext4_Proper : Morphisms.Proper (req ==> req ==> req) rmul.
    Proof. exact (Rmul_ext Reqe). Qed.
+   Definition rmul_ext4 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+     @Morphisms.proper_prf _ _ _ rmul_ext4_Proper.
    Ltac norm := gen_srewrite_sr Rsth Reqe ARth.
 
  Definition gen_phiN1 x :=
@@ -417,23 +444,38 @@ Section NWORDMORPHISM.
   Notation "x - y " := (rsub x y).  Notation "- x" := (ropp x).
   Notation "x == y" := (req x y).
   Variable Rsth : Setoid_Theory R req.
-     Add Parametric Relation : R req
-       reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-       symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-       transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-      as R_setoid5.
+     Instance R_setoid5_relation : @RewriteRelation R req := {}.
+     Instance R_setoid5_Reflexive : @Reflexive R req := @Equivalence_Reflexive _ _ Rsth.
+     Instance R_setoid5_Symmetric : @Symmetric R req := @Equivalence_Symmetric _ _ Rsth.
+     Instance R_setoid5_Transitive : @Transitive R req := @Equivalence_Transitive _ _ Rsth.
+     Instance R_setoid5 : @Equivalence R req := {
+       Equivalence_Reflexive := @Equivalence_Reflexive _ _ Rsth;
+       Equivalence_Symmetric := @Equivalence_Symmetric _ _ Rsth;
+       Equivalence_Transitive := @Equivalence_Transitive _ _ Rsth }.
      Ltac rrefl := gen_reflexivity Rsth.
  Variable Reqe : ring_eq_ext radd rmul ropp req.
-   Add Morphism radd with signature (req ==> req ==> req) as radd_ext5.
+   Instance radd_ext5_Proper : Morphisms.Proper (req ==> req ==> req) radd.
    Proof. exact (Radd_ext Reqe). Qed.
-   Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext5.
+   Definition radd_ext5 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+     @Morphisms.proper_prf _ _ _ radd_ext5_Proper.
+   Instance rmul_ext5_Proper : Morphisms.Proper (req ==> req ==> req) rmul.
    Proof. exact (Rmul_ext Reqe). Qed.
-   Add Morphism ropp with signature (req ==> req) as ropp_ext5.
+   Definition rmul_ext5 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+     @Morphisms.proper_prf _ _ _ rmul_ext5_Proper.
+   Instance ropp_ext5_Proper : Morphisms.Proper (req ==> req) ropp.
    Proof. exact (Ropp_ext Reqe). Qed.
+   Definition ropp_ext5 :
+     forall x y, req x y -> req (ropp x) (ropp y) :=
+     @Morphisms.proper_prf _ _ _ ropp_ext5_Proper.
 
  Variable ARth : almost_ring_theory 0 1 radd rmul rsub ropp req.
-   Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext7.
+   Instance rsub_ext7_Proper : Morphisms.Proper (req ==> req ==> req) rsub.
    Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+   Definition rsub_ext7 :
+     forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rsub x x0) (rsub y y0) :=
+     @Morphisms.proper_prf _ _ _ rsub_ext7_Proper.
    Ltac norm := gen_srewrite Rsth Reqe ARth.
    Ltac add_push := gen_add_push radd Rsth Reqe ARth.
 
@@ -614,20 +656,35 @@ Section GEN_DIV.
  Variable morph : ring_morph rO rI radd rmul rsub ropp req cO cI cadd cmul csub copp ceqb phi.
 
   (* Useful tactics *)
-  Add Parametric Relation : R req
-    reflexivity  proved by (@Equivalence_Reflexive _ _ Rsth)
-    symmetry     proved by (@Equivalence_Symmetric _ _ Rsth)
-    transitivity proved by (@Equivalence_Transitive _ _ Rsth)
-   as R_set1.
+  Instance R_set1_relation : @RewriteRelation R req := {}.
+  Instance R_set1_Reflexive : @Reflexive R req := @Equivalence_Reflexive _ _ Rsth.
+  Instance R_set1_Symmetric : @Symmetric R req := @Equivalence_Symmetric _ _ Rsth.
+  Instance R_set1_Transitive : @Transitive R req := @Equivalence_Transitive _ _ Rsth.
+  Instance R_set1 : @Equivalence R req := {
+    Equivalence_Reflexive := @Equivalence_Reflexive _ _ Rsth;
+    Equivalence_Symmetric := @Equivalence_Symmetric _ _ Rsth;
+    Equivalence_Transitive := @Equivalence_Transitive _ _ Rsth }.
  Ltac rrefl := gen_reflexivity Rsth.
-  Add Morphism radd with signature (req ==> req ==> req) as radd_ext.
+  Instance radd_ext_Proper : Morphisms.Proper (req ==> req ==> req) radd.
   Proof. exact (Radd_ext Reqe). Qed.
-  Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext.
+  Definition radd_ext :
+    forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+    @Morphisms.proper_prf _ _ _ radd_ext_Proper.
+  Instance rmul_ext_Proper : Morphisms.Proper (req ==> req ==> req) rmul.
   Proof. exact (Rmul_ext Reqe). Qed.
-  Add Morphism ropp with signature (req ==> req) as ropp_ext.
+  Definition rmul_ext :
+    forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+    @Morphisms.proper_prf _ _ _ rmul_ext_Proper.
+  Instance ropp_ext_Proper : Morphisms.Proper (req ==> req) ropp.
   Proof. exact (Ropp_ext Reqe). Qed.
-  Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext.
+  Definition ropp_ext :
+    forall x y, req x y -> req (ropp x) (ropp y) :=
+    @Morphisms.proper_prf _ _ _ ropp_ext_Proper.
+  Instance rsub_ext_Proper : Morphisms.Proper (req ==> req ==> req) rsub.
   Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+  Definition rsub_ext :
+    forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rsub x x0) (rsub y y0) :=
+    @Morphisms.proper_prf _ _ _ rsub_ext_Proper.
  Ltac rsimpl := gen_srewrite Rsth Reqe ARth.
 
  Definition triv_div x y :=

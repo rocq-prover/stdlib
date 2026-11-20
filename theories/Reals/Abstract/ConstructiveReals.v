@@ -327,11 +327,14 @@ Proof.
   - intro abs. destruct (s _ y _ abs); contradiction.
 Qed.
 
-Add Parametric Relation {R : ConstructiveReals} : (CRcarrier R) (CReq R)
-    reflexivity proved by (CReq_refl)
-    symmetry proved by (CReq_sym)
-    transitivity proved by (CReq_trans)
-      as CReq_rel.
+#[global] Instance CReq_rel_relation {R : ConstructiveReals} : @RewriteRelation (CRcarrier R) (CReq R) := {}.
+#[global] Instance CReq_rel_Reflexive {R : ConstructiveReals} : @Reflexive (CRcarrier R) (CReq R) := CReq_refl.
+#[global] Instance CReq_rel_Symmetric {R : ConstructiveReals} : @Symmetric (CRcarrier R) (CReq R) := CReq_sym.
+#[global] Instance CReq_rel_Transitive {R : ConstructiveReals} : @Transitive (CRcarrier R) (CReq R) := CReq_trans.
+#[global] Instance CReq_rel {R : ConstructiveReals} : @Equivalence (CRcarrier R) (CReq R) := {
+  Equivalence_Reflexive := CReq_refl;
+  Equivalence_Symmetric := CReq_sym;
+  Equivalence_Transitive := CReq_trans }.
 
 #[global]
 Instance CReq_relT : forall {R : ConstructiveReals},
@@ -365,16 +368,17 @@ Proof.
       * contradiction.
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRle R)
-    with signature CReq R ==> CReq R ==> iff
-      as CRle_morph.
+#[global] Instance CRle_morph_Proper {R : ConstructiveReals} : Proper (CReq R ==> CReq R ==> iff) (CRle R).
 Proof.
-  intros. split.
+  intros x y H x0 y0 H0. split.
   - intros H1 H2. unfold CRle in H1.
     rewrite <- H0 in H2. rewrite <- H in H2. contradiction.
   - intros H1 H2. unfold CRle in H1.
     rewrite H0 in H2. rewrite H in H2. contradiction.
 Qed.
+Definition CRle_morph (R : ConstructiveReals) :
+  forall x y, CReq R x y -> forall x0 y0, CReq R x0 y0 -> iff (CRle R x x0) (CRle R y y0) :=
+  @proper_prf _ _ _ (@CRle_morph_Proper R).
 
 Lemma CRplus_0_l : forall {R : ConstructiveReals} (x : CRcarrier R),
     0 + x == x.
@@ -552,26 +556,29 @@ Proof.
   intros. apply (Radd_comm (CRisRing R)).
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRplus R)
-    with signature CReq R ==> CReq R ==> CReq R
-      as CRplus_morph.
+#[global] Instance CRplus_morph_Proper {R : ConstructiveReals} : Proper (CReq R ==> CReq R ==> CReq R) (CRplus R).
 Proof.
   apply (CRisRingExt R).
 Qed.
+Definition CRplus_morph (R : ConstructiveReals) :
+  forall x y, CReq R x y -> forall x0 y0, CReq R x0 y0 -> CReq R (CRplus R x x0) (CRplus R y y0) :=
+  @proper_prf _ _ _ (@CRplus_morph_Proper R).
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRopp R)
-    with signature CReq R ==> CReq R
-      as CRopp_morph.
+#[global] Instance CRopp_morph_Proper {R : ConstructiveReals} : Proper (CReq R ==> CReq R) (CRopp R).
 Proof.
   apply (CRisRingExt R).
 Qed.
+Definition CRopp_morph (R : ConstructiveReals) :
+  forall x y, CReq R x y -> CReq R (CRopp R x) (CRopp R y) :=
+  @proper_prf _ _ _ (@CRopp_morph_Proper R).
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRmult R)
-    with signature CReq R ==> CReq R ==> CReq R
-      as CRmult_morph.
+#[global] Instance CRmult_morph_Proper {R : ConstructiveReals} : Proper (CReq R ==> CReq R ==> CReq R) (CRmult R).
 Proof.
   apply (CRisRingExt R).
 Qed.
+Definition CRmult_morph (R : ConstructiveReals) :
+  forall x y, CReq R x y -> forall x0 y0, CReq R x0 y0 -> CReq R (CRmult R x x0) (CRmult R y y0) :=
+  @proper_prf _ _ _ (@CRmult_morph_Proper R).
 
 #[global]
 Instance CRplus_morph_T
@@ -597,12 +604,13 @@ Proof.
   apply CRisRingExt.
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : (CRminus R)
-    with signature (CReq R) ==> (CReq R) ==> (CReq R)
-      as CRminus_morph.
+#[global] Instance CRminus_morph_Proper {R : ConstructiveReals} : Proper ((CReq R) ==> (CReq R) ==> (CReq R)) (CRminus R).
 Proof.
-  intros. unfold CRminus. rewrite H,H0. reflexivity.
+  intros x y H x0 y0 H0. unfold CRminus. rewrite H,H0. reflexivity.
 Qed.
+Definition CRminus_morph (R : ConstructiveReals) :
+  forall x y, CReq R x y -> forall x0 y0, CReq R x0 y0 -> CReq R (CRminus R x x0) (CRminus R y y0) :=
+  @proper_prf _ _ _ (@CRminus_morph_Proper R).
 
 #[global]
 Instance CRminus_morph_T
@@ -974,12 +982,13 @@ Proof.
   exact (Qlt_not_le _ _ abs H).
 Qed.
 
-Add Parametric Morphism {R : ConstructiveReals} : (CR_of_Q R)
-    with signature Qeq ==> CReq R
-      as CR_of_Q_morph.
+#[global] Instance CR_of_Q_morph_Proper {R : ConstructiveReals} : Proper (Qeq ==> CReq R) (CR_of_Q R).
 Proof.
   split; apply CR_of_Q_le; rewrite H; apply Qle_refl.
 Qed.
+Definition CR_of_Q_morph (R : ConstructiveReals) :
+  forall x y, Qeq x y -> CReq R (CR_of_Q R x) (CR_of_Q R y) :=
+  @proper_prf _ _ _ (@CR_of_Q_morph_Proper R).
 
 Lemma eq_inject_Q : forall {R : ConstructiveReals} (q r : Q),
     CR_of_Q R q == CR_of_Q R r -> Qeq q r.

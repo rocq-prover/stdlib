@@ -192,11 +192,9 @@ Proof.
     + exact Hdec.
 Qed.
 
-Add Parametric Morphism : CReal_abs
-    with signature CRealEq ==> CRealEq
-      as CReal_abs_morph.
+#[global] Instance CReal_abs_morph_Proper : Proper (CRealEq ==> CRealEq) CReal_abs.
 Proof.
-  intros. split.
+  intros x y H. split.
   - intro abs. destruct (CReal_abs_appart_0 y).
     + apply (CReal_le_lt_trans _ (CReal_abs x)).
       * apply CReal_abs_pos.
@@ -222,6 +220,9 @@ Proof.
       * apply CRealLt_asym, c.
       * rewrite <- H. apply CRealLt_asym, c.
 Qed.
+Definition CReal_abs_morph :
+  forall x y, CRealEq x y -> CRealEq (CReal_abs x) (CReal_abs y) :=
+  @proper_prf _ _ _ CReal_abs_morph_Proper.
 
 Lemma CReal_abs_le : forall a b:CReal, -b <= a <= b -> CReal_abs a <= b.
 Proof.
@@ -438,21 +439,23 @@ Definition CReal_min (x y : CReal) : CReal
 Definition CReal_max (x y : CReal) : CReal
   := (x + y + CReal_abs (y - x)) * inject_Q (1#2).
 
-Add Parametric Morphism : CReal_min
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_min_morph.
+#[global] Instance CReal_min_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_min.
 Proof.
-  intros. unfold CReal_min.
+  intros x y H x0 y0 H0. unfold CReal_min.
   rewrite H, H0. reflexivity.
 Qed.
+Definition CReal_min_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> CRealEq (CReal_min x x0) (CReal_min y y0) :=
+  @proper_prf _ _ _ CReal_min_morph_Proper.
 
-Add Parametric Morphism : CReal_max
-    with signature CRealEq ==> CRealEq ==> CRealEq
-      as CReal_max_morph.
+#[global] Instance CReal_max_morph_Proper : Proper (CRealEq ==> CRealEq ==> CRealEq) CReal_max.
 Proof.
-  intros. unfold CReal_max.
+  intros x y H x0 y0 H0. unfold CReal_max.
   rewrite H, H0. reflexivity.
 Qed.
+Definition CReal_max_morph :
+  forall x y, CRealEq x y -> forall x0 y0, CRealEq x0 y0 -> CRealEq (CReal_max x x0) (CReal_max y y0) :=
+  @proper_prf _ _ _ CReal_max_morph_Proper.
 
 Lemma CReal_double : forall x:CReal, 2 * x == x + x.
 Proof.

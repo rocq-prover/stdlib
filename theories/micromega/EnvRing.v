@@ -112,17 +112,29 @@ Section MakeRingPol.
  Infix "?=!" := ceqb. Notation "[ x ]" := (phi x).
 
  (* Useful tactics *)
- Add Morphism radd with signature (req ==> req ==> req) as radd_ext.
+ Instance radd_ext_Proper : Proper (req ==> req ==> req) radd.
  Proof. exact (Radd_ext Reqe). Qed.
+ Definition radd_ext :
+   forall x y, req x y -> forall x0 y0, req x0 y0 -> req (radd x x0) (radd y y0) :=
+   @proper_prf _ _ _ radd_ext_Proper.
 
- Add Morphism rmul with signature (req ==> req ==> req) as rmul_ext.
+ Instance rmul_ext_Proper : Proper (req ==> req ==> req) rmul.
  Proof. exact (Rmul_ext Reqe). Qed.
+ Definition rmul_ext :
+   forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rmul x x0) (rmul y y0) :=
+   @proper_prf _ _ _ rmul_ext_Proper.
 
- Add Morphism ropp with signature (req ==> req) as ropp_ext.
+ Instance ropp_ext_Proper : Proper (req ==> req) ropp.
  Proof. exact (Ropp_ext Reqe). Qed.
+ Definition ropp_ext :
+   forall x y, req x y -> req (ropp x) (ropp y) :=
+   @proper_prf _ _ _ ropp_ext_Proper.
 
- Add Morphism rsub with signature (req ==> req ==> req) as rsub_ext.
+ Instance rsub_ext_Proper : Proper (req ==> req ==> req) rsub.
  Proof. exact (ARsub_ext Rsth Reqe ARth). Qed.
+ Definition rsub_ext :
+   forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rsub x x0) (rsub y y0) :=
+   @proper_prf _ _ _ rsub_ext_Proper.
 
  Ltac rsimpl := gen_srewrite Rsth Reqe ARth.
 

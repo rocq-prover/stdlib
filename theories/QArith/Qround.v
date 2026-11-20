@@ -122,21 +122,27 @@ Qed.
 #[global]
 Hint Resolve Qceiling_resp_le : qarith.
 
-Add Morphism Qfloor with signature Qeq ==> eq as Qfloor_comp.
+#[global] Instance Qfloor_comp_Proper : Proper (Qeq ==> eq) Qfloor.
 Proof.
 intros x y H.
 apply Z.le_antisymm.
 - auto with *.
 - symmetry in H; auto with *.
 Qed.
+Definition Qfloor_comp :
+  forall x y, Qeq x y -> eq (Qfloor x) (Qfloor y) :=
+  @proper_prf _ _ _ Qfloor_comp_Proper.
 
-Add Morphism Qceiling with signature Qeq ==> eq as Qceiling_comp.
+#[global] Instance Qceiling_comp_Proper : Proper (Qeq ==> eq) Qceiling.
 Proof.
 intros x y H.
 apply Z.le_antisymm.
 - auto with *.
 - symmetry in H; auto with *.
 Qed.
+Definition Qceiling_comp :
+  forall x y, Qeq x y -> eq (Qceiling x) (Qceiling y) :=
+  @proper_prf _ _ _ Qceiling_comp_Proper.
 
 Lemma Zdiv_Qdiv (n m: Z): (n / m)%Z = Qfloor (n / m).
 Proof.

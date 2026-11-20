@@ -82,37 +82,58 @@ Record SORaddon := mk_SOR_addon {
 
 Variable addon : SORaddon.
 
-Add Relation R req
-  reflexivity proved by (@Equivalence_Reflexive _ _ (SORsetoid sor))
-  symmetry proved by (@Equivalence_Symmetric _ _ (SORsetoid sor))
-  transitivity proved by (@Equivalence_Transitive _ _ (SORsetoid sor))
-as micomega_sor_setoid.
+Instance micomega_sor_setoid_relation : @RewriteRelation R req := {}.
+Instance micomega_sor_setoid_Reflexive : @Reflexive R req := @Equivalence_Reflexive _ _ (SORsetoid sor).
+Instance micomega_sor_setoid_Symmetric : @Symmetric R req := @Equivalence_Symmetric _ _ (SORsetoid sor).
+Instance micomega_sor_setoid_Transitive : @Transitive R req := @Equivalence_Transitive _ _ (SORsetoid sor).
+Instance micomega_sor_setoid : @Equivalence R req := {
+  Equivalence_Reflexive := @Equivalence_Reflexive _ _ (SORsetoid sor);
+  Equivalence_Symmetric := @Equivalence_Symmetric _ _ (SORsetoid sor);
+  Equivalence_Transitive := @Equivalence_Transitive _ _ (SORsetoid sor) }.
 
-Add Morphism rplus with signature req ==> req ==> req as rplus_morph.
+Instance rplus_morph_Proper : Morphisms.Proper (req ==> req ==> req) rplus.
 Proof.
 exact (SORplus_wd sor).
 Qed.
-Add Morphism rtimes with signature req ==> req ==> req as rtimes_morph.
+Definition rplus_morph :
+  forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rplus x x0) (rplus y y0) :=
+  @Morphisms.proper_prf _ _ _ rplus_morph_Proper.
+Instance rtimes_morph_Proper : Morphisms.Proper (req ==> req ==> req) rtimes.
 Proof.
 exact (SORtimes_wd sor).
 Qed.
-Add Morphism ropp with signature req ==> req as ropp_morph.
+Definition rtimes_morph :
+  forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rtimes x x0) (rtimes y y0) :=
+  @Morphisms.proper_prf _ _ _ rtimes_morph_Proper.
+Instance ropp_morph_Proper : Morphisms.Proper (req ==> req) ropp.
 Proof.
 exact (SORopp_wd sor).
 Qed.
-Add Morphism rle with signature req ==> req ==> iff as rle_morph.
+Definition ropp_morph :
+  forall x y, req x y -> req (ropp x) (ropp y) :=
+  @Morphisms.proper_prf _ _ _ ropp_morph_Proper.
+Instance rle_morph_Proper : Morphisms.Proper (req ==> req ==> iff) rle.
 Proof.
   exact (SORle_wd sor).
 Qed.
-Add Morphism rlt with signature req ==> req ==> iff as rlt_morph.
+Definition rle_morph :
+  forall x y, req x y -> forall x0 y0, req x0 y0 -> iff (rle x x0) (rle y y0) :=
+  @Morphisms.proper_prf _ _ _ rle_morph_Proper.
+Instance rlt_morph_Proper : Morphisms.Proper (req ==> req ==> iff) rlt.
 Proof.
   exact (SORlt_wd sor).
 Qed.
+Definition rlt_morph :
+  forall x y, req x y -> forall x0 y0, req x0 y0 -> iff (rlt x x0) (rlt y y0) :=
+  @Morphisms.proper_prf _ _ _ rlt_morph_Proper.
 
-Add Morphism rminus with signature req ==> req ==> req as rminus_morph.
+Instance rminus_morph_Proper : Morphisms.Proper (req ==> req ==> req) rminus.
 Proof.
   exact (rminus_morph sor). (* We already proved that minus is a morphism in OrderedRing.v *)
 Qed.
+Definition rminus_morph :
+  forall x y, req x y -> forall x0 y0, req x0 y0 -> req (rminus x x0) (rminus y y0) :=
+  @Morphisms.proper_prf _ _ _ rminus_morph_Proper.
 
 Definition cneqb (x y : C) := negb (ceqb x y).
 Definition cltb (x y : C) := (cleb x y) && (cneqb x y).
