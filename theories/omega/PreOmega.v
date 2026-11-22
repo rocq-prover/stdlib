@@ -60,8 +60,8 @@ Module Z.
     pose proof (mod_0_r_ext x y);
     let q := fresh "q" in
     let r := fresh "r" in
-    set (q := x / y) in *;
-    set (r := x mod y) in *;
+    pose (q := x / y); change (x / y) with q in *;
+    pose (r := x mod y); change (x mod y) with r in *;
     clearbody q r.
   Ltac quot_rem_to_equations_generalize x y :=
     pose proof (Z.quot_rem' x y);
@@ -73,8 +73,8 @@ Module Z.
     pose proof (rem_0_r_ext x y);
     let q := fresh "q" in
     let r := fresh "r" in
-    set (q := Z.quot x y) in *;
-    set (r := Z.rem x y) in *;
+    pose (q := Z.quot x y); change (Z.quot x y) with q in *;
+    pose (r := Z.rem x y); change (Z.rem x y) with r in *;
     clearbody q r.
 
   Ltac div_mod_to_equations_step :=
