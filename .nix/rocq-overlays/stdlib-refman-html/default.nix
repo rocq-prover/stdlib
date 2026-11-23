@@ -1,6 +1,6 @@
-{ antlr4_9, python312, rocq-core, stdlib, rocqPackages }:
+{ antlr4_9, python312, rocq-core, stdlib, lib }:
 
-rocqPackages.lib.overrideRocqDerivation {
+lib.overrideRocqDerivation {
   pname = "stdlib-refman-html";
 
   overrideBuildInputs = stdlib.buildInputs

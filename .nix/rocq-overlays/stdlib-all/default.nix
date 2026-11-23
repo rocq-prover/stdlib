@@ -1,6 +1,6 @@
-{ bash, stdlib, rocqPackages }:
+{ bash, stdlib, lib }:
 
-rocqPackages.lib.overrideRocqDerivation {
+lib.overrideRocqDerivation {
 
   pname = "stdlib-all";
 

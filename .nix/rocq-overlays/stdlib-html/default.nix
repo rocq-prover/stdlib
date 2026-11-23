@@ -1,6 +1,6 @@
-{ python312, graphviz, stdlib, rocqPackages }:
+{ python312, graphviz, stdlib, lib }:
 
-rocqPackages.lib.overrideRocqDerivation {
+lib.overrideRocqDerivation {
   pname = "stdlib-html";
 
   overrideBuildInputs = stdlib.buildInputs ++ [ python312 graphviz ];
