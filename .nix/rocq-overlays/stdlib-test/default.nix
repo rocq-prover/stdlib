@@ -1,6 +1,6 @@
-{ rsync, rocq-core, stdlib, rocqPackages }:
+{ rsync, rocq-core, stdlib, lib }:
 
-rocqPackages.lib.overrideRocqDerivation {
+lib.overrideRocqDerivation {
 
   pname = "stdlib-test";
 
