@@ -146,7 +146,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "rocq-lean-import"
       "rupicola"
       "sf"
-      "simple-io"
       "stalmarck-tactic"
       "stdpp"
       "trakt"
@@ -164,6 +163,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "mathcomp-word"
       "metarocq"
       "metarocq-test"
+      "simple-io"
     ];
     # To lighten the CI on released version, don't test reverse dependencies
     # of Stdlib that take >= 5 min of CI (and their reverse dependencies)
