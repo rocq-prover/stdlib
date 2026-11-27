@@ -139,6 +139,7 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "neural-net-coq-interp"
       "paco"
       "paramcoq-test"
+      "parseque"
       "QuickChick"
       "quickchick-test"
       "relation-algebra"
@@ -156,6 +157,10 @@ with builtins; with (import <nixpkgs> {}).lib; {
       "dpdgraph-test"
       "waterproof"
     ];
+    rocq-master = [
+      "CertiRocq"
+      "wasmcert"
+    ];
     main = [
       "equations"
       "equations-test"
@@ -170,6 +175,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
     lighten-released = [
       "bedrock2"
       "category-theory"
+      "CertiRocq"
+      "certirocq"
       "CoLoR"
       "coq-performance-tests"
       "coq-tools"
@@ -209,6 +216,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
       { name = p; value.override.version = "master"; }))
     // listToAttrs (forEach coq-master (p:
       { name = p; value.override.version = "coq-master"; }))
+    // listToAttrs (forEach rocq-master (p:
+      { name = p; value.override.version = "rocq-master"; }))
     // listToAttrs (forEach main (p:
       { name = p; value.override.version = "main"; }))
     // {
@@ -221,7 +230,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       CakeMLExtraction.job = false;  # not in Rocq CI
       ceres.job = false;  # not in Rocq CI
       ceres-bs.job = false;  # not in Rocq CI
-      CertiRocq.job = false;  # not in Rocq CI
       Cheerios.job = false;   # not in Rocq CI
       ConCert.job = false;  # not in Rocq CI
       coqeal.job = false;  # not in Rocq CI
@@ -236,7 +244,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       parsec.job = false;  # not in Rocq CI
       RustExtraction.job = false;  # not in Rocq CI
       interval.job = false;  # not in Rocq CI
-      parseque.job = false;  # not in Rocq CI
       LibHyps.job = false;  # not in Rocq CI
       reglang.job = false;  # not in Rocq CI
       ssprove.job = false;  # not in Rocq CI
@@ -250,7 +257,6 @@ with builtins; with (import <nixpkgs> {}).lib; {
       validsdp.job = false;  # not in Rocq CI
       verified-extraction.job = false;  # not in Rocq CI
       vst-ora.job = false;  # not in Rocq CI
-      wasmcert.job = false;  # not in Rocq CI
       hierarchy-builder.job = false;  # not a reverse dependency of Stdlib
       mathcomp-order.job = false;  # not a reverse dependency of Stdlib
       mathcomp-fingroup.job = false;  # not a reverse dependency of Stdlib
@@ -325,6 +331,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
       unicoq.job = false;  # no longer available for 9.3
       waterproof.override.version = "f49b8305b74eeddc039282de6f610b34ca941713";
       compcert.job = false;  # broken
+      wasmcert.job = false;  # requires compcert
+      CertiRocq.job = false;  # requires wasmcert
       trakt.job = false;  # not available yet
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
@@ -364,6 +372,8 @@ with builtins; with (import <nixpkgs> {}).lib; {
       unicoq.job = false;  # not available for 9.2
       waterproof.override.version = "99ad6ff78fa700c84ba0cb1d1bda27d8e0f11e1a";
       compcert.job = false;  # broken
+      wasmcert.job = false;  # requires compcert
+      CertiRocq.job = false;  # requires wasmcert
       VST.job = false;  # depends on compcert
     } // listToAttrs (forEach lighten-released (p:
       { name = p; value.job = false; })); };
